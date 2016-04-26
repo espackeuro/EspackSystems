@@ -1,0 +1,87 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonAndroidTools", "..\BitmapHelpers\CommonAndroidTools.csproj", "{FE45781B-38CB-44F0-9DE7-08E15E0C53BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataWedge", "..\DataWedge\DataWedge.csproj", "{6D6D5061-87E6-42CE-AED2-A631B5A25979}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogonScreen", "..\LogonScreen\LogonScreen.csproj", "{59692AC9-88FB-40FC-BB6C-E76AC5575758}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RadioFXC", "..\RadioFXC\RadioFXC.csproj", "{FB3A88F4-03B5-450C-AB8A-D363BDBB8D64}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{DD5ED550-A29E-485F-A18C-04FE8256767A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{5802ACA1-E788-4592-BB10-63A26AA1A336}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{8388EEDE-523A-4541-BF5A-D71D220A366A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cAccesoDatosAndroid", "..\..\Database and tools\cAccesoDatosAndroid\cAccesoDatosAndroid.csproj", "{9C95E323-C7E8-45B9-84BB-3EE165E28C3C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FE45781B-38CB-44F0-9DE7-08E15E0C53BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE45781B-38CB-44F0-9DE7-08E15E0C53BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE45781B-38CB-44F0-9DE7-08E15E0C53BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE45781B-38CB-44F0-9DE7-08E15E0C53BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D6D5061-87E6-42CE-AED2-A631B5A25979}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D6D5061-87E6-42CE-AED2-A631B5A25979}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D6D5061-87E6-42CE-AED2-A631B5A25979}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D6D5061-87E6-42CE-AED2-A631B5A25979}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59692AC9-88FB-40FC-BB6C-E76AC5575758}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59692AC9-88FB-40FC-BB6C-E76AC5575758}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59692AC9-88FB-40FC-BB6C-E76AC5575758}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59692AC9-88FB-40FC-BB6C-E76AC5575758}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB3A88F4-03B5-450C-AB8A-D363BDBB8D64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB3A88F4-03B5-450C-AB8A-D363BDBB8D64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB3A88F4-03B5-450C-AB8A-D363BDBB8D64}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{FB3A88F4-03B5-450C-AB8A-D363BDBB8D64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB3A88F4-03B5-450C-AB8A-D363BDBB8D64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB3A88F4-03B5-450C-AB8A-D363BDBB8D64}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{9C95E323-C7E8-45B9-84BB-3EE165E28C3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C95E323-C7E8-45B9-84BB-3EE165E28C3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C95E323-C7E8-45B9-84BB-3EE165E28C3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C95E323-C7E8-45B9-84BB-3EE165E28C3C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FE45781B-38CB-44F0-9DE7-08E15E0C53BD} = {5802ACA1-E788-4592-BB10-63A26AA1A336}
+		{6D6D5061-87E6-42CE-AED2-A631B5A25979} = {5802ACA1-E788-4592-BB10-63A26AA1A336}
+		{59692AC9-88FB-40FC-BB6C-E76AC5575758} = {5802ACA1-E788-4592-BB10-63A26AA1A336}
+		{FB3A88F4-03B5-450C-AB8A-D363BDBB8D64} = {DD5ED550-A29E-485F-A18C-04FE8256767A}
+		{9C95E323-C7E8-45B9-84BB-3EE165E28C3C} = {8388EEDE-523A-4541-BF5A-D71D220A366A}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 6
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://espack.visualstudio.com/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = ..\\BitmapHelpers\\CommonAndroidTools.csproj
+		SccProjectTopLevelParentUniqueName1 = Android\u0020Apps.sln
+		SccProjectName1 = ../BitmapHelpers
+		SccLocalPath1 = ..\\BitmapHelpers
+		SccProjectUniqueName2 = ..\\DataWedge\\DataWedge.csproj
+		SccProjectTopLevelParentUniqueName2 = Android\u0020Apps.sln
+		SccProjectName2 = ../DataWedge
+		SccLocalPath2 = ..\\DataWedge
+		SccProjectUniqueName3 = ..\\LogonScreen\\LogonScreen.csproj
+		SccProjectTopLevelParentUniqueName3 = Android\u0020Apps.sln
+		SccProjectName3 = ../LogonScreen
+		SccLocalPath3 = ..\\LogonScreen
+		SccProjectUniqueName4 = ..\\RadioFXC\\RadioFXC.csproj
+		SccProjectTopLevelParentUniqueName4 = Android\u0020Apps.sln
+		SccProjectName4 = ../RadioFXC
+		SccLocalPath4 = ..\\RadioFXC
+		SccProjectUniqueName5 = ..\\..\\Database\u0020and\u0020tools\\cAccesoDatosAndroid\\cAccesoDatosAndroid.csproj
+		SccProjectTopLevelParentUniqueName5 = Android\u0020Apps.sln
+		SccProjectName5 = ../../Database\u0020and\u0020tools/cAccesoDatosAndroid
+		SccLocalPath5 = ..\\..\\Database\u0020and\u0020tools\\cAccesoDatosAndroid
+	EndGlobalSection
+EndGlobal
