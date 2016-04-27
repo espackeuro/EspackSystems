@@ -13,8 +13,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{7B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{9A5F1334-96A2-4343-B6B5-94245973DB55}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonTools", "..\..\Database and tools\CommonTools\CommonTools.csproj", "{077F6A34-6B4C-482A-B8AF-C08A5EBA1C69}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Espack Controls", "Espack Controls", "{740EE352-1137-4924-ADA9-AD599D1CB2BE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CTLMantenimientoNet", "..\..\EspackControls\CTLMantenimientoNet\CTLMantenimientoNet.csproj", "{3569913E-7914-44D8-B6E6-9B72164C6580}"
@@ -26,6 +24,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EspackFormControls", "..\..\EspackControls\EspackFormControls\EspackFormControls.csproj", "{70432336-F038-4EF1-AF04-012AE8E6C009}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EspackWPFControls", "..\..\EspackControls\EspackWPFControls\EspackWPFControls.csproj", "{6A52F432-4102-4463-A157-1F0F5805CF87}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonTools", "..\..\Database and tools\CommonTools\CommonTools.csproj", "{9148F7E6-31F6-4F96-B7DC-AFEA449998C7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Network", "Network", "{AD5A54CB-AD85-45E0-B075-83BD4834C36D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Renci.SshNet", "..\..\Network Libraries\Renci.SshNet\Renci.SshNet.csproj", "{2F5F8C90-0BD1-424F-997C-7BC6280919D1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +45,6 @@ Global
 		{D3E453AA-39B7-480F-8917-6D7F5076C3ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3E453AA-39B7-480F-8917-6D7F5076C3ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D3E453AA-39B7-480F-8917-6D7F5076C3ED}.Release|Any CPU.Build.0 = Release|Any CPU
-		{077F6A34-6B4C-482A-B8AF-C08A5EBA1C69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{077F6A34-6B4C-482A-B8AF-C08A5EBA1C69}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{077F6A34-6B4C-482A-B8AF-C08A5EBA1C69}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{077F6A34-6B4C-482A-B8AF-C08A5EBA1C69}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3569913E-7914-44D8-B6E6-9B72164C6580}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3569913E-7914-44D8-B6E6-9B72164C6580}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3569913E-7914-44D8-B6E6-9B72164C6580}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -65,6 +65,14 @@ Global
 		{6A52F432-4102-4463-A157-1F0F5805CF87}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A52F432-4102-4463-A157-1F0F5805CF87}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A52F432-4102-4463-A157-1F0F5805CF87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9148F7E6-31F6-4F96-B7DC-AFEA449998C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9148F7E6-31F6-4F96-B7DC-AFEA449998C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9148F7E6-31F6-4F96-B7DC-AFEA449998C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9148F7E6-31F6-4F96-B7DC-AFEA449998C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F5F8C90-0BD1-424F-997C-7BC6280919D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F5F8C90-0BD1-424F-997C-7BC6280919D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F5F8C90-0BD1-424F-997C-7BC6280919D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F5F8C90-0BD1-424F-997C-7BC6280919D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -72,15 +80,16 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{DFF98615-73BD-4E97-B388-A139E206B174} = {1D17A21A-95D8-436A-8A3A-38AE2EF835CA}
 		{D3E453AA-39B7-480F-8917-6D7F5076C3ED} = {7B07F3AD-8948-42F3-9A6F-0297636FBF0C}
-		{077F6A34-6B4C-482A-B8AF-C08A5EBA1C69} = {9A5F1334-96A2-4343-B6B5-94245973DB55}
 		{3569913E-7914-44D8-B6E6-9B72164C6580} = {740EE352-1137-4924-ADA9-AD599D1CB2BE}
 		{6E156F1F-61F2-402B-A942-356427642A52} = {740EE352-1137-4924-ADA9-AD599D1CB2BE}
 		{ECE9AA32-F756-4BE3-A926-B0771E69066B} = {740EE352-1137-4924-ADA9-AD599D1CB2BE}
 		{70432336-F038-4EF1-AF04-012AE8E6C009} = {740EE352-1137-4924-ADA9-AD599D1CB2BE}
 		{6A52F432-4102-4463-A157-1F0F5805CF87} = {740EE352-1137-4924-ADA9-AD599D1CB2BE}
+		{9148F7E6-31F6-4F96-B7DC-AFEA449998C7} = {9A5F1334-96A2-4343-B6B5-94245973DB55}
+		{2F5F8C90-0BD1-424F-997C-7BC6280919D1} = {AD5A54CB-AD85-45E0-B075-83BD4834C36D}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 9
+		SccNumberOfProjects = 10
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://espack.visualstudio.com/defaultcollection
 		SccLocalPath0 = .
@@ -92,29 +101,33 @@ Global
 		SccProjectTopLevelParentUniqueName2 = Windows\u0020Apps.sln
 		SccProjectName2 = ../../Database\u0020and\u0020tools/cAccesoDatos.NET
 		SccLocalPath2 = ..\\..\\Database\u0020and\u0020tools\\cAccesoDatos.NET
-		SccProjectUniqueName3 = ..\\..\\Database\u0020and\u0020tools\\CommonTools\\CommonTools.csproj
+		SccProjectUniqueName3 = ..\\..\\EspackControls\\CTLMantenimientoNet\\CTLMantenimientoNet.csproj
 		SccProjectTopLevelParentUniqueName3 = Windows\u0020Apps.sln
-		SccProjectName3 = ../../Database\u0020and\u0020tools/CommonTools
-		SccLocalPath3 = ..\\..\\Database\u0020and\u0020tools\\CommonTools
-		SccProjectUniqueName4 = ..\\..\\EspackControls\\CTLMantenimientoNet\\CTLMantenimientoNet.csproj
+		SccProjectName3 = ../../EspackControls/CTLMantenimientoNet
+		SccLocalPath3 = ..\\..\\EspackControls\\CTLMantenimientoNet
+		SccProjectUniqueName4 = ..\\..\\EspackControls\\CtlVSGrid\\CtlVSGrid.csproj
 		SccProjectTopLevelParentUniqueName4 = Windows\u0020Apps.sln
-		SccProjectName4 = ../../EspackControls/CTLMantenimientoNet
-		SccLocalPath4 = ..\\..\\EspackControls\\CTLMantenimientoNet
-		SccProjectUniqueName5 = ..\\..\\EspackControls\\CtlVSGrid\\CtlVSGrid.csproj
+		SccProjectName4 = ../../EspackControls/CtlVSGrid
+		SccLocalPath4 = ..\\..\\EspackControls\\CtlVSGrid
+		SccProjectUniqueName5 = ..\\..\\EspackControls\\EspackControls\\EspackControls.csproj
 		SccProjectTopLevelParentUniqueName5 = Windows\u0020Apps.sln
-		SccProjectName5 = ../../EspackControls/CtlVSGrid
-		SccLocalPath5 = ..\\..\\EspackControls\\CtlVSGrid
-		SccProjectUniqueName6 = ..\\..\\EspackControls\\EspackControls\\EspackControls.csproj
+		SccProjectName5 = ../../EspackControls/EspackControls
+		SccLocalPath5 = ..\\..\\EspackControls\\EspackControls
+		SccProjectUniqueName6 = ..\\..\\EspackControls\\EspackFormControls\\EspackFormControls.csproj
 		SccProjectTopLevelParentUniqueName6 = Windows\u0020Apps.sln
-		SccProjectName6 = ../../EspackControls/EspackControls
-		SccLocalPath6 = ..\\..\\EspackControls\\EspackControls
-		SccProjectUniqueName7 = ..\\..\\EspackControls\\EspackFormControls\\EspackFormControls.csproj
+		SccProjectName6 = ../../EspackControls/EspackFormControls
+		SccLocalPath6 = ..\\..\\EspackControls\\EspackFormControls
+		SccProjectUniqueName7 = ..\\..\\EspackControls\\EspackWPFControls\\EspackWPFControls.csproj
 		SccProjectTopLevelParentUniqueName7 = Windows\u0020Apps.sln
-		SccProjectName7 = ../../EspackControls/EspackFormControls
-		SccLocalPath7 = ..\\..\\EspackControls\\EspackFormControls
-		SccProjectUniqueName8 = ..\\..\\EspackControls\\EspackWPFControls\\EspackWPFControls.csproj
+		SccProjectName7 = ../../EspackControls/EspackWPFControls
+		SccLocalPath7 = ..\\..\\EspackControls\\EspackWPFControls
+		SccProjectUniqueName8 = ..\\..\\Database\u0020and\u0020tools\\CommonTools\\CommonTools.csproj
 		SccProjectTopLevelParentUniqueName8 = Windows\u0020Apps.sln
-		SccProjectName8 = ../../EspackControls/EspackWPFControls
-		SccLocalPath8 = ..\\..\\EspackControls\\EspackWPFControls
+		SccProjectName8 = ../../Database\u0020and\u0020tools/CommonTools
+		SccLocalPath8 = ..\\..\\Database\u0020and\u0020tools\\CommonTools
+		SccProjectUniqueName9 = ..\\..\\Network\u0020Libraries\\Renci.SshNet\\Renci.SshNet.csproj
+		SccProjectTopLevelParentUniqueName9 = Windows\u0020Apps.sln
+		SccProjectName9 = ../../Network\u0020Libraries/Renci.SshNet
+		SccLocalPath9 = ..\\..\\Network\u0020Libraries\\Renci.SshNet
 	EndGlobalSection
 EndGlobal
