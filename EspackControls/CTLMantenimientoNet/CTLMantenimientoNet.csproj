@@ -1,0 +1,257 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3569913E-7914-44D8-B6E6-9B72164C6580}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CTLMantenimientoNet</RootNamespace>
+    <AssemblyName>CTLMantenimientoNet</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CTLMantenimientoNet.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CTLMantenimientoNetLayout.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Database and tools\cAccesoDatos.NET\cAccesoDatosNet.csproj">
+      <Project>{d3e453aa-39b7-480f-8917-6d7f5076c3ed}</Project>
+      <Name>cAccesoDatosNet</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Database and tools\CommonTools\CommonTools.csproj">
+      <Project>{9148f7e6-31f6-4f96-b7dc-afea449998c7}</Project>
+      <Name>CommonTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CtlVSGrid\CtlVSGrid.csproj">
+      <Project>{6e156f1f-61f2-402b-a942-356427642a52}</Project>
+      <Name>CtlVSGrid</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EspackControls\EspackControls.csproj">
+      <Project>{ece9aa32-f756-4be3-a926-b0771e69066b}</Project>
+      <Name>EspackControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EspackFormControls\EspackFormControls.csproj">
+      <Project>{70432336-f038-4ef1-af04-012ae8e6c009}</Project>
+      <Name>EspackFormControls</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add22.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add32off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cancel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cancel16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cancel22.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cancel32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cancel32off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cancel48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\del22.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\del32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\del32off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\del48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\edit16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\edit22.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\edit32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\edit32off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\edit48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\first16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\first22.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\first32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\first32off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\first48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\last16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\last22.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\last32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\last32off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\last48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\next16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\next22.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\next32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\next32off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\next48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ok.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ok16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ok22.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ok32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ok32off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ok48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\prev16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\prev22.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\prev32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\prev48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search22.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search32off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Resources\new_set\add24.png" />
+    <Content Include="Resources\new_set\cancel24.png" />
+    <Content Include="Resources\new_set\del24.png" />
+    <Content Include="Resources\new_set\edit24.png" />
+    <Content Include="Resources\new_set\first24.png" />
+    <Content Include="Resources\new_set\last24.png" />
+    <Content Include="Resources\new_set\next24.png" />
+    <Content Include="Resources\new_set\ok24.png" />
+    <Content Include="Resources\new_set\prev24.png" />
+    <Content Include="Resources\new_set\search24.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
