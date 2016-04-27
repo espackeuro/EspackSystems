@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using System.Reflection;
-//using AccesoDatosNet;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
-using System.Net;
-
-
+using System.Windows.Forms;
+using System.Drawing;
+using System.Data;
+using System.DirectoryServices.AccountManagement;
+using System.Text;
+using System.Linq;
+using System.Globalization;
 //using ADODB;
 namespace CommonTools
 {
@@ -28,35 +28,7 @@ namespace CommonTools
 
     public static class CT
     {
-        public static void MakeFTPDir(string ftpAddress, string pathToCreate, string login, string password)
-        {
-            Net.FtpWebRequest reqFTP = null;
-            Stream ftpStream = null;
 
-            string[] subDirs = pathToCreate.Split('/');
-
-            string currentDir = string.Format("ftp://{0}", ftpAddress);
-
-            foreach (string subDir in subDirs)
-            {
-                try
-                {
-                    currentDir = currentDir + "/" + subDir;
-                    reqFTP = (FtpWebRequest)FtpWebRequest.Create(currentDir);
-                    reqFTP.Method = WebRequestMethods.Ftp.MakeDirectory;
-                    reqFTP.UseBinary = true;
-                    reqFTP.Credentials = new NetworkCredential(login, password);
-                    FtpWebResponse response = (FtpWebResponse)reqFTP.GetResponse();
-                    ftpStream = response.GetResponseStream();
-                    ftpStream.Close();
-                    response.Close();
-                }
-                catch (Exception ex)
-                {
-                    //directory already exist I know that is weak but there is no way to check if a folder exist on ftp...
-                }
-            }
-        }
 
         public static SqlQuery SimpleParseSQL(string pSQL)
         {
@@ -64,11 +36,10 @@ namespace CommonTools
             result.SelectFields = new Dictionary<string, SqlItem>();
             result.WhereFields = new Dictionary<string, SqlItem>();
             result.OrderFields = new Dictionary<string, SqlItem>();
-            List<string> lAlias = new List<string>();
-            string lTable = pSQL.ToUpper().IndexOf(" WHERE") != -1 ? pSQL.Substring(pSQL.ToUpper().IndexOf(" FROM") + 6, pSQL.ToUpper().IndexOf(" WHERE") - (pSQL.ToUpper().IndexOf(" FROM") + 6)).Trim() : pSQL.Substring(pSQL.ToUpper().IndexOf(" FROM") + 6);
-            if (lTable.IndexOf(' ') != -1)
-            {
-                result.Tablename.DBItemName = lTable.Substring(0, lTable.IndexOf(' ') - 1);
+            List<string> lAlias=new List<string>();
+            string lTable = pSQL.ToUpper().IndexOf(" WHERE")!=-1 ? pSQL.Substring(pSQL.ToUpper().IndexOf(" FROM") + 6, pSQL.ToUpper().IndexOf(" WHERE") - (pSQL.ToUpper().IndexOf(" FROM") + 6)).Trim():pSQL.Substring(pSQL.ToUpper().IndexOf(" FROM") + 6);
+            if (lTable.IndexOf(' ')!=-1) {
+                result.Tablename.DBItemName=lTable.Substring(0,lTable.IndexOf(' ')-1);
                 result.Tablename.Alias = lTable.Replace(result.Tablename.DBItemName, "").Replace(" AS ", "").Replace(" ", "");
             }
             else
@@ -78,10 +49,10 @@ namespace CommonTools
             }
             result.Tablename.Type = "TABLE";
             //now the select fields
-            string lSelectFields = pSQL.Substring(7, pSQL.ToUpper().IndexOf(" FROM") - 7);
-            Regex lRegEx = new Regex("TOP\\(\\d+\\)", RegexOptions.IgnoreCase);
-            lSelectFields = lRegEx.Replace(lSelectFields, "");
-            lSelectFields = lSelectFields.Replace(" ,", ",").Replace(", ", ",").Replace(" =", "=").Replace("= ", "=").Trim();//remove spaces after and before comma and =
+            string lSelectFields = pSQL.Substring(7, pSQL.ToUpper().IndexOf(" FROM")-7);
+            Regex lRegEx=new Regex("TOP\\(\\d+\\)",RegexOptions.IgnoreCase);
+            lSelectFields=lRegEx.Replace(lSelectFields,"");
+            lSelectFields = lSelectFields.Replace(" ,",",").Replace(", ",",").Replace(" =","=").Replace("= ","=").Trim();//remove spaces after and before comma and =
             result.SelectString = lSelectFields;
             foreach (string lField in lSelectFields.Split(','))
             {
@@ -91,9 +62,9 @@ namespace CommonTools
                     {
                         result.SelectFields.Add(lField.Substring(lField.ToUpper().IndexOf("AS ") + 3).Trim().Replace("[", "").Replace("]", ""), new SqlItem()
                         {
-                            DBItemName = lField.Substring(0, lField.ToUpper().IndexOf(" AS")).Trim(),
-                            Alias = lField.Substring(lField.ToUpper().IndexOf("AS ") + 3).Trim().Replace("[", "").Replace("]", ""),
-                            Type = "FIELD"
+                            DBItemName=lField.Substring(0,lField.ToUpper().IndexOf(" AS")).Trim(),
+                            Alias=lField.Substring(lField.ToUpper().IndexOf("AS ")+3).Trim().Replace("[","").Replace("]",""),
+                            Type="FIELD"
                         });
                     }
                     else
@@ -105,24 +76,21 @@ namespace CommonTools
                             Type = "FIELD"
                         });
                     }
-                }
-                else
-                {
+                } else {
                     result.SelectFields.Add(lField.Trim().Replace("[", "").Replace("]", ""), new SqlItem()
-                    {
-                        Alias = lField.Trim(),
-                        DBItemName = lField.Trim(),
-                        Type = "FIELD"
-                    });
+                        {
+                            Alias = lField.Trim(),
+                            DBItemName = lField.Trim(),
+                            Type = "FIELD"
+                        });
                 }
             }
-            foreach (KeyValuePair<string, SqlItem> kvp in result.SelectFields)
-            {
+            foreach (KeyValuePair<string,SqlItem> kvp in result.SelectFields) {
                 lAlias.Add(kvp.Value.Alias);
             }
-            result.AliasString = string.Join(",", lAlias);
+            result.AliasString=string.Join(",",lAlias);
             //lets get the order string
-            string lOrderString = (pSQL.ToUpper().IndexOf(" ORDER BY") != -1) ? pSQL.Substring(pSQL.ToUpper().IndexOf(" ORDER BY") + 10) : "";
+            string lOrderString = (pSQL.ToUpper().IndexOf(" ORDER BY") != -1) ? pSQL.Substring(pSQL.ToUpper().IndexOf(" ORDER BY")+10):"";
             result.OrderString = lOrderString;
             //now the where Fields
             string lWhereFields = "";
@@ -130,11 +98,11 @@ namespace CommonTools
             {
                 lWhereFields = (lOrderString != "") ? pSQL.Substring(pSQL.ToUpper().IndexOf(" WHERE ") + 7, pSQL.ToUpper().IndexOf(" ORDER BY") - (pSQL.ToUpper().IndexOf(" WHERE ") + 7)) : pSQL.Substring(pSQL.ToUpper().IndexOf(" WHERE ") + 7);
             }
-
+                
             result.WhereString = lWhereFields;
-            Regex pattern = new Regex("(.*?)(=|like|>)(.*?)( |\\Z)(and|or|\\Z)");
-
-            MatchCollection matches = pattern.Matches(lWhereFields);
+            Regex pattern=new Regex("(.*?)(=|like|>)(.*?)( |\\Z)(and|or|\\Z)");
+            
+            MatchCollection matches=pattern.Matches(lWhereFields);
             //int lOrder=0;
             foreach (Match lMatch in matches)
             {
@@ -153,31 +121,34 @@ namespace CommonTools
         }
         public static EspackParamArray LoadVars(string[] args)
         {
-            EspackParamArray lParam = new EspackParamArray();
+            EspackParamArray lParam=new EspackParamArray();
             foreach (string arg in args)
             {
-                string lsParam = arg.Split('=')[0];
-                string lValue = arg.Split('=')[1];
-                switch (lsParam)
+                if (arg.IndexOf('=') != -1)
                 {
-                    case "/app":
-                        lParam.AppName = lValue;
-                        break;
-                    case "/srv":
-                        lParam.Server = lValue;
-                        break;
-                    case "/usr":
-                        lParam.User = lValue;
-                        break;
-                    case "/pwd":
-                        lParam.Password = lValue;
-                        break;
-                    case "/loc":
-                        lParam.Cod3 = lValue;
-                        break;
-                    case "/db":
-                        lParam.DataBase = lValue;
-                        break;
+                    string lsParam = arg.Split('=')[0];
+                    string lValue = arg.Split('=')[1];
+                    switch (lsParam)
+                    {
+                        case "/app":
+                            lParam.AppName = lValue;
+                            break;
+                        case "/srv":
+                            lParam.Server = lValue;
+                            break;
+                        case "/usr":
+                            lParam.User = lValue;
+                            break;
+                        case "/pwd":
+                            lParam.Password = lValue;
+                            break;
+                        case "/loc":
+                            lParam.Cod3 = lValue;
+                            break;
+                        case "/db":
+                            lParam.DataBase = lValue;
+                            break;
+                    }
                 }
             }
             return lParam;
@@ -271,10 +242,86 @@ namespace CommonTools
             }
         }
 
+        public static bool IsTextType(this SqlDbType columnType)
+        {
+            return columnType == SqlDbType.Char
+                || columnType == SqlDbType.NChar
+                || columnType == SqlDbType.NText
+                || columnType == SqlDbType.NVarChar
+                || columnType == SqlDbType.Text
+                || columnType == SqlDbType.VarChar;
+        }
+        public static bool IsNumericType(this SqlDbType columnType)
+        {
+            return columnType == SqlDbType.TinyInt
+                    || columnType == SqlDbType.BigInt
+                    || columnType == SqlDbType.Decimal
+                    || columnType == SqlDbType.Int
+                    || columnType == SqlDbType.SmallInt;
+        }
+        public static bool IsBoolean(SqlDbType columnType)
+        {
+            return columnType == SqlDbType.Bit;
+        }
+
+        public static string ToASCII(string s)
+        {
+            return String.Join("",
+                 s.Normalize(NormalizationForm.FormD)
+                .Where(c => char.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark));
+        }
+
+        public static DialogResult InputBox(string title, string promptText, ref string value, bool Password = false)
+        {
+            Form form = new Form();
+            Label label = new Label();
+            TextBox textBox = new TextBox();
+            Button buttonOk = new Button();
+            Button buttonCancel = new Button();
+
+            if (Password)
+            {
+                textBox.PasswordChar = '·';
+            }
+
+            form.Text = title;
+            label.Text = promptText;
+            textBox.Text = value;
+
+            buttonOk.Text = "OK";
+            buttonCancel.Text = "Cancel";
+            buttonOk.DialogResult = DialogResult.OK;
+            buttonCancel.DialogResult = DialogResult.Cancel;
+
+            label.SetBounds(9, 20, 372, 13);
+            textBox.SetBounds(12, 36, 372, 20);
+            buttonOk.SetBounds(228, 72, 75, 23);
+            buttonCancel.SetBounds(309, 72, 75, 23);
+
+            label.AutoSize = true;
+            textBox.Anchor = textBox.Anchor | AnchorStyles.Right;
+            buttonOk.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            buttonCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+
+            form.ClientSize = new Size(396, 107);
+            form.Controls.AddRange(new Control[] { label, textBox, buttonOk, buttonCancel });
+            form.ClientSize = new Size(Math.Max(300, label.Right + 10), form.ClientSize.Height);
+            form.FormBorderStyle = FormBorderStyle.FixedDialog;
+            form.StartPosition = FormStartPosition.CenterScreen;
+            form.MinimizeBox = false;
+            form.MaximizeBox = false;
+            form.AcceptButton = buttonOk;
+            form.CancelButton = buttonCancel;
+
+            DialogResult dialogResult = form.ShowDialog();
+            value = textBox.Text;
+            return dialogResult;
+        }
+
         #endregion
     }
 
-    public struct SqlItem
+    public struct SqlItem 
     {
         public string Type;
         public string Alias;
@@ -286,7 +333,7 @@ namespace CommonTools
 
     public struct SqlQuery
     {
-        public Dictionary<string, SqlItem> SelectFields;
+        public Dictionary<string,SqlItem> SelectFields;
         public SqlItem Tablename;
         public Dictionary<string, SqlItem> WhereFields;
         public Dictionary<string, SqlItem> OrderFields;
@@ -295,5 +342,9 @@ namespace CommonTools
         public string AliasString;
         public string OrderString;
     }
+
+
+
+
 
 }
