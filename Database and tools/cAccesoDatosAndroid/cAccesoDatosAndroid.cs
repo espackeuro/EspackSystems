@@ -161,9 +161,9 @@ namespace cAccesoDatosAndroid
                 AdoCon.ConnectionString = "Server=" + Server + ";Initial Catalog=" + DataBase + ";User Id=" + User + ";Password=" + Password + ";";
                 AdoCon.Open();
             }
-            catch //(Exception e)
+            catch(Exception e)
             {
-                throw;
+                throw(e);
             }
         }
         public void Open()

@@ -44,6 +44,10 @@ namespace LogonScreen
             //Button event
             cLoginButton.Click += CLoginButton_Click;
             typeofCaller = Intent.GetStringExtra("typeof") ?? "Data not available";
+#if DEBUG
+            cUser.Text = "restelles";
+            cPassword.Text = "1312";
+#endif
         }
 
         //to cancel back button in Android
@@ -51,7 +55,16 @@ namespace LogonScreen
         {
 
         }
+        public void Alert(string text)
+        {
+            var _ad = new Android.App.AlertDialog.Builder(this)
+                .SetTitle("Alert")
+                .SetMessage(text)
 
+
+
+                ;
+        }
 
         private void CLoginButton_Click(object sender, EventArgs e)
         {
@@ -60,6 +73,7 @@ namespace LogonScreen
                 cMsgText.Text = "Please input correct User and Password";
             } else
             {
+                
                 gDatos.DataBase = "SISTEMAS";
                 gDatos.Server = "main.db.logon";
                 gDatos.User = "SA";
@@ -67,7 +81,7 @@ namespace LogonScreen
                 bool error = false;
                 try
                 {
-                    gDatos.Connect();
+                    RunOnUiThread(() => { gDatos.Connect(); });
                 }
                 catch (Exception ex)
                 {
