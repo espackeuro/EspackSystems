@@ -111,18 +111,25 @@ namespace RadioFXC
             // Make it available in the gallery
 
             Intent mediaScanIntent = new Intent(Intent.ActionMediaScannerScanFile);
-            Uri contentUri = Uri.FromFile(cFile);
-            mediaScanIntent.SetData(contentUri);
-            Activity.SendBroadcast(mediaScanIntent);
-            Bitmap bitmap = cFile.Path.LoadAndResizeBitmap(cWidthThumbnail, cWidthThumbnail);
-            ImageFile elFile = new ImageFile(cFile, cDir, bitmap);
-            cImageAdapter.AddImage(elFile);
-            //cImageFileList.Add(elFile);
-            cImageAdapter.NotifyDataSetChanged();
-            cListView.InvalidateViews();
+            if (cFile.IsFile != false)
+            {
+                Uri contentUri = Uri.FromFile(cFile);
+                mediaScanIntent.SetData(contentUri);
+                Activity.SendBroadcast(mediaScanIntent);
+                Bitmap bitmap = cFile.Path.LoadAndResizeBitmap(cWidthThumbnail, cWidthThumbnail);
+                ImageFile elFile = new ImageFile(cFile, cDir, bitmap);
+                cImageAdapter.AddImage(elFile);
+                //cImageFileList.Add(elFile);
+                cImageAdapter.NotifyDataSetChanged();
+                cListView.InvalidateViews();
 
-            // Dispose of the Java side bitmap.
-            GC.Collect();
+                // Dispose of the Java side bitmap.
+                GC.Collect();
+            }
+            else
+            {
+                cFile.Dispose();
+            }
         }
 
         void IScrollDirectorListener.OnScrollDown()
@@ -329,7 +336,8 @@ namespace RadioFXC
             //{
             //    OnAdd(this, null);
             //}
-            base.Add(item);
+            //base.Add(item);
+            Insert(0, item);
             if (!isBusySending && item.Uploaded == false)
             {
                 ThreadPool.QueueUserWorkItem(o => LaunchFtpQueue());
@@ -413,8 +421,9 @@ namespace RadioFXC
                         pendingImage.ServerPath = directory;
                         AfterFTP(this, new ListImageFileEventArgs(pendingImage.File.Name, "FTP_UPLOAD", "OK"));
                         isBusySending = false;
+                        pendingImage.File.Dispose();
+                        pendingImage.File = null;
                         return;
-
                     }
                     catch (System.Exception ex)
                     {
@@ -438,7 +447,7 @@ namespace RadioFXC
             }
         }
     }
-    public class ImageFile
+    public class ImageFile: IDisposable
     {
         public Java.IO.File File { get; set; }
         public Java.IO.File Dir { get; set; }
@@ -464,5 +473,43 @@ namespace RadioFXC
             Status = "OLD";
             Text = pFileName;
         }
+
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: dispose managed state (managed objects).
+                }
+                Bitmap.Dispose();
+                Bitmap = null;
+                File.Dispose();
+                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // TODO: set large fields to null.
+
+                disposedValue = true;
+            }
+        }
+
+        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+        // ~ImageFile() {
+        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+        //   Dispose(false);
+        // }
+
+        // This code added to correctly implement the disposable pattern.
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+            // TODO: uncomment the following line if the finalizer is overridden above.
+            // GC.SuppressFinalize(this);
+        }
+        #endregion
+
     }
 }
