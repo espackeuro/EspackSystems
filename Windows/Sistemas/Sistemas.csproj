@@ -1,0 +1,277 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DFF98615-73BD-4E97-B388-A139E206B174}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Sistemas</RootNamespace>
+    <AssemblyName>sistemas_cs</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>alien-16.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="fAlias.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fAlias.Designer.cs">
+      <DependentUpon>fAlias.cs</DependentUpon>
+    </Compile>
+    <Compile Include="fFlags.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fFlags.Designer.cs">
+      <DependentUpon>fFlags.cs</DependentUpon>
+    </Compile>
+    <Compile Include="fProfiles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fProfiles.Designer.cs">
+      <DependentUpon>fProfiles.cs</DependentUpon>
+    </Compile>
+    <Compile Include="fServices.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fServices.Designer.cs">
+      <DependentUpon>fServices.cs</DependentUpon>
+    </Compile>
+    <Compile Include="fUsers.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fUsers.Designer.cs">
+      <DependentUpon>fUsers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="fItems.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fItems.Designer.cs">
+      <DependentUpon>fItems.cs</DependentUpon>
+    </Compile>
+    <Compile Include="fDHCP.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fDHCP.Designer.cs">
+      <DependentUpon>fDHCP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmSplash.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSplash.Designer.cs">
+      <DependentUpon>frmSplash.cs</DependentUpon>
+    </Compile>
+    <Compile Include="fTasks.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fTasks.Designer.cs">
+      <DependentUpon>fTasks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="fZones.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fZones.Designer.cs">
+      <DependentUpon>fZones.cs</DependentUpon>
+    </Compile>
+    <Compile Include="fTown.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fTown.Designer.cs">
+      <DependentUpon>fTown.cs</DependentUpon>
+    </Compile>
+    <Compile Include="fMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fMain.Designer.cs">
+      <DependentUpon>fMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="fAlias.resx">
+      <DependentUpon>fAlias.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fFlags.resx">
+      <DependentUpon>fFlags.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fProfiles.resx">
+      <DependentUpon>fProfiles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fServices.resx">
+      <DependentUpon>fServices.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fUsers.resx">
+      <DependentUpon>fUsers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fItems.resx">
+      <DependentUpon>fItems.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fDHCP.resx">
+      <DependentUpon>fDHCP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSplash.resx">
+      <DependentUpon>frmSplash.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fTasks.resx">
+      <DependentUpon>fTasks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fZones.resx">
+      <DependentUpon>fZones.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fTown.resx">
+      <DependentUpon>fTown.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fMain.resx">
+      <DependentUpon>fMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Membrete_logoEspack.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="alien-16.ico" />
+    <None Include="Resources\unlock_24.png" />
+    <None Include="Resources\lock_24.png" />
+    <None Include="Resources\lock.ico" />
+    <None Include="Resources\lock.png" />
+    <None Include="Resources\unlock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Database and tools\cAccesoDatos.NET\cAccesoDatosNet.csproj">
+      <Project>{d3e453aa-39b7-480f-8917-6d7f5076c3ed}</Project>
+      <Name>cAccesoDatosNet</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Database and tools\CommonTools\CommonTools.csproj">
+      <Project>{9148f7e6-31f6-4f96-b7dc-afea449998c7}</Project>
+      <Name>CommonTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\EspackControls\CTLMantenimientoNet\CTLMantenimientoNet.csproj">
+      <Project>{3569913e-7914-44d8-b6e6-9b72164c6580}</Project>
+      <Name>CTLMantenimientoNet</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\EspackControls\CtlVSGrid\CtlVSGrid.csproj">
+      <Project>{6e156f1f-61f2-402b-a942-356427642a52}</Project>
+      <Name>CtlVSGrid</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\EspackControls\EspackControls\EspackControls.csproj">
+      <Project>{ece9aa32-f756-4be3-a926-b0771e69066b}</Project>
+      <Name>EspackControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\EspackControls\EspackFormControls\EspackFormControls.csproj">
+      <Project>{70432336-f038-4ef1-af04-012ae8e6c009}</Project>
+      <Name>EspackFormControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Network Libraries\Renci.SshNet\Renci.SshNet.csproj">
+      <Project>{2f5f8c90-0bd1-424f-997c-7bc6280919d1}</Project>
+      <Name>Renci.SshNet</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>ROBOCOPY "$(TargetDir) " "$(TargetDir)lib " /XF *.exe *.config *.manifest /XD lib logs data /E /IS /MOV
+; Move all to APPs folder
+ROBOCOPY "$(TargetDir) " "D:\APPS " /XF *.vshost.* /XD logs data /E /IS 
+if %25errorlevel%25 leq 4 exit 0 else exit %25errorlevel</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
