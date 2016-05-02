@@ -75,8 +75,43 @@ namespace RadioFXC
             CreateDirectoryForPictures();
             fab.AttachToListView(cListView, this, this);
             fab.Click += TakeAPicture;
+            cListView.ItemLongClick += cListView_ItemLongClick;
             return root;
         }
+
+        private void cListView_ItemLongClick(object sender, AdapterView.ItemLongClickEventArgs e)
+        {
+            var builder = new Android.Support.V7.App.AlertDialog.Builder(Activity);
+
+            var position = e.Position;
+            var _filename = cListView.Adapter.GetItem(position).ToString().Split('|')[0];
+
+            builder.SetTitle("Warning");
+            builder.SetIcon(Android.Resource.Drawable.IcDialogAlert);
+            builder.SetMessage("Do you want to remove this picture?");
+            builder.SetNegativeButton("No", delegate
+            {
+            });
+            builder.SetPositiveButton("Yes", delegate
+            {
+
+                var _SP = new SP(Values.gDatos, "pDelPicturesRepairs");
+                _SP.AddParameterValue("RepairCode", cRepairCode);
+                _SP.AddParameterValue("UnitNumber", cUnitNumber);
+                _SP.Execute();
+                if (_SP.LastMsg != "OK")
+                {
+                    throw (new Exception(_SP.LastMsg));
+                }
+
+                Activity.RunOnUiThread(() => Toast.MakeText(Activity, "Picture "+ _filename + " removed.", ToastLength.Long).Show());
+                ((ListImageAdapter)cListView.Adapter).NotifyDataSetChanged();
+                //list.InvalidateViews();
+
+            });
+            builder.Create().Show();
+        }
+
 
         private void CreateDirectoryForPictures()
         {
