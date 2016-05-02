@@ -52,6 +52,8 @@ namespace RadioFXC
             cList.ChoiceMode = ChoiceMode.None;
             cDataBox.KeyPress += CDataBox_KeyPress;
             cDataBox.RequestFocus();
+            cList.ItemLongClick += cList_ItemLongClick;
+            cList.SetSelection(0);
             return root;
         }
 
@@ -92,6 +94,39 @@ namespace RadioFXC
             }
             e.Handled = false;
         }
+        private void cList_ItemLongClick(object sender, AdapterView.ItemLongClickEventArgs e)
+        {
+            var builder = new Android.Support.V7.App.AlertDialog.Builder(Activity);
+
+            var position = e.Position;
+            var _partnumber = cList.Adapter.GetItem(position).ToString().Split('|')[3];
+
+            builder.SetTitle("Warning");
+            builder.SetIcon(Android.Resource.Drawable.IcDialogAlert);
+            builder.SetMessage("Do you want to remove reference " + _partnumber + " from current repair?");
+            builder.SetNegativeButton("No", delegate
+            {
+            });
+            builder.SetPositiveButton("Yes", delegate
+            {
+
+                var _SP = new SP(Values.gDatos, "pDelPartsRepairs");
+                _SP.AddParameterValue("RepairCode", cRepairCode);
+                _SP.AddParameterValue("UnitNumber", cUnitNumber);
+                _SP.AddParameterValue("Partnumber", _partnumber);
+                _SP.Execute();
+                if (_SP.LastMsg != "OK")
+                {
+                    throw (new Exception(_SP.LastMsg));
+                }
+
+                Activity.RunOnUiThread(() => Toast.MakeText(Activity, "Reference " + _partnumber + " removed.", ToastLength.Long).Show());
+                ((ListPartsAdapter)cList.Adapter).NotifyDataSetChanged();
+                //list.InvalidateViews();
+
+            });
+            builder.Create().Show();
+        }
     }
 
     public class ListPartsAdapter : BaseAdapter
@@ -121,7 +156,7 @@ namespace RadioFXC
         public override Java.Lang.Object GetItem(int position)
         {
             _RS.Move(position);
-            return _RS["Reference"]+"("+_RS["Descripcion"] + ")|" + _RS["Qty"].ToString()+"|"+ _RS["Active"].ToString();
+            return _RS["Reference"]+"("+_RS["Descripcion"] + ")|" + _RS["Qty"].ToString()+"|"+ _RS["Active"].ToString()+'|'+_RS["Reference"].ToString().ToUpper();
         }
 
         public override long GetItemId(int position)
