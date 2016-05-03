@@ -42,10 +42,11 @@
             this.servicesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.usersToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.aliasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.securityProfilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnMaster = new System.Windows.Forms.ToolStripButton();
-            this.securityProfilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dNSControlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
@@ -105,7 +106,8 @@
             // actionsToolStripMenuItem
             // 
             this.actionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.dHCPControlToolStripMenuItem});
+            this.dHCPControlToolStripMenuItem,
+            this.dNSControlToolStripMenuItem});
             this.actionsToolStripMenuItem.Name = "actionsToolStripMenuItem";
             this.actionsToolStripMenuItem.Size = new System.Drawing.Size(59, 19);
             this.actionsToolStripMenuItem.Text = "Actions";
@@ -113,7 +115,7 @@
             // dHCPControlToolStripMenuItem
             // 
             this.dHCPControlToolStripMenuItem.Name = "dHCPControlToolStripMenuItem";
-            this.dHCPControlToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.dHCPControlToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.dHCPControlToolStripMenuItem.Text = "DHCP Control";
             this.dHCPControlToolStripMenuItem.Click += new System.EventHandler(this.dHCPControlToolStripMenuItem_Click);
             // 
@@ -164,6 +166,13 @@
             this.aliasToolStripMenuItem.Text = "Alias";
             this.aliasToolStripMenuItem.Click += new System.EventHandler(this.aliasToolStripMenuItem_Click);
             // 
+            // securityProfilesToolStripMenuItem
+            // 
+            this.securityProfilesToolStripMenuItem.Name = "securityProfilesToolStripMenuItem";
+            this.securityProfilesToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.securityProfilesToolStripMenuItem.Text = "Security Profiles";
+            this.securityProfilesToolStripMenuItem.Click += new System.EventHandler(this.securityProfilesToolStripMenuItem_Click);
+            // 
             // toolStripContainer1
             // 
             this.toolStripContainer1.BottomToolStripPanelVisible = false;
@@ -207,12 +216,12 @@
             this.btnMaster.ToolTipText = "Master status";
             this.btnMaster.Click += new System.EventHandler(this.btnMaster_Click);
             // 
-            // securityProfilesToolStripMenuItem
+            // dNSControlToolStripMenuItem
             // 
-            this.securityProfilesToolStripMenuItem.Name = "securityProfilesToolStripMenuItem";
-            this.securityProfilesToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
-            this.securityProfilesToolStripMenuItem.Text = "Security Profiles";
-            this.securityProfilesToolStripMenuItem.Click += new System.EventHandler(this.securityProfilesToolStripMenuItem_Click);
+            this.dNSControlToolStripMenuItem.Name = "dNSControlToolStripMenuItem";
+            this.dNSControlToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.dNSControlToolStripMenuItem.Text = "DNS Control";
+            this.dNSControlToolStripMenuItem.Click += new System.EventHandler(this.dNSControlToolStripMenuItem_Click);
             // 
             // fMain
             // 
@@ -256,6 +265,7 @@
         private System.Windows.Forms.ToolStripMenuItem usersToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem aliasToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem securityProfilesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem dNSControlToolStripMenuItem;
     }
 }
 

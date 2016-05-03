@@ -183,6 +183,11 @@ namespace Sistemas
             fProfiles.MdiParent = this;
             fProfiles.Show();
         }
+
+        private void dNSControlToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            fDNS fDNS = (fDNS)GetChildInstance("fDNS");
+        }
     }
 
     public static class Values
