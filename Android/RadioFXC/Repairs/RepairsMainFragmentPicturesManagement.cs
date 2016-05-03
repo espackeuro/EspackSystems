@@ -44,7 +44,7 @@ namespace RadioFXC
             cUnitNumber = UnitRepair.cUnitNumber;
             cRepairCode = UnitRepair.cRepairCode;
             cCount = 0;
-            cRSOld.Open("Select FileName,FilePath,Thumbnail,len=len(Thumbnail) from PicturesRepairs where RepairCode='" + cRepairCode+"' and UnitNumber='"+cUnitNumber+"' order by xfec", Values.gDatos );
+            cRSOld.Open("Select FileName,FilePath,Thumbnail,len=len(Thumbnail),idPicture from PicturesRepairs where RepairCode='" + cRepairCode+"' and UnitNumber='"+cUnitNumber+"' order by xfec", Values.gDatos );
         }
         public int cWidthThumbnail
         {
@@ -66,6 +66,7 @@ namespace RadioFXC
             {
                 Bitmap _bm = BitmapFactory.DecodeByteArray((byte[])cRSOld["Thumbnail"], 0, Convert.ToInt32(cRSOld["len"]));
                 ImageFile elFile = new ImageFile(cRSOld["FileName"].ToString(), _bm);
+                elFile.IdPicture = cRSOld["idPicture"].ToString();
                 cImageAdapter.AddImage(elFile);
                 cRSOld.MoveNext();
             }
@@ -85,6 +86,8 @@ namespace RadioFXC
 
             var position = e.Position;
             var _filename = cListView.Adapter.GetItem(position).ToString().Split('|')[0];
+            //var _idPic = ((ImageFile)cImageAdapter.GetItem(position)).IdPicture;
+            
 
             builder.SetTitle("Warning");
             builder.SetIcon(Android.Resource.Drawable.IcDialogAlert);
@@ -96,8 +99,7 @@ namespace RadioFXC
             {
 
                 var _SP = new SP(Values.gDatos, "pDelPicturesRepairs");
-                _SP.AddParameterValue("RepairCode", cRepairCode);
-                _SP.AddParameterValue("UnitNumber", cUnitNumber);
+                _SP.AddParameterValue("idPicture", "_idPic");
                 _SP.Execute();
                 if (_SP.LastMsg != "OK")
                 {
@@ -217,7 +219,7 @@ namespace RadioFXC
                     throw new Exception(e.Status);
                 }
                 cImageFileList[FileName].Status = "UPLOADED";
-                SP pAddPicturesRepairs = new SP(Values.gDatos, "pAddPicturesRepairs");
+                SP pAddPicturesRepairs = new SP(Values.gDatos, "pAddPicturesRepairsNEW");
                 pAddPicturesRepairs.AddParameterValue("RepairCode", cRepairCode);
                 pAddPicturesRepairs.AddParameterValue("UnitNumber", cUnitNumber);
                 pAddPicturesRepairs.AddParameterValue("FileName", FileName);
@@ -228,7 +230,9 @@ namespace RadioFXC
                 {
                     throw (new Exception(pAddPicturesRepairs.LastMsg));
                 }
+
                 //delete the local file once transmitted
+                cImageFileList[FileName].IdPicture = pAddPicturesRepairs.Parameters[1].ToString();
                 bool deleted = cImageFileList[FileName].File.Delete();
             }
             catch (System.Exception ex)
@@ -279,6 +283,7 @@ namespace RadioFXC
         {
             ImageView _image;
             TextView _text;
+
             var view = convertView;
             if (convertView == null)
                 view = LayoutInflater.From(context).Inflate(Resource.Layout.ListImageProgress, null);
@@ -491,6 +496,7 @@ namespace RadioFXC
         public string Status { get; set; }
         public string ServerPath { get; set; }
         public string Text { get; set; }
+        public string IdPicture { get; set; }
         public ProgressBar Progress;
         public ImageFile(Java.IO.File pFile, Java.IO.File pDir, Bitmap pBitmap)
         {
