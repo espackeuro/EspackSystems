@@ -57,14 +57,32 @@ namespace RadioFXC
                             _cadena += list.GetItemAtPosition(checkedItemsPositions.KeyAt(i)).ToString().Split('|')[0] + '|';
                         }
                     }
-                    var _SP = new SP(Values.gDatos, "pAddCadenaRepais2Loads");
-                    _SP.AddParameterValue("LoadNumber", Loads.LoadNumber);
-                    _SP.AddParameterValue("cadena", _cadena);
+                    //var _SP = new SP(Values.gDatos, "pAddCadenaRepais2Loads");
+                    //_SP.AddParameterValue("LoadNumber", Loads.LoadNumber);
+                    //_SP.AddParameterValue("cadena", _cadena);
+                    //_SP.Execute();
+                    if (Values.gDatos.State == System.Data.ConnectionState.Open)
+                    {
+                        Values.gDatos.Close();
+                    }
+                    Values.gDatos.DataBase = "PROCESOS";
+                    var _SP = new SP(Values.gDatos, "pLaunchProcess_RepairsAdd2Load");
+                    _SP.AddParameterValue("@DB", "REPAIRS");
+                    _SP.AddParameterValue("@ProcedureName", "pAddCadenaRepais2Loads");
+                    _SP.AddParameterValue("@Parameters", "@LoadNumber='"+Loads.LoadNumber+"',@cadena='" +_cadena+ "'");
+                    //_SP.AddParameterValue("@TableDB", "REPAIRS");
+                    //_SP.AddParameterValue("@TableName", "Repairs");
+                    //_SP.AddParameterValue("@TablePK", "");
                     _SP.Execute();
-                    if (_SP.LastMsg != "OK")
+                    if (_SP.LastMsg.Substring(0,2) != "OK")
                     {
                         throw (new Exception(_SP.LastMsg));
                     }
+                    if (Values.gDatos.State == System.Data.ConnectionState.Open)
+                    {
+                        Values.gDatos.Close();
+                    }
+                    Values.gDatos.DataBase = "REPAIRS";
                     progress.Visibility = ViewStates.Invisible;
                     Activity.RunOnUiThread(() => Toast.MakeText(Activity, "Process OK!!", ToastLength.Long).Show());
                     list.CheckedItemPositions.Clear();
