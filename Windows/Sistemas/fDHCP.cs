@@ -23,7 +23,7 @@ namespace Sistemas
         {
             try
             {
-                if (MessageBox.Show("This will update the DHCP server assignments and will restart the service.\n Are you sure? ", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation)==DialogResult.Yes);
+                if (MessageBox.Show("This will update the DHCP server assignments and will restart the service.\n Are you sure? ", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation)==DialogResult.Yes)
                 {
                     string _serverDHCP = txtServerName.Text;
                     string _tmpFile = System.IO.Path.GetTempPath() + cboCOD3.Text + "_NET.conf";
@@ -86,7 +86,7 @@ namespace Sistemas
 
         private void cboCOD3_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cboCOD3.Value != "")
+            if (cboCOD3.Value.ToString() != "")
                 try
                 {
                     var _RS = new DynamicRS("Select DHCP_Path,ServerShareIP from General..Sedes where COD3='" + cboCOD3.Text + "'", Values.gDatos);

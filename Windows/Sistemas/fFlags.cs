@@ -13,7 +13,7 @@ namespace Sistemas
 {
     public partial class fFlags : Form
     {
-        private string _prevStatus;
+        //private string _prevStatus;
         public fFlags()
         {
             InitializeComponent();
