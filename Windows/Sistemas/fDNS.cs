@@ -37,7 +37,7 @@ namespace Sistemas
         {
             try
             {
-                if (MessageBox.Show("This will update the DNS server assignments and will restart the service.\n Are you sure? ", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes) ;
+                if (MessageBox.Show("This will update the DNS server assignments and will restart the service.\n Are you sure? ", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
                 {
                     string _serverDNS = txtServerName.Text;
                     var _SP = new SP(Values.gDatos, "pGetContador");
