@@ -189,5 +189,21 @@ namespace Owncloud
             addParameter("value", value);
         }
     }
+    public class OCGetGroups:OCInstruction
+    {
+        public OCGetGroups(string user)
+        {
+            Instruction = "users/" + user + "/groups";
+            Method = HttpMethod.Get;
+        }
+            public List<string> groupsList
+        {
+            get
+            {
+                var result = responseX.Descendants("element").Select(x => x.Value).ToList<string>();
+                return result;
+            }
+        }
+    }
 
 }
