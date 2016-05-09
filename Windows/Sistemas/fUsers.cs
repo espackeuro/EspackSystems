@@ -119,7 +119,8 @@ namespace Sistemas
         {
             //var ocCommand = new OCAddUser("restelles", "patatita");
             //var ocCommand = new OCGetUsers("restelles");
-            var ocCommand = new OCEditUser("restelles", "display", "Rafa Estellés");
+            // var ocCommand = new OCEditUser("restelles", "display", "Rafa Estellés");
+            var ocCommand = new OCGetGroups("fnastasie");
             ocCommand.setCredentials("admin", "*hwLD8e*");
             await ocCommand.sendRequest();
             var result = ocCommand.responseX;
