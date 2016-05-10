@@ -107,7 +107,7 @@ namespace Sistemas
             };
         }
 
-        private void CTLM_AfterButtonClick(object sender, CTLMantenimientoNet.CTLMEventArgs e)
+        private async void CTLM_AfterButtonClick(object sender, CTLMantenimientoNet.CTLMEventArgs e)
         {
             if (lstFlags.Value.ToString().IndexOf("|EMAIL|") == -1)
             {
@@ -117,7 +117,21 @@ namespace Sistemas
             {
                 //case "btnAdd":
                 //case "btnUpp":
-                //    if ()
+                case "btnNext":
+                case "btnPrev":
+                case "btnFirst":
+                case "btnLast":
+                case "btnOk":
+                    if (lstFlags.Value.ToString().IndexOf("|OWNCLOUD|") != -1)
+                    {
+                        bool result = await OCCommands.CheckUser(txtUserCode.Text,Values.gMasterPassword);
+                        CTLM.StatusMsg( result ? "Owncloud user found" : "Owncoud user not found");
+                        if (!result)
+                        {
+
+                        }
+                    }
+                    break;
             }
         }
     }
