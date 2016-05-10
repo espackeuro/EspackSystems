@@ -101,6 +101,12 @@
     <Compile Include="fServices.Designer.cs">
       <DependentUpon>fServices.cs</DependentUpon>
     </Compile>
+    <Compile Include="fTests.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fTests.Designer.cs">
+      <DependentUpon>fTests.cs</DependentUpon>
+    </Compile>
     <Compile Include="fUsers.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -165,6 +171,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="fServices.resx">
       <DependentUpon>fServices.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fTests.resx">
+      <DependentUpon>fTests.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="fUsers.resx">
       <DependentUpon>fUsers.cs</DependentUpon>

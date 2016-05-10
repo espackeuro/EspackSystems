@@ -36,6 +36,7 @@
             this.mnuItems = new System.Windows.Forms.ToolStripMenuItem();
             this.actionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dHCPControlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dNSControlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tasksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.controlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.flagsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,7 +47,7 @@
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnMaster = new System.Windows.Forms.ToolStripButton();
-            this.dNSControlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tESTSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
@@ -62,7 +63,8 @@
             this.mnuNetwork,
             this.actionsToolStripMenuItem,
             this.tasksToolStripMenuItem,
-            this.controlToolStripMenuItem});
+            this.controlToolStripMenuItem,
+            this.tESTSToolStripMenuItem});
             this.menuStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.menuStrip1.Location = new System.Drawing.Point(9, 3);
             this.menuStrip1.Name = "menuStrip1";
@@ -115,9 +117,16 @@
             // dHCPControlToolStripMenuItem
             // 
             this.dHCPControlToolStripMenuItem.Name = "dHCPControlToolStripMenuItem";
-            this.dHCPControlToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.dHCPControlToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.dHCPControlToolStripMenuItem.Text = "DHCP Control";
             this.dHCPControlToolStripMenuItem.Click += new System.EventHandler(this.dHCPControlToolStripMenuItem_Click);
+            // 
+            // dNSControlToolStripMenuItem
+            // 
+            this.dNSControlToolStripMenuItem.Name = "dNSControlToolStripMenuItem";
+            this.dNSControlToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.dNSControlToolStripMenuItem.Text = "DNS Control";
+            this.dNSControlToolStripMenuItem.Click += new System.EventHandler(this.dNSControlToolStripMenuItem_Click);
             // 
             // tasksToolStripMenuItem
             // 
@@ -216,12 +225,12 @@
             this.btnMaster.ToolTipText = "Master status";
             this.btnMaster.Click += new System.EventHandler(this.btnMaster_Click);
             // 
-            // dNSControlToolStripMenuItem
+            // tESTSToolStripMenuItem
             // 
-            this.dNSControlToolStripMenuItem.Name = "dNSControlToolStripMenuItem";
-            this.dNSControlToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.dNSControlToolStripMenuItem.Text = "DNS Control";
-            this.dNSControlToolStripMenuItem.Click += new System.EventHandler(this.dNSControlToolStripMenuItem_Click);
+            this.tESTSToolStripMenuItem.Name = "tESTSToolStripMenuItem";
+            this.tESTSToolStripMenuItem.Size = new System.Drawing.Size(51, 19);
+            this.tESTSToolStripMenuItem.Text = "TESTS";
+            this.tESTSToolStripMenuItem.Click += new System.EventHandler(this.tESTSToolStripMenuItem_Click);
             // 
             // fMain
             // 
@@ -266,6 +275,7 @@
         private System.Windows.Forms.ToolStripMenuItem aliasToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem securityProfilesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dNSControlToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tESTSToolStripMenuItem;
     }
 }
 

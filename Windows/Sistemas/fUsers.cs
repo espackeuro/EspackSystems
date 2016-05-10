@@ -115,38 +115,6 @@ namespace Sistemas
         }
 
 
-        private async void button1_Click(object sender, EventArgs e)
-        {
-            //var ocCommand = new OCAddUser("restelles", "patatita");
-            //var ocCommand = new OCGetUsers("restelles");
-            // var ocCommand = new OCEditUser("restelles", "display", "Rafa Estellés");
-            var ocCommand = new OCGetGroups("fnastasie");
-            ocCommand.setCredentials("admin", "*hwLD8e*");
-            await ocCommand.sendRequest();
-            var result = ocCommand.responseX;
 
-
-
-
-       //     using (var client = new HttpClient())
-       //     {
-       //         var byteArray = Encoding.ASCII.GetBytes("admin:*mJ7goY*");
-       //         var header = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
-       //         client.DefaultRequestHeaders.Authorization = header;
-       //         var values = new Dictionary<string, string>
-       //         {
-       //{ "key", "password" },
-       //{ "value", "*hwLD8e*" }
-       //         };
-       //         var content = new FormUrlEncodedContent(values);
-
-       //         //var response = await client.PostAsync("https://owncloud.espackeuro.com/ocs/v1.php/cloud/users", content);
-       //         //var response = await client.GetAsync("https://owncloud.espackeuro.com/ocs/v1.php/cloud/users");
-       //         var response = await client.PutAsync("https://owncloud.espackeuro.com/ocs/v1.php/cloud/users/admin", content);
-       //         var responseString = await response.Content.ReadAsStringAsync();
-       //     }
-
-
-        }
     }
 }
