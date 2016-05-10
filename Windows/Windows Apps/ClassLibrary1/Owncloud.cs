@@ -210,14 +210,38 @@ namespace Owncloud
             }
         }
     }
-
     public class OCAddToGroup:OCInstruction
     {
         public OCAddToGroup(string user,string group)
         {
-            Instruction = "users/" + user + "/groups -d groupid=\""+group+"\"";
+            Instruction = "users/" + user + "/groups";
             Method = HttpMethod.Post;
             addParameter("groupid", group);
+        }
+    }
+    public class OCAddGroup:OCInstruction
+    {
+        public OCAddGroup(string group)
+        {
+            Instruction = "groups";
+            Method = HttpMethod.Post;
+            addParameter("groupid", group);
+        }
+    }
+    public class OCGetGroup:OCInstruction
+    {
+        public OCGetGroup(string group)
+        {
+            Instruction = "groups/" + group;
+            Method = HttpMethod.Get;
+        }
+        public List<string> groupList
+        {
+            get
+            {
+                var result = responseX.Descendants("element").Select(x => x.Value).ToList<string>();
+                return result;
+            }
         }
     }
 
