@@ -206,4 +206,17 @@ namespace Owncloud
         }
     }
 
+    public class OCAddToGroup:OCInstruction
+    {
+        public OCAddToGroup(string user,string group)
+        {
+            Instruction = "users/" + user + "/groups -d groupid=\""+group+"\"";
+            Method = HttpMethod.Post;
+            addParameter("groupid", group);
+        }
+    }
+
+
+
+
 }
