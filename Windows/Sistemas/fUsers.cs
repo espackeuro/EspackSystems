@@ -51,6 +51,7 @@ namespace Sistemas
             listCOD3.Source("select n.COD3,g.Descripcion from NetworkSedes n inner join general..sedes g on g.cod3=n.COD3 order by n.Cod3");
             listCOD3.Changed += delegate
             {
+
                 //var _alias = lstEmailAliases.Value;
                 lstEmailAliases.Source("select Address,a2=Address from mail..aliasCAB a where exists( select 0 from dbo.Split(a.COD3,'|') where valor in (select valor from dbo.Split('" + listCOD3.Value + "','|')))");
                 //lstEmailAliases.Value = _alias;
@@ -58,6 +59,7 @@ namespace Sistemas
             cboDomain.Source("Select domain from domain where domain<>'ALL' order by domain");
             cboZone.Source("Select Code from Zones order by Code");
             lstFlags.Source("Select codigo,DescFlagEng from flags where Tabla='Users'");
+            CTLM.AfterButtonClick += CTLM_AfterButtonClick;
             CTLM.Start();
             _prevStatus = listCOD3.Text;
             cboCOD3.SelectedValueChanged += delegate
@@ -74,10 +76,14 @@ namespace Sistemas
                     e.NewValue = CheckState.Checked;
                 }
             };
-            txtSurname1.Validating += delegate//(object sender, KeyEventArgs e)
+            txtSurname1.Validating += TxtSurname1_Validating;
+        }
+
+        private void TxtSurname1_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
             {
                 //if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Tab)
-                if (CTLM.Status==EnumStatus.ADDNEW)
+                if (CTLM.Status == EnumStatus.ADDNEW)
                 {
                     if (txtUserCode.Text == "" && txtSurname1.Text != "")
                     {
@@ -99,22 +105,20 @@ namespace Sistemas
                     }
                 }
             };
-            
-            //cboCOD3.SelectedValue = "";
-            //CTLM.AfterButtonClick += delegate (object source, CTLMEventArgs e)
-            //{
-            //    if (e.ButtonClick == "btnCancel")
-            //    {
-            //        txtCOD3Name.Text = "";
-            //    }
-            //};
-            //KeyDown += delegate(object sender, KeyEventArgs e)
-            // {
-            //     MessageBox.Show("Patata");
-            // };
         }
 
-
-
+        private void CTLM_AfterButtonClick(object sender, CTLMantenimientoNet.CTLMEventArgs e)
+        {
+            if (lstFlags.Value.ToString().IndexOf("|EMAIL|") == -1)
+            {
+                lstEmailAliases.Source("Select 0,0 where 0=1");
+            }
+            switch (e.ButtonClick)
+            {
+                //case "btnAdd":
+                //case "btnUpp":
+                //    if ()
+            }
+        }
     }
 }
