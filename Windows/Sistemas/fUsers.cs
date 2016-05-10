@@ -122,13 +122,14 @@ namespace Sistemas
                 case "btnFirst":
                 case "btnLast":
                 case "btnOk":
-                    if (lstFlags.Value.ToString().IndexOf("|OWNCLOUD|") != -1)
+                    if (lstFlags.Value.ToString().IndexOf("|OWNCLOUD|") != -1 && Values.gMasterPassword!="")
                     {
                         bool result = await OCCommands.CheckUser(txtUserCode.Text,Values.gMasterPassword);
                         CTLM.StatusMsg( result ? "Owncloud user found" : "Owncoud user not found");
                         if (!result)
                         {
-
+                            bool res2 = await OCCommands.AddUser(txtUserCode.Text, txtPWD.Text, txtName.Text + " " + txtSurname1.Text + " " + txtSurname2.Text, Values.gMasterPassword);
+                            CTLM.StatusMsg(res2 ? "Owncloud user created correctly" : "ERROR creating Owncloud user!!!");
                         }
                     }
                     break;
