@@ -194,9 +194,9 @@ namespace Owncloud
             addParameter("value", value);
         }
     }
-    public class OCGetGroups:OCInstruction
+    public class OCGetUserGroups:OCInstruction
     {
-        public OCGetGroups(string user)
+        public OCGetUserGroups(string user)
         {
             Instruction = "users/" + user + "/groups";
             Method = HttpMethod.Get;
@@ -210,9 +210,9 @@ namespace Owncloud
             }
         }
     }
-    public class OCAddToGroup:OCInstruction
+    public class OCAddUserToGroup:OCInstruction
     {
-        public OCAddToGroup(string user,string group)
+        public OCAddUserToGroup(string user,string group)
         {
             Instruction = "users/" + user + "/groups";
             Method = HttpMethod.Post;

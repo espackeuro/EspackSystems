@@ -22,8 +22,8 @@ namespace Sistemas
         {
             //var ocCommand = new OCAddUser("restelles", "patatita");
             //var ocCommand = new OCGetUsers("restelles");
-            // var ocCommand = new OCEditUser("restelles", "display", "Rafa Estellés");
-            //var ocCommand = new OCGetGroups("fnastasie");
+            //var ocCommand = new OCEditUser("restelles", "display", "Rafa Estellés");
+            //var ocCommand = new OCGetUserGroups("fnastasie");
             //var ocCommand = new OCAddToGroup("fnastasie", "test");
             //var ocCommand = new OCAddGroup("test");
             var ocCommand = new OCGetGroup("test");
