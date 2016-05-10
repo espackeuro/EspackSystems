@@ -14,7 +14,7 @@ namespace Owncloud
             {
                 ocCommand.setCredentials("admin", masterPassword);
                 await ocCommand.sendRequest();
-                return (ocCommand.status == "ok");
+                return (ocCommand.userList.Count == 1);
             }
 
         }
