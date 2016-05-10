@@ -14,9 +14,25 @@ namespace Owncloud
             {
                 ocCommand.setCredentials("admin", masterPassword);
                 await ocCommand.sendRequest();
-                return (ocCommand.status == "OK");
+                return (ocCommand.status == "ok");
             }
 
+        }
+        public static async Task<bool> AddUser(string user,string password, string fullName , string masterPassword)
+        {
+            using (var ocCommand = new OCAddUser(user,password))
+            {
+                ocCommand.setCredentials("admin", masterPassword);
+                await ocCommand.sendRequest();
+                if (ocCommand.status != "ok")
+                    return false;
+            }
+            using (var ocCommand = new OCEditUser(user,"display",fullName))
+            {
+                ocCommand.setCredentials("admin", masterPassword);
+                await ocCommand.sendRequest();
+                return (ocCommand.status == "ok");
+            }
         }
     }
 }
