@@ -142,6 +142,11 @@ namespace Owncloud
                 }
                 responseString = await response.Content.ReadAsStringAsync();
                 responseX = XDocument.Parse(responseString);
+                if (statusCode != 100)
+                {
+                    var e = new Exception(status);
+                    throw e;
+                }
             }
         }
 
@@ -235,7 +240,7 @@ namespace Owncloud
             Instruction = "groups/" + group;
             Method = HttpMethod.Get;
         }
-        public List<string> groupList
+        public List<string> userList
         {
             get
             {
