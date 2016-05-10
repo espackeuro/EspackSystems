@@ -49,7 +49,6 @@
             this.txtPWD = new EspackFormControls.EspackTextBox();
             this.CTLM = new CTLMantenimientoNet.CTLMantenimientoNet();
             this.lstEmailAliases = new EspackFormControls.EspackCheckedListBox();
-            this.button1 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -645,23 +644,12 @@
             this.lstEmailAliases.Upp = false;
             this.lstEmailAliases.Value = "";
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(1013, 61);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 154;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // fUsers
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1264, 681);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.lstEmailAliases);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -705,6 +693,5 @@
         private EspackFormControls.EspackComboBox cboDomain;
         private EspackFormControls.EspackTextBox txtEmail;
         private EspackFormControls.EspackCheckedListBox lstEmailAliases;
-        private System.Windows.Forms.Button button1;
     }
 }

@@ -188,6 +188,11 @@ namespace Sistemas
         {
             fDNS fDNS = (fDNS)GetChildInstance("fDNS");
         }
+
+        private void tESTSToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            fTests fTests = (fTests)GetChildInstance("fTests");
+        }
     }
 
     public static class Values
