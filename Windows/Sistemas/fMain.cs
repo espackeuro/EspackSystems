@@ -138,6 +138,7 @@ namespace Sistemas
                         vbresult = (byte[])lSP.ReturnValues()["@vbpassword"];
                         Values.gDatos.context_info = vbresult;
                         this.btnMaster.Image = global::Sistemas.Properties.Resources.unlock_24;
+                        Values.gMasterPassword = lPwd;
                     }
                 }
             } else
@@ -198,6 +199,7 @@ namespace Sistemas
     public static class Values
     {
         public static cAccesoDatosNet gDatos = new cAccesoDatosNet();
+        public static string gMasterPassword = "";
     }
 
 }

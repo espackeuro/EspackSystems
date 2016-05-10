@@ -44,7 +44,7 @@ namespace Owncloud
             return (SSL == true ? "https://" : "http://") + serverName + route + command;
         }
     }
-    public class OCInstruction
+    public class OCInstruction: IDisposable
     {
         protected string Instruction { get; set; }
         protected HttpMethod Method { get; set; }
@@ -145,6 +145,10 @@ namespace Owncloud
             }
         }
 
+        public void Dispose()
+        {
+            ((IDisposable)response).Dispose();
+        }
     }
     public class OCAddUser:OCInstruction
     {
@@ -174,6 +178,7 @@ namespace Owncloud
             }
         }
     }
+
     public class OCEditUser:OCInstruction
     {
         public OCEditUser(string user, string fieldToEdit, string value)
