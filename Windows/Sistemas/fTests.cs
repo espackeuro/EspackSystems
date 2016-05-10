@@ -26,7 +26,8 @@ namespace Sistemas
             //var ocCommand = new OCGetUserGroups("fnastasie");
             //var ocCommand = new OCAddToGroup("fnastasie", "test");
             //var ocCommand = new OCAddGroup("test");
-            var ocCommand = new OCGetGroup("test");
+            //var ocCommand = new OCGetGroupUsers("test");
+            var ocCommand = new OCGetGroups();
             ocCommand.setCredentials("admin", "*hwLD8e*");
             await ocCommand.sendRequest();
             var result = ocCommand.responseX;

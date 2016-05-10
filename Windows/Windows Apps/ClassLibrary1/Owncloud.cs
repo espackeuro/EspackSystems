@@ -228,9 +228,9 @@ namespace Owncloud
             addParameter("groupid", group);
         }
     }
-    public class OCGetGroup:OCInstruction
+    public class OCGetGroupUsers:OCInstruction
     {
-        public OCGetGroup(string group)
+        public OCGetGroupUsers(string group)
         {
             Instruction = "groups/" + group;
             Method = HttpMethod.Get;
@@ -244,7 +244,26 @@ namespace Owncloud
             }
         }
     }
-
+    public class OCGetGroups:OCInstruction
+    {
+        public OCGetGroups(string searchValue = "")
+        {
+            Instruction = "groups";
+            Method = HttpMethod.Get;
+            if (searchValue != "")
+            {
+                addParameter("search", searchValue);
+            }
+        }
+            public List<string> groupList
+        {
+            get
+            {
+                var result = responseX.Descendants("element").Select(x => x.Value).ToList<string>();
+                return result;
+            }
+        }
+    }
 
 
 
