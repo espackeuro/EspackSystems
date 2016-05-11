@@ -30,9 +30,9 @@
         {
             this.gbCredentials = new System.Windows.Forms.GroupBox();
             this.btnOk = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.txtPassword = new EspackFormControls.EspackTextBox();
             this.txtUser = new EspackFormControls.EspackTextBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.gbCredentials.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -44,9 +44,9 @@
             this.gbCredentials.Controls.Add(this.btnOk);
             this.gbCredentials.Controls.Add(this.txtPassword);
             this.gbCredentials.Controls.Add(this.txtUser);
-            this.gbCredentials.Location = new System.Drawing.Point(1, 3);
+            this.gbCredentials.Location = new System.Drawing.Point(12, 12);
             this.gbCredentials.Name = "gbCredentials";
-            this.gbCredentials.Size = new System.Drawing.Size(1251, 53);
+            this.gbCredentials.Size = new System.Drawing.Size(1229, 55);
             this.gbCredentials.TabIndex = 0;
             this.gbCredentials.TabStop = false;
             // 
@@ -58,6 +58,18 @@
             this.btnOk.TabIndex = 4;
             this.btnOk.Text = "Ok";
             this.btnOk.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.groupBox1.Location = new System.Drawing.Point(12, 73);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(1229, 506);
+            this.groupBox1.TabIndex = 1;
+            this.groupBox1.TabStop = false;
             // 
             // txtPassword
             // 
@@ -116,18 +128,6 @@
             this.txtUser.Upp = true;
             this.txtUser.Value = "";
             this.txtUser.WordWrap = false;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.groupBox1.Location = new System.Drawing.Point(1, 62);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1251, 543);
-            this.groupBox1.TabIndex = 1;
-            this.groupBox1.TabStop = false;
             // 
             // fMain
             // 
