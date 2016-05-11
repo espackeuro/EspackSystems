@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Renci.SshNet", "..\..\Netwo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Owncloud", "ClassLibrary1\Owncloud.csproj", "{0F193F80-9610-4020-8974-9AAA02BD1CA8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogOn", "LogOn\LogOn.csproj", "{E8C2A7EF-3D7E-4D4E-B594-8A7E625621C4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +81,10 @@ Global
 		{0F193F80-9610-4020-8974-9AAA02BD1CA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F193F80-9610-4020-8974-9AAA02BD1CA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F193F80-9610-4020-8974-9AAA02BD1CA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8C2A7EF-3D7E-4D4E-B594-8A7E625621C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8C2A7EF-3D7E-4D4E-B594-8A7E625621C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8C2A7EF-3D7E-4D4E-B594-8A7E625621C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8C2A7EF-3D7E-4D4E-B594-8A7E625621C4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -94,9 +100,10 @@ Global
 		{9148F7E6-31F6-4F96-B7DC-AFEA449998C7} = {9A5F1334-96A2-4343-B6B5-94245973DB55}
 		{2F5F8C90-0BD1-424F-997C-7BC6280919D1} = {AD5A54CB-AD85-45E0-B075-83BD4834C36D}
 		{0F193F80-9610-4020-8974-9AAA02BD1CA8} = {9A5F1334-96A2-4343-B6B5-94245973DB55}
+		{E8C2A7EF-3D7E-4D4E-B594-8A7E625621C4} = {1D17A21A-95D8-436A-8A3A-38AE2EF835CA}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 11
+		SccNumberOfProjects = 12
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://espack.visualstudio.com/defaultcollection
 		SccLocalPath0 = .
@@ -140,5 +147,9 @@ Global
 		SccProjectTopLevelParentUniqueName10 = Windows\u0020Apps.sln
 		SccProjectName10 = ClassLibrary1
 		SccLocalPath10 = ClassLibrary1
+		SccProjectUniqueName11 = LogOn\\LogOn.csproj
+		SccProjectTopLevelParentUniqueName11 = Windows\u0020Apps.sln
+		SccProjectName11 = LogOn
+		SccLocalPath11 = LogOn
 	EndGlobalSection
 EndGlobal
