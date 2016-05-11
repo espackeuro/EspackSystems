@@ -44,7 +44,7 @@ namespace LogOn
 
     public class cServerList
     {
-        public List<cServer> ServerList { get; set; }
+        public List<cServer> ServerList { get; set; } = new List<cServer>();
         public ServerTypes ListType { get; set; }
 
         public cServer this[string COD3]

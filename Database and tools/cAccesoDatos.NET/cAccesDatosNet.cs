@@ -67,7 +67,7 @@ namespace AccesoDatosNet
             IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
             foreach (IPAddress lIP in ipHostInfo.AddressList)
             {
-                if (lIP.AddressFamily.ToString() == "InterNetwork")
+                if (lIP.AddressFamily.ToString() == "InterNetwork" && ((lIP.GetAddressBytes()[0] == 192 && lIP.GetAddressBytes()[1] == 168) || lIP.GetAddressBytes()[0] == 10))
                 { //IPV4
                     IP = lIP;
                     break;
