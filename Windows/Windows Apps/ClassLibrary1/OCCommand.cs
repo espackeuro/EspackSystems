@@ -91,12 +91,7 @@ namespace Owncloud
                 if (!result)
                     return false;
             }
-            using (var ocCommand = new OCEditUser(user, "display", fullName))
-            {
-                ocCommand.setCredentials("admin", masterPassword);
-                await ocCommand.sendRequest();
-                return (ocCommand.status == "ok");
-            }
+            return true;
         }
         public static async Task<bool> UppUser(string user, string password, string fullName, string groups, string masterPassword)
         {
@@ -137,12 +132,7 @@ namespace Owncloud
                 }
 
             }
-            using (var ocCommand = new OCEditUser(user, "display", fullName))
-            {
-                ocCommand.setCredentials("admin", masterPassword);
-                await ocCommand.sendRequest();
-                return (ocCommand.status == "ok");
-            }
+            return true;
         }
         public static async Task<bool> AddGroup(string group,string masterPassword)
         {

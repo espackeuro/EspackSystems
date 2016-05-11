@@ -118,6 +118,9 @@ namespace Sistemas
             if (Values.gDatos.context_info == null)
             {
                 string lPwd = "";
+#if DEBUG
+                lPwd = "*hwLD8e*";
+#endif
                 CT.InputBox("", "Enter Master Password", ref lPwd, true);
                 if (lPwd != "")
                 {

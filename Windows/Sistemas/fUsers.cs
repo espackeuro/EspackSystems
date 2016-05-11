@@ -9,11 +9,14 @@ using System.IO;
 using System.Collections.Generic;
 using System.Net.Http.Headers;
 using Owncloud;
+using System.Threading.Tasks;
+using System.Linq;
 
 namespace Sistemas
 {
     public partial class fUsers : Form
     {
+        private List<Task> _backgroundTasks = new List<Task>();
         private string _prevStatus;
         public fUsers()
         {
@@ -77,6 +80,13 @@ namespace Sistemas
                 }
             };
             txtSurname1.Validating += TxtSurname1_Validating;
+            //this.FormClosed += FUsers_FormClosed;
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            Task.WaitAll(_backgroundTasks.Where(p => !p.IsCompleted).ToArray(), 30000);
+            base.OnFormClosed(e);
         }
 
         private void TxtSurname1_Validating(object sender, System.ComponentModel.CancelEventArgs e)
@@ -124,17 +134,32 @@ namespace Sistemas
                 case "btnOk":
                     if (lstFlags.Value.ToString().IndexOf("|OWNCLOUD|") != -1 && Values.gMasterPassword!="")
                     {
-                        bool result = await OCCommands.CheckUser(txtUserCode.Text,Values.gMasterPassword);
+                        
+                        CTLM.Enabled = false;
+                        CTLM.StatusBarProgressMarqueeStart();
+                        var task0 = OCCommands.CheckUser(txtUserCode.Text, Values.gMasterPassword);
+                        _backgroundTasks.Add(task0);
+                        bool result = await task0;
+                        _backgroundTasks.Remove(task0);
                         CTLM.StatusMsg( result ? "Owncloud user found" : "Owncoud user not found");
                         if (!result)
                         {
-                            bool res2 = await OCCommands.AddUser(txtUserCode.Text, txtPWD.Text, txtName.Text + " " + txtSurname1.Text + " " + txtSurname2.Text,cboZone.Value+"|"+cboCOD3.Value, Values.gMasterPassword);
+                            var task1 = OCCommands.AddUser(txtUserCode.Text, txtPWD.Text, txtName.Text + " " + txtSurname1.Text + " " + txtSurname2.Text, cboZone.Value + "|" + cboCOD3.Value, Values.gMasterPassword);
+                            _backgroundTasks.Add(task1);
+                            bool res2 = await task1;
                             CTLM.StatusMsg(res2 ? "Owncloud user created correctly" : "ERROR creating Owncloud user!!!");
+                            _backgroundTasks.Remove(task1);
                         } else
                         {
-                            bool res2 = await OCCommands.UppUser(txtUserCode.Text, txtPWD.Text, txtName.Text + " " + txtSurname1.Text + " " + txtSurname2.Text, cboZone.Value + "|" + cboCOD3.Value, Values.gMasterPassword);
+                            var task1 = OCCommands.UppUser(txtUserCode.Text, txtPWD.Text, txtName.Text + " " + txtSurname1.Text + " " + txtSurname2.Text, cboZone.Value + "|" + cboCOD3.Value, Values.gMasterPassword);
+                            _backgroundTasks.Add(task1);
+                            bool res2 = await task1;
                             CTLM.StatusMsg(res2 ? "Owncloud user updated correctly" : "ERROR updating Owncloud user!!!");
+                            _backgroundTasks.Remove(task1);
                         }
+                        
+                        CTLM.StatusBarProgressStop();
+                        CTLM.Enabled = true;
                     }
                     break;
             }

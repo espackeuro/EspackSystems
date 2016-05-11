@@ -45,7 +45,7 @@ namespace CTLMantenimientoNet
         //? i dont remember what is this for
         public ToolStripStatusLabel MsgStatusInfoLabel { get; set; }
         public ToolStripStatusLabel MsgStatusLabel { get; set; }
-
+        public ToolStripProgressBar StatusBarProgress { get; set; }
         //Properties with SPs but in string format, we will use this when assigning a SP by its name, it will assign the properties to the Insert, Update and Delete commands of the mDA connection
         public string sSPAdd //Insert
         {
@@ -250,14 +250,13 @@ namespace CTLMantenimientoNet
             }
             set
             {
-                Enabled = value;
-                foreach (ToolStripItem item in Items)
-                {
-                    if (item.GetType().ToString() == "System.Windows.Forms.ToolStripButton")
-                    {
-                        item.Enabled = value;
-                    }
-                }
+                //foreach (ToolStripItem item in Items)
+                //{
+                //    if (item.GetType().ToString() == "System.Windows.Forms.ToolStripButton")
+                //    {
+                //        item.Enabled = value;
+                //    }
+                //}
                 base.Enabled = value;
             }
         }
@@ -551,6 +550,9 @@ namespace CTLMantenimientoNet
             MsgStatusInfoLabel = (new ToolStripStatusLabel("") { AutoSize = true });
             mDefaultStatusStrip.Items.Add(MsgStatusInfoLabel);
             mDefaultStatusStrip.Items.Add(new ToolStripSeparator());
+            StatusBarProgress = new ToolStripProgressBar() { Size= new Size(100,mDefaultStatusStrip.Height), Visible=false};
+            mDefaultStatusStrip.Items.Add(StatusBarProgress);
+            mDefaultStatusStrip.Items.Add(new ToolStripSeparator());
             MsgStatusLabel = (new ToolStripStatusLabel(string.Empty));
             //MsgStatusLabel.Padding= new Padding((int)(this.Size.Width - 10), 0, 0, 0);
             MsgStatusLabel.Alignment = ToolStripItemAlignment.Right;
@@ -559,7 +561,21 @@ namespace CTLMantenimientoNet
             this.FindForm().Controls.Add(mDefaultStatusStrip);
             this.FindForm().KeyPreview = true;
         }
-
+        public void StatusBarProgressMarqueeStart()
+        {
+            StatusBarProgress.Style = ProgressBarStyle.Marquee;
+            StatusBarProgress.Value = 0;
+            StatusBarProgress.Minimum = 0;
+            StatusBarProgress.Maximum = 50;
+            StatusBarProgress.MarqueeAnimationSpeed = 50;
+            StatusBarProgress.Visible = true;
+        }
+        public void StatusBarProgressStop()
+        {
+            StatusBarProgress.Style = ProgressBarStyle.Continuous;
+            StatusBarProgress.MarqueeAnimationSpeed = 0;
+            StatusBarProgress.Visible = false;
+        }
         //ShowRSValues shows the actual values of actual record of mDA.SelectRS  
         public void ShowRSValues()
         {
