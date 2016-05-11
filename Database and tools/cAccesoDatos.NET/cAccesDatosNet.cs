@@ -82,9 +82,9 @@ namespace AccesoDatosNet
             //Provider = "SQLOLEDB";
             Silent = false;
             IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
-            foreach (IPAddress lIP in ipHostInfo.AddressList)
+            foreach (IPAddress lIP in ipHostInfo.AddressList )
             {
-                if (lIP.AddressFamily.ToString() == "InterNetwork")
+                if (lIP.AddressFamily.ToString() == "InterNetwork" && ((lIP.GetAddressBytes()[0]==192 && lIP.GetAddressBytes()[1] == 168) || lIP.GetAddressBytes()[0] == 10))
                 { //IPV4
                     IP = lIP;
                     break;
@@ -192,7 +192,7 @@ namespace AccesoDatosNet
         Fetching=8
     }
 
-    public abstract class RSFrame
+    public abstract class RSFrame: IDisposable
     {
         //private SqlDataReader mDR = null;
         //private SqlCommand mCmd = null;
@@ -327,6 +327,42 @@ namespace AccesoDatosNet
         }
 
         public abstract List<object> getList();
+
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: dispose managed state (managed objects).
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // TODO: set large fields to null.
+
+                disposedValue = true;
+            }
+        }
+
+        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+        // ~RSFrame() {
+        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+        //   Dispose(false);
+        // }
+
+        // This code added to correctly implement the disposable pattern.
+        public void Dispose()
+        {
+            Close();
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+            // TODO: uncomment the following line if the finalizer is overridden above.
+            // GC.SuppressFinalize(this);
+        }
+        #endregion
     }
     
 
@@ -874,18 +910,22 @@ namespace AccesoDatosNet
 
         }
 
-        public void AddControlParameter(string ParamName, object ParamControl)
+        public void AddControlParameter(string pParamName, object ParamControl)
         {
-            SqlParameter lParam;
-            if (Parameters[ParamName] != null)
+            if (pParamName.Substring(0, 1) != "@")
             {
-                lParam = Parameters[ParamName];
+                pParamName = '@' + pParamName;
+            }
+            SqlParameter lParam;
+            if (Parameters[pParamName] != null)
+            {
+                lParam = Parameters[pParamName];
             }
             else
             {
                 lParam = new SqlParameter()
                 {
-                    ParameterName = ParamName
+                    ParameterName = pParamName
                 };
                 Parameters.Add(lParam);
             }
