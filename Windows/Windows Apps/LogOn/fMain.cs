@@ -24,6 +24,8 @@ namespace LogOn
         public ToolStripStatusLabel Panel2;
         public ToolStripStatusLabel Panel3;
         public ToolStripStatusLabel Panel4;
+        private int _zone = 0;
+
 
         // Main
         public fMain(string[] args)
@@ -47,7 +49,7 @@ namespace LogOn
                 espackArgs.Password = "*seso69*";
 
                 // Init _zone var (200, 210, 220, etc...), _pathLogonHosts (the path for the logonHosts file) and the list _content (that will contain logonHosts contents)
-                int _zone = 0;
+                //int _zone = 0;
                 string _pathLogonHosts;
                 List<string> _content = new List<string>();
 
@@ -94,9 +96,9 @@ namespace LogOn
             {
                 Values.gDatos.Connect();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                throw new Exception("Error connecting database server: "+e.Message);
+                throw new Exception("Error connecting database server: " + e.Message);
             }
 
             // Add the toolbar and set the panels texts
@@ -123,7 +125,7 @@ namespace LogOn
             mDefaultStatusStrip.Items.Add(Panel2);
             mDefaultStatusStrip.Items.Add(new ToolStripSeparator());
 
-            Panel3 = new ToolStripStatusLabel("DB Server IP: None") { AutoSize =true };
+            Panel3 = new ToolStripStatusLabel("DB Server IP: None") { AutoSize = true };
             mDefaultStatusStrip.Items.Add(Panel3);
             mDefaultStatusStrip.Items.Add(new ToolStripSeparator());
 
@@ -145,7 +147,7 @@ namespace LogOn
             {
                 _SP.Execute();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtPassword.Text = "";
@@ -155,20 +157,40 @@ namespace LogOn
             Values.Password = txtPassword.Text;
 
             FillServers();
+            FillApps();
 
-            //var _SQL= "select * from general..Permiso_Servicios p inner join general..servicios s on s.codigo=p.codigo where p.LoginSql= '" + + "' and general.dbo.checkFlag(flags,'OBS')=0"
         }
 
         private void FillServers()
         {
 
-            using (var _RS = new DynamicRS("select COD3,ServerDB,ServerDBIP,ServerShare,ServerShareIP from general..sedes", Values.gDatos))
+            using (var _RS = new DynamicRS("select COD3,ServerDB,ServerDBIP,ServerShare,ServerShareIP,zone from general..sedes", Values.gDatos))
             {
                 _RS.Open();
                 while (!_RS.EOF)
                 {
                     Values.DBServerList.Add(new cServer() { HostName = _RS["ServerDB"].ToString(), IP = IPAddress.Parse(_RS["ServerDBIP"].ToString()), COD3 = _RS["COD3"].ToString(), Type = ServerTypes.DATABASE });
                     Values.ShareServerList.Add(new cServer() { HostName = _RS["ServerShare"].ToString(), IP = IPAddress.Parse(_RS["ServerShareIP"].ToString()), COD3 = _RS["COD3"].ToString(), Type = ServerTypes.DATABASE });
+                    if (Convert.ToInt16(_RS["zone"]) == _zone)
+                    {
+                        Values.COD3 = _RS["COD3"].ToString();
+                        Values.DBServerList.Add(new cServer() { HostName = _RS["ServerDB"].ToString(), IP = IPAddress.Parse(_RS["ServerDBIP"].ToString()), COD3 = "LOC", Type = ServerTypes.DATABASE });
+                    }
+
+                    _RS.MoveNext();
+                }
+                Values.DBServerList.Add(new cServer() { HostName = "DB01", IP = Dns.GetHostEntry("DB01").AddressList[0], COD3 = "OUT", Type = ServerTypes.DATABASE });
+            }
+        }
+
+        private void FillApps()
+        {
+            using (var _RS = new DynamicRS("select Code=s.codigo,Description=s.descripcion,DB=s.base_datos,ExeName=s.app,Zone=s.sede from general..Permiso_Servicios p inner join general..servicios s on s.codigo=p.codigo where p.LoginSql= '" + Values.User + "' and general.dbo.checkFlag(flags,'OBS')=0", Values.gDatos))
+            {
+                _RS.Open();
+                while (!_RS.EOF)
+                {
+                    Values.AppList.Add(new cAppBot(_RS["Code"].ToString(), _RS["Description"].ToString(), _RS["DB"].ToString(), _RS["ExeName"].ToString(),_RS["Zone"].ToString()));
                     _RS.MoveNext();
                 }
             }
@@ -183,6 +205,8 @@ namespace LogOn
         public static string Password;
         public static cServerList DBServerList = new cServerList(ServerTypes.DATABASE);
         public static cServerList ShareServerList = new cServerList(ServerTypes.SHARE);
+        public static cAppList AppList=new cAppList();
+        public static string COD3="";
     }
 }
 
