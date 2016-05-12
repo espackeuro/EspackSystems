@@ -5,19 +5,20 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using AccesoDatosNet;
 
 namespace LogOn
 {
     public class cAppBot: Control
     {
-        private string Code { get; set; }
+        public string Code { get; set; }
         private string Description { get; set; }
         private string DataBase { get; set; }
         private cServer DBServer { get; set; }
         private cServer ShareServer { get; set; }
         private string ExeName { get; set; }
-
-        public cAppBot(string pCode,string pDescription,string pDatabase, string pExeName, string LocalCOD3, string ServiceZone)
+        private cAccesoDatosNet Conn { get; set; }
+        public cAppBot(string pCode,string pDescription,string pDatabase, string pExeName, string ServiceZone)
         {
             Code = pCode;
             Description = pDescription;
@@ -26,45 +27,31 @@ namespace LogOn
 
             //
             DBServer = Values.DBServerList[ServiceZone];
-            ShareServer = Values.ShareServerList[LocalCOD3];
+            ShareServer = Values.ShareServerList[Values.COD3];
+        }
+
+        public cAppBot()
+        {
         }
     }
 
-    // Class cServer -> there are two types: DATABASE and SHARE
-    public class cServer
+    // Class cAppList
+    public class cAppList
     {
-        public string HostName { get; set; }
-        public IPAddress IP { get; set; }
-        public ServerTypes Type { get; set; }
-        public string COD3 { get; set; }
-        public string User { get; set; }
-        public string Password { get; set; }
-    }
+        public List<cAppBot> AppList { get; set; } = new List<cAppBot>();
 
-    // Class cServerList
-    public class cServerList
-    {
-        public List<cServer> ServerList { get; set; } = new List<cServer>();
-        public ServerTypes ListType { get; set; }
-
-        public cServer this[string COD3]
+        public cAppBot this[string Code]
         {
             get
             {
-                return ServerList.FirstOrDefault(x => x.COD3 == COD3);
+                return AppList.FirstOrDefault(x => x.Code== Code);
             }
         }
 
-        public cServerList(ServerTypes pServerType)
+        public void Add(cAppBot pApp)
         {
-            ListType = pServerType;
-        }
-
-        public void Add(cServer pServer)
-        {
-            ServerList.Add(pServer);
+            AppList.Add(pApp);
         }
     }
 
-    public enum ServerTypes { SHARE, DATABASE }
 }

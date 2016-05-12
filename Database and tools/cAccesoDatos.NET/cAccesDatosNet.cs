@@ -25,17 +25,88 @@ namespace AccesoDatosNet
         public SqlConnection AdoCon { get; set; }
         public string Path { get; set; }
         public string AppName { get; set; }
-        public string Server { get; set; }
+        public string Server {
+            get
+            {
+                if (oServer != null)
+                    return oServer.HostName;
+                else
+                    return null;
+            }
+            set
+            {
+                if (oServer != null)
+                {
+                    IPAddress _serverIP;
+                    string _hostName = "";
+
+                    if (!IPAddress.TryParse(value, out _serverIP))
+                    {
+                        _hostName = value;
+                        try
+                        {
+                            var result = Dns.GetHostEntry(value);
+                            _hostName = result.HostName;
+                            _serverIP = result.AddressList[0];
+                        } catch (Exception ex)
+                        {
+                            throw ex;
+                        }
+                    }
+                    else
+                    {
+                        try
+                        {
+                            var result = Dns.GetHostEntry(_serverIP);
+                            _hostName = result.HostName;
+                        } catch (Exception ex)
+                        {
+                            _hostName = value;
+                        }
+                    }
+                    oServer.HostName = _hostName;
+                    oServer.IP = _serverIP;
+                }
+            }
+        }
         public string Printer { get; set; }
         public string DataBase { get; set; }
-        public string User { get; set; }
-        public string Password { get; set; }
+        public string User
+        {
+            get
+            {
+                if (oServer != null)
+                    return oServer.User;
+                else return null;
+            }
+            set
+            {
+                if (oServer!= null)
+                    oServer.User = value;
+            }
+        }
+
+        public string Password
+        {
+            get
+            {
+                if (oServer != null)
+                    return oServer.Password;
+                else return null;
+            }
+            set
+            {
+                if (oServer != null)
+                    oServer.Password = value;
+            }
+        }
         public bool Silent { get; set; }
         public IPAddress IP { get; set; }
         public DateTime TimeTic { get; set; }
         public long TimeOut { get; set; }
         public string Cod3 { get; set; }
         public byte[] context_info { get; set; }
+        public cServer oServer { get; set; }
 
         public System.Data.ConnectionState State
         {
@@ -73,27 +144,32 @@ namespace AccesoDatosNet
                     break;
                 }
             }
+            if (oServer==null)
+            {
+                oServer = new cServer() { Type=ServerTypes.DATABASE };
+            }
             
         }
 
         public cAccesoDatosNet(string pServer, string pDataBase, string pUser, string pPassword)
+            : this()
         {
-            AdoCon = new SqlConnection();
-            //Provider = "SQLOLEDB";
-            Silent = false;
-            IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
-            foreach (IPAddress lIP in ipHostInfo.AddressList )
-            {
-                if (lIP.AddressFamily.ToString() == "InterNetwork" && ((lIP.GetAddressBytes()[0]==192 && lIP.GetAddressBytes()[1] == 168) || lIP.GetAddressBytes()[0] == 10))
-                { //IPV4
-                    IP = lIP;
-                    break;
-                }
-            }
+            //Server = pServer;
+            //User = pUser;
+            //Password = pPassword;
+
             Server = pServer;
-            DataBase = pDataBase;
             User = pUser;
             Password = pPassword;
+            DataBase = pDataBase;
+
+        }
+
+        public cAccesoDatosNet(cServer pServer, string pDataBase)
+            : this()
+        {
+            oServer = pServer;
+            DataBase = pDataBase;
         }
         public cAccesoDatosNet(cAccesoDatosNet parent)
         {
@@ -1236,5 +1312,43 @@ namespace AccesoDatosNet
             }
         }
     }
+
+    // Class cServer -> there are two types: DATABASE and SHARE
+    public class cServer
+    {
+        public string HostName { get; set; }
+        public IPAddress IP { get; set; }
+        public ServerTypes Type { get; set; }
+        public string COD3 { get; set; }
+        public string User { get; set; }
+        public string Password { get; set; }
+    }
+
+    // Class cServerList
+    public class cServerList
+    {
+        public List<cServer> ServerList { get; set; } = new List<cServer>();
+        public ServerTypes ListType { get; set; }
+
+        public cServer this[string COD3]
+        {
+            get
+            {
+                return ServerList.FirstOrDefault(x => x.COD3 == COD3);
+            }
+        }
+
+        public cServerList(ServerTypes pServerType)
+        {
+            ListType = pServerType;
+        }
+
+        public void Add(cServer pServer)
+        {
+            ServerList.Add(pServer);
+        }
+    }
+
+    public enum ServerTypes { SHARE, DATABASE }
 
 }
