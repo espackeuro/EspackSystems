@@ -227,10 +227,12 @@
             // 
             // tESTSToolStripMenuItem
             // 
+#if DEBUG
             this.tESTSToolStripMenuItem.Name = "tESTSToolStripMenuItem";
             this.tESTSToolStripMenuItem.Size = new System.Drawing.Size(51, 19);
             this.tESTSToolStripMenuItem.Text = "TESTS";
             this.tESTSToolStripMenuItem.Click += new System.EventHandler(this.tESTSToolStripMenuItem_Click);
+#endif
             // 
             // fMain
             // 

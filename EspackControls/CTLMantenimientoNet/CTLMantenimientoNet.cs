@@ -598,7 +598,7 @@ namespace CTLMantenimientoNet
         }
 
         //What happens when you click OK
-        private void Click_OK()
+        private void Click_OK(string pButtonName= "btnOk")
         {
             switch (Status)
             {
@@ -608,11 +608,13 @@ namespace CTLMantenimientoNet
                         if (mDA.SelectRS.EOF)
                         {
                             MessageBox.Show("No data found.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            AfterButtonClick(this, new CTLMEventArgs(pButtonName));
                             Status = EnumStatus.SEARCH;
                             ClearValues();
                             return;
                         }
                         ShowRSValues();
+                        AfterButtonClick(this, new CTLMEventArgs(pButtonName));
                         Status = EnumStatus.NAVIGATE;
                         if (MsgStatusInfoLabel != null) MsgStatusInfoLabel.Text = mDA.SelectRS.RecordCount.ToString() + " Records returned by search.";
                         break;
@@ -628,6 +630,7 @@ namespace CTLMantenimientoNet
                             if (MsgStatusInfoLabel != null) MsgStatusInfoLabel.Text = "ERROR:" + mDA.InsertCommand.LastMsg;
                             return;
                         }
+                        AfterButtonClick(this, new CTLMEventArgs(pButtonName));
                         if (Clear)
                         {
                             ClearValues();
@@ -644,7 +647,7 @@ namespace CTLMantenimientoNet
                         {
                             ClearValues(true);
                             Status = EnumStatus.SEARCH;
-                            Click_OK();
+                            Click_OK(pButtonName);;
                         }
                         Status = VsGrids.Count != 0 ? EnumStatus.EDIT : EnumStatus.SEARCH;
                         break;
@@ -660,9 +663,16 @@ namespace CTLMantenimientoNet
                             if (MsgStatusInfoLabel != null) MsgStatusInfoLabel.Text = "ERROR:" + mDA.UpdateCommand.LastMsg;
                             return;
                         }
+                        AfterButtonClick(this, new CTLMEventArgs(pButtonName));
                         if (Clear)
                         {
                             ClearValues();
+                        }
+                        if (ReQuery)
+                        {
+                            ClearValues(true);
+                            Status = EnumStatus.SEARCH;
+                            Click_OK(pButtonName); ;
                         }
                         Status = EnumStatus.SEARCH;
                         if (MsgStatusInfoLabel != null) MsgStatusInfoLabel.Text = "Record updated successfully ;D!";
@@ -680,6 +690,7 @@ namespace CTLMantenimientoNet
                             return;
                         }
                         ClearValues();
+                        AfterButtonClick(this, new CTLMEventArgs(pButtonName));
                         Status = EnumStatus.SEARCH;
                         if (MsgStatusInfoLabel != null) MsgStatusInfoLabel.Text = "Record deleted successfully X(!";
                         break;
@@ -704,25 +715,32 @@ namespace CTLMantenimientoNet
                 if (lCTLMEventArgs.Cancel) { return; }
                 switch (pButtonName)
                 {
-                    case "btnAdd": Status = EnumStatus.ADDNEW;
+                    case "btnAdd": 
+                        AfterButtonClick(this, new CTLMEventArgs(pButtonName)); //Launched AfterButtonClick Event
+                        Status = EnumStatus.ADDNEW;
                         break;
-                    case "btnUpp": Status = EnumStatus.EDIT;
+                    case "btnUpp": 
+                        AfterButtonClick(this, new CTLMEventArgs(pButtonName)); //Launched AfterButtonClick Event
+                        Status = EnumStatus.EDIT;
                         break;
                     case "btnDel":
                         if (MessageBox.Show("This will delete the actual record. Are you sure?", "WARNING", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning) == DialogResult.Yes)
                         {
                             Status = EnumStatus.DELETE;
-                            Click_OK();
+                            Click_OK(pButtonName);
                         }
                         break;
-                    case "btnSearch": Status = EnumStatus.SEARCH;
+                    case "btnSearch":
+                        AfterButtonClick(this, new CTLMEventArgs(pButtonName));
+                        Status = EnumStatus.SEARCH;
                         break;
                     case "btnCancel":
                         ClearValues();
+                        AfterButtonClick(this, new CTLMEventArgs(pButtonName));
                         Status = EnumStatus.SEARCH;
                         break;
                     case "btnOk":
-                        Click_OK();
+                        Click_OK(pButtonName);
                         break;
                     case "btnNext":
                         if (mDA.SelectRS.State == RSState.Open)
@@ -736,6 +754,7 @@ namespace CTLMantenimientoNet
                             }
                             ShowRSValues();
                         }
+                        AfterButtonClick(this, new CTLMEventArgs(pButtonName));
                         break;
                     case "btnPrev":
                         if (mDA.SelectRS.State == RSState.Open)
@@ -749,6 +768,7 @@ namespace CTLMantenimientoNet
                             }
                             ShowRSValues();
                         }
+                        AfterButtonClick(this, new CTLMEventArgs(pButtonName));
                         break;
                     case "btnFirst":
                         if (mDA.SelectRS.State == RSState.Open)
@@ -762,6 +782,7 @@ namespace CTLMantenimientoNet
                             }
                             ShowRSValues();
                         }
+                        AfterButtonClick(this, new CTLMEventArgs(pButtonName));
                         break;
                     case "btnLast":
                         if (mDA.SelectRS.State == RSState.Open)
@@ -775,9 +796,10 @@ namespace CTLMantenimientoNet
                             }
                             ShowRSValues();
                         }
+                        AfterButtonClick(this, new CTLMEventArgs(pButtonName));
                         break;
                 }
-                AfterButtonClick(this, new CTLMEventArgs(pButtonName)); //Launched AfterButtonClick Event
+                
             }
             catch (Exception e)
             {

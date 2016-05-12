@@ -127,12 +127,12 @@ namespace Sistemas
             {
                 //case "btnAdd":
                 //case "btnUpp":
-                case "btnNext":
-                case "btnPrev":
-                case "btnFirst":
-                case "btnLast":
+                //case "btnNext":
+                //case "btnPrev":
+                //case "btnFirst":
+                //case "btnLast":
                 case "btnOk":
-                    if (lstFlags.Value.ToString().IndexOf("|OWNCLOUD|") != -1 && Values.gMasterPassword!="")
+                    if (lstFlags.Value.ToString().IndexOf("|OWNCLOUD|") != -1 && Values.gMasterPassword!="" && (CTLM.Status== EnumStatus.ADDNEW || CTLM.Status== EnumStatus.EDIT))
                     {
                         
                         CTLM.Enabled = false;
