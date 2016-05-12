@@ -228,7 +228,7 @@ namespace AccesoDatosNet
         {
             try
             {
-                AdoCon.ConnectionString = "Server=" + Server + ";Initial Catalog=" + DataBase + ";User Id=" + User + ";Password=" + Password + ";MultipleActiveResultSets=True;";
+                AdoCon.ConnectionString = "Server=" + Server.Replace(".local","") + ";Initial Catalog=" + DataBase + ";User Id=" + User + ";Password=" + Password + ";MultipleActiveResultSets=True;";
                 AdoCon.Open();
                 if (context_info != null)
                 {
