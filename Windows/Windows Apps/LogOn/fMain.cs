@@ -18,13 +18,14 @@ namespace LogOn
 {
     public partial class fMain : Form
     {
-        // Definitions for dynamically create the Toolbar 
+        // Definitions for dynamically create the toolbar and accessing its panels
         public StatusStrip mDefaultStatusStrip;
         public ToolStripStatusLabel Panel1;
         public ToolStripStatusLabel Panel2;
         public ToolStripStatusLabel Panel3;
         public ToolStripStatusLabel Panel4;
 
+        // Main
         public fMain(string[] args)
         {
             InitializeComponent();
@@ -35,18 +36,22 @@ namespace LogOn
             txtPassword.Enabled = true;
             txtPassword.Multiline = false;
 
+            // Load the vars from the given args
             var espackArgs = CT.LoadVars(args);
 
+            // If DB is not set in args, we assume any args are set
             if (espackArgs.DataBase == null)
             {
                 espackArgs.DataBase = "SISTEMAS";
                 espackArgs.User = "procesos";
                 espackArgs.Password = "*seso69*";
 
-
+                // Init _zone var (200, 210, 220, etc...), _pathLogonHosts (the path for the logonHosts file) and the list _content (that will contain logonHosts contents)
                 int _zone = 0;
                 string _pathLogonHosts;
+                List<string> _content = new List<string>();
 
+                // Programmer rest (just for DEBUG time)
 #if DEBUG
                 _pathLogonHosts = "c:\\espack\\logonHosts";
                 txtUser.Text = "dvalles";
@@ -54,8 +59,6 @@ namespace LogOn
 #else
             _pathLogonHosts = ".\\logonHosts";
 #endif
-
-                List<string> _content = new List<string>();
 
                 // Get logonHosts file content       
                 if (File.Exists(_pathLogonHosts))
@@ -72,25 +75,21 @@ namespace LogOn
                     throw new Exception("Can not find connection details");
                 }
 
+                // Put in _line the corresponding to the _zone (if (_zone==200) then _line="200|10.200.10.130|10.200.10.138|80.33.195.45|VAL")
                 string _line = _content.FirstOrDefault(p => p.Substring(0, 3) == _zone.ToString());
 
-
-                // "200|10.200.10.130|10.200.10.138|80.33.195.45|VAL"
-
+                // DB Server is the 2nd element in _line
                 espackArgs.Server = _line.Split('|')[1];
 
             }
 
-            //Values.gDatos.DataBase = "Sistemas";//espackArgs.DataBase;
-            //Values.gDatos.Server = "192.168.200.7";//espackArgs.Server;
-            //Values.gDatos.User = "sa";//espackArgs.User;
-            //Values.gDatos.Password = "5380"; //espackArgs.Password;
-
+            // Set the values of gDatos from the given args or default settings 
             Values.gDatos.DataBase = espackArgs.DataBase;
             Values.gDatos.Server = espackArgs.Server;
             Values.gDatos.User = espackArgs.User;
             Values.gDatos.Password = espackArgs.Password;
 
+            // Connect (or try)
             try
             {
                 Values.gDatos.Connect();
@@ -99,8 +98,9 @@ namespace LogOn
             {
                 throw new Exception("Error connecting database server: "+e.Message);
             }
-            AddDefaultStatusStrip();
 
+            // Add the toolbar and set the panels texts
+            AddDefaultStatusStrip();
             Panel1.Text = "Connected!";
             Panel2.Text = "My IP: " + Values.gDatos.IP.ToString();
             Panel3.Text = "DB Server IP: " + espackArgs.Server;
@@ -108,6 +108,7 @@ namespace LogOn
 
         }
 
+        // Add the toolbar dynamically: we did not find the way to add separators in design time.
         public void AddDefaultStatusStrip()
         {
             mDefaultStatusStrip = new StatusStrip();

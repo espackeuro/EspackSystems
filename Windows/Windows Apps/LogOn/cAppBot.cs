@@ -4,44 +4,44 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace LogOn
 {
-    public class cAppBot
+    public class cAppBot: Control
     {
         private string Code { get; set; }
         private string Description { get; set; }
         private string DataBase { get; set; }
-        private IPAddress DBServerIP { get; set; }
-        private IPAddress ShareServerIP { get; set; }
+        private cServer DBServer { get; set; }
+        private cServer ShareServer { get; set; }
         private string ExeName { get; set; }
-        private string DBUser { get; set; }
-        private string DBPassword { get; set; }
-        private string ShareUser { get; set; }
-        private string SharePassword { get; set; }
 
-        public cAppBot(string pCode,string pDescription,string pDatabase, string pDBServerIP, string pShareServerIP, string pExeName,string pDBUser,string pDBPassword,string pShareUser,string pSharePassword)
+        public cAppBot(string pCode,string pDescription,string pDatabase, string pExeName, string LocalCOD3, string ServiceZone)
         {
             Code = pCode;
             Description = pDescription;
             DataBase = pDatabase;
-            DBServerIP = IPAddress.Parse(pDBServerIP);
-            ShareServerIP = IPAddress.Parse(pShareServerIP);
             ExeName = pExeName;
-            DBUser = pDBUser;
-            DBPassword = pDBPassword;
-            ShareUser = pShareUser;
-            SharePassword = pSharePassword;
+
+            //
+            DBServer = Values.DBServerList[ServiceZone];
+            ShareServer = Values.ShareServerList[LocalCOD3];
         }
     }
+
+    // Class cServer -> there are two types: DATABASE and SHARE
     public class cServer
     {
         public string HostName { get; set; }
         public IPAddress IP { get; set; }
         public ServerTypes Type { get; set; }
         public string COD3 { get; set; }
+        public string User { get; set; }
+        public string Password { get; set; }
     }
 
+    // Class cServerList
     public class cServerList
     {
         public List<cServer> ServerList { get; set; } = new List<cServer>();
