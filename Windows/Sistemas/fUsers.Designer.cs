@@ -391,7 +391,7 @@
             this.txtEmail.DependingRS = null;
             this.txtEmail.Font = new System.Drawing.Font("Tahoma", 10F);
             this.txtEmail.ForeColor = System.Drawing.Color.Black;
-            this.txtEmail.Location = new System.Drawing.Point(23, 115);
+            this.txtEmail.Location = new System.Drawing.Point(206, 72);
             this.txtEmail.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtEmail.Multiline = true;
             this.txtEmail.Name = "txtEmail";
@@ -400,7 +400,7 @@
             this.txtEmail.ParentDA = null;
             this.txtEmail.PK = false;
             this.txtEmail.Search = false;
-            this.txtEmail.Size = new System.Drawing.Size(322, 24);
+            this.txtEmail.Size = new System.Drawing.Size(303, 24);
             this.txtEmail.Status = CommonTools.EnumStatus.ADDNEW;
             this.txtEmail.TabIndex = 12;
             this.txtEmail.Upp = false;
@@ -421,7 +421,7 @@
             this.txtPIN.Font = new System.Drawing.Font("Tahoma", 10F);
             this.txtPIN.ForeColor = System.Drawing.Color.Black;
             this.txtPIN.Length = 0;
-            this.txtPIN.Location = new System.Drawing.Point(405, 32);
+            this.txtPIN.Location = new System.Drawing.Point(327, 32);
             this.txtPIN.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtPIN.Mask = false;
             this.txtPIN.Multiline = true;
@@ -432,7 +432,7 @@
             this.txtPIN.PK = false;
             this.txtPIN.Precision = 0;
             this.txtPIN.Search = false;
-            this.txtPIN.Size = new System.Drawing.Size(100, 24);
+            this.txtPIN.Size = new System.Drawing.Size(51, 24);
             this.txtPIN.Status = CommonTools.EnumStatus.ADDNEW;
             this.txtPIN.TabIndex = 10;
             this.txtPIN.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -455,7 +455,7 @@
             this.txtQuota.Font = new System.Drawing.Font("Tahoma", 10F);
             this.txtQuota.ForeColor = System.Drawing.Color.Black;
             this.txtQuota.Length = 0;
-            this.txtQuota.Location = new System.Drawing.Point(351, 115);
+            this.txtQuota.Location = new System.Drawing.Point(384, 32);
             this.txtQuota.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtQuota.Mask = false;
             this.txtQuota.Multiline = true;
@@ -466,7 +466,7 @@
             this.txtQuota.PK = false;
             this.txtQuota.Precision = 0;
             this.txtQuota.Search = false;
-            this.txtQuota.Size = new System.Drawing.Size(154, 24);
+            this.txtQuota.Size = new System.Drawing.Size(125, 24);
             this.txtQuota.Status = CommonTools.EnumStatus.ADDNEW;
             this.txtQuota.TabIndex = 13;
             this.txtQuota.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -521,7 +521,7 @@
             this.txtPasswordEXP.Font = new System.Drawing.Font("Tahoma", 10F);
             this.txtPasswordEXP.ForeColor = System.Drawing.Color.Black;
             this.txtPasswordEXP.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.txtPasswordEXP.Location = new System.Drawing.Point(234, 32);
+            this.txtPasswordEXP.Location = new System.Drawing.Point(167, 32);
             this.txtPasswordEXP.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtPasswordEXP.Name = "txtPasswordEXP";
             this.txtPasswordEXP.Order = 0;
@@ -551,7 +551,7 @@
             this.lstFlags.Font = new System.Drawing.Font("Tahoma", 10F);
             this.lstFlags.ForeColor = System.Drawing.Color.Black;
             this.lstFlags.FormattingEnabled = true;
-            this.lstFlags.Location = new System.Drawing.Point(23, 158);
+            this.lstFlags.Location = new System.Drawing.Point(23, 120);
             this.lstFlags.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.lstFlags.MultiColumn = true;
             this.lstFlags.Name = "lstFlags";
@@ -560,7 +560,7 @@
             this.lstFlags.ParentDA = null;
             this.lstFlags.PK = false;
             this.lstFlags.Search = false;
-            this.lstFlags.Size = new System.Drawing.Size(482, 76);
+            this.lstFlags.Size = new System.Drawing.Size(482, 114);
             this.lstFlags.Status = CommonTools.EnumStatus.ADDNEW;
             this.lstFlags.TabIndex = 14;
             this.lstFlags.Upp = false;
@@ -588,7 +588,7 @@
             this.txtPWD.ParentDA = null;
             this.txtPWD.PK = false;
             this.txtPWD.Search = false;
-            this.txtPWD.Size = new System.Drawing.Size(170, 24);
+            this.txtPWD.Size = new System.Drawing.Size(130, 24);
             this.txtPWD.Status = CommonTools.EnumStatus.ADDNEW;
             this.txtPWD.TabIndex = 9;
             this.txtPWD.Upp = false;
@@ -612,6 +612,7 @@
             this.CTLM.sSPDel = "";
             this.CTLM.sSPUpp = "";
             this.CTLM.Status = CommonTools.EnumStatus.SEARCH;
+            this.CTLM.StatusBarProgress = null;
             this.CTLM.TabIndex = 0;
             this.CTLM.Text = "ctlMantenimientoNet1";
             // 
