@@ -14,6 +14,7 @@ using EspackFormControls;
 using System.IO;
 using System.Net;
 
+
 namespace LogOn
 {
     public partial class fMain : Form
@@ -106,7 +107,13 @@ namespace LogOn
             Panel1.Text = "Connected!";
             Panel2.Text = "My IP: " + Values.gDatos.IP.ToString();
             Panel3.Text = "DB Server IP: " + espackArgs.Server;
-
+            var test = new wind CircularProgressBar.CircularProgressBar();
+            test.Location = new Point(100, 100);
+            test.Size = new Size(200, 200);
+            test.Style = ProgressBarStyle.Marquee;
+            test.Visible = true;
+            test.BackColor = Color.FromArgb(254,Color.Fuchsia);
+            this.Controls.Add(test);
 
         }
 

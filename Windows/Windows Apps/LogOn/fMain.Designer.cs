@@ -32,7 +32,6 @@
             this.btnOk = new System.Windows.Forms.Button();
             this.txtPassword = new EspackFormControls.EspackTextBox();
             this.txtUser = new EspackFormControls.EspackTextBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.gbCredentials.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -118,24 +117,11 @@
             this.txtUser.Value = "";
             this.txtUser.WordWrap = false;
             // 
-            // groupBox1
-            // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.groupBox1.Location = new System.Drawing.Point(12, 73);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1229, 506);
-            this.groupBox1.TabIndex = 1;
-            this.groupBox1.TabStop = false;
-            // 
             // fMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1253, 604);
-            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.gbCredentials);
             this.Name = "fMain";
             this.Text = "LogOn";
@@ -148,7 +134,6 @@
         #endregion
 
         private System.Windows.Forms.GroupBox gbCredentials;
-        private System.Windows.Forms.GroupBox groupBox1;
         private EspackFormControls.EspackTextBox txtPassword;
         private EspackFormControls.EspackTextBox txtUser;
         private System.Windows.Forms.Button btnOk;
