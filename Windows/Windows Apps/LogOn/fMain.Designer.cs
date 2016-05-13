@@ -32,7 +32,10 @@
             this.btnOk = new System.Windows.Forms.Button();
             this.txtPassword = new EspackFormControls.EspackTextBox();
             this.txtUser = new EspackFormControls.EspackTextBox();
+            this.tlpApps = new System.Windows.Forms.TableLayoutPanel();
+            this.gbApps = new System.Windows.Forms.GroupBox();
             this.gbCredentials.SuspendLayout();
+            this.gbApps.SuspendLayout();
             this.SuspendLayout();
             // 
             // gbCredentials
@@ -117,16 +120,42 @@
             this.txtUser.Value = "";
             this.txtUser.WordWrap = false;
             // 
+            // tlpApps
+            // 
+            this.tlpApps.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.tlpApps.ColumnCount = 1;
+            this.tlpApps.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlpApps.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlpApps.Location = new System.Drawing.Point(0, 0);
+            this.tlpApps.Name = "tlpApps";
+            this.tlpApps.RowCount = 1;
+            this.tlpApps.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlpApps.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlpApps.Size = new System.Drawing.Size(99, 71);
+            this.tlpApps.TabIndex = 2;
+            // 
+            // gbApps
+            // 
+            this.gbApps.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.gbApps.Controls.Add(this.tlpApps);
+            this.gbApps.Location = new System.Drawing.Point(12, 74);
+            this.gbApps.Name = "gbApps";
+            this.gbApps.Size = new System.Drawing.Size(570, 132);
+            this.gbApps.TabIndex = 1;
+            this.gbApps.TabStop = false;
+            // 
             // fMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1253, 604);
+            this.Controls.Add(this.gbApps);
             this.Controls.Add(this.gbCredentials);
             this.Name = "fMain";
             this.Text = "LogOn";
             this.gbCredentials.ResumeLayout(false);
             this.gbCredentials.PerformLayout();
+            this.gbApps.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -137,6 +166,8 @@
         private EspackFormControls.EspackTextBox txtPassword;
         private EspackFormControls.EspackTextBox txtUser;
         private System.Windows.Forms.Button btnOk;
+        private System.Windows.Forms.TableLayoutPanel tlpApps;
+        private System.Windows.Forms.GroupBox gbApps;
     }
 }
 
