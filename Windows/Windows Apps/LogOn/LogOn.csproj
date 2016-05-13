@@ -39,6 +39,9 @@
     <Reference Include="CTLMantenimientoNet">
       <HintPath>..\..\..\EspackControls\CTLMantenimientoNet\obj\Debug\CTLMantenimientoNet.dll</HintPath>
     </Reference>
+    <Reference Include="CtlVSGrid">
+      <HintPath>..\..\..\EspackControls\CtlVSGrid\obj\Debug\CtlVSGrid.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />

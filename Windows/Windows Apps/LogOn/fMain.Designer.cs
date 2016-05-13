@@ -34,6 +34,7 @@
             this.txtUser = new EspackFormControls.EspackTextBox();
             this.tlpApps = new System.Windows.Forms.TableLayoutPanel();
             this.gbApps = new System.Windows.Forms.GroupBox();
+            this.cAppBot1 = new EspackFormControls.cAppBot();
             this.gbCredentials.SuspendLayout();
             this.gbApps.SuspendLayout();
             this.SuspendLayout();
@@ -122,16 +123,17 @@
             // 
             // tlpApps
             // 
+            this.tlpApps.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tlpApps.BackColor = System.Drawing.SystemColors.ControlLight;
             this.tlpApps.ColumnCount = 1;
-            this.tlpApps.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlpApps.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlpApps.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 228F));
             this.tlpApps.Location = new System.Drawing.Point(0, 0);
             this.tlpApps.Name = "tlpApps";
             this.tlpApps.RowCount = 1;
-            this.tlpApps.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlpApps.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlpApps.Size = new System.Drawing.Size(99, 71);
+            this.tlpApps.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 239F));
+            this.tlpApps.Size = new System.Drawing.Size(1229, 518);
             this.tlpApps.TabIndex = 2;
             // 
             // gbApps
@@ -140,9 +142,19 @@
             this.gbApps.Controls.Add(this.tlpApps);
             this.gbApps.Location = new System.Drawing.Point(12, 74);
             this.gbApps.Name = "gbApps";
-            this.gbApps.Size = new System.Drawing.Size(570, 132);
+            this.gbApps.Size = new System.Drawing.Size(1229, 518);
             this.gbApps.TabIndex = 1;
             this.gbApps.TabStop = false;
+            // 
+            // cAppBot1
+            // 
+            this.cAppBot1.Code = null;
+            this.cAppBot1.Location = new System.Drawing.Point(0, 0);
+            this.cAppBot1.MaximumSize = new System.Drawing.Size(150, 150);
+            this.cAppBot1.MinimumSize = new System.Drawing.Size(150, 150);
+            this.cAppBot1.Name = "cAppBot1";
+            this.cAppBot1.Size = new System.Drawing.Size(150, 150);
+            this.cAppBot1.TabIndex = 0;
             // 
             // fMain
             // 
@@ -168,6 +180,7 @@
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.TableLayoutPanel tlpApps;
         private System.Windows.Forms.GroupBox gbApps;
+        private EspackFormControls.cAppBot cAppBot1;
     }
 }
 
