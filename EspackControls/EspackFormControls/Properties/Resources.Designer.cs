@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace LogOn.Properties {
+namespace EspackFormControls.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace LogOn.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("LogOn.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EspackFormControls.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -63,9 +63,9 @@ namespace LogOn.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Prototype_96 {
+        internal static System.Drawing.Bitmap Prototype_80 {
             get {
-                object obj = ResourceManager.GetObject("Prototype_96", resourceCulture);
+                object obj = ResourceManager.GetObject("Prototype_80", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

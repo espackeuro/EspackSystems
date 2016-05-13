@@ -104,16 +104,13 @@ namespace LogOn
 
             // Add the toolbar and set the panels texts
             AddDefaultStatusStrip();
-            Panel1.Text = "Connected!";
+            Panel1.Text = "You are connected to "+Values.gDatos.oServer.HostName.Replace(".local","")+"!";
             Panel2.Text = "My IP: " + Values.gDatos.IP.ToString();
             Panel3.Text = "DB Server IP: " + espackArgs.Server;
-            var test = new wind CircularProgressBar.CircularProgressBar();
-            test.Location = new Point(100, 100);
-            test.Size = new Size(200, 200);
-            test.Style = ProgressBarStyle.Marquee;
-            test.Visible = true;
-            test.BackColor = Color.FromArgb(254,Color.Fuchsia);
-            this.Controls.Add(test);
+
+            //
+            tlpApps.Height = cAppBot.GROUP_HEIGHT;
+            tlpApps.Width = gbApps.Width;
 
         }
 
@@ -165,6 +162,7 @@ namespace LogOn
 
             FillServers();
             FillApps();
+            DrawListApps();
 
         }
 
@@ -197,10 +195,35 @@ namespace LogOn
                 _RS.Open();
                 while (!_RS.EOF)
                 {
-                    Values.AppList.Add(new cAppBot(_RS["Code"].ToString(), _RS["Description"].ToString(), _RS["DB"].ToString(), _RS["ExeName"].ToString(),_RS["Zone"].ToString()));
+                    Values.AppList.Add(new cAppBot(_RS["Code"].ToString(), _RS["Description"].ToString(), _RS["DB"].ToString(), _RS["ExeName"].ToString(),_RS["Zone"].ToString(), Values.DBServerList[_RS["Zone"].ToString()],Values.ShareServerList[Values.COD3] ));
+
                     _RS.MoveNext();
                 }
             }
+        }
+
+        private void DrawListApps()
+        {
+            //var _numApps = Values.AppList.Count;
+            //int _numColumns = tlpApps.Width / cAppBot.GROUP_WIDTH;
+            //tlpApps.ColumnCount = _numColumns;
+
+            ////int _numRows = Convert.ToInt16(Math.Ceiling(Convert.ToDouble(_numApps) / Convert.ToDouble(_numColumns)));
+            //int x = 0;
+            //int y = 0;
+
+            foreach (cAppBot _app in Values.AppList)
+            {
+                tlpApps.Controls.Add(_app);
+                //if (x == _numColumns)
+                //{
+                //    tlpApps.RowCount++;
+                //    x = 0;
+                //}
+                //tlpApps. Add(_app);
+                //x += 1;
+            }
+
         }
     }
 
