@@ -204,17 +204,40 @@ namespace LogOn
 
         private void DrawListApps()
         {
-            //var _numApps = Values.AppList.Count;
-            //int _numColumns = tlpApps.Width / cAppBot.GROUP_WIDTH;
+
+            var _numApps = Values.AppList.Count;
+            int _numColumns = tlpApps.Width / cAppBot.GROUP_WIDTH;
             //tlpApps.ColumnCount = _numColumns;
 
-            ////int _numRows = Convert.ToInt16(Math.Ceiling(Convert.ToDouble(_numApps) / Convert.ToDouble(_numColumns)));
-            //int x = 0;
-            //int y = 0;
+            //int _numRows = Convert.ToInt16(Math.Ceiling(Convert.ToDouble(_numApps) / Convert.ToDouble(_numColumns)));
+            int x = 0;
+            int y = 0;
+            //tlpApps.RowStyles.Add(new RowStyle(SizeType.Absolute, cAppBot.GROUP_HEIGHT));
+            tlpApps.ColumnCount = _numColumns;
+            tlpApps.ColumnStyles[0].SizeType = SizeType.Absolute;
+            tlpApps.ColumnStyles[0].Width = 150F;
+            tlpApps.RowStyles[0].SizeType = SizeType.Absolute;
+            tlpApps.RowStyles[0].Height = 150F;
+            tlpApps.RowCount = Convert.ToInt16(Math.Ceiling(Convert.ToDouble(_numApps) / Convert.ToDouble(_numColumns)));
 
             foreach (cAppBot _app in Values.AppList)
             {
-                tlpApps.Controls.Add(_app);
+                if (x == _numColumns)
+                {
+                    x = 0;
+                    y++;
+                    //tlpApps.RowCount++;
+                    tlpApps.RowStyles.Add(new RowStyle(SizeType.AutoSize, 150F));
+                    //tlpApps.Height += 150;
+                }
+                if (y == 0 && x!=0)
+                {
+                    //tlpApps.ColumnCount++;
+                    tlpApps.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize,150F));
+                }
+                    
+                tlpApps.Controls.Add(_app,x,y);
+                x++;
                 //if (x == _numColumns)
                 //{
                 //    tlpApps.RowCount++;
@@ -224,7 +247,8 @@ namespace LogOn
                 //x += 1;
             }
 
-        }
+         }
+
     }
 
     public static class Values

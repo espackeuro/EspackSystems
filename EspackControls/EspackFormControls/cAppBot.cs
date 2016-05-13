@@ -25,22 +25,7 @@ namespace EspackFormControls
         public PictureBox pctApp { get; set; }
         public ProgressBar prgApp { get; set; }
         public Label lblDescriptionApp { get; set; }
-        public new Point Location
-        {
-            get
-            {
-                if (grpApp != null)
-                    return grpApp.Location;
-                else
-                    return new Point(0, 0);
-            }
-            set
-            {
-                if (grpApp != null)
-                    grpApp.Location = value;
 
-            }
-        }
 
         public new Size Size
         {
@@ -63,7 +48,7 @@ namespace EspackFormControls
         public static int GROUP_WIDTH = 150;
 
         public static int PROGRESS_PADDING = 10;
-        public static int PROGRESS_HEIGHT= 10;
+        public static int PROGRESS_HEIGHT= 40;
         public static int PROGRESS_WIDTH = GROUP_WIDTH- (PROGRESS_PADDING*2);
 
         public static int DESCRIPTION_PADDING = PROGRESS_PADDING;
@@ -89,34 +74,40 @@ namespace EspackFormControls
 
         public cAppBot()
         {
-            grpApp = new GroupBox() { Size = new Size(GROUP_WIDTH, GROUP_HEIGHT) };
-            pctApp = new PictureBox() { Image = EspackFormControls.Properties.Resources.Prototype_80 };
-            grpApp.Controls.Add(pctApp);
-
+            
+            grpApp = new GroupBox() { Size = new Size(GROUP_WIDTH, GROUP_HEIGHT), Location= new Point(0,0) };
+            pctApp = new PictureBox();
             prgApp = new ProgressBar() { Size =new Size(PROGRESS_WIDTH, PROGRESS_HEIGHT), Location=new Point(PROGRESS_PADDING, (GROUP_HEIGHT/2)-(PROGRESS_HEIGHT/2)) };
             lblDescriptionApp = new Label() { Size = new Size(DESCRIPTION_WIDTH, DESCRIPTION_HEIGHT), Location = new Point(DESCRIPTION_PADDING, GROUP_HEIGHT - DESCRIPTION_HEIGHT - DESCRIPTION_PADDING) };
             pctApp = new PictureBox() { Size = new Size(PICTURE_WIDTH, PICTURE_HEIGHT), Location = new Point(PICTURE_PADDING, PICTURE_PADDING) };
+#if DEBUG
+            pctApp.BorderStyle = BorderStyle.FixedSingle;
+            lblDescriptionApp.BorderStyle = BorderStyle.FixedSingle;
+#endif
+            pctApp.Image = Properties.Resources.Prototype_80;
+            pctApp.SizeMode = PictureBoxSizeMode.CenterImage;
 
+            grpApp.Controls.Add(prgApp);
             grpApp.Controls.Add(pctApp);
             grpApp.Controls.Add(lblDescriptionApp);
-            grpApp.Controls.Add(prgApp);
+            MaximumSize = Size;
+            MinimumSize = Size;
+            this.Controls.Add(grpApp);
             
-            
         }
-        protected override void OnMove(EventArgs e)
+
+        protected override void OnResize(EventArgs e)
         {
-            grpApp.Location = new Point(base.Location.X, base.Location.Y);
-            //CaptionLabel.Location = new Point(Location.X - CaptionLabel.PreferredWidth - 6, Location.Y);
-            base.OnMove(e);
+            this.Size = new Size(GROUP_WIDTH, GROUP_HEIGHT);
         }
-        protected override void OnParentChanged(EventArgs e)
-        {
-            if (Parent != null)
-            {
-                Parent.Controls.Add(grpApp);
-                base.OnParentChanged(e);
-            }
-        }
+        //protected override void OnParentChanged(EventArgs e)
+        //{
+        //    if (Parent != null)
+        //    {
+        //        Parent.Controls.Add(grpApp);
+        //        base.OnParentChanged(e);
+        //    }
+        //}
         private void InitializeComponent()
         {
             this.SuspendLayout();
