@@ -45,9 +45,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="cAppBot.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="EspackFormControls.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -68,15 +65,16 @@
       <Project>{9148f7e6-31f6-4f96-b7dc-afea449998c7}</Project>
       <Name>CommonTools</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Network Libraries\Renci.SshNet\Renci.SshNet.csproj">
+      <Project>{2f5f8c90-0bd1-424f-997c-7bc6280919d1}</Project>
+      <Name>Renci.SshNet</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EspackControls\EspackControls.csproj">
       <Project>{ece9aa32-f756-4be3-a926-b0771e69066b}</Project>
       <Name>EspackControls</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="cAppBot.resx">
-      <DependentUpon>cAppBot.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
