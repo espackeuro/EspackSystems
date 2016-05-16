@@ -13,7 +13,7 @@ using EspackControls;
 using EspackFormControls;
 using System.IO;
 using System.Net;
-
+using System.Threading.Tasks;
 
 namespace LogOn
 {
@@ -26,7 +26,7 @@ namespace LogOn
         public ToolStripStatusLabel Panel3;
         public ToolStripStatusLabel Panel4;
         private int _zone = 0;
-
+        public List<cUpdaterThread> UpdatingThreads = new List<cUpdaterThread>();
 
         // Main
         public fMain(string[] args)
@@ -57,8 +57,8 @@ namespace LogOn
                 // Programmer rest (just for DEBUG time)
 #if DEBUG
                 _pathLogonHosts = "c:\\espack\\logonHosts";
-                txtUser.Text = "dvalles";
-                txtPassword.Text = "*Kru0DMar*";
+                txtUser.Text = "vmocholi";
+                txtPassword.Text = "303030";
 #else
             _pathLogonHosts = ".\\logonHosts";
 #endif
@@ -109,9 +109,19 @@ namespace LogOn
             Panel3.Text = "DB Server IP: " + espackArgs.Server;
 
             //
-            tlpApps.Height = cAppBot.GROUP_HEIGHT;
-            tlpApps.Width = gbApps.Width;
+        }
 
+        protected override void OnResize (EventArgs e)
+        {
+            base.OnResize(e);
+            var _numApps = Values.AppList.Count;
+            if (_numApps == 0)
+                return;
+            int _numColumns = gbApps.Width / cAppBot.GROUP_WIDTH;
+            tlpApps.AutoScroll = false;
+            tlpApps.ColumnCount = _numColumns;
+            tlpApps.RowCount = Convert.ToInt16(Math.Ceiling(Convert.ToDouble(_numApps) / Convert.ToDouble(_numColumns)));
+            tlpApps.AutoScroll = true;
         }
 
         // Add the toolbar dynamically: we did not find the way to add separators in design time.
@@ -141,7 +151,7 @@ namespace LogOn
             KeyPreview = true;
         }
 
-        private void btnOk_Click(object sender, EventArgs e)
+        private async void btnOk_Click(object sender, EventArgs e)
         {
             var _SP = new SP(Values.gDatos, "pLogOnUser");
             _SP.AddControlParameter("User", txtUser);
@@ -163,19 +173,33 @@ namespace LogOn
             FillServers();
             FillApps();
             DrawListApps();
-
+            System.Threading.Thread.Sleep(5000);
+            for (var i = 0; i < 4; i++)
+            {
+                var _thread = new cUpdaterThread();
+                this.UpdatingThreads.Add(_thread);
+                await _thread.Process();
+            }
         }
 
         private void FillServers()
         {
 
-            using (var _RS = new DynamicRS("select COD3,ServerDB,ServerDBIP,ServerShare,ServerShareIP,zone from general..sedes", Values.gDatos))
+            using (var _RS = new DynamicRS("select COD3,ServerDB,ServerDBIP,ServerShare,ServerShareIP,zone,UserShare,PasswordShare from general..sedes", Values.gDatos))
             {
                 _RS.Open();
                 while (!_RS.EOF)
                 {
                     Values.DBServerList.Add(new cServer() { HostName = _RS["ServerDB"].ToString(), IP = IPAddress.Parse(_RS["ServerDBIP"].ToString()), COD3 = _RS["COD3"].ToString(), Type = ServerTypes.DATABASE });
-                    Values.ShareServerList.Add(new cServer() { HostName = _RS["ServerShare"].ToString(), IP = IPAddress.Parse(_RS["ServerShareIP"].ToString()), COD3 = _RS["COD3"].ToString(), Type = ServerTypes.DATABASE });
+                    Values.ShareServerList.Add(new cServer()
+                    {
+                        HostName = _RS["ServerShare"].ToString(),
+                        IP = IPAddress.Parse(_RS["ServerShareIP"].ToString()),
+                        COD3 = _RS["COD3"].ToString(),
+                        Type = ServerTypes.DATABASE,
+                        User = _RS["UserShare"].ToString(),
+                        Password = _RS["PasswordShare"].ToString()
+                    });
                     if (Convert.ToInt16(_RS["zone"]) == _zone)
                     {
                         Values.COD3 = _RS["COD3"].ToString();
@@ -196,7 +220,6 @@ namespace LogOn
                 while (!_RS.EOF)
                 {
                     Values.AppList.Add(new cAppBot(_RS["Code"].ToString(), _RS["Description"].ToString(), _RS["DB"].ToString(), _RS["ExeName"].ToString(),_RS["Zone"].ToString(), Values.DBServerList[_RS["Zone"].ToString()],Values.ShareServerList[Values.COD3] ));
-
                     _RS.MoveNext();
                 }
             }
@@ -204,50 +227,26 @@ namespace LogOn
 
         private void DrawListApps()
         {
-
             var _numApps = Values.AppList.Count;
-            int _numColumns = tlpApps.Width / cAppBot.GROUP_WIDTH;
-            //tlpApps.ColumnCount = _numColumns;
-
-            //int _numRows = Convert.ToInt16(Math.Ceiling(Convert.ToDouble(_numApps) / Convert.ToDouble(_numColumns)));
-            int x = 0;
-            int y = 0;
-            //tlpApps.RowStyles.Add(new RowStyle(SizeType.Absolute, cAppBot.GROUP_HEIGHT));
+            if (_numApps == 0)
+                return;
+            tlpApps.ColumnStyles.Clear();
+            tlpApps.RowStyles.Clear();
+            tlpApps.RowStyles.Add(new RowStyle(SizeType.Absolute, cAppBot.GROUP_HEIGHT));
+            int _numColumns = _numApps;
             tlpApps.ColumnCount = _numColumns;
-            tlpApps.ColumnStyles[0].SizeType = SizeType.Absolute;
-            tlpApps.ColumnStyles[0].Width = 150F;
-            tlpApps.RowStyles[0].SizeType = SizeType.Absolute;
-            tlpApps.RowStyles[0].Height = 150F;
-            tlpApps.RowCount = Convert.ToInt16(Math.Ceiling(Convert.ToDouble(_numApps) / Convert.ToDouble(_numColumns)));
-
+            int x = 0;
             foreach (cAppBot _app in Values.AppList)
             {
-                if (x == _numColumns)
-                {
-                    x = 0;
-                    y++;
-                    //tlpApps.RowCount++;
-                    tlpApps.RowStyles.Add(new RowStyle(SizeType.AutoSize, 150F));
-                    //tlpApps.Height += 150;
-                }
-                if (y == 0 && x!=0)
-                {
-                    //tlpApps.ColumnCount++;
-                    tlpApps.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize,150F));
-                }
-                    
-                tlpApps.Controls.Add(_app,x,y);
+                tlpApps.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, cAppBot.GROUP_WIDTH));
+                tlpApps.Controls.Add(_app,x,0);
                 x++;
-                //if (x == _numColumns)
-                //{
-                //    tlpApps.RowCount++;
-                //    x = 0;
-                //}
-                //tlpApps. Add(_app);
-                //x += 1;
             }
-
-         }
+            tlpApps.AutoScroll = false;
+            tlpApps.ColumnCount = gbApps.Width / cAppBot.GROUP_WIDTH; 
+            tlpApps.RowCount = Convert.ToInt16(Math.Ceiling(Convert.ToDouble(_numApps) / Convert.ToDouble(_numColumns)));
+            tlpApps.AutoScroll = true;
+        }
 
     }
 
@@ -261,6 +260,7 @@ namespace LogOn
         public static cServerList ShareServerList = new cServerList(ServerTypes.SHARE);
         public static cAppList AppList=new cAppList();
         public static string COD3="";
+        public static cUpdateList UpdateList = new cUpdateList();
     }
 }
 

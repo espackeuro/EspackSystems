@@ -32,9 +32,9 @@
             this.btnOk = new System.Windows.Forms.Button();
             this.txtPassword = new EspackFormControls.EspackTextBox();
             this.txtUser = new EspackFormControls.EspackTextBox();
-            this.tlpApps = new System.Windows.Forms.TableLayoutPanel();
             this.gbApps = new System.Windows.Forms.GroupBox();
-            this.cAppBot1 = new EspackFormControls.cAppBot();
+            this.tlpApps = new System.Windows.Forms.TableLayoutPanel();
+            this.cAppBot1 = new LogOn.cAppBot();
             this.gbCredentials.SuspendLayout();
             this.gbApps.SuspendLayout();
             this.SuspendLayout();
@@ -49,7 +49,7 @@
             this.gbCredentials.Controls.Add(this.txtUser);
             this.gbCredentials.Location = new System.Drawing.Point(12, 12);
             this.gbCredentials.Name = "gbCredentials";
-            this.gbCredentials.Size = new System.Drawing.Size(1229, 55);
+            this.gbCredentials.Size = new System.Drawing.Size(1228, 55);
             this.gbCredentials.TabIndex = 0;
             this.gbCredentials.TabStop = false;
             // 
@@ -121,30 +121,35 @@
             this.txtUser.Value = "";
             this.txtUser.WordWrap = false;
             // 
+            // gbApps
+            // 
+            this.gbApps.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbApps.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.gbApps.Controls.Add(this.tlpApps);
+            this.gbApps.Location = new System.Drawing.Point(12, 74);
+            this.gbApps.Name = "gbApps";
+            this.gbApps.Size = new System.Drawing.Size(1228, 512);
+            this.gbApps.TabIndex = 1;
+            this.gbApps.TabStop = false;
+            // 
             // tlpApps
             // 
             this.tlpApps.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.tlpApps.AutoScroll = true;
+            this.tlpApps.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.tlpApps.BackColor = System.Drawing.SystemColors.ControlLight;
             this.tlpApps.ColumnCount = 1;
-            this.tlpApps.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 228F));
+            this.tlpApps.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 1229F));
             this.tlpApps.Location = new System.Drawing.Point(0, 0);
             this.tlpApps.Name = "tlpApps";
             this.tlpApps.RowCount = 1;
-            this.tlpApps.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 239F));
-            this.tlpApps.Size = new System.Drawing.Size(1229, 518);
+            this.tlpApps.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 528F));
+            this.tlpApps.Size = new System.Drawing.Size(1229, 512);
             this.tlpApps.TabIndex = 2;
-            // 
-            // gbApps
-            // 
-            this.gbApps.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.gbApps.Controls.Add(this.tlpApps);
-            this.gbApps.Location = new System.Drawing.Point(12, 74);
-            this.gbApps.Name = "gbApps";
-            this.gbApps.Size = new System.Drawing.Size(1229, 518);
-            this.gbApps.TabIndex = 1;
-            this.gbApps.TabStop = false;
             // 
             // cAppBot1
             // 
@@ -160,11 +165,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1253, 604);
+            this.ClientSize = new System.Drawing.Size(1252, 614);
             this.Controls.Add(this.gbApps);
             this.Controls.Add(this.gbCredentials);
             this.Name = "fMain";
             this.Text = "LogOn";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.gbCredentials.ResumeLayout(false);
             this.gbCredentials.PerformLayout();
             this.gbApps.ResumeLayout(false);
@@ -178,9 +184,9 @@
         private EspackFormControls.EspackTextBox txtPassword;
         private EspackFormControls.EspackTextBox txtUser;
         private System.Windows.Forms.Button btnOk;
-        private System.Windows.Forms.TableLayoutPanel tlpApps;
         private System.Windows.Forms.GroupBox gbApps;
-        private EspackFormControls.cAppBot cAppBot1;
+        private LogOn.cAppBot cAppBot1;
+        private System.Windows.Forms.TableLayoutPanel tlpApps;
     }
 }
 
