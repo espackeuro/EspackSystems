@@ -13,10 +13,12 @@ using EspackControls;
 using EspackFormControls;
 using System.IO;
 using System.Net;
-using System.Threading.Tasks;
+using System.Threading;
 
 namespace LogOn
 {
+
+
     public partial class fMain : Form
     {
         // Definitions for dynamically create the toolbar and accessing its panels
@@ -27,6 +29,7 @@ namespace LogOn
         public ToolStripStatusLabel Panel4;
         private int _zone = 0;
         public List<cUpdaterThread> UpdatingThreads = new List<cUpdaterThread>();
+        public const int NUMTHREADS = 1;
 
         // Main
         public fMain(string[] args)
@@ -57,8 +60,8 @@ namespace LogOn
                 // Programmer rest (just for DEBUG time)
 #if DEBUG
                 _pathLogonHosts = "c:\\espack\\logonHosts";
-                txtUser.Text = "vmocholi";
-                txtPassword.Text = "303030";
+                txtUser.Text = "dvalles";
+                txtPassword.Text = "*Kru0DMar*";
 #else
             _pathLogonHosts = ".\\logonHosts";
 #endif
@@ -173,12 +176,29 @@ namespace LogOn
             FillServers();
             FillApps();
             DrawListApps();
-            System.Threading.Thread.Sleep(5000);
-            for (var i = 0; i < 4; i++)
+            while (Values.AppList.CheckingApps.Count != 0)
+                //while (Values.AppList.PendingApps.Count == 0)
             {
-                var _thread = new cUpdaterThread();
-                this.UpdatingThreads.Add(_thread);
-                await _thread.Process();
+                System.Threading.Thread.Sleep(500);
+            }
+            if (Values.AppList.PendingApps.Count != 0)
+            {
+                for (var i = 0; i < NUMTHREADS; i++)
+                {
+                    var debugBox = new DebugTextbox();
+                    debugBox.Dock = System.Windows.Forms.DockStyle.Left;
+                    debugBox.Location = new System.Drawing.Point(3, 411);
+                    debugBox.Multiline = true;
+                    debugBox.Size = new System.Drawing.Size(500, 98);
+                    debugBox.TabIndex = 3;
+                    gbDebug.Controls.Add(debugBox);
+                    //var infotextbox = new TextBox() { Multiline = true, Location = new Point(0 + 250 * i, 500), Size = new Size(250, 250) };
+                    //gbApps.Controls.Add(infotextbox);
+                    var _thread = new cUpdaterThread(debugBox);
+                    this.UpdatingThreads.Add(_thread);
+                    new Thread(new ThreadStart(_thread.Process)).Start();
+
+                }
             }
         }
 
@@ -217,11 +237,13 @@ namespace LogOn
             using (var _RS = new DynamicRS("select Code=s.codigo,Description=s.descripcion,DB=s.base_datos,ExeName=s.app,Zone=s.sede from general..Permiso_Servicios p inner join general..servicios s on s.codigo=p.codigo where p.LoginSql= '" + Values.User + "' and general.dbo.checkFlag(flags,'OBS')=0", Values.gDatos))
             {
                 _RS.Open();
-                while (!_RS.EOF)
-                {
-                    Values.AppList.Add(new cAppBot(_RS["Code"].ToString(), _RS["Description"].ToString(), _RS["DB"].ToString(), _RS["ExeName"].ToString(),_RS["Zone"].ToString(), Values.DBServerList[_RS["Zone"].ToString()],Values.ShareServerList[Values.COD3] ));
+                //while (!_RS.EOF)
+                //{
+                    var _app = new cAppBot(_RS["Code"].ToString(), _RS["Description"].ToString(), _RS["DB"].ToString(), _RS["ExeName"].ToString(), _RS["Zone"].ToString(), Values.DBServerList[_RS["Zone"].ToString()], Values.ShareServerList[Values.COD3]);
+                    Values.AppList.Add(_app);
+                    _app.CheckUpdate();
                     _RS.MoveNext();
-                }
+                //}
             }
         }
 
@@ -262,6 +284,30 @@ namespace LogOn
         public static string COD3="";
         public static cUpdateList UpdateList = new cUpdateList();
     }
+
+    public class DebugTextbox : TextBox
+    {
+        public DebugTextbox()
+            : base()
+        {
+            Multiline = true;
+        }
+        delegate void AppendTextCallback(string text);
+
+        public new void AppendText(string text)
+        {
+            if (this.InvokeRequired)
+            {
+                AppendTextCallback a = new AppendTextCallback(AppendText);
+                this.Invoke(a, new object[] { text });
+            }
+            else
+            {
+                base.AppendText(text);
+            }
+        }
+    }
+
 }
 
 

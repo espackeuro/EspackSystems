@@ -343,7 +343,23 @@ namespace CommonTools
         public string OrderString;
     }
 
+    public struct DirectoryItem
+    {
+        public Uri BaseUri;
 
+        public string AbsolutePath
+        {
+            get
+            {
+                return string.Format("{0}/{1}", BaseUri, Name);
+            }
+        }
+
+        public DateTime DateCreated;
+        public bool IsDirectory;
+        public string Name;
+        public List<DirectoryItem> Items;
+    }
 
 
 
