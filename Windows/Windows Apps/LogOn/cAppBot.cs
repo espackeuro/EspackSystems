@@ -11,6 +11,10 @@ using static System.Windows.Forms.ListViewItem;
 using System.Collections;
 using Renci.SshNet;
 using System.IO;
+using System.Net;
+using System.ComponentModel;
+using System.Globalization;
+using FTP;
 
 namespace LogOn
 {
@@ -29,6 +33,7 @@ namespace LogOn
         public ProgressBar prgApp { get; set; }
         public Label lblDescriptionApp { get; set; }
         public AppBotStatus Status { get; set; }
+        delegate void ActivateCallback();
 
         public List<cUpdateListItem> PendingItems
         {
@@ -155,7 +160,7 @@ namespace LogOn
         protected async override void OnCreateControl()
         {
             base.OnCreateControl();
-            CheckUpdate();
+            //CheckUpdate();
         }
 
         private void InitializeComponent()
@@ -176,15 +181,25 @@ namespace LogOn
             bool _clean = true;
             await Task.Run(() =>
             {
-                using (var client = new SftpClient(ShareServer.IP.ToString(), ShareServer.User, ShareServer.Password))
+                using (var ftp = new cFTP(ShareServer,"/APPS_CS"))
                 {
-                    //lblMsg.Text = "Connecting the server.";
-                    client.Connect();
-                    //lblMsg.Text = "Server Connected!";
-                    Status = AppBotStatus.PENDINGUPDATE;
-                    _clean = readDir(client, "/media/shares/APPS_CS/", Code.ToLower());
-                    client.Disconnect();
+                    var test = ftp.GetDirectoryList();
+
                 }
+                
+            
+
+
+                //using (var client = new SftpClient(ShareServer.IP.ToString(), ShareServer.User, ShareServer.Password))
+                //{
+                //    //lblMsg.Text = "Connecting the server.";
+                //    client.Connect();
+                //    //lblMsg.Text = "Server Connected!";
+                //    Status = AppBotStatus.PENDINGUPDATE;
+                //    _clean = readDir(client, "/media/shares/APPS_CS/", Code.ToLower());
+                //    client.Disconnect();
+                //}
+
             }
             );
             if (_clean)
@@ -194,10 +209,25 @@ namespace LogOn
 
         public void Activate()
         {
-            this.Status = AppBotStatus.UPDATED;
-            prgApp.Style = ProgressBarStyle.Continuous;
-            prgApp.Visible = false;
-            prgApp.MarqueeAnimationSpeed = 0;
+
+            try
+            {
+                if (this.prgApp.InvokeRequired)
+                {
+                    ActivateCallback a = new ActivateCallback(Activate);
+                    this.Invoke(a);
+                } else
+                {
+                    this.Status = AppBotStatus.UPDATED;
+                    prgApp.MarqueeAnimationSpeed = 0;
+                    prgApp.Style = ProgressBarStyle.Continuous;
+                    prgApp.Visible = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         private bool readDir(SftpClient client, string basePath, string relativePath)
@@ -266,7 +296,7 @@ namespace LogOn
         {
             get
             {
-                return AppList.Where(x => x.Status == AppBotStatus.CHECKING).ToList();
+                return AppList.Where(x => x.Status == AppBotStatus.PENDINGUPDATE).ToList();
             }
         }
         public cAppBot this[string pCode]

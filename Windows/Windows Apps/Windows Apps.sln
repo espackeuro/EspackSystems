@@ -29,11 +29,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonTools", "..\..\Databa
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Network", "Network", "{AD5A54CB-AD85-45E0-B075-83BD4834C36D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Renci.SshNet", "..\..\Network Libraries\Renci.SshNet\Renci.SshNet.csproj", "{2F5F8C90-0BD1-424F-997C-7BC6280919D1}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Owncloud", "ClassLibrary1\Owncloud.csproj", "{0F193F80-9610-4020-8974-9AAA02BD1CA8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogOn", "LogOn\LogOn.csproj", "{E8C2A7EF-3D7E-4D4E-B594-8A7E625621C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Renci.SshNet", "..\..\Network Libraries\Renci.SshNet\Renci.SshNet.csproj", "{2F5F8C90-0BD1-424F-997C-7BC6280919D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cFTP", "cFTP\cFTP.csproj", "{04D920D4-F298-4006-9C6A-DA56130E8BDB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,10 +75,6 @@ Global
 		{9148F7E6-31F6-4F96-B7DC-AFEA449998C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9148F7E6-31F6-4F96-B7DC-AFEA449998C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9148F7E6-31F6-4F96-B7DC-AFEA449998C7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2F5F8C90-0BD1-424F-997C-7BC6280919D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2F5F8C90-0BD1-424F-997C-7BC6280919D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2F5F8C90-0BD1-424F-997C-7BC6280919D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2F5F8C90-0BD1-424F-997C-7BC6280919D1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0F193F80-9610-4020-8974-9AAA02BD1CA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0F193F80-9610-4020-8974-9AAA02BD1CA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F193F80-9610-4020-8974-9AAA02BD1CA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -85,6 +83,14 @@ Global
 		{E8C2A7EF-3D7E-4D4E-B594-8A7E625621C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8C2A7EF-3D7E-4D4E-B594-8A7E625621C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8C2A7EF-3D7E-4D4E-B594-8A7E625621C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F5F8C90-0BD1-424F-997C-7BC6280919D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F5F8C90-0BD1-424F-997C-7BC6280919D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F5F8C90-0BD1-424F-997C-7BC6280919D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F5F8C90-0BD1-424F-997C-7BC6280919D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04D920D4-F298-4006-9C6A-DA56130E8BDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04D920D4-F298-4006-9C6A-DA56130E8BDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04D920D4-F298-4006-9C6A-DA56130E8BDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04D920D4-F298-4006-9C6A-DA56130E8BDB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -98,12 +104,13 @@ Global
 		{70432336-F038-4EF1-AF04-012AE8E6C009} = {740EE352-1137-4924-ADA9-AD599D1CB2BE}
 		{6A52F432-4102-4463-A157-1F0F5805CF87} = {740EE352-1137-4924-ADA9-AD599D1CB2BE}
 		{9148F7E6-31F6-4F96-B7DC-AFEA449998C7} = {9A5F1334-96A2-4343-B6B5-94245973DB55}
-		{2F5F8C90-0BD1-424F-997C-7BC6280919D1} = {AD5A54CB-AD85-45E0-B075-83BD4834C36D}
 		{0F193F80-9610-4020-8974-9AAA02BD1CA8} = {9A5F1334-96A2-4343-B6B5-94245973DB55}
 		{E8C2A7EF-3D7E-4D4E-B594-8A7E625621C4} = {1D17A21A-95D8-436A-8A3A-38AE2EF835CA}
+		{2F5F8C90-0BD1-424F-997C-7BC6280919D1} = {AD5A54CB-AD85-45E0-B075-83BD4834C36D}
+		{04D920D4-F298-4006-9C6A-DA56130E8BDB} = {AD5A54CB-AD85-45E0-B075-83BD4834C36D}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 12
+		SccNumberOfProjects = 13
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://espack.visualstudio.com/defaultcollection
 		SccLocalPath0 = .
@@ -139,17 +146,21 @@ Global
 		SccProjectTopLevelParentUniqueName8 = Windows\u0020Apps.sln
 		SccProjectName8 = ../../Database\u0020and\u0020tools/CommonTools
 		SccLocalPath8 = ..\\..\\Database\u0020and\u0020tools\\CommonTools
-		SccProjectUniqueName9 = ..\\..\\Network\u0020Libraries\\Renci.SshNet\\Renci.SshNet.csproj
+		SccProjectUniqueName9 = ClassLibrary1\\Owncloud.csproj
 		SccProjectTopLevelParentUniqueName9 = Windows\u0020Apps.sln
-		SccProjectName9 = ../../Network\u0020Libraries/Renci.SshNet
-		SccLocalPath9 = ..\\..\\Network\u0020Libraries\\Renci.SshNet
-		SccProjectUniqueName10 = ClassLibrary1\\Owncloud.csproj
+		SccProjectName9 = ClassLibrary1
+		SccLocalPath9 = ClassLibrary1
+		SccProjectUniqueName10 = LogOn\\LogOn.csproj
 		SccProjectTopLevelParentUniqueName10 = Windows\u0020Apps.sln
-		SccProjectName10 = ClassLibrary1
-		SccLocalPath10 = ClassLibrary1
-		SccProjectUniqueName11 = LogOn\\LogOn.csproj
+		SccProjectName10 = LogOn
+		SccLocalPath10 = LogOn
+		SccProjectUniqueName11 = ..\\..\\Network\u0020Libraries\\Renci.SshNet\\Renci.SshNet.csproj
 		SccProjectTopLevelParentUniqueName11 = Windows\u0020Apps.sln
-		SccProjectName11 = LogOn
-		SccLocalPath11 = LogOn
+		SccProjectName11 = ../../Network\u0020Libraries/Renci.SshNet
+		SccLocalPath11 = ..\\..\\Network\u0020Libraries\\Renci.SshNet
+		SccProjectUniqueName12 = cFTP\\cFTP.csproj
+		SccProjectTopLevelParentUniqueName12 = Windows\u0020Apps.sln
+		SccProjectName12 = cFTP
+		SccLocalPath12 = cFTP
 	EndGlobalSection
 EndGlobal

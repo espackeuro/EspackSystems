@@ -117,6 +117,10 @@
       <Project>{2f5f8c90-0bd1-424f-997c-7bc6280919d1}</Project>
       <Name>Renci.SshNet</Name>
     </ProjectReference>
+    <ProjectReference Include="..\cFTP\cFTP.csproj">
+      <Project>{04d920d4-f298-4006-9c6a-da56130e8bdb}</Project>
+      <Name>cFTP</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ClassLibrary1\Owncloud.csproj">
       <Project>{0f193f80-9610-4020-8974-9aaa02bd1ca8}</Project>
       <Name>Owncloud</Name>
@@ -126,6 +130,12 @@
     <None Include="Resources\Prototype-96.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>ROBOCOPY "$(TargetDir) " "$(TargetDir)lib " /XF *.exe *.config *.manifest /XD lib logs data /E /IS /MOV
+; Move all to APPs folder
+ROBOCOPY "$(TargetDir) " "D:\APPS " /XF *.vshost.* /XD logs data /E /IS 
+if %25errorlevel%25 leq 4 exit 0 else exit %25errorlevel</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
