@@ -29,8 +29,8 @@ namespace LogOn
         public ToolStripStatusLabel Panel4;
         private int _zone = 0;
         public List<cUpdaterThread> UpdatingThreads = new List<cUpdaterThread>();
-        public const int NUMTHREADS = 1;
-
+        public const int NUMTHREADS = 4;
+        delegate void gbDebugCallBack(Control c);
         // Main
         public fMain(string[] args)
         {
@@ -65,7 +65,7 @@ namespace LogOn
 #else
             _pathLogonHosts = ".\\logonHosts";
 #endif
-
+                _pathLogonHosts = "c:\\espack\\logonHosts";
                 // Get logonHosts file content       
                 if (File.Exists(_pathLogonHosts))
                 {
@@ -176,11 +176,14 @@ namespace LogOn
             FillServers();
             FillApps();
             DrawListApps();
+            await CheckUpdatableApps().ConfigureAwait(false);
+
+
             while (Values.AppList.CheckingApps.Count != 0)
-                //while (Values.AppList.PendingApps.Count == 0)
             {
                 System.Threading.Thread.Sleep(500);
             }
+            
             if (Values.AppList.PendingApps.Count != 0)
             {
                 for (var i = 0; i < NUMTHREADS; i++)
@@ -189,19 +192,40 @@ namespace LogOn
                     debugBox.Dock = System.Windows.Forms.DockStyle.Left;
                     debugBox.Location = new System.Drawing.Point(3, 411);
                     debugBox.Multiline = true;
-                    debugBox.Size = new System.Drawing.Size(500, 98);
+                    debugBox.Size = new System.Drawing.Size(300, 98);
                     debugBox.TabIndex = 3;
-                    gbDebug.Controls.Add(debugBox);
+
+
+                    gbDebugAdd(debugBox);
                     //var infotextbox = new TextBox() { Multiline = true, Location = new Point(0 + 250 * i, 500), Size = new Size(250, 250) };
                     //gbApps.Controls.Add(infotextbox);
                     var _thread = new cUpdaterThread(debugBox);
                     this.UpdatingThreads.Add(_thread);
+                    //try
+                    //{
+                    //    _thread.Process();
+                    //}
+                    //catch (Exception ex)
+                    //{
+                    //    throw;
+                    //}
+
                     new Thread(new ThreadStart(_thread.Process)).Start();
 
                 }
             }
         }
-
+        private void gbDebugAdd(Control c)
+        {
+            if (gbDebug.InvokeRequired)
+            {
+                gbDebugCallBack a = new gbDebugCallBack(gbDebugAdd);
+                Invoke(a, new object[] { c });
+            } else
+            {
+                gbDebug.Controls.Add(c);
+            }
+        }
         private void FillServers()
         {
 
@@ -237,13 +261,18 @@ namespace LogOn
             using (var _RS = new DynamicRS("select Code=s.codigo,Description=s.descripcion,DB=s.base_datos,ExeName=s.app,Zone=s.sede from general..Permiso_Servicios p inner join general..servicios s on s.codigo=p.codigo where p.LoginSql= '" + Values.User + "' and general.dbo.checkFlag(flags,'OBS')=0", Values.gDatos))
             {
                 _RS.Open();
-                //while (!_RS.EOF)
-                //{
-                    var _app = new cAppBot(_RS["Code"].ToString(), _RS["Description"].ToString(), _RS["DB"].ToString(), _RS["ExeName"].ToString(), _RS["Zone"].ToString(), Values.DBServerList[_RS["Zone"].ToString()], Values.ShareServerList[Values.COD3]);
-                    Values.AppList.Add(_app);
-                    _app.CheckUpdate();
-                    _RS.MoveNext();
-                //}
+                _RS.ToList().ForEach(x =>
+                //var x = _RS.ToList().FirstOrDefault();
+                {
+                    Values.AppList.Add(new cAppBot(x["Code"].ToString(), x["Description"].ToString(), x["DB"].ToString(), x["ExeName"].ToString(), x["Zone"].ToString(), Values.DBServerList[x["Zone"].ToString()], Values.ShareServerList[Values.COD3]));
+                });
+                ////while (!_RS.EOF)
+                ////{
+                //    var _app = new cAppBot(_RS["Code"].ToString(), _RS["Description"].ToString(), _RS["DB"].ToString(), _RS["ExeName"].ToString(), _RS["Zone"].ToString(), Values.DBServerList[_RS["Zone"].ToString()], Values.ShareServerList[Values.COD3]);
+                //    Values.AppList.Add(_app);
+                //    _app.CheckUpdate();
+                //    _RS.MoveNext();
+                ////}
             }
         }
 
@@ -262,6 +291,10 @@ namespace LogOn
             {
                 tlpApps.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, cAppBot.GROUP_WIDTH));
                 tlpApps.Controls.Add(_app,x,0);
+                //bool _clean = await _app.CheckUpdate();
+                //bool _clean = _app.CheckUpdateSync();
+                //if (_clean)
+                //    _app.Activate();
                 x++;
             }
             tlpApps.AutoScroll = false;
@@ -269,8 +302,23 @@ namespace LogOn
             tlpApps.RowCount = Convert.ToInt16(Math.Ceiling(Convert.ToDouble(_numApps) / Convert.ToDouble(_numColumns)));
             tlpApps.AutoScroll = true;
         }
+        private async Task CheckUpdatableApps()
+        {
+            var task = Task.Run(() =>
+            Values.AppList.ToList().ForEach(async x =>
+            {
+                if (await x.CheckUpdate().ConfigureAwait(false))
+                //if (await x.CheckUpdate())
+                    x.Activate(true);
+
+            }));
+            
+            await task.ConfigureAwait(false);
+        }
 
     }
+
+
 
     public static class Values
     {

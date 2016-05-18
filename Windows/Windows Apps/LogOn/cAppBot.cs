@@ -15,6 +15,7 @@ using System.Net;
 using System.ComponentModel;
 using System.Globalization;
 using FTP;
+using CommonTools;
 
 namespace LogOn
 {
@@ -33,8 +34,8 @@ namespace LogOn
         public ProgressBar prgApp { get; set; }
         public Label lblDescriptionApp { get; set; }
         public AppBotStatus Status { get; set; }
-        delegate void ActivateCallback();
-
+        delegate void ActivateCallback(bool status);
+        
         public List<cUpdateListItem> PendingItems
         {
             get
@@ -157,11 +158,17 @@ namespace LogOn
         //    }
         //}
 
-        protected async override void OnCreateControl()
-        {
-            base.OnCreateControl();
-            //CheckUpdate();
-        }
+        //protected async override void OnCreateControl()
+        //{
+        //    base.OnCreateControl();
+        //    ShowChecking();
+
+        //    bool _clean = await CheckUpdate().ConfigureAwait(false);
+        //    if (_clean)
+        //    {
+        //        Activate();
+        //    }
+        //}
 
         private void InitializeComponent()
         {
@@ -170,58 +177,124 @@ namespace LogOn
 
         }
 
-        public async Task CheckUpdate()
+        public async Task<bool> CheckUpdate()
         {
-            prgApp.Style = ProgressBarStyle.Marquee;
-            prgApp.Value = 0;
-            prgApp.Minimum = 0;
-            prgApp.Maximum = 50;
-            prgApp.MarqueeAnimationSpeed = 50;
-            prgApp.Visible = true;
-            bool _clean = true;
-            await Task.Run(() =>
-            {
-                using (var ftp = new cFTP(ShareServer,"/APPS_CS"))
-                {
-                    var test = ftp.GetDirectoryList();
+            Activate(false);
+            return await Task.Run(() =>
+              {
+                  
 
-                }
-                
-            
+                  bool _clean = true;
+
+                  _clean = readDir("/APPS_CS/", Code.ToLower());
+
+                  return _clean;
+              }).ConfigureAwait(false);
 
 
-                //using (var client = new SftpClient(ShareServer.IP.ToString(), ShareServer.User, ShareServer.Password))
-                //{
-                //    //lblMsg.Text = "Connecting the server.";
-                //    client.Connect();
-                //    //lblMsg.Text = "Server Connected!";
-                //    Status = AppBotStatus.PENDINGUPDATE;
-                //    _clean = readDir(client, "/media/shares/APPS_CS/", Code.ToLower());
-                //    client.Disconnect();
-                //}
+            //using (var client = new SftpClient(ShareServer.IP.ToString(), ShareServer.User, ShareServer.Password))
+            //{
+            //    //lblMsg.Text = "Connecting the server.";
+            //    client.Connect();
+            //    //lblMsg.Text = "Server Connected!";
+            //    Status = AppBotStatus.PENDINGUPDATE;
+            //    _clean = readDir(client, "/media/shares/APPS_CS/", Code.ToLower());
+            //    client.Disconnect();
+            //}
 
-            }
-            );
-            if (_clean)
-                Activate();
-            return;
+
         }
 
-        public void Activate()
+        public bool CheckUpdateSync()
+        {
+            bool _clean = true;
+            //_clean = readDir("/APPS_CS/", Code.ToLower());
+            using (var client = new SftpClient(ShareServer.IP.ToString(), ShareServer.User, ShareServer.Password))
+            {
+                client.Connect();
+                _clean = readDirSSH(client,"/APPS_CS/", Code.ToLower());
+            }
+            return _clean;
+        }
+
+        private bool readDir(string basePath, string relativePath)
+        {
+            bool _clean = true;
+            List<DirectoryItem> list;
+            using (var ftp = new cFTP(ShareServer, basePath + relativePath))
+            {
+                list = ftp.GetDirectoryList("", getDateTimes: true);
+            }
+            list.Where(x => x.IsDirectory).ToList().ForEach(a =>
+            {
+                _clean = (readDir(basePath, relativePath + "/" + a.Name) && _clean);
+            });
+            list.Where(x => !x.IsDirectory).ToList().ForEach(a =>
+            {
+                if (File.Exists("c:/ESPACK_CS/" + relativePath + "/" + a.Name))
+                {
+                    if (File.GetLastWriteTime("c:/ESPACK_CS/" + relativePath + "/" + a.Name) != a.DateCreated)
+                    {
+                        Status = AppBotStatus.PENDINGUPDATE;
+                        Values.UpdateList.Add(new cUpdateListItem()
+                        {
+                            Parent = this,
+                               //ServerPath = basePath + relativePath + "/" + a.Name,
+                               LocalPath = "c:/ESPACK_CS/" + relativePath + "/" + a.Name,
+                            Item = a,
+                            Status = LogonItemUpdateStatus.PENDING
+                        });
+                        _clean = false;
+                    }
+                }
+                else
+                {
+                    Status = AppBotStatus.PENDINGUPDATE;
+                    Values.UpdateList.Add(new cUpdateListItem()
+                    {
+                        Parent = this,
+                           //ServerPath = basePath + relativePath + "/" + a.Name,
+                           LocalPath = "c:/ESPACK_CS/" + relativePath + "/" + a.Name,
+                        Item = a,
+                        Status = LogonItemUpdateStatus.PENDING
+                    });
+                    _clean = false;
+                }
+            });
+
+
+            return _clean;
+        }
+
+
+        public void Activate(bool status)
         {
 
             try
             {
                 if (this.prgApp.InvokeRequired)
                 {
-                    ActivateCallback a = new ActivateCallback(Activate);
-                    this.Invoke(a);
+                    ActivateCallback a = new ActivateCallback( Activate);
+                    this.Invoke(a, new object[] { status });
                 } else
                 {
-                    this.Status = AppBotStatus.UPDATED;
-                    prgApp.MarqueeAnimationSpeed = 0;
-                    prgApp.Style = ProgressBarStyle.Continuous;
-                    prgApp.Visible = false;
+                    if (status)
+                    {
+                        this.Status = AppBotStatus.UPDATED;
+                        prgApp.MarqueeAnimationSpeed = 0;
+                        prgApp.Style = ProgressBarStyle.Continuous;
+                        prgApp.Visible = false;
+                    }
+                    else
+                    {
+                        Status = AppBotStatus.CHECKING;
+                        prgApp.Style = ProgressBarStyle.Marquee;
+                        prgApp.Value = 0;
+                        prgApp.Minimum = 0;
+                        prgApp.Maximum = 50;
+                        prgApp.MarqueeAnimationSpeed = 50;
+                        prgApp.Visible = true;
+                    }
                 }
             }
             catch (Exception ex)
@@ -230,7 +303,7 @@ namespace LogOn
             }
         }
 
-        private bool readDir(SftpClient client, string basePath, string relativePath)
+        private bool readDirSSH(SftpClient client, string basePath, string relativePath)
         {
             bool _clean = true;
             client.ChangeDirectory(basePath + relativePath);
@@ -239,7 +312,7 @@ namespace LogOn
             {
                 if (item.Attributes.IsDirectory)
                 {
-                    _clean = readDir(client, basePath, relativePath + "/" + item.Name) && _clean;
+                    _clean = readDirSSH(client, basePath, relativePath + "/" + item.Name) && _clean;
                 }
                 else
                 {
@@ -250,7 +323,7 @@ namespace LogOn
                             Values.UpdateList.Add(new cUpdateListItem()
                             {
                                 Parent = this,
-                                ServerPath = basePath + relativePath + "/" + item.Name,
+                                Item = new DirectoryItem() {Server = ShareServer, DateCreated=item.LastWriteTime, IsDirectory=item.IsDirectory, Name=item.Name, BaseUri=new UriBuilder(basePath + relativePath + "/" + item.Name).Uri },
                                 LocalPath = "c:/ESPACK_CS/" + relativePath + "/" + item.Name,
                                 Status = LogonItemUpdateStatus.PENDING
                             });
@@ -262,7 +335,7 @@ namespace LogOn
                         Values.UpdateList.Add(new cUpdateListItem()
                         {
                             Parent = this,
-                            ServerPath = basePath + relativePath + "/" + item.Name,
+                            Item = new DirectoryItem() { Server = ShareServer, DateCreated = item.LastWriteTime, IsDirectory = item.IsDirectory, Name = item.Name, BaseUri = new UriBuilder(basePath + relativePath + "/" + item.Name).Uri },
                             LocalPath = "c:/ESPACK_CS/" + relativePath + "/" + item.Name,
                             Status = LogonItemUpdateStatus.PENDING
                         });

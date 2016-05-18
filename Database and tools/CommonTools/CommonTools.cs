@@ -11,6 +11,7 @@ using System.DirectoryServices.AccountManagement;
 using System.Text;
 using System.Linq;
 using System.Globalization;
+using System.Net;
 //using ADODB;
 namespace CommonTools
 {
@@ -343,8 +344,9 @@ namespace CommonTools
         public string OrderString;
     }
 
-    public struct DirectoryItem
+    public class DirectoryItem
     {
+        
         public Uri BaseUri;
 
         public string AbsolutePath
@@ -354,13 +356,54 @@ namespace CommonTools
                 return string.Format("{0}/{1}", BaseUri, Name);
             }
         }
-
+        public Uri Uri
+        {
+            get
+            {
+                return new UriBuilder(AbsolutePath).Uri;
+            }
+        }
+        public cServer Server; 
         public DateTime DateCreated;
         public bool IsDirectory;
         public string Name;
         public List<DirectoryItem> Items;
     }
+    // Class cServer -> there are two types: DATABASE and SHARE
+    public class cServer
+    {
+        public string HostName { get; set; }
+        public IPAddress IP { get; set; }
+        public ServerTypes Type { get; set; }
+        public string COD3 { get; set; }
+        public string User { get; set; }
+        public string Password { get; set; }
+    }
 
+    public enum ServerTypes { SHARE, DATABASE }
+    // Class cServerList
+    public class cServerList
+    {
+        public List<cServer> ServerList { get; set; } = new List<cServer>();
+        public ServerTypes ListType { get; set; }
 
+        public cServer this[string COD3]
+        {
+            get
+            {
+                return ServerList.FirstOrDefault(x => x.COD3 == COD3);
+            }
+        }
+
+        public cServerList(ServerTypes pServerType)
+        {
+            ListType = pServerType;
+        }
+
+        public void Add(cServer pServer)
+        {
+            ServerList.Add(pServer);
+        }
+    }
 
 }
