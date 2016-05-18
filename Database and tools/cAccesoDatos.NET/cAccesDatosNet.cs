@@ -322,6 +322,12 @@ namespace AccesoDatosNet
         {
             get;
         }
+
+        public List<object> ToList()
+        {
+            return getList();
+        }
+
         public bool HasRows {get ;set; }
         public bool AutoUpdate { get; set; }
         public abstract SqlCommand Cmd { get; set; }
@@ -668,7 +674,10 @@ namespace AccesoDatosNet
             }
         }
 
-
+        public new List<DataRow> ToList()
+        {
+            return mDS.Tables["Result"].AsEnumerable().ToList();
+        }
         public override object DataObject
         {
             get
@@ -815,6 +824,7 @@ namespace AccesoDatosNet
             //var _list = new List<DbDataRecord>();
             var rows = new string[RecordCount];
             int i = 0;
+            
             foreach (DataRow dataRow in mDS.Tables["Result"].Rows)
             {
                 rows[i]= string.Join(";", dataRow.ItemArray.Select(item => item.ToString()));
@@ -1313,42 +1323,9 @@ namespace AccesoDatosNet
         }
     }
 
-    // Class cServer -> there are two types: DATABASE and SHARE
-    public class cServer
-    {
-        public string HostName { get; set; }
-        public IPAddress IP { get; set; }
-        public ServerTypes Type { get; set; }
-        public string COD3 { get; set; }
-        public string User { get; set; }
-        public string Password { get; set; }
-    }
 
-    // Class cServerList
-    public class cServerList
-    {
-        public List<cServer> ServerList { get; set; } = new List<cServer>();
-        public ServerTypes ListType { get; set; }
 
-        public cServer this[string COD3]
-        {
-            get
-            {
-                return ServerList.FirstOrDefault(x => x.COD3 == COD3);
-            }
-        }
 
-        public cServerList(ServerTypes pServerType)
-        {
-            ListType = pServerType;
-        }
 
-        public void Add(cServer pServer)
-        {
-            ServerList.Add(pServer);
-        }
-    }
-
-    public enum ServerTypes { SHARE, DATABASE }
 
 }
