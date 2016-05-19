@@ -45,7 +45,9 @@ namespace FTP
             var result = DirectoryList.Cast<Match>().Select(match => new DirectoryItem() { BaseUri = request.RequestUri, Name = match.Value.Substring(55).Replace("\r\n", ""), IsDirectory = (match.Value.Substring(0, 1) == "d"), Server = server }).ToList();
             if (getDateTimes)
             {
-                result.Where(x => !x.IsDirectory).ToList().ForEach(e => getItemDateTime(e));
+                result
+                    //.Where(x => !x.IsDirectory)
+                    .ToList().ForEach(e => getItemDateTime(e));
             }
 
 
@@ -56,8 +58,10 @@ namespace FTP
         public static void getItemDateTime(DirectoryItem d)
         {
             DateTime DateValue;
-
-            FtpWebRequest Request = (FtpWebRequest)WebRequest.Create(d.AbsolutePath);
+            var _path = d.AbsolutePath;
+            if (d.IsDirectory)
+                _path += "/.";
+            FtpWebRequest Request = (FtpWebRequest)WebRequest.Create(_path);
             Request.Credentials = new NetworkCredential(d.Server.User, d.Server.Password);
             Request.Method = WebRequestMethods.Ftp.GetDateTimestamp;
             Request.UseBinary = false;

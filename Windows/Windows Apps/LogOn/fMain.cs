@@ -29,7 +29,7 @@ namespace LogOn
         public ToolStripStatusLabel Panel4;
         private int _zone = 0;
         public List<cUpdaterThread> UpdatingThreads = new List<cUpdaterThread>();
-        public const int NUMTHREADS = 4;
+        public const int NUMTHREADS = 8;
         delegate void gbDebugCallBack(Control c);
         // Main
         public fMain(string[] args)
@@ -117,14 +117,17 @@ namespace LogOn
         protected override void OnResize (EventArgs e)
         {
             base.OnResize(e);
-            var _numApps = Values.AppList.Count;
-            if (_numApps == 0)
-                return;
-            int _numColumns = gbApps.Width / cAppBot.GROUP_WIDTH;
-            tlpApps.AutoScroll = false;
-            tlpApps.ColumnCount = _numColumns;
-            tlpApps.RowCount = Convert.ToInt16(Math.Ceiling(Convert.ToDouble(_numApps) / Convert.ToDouble(_numColumns)));
-            tlpApps.AutoScroll = true;
+            if (this.WindowState!= FormWindowState.Minimized)
+            {
+                var _numApps = Values.AppList.Count;
+                if (_numApps == 0)
+                    return;
+                int _numColumns = gbApps.Width / cAppBot.GROUP_WIDTH;
+                tlpApps.AutoScroll = false;
+                tlpApps.ColumnCount = _numColumns;
+                tlpApps.RowCount = Convert.ToInt16(Math.Ceiling(Convert.ToDouble(_numApps) / Convert.ToDouble(_numColumns)));
+                tlpApps.AutoScroll = true;
+            }
         }
 
         // Add the toolbar dynamically: we did not find the way to add separators in design time.
@@ -186,30 +189,18 @@ namespace LogOn
             
             if (Values.AppList.PendingApps.Count != 0)
             {
+                var debugBox = new DebugTextbox();
+                debugBox.Dock = System.Windows.Forms.DockStyle.Bottom;
+                debugBox.Location = new System.Drawing.Point(3, 411);
+                debugBox.Multiline = true;
+                debugBox.Size = new System.Drawing.Size(300, 98);
+                debugBox.TabIndex = 3;
+                gbDebugAdd(debugBox);
                 for (var i = 0; i < NUMTHREADS; i++)
                 {
-                    var debugBox = new DebugTextbox();
-                    debugBox.Dock = System.Windows.Forms.DockStyle.Left;
-                    debugBox.Location = new System.Drawing.Point(3, 411);
-                    debugBox.Multiline = true;
-                    debugBox.Size = new System.Drawing.Size(300, 98);
-                    debugBox.TabIndex = 3;
-
-
-                    gbDebugAdd(debugBox);
-                    //var infotextbox = new TextBox() { Multiline = true, Location = new Point(0 + 250 * i, 500), Size = new Size(250, 250) };
-                    //gbApps.Controls.Add(infotextbox);
-                    var _thread = new cUpdaterThread(debugBox);
+                    Values.ActiveThreads++;
+                    var _thread = new cUpdaterThread(debugBox, Values.ActiveThreads);
                     this.UpdatingThreads.Add(_thread);
-                    //try
-                    //{
-                    //    _thread.Process();
-                    //}
-                    //catch (Exception ex)
-                    //{
-                    //    throw;
-                    //}
-
                     new Thread(new ThreadStart(_thread.Process)).Start();
 
                 }
@@ -261,7 +252,9 @@ namespace LogOn
             using (var _RS = new DynamicRS("select Code=s.codigo,Description=s.descripcion,DB=s.base_datos,ExeName=s.app,Zone=s.sede from general..Permiso_Servicios p inner join general..servicios s on s.codigo=p.codigo where p.LoginSql= '" + Values.User + "' and general.dbo.checkFlag(flags,'OBS')=0", Values.gDatos))
             {
                 _RS.Open();
-                _RS.ToList().ForEach(x =>
+                _RS.ToList()
+                    //.Where(a => a["Code"].ToString()=="LOGISTICA").ToList()
+                    .ForEach(x =>
                 //var x = _RS.ToList().FirstOrDefault();
                 {
                     Values.AppList.Add(new cAppBot(x["Code"].ToString(), x["Description"].ToString(), x["DB"].ToString(), x["ExeName"].ToString(), x["Zone"].ToString(), Values.DBServerList[x["Zone"].ToString()], Values.ShareServerList[Values.COD3]));
@@ -331,6 +324,8 @@ namespace LogOn
         public static cAppList AppList=new cAppList();
         public static string COD3="";
         public static cUpdateList UpdateList = new cUpdateList();
+        public static cUpdateList UpdateDir = new cUpdateList();
+        public static int ActiveThreads=0;
     }
 
     public class DebugTextbox : TextBox
@@ -341,7 +336,7 @@ namespace LogOn
             Multiline = true;
         }
         delegate void AppendTextCallback(string text);
-
+        delegate void DisposeCallBack();
         public new void AppendText(string text)
         {
             if (this.InvokeRequired)
@@ -352,6 +347,18 @@ namespace LogOn
             else
             {
                 base.AppendText(text);
+            }
+        }
+        public new void Dispose()
+        {
+            if (this.InvokeRequired)
+            {
+                DisposeCallBack a = new DisposeCallBack(Dispose);
+                this.Invoke(a);
+            }
+            else
+            {
+                base.Dispose();
             }
         }
     }
