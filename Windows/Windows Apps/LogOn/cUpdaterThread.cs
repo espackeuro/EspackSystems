@@ -6,6 +6,9 @@ using Renci.SshNet;
 using System.IO;
 using CommonTools;
 using FTP;
+using System.Net.FtpClient;
+using System.Net;
+
 namespace LogOn
 
 {
@@ -24,30 +27,32 @@ namespace LogOn
 
     }
 
-    public class cUpdaterThread
+    public class cUpdaterThread: IDisposable
     {
         private SftpClient Client { get; set; }
         private cServer Server { get; set; }
         private DebugTextbox debug { get; set; }
+        public int NumThread { get; set; } 
         delegate void AppendTextCallback(string text);
 
-        public cUpdaterThread(DebugTextbox pDebug =null)
+        public cUpdaterThread(DebugTextbox pDebug =null, int pNum=0)
         {
             debug = pDebug;
+            NumThread = pNum;
         }
 
-        public cUpdateListItem stealOne(cUpdaterThread pThread)
+        public cUpdateListItem stealOne(cUpdaterThread pThread, cUpdateList pList)
         {
             //semaforo
             cUpdateListItem _item;
             try
             {
-                _item = Values.UpdateList.OrderBy(x => x.Parent.Code).First(x => x.Status == LogonItemUpdateStatus.PENDING);
+                _item = pList.OrderBy(x => x.Parent.Code).First(x => x.Status == LogonItemUpdateStatus.PENDING);
                 _item.Thread = pThread;
                 _item.Status = LogonItemUpdateStatus.UPDATING;
                 if (debug!=null)
                 {
-                    AppendDebugText("Updating " + _item.LocalPath+"\n");
+                    AppendDebugText(string.Format("Thread {0} Updating {1}\n",NumThread, _item.LocalPath));
                 }
             }
             catch (Exception ex)
@@ -78,6 +83,79 @@ namespace LogOn
                 throw ex;
             }
         }
+        //ftp client
+        //public async void Process()
+        //{
+        //    using (var client = new FtpClient())
+        //    {
+        //        client.Host = Values.ShareServerList[Values.COD3].IP.ToString();
+        //        client.Credentials = new NetworkCredential(Values.ShareServerList[Values.COD3].User, Values.ShareServerList[Values.COD3].Password);
+        //        while (Values.AppList.PendingApps.Count != 0 || Values.AppList.CheckingApps.Count != 0)
+        //        {
+        //            cUpdateListItem _item;
+        //            try
+        //            {
+        //                _item = stealOne(this, Values.UpdateList);
+        //                var _path = Path.GetDirectoryName(_item.LocalPath);
+        //                if (!Directory.Exists(_path))
+        //                    Directory.CreateDirectory(_path);
+        //                using (var ftpStream = client.OpenRead(_item.Item.AbsolutePath.Replace("ftp://" + client.Host, "")))
+        //                using (var fileStream = File.Create(_item.LocalPath, (int)ftpStream.Length))
+        //                {
+        //                    var buffer = new byte[8 * 1024];
+        //                    int count;
+        //                    while ((count = ftpStream.Read(buffer, 0, buffer.Length)) > 0)
+        //                    {
+        //                        fileStream.Write(buffer, 0, count);
+        //                    }
+        //                }
+        //                _item.Status = LogonItemUpdateStatus.UPDATED;
+        //                if (_item.Parent.UpdatedItems.Count == _item.Parent.Items.Count())
+        //                {
+        //                    _item.Parent.Activate(true);
+        //                }
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                if (debug != null)
+        //                {
+        //                    AppendDebugText("Waiting " + ex.Message + "\n");
+        //                }
+        //                System.Threading.Thread.Sleep(500);
+
+        //            }
+        //        }
+        //    }
+        //    if (Values.ActiveThreads == 1)
+        //    {
+        //        while (Values.UpdateDir.Where(x => x.Status == LogonItemUpdateStatus.PENDING).ToList().Count != 0)
+        //        {
+        //            if (debug != null)
+        //                AppendDebugText("Syncing directories.\n");
+        //            cUpdateListItem _item;
+        //            try
+        //            {
+        //                _item = stealOne(this, Values.UpdateDir);
+        //                Directory.SetLastWriteTime(_item.LocalPath, _item.Item.DateCreated);
+        //                _item.Status = LogonItemUpdateStatus.UPDATED;
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                if (debug != null)
+        //                {
+        //                    AppendDebugText(ex.Message + "\n");
+        //                }
+        //                System.Threading.Thread.Sleep(500);
+
+        //            }
+        //        }
+        //    }
+        //    Values.ActiveThreads--;
+
+        //}
+
+
+        //ftp normal
         public async void Process()
         {
             while (Values.AppList.PendingApps.Count != 0 || Values.AppList.CheckingApps.Count != 0)
@@ -85,7 +163,7 @@ namespace LogOn
                 cUpdateListItem _item;
                 try
                 {
-                    _item = stealOne(this);
+                    _item = stealOne(this, Values.UpdateList);
                     using (var ftp = new cFTP(Values.ShareServerList[Values.COD3], ""))
                     {
                         ftp.DownloadItem(_item.Item, _item.LocalPath);
@@ -95,18 +173,59 @@ namespace LogOn
                     {
                         _item.Parent.Activate(true);
                     }
-                } catch (Exception ex)
+                }
+                catch (InvalidOperationException)
                 {
                     if (debug != null)
                     {
-                        AppendDebugText("Waiting "+ex.Message+"\n");
+                        AppendDebugText(string.Format("Thread {0} Done.\n", NumThread));
+                        Values.ActiveThreads--;
+                        this.Dispose();
                     }
                     System.Threading.Thread.Sleep(500);
-                    
-                } 
-                
+                }
+                catch (Exception ex)
+                {
+                    if (debug != null)
+                    {
+                        AppendDebugText(string.Format("Thread {0} Waiting {1}\n",NumThread,ex.Message));
+                    }
+                    System.Threading.Thread.Sleep(500);
 
+                }
             }
+            if (Values.ActiveThreads == 1)
+            {
+                while (Values.UpdateDir.Where(x => x.Status == LogonItemUpdateStatus.PENDING).ToList().Count != 0)
+                {
+                    if (debug != null)
+                        AppendDebugText(string.Format("Thread {0} Syncing directories.\n",NumThread));
+                    cUpdateListItem _item;
+                    try
+                    {
+                        _item = stealOne(this, Values.UpdateDir);
+                        Directory.SetLastWriteTime(_item.LocalPath, _item.Item.DateCreated);
+                        _item.Status = LogonItemUpdateStatus.UPDATED;
+                    }
+                    catch (Exception ex)
+                    {
+                        if (debug != null)
+                        {
+                            AppendDebugText(ex.Message + "\n");
+                        }
+                        System.Threading.Thread.Sleep(500);
+
+                    }
+                }
+            }
+            Values.ActiveThreads--;
+            this.Dispose();
+        }
+
+        public void Dispose()
+        {
+            if (Values.ActiveThreads==0)
+                debug.Dispose();
         }
 
         //public async void Process()

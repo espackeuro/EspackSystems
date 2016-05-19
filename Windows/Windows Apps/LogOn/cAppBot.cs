@@ -16,7 +16,7 @@ using System.ComponentModel;
 using System.Globalization;
 using FTP;
 using CommonTools;
-
+using System.Net.FtpClient;
 namespace LogOn
 {
     public enum AppBotStatus { CHECKING, PENDINGUPDATE, UPDATED}
@@ -185,37 +185,128 @@ namespace LogOn
                   
 
                   bool _clean = true;
+                  // ftp way
+                  //_clean = readDir("/APPS_CS/", Code.ToLower());
+                  //end ftp
+                  //ssh way
+                  //using (var client = new SftpClient(ShareServer.IP.ToString(), ShareServer.User, ShareServer.Password))
+                  //{
+                  //    client.Connect();
+                  //    _clean = readDirSSH(client, "/media/shares/APPS_CS/", Code.ToLower(), true);
+                  //}
+                  //end ssh
 
-                  _clean = readDir("/APPS_CS/", Code.ToLower());
-
+                  //ftpClient way
+                  using (var client = new FtpClient())
+                  {
+                      client.Host = ShareServer.IP.ToString();
+                      client.Credentials = new NetworkCredential(ShareServer.User, ShareServer.Password);
+                      client.DataConnectionType = FtpDataConnectionType.AutoActive;
+                      client.Connect();
+                      _clean = readDirFTP(client, "/APPS_CS/", Code.ToLower());
+                  }
                   return _clean;
               }).ConfigureAwait(false);
 
-
-            //using (var client = new SftpClient(ShareServer.IP.ToString(), ShareServer.User, ShareServer.Password))
-            //{
-            //    //lblMsg.Text = "Connecting the server.";
-            //    client.Connect();
-            //    //lblMsg.Text = "Server Connected!";
-            //    Status = AppBotStatus.PENDINGUPDATE;
-            //    _clean = readDir(client, "/media/shares/APPS_CS/", Code.ToLower());
-            //    client.Disconnect();
-            //}
-
-
         }
-
-        public bool CheckUpdateSync()
+        private bool readDirFTP(FtpClient client, string basePath, string relativePath, bool _checkFiles=true)
         {
             bool _clean = true;
-            //_clean = readDir("/APPS_CS/", Code.ToLower());
-            using (var client = new SftpClient(ShareServer.IP.ToString(), ShareServer.User, ShareServer.Password))
+            //client.ChangeDirectory(basePath + relativePath);
+            var _path = basePath + relativePath;
+
+
+
+
+            var list = client.GetListing(_path);
+
+
+            list.Where(x => x.Type == FtpFileSystemObjectType.Directory).ToList().ForEach(a => 
             {
-                client.Connect();
-                _clean = readDirSSH(client,"/APPS_CS/", Code.ToLower());
+                bool _condition = !Directory.Exists("c:/ESPACK_CS/" + relativePath + "/" + a.Name);
+                if (_condition == false)
+                    _condition = (a.Modified != Directory.GetLastWriteTime("c:/ESPACK_CS/" + relativePath + "/" + a.Name));
+                if (_condition)
+                {
+                    Values.UpdateDir.Add(new cUpdateListItem()
+                    {
+                        Parent = this,
+                        Item = new DirectoryItem()
+                        {
+                            Server = ShareServer,
+                            DateCreated = a.Modified,
+                            IsDirectory = true,
+                            Name = ".",
+                            BaseUri = new UriBuilder("ftp://" + ShareServer.IP.ToString() + "/APPS_CS/" + relativePath + "/" + a.Name).Uri
+                        },
+                        LocalPath = "c:/ESPACK_CS/" + relativePath + "/" + a.Name,
+                        Status = LogonItemUpdateStatus.PENDING
+                    });
+                }
+                _clean = readDirFTP(client, basePath, relativePath + "/" + a.Name, _condition) && _clean;
+            });
+
+            if (_checkFiles)
+            {
+                list.Where(x => x.Type == FtpFileSystemObjectType.File).ToList().ForEach(a =>
+                {
+                    if (File.Exists("c:/ESPACK_CS/" + relativePath + "/" + a.Name))
+                    {
+                        Status = AppBotStatus.PENDINGUPDATE;
+                        if (File.GetLastWriteTime("c:/ESPACK_CS/" + relativePath + "/" + a.Name) != a.Modified)
+                        {
+                            Values.UpdateList.Add(new cUpdateListItem()
+                            {
+                                Parent = this,
+                                Item = new DirectoryItem()
+                                {
+                                    Server = ShareServer,
+                                    DateCreated = a.Modified,
+                                    IsDirectory = false,
+                                    Name = a.Name,
+                                    BaseUri = new UriBuilder("ftp://" + ShareServer.IP.ToString() + "/APPS_CS/" + relativePath).Uri
+                                },
+                                LocalPath = "c:/ESPACK_CS/" + relativePath + "/" + a.Name,
+                                Status = LogonItemUpdateStatus.PENDING
+                            });
+                            _clean = false;
+                        }
+                    }
+                    else
+                    {
+                        Status = AppBotStatus.PENDINGUPDATE;
+                        Values.UpdateList.Add(new cUpdateListItem()
+                        {
+                            Parent = this,
+                            Item = new DirectoryItem()
+                            {
+                                Server = ShareServer,
+                                DateCreated = a.Modified,
+                                IsDirectory = false,
+                                Name = a.Name,
+                                BaseUri = new UriBuilder("ftp://" + ShareServer.IP.ToString() + "/APPS_CS/" + relativePath).Uri
+                            },
+                            LocalPath = "c:/ESPACK_CS/" + relativePath + "/" + a.Name,
+                            Status = LogonItemUpdateStatus.PENDING
+                        });
+                        _clean = false;
+                    }
+
+                });
             }
             return _clean;
         }
+        //public bool CheckUpdateSync()
+        //{
+        //    bool _clean = true;
+        //    //_clean = readDir("/APPS_CS/", Code.ToLower());
+        //    using (var client = new SftpClient(ShareServer.IP.ToString(), ShareServer.User, ShareServer.Password))
+        //    {
+        //        client.Connect();
+        //        _clean = readDirSSH(client,"/APPS_CS/", Code.ToLower(),true);
+        //    }
+        //    return _clean;
+        //}
 
         private bool readDir(string basePath, string relativePath)
         {
@@ -240,7 +331,7 @@ namespace LogOn
                         {
                             Parent = this,
                                //ServerPath = basePath + relativePath + "/" + a.Name,
-                               LocalPath = "c:/ESPACK_CS/" + relativePath + "/" + a.Name,
+                            LocalPath = "c:/ESPACK_CS/" + relativePath + "/" + a.Name,
                             Item = a,
                             Status = LogonItemUpdateStatus.PENDING
                         });
@@ -303,7 +394,7 @@ namespace LogOn
             }
         }
 
-        private bool readDirSSH(SftpClient client, string basePath, string relativePath)
+        private bool readDirSSH(SftpClient client, string basePath, string relativePath, bool checkFiles)
         {
             bool _clean = true;
             client.ChangeDirectory(basePath + relativePath);
@@ -312,18 +403,48 @@ namespace LogOn
             {
                 if (item.Attributes.IsDirectory)
                 {
-                    _clean = readDirSSH(client, basePath, relativePath + "/" + item.Name) && _clean;
+                    var _check = false;
+                    var _condition = !Directory.Exists("c:/ESPACK_CS/" + relativePath + "/" + item.Name);
+                    if (_condition == false)
+                        _condition = (item.LastWriteTime != Directory.GetLastWriteTime("c:/ESPACK_CS/" + relativePath + "/" + item.Name));
+                    if (_condition)
+                    {
+                        Values.UpdateDir.Add(new cUpdateListItem()
+                        {
+                            Parent = this,
+                            Item = new DirectoryItem()
+                            {
+                                Server = ShareServer,
+                                DateCreated = item.LastWriteTime,
+                                IsDirectory = item.IsDirectory,
+                                Name = item.Name,
+                                BaseUri = new UriBuilder("ftp://" + ShareServer.IP.ToString() + "/APPS_CS/" + relativePath + "/").Uri
+                            },
+                            LocalPath = "c:/ESPACK_CS/" + relativePath + "/" + item.Name,
+                            Status = LogonItemUpdateStatus.PENDING
+                        });
+                        _check = true;
+                    }
+                    _clean = readDirSSH(client, basePath, relativePath + "/" + item.Name,_check) && _clean;
                 }
-                else
+                else if (checkFiles)
                 {
                     if (File.Exists("c:/ESPACK_CS/" + relativePath + "/" + item.Name))
                     {
+                        Status = AppBotStatus.PENDINGUPDATE;
                         if (File.GetCreationTime("c:/ESPACK_CS/" + relativePath + "/" + item.Name) != item.Attributes.LastWriteTime)
                         {
                             Values.UpdateList.Add(new cUpdateListItem()
                             {
                                 Parent = this,
-                                Item = new DirectoryItem() {Server = ShareServer, DateCreated=item.LastWriteTime, IsDirectory=item.IsDirectory, Name=item.Name, BaseUri=new UriBuilder(basePath + relativePath + "/" + item.Name).Uri },
+                                Item = new DirectoryItem()
+                                {
+                                    Server = ShareServer,
+                                    DateCreated = item.LastWriteTime,
+                                    IsDirectory = item.IsDirectory,
+                                    Name = item.Name,
+                                    BaseUri = new UriBuilder("ftp://" + ShareServer.IP.ToString() + "/APPS_CS/" + relativePath + "/").Uri
+                                },
                                 LocalPath = "c:/ESPACK_CS/" + relativePath + "/" + item.Name,
                                 Status = LogonItemUpdateStatus.PENDING
                             });
@@ -332,10 +453,18 @@ namespace LogOn
                     }
                     else
                     {
+                        Status = AppBotStatus.PENDINGUPDATE;
                         Values.UpdateList.Add(new cUpdateListItem()
                         {
                             Parent = this,
-                            Item = new DirectoryItem() { Server = ShareServer, DateCreated = item.LastWriteTime, IsDirectory = item.IsDirectory, Name = item.Name, BaseUri = new UriBuilder(basePath + relativePath + "/" + item.Name).Uri },
+                            Item = new DirectoryItem()
+                            {
+                                Server = ShareServer,
+                                DateCreated = item.LastWriteTime,
+                                IsDirectory = item.IsDirectory,
+                                Name = item.Name,
+                                BaseUri = new UriBuilder("ftp://" + ShareServer.IP.ToString() + "/APPS_CS/" + relativePath + "/").Uri
+                            },
                             LocalPath = "c:/ESPACK_CS/" + relativePath + "/" + item.Name,
                             Status = LogonItemUpdateStatus.PENDING
                         });
