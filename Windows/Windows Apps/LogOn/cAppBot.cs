@@ -529,6 +529,12 @@ namespace LogOn
             AppList.Add(pApp);
         }
 
+        public void Clear()
+        {
+            AppList.Clear();
+        }
+
+
         public IEnumerator<cAppBot> GetEnumerator()
         {
             return ((IEnumerable<cAppBot>)AppList).GetEnumerator();

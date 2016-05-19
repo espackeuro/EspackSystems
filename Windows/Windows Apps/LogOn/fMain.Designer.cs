@@ -29,11 +29,18 @@
         private void InitializeComponent()
         {
             this.gbCredentials = new System.Windows.Forms.GroupBox();
+            this.btnCancelChange = new System.Windows.Forms.Button();
+            this.btnOKChange = new System.Windows.Forms.Button();
+            this.btnChange = new System.Windows.Forms.Button();
+            this.txtNewPINConfirm = new EspackFormControls.EspackMaskedTextBox();
+            this.txtNewPIN = new EspackFormControls.EspackMaskedTextBox();
+            this.txtNewPasswordConfirm = new EspackFormControls.EspackTextBox();
+            this.txtNewPassword = new EspackFormControls.EspackTextBox();
             this.btnOk = new System.Windows.Forms.Button();
-            this.gbApps = new System.Windows.Forms.GroupBox();
-            this.tlpApps = new System.Windows.Forms.TableLayoutPanel();
             this.txtPassword = new EspackFormControls.EspackTextBox();
             this.txtUser = new EspackFormControls.EspackTextBox();
+            this.gbApps = new System.Windows.Forms.GroupBox();
+            this.tlpApps = new System.Windows.Forms.TableLayoutPanel();
             this.gbDebug = new System.Windows.Forms.GroupBox();
             this.gbCredentials.SuspendLayout();
             this.gbApps.SuspendLayout();
@@ -44,6 +51,13 @@
             this.gbCredentials.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gbCredentials.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.gbCredentials.Controls.Add(this.btnCancelChange);
+            this.gbCredentials.Controls.Add(this.btnOKChange);
+            this.gbCredentials.Controls.Add(this.btnChange);
+            this.gbCredentials.Controls.Add(this.txtNewPINConfirm);
+            this.gbCredentials.Controls.Add(this.txtNewPIN);
+            this.gbCredentials.Controls.Add(this.txtNewPasswordConfirm);
+            this.gbCredentials.Controls.Add(this.txtNewPassword);
             this.gbCredentials.Controls.Add(this.btnOk);
             this.gbCredentials.Controls.Add(this.txtPassword);
             this.gbCredentials.Controls.Add(this.txtUser);
@@ -53,45 +67,170 @@
             this.gbCredentials.TabIndex = 0;
             this.gbCredentials.TabStop = false;
             // 
+            // btnCancelChange
+            // 
+            this.btnCancelChange.Location = new System.Drawing.Point(923, 17);
+            this.btnCancelChange.Name = "btnCancelChange";
+            this.btnCancelChange.Size = new System.Drawing.Size(75, 27);
+            this.btnCancelChange.TabIndex = 26;
+            this.btnCancelChange.Text = "Cancel";
+            this.btnCancelChange.UseVisualStyleBackColor = true;
+            this.btnCancelChange.Visible = false;
+            this.btnCancelChange.Click += new System.EventHandler(this.btnCancelChange_Click);
+            // 
+            // btnOKChange
+            // 
+            this.btnOKChange.Location = new System.Drawing.Point(842, 17);
+            this.btnOKChange.Name = "btnOKChange";
+            this.btnOKChange.Size = new System.Drawing.Size(75, 27);
+            this.btnOKChange.TabIndex = 25;
+            this.btnOKChange.Text = "Ok";
+            this.btnOKChange.UseVisualStyleBackColor = true;
+            this.btnOKChange.Visible = false;
+            this.btnOKChange.Click += new System.EventHandler(this.btnOKChange_Click);
+            // 
+            // btnChange
+            // 
+            this.btnChange.Location = new System.Drawing.Point(325, 17);
+            this.btnChange.Name = "btnChange";
+            this.btnChange.Size = new System.Drawing.Size(75, 27);
+            this.btnChange.TabIndex = 24;
+            this.btnChange.Text = "Change";
+            this.btnChange.UseVisualStyleBackColor = true;
+            this.btnChange.Visible = false;
+            this.btnChange.Click += new System.EventHandler(this.btnChange_Click);
+            // 
+            // txtNewPINConfirm
+            // 
+            this.txtNewPINConfirm.Add = false;
+            this.txtNewPINConfirm.BackColor = System.Drawing.Color.White;
+            this.txtNewPINConfirm.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtNewPINConfirm.Caption = "Confirm";
+            this.txtNewPINConfirm.DBField = null;
+            this.txtNewPINConfirm.DBFieldType = null;
+            this.txtNewPINConfirm.DefaultValue = null;
+            this.txtNewPINConfirm.Del = false;
+            this.txtNewPINConfirm.DependingRS = null;
+            this.txtNewPINConfirm.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.txtNewPINConfirm.ForeColor = System.Drawing.Color.Black;
+            this.txtNewPINConfirm.Location = new System.Drawing.Point(736, 22);
+            this.txtNewPINConfirm.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
+            this.txtNewPINConfirm.Mask = "9999";
+            this.txtNewPINConfirm.Name = "txtNewPINConfirm";
+            this.txtNewPINConfirm.Order = 0;
+            this.txtNewPINConfirm.ParentConn = null;
+            this.txtNewPINConfirm.ParentDA = null;
+            this.txtNewPINConfirm.PasswordChar = '*';
+            this.txtNewPINConfirm.PK = false;
+            this.txtNewPINConfirm.PromptChar = ' ';
+            this.txtNewPINConfirm.Search = false;
+            this.txtNewPINConfirm.Size = new System.Drawing.Size(100, 17);
+            this.txtNewPINConfirm.Status = CommonTools.EnumStatus.ADDNEW;
+            this.txtNewPINConfirm.TabIndex = 23;
+            this.txtNewPINConfirm.Upp = false;
+            this.txtNewPINConfirm.Value = "";
+            this.txtNewPINConfirm.Visible = false;
+            // 
+            // txtNewPIN
+            // 
+            this.txtNewPIN.Add = false;
+            this.txtNewPIN.BackColor = System.Drawing.Color.White;
+            this.txtNewPIN.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtNewPIN.Caption = "PIN";
+            this.txtNewPIN.DBField = null;
+            this.txtNewPIN.DBFieldType = null;
+            this.txtNewPIN.DefaultValue = null;
+            this.txtNewPIN.Del = false;
+            this.txtNewPIN.DependingRS = null;
+            this.txtNewPIN.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.txtNewPIN.ForeColor = System.Drawing.Color.Black;
+            this.txtNewPIN.Location = new System.Drawing.Point(630, 22);
+            this.txtNewPIN.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
+            this.txtNewPIN.Mask = "9999";
+            this.txtNewPIN.Name = "txtNewPIN";
+            this.txtNewPIN.Order = 0;
+            this.txtNewPIN.ParentConn = null;
+            this.txtNewPIN.ParentDA = null;
+            this.txtNewPIN.PasswordChar = '*';
+            this.txtNewPIN.PK = false;
+            this.txtNewPIN.PromptChar = ' ';
+            this.txtNewPIN.Search = false;
+            this.txtNewPIN.Size = new System.Drawing.Size(100, 17);
+            this.txtNewPIN.Status = CommonTools.EnumStatus.ADDNEW;
+            this.txtNewPIN.TabIndex = 20;
+            this.txtNewPIN.Upp = false;
+            this.txtNewPIN.Value = "";
+            this.txtNewPIN.Visible = false;
+            // 
+            // txtNewPasswordConfirm
+            // 
+            this.txtNewPasswordConfirm.Add = false;
+            this.txtNewPasswordConfirm.BackColor = System.Drawing.Color.White;
+            this.txtNewPasswordConfirm.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtNewPasswordConfirm.Caption = "Confirm";
+            this.txtNewPasswordConfirm.DBField = null;
+            this.txtNewPasswordConfirm.DBFieldType = null;
+            this.txtNewPasswordConfirm.DefaultValue = null;
+            this.txtNewPasswordConfirm.Del = false;
+            this.txtNewPasswordConfirm.DependingRS = null;
+            this.txtNewPasswordConfirm.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.txtNewPasswordConfirm.ForeColor = System.Drawing.Color.Black;
+            this.txtNewPasswordConfirm.Location = new System.Drawing.Point(512, 22);
+            this.txtNewPasswordConfirm.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
+            this.txtNewPasswordConfirm.Multiline = true;
+            this.txtNewPasswordConfirm.Name = "txtNewPasswordConfirm";
+            this.txtNewPasswordConfirm.Order = 0;
+            this.txtNewPasswordConfirm.ParentConn = null;
+            this.txtNewPasswordConfirm.ParentDA = null;
+            this.txtNewPasswordConfirm.PK = false;
+            this.txtNewPasswordConfirm.Search = false;
+            this.txtNewPasswordConfirm.Size = new System.Drawing.Size(100, 17);
+            this.txtNewPasswordConfirm.Status = CommonTools.EnumStatus.EDIT;
+            this.txtNewPasswordConfirm.TabIndex = 11;
+            this.txtNewPasswordConfirm.Upp = true;
+            this.txtNewPasswordConfirm.UseSystemPasswordChar = true;
+            this.txtNewPasswordConfirm.Value = "";
+            this.txtNewPasswordConfirm.Visible = false;
+            // 
+            // txtNewPassword
+            // 
+            this.txtNewPassword.Add = false;
+            this.txtNewPassword.BackColor = System.Drawing.Color.White;
+            this.txtNewPassword.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtNewPassword.Caption = "New Password";
+            this.txtNewPassword.DBField = null;
+            this.txtNewPassword.DBFieldType = null;
+            this.txtNewPassword.DefaultValue = null;
+            this.txtNewPassword.Del = false;
+            this.txtNewPassword.DependingRS = null;
+            this.txtNewPassword.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.txtNewPassword.ForeColor = System.Drawing.Color.Black;
+            this.txtNewPassword.Location = new System.Drawing.Point(406, 22);
+            this.txtNewPassword.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
+            this.txtNewPassword.Multiline = true;
+            this.txtNewPassword.Name = "txtNewPassword";
+            this.txtNewPassword.Order = 0;
+            this.txtNewPassword.ParentConn = null;
+            this.txtNewPassword.ParentDA = null;
+            this.txtNewPassword.PK = false;
+            this.txtNewPassword.Search = false;
+            this.txtNewPassword.Size = new System.Drawing.Size(100, 17);
+            this.txtNewPassword.Status = CommonTools.EnumStatus.EDIT;
+            this.txtNewPassword.TabIndex = 9;
+            this.txtNewPassword.Upp = true;
+            this.txtNewPassword.UseSystemPasswordChar = true;
+            this.txtNewPassword.Value = "";
+            this.txtNewPassword.Visible = false;
+            // 
             // btnOk
             // 
-            this.btnOk.Location = new System.Drawing.Point(293, 19);
+            this.btnOk.Location = new System.Drawing.Point(231, 17);
             this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(75, 23);
+            this.btnOk.Size = new System.Drawing.Size(75, 27);
             this.btnOk.TabIndex = 4;
             this.btnOk.Text = "Ok";
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
-            // 
-            // gbApps
-            // 
-            this.gbApps.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.gbApps.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.gbApps.Controls.Add(this.tlpApps);
-            this.gbApps.Location = new System.Drawing.Point(12, 74);
-            this.gbApps.Name = "gbApps";
-            this.gbApps.Size = new System.Drawing.Size(1686, 539);
-            this.gbApps.TabIndex = 1;
-            this.gbApps.TabStop = false;
-            // 
-            // tlpApps
-            // 
-            this.tlpApps.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tlpApps.AutoScroll = true;
-            this.tlpApps.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.tlpApps.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.tlpApps.ColumnCount = 1;
-            this.tlpApps.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 1229F));
-            this.tlpApps.Location = new System.Drawing.Point(0, 0);
-            this.tlpApps.Name = "tlpApps";
-            this.tlpApps.RowCount = 1;
-            this.tlpApps.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 528F));
-            this.tlpApps.Size = new System.Drawing.Size(1687, 533);
-            this.tlpApps.TabIndex = 2;
             // 
             // txtPassword
             // 
@@ -106,7 +245,7 @@
             this.txtPassword.DependingRS = null;
             this.txtPassword.Font = new System.Drawing.Font("Tahoma", 10F);
             this.txtPassword.ForeColor = System.Drawing.Color.Black;
-            this.txtPassword.Location = new System.Drawing.Point(145, 22);
+            this.txtPassword.Location = new System.Drawing.Point(125, 22);
             this.txtPassword.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtPassword.Multiline = true;
             this.txtPassword.Name = "txtPassword";
@@ -151,6 +290,36 @@
             this.txtUser.Value = "";
             this.txtUser.WordWrap = false;
             // 
+            // gbApps
+            // 
+            this.gbApps.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbApps.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.gbApps.Controls.Add(this.tlpApps);
+            this.gbApps.Location = new System.Drawing.Point(12, 74);
+            this.gbApps.Name = "gbApps";
+            this.gbApps.Size = new System.Drawing.Size(1686, 539);
+            this.gbApps.TabIndex = 1;
+            this.gbApps.TabStop = false;
+            // 
+            // tlpApps
+            // 
+            this.tlpApps.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tlpApps.AutoScroll = true;
+            this.tlpApps.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.tlpApps.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.tlpApps.ColumnCount = 1;
+            this.tlpApps.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 1687F));
+            this.tlpApps.Location = new System.Drawing.Point(0, 0);
+            this.tlpApps.Name = "tlpApps";
+            this.tlpApps.RowCount = 1;
+            this.tlpApps.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 533F));
+            this.tlpApps.Size = new System.Drawing.Size(1687, 533);
+            this.tlpApps.TabIndex = 2;
+            // 
             // gbDebug
             // 
             this.gbDebug.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -191,6 +360,13 @@
         private System.Windows.Forms.TableLayoutPanel tlpApps;
         private System.Windows.Forms.TextBox txtDebug1;
         private System.Windows.Forms.GroupBox gbDebug;
+        private EspackFormControls.EspackTextBox txtNewPasswordConfirm;
+        private EspackFormControls.EspackTextBox txtNewPassword;
+        private EspackFormControls.EspackMaskedTextBox txtNewPINConfirm;
+        private EspackFormControls.EspackMaskedTextBox txtNewPIN;
+        private System.Windows.Forms.Button btnCancelChange;
+        private System.Windows.Forms.Button btnOKChange;
+        private System.Windows.Forms.Button btnChange;
     }
 }
 
