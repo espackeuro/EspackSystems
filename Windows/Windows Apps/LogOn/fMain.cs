@@ -31,16 +31,35 @@ namespace LogOn
         public List<cUpdaterThread> UpdatingThreads = new List<cUpdaterThread>();
         public const int NUMTHREADS = 8;
         delegate void gbDebugCallBack(Control c);
+        delegate void LogOnChangeStatusCallBack(LogOnStatus l);
+
+        private void LogOnChangeStatus(LogOnStatus pStatus)
+        {
+            if (this.InvokeRequired)
+            {
+                LogOnChangeStatusCallBack a = new LogOnChangeStatusCallBack(LogOnChangeStatus);
+                this.Invoke(a, new object[] { pStatus });
+            }
+            else
+            {
+                Status=pStatus;
+            }
+        }
+
         // Main
         public fMain(string[] args)
         {
             InitializeComponent();
 
             // Customize the textbox controls 
-            txtUser.Enabled = true;
             txtUser.Multiline = false;
-            txtPassword.Enabled = true;
             txtPassword.Multiline = false;
+            txtNewPassword.Multiline = false;
+            txtNewPasswordConfirm.Multiline = false;
+            txtNewPIN.Multiline = false;
+            txtNewPINConfirm.Multiline = false;
+
+            LogOnChangeStatus(LogOnStatus.INIT);
 
             // Load the vars from the given args
             var espackArgs = CT.LoadVars(args);
@@ -159,53 +178,183 @@ namespace LogOn
 
         private async void btnOk_Click(object sender, EventArgs e)
         {
-            var _SP = new SP(Values.gDatos, "pLogOnUser");
-            _SP.AddControlParameter("User", txtUser);
-            _SP.AddParameterValue("Password", txtPassword.Text);
-            _SP.AddParameterValue("Origin", "LOGON_CS");
-            try
+            if (Status==LogOnStatus.INIT)
             {
-                _SP.Execute();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                txtPassword.Text = "";
-                return;
-            }
-            Values.User = txtUser.Text;
-            Values.Password = txtPassword.Text;
+                LogOnChangeStatus(LogOnStatus.CONNECTING);
 
-            FillServers();
-            FillApps();
-            DrawListApps();
-            await CheckUpdatableApps().ConfigureAwait(false);
-
-
-            while (Values.AppList.CheckingApps.Count != 0)
-            {
-                System.Threading.Thread.Sleep(500);
-            }
-            
-            if (Values.AppList.PendingApps.Count != 0)
-            {
-                var debugBox = new DebugTextbox();
-                debugBox.Dock = System.Windows.Forms.DockStyle.Bottom;
-                debugBox.Location = new System.Drawing.Point(3, 411);
-                debugBox.Multiline = true;
-                debugBox.Size = new System.Drawing.Size(300, 98);
-                debugBox.TabIndex = 3;
-                gbDebugAdd(debugBox);
-                for (var i = 0; i < NUMTHREADS; i++)
+                var _SP = new SP(Values.gDatos, "pLogOnUser");
+                _SP.AddControlParameter("User", txtUser);
+                _SP.AddParameterValue("Password", txtPassword.Text);
+                _SP.AddParameterValue("Origin", "LOGON_CS");
+                try
                 {
-                    Values.ActiveThreads++;
-                    var _thread = new cUpdaterThread(debugBox, Values.ActiveThreads);
-                    this.UpdatingThreads.Add(_thread);
-                    new Thread(new ThreadStart(_thread.Process)).Start();
-
+                    _SP.Execute();
                 }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtPassword.Text = "";
+                    Status = LogOnStatus.INIT;
+                    return;
+                }
+                Values.User = txtUser.Text;
+                Values.Password = txtPassword.Text;
+                
+                FillServers();
+                FillApps();
+                DrawListApps();
+                await CheckUpdatableApps().ConfigureAwait(false);
+
+
+                while (Values.AppList.CheckingApps.Count != 0)
+                {
+                    System.Threading.Thread.Sleep(500);
+                }
+
+                if (Values.AppList.PendingApps.Count != 0)
+                {
+                    var debugBox = new DebugTextbox();
+                    debugBox.Dock = System.Windows.Forms.DockStyle.Bottom;
+                    debugBox.Location = new System.Drawing.Point(3, 411);
+                    debugBox.Multiline = true;
+                    debugBox.Size = new System.Drawing.Size(300, 98);
+                    debugBox.TabIndex = 3;
+                    gbDebugAdd(debugBox);
+                    for (var i = 0; i < NUMTHREADS; i++)
+                    {
+                        Values.ActiveThreads++;
+                        var _thread = new cUpdaterThread(debugBox, Values.ActiveThreads);
+                        this.UpdatingThreads.Add(_thread);
+                        new Thread(new ThreadStart(_thread.Process)).Start();
+
+                    }
+                }
+                LogOnChangeStatus(LogOnStatus.CONNECTED);
+            }
+            else
+            {
+                LogOnChangeStatus(LogOnStatus.INIT);
+                ClearListApps();
+            }
+
+        }
+
+        public enum LogOnStatus { INIT, CONNECTING, CONNECTED, CHANGE_PASSWORD, CHANGING_PASSWORD, ERROR }
+        private LogOnStatus _status;
+
+        public LogOnStatus Status
+        {
+            get
+            {
+                return _status;
+            }
+            set
+            {
+                switch (value)
+                {
+                    case LogOnStatus.INIT:
+                        txtUser.Text = "";
+                        txtPassword.Text = "";
+                        txtUser.Enabled = true;
+                        txtPassword.Enabled = true;
+                        btnOk.Text= "Connect";
+                        btnOk.Enabled = true;
+                        btnChange.Visible = false;
+                        txtNewPassword.Visible = false;
+                        txtNewPasswordConfirm.Visible = false;
+                        txtNewPIN.Visible = false;
+                        txtNewPINConfirm.Visible = false;
+                        btnOKChange.Visible = false;
+                        btnCancelChange.Visible = false;
+                        ActiveControl = txtUser;
+                        break;
+                    case LogOnStatus.CONNECTING:
+                        txtUser.Enabled = false;
+                        txtPassword.Enabled = false;
+                        btnOk.Text = "Connecting";
+                        btnOk.Enabled = false;
+                        btnChange.Visible = false;
+                        txtNewPassword.Visible = false;
+                        txtNewPasswordConfirm.Visible = false;
+                        txtNewPIN.Visible = false;
+                        txtNewPINConfirm.Visible = false;
+                        btnOKChange.Visible = false;
+                        btnCancelChange.Visible = false;
+                        break;
+                    case LogOnStatus.CONNECTED:
+                        txtUser.Enabled = false;
+                        txtPassword.Enabled = false;
+                        btnOk.Text = "Disconnect";
+                        btnOk.Enabled = true;
+                        btnChange.Visible = true;
+                        txtNewPassword.Visible = false;
+                        txtNewPasswordConfirm.Visible = false;
+                        txtNewPIN.Visible = false;
+                        txtNewPINConfirm.Visible = false;
+                        btnOKChange.Visible = false;
+                        btnCancelChange.Visible = false;
+                        break;
+                    case LogOnStatus.CHANGE_PASSWORD:
+                        txtUser.Enabled = false;
+                        txtPassword.Enabled = false;
+                        btnOk.Text = "Disconnect";
+                        btnOk.Enabled = false;
+                        btnChange.Visible = false;
+                        txtNewPassword.Visible = true;
+                        txtNewPasswordConfirm.Visible = true;
+                        txtNewPassword.Enabled = true;
+                        txtNewPasswordConfirm.Enabled = true;
+                        txtNewPIN.Visible = true;
+                        txtNewPINConfirm.Visible = true;
+                        txtNewPIN.Enabled = true;
+                        txtNewPINConfirm.Enabled = true;
+                        btnOKChange.Visible = true;
+                        btnCancelChange.Visible = true;
+                        btnOKChange.Enabled = true;
+                        btnCancelChange.Enabled = true;
+                        txtNewPassword.Text = "";
+                        txtNewPasswordConfirm.Text = "";
+                        txtNewPIN.Text = "";
+                        txtNewPINConfirm.Text = "";
+                        ActiveControl = txtNewPassword;
+                        break;
+                    case LogOnStatus.CHANGING_PASSWORD:
+                        txtUser.Enabled = false;
+                        txtPassword.Enabled = false;
+                        btnOk.Text = "Disconnect";
+                        btnOk.Enabled = false;
+                        btnChange.Visible = false;
+                        txtNewPassword.Visible = true;
+                        txtNewPasswordConfirm.Visible = true;
+                        txtNewPassword.Enabled = false;
+                        txtNewPasswordConfirm.Enabled = false;
+                        txtNewPIN.Visible = true;
+                        txtNewPINConfirm.Visible = true;
+                        txtNewPIN.Enabled = false;
+                        txtNewPINConfirm.Enabled = false;
+                        btnOKChange.Visible = true;
+                        btnCancelChange.Visible = true;
+                        btnOKChange.Enabled = false;
+                        btnCancelChange.Enabled = false;
+                        break;
+                    case LogOnStatus.ERROR:
+                        txtUser.Enabled = false;
+                        txtPassword.Enabled = false;
+                        btnOk.Text = "...";
+                        btnOk.Enabled = false;
+                        btnChange.Visible = false;
+                        txtNewPassword.Visible = false;
+                        txtNewPasswordConfirm.Visible = false;
+                        txtNewPIN.Visible = false;
+                        txtNewPINConfirm.Visible = false;
+                        btnOKChange.Visible = false;
+                        btnCancelChange.Visible = false;
+                        break;
+                }
+                _status = value;
             }
         }
+
         private void gbDebugAdd(Control c)
         {
             if (gbDebug.InvokeRequired)
@@ -249,6 +398,7 @@ namespace LogOn
 
         private void FillApps()
         {
+
             using (var _RS = new DynamicRS("select Code=s.codigo,Description=s.descripcion,DB=s.base_datos,ExeName=s.app,Zone=s.sede from general..Permiso_Servicios p inner join general..servicios s on s.codigo=p.codigo where p.LoginSql= '" + Values.User + "' and general.dbo.checkFlag(flags,'OBS')=0", Values.gDatos))
             {
                 _RS.Open();
@@ -295,6 +445,14 @@ namespace LogOn
             tlpApps.RowCount = Convert.ToInt16(Math.Ceiling(Convert.ToDouble(_numApps) / Convert.ToDouble(_numColumns)));
             tlpApps.AutoScroll = true;
         }
+
+        private void ClearListApps()
+        {
+            Values.AppList.ToList().ForEach(x => x.Dispose());
+            tlpApps.ColumnCount=0;
+            tlpApps.RowCount=0;
+
+        }
         private async Task CheckUpdatableApps()
         {
             var task = Task.Run(() =>
@@ -307,6 +465,50 @@ namespace LogOn
             }));
             
             await task.ConfigureAwait(false);
+        }
+
+        private void btnChange_Click(object sender, EventArgs e)
+        {
+            LogOnChangeStatus(LogOnStatus.CHANGE_PASSWORD);
+        }
+
+        private void btnOKChange_Click(object sender, EventArgs e)
+        {
+            Status = LogOnStatus.CHANGING_PASSWORD;
+            if (txtNewPassword.Text != txtNewPasswordConfirm.Text || txtNewPIN.Text != txtNewPINConfirm.Text)
+            {
+                MessageBox.Show("Passwords and PINs must match", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Status = LogOnStatus.CHANGE_PASSWORD;
+                return;
+            }
+            
+            // Call the SP for Password/PIN change
+            var _SP = new SP(Values.gDatos, "pLogOnUser");
+            _SP.AddControlParameter("User", txtUser);
+            _SP.AddParameterValue("Password", txtPassword.Text);
+            _SP.AddParameterValue("Origin", "LOGON_CS");
+            _SP.AddParameterValue("NewPassword", txtNewPassword.Text);
+            _SP.AddParameterValue("NewPIN", txtNewPIN.Text);
+            try
+            {
+                _SP.Execute();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtPassword.Text = "";
+                Status = LogOnStatus.CHANGE_PASSWORD;
+                return;
+            }
+            Values.User = txtUser.Text;
+            Values.Password = txtPassword.Text=txtNewPassword.Text;
+            MessageBox.Show("Password and PIN changed OK", "Success!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            LogOnChangeStatus(LogOnStatus.CONNECTED);
+        }
+
+        private void btnCancelChange_Click(object sender, EventArgs e)
+        {
+            LogOnChangeStatus(LogOnStatus.CONNECTED);
         }
 
     }

@@ -24,9 +24,11 @@ namespace EspackFormControls
         cAccesoDatosNet ParentConn { get; set; }
         StaticRS DependingRS { get; set; }
         Point Location { get; set; }
+
         //List<StaticRS> ExternalControls;//list of possible external controls, the key is the parameter name and the object is the control
         //List<EspackControl> DependingControls { get; set; } //list of those controls which have me as external control
         //void AddRS(string pFieldName, EspackControl pControl);
+
     }
 
     //public class EspackQuery : EspackControl
@@ -72,6 +74,8 @@ namespace EspackFormControls
                 }
             }
         }
+
+
         public EspackLabel(string pCaption, EspackFormControl pParentControl)
         {
             ParentControl = pParentControl;
@@ -124,12 +128,12 @@ namespace EspackFormControls
         //            CaptionLabel.Location = value;
         //            gap = CaptionLabel.Height;
         //        }
-                        
+
         //        var _l = new Point();
         //        _l.X = value.X;
         //        _l.Y = value.Y + gap;
         //        base.Location = _l;
-                
+
         //    }
         //}
         ////[DefaultValue(typeof(Padding), "3, 3, 3, 3")]
@@ -166,6 +170,20 @@ namespace EspackFormControls
         //        base.Margin = value;
         //    }
         //}
+
+        public new bool Visible
+        {
+            get
+            {
+                return base.Visible;
+            }
+            set
+            {
+                base.Visible = value;
+                if (CaptionLabel != null)
+                    CaptionLabel.Visible = value;
+            }
+        }
 
         public EnumStatus Status
         {
@@ -241,6 +259,7 @@ namespace EspackFormControls
                 CaptionLabel.Location = new Point(base.Location.X, base.Location.Y - CaptionLabel.PreferredHeight);
             }
         }
+
         //List<StaticRS> ExternalControls;//list of possible external controls, the key is the parameter name and the object is the control
         //List<EspackControl> DependingControls; //list of those controls which have me as external control
         
@@ -323,6 +342,19 @@ namespace EspackFormControls
         private EnumStatus mStatus;
         private StaticRS mDependingRS;
 
+        public new bool Visible
+        {
+            get
+            {
+                return base.Visible;
+            }
+            set
+            {
+                base.Visible = value;
+                if (CaptionLabel != null)
+                    CaptionLabel.Visible = value;
+            }
+        }
 
         public EnumStatus Status
         {
@@ -621,6 +653,20 @@ namespace EspackFormControls
             }
         }
 
+        public new bool Visible
+        {
+            get
+            {
+                return base.Visible;
+            }
+            set
+            {
+                base.Visible = value;
+                if (CaptionLabel != null)
+                    CaptionLabel.Visible = value;
+            }
+        }
+
         public DA ParentDA { get; set; }
         public new object Value
         {
@@ -801,6 +847,20 @@ namespace EspackFormControls
         private bool noChange = false;
         public event EventHandler<EventArgs> Changed;
         public event EventHandler AfterItemCheck;
+
+        public new bool Visible
+        {
+            get
+            {
+                return base.Visible;
+            }
+            set
+            {
+                base.Visible = value;
+                if (CaptionLabel != null)
+                    CaptionLabel.Visible = value;
+            }
+        }
 
         //Default event handler for CTLM
         private void DefaultEventChanged(object source, EventArgs e)
@@ -1115,6 +1175,20 @@ namespace EspackFormControls
         private string _SQL;
         public EspackTextBox TBDescription { get; set; }
 
+        public new bool Visible
+        {
+            get
+            {
+                return base.Visible;
+            }
+            set
+            {
+                base.Visible = value;
+                if (CaptionLabel != null)
+                    CaptionLabel.Visible = value;
+            }
+        }
+
         private Size _size;
 
         //public new Size Size
@@ -1372,4 +1446,5 @@ namespace EspackFormControls
 
 
     }
+
 }
