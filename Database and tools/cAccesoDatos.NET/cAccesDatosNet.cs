@@ -136,14 +136,18 @@ namespace AccesoDatosNet
             //Provider = "SQLOLEDB";
             Silent = false;
             IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
-            foreach (IPAddress lIP in ipHostInfo.AddressList)
-            {
-                if (lIP.AddressFamily.ToString() == "InterNetwork" && ((lIP.GetAddressBytes()[0] == 192 && lIP.GetAddressBytes()[1] == 168) || lIP.GetAddressBytes()[0] == 10))
-                { //IPV4
-                    IP = lIP;
-                    break;
-                }
-            }
+            var lIP = ipHostInfo.AddressList.FirstOrDefault(x => x.GetAddressBytes()[0] == 10);
+            if (lIP==null)
+                lIP = ipHostInfo.AddressList.First(x => x.GetAddressBytes()[0] == 192);
+            //foreach (IPAddress lIP in ipHostInfo.AddressList)
+            //{
+            //    if (lIP.AddressFamily.ToString() == "InterNetwork" && ((lIP.GetAddressBytes()[0] == 192 && lIP.GetAddressBytes()[1] == 168) || lIP.GetAddressBytes()[0] == 10))
+            //    { //IPV4
+            //        IP = lIP;
+            //        break;
+            //    }
+            //}
+            IP = lIP;
             if (oServer==null)
             {
                 oServer = new cServer() { Type=ServerTypes.DATABASE };
