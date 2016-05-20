@@ -19,7 +19,7 @@ using CommonTools;
 using System.Net.FtpClient;
 namespace LogOn
 {
-    public enum AppBotStatus { CHECKING, PENDINGUPDATE, UPDATED}
+    public enum AppBotStatus {INIT, CHECKING, PENDING_UPDATE, UPDATED}
     public class cAppBot : Control
     {
         public string Code { get; set; }
@@ -30,11 +30,15 @@ namespace LogOn
         private string ExeName { get; set; }
         private cAccesoDatosNet Conn { get; set; }
         public GroupBox grpApp { get; set; }
-        public PictureBox pctApp { get; set; }
+        public Button pctApp { get; set; }
         public ProgressBar prgApp { get; set; }
         public Label lblDescriptionApp { get; set; }
-        public AppBotStatus Status { get; set; }
-        delegate void ActivateCallback(bool status);
+        private AppBotStatus _status;
+        public Bitmap AppIcon { get; set; }
+        public string LocalPath { get; set; }
+        public bool Special { get; set; }
+
+        delegate void ChangeStatusCallback(AppBotStatus pStatus);
         
         public List<cUpdateListItem> PendingItems
         {
@@ -82,9 +86,57 @@ namespace LogOn
 
             }
         }
+        public AppBotStatus Status
+        {
+            get
+            {
+                return _status;
+            }
+            set
+            {
+                if (Values.debugBox != null)
+                {
+                    Values.debugBox.AppendText(string.Format("App {0} status: {1}\n", Code, value));
+                }
+                switch (value)
+                {
+                    case AppBotStatus.INIT:
+                    case AppBotStatus.UPDATED:
+                        if (Special)
+                            AppIcon = Properties.Resources.tools;
+                        else
+                            try
+                            {
+                                AppIcon = Icon.ExtractAssociatedIcon(LocalPath).ToBitmap();
+                            }
+                            catch
+                            {
+                                AppIcon = Properties.Resources.Prototype_96;
+                            }
+                        pctApp.Image = AppIcon;
+                        pctApp.Enabled = true;
+                        prgApp.Visible = false;
+                        break; 
+                    case AppBotStatus.CHECKING:
+                        pctApp.Enabled = false;
+                        prgApp.Visible = false;
+                        break;
+                    case AppBotStatus.PENDING_UPDATE:
 
-        public static int GROUP_HEIGHT = 150;
-        public static int GROUP_WIDTH = 150;
+                        prgApp.Style = ProgressBarStyle.Marquee;
+                        prgApp.Minimum = 0;
+                        prgApp.Maximum = 200;
+                        prgApp.MarqueeAnimationSpeed = 50;
+                        prgApp.Visible = true;
+                        pctApp.Enabled = false;
+
+                        break;
+                }
+                _status = value;
+            }
+        }
+        public static int GROUP_HEIGHT = 125;
+        public static int GROUP_WIDTH = 125;
 
         public static int PROGRESS_PADDING = 10;
         public static int PROGRESS_HEIGHT = 40;
@@ -98,43 +150,49 @@ namespace LogOn
         public static int PICTURE_HEIGHT = GROUP_HEIGHT - DESCRIPTION_PADDING - DESCRIPTION_HEIGHT - PICTURE_PADDING * 2;
         public static int PICTURE_WIDTH = GROUP_WIDTH - PICTURE_PADDING * 2;
 
-        public cAppBot(string pCode, string pDescription, string pDatabase, string pExeName, string ServiceZone, cServer pDBServer, cServer pShareServer)
+        public cAppBot(string pCode, string pDescription, string pDatabase, string pExeName, string ServiceZone, cServer pDBServer, cServer pShareServer, bool pSpecial=false)
             : this()
         {
             Code = pCode;
             Description = pDescription;
             DataBase = pDatabase;
             ExeName = pExeName;
-
+            LocalPath= Values.LOCAL_PATH + Code + "/" + ExeName;
             //
             DBServer = pDBServer;
             ShareServer = pShareServer;
             lblDescriptionApp.Text = Description;
+            pctApp.Image = AppIcon;
+            Special = pSpecial;
+            ChangeStatus(AppBotStatus.INIT);
+            
         }
 
         public cAppBot()
         {
 
             grpApp = new GroupBox() { Size = new Size(GROUP_WIDTH, GROUP_HEIGHT), Location = new Point(0, 0) };
-            pctApp = new PictureBox();
+            //pctApp = new PictureBox();
+            pctApp = new Button();
             prgApp = new ProgressBar()
             {
                 Size = new Size(PROGRESS_WIDTH, PROGRESS_HEIGHT),
                 Location = new Point(PROGRESS_PADDING, (GROUP_HEIGHT / 2) - (PROGRESS_HEIGHT / 2)),
-                Style = ProgressBarStyle.Marquee,
-                Visible = false,
-                Minimum = 0,
-                Maximum = 200,
-                MarqueeAnimationSpeed = 0
+                Visible = false
             };
             lblDescriptionApp = new Label() { Size = new Size(DESCRIPTION_WIDTH, DESCRIPTION_HEIGHT), Location = new Point(DESCRIPTION_PADDING, GROUP_HEIGHT - DESCRIPTION_HEIGHT - DESCRIPTION_PADDING), TextAlign = ContentAlignment.MiddleCenter };
-            pctApp = new PictureBox() { Size = new Size(PICTURE_WIDTH, PICTURE_HEIGHT), Location = new Point(PICTURE_PADDING, PICTURE_PADDING) };
+            //pctApp = new PictureBox() { Size = new Size(PICTURE_WIDTH, PICTURE_HEIGHT), Location = new Point(PICTURE_PADDING, PICTURE_PADDING) };
+            pctApp = new Button() { Size = new Size(PICTURE_WIDTH, PICTURE_HEIGHT), Location = new Point(PICTURE_PADDING, PICTURE_PADDING) };
 #if DEBUG
-            pctApp.BorderStyle = BorderStyle.FixedSingle;
+            //pctApp.BorderStyle = BorderStyle.FixedSingle;
             lblDescriptionApp.BorderStyle = BorderStyle.FixedSingle;
+#else
+            pctApp.FlatAppearance.BorderSize = 0;
+            pctApp.FlatStyle = FlatStyle.Flat;
 #endif
-            pctApp.Image = Properties.Resources.Prototype_96;
-            pctApp.SizeMode = PictureBoxSizeMode.CenterImage;
+
+            //pctApp.Image = Properties.Resources.Prototype_96;
+            //pctApp.SizeMode = PictureBoxSizeMode.CenterImage;
 
             grpApp.Controls.Add(prgApp);
             grpApp.Controls.Add(pctApp);
@@ -142,33 +200,13 @@ namespace LogOn
             MaximumSize = Size;
             MinimumSize = Size;
             this.Controls.Add(grpApp);
-            this.Status = AppBotStatus.CHECKING;
+            
         }
 
         protected override void OnResize(EventArgs e)
         {
             this.Size = new Size(GROUP_WIDTH, GROUP_HEIGHT);
         }
-        //protected override void OnParentChanged(EventArgs e)
-        //{
-        //    if (Parent != null)
-        //    {
-        //        Parent.Controls.Add(grpApp);
-        //        base.OnParentChanged(e);
-        //    }
-        //}
-
-        //protected async override void OnCreateControl()
-        //{
-        //    base.OnCreateControl();
-        //    ShowChecking();
-
-        //    bool _clean = await CheckUpdate().ConfigureAwait(false);
-        //    if (_clean)
-        //    {
-        //        Activate();
-        //    }
-        //}
 
         private void InitializeComponent()
         {
@@ -177,26 +215,13 @@ namespace LogOn
 
         }
 
-        public async Task<bool> CheckUpdate()
+        public async Task<bool> CheckUpdated()
         {
-            Activate(false);
+            ChangeStatus(AppBotStatus.CHECKING);
             return await Task.Run(() =>
               {
                   
-
                   bool _clean = true;
-                  // ftp way
-                  //_clean = readDir("/APPS_CS/", Code.ToLower());
-                  //end ftp
-                  //ssh way
-                  //using (var client = new SftpClient(ShareServer.IP.ToString(), ShareServer.User, ShareServer.Password))
-                  //{
-                  //    client.Connect();
-                  //    _clean = readDirSSH(client, "/media/shares/APPS_CS/", Code.ToLower(), true);
-                  //}
-                  //end ssh
-
-                  //ftpClient way
                   using (var client = new FtpClient())
                   {
                       client.Host = ShareServer.IP.ToString();
@@ -223,9 +248,9 @@ namespace LogOn
 
             list.Where(x => x.Type == FtpFileSystemObjectType.Directory).ToList().ForEach(a => 
             {
-                bool _condition = !Directory.Exists("c:/ESPACK_CS/" + relativePath + "/" + a.Name);
+                bool _condition = !Directory.Exists(Values.LOCAL_PATH + relativePath + "/" + a.Name);
                 if (_condition == false)
-                    _condition = (a.Modified != Directory.GetLastWriteTime("c:/ESPACK_CS/" + relativePath + "/" + a.Name));
+                    _condition = (a.Modified != Directory.GetLastWriteTime(Values.LOCAL_PATH + relativePath + "/" + a.Name));
                 if (_condition)
                 {
                     Values.UpdateDir.Add(new cUpdateListItem()
@@ -239,7 +264,7 @@ namespace LogOn
                             Name = ".",
                             BaseUri = new UriBuilder("ftp://" + ShareServer.IP.ToString() + "/APPS_CS/" + relativePath + "/" + a.Name).Uri
                         },
-                        LocalPath = "c:/ESPACK_CS/" + relativePath + "/" + a.Name,
+                        LocalPath = Values.LOCAL_PATH + relativePath + "/" + a.Name,
                         Status = LogonItemUpdateStatus.PENDING
                     });
                 }
@@ -250,11 +275,12 @@ namespace LogOn
             {
                 list.Where(x => x.Type == FtpFileSystemObjectType.File).ToList().ForEach(a =>
                 {
-                    if (File.Exists("c:/ESPACK_CS/" + relativePath + "/" + a.Name))
+                    if (File.Exists(Values.LOCAL_PATH + relativePath + "/" + a.Name))
                     {
-                        Status = AppBotStatus.PENDINGUPDATE;
-                        if (File.GetLastWriteTime("c:/ESPACK_CS/" + relativePath + "/" + a.Name) != a.Modified)
+                        if (File.GetLastWriteTime(Values.LOCAL_PATH + relativePath + "/" + a.Name) != a.Modified)
                         {
+                            if (Status != AppBotStatus.PENDING_UPDATE)
+                                ChangeStatus(AppBotStatus.PENDING_UPDATE);
                             Values.UpdateList.Add(new cUpdateListItem()
                             {
                                 Parent = this,
@@ -266,7 +292,7 @@ namespace LogOn
                                     Name = a.Name,
                                     BaseUri = new UriBuilder("ftp://" + ShareServer.IP.ToString() + "/APPS_CS/" + relativePath).Uri
                                 },
-                                LocalPath = "c:/ESPACK_CS/" + relativePath + "/" + a.Name,
+                                LocalPath = Values.LOCAL_PATH + relativePath + "/" + a.Name,
                                 Status = LogonItemUpdateStatus.PENDING
                             });
                             _clean = false;
@@ -274,7 +300,8 @@ namespace LogOn
                     }
                     else
                     {
-                        Status = AppBotStatus.PENDINGUPDATE;
+                        if (Status != AppBotStatus.PENDING_UPDATE)
+                            ChangeStatus(AppBotStatus.PENDING_UPDATE);
                         Values.UpdateList.Add(new cUpdateListItem()
                         {
                             Parent = this,
@@ -286,7 +313,7 @@ namespace LogOn
                                 Name = a.Name,
                                 BaseUri = new UriBuilder("ftp://" + ShareServer.IP.ToString() + "/APPS_CS/" + relativePath).Uri
                             },
-                            LocalPath = "c:/ESPACK_CS/" + relativePath + "/" + a.Name,
+                            LocalPath = Values.LOCAL_PATH + relativePath + "/" + a.Name,
                             Status = LogonItemUpdateStatus.PENDING
                         });
                         _clean = false;
@@ -322,16 +349,17 @@ namespace LogOn
             });
             list.Where(x => !x.IsDirectory).ToList().ForEach(a =>
             {
-                if (File.Exists("c:/ESPACK_CS/" + relativePath + "/" + a.Name))
+                if (File.Exists(Values.LOCAL_PATH + relativePath + "/" + a.Name))
                 {
-                    if (File.GetLastWriteTime("c:/ESPACK_CS/" + relativePath + "/" + a.Name) != a.DateCreated)
+                    if (File.GetLastWriteTime(Values.LOCAL_PATH + relativePath + "/" + a.Name) != a.DateCreated)
                     {
-                        Status = AppBotStatus.PENDINGUPDATE;
+                        if (Status != AppBotStatus.PENDING_UPDATE)
+                            ChangeStatus(AppBotStatus.PENDING_UPDATE);
                         Values.UpdateList.Add(new cUpdateListItem()
                         {
                             Parent = this,
                                //ServerPath = basePath + relativePath + "/" + a.Name,
-                            LocalPath = "c:/ESPACK_CS/" + relativePath + "/" + a.Name,
+                            LocalPath = Values.LOCAL_PATH + relativePath + "/" + a.Name,
                             Item = a,
                             Status = LogonItemUpdateStatus.PENDING
                         });
@@ -340,12 +368,13 @@ namespace LogOn
                 }
                 else
                 {
-                    Status = AppBotStatus.PENDINGUPDATE;
+                    if (Status != AppBotStatus.PENDING_UPDATE)
+                        ChangeStatus(AppBotStatus.PENDING_UPDATE);
                     Values.UpdateList.Add(new cUpdateListItem()
                     {
                         Parent = this,
                            //ServerPath = basePath + relativePath + "/" + a.Name,
-                           LocalPath = "c:/ESPACK_CS/" + relativePath + "/" + a.Name,
+                           LocalPath = Values.LOCAL_PATH + relativePath + "/" + a.Name,
                         Item = a,
                         Status = LogonItemUpdateStatus.PENDING
                     });
@@ -358,34 +387,19 @@ namespace LogOn
         }
 
 
-        public void Activate(bool status)
+        public void ChangeStatus(AppBotStatus pStatus)
         {
 
             try
             {
                 if (this.prgApp.InvokeRequired)
                 {
-                    ActivateCallback a = new ActivateCallback( Activate);
-                    this.Invoke(a, new object[] { status });
-                } else
+                    ChangeStatusCallback a = new ChangeStatusCallback(ChangeStatus);
+                    this.Invoke(a, new object[] { pStatus });
+                }
+                else
                 {
-                    if (status)
-                    {
-                        this.Status = AppBotStatus.UPDATED;
-                        prgApp.MarqueeAnimationSpeed = 0;
-                        prgApp.Style = ProgressBarStyle.Continuous;
-                        prgApp.Visible = false;
-                    }
-                    else
-                    {
-                        Status = AppBotStatus.CHECKING;
-                        prgApp.Style = ProgressBarStyle.Marquee;
-                        prgApp.Value = 0;
-                        prgApp.Minimum = 0;
-                        prgApp.Maximum = 50;
-                        prgApp.MarqueeAnimationSpeed = 50;
-                        prgApp.Visible = true;
-                    }
+                    Status = pStatus;
                 }
             }
             catch (Exception ex)
@@ -404,9 +418,9 @@ namespace LogOn
                 if (item.Attributes.IsDirectory)
                 {
                     var _check = false;
-                    var _condition = !Directory.Exists("c:/ESPACK_CS/" + relativePath + "/" + item.Name);
+                    var _condition = !Directory.Exists(Values.LOCAL_PATH + relativePath + "/" + item.Name);
                     if (_condition == false)
-                        _condition = (item.LastWriteTime != Directory.GetLastWriteTime("c:/ESPACK_CS/" + relativePath + "/" + item.Name));
+                        _condition = (item.LastWriteTime != Directory.GetLastWriteTime(Values.LOCAL_PATH + relativePath + "/" + item.Name));
                     if (_condition)
                     {
                         Values.UpdateDir.Add(new cUpdateListItem()
@@ -420,7 +434,7 @@ namespace LogOn
                                 Name = item.Name,
                                 BaseUri = new UriBuilder("ftp://" + ShareServer.IP.ToString() + "/APPS_CS/" + relativePath + "/").Uri
                             },
-                            LocalPath = "c:/ESPACK_CS/" + relativePath + "/" + item.Name,
+                            LocalPath = Values.LOCAL_PATH + relativePath + "/" + item.Name,
                             Status = LogonItemUpdateStatus.PENDING
                         });
                         _check = true;
@@ -429,11 +443,12 @@ namespace LogOn
                 }
                 else if (checkFiles)
                 {
-                    if (File.Exists("c:/ESPACK_CS/" + relativePath + "/" + item.Name))
+                    if (File.Exists(Values.LOCAL_PATH + relativePath + "/" + item.Name))
                     {
-                        Status = AppBotStatus.PENDINGUPDATE;
-                        if (File.GetCreationTime("c:/ESPACK_CS/" + relativePath + "/" + item.Name) != item.Attributes.LastWriteTime)
+                        if (File.GetCreationTime(Values.LOCAL_PATH + relativePath + "/" + item.Name) != item.Attributes.LastWriteTime)
                         {
+                            if (Status != AppBotStatus.PENDING_UPDATE)
+                                ChangeStatus(AppBotStatus.PENDING_UPDATE);
                             Values.UpdateList.Add(new cUpdateListItem()
                             {
                                 Parent = this,
@@ -445,7 +460,7 @@ namespace LogOn
                                     Name = item.Name,
                                     BaseUri = new UriBuilder("ftp://" + ShareServer.IP.ToString() + "/APPS_CS/" + relativePath + "/").Uri
                                 },
-                                LocalPath = "c:/ESPACK_CS/" + relativePath + "/" + item.Name,
+                                LocalPath = Values.LOCAL_PATH + relativePath + "/" + item.Name,
                                 Status = LogonItemUpdateStatus.PENDING
                             });
                             _clean = false;
@@ -453,7 +468,8 @@ namespace LogOn
                     }
                     else
                     {
-                        Status = AppBotStatus.PENDINGUPDATE;
+                        if (Status != AppBotStatus.PENDING_UPDATE)
+                            ChangeStatus(AppBotStatus.PENDING_UPDATE);
                         Values.UpdateList.Add(new cUpdateListItem()
                         {
                             Parent = this,
@@ -465,7 +481,7 @@ namespace LogOn
                                 Name = item.Name,
                                 BaseUri = new UriBuilder("ftp://" + ShareServer.IP.ToString() + "/APPS_CS/" + relativePath + "/").Uri
                             },
-                            LocalPath = "c:/ESPACK_CS/" + relativePath + "/" + item.Name,
+                            LocalPath = Values.LOCAL_PATH + relativePath + "/" + item.Name,
                             Status = LogonItemUpdateStatus.PENDING
                         });
                         _clean = false;
@@ -482,7 +498,7 @@ namespace LogOn
 
 
     // Class cAppList
-    public class cAppList: IEnumerable<cAppBot>
+    public class cAppList: IEnumerable<cAppBot>, IDisposable
     {
         private List<cAppBot> AppList { get; set; } = new List<cAppBot>();
 
@@ -498,7 +514,7 @@ namespace LogOn
         {
             get
             {
-                return AppList.Where(x => x.Status == AppBotStatus.PENDINGUPDATE).ToList();
+                return AppList.Where(x => x.Status == AppBotStatus.PENDING_UPDATE).ToList();
             }
         }
         public cAppBot this[string pCode]
@@ -543,6 +559,112 @@ namespace LogOn
         IEnumerator IEnumerable.GetEnumerator()
         {
             return ((IEnumerable<cAppBot>)AppList).GetEnumerator();
+        }
+
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    AppList.ToList().ForEach(x => x.Dispose());
+                    AppList.Clear();
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // TODO: set large fields to null.
+
+                disposedValue = true;
+            }
+        }
+
+        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+        // ~cAppList() {
+        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+        //   Dispose(false);
+        // }
+
+        // This code added to correctly implement the disposable pattern.
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+            // TODO: uncomment the following line if the finalizer is overridden above.
+            // GC.SuppressFinalize(this);
+        }
+        #endregion
+    }
+
+
+
+    public class XPicturebox : PictureBox
+    {
+        protected override void OnPaint(PaintEventArgs pe)
+        {
+            Graphics g = pe.Graphics;
+
+            if (Enabled)
+            {
+                if (Image != null)
+                {
+                    if (SizeMode == PictureBoxSizeMode.StretchImage)
+                    {
+                        g.DrawImage(this.Image, new Rectangle(0, 0, Width, Height), new Rectangle(0, 0, Image.Width, Image.Height), GraphicsUnit.Pixel);
+                    }
+                    else if (SizeMode == PictureBoxSizeMode.Normal)
+                    {
+                        g.DrawImage(this.Image, 0, 0, this.Width, this.Height);
+                    }
+                    else if (SizeMode == PictureBoxSizeMode.AutoSize)
+                    {
+                        g.DrawImage(this.Image, 0, 0, this.Image.Width, this.Image.Height);
+                        this.Width = this.Image.Width;
+                        this.Height = this.Image.Height;
+                    }
+                    else
+                    {
+                        g.DrawImage(this.Image, 0, 0, this.Width, this.Height);
+                    }
+                }
+            }
+            else
+            {
+                if (Image != null)
+                {
+                    using (Image img = new Bitmap(this.Width, this.Height))
+                    {
+                        using (Graphics g2 = Graphics.FromImage(img))
+                        {
+                            if (SizeMode == PictureBoxSizeMode.StretchImage)
+                            {
+                                g2.DrawImage(Image, new Rectangle(0, 0, Width, Height), new Rectangle(0, 0, Image.Width, Image.Height), GraphicsUnit.Pixel);
+                            }
+                            else if (SizeMode == PictureBoxSizeMode.Normal)
+                            {
+                                g2.DrawImage(Image, 0, 0, Width, Height);
+                            }
+                            else if (SizeMode == PictureBoxSizeMode.AutoSize)
+                            {
+                                g2.DrawImage(Image, 0, 0, this.Image.Width, this.Image.Height);
+                                this.Width = Image.Width;
+                                this.Height = Image.Height;
+                            }
+                            else if (SizeMode == PictureBoxSizeMode.CenterImage)
+                            {
+                            }
+                            else
+                            {
+                                g2.DrawImage(Image, 0, 0, Width, Height);
+                            }
+                        }
+                        ControlPaint.DrawImageDisabled(g, img, 0, 0, this.BackColor);
+                    }
+                }
+            }
+
         }
     }
 

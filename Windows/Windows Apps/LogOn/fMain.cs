@@ -30,8 +30,11 @@ namespace LogOn
         private int _zone = 0;
         public List<cUpdaterThread> UpdatingThreads = new List<cUpdaterThread>();
         public const int NUMTHREADS = 8;
+        
         delegate void gbDebugCallBack(Control c);
         delegate void LogOnChangeStatusCallBack(LogOnStatus l);
+
+
 
         private void LogOnChangeStatus(LogOnStatus pStatus)
         {
@@ -58,6 +61,15 @@ namespace LogOn
             txtNewPasswordConfirm.Multiline = false;
             txtNewPIN.Multiline = false;
             txtNewPINConfirm.Multiline = false;
+#if DEBUG
+            Values.debugBox = new DebugTextbox();
+            Values.debugBox.Dock = System.Windows.Forms.DockStyle.Bottom;
+            Values.debugBox.Location = new System.Drawing.Point(3, 411);
+            Values.debugBox.Multiline = true;
+            Values.debugBox.Size = new System.Drawing.Size(300, 98);
+            Values.debugBox.TabIndex = 3;
+            gbDebugAdd(Values.debugBox);
+#endif
 
             LogOnChangeStatus(LogOnStatus.INIT);
 
@@ -174,69 +186,6 @@ namespace LogOn
 
             Controls.Add(mDefaultStatusStrip);
             KeyPreview = true;
-        }
-
-        private async void btnOk_Click(object sender, EventArgs e)
-        {
-            if (Status==LogOnStatus.INIT)
-            {
-                LogOnChangeStatus(LogOnStatus.CONNECTING);
-
-                var _SP = new SP(Values.gDatos, "pLogOnUser");
-                _SP.AddControlParameter("User", txtUser);
-                _SP.AddParameterValue("Password", txtPassword.Text);
-                _SP.AddParameterValue("Origin", "LOGON_CS");
-                try
-                {
-                    _SP.Execute();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    txtPassword.Text = "";
-                    Status = LogOnStatus.INIT;
-                    return;
-                }
-                Values.User = txtUser.Text;
-                Values.Password = txtPassword.Text;
-                
-                FillServers();
-                FillApps();
-                DrawListApps();
-                await CheckUpdatableApps().ConfigureAwait(false);
-
-
-                while (Values.AppList.CheckingApps.Count != 0)
-                {
-                    System.Threading.Thread.Sleep(500);
-                }
-
-                if (Values.AppList.PendingApps.Count != 0)
-                {
-                    var debugBox = new DebugTextbox();
-                    debugBox.Dock = System.Windows.Forms.DockStyle.Bottom;
-                    debugBox.Location = new System.Drawing.Point(3, 411);
-                    debugBox.Multiline = true;
-                    debugBox.Size = new System.Drawing.Size(300, 98);
-                    debugBox.TabIndex = 3;
-                    gbDebugAdd(debugBox);
-                    for (var i = 0; i < NUMTHREADS; i++)
-                    {
-                        Values.ActiveThreads++;
-                        var _thread = new cUpdaterThread(debugBox, Values.ActiveThreads);
-                        this.UpdatingThreads.Add(_thread);
-                        new Thread(new ThreadStart(_thread.Process)).Start();
-
-                    }
-                }
-                LogOnChangeStatus(LogOnStatus.CONNECTED);
-            }
-            else
-            {
-                LogOnChangeStatus(LogOnStatus.INIT);
-                ClearListApps();
-            }
-
         }
 
         public enum LogOnStatus { INIT, CONNECTING, CONNECTED, CHANGE_PASSWORD, CHANGING_PASSWORD, ERROR }
@@ -366,6 +315,7 @@ namespace LogOn
                 gbDebug.Controls.Add(c);
             }
         }
+
         private void FillServers()
         {
 
@@ -399,24 +349,18 @@ namespace LogOn
         private void FillApps()
         {
 
-            using (var _RS = new DynamicRS("select Code=s.codigo,Description=s.descripcion,DB=s.base_datos,ExeName=s.app,Zone=s.sede from general..Permiso_Servicios p inner join general..servicios s on s.codigo=p.codigo where p.LoginSql= '" + Values.User + "' and general.dbo.checkFlag(flags,'OBS')=0", Values.gDatos))
+            using (var _RS = new DynamicRS("select Code=ServiceCode,Description,DB,ExeName=s.app,Zone=s.location from general..Permiso_Servicios p inner join services s on s.ServiceCode=p.codigo where p.LoginSql= '" + Values.User + "' and general.dbo.checkFlag(flags,'OBS')=0", Values.gDatos))
             {
                 _RS.Open();
                 _RS.ToList()
                     //.Where(a => a["Code"].ToString()=="LOGISTICA").ToList()
                     .ForEach(x =>
-                //var x = _RS.ToList().FirstOrDefault();
                 {
                     Values.AppList.Add(new cAppBot(x["Code"].ToString(), x["Description"].ToString(), x["DB"].ToString(), x["ExeName"].ToString(), x["Zone"].ToString(), Values.DBServerList[x["Zone"].ToString()], Values.ShareServerList[Values.COD3]));
                 });
-                ////while (!_RS.EOF)
-                ////{
-                //    var _app = new cAppBot(_RS["Code"].ToString(), _RS["Description"].ToString(), _RS["DB"].ToString(), _RS["ExeName"].ToString(), _RS["Zone"].ToString(), Values.DBServerList[_RS["Zone"].ToString()], Values.ShareServerList[Values.COD3]);
-                //    Values.AppList.Add(_app);
-                //    _app.CheckUpdate();
-                //    _RS.MoveNext();
-                ////}
             }
+            Values.AppList.Add(new cAppBot("Tools", "TOOLS", "", "", "", null, Values.ShareServerList[Values.COD3], true));
+            //Values.AppList.Add(new cAppBot("lib", "lib", "", "", "", null, Values.ShareServerList[Values.COD3], true));
         }
 
         private void DrawListApps()
@@ -448,7 +392,8 @@ namespace LogOn
 
         private void ClearListApps()
         {
-            Values.AppList.ToList().ForEach(x => x.Dispose());
+            //Values.AppList.ToList().ForEach(x => x.Dispose());
+            Values.AppList.Dispose();
             tlpApps.ColumnCount=0;
             tlpApps.RowCount=0;
 
@@ -458,13 +403,67 @@ namespace LogOn
             var task = Task.Run(() =>
             Values.AppList.ToList().ForEach(async x =>
             {
-                if (await x.CheckUpdate().ConfigureAwait(false))
+                if (await x.CheckUpdated().ConfigureAwait(false))
                 //if (await x.CheckUpdate())
-                    x.Activate(true);
+                    x.ChangeStatus(AppBotStatus.UPDATED);
 
             }));
             
             await task.ConfigureAwait(false);
+        }
+        private async void btnOk_Click(object sender, EventArgs e)
+        {
+            if (Status == LogOnStatus.INIT)
+            {
+                LogOnChangeStatus(LogOnStatus.CONNECTING);
+
+                var _SP = new SP(Values.gDatos, "pLogOnUser");
+                _SP.AddControlParameter("User", txtUser);
+                _SP.AddParameterValue("Password", txtPassword.Text);
+                _SP.AddParameterValue("Origin", "LOGON_CS");
+                try
+                {
+                    _SP.Execute();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtPassword.Text = "";
+                    Status = LogOnStatus.INIT;
+                    return;
+                }
+                Values.User = txtUser.Text;
+                Values.Password = txtPassword.Text;
+
+                FillServers();
+                FillApps();
+                DrawListApps();
+                await CheckUpdatableApps().ConfigureAwait(false);
+
+
+                while (Values.AppList.CheckingApps.Count != 0)
+                {
+                    System.Threading.Thread.Sleep(500);
+                }
+
+                if (Values.AppList.PendingApps.Count != 0)
+                {
+                    for (var i = 0; i < NUMTHREADS; i++)
+                    {
+                        Values.ActiveThreads++;
+                        var _thread = new cUpdaterThread(Values.debugBox, Values.ActiveThreads);
+                        this.UpdatingThreads.Add(_thread);
+                        new Thread(new ThreadStart(_thread.Process)).Start();
+
+                    }
+                }
+                LogOnChangeStatus(LogOnStatus.CONNECTED);
+            }
+            else
+            {
+                LogOnChangeStatus(LogOnStatus.INIT);
+                ClearListApps();
+            }
         }
 
         private void btnChange_Click(object sender, EventArgs e)
@@ -511,12 +510,29 @@ namespace LogOn
             LogOnChangeStatus(LogOnStatus.CONNECTED);
         }
 
+
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                if (gbCred.ContainsFocus)
+                {
+                    btnOk.PerformClick();
+
+                }
+                else if (gbChangePassword.ContainsFocus)
+                {
+                    btnOKChange.PerformClick();
+                }
+                else
+                    base.OnKeyDown(e);
+        }
     }
 
 
 
     public static class Values
     {
+        public const string LOCAL_PATH = "C:/ESPACK_CS/";
         public static cAccesoDatosNet gDatos = new cAccesoDatosNet();
         public static string gMasterPassword = "";
         public static string User;
@@ -528,6 +544,7 @@ namespace LogOn
         public static cUpdateList UpdateList = new cUpdateList();
         public static cUpdateList UpdateDir = new cUpdateList();
         public static int ActiveThreads=0;
+        public static DebugTextbox debugBox;
     }
 
     public class DebugTextbox : TextBox
