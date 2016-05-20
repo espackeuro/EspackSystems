@@ -171,7 +171,7 @@ namespace LogOn
                     _item.Status = LogonItemUpdateStatus.UPDATED;
                     if (_item.Parent.UpdatedItems.Count == _item.Parent.Items.Count())
                     {
-                        _item.Parent.Activate(true);
+                        _item.Parent.ChangeStatus(AppBotStatus.UPDATED);
                     }
                 }
                 catch (InvalidOperationException)
@@ -224,8 +224,8 @@ namespace LogOn
 
         public void Dispose()
         {
-            if (Values.ActiveThreads==0)
-                debug.Dispose();
+            //if (Values.ActiveThreads==0)
+            //    debug.Dispose();
         }
 
         //public async void Process()

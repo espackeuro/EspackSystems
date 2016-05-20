@@ -28,7 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(fMain));
             this.gbCredentials = new System.Windows.Forms.GroupBox();
+            this.gbChangePassword = new System.Windows.Forms.GroupBox();
             this.btnCancelChange = new System.Windows.Forms.Button();
             this.btnOKChange = new System.Windows.Forms.Button();
             this.btnChange = new System.Windows.Forms.Button();
@@ -36,6 +38,7 @@
             this.txtNewPIN = new EspackFormControls.EspackMaskedTextBox();
             this.txtNewPasswordConfirm = new EspackFormControls.EspackTextBox();
             this.txtNewPassword = new EspackFormControls.EspackTextBox();
+            this.gbCred = new System.Windows.Forms.GroupBox();
             this.btnOk = new System.Windows.Forms.Button();
             this.txtPassword = new EspackFormControls.EspackTextBox();
             this.txtUser = new EspackFormControls.EspackTextBox();
@@ -43,6 +46,8 @@
             this.tlpApps = new System.Windows.Forms.TableLayoutPanel();
             this.gbDebug = new System.Windows.Forms.GroupBox();
             this.gbCredentials.SuspendLayout();
+            this.gbChangePassword.SuspendLayout();
+            this.gbCred.SuspendLayout();
             this.gbApps.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -51,28 +56,35 @@
             this.gbCredentials.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gbCredentials.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.gbCredentials.Controls.Add(this.btnCancelChange);
-            this.gbCredentials.Controls.Add(this.btnOKChange);
-            this.gbCredentials.Controls.Add(this.btnChange);
-            this.gbCredentials.Controls.Add(this.txtNewPINConfirm);
-            this.gbCredentials.Controls.Add(this.txtNewPIN);
-            this.gbCredentials.Controls.Add(this.txtNewPasswordConfirm);
-            this.gbCredentials.Controls.Add(this.txtNewPassword);
-            this.gbCredentials.Controls.Add(this.btnOk);
-            this.gbCredentials.Controls.Add(this.txtPassword);
-            this.gbCredentials.Controls.Add(this.txtUser);
+            this.gbCredentials.Controls.Add(this.gbChangePassword);
+            this.gbCredentials.Controls.Add(this.gbCred);
             this.gbCredentials.Location = new System.Drawing.Point(12, 12);
             this.gbCredentials.Name = "gbCredentials";
             this.gbCredentials.Size = new System.Drawing.Size(1686, 55);
             this.gbCredentials.TabIndex = 0;
             this.gbCredentials.TabStop = false;
             // 
+            // gbChangePassword
+            // 
+            this.gbChangePassword.Controls.Add(this.btnCancelChange);
+            this.gbChangePassword.Controls.Add(this.btnOKChange);
+            this.gbChangePassword.Controls.Add(this.btnChange);
+            this.gbChangePassword.Controls.Add(this.txtNewPINConfirm);
+            this.gbChangePassword.Controls.Add(this.txtNewPIN);
+            this.gbChangePassword.Controls.Add(this.txtNewPasswordConfirm);
+            this.gbChangePassword.Controls.Add(this.txtNewPassword);
+            this.gbChangePassword.Location = new System.Drawing.Point(319, 8);
+            this.gbChangePassword.Name = "gbChangePassword";
+            this.gbChangePassword.Size = new System.Drawing.Size(693, 41);
+            this.gbChangePassword.TabIndex = 35;
+            this.gbChangePassword.TabStop = false;
+            // 
             // btnCancelChange
             // 
-            this.btnCancelChange.Location = new System.Drawing.Point(923, 17);
+            this.btnCancelChange.Location = new System.Drawing.Point(604, 8);
             this.btnCancelChange.Name = "btnCancelChange";
             this.btnCancelChange.Size = new System.Drawing.Size(75, 27);
-            this.btnCancelChange.TabIndex = 26;
+            this.btnCancelChange.TabIndex = 41;
             this.btnCancelChange.Text = "Cancel";
             this.btnCancelChange.UseVisualStyleBackColor = true;
             this.btnCancelChange.Visible = false;
@@ -80,10 +92,10 @@
             // 
             // btnOKChange
             // 
-            this.btnOKChange.Location = new System.Drawing.Point(842, 17);
+            this.btnOKChange.Location = new System.Drawing.Point(523, 8);
             this.btnOKChange.Name = "btnOKChange";
             this.btnOKChange.Size = new System.Drawing.Size(75, 27);
-            this.btnOKChange.TabIndex = 25;
+            this.btnOKChange.TabIndex = 40;
             this.btnOKChange.Text = "Ok";
             this.btnOKChange.UseVisualStyleBackColor = true;
             this.btnOKChange.Visible = false;
@@ -91,10 +103,10 @@
             // 
             // btnChange
             // 
-            this.btnChange.Location = new System.Drawing.Point(325, 17);
+            this.btnChange.Location = new System.Drawing.Point(6, 8);
             this.btnChange.Name = "btnChange";
             this.btnChange.Size = new System.Drawing.Size(75, 27);
-            this.btnChange.TabIndex = 24;
+            this.btnChange.TabIndex = 39;
             this.btnChange.Text = "Change";
             this.btnChange.UseVisualStyleBackColor = true;
             this.btnChange.Visible = false;
@@ -113,7 +125,7 @@
             this.txtNewPINConfirm.DependingRS = null;
             this.txtNewPINConfirm.Font = new System.Drawing.Font("Tahoma", 10F);
             this.txtNewPINConfirm.ForeColor = System.Drawing.Color.Black;
-            this.txtNewPINConfirm.Location = new System.Drawing.Point(736, 22);
+            this.txtNewPINConfirm.Location = new System.Drawing.Point(417, 13);
             this.txtNewPINConfirm.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtNewPINConfirm.Mask = "9999";
             this.txtNewPINConfirm.Name = "txtNewPINConfirm";
@@ -126,7 +138,7 @@
             this.txtNewPINConfirm.Search = false;
             this.txtNewPINConfirm.Size = new System.Drawing.Size(100, 17);
             this.txtNewPINConfirm.Status = CommonTools.EnumStatus.ADDNEW;
-            this.txtNewPINConfirm.TabIndex = 23;
+            this.txtNewPINConfirm.TabIndex = 38;
             this.txtNewPINConfirm.Upp = false;
             this.txtNewPINConfirm.Value = "";
             this.txtNewPINConfirm.Visible = false;
@@ -144,7 +156,7 @@
             this.txtNewPIN.DependingRS = null;
             this.txtNewPIN.Font = new System.Drawing.Font("Tahoma", 10F);
             this.txtNewPIN.ForeColor = System.Drawing.Color.Black;
-            this.txtNewPIN.Location = new System.Drawing.Point(630, 22);
+            this.txtNewPIN.Location = new System.Drawing.Point(311, 13);
             this.txtNewPIN.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtNewPIN.Mask = "9999";
             this.txtNewPIN.Name = "txtNewPIN";
@@ -157,7 +169,7 @@
             this.txtNewPIN.Search = false;
             this.txtNewPIN.Size = new System.Drawing.Size(100, 17);
             this.txtNewPIN.Status = CommonTools.EnumStatus.ADDNEW;
-            this.txtNewPIN.TabIndex = 20;
+            this.txtNewPIN.TabIndex = 37;
             this.txtNewPIN.Upp = false;
             this.txtNewPIN.Value = "";
             this.txtNewPIN.Visible = false;
@@ -175,7 +187,7 @@
             this.txtNewPasswordConfirm.DependingRS = null;
             this.txtNewPasswordConfirm.Font = new System.Drawing.Font("Tahoma", 10F);
             this.txtNewPasswordConfirm.ForeColor = System.Drawing.Color.Black;
-            this.txtNewPasswordConfirm.Location = new System.Drawing.Point(512, 22);
+            this.txtNewPasswordConfirm.Location = new System.Drawing.Point(193, 13);
             this.txtNewPasswordConfirm.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtNewPasswordConfirm.Multiline = true;
             this.txtNewPasswordConfirm.Name = "txtNewPasswordConfirm";
@@ -186,7 +198,7 @@
             this.txtNewPasswordConfirm.Search = false;
             this.txtNewPasswordConfirm.Size = new System.Drawing.Size(100, 17);
             this.txtNewPasswordConfirm.Status = CommonTools.EnumStatus.EDIT;
-            this.txtNewPasswordConfirm.TabIndex = 11;
+            this.txtNewPasswordConfirm.TabIndex = 36;
             this.txtNewPasswordConfirm.Upp = true;
             this.txtNewPasswordConfirm.UseSystemPasswordChar = true;
             this.txtNewPasswordConfirm.Value = "";
@@ -205,7 +217,7 @@
             this.txtNewPassword.DependingRS = null;
             this.txtNewPassword.Font = new System.Drawing.Font("Tahoma", 10F);
             this.txtNewPassword.ForeColor = System.Drawing.Color.Black;
-            this.txtNewPassword.Location = new System.Drawing.Point(406, 22);
+            this.txtNewPassword.Location = new System.Drawing.Point(87, 13);
             this.txtNewPassword.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtNewPassword.Multiline = true;
             this.txtNewPassword.Name = "txtNewPassword";
@@ -216,15 +228,29 @@
             this.txtNewPassword.Search = false;
             this.txtNewPassword.Size = new System.Drawing.Size(100, 17);
             this.txtNewPassword.Status = CommonTools.EnumStatus.EDIT;
-            this.txtNewPassword.TabIndex = 9;
+            this.txtNewPassword.TabIndex = 35;
             this.txtNewPassword.Upp = true;
             this.txtNewPassword.UseSystemPasswordChar = true;
             this.txtNewPassword.Value = "";
             this.txtNewPassword.Visible = false;
             // 
+            // gbCred
+            // 
+            this.gbCred.BackColor = System.Drawing.Color.Transparent;
+            this.gbCred.Controls.Add(this.btnOk);
+            this.gbCred.Controls.Add(this.txtPassword);
+            this.gbCred.Controls.Add(this.txtUser);
+            this.gbCred.Location = new System.Drawing.Point(6, 8);
+            this.gbCred.Margin = new System.Windows.Forms.Padding(0);
+            this.gbCred.Name = "gbCred";
+            this.gbCred.Padding = new System.Windows.Forms.Padding(0);
+            this.gbCred.Size = new System.Drawing.Size(310, 41);
+            this.gbCred.TabIndex = 34;
+            this.gbCred.TabStop = false;
+            // 
             // btnOk
             // 
-            this.btnOk.Location = new System.Drawing.Point(231, 17);
+            this.btnOk.Location = new System.Drawing.Point(226, 8);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 27);
             this.btnOk.TabIndex = 4;
@@ -245,7 +271,7 @@
             this.txtPassword.DependingRS = null;
             this.txtPassword.Font = new System.Drawing.Font("Tahoma", 10F);
             this.txtPassword.ForeColor = System.Drawing.Color.Black;
-            this.txtPassword.Location = new System.Drawing.Point(125, 22);
+            this.txtPassword.Location = new System.Drawing.Point(120, 14);
             this.txtPassword.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtPassword.Multiline = true;
             this.txtPassword.Name = "txtPassword";
@@ -274,7 +300,7 @@
             this.txtUser.DependingRS = null;
             this.txtUser.Font = new System.Drawing.Font("Tahoma", 10F);
             this.txtUser.ForeColor = System.Drawing.Color.Black;
-            this.txtUser.Location = new System.Drawing.Point(11, 22);
+            this.txtUser.Location = new System.Drawing.Point(6, 14);
             this.txtUser.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtUser.Multiline = true;
             this.txtUser.Name = "txtUser";
@@ -329,7 +355,7 @@
             this.gbDebug.Size = new System.Drawing.Size(1683, 132);
             this.gbDebug.TabIndex = 3;
             this.gbDebug.TabStop = false;
-            this.gbDebug.Text = "groupBox1";
+            this.gbDebug.Text = "Debug";
             // 
             // fMain
             // 
@@ -339,11 +365,15 @@
             this.Controls.Add(this.gbDebug);
             this.Controls.Add(this.gbApps);
             this.Controls.Add(this.gbCredentials);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "fMain";
             this.Text = "LogOn";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.gbCredentials.ResumeLayout(false);
-            this.gbCredentials.PerformLayout();
+            this.gbChangePassword.ResumeLayout(false);
+            this.gbChangePassword.PerformLayout();
+            this.gbCred.ResumeLayout(false);
+            this.gbCred.PerformLayout();
             this.gbApps.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -352,21 +382,23 @@
         #endregion
 
         private System.Windows.Forms.GroupBox gbCredentials;
-        private EspackFormControls.EspackTextBox txtPassword;
-        private EspackFormControls.EspackTextBox txtUser;
-        private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.GroupBox gbApps;
         private LogOn.cAppBot cAppBot1;
         private System.Windows.Forms.TableLayoutPanel tlpApps;
         private System.Windows.Forms.TextBox txtDebug1;
         private System.Windows.Forms.GroupBox gbDebug;
-        private EspackFormControls.EspackTextBox txtNewPasswordConfirm;
-        private EspackFormControls.EspackTextBox txtNewPassword;
-        private EspackFormControls.EspackMaskedTextBox txtNewPINConfirm;
-        private EspackFormControls.EspackMaskedTextBox txtNewPIN;
+        private System.Windows.Forms.GroupBox gbChangePassword;
         private System.Windows.Forms.Button btnCancelChange;
         private System.Windows.Forms.Button btnOKChange;
         private System.Windows.Forms.Button btnChange;
+        private EspackFormControls.EspackMaskedTextBox txtNewPINConfirm;
+        private EspackFormControls.EspackMaskedTextBox txtNewPIN;
+        private EspackFormControls.EspackTextBox txtNewPasswordConfirm;
+        private EspackFormControls.EspackTextBox txtNewPassword;
+        private System.Windows.Forms.GroupBox gbCred;
+        private System.Windows.Forms.Button btnOk;
+        private EspackFormControls.EspackTextBox txtPassword;
+        private EspackFormControls.EspackTextBox txtUser;
     }
 }
 
