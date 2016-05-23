@@ -1,0 +1,100 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using LogOn;
+using CommonTools;
+using System.IO;
+using System.Windows.Forms;
+
+namespace LogOnLoader
+{
+    public static class cLogonCheck
+    {
+        private static int _zone = 0;
+        public static EspackParamArray espackArgs { get; set; }
+        public static frmSplash fSplash;
+        public static void check(string[] args)
+        {
+            fSplash = new CommonTools.frmSplash(null, "Checking Logon Updates.", false);
+            fSplash.ShowDialog();
+
+            // Load the vars from the given args
+            espackArgs = CT.LoadVars(args);
+            
+
+            // If DB is not set in args, we assume any args are set
+            if (espackArgs.DataBase == null)
+            {
+                espackArgs.DataBase = "SISTEMAS";
+                espackArgs.User = "procesos";
+                espackArgs.Password = "*seso69*";
+
+                // Init _zone var (200, 210, 220, etc...), _pathLogonHosts (the path for the logonHosts file) and the list _content (that will contain logonHosts contents)
+                //int _zone = 0;
+                string _pathLogonHosts;
+                List<string> _content = new List<string>();
+
+                // Programmer rest (just for DEBUG time)
+#if DEBUG
+                _pathLogonHosts = "c:\\espack\\logonHosts";
+#else
+            _pathLogonHosts = ".\\logonHosts";
+#endif
+                _pathLogonHosts = "c:\\espack\\logonHosts";
+                // Get logonHosts file content       
+                if (File.Exists(_pathLogonHosts))
+                {
+                    _content = File.ReadAllLines(_pathLogonHosts).ToList<string>();
+                    var _IP = Values.gDatos.IP.GetAddressBytes();
+                    if (_IP[0] == 10)
+                        _zone = _IP[1];
+                    else
+                        _zone = _IP[2];
+                }
+                else
+                {
+                    throw new Exception("Can not find connection details");
+                }
+
+                // Put in _line the corresponding to the _zone (if (_zone==200) then _line="200|10.200.10.130|10.200.10.138|80.33.195.45|VAL")
+                string _line = _content.FirstOrDefault(p => p.Substring(0, 3) == _zone.ToString());
+
+                // DB Server is the 2nd element in _line
+                espackArgs.Server = _line.Split('|')[1];
+
+            }
+
+            // Set the values of gDatos from the given args or default settings 
+            Values.gDatos.DataBase = espackArgs.DataBase;
+            Values.gDatos.Server = espackArgs.Server;
+            Values.gDatos.User = espackArgs.User;
+            Values.gDatos.Password = espackArgs.Password;
+
+            // Connect (or try)
+            try
+            {
+                Values.gDatos.Connect();
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Error connecting database server: " + e.Message);
+            }
+            Values.FillServers(_zone);
+            Values.AppList.Add(new cAppBot("logon", "LOGON", "SISTEMAS", "logon.exe", "LOC", Values.DBServerList[Values.COD3], Values.ShareServerList[Values.COD3]));
+            Values.AppList[0].CheckUpdated();
+            if (Values.AppList.PendingApps.Count != 0)
+            {
+                fSplash.Message = "Updating LogOn.";
+                Values.ActiveThreads++;
+                var _thread = new cUpdaterThread(Values.debugBox, Values.ActiveThreads);
+                // launch task not async
+                _thread.Process();
+            }
+            fSplash.Message = "LogOn updated.";
+            fSplash.TimerEnabled(true);
+            //
+        }
+    }
+}
