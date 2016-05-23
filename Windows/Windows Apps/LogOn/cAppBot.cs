@@ -491,6 +491,12 @@ namespace LogOn
             }
             return _clean;
         }
+
+
+        private void cAppBot_()
+        {
+
+        }
     }
 
 
@@ -594,78 +600,11 @@ namespace LogOn
             Dispose(true);
             // TODO: uncomment the following line if the finalizer is overridden above.
             // GC.SuppressFinalize(this);
+            disposedValue = false;
         }
         #endregion
     }
 
 
-
-    public class XPicturebox : PictureBox
-    {
-        protected override void OnPaint(PaintEventArgs pe)
-        {
-            Graphics g = pe.Graphics;
-
-            if (Enabled)
-            {
-                if (Image != null)
-                {
-                    if (SizeMode == PictureBoxSizeMode.StretchImage)
-                    {
-                        g.DrawImage(this.Image, new Rectangle(0, 0, Width, Height), new Rectangle(0, 0, Image.Width, Image.Height), GraphicsUnit.Pixel);
-                    }
-                    else if (SizeMode == PictureBoxSizeMode.Normal)
-                    {
-                        g.DrawImage(this.Image, 0, 0, this.Width, this.Height);
-                    }
-                    else if (SizeMode == PictureBoxSizeMode.AutoSize)
-                    {
-                        g.DrawImage(this.Image, 0, 0, this.Image.Width, this.Image.Height);
-                        this.Width = this.Image.Width;
-                        this.Height = this.Image.Height;
-                    }
-                    else
-                    {
-                        g.DrawImage(this.Image, 0, 0, this.Width, this.Height);
-                    }
-                }
-            }
-            else
-            {
-                if (Image != null)
-                {
-                    using (Image img = new Bitmap(this.Width, this.Height))
-                    {
-                        using (Graphics g2 = Graphics.FromImage(img))
-                        {
-                            if (SizeMode == PictureBoxSizeMode.StretchImage)
-                            {
-                                g2.DrawImage(Image, new Rectangle(0, 0, Width, Height), new Rectangle(0, 0, Image.Width, Image.Height), GraphicsUnit.Pixel);
-                            }
-                            else if (SizeMode == PictureBoxSizeMode.Normal)
-                            {
-                                g2.DrawImage(Image, 0, 0, Width, Height);
-                            }
-                            else if (SizeMode == PictureBoxSizeMode.AutoSize)
-                            {
-                                g2.DrawImage(Image, 0, 0, this.Image.Width, this.Image.Height);
-                                this.Width = Image.Width;
-                                this.Height = Image.Height;
-                            }
-                            else if (SizeMode == PictureBoxSizeMode.CenterImage)
-                            {
-                            }
-                            else
-                            {
-                                g2.DrawImage(Image, 0, 0, Width, Height);
-                            }
-                        }
-                        ControlPaint.DrawImageDisabled(g, img, 0, 0, this.BackColor);
-                    }
-                }
-            }
-
-        }
-    }
 
 }

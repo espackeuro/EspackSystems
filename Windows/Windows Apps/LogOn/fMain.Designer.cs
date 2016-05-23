@@ -63,6 +63,7 @@
             this.gbCredentials.Size = new System.Drawing.Size(1686, 55);
             this.gbCredentials.TabIndex = 0;
             this.gbCredentials.TabStop = false;
+
             // 
             // gbChangePassword
             // 
@@ -140,6 +141,7 @@
             this.txtNewPINConfirm.Status = CommonTools.EnumStatus.ADDNEW;
             this.txtNewPINConfirm.TabIndex = 38;
             this.txtNewPINConfirm.Upp = false;
+            this.txtNewPINConfirm.UseSystemPasswordChar = true;
             this.txtNewPINConfirm.Value = "";
             this.txtNewPINConfirm.Visible = false;
             // 
@@ -171,6 +173,7 @@
             this.txtNewPIN.Status = CommonTools.EnumStatus.ADDNEW;
             this.txtNewPIN.TabIndex = 37;
             this.txtNewPIN.Upp = false;
+            this.txtNewPIN.UseSystemPasswordChar = true;
             this.txtNewPIN.Value = "";
             this.txtNewPIN.Visible = false;
             // 
