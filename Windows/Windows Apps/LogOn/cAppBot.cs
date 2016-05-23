@@ -17,9 +17,14 @@ using System.Globalization;
 using FTP;
 using CommonTools;
 using System.Net.FtpClient;
+using System.Windows.Input;
+using System.Diagnostics;
+
 namespace LogOn
 {
     public enum AppBotStatus {INIT, CHECKING, PENDING_UPDATE, UPDATED}
+
+    // Class cAppBot: It contains the data for each APP, some methods for the APP management (run, update, etc) and some visual controls (progress bar, button, etc).
     public class cAppBot : Control
     {
         public string Code { get; set; }
@@ -38,8 +43,10 @@ namespace LogOn
         public string LocalPath { get; set; }
         public bool Special { get; set; }
 
+        // For the calls from different threads
         delegate void ChangeStatusCallback(AppBotStatus pStatus);
-        
+
+        // List of PENDING TO UPDATE items
         public List<cUpdateListItem> PendingItems
         {
             get
@@ -47,6 +54,8 @@ namespace LogOn
                 return Values.UpdateList.Where(x => x.Parent == this && x.Status == LogonItemUpdateStatus.PENDING).ToList();
             }
         }
+
+        // List of items BEING UPDATED
         public List<cUpdateListItem> UpdatingItems
         {
             get
@@ -54,6 +63,8 @@ namespace LogOn
                 return Values.UpdateList.Where(x => x.Parent == this && x.Status == LogonItemUpdateStatus.UPDATING).ToList();
             }
         }
+        
+        // List of ALL items
         public List<cUpdateListItem> Items
         {
             get
@@ -61,6 +72,8 @@ namespace LogOn
                 return Values.UpdateList.Where(x => x.Parent.Code == this.Code).ToList();
             }
         }
+
+        // List of UPDATED items
         public List<cUpdateListItem> UpdatedItems
         {
             get
@@ -69,7 +82,7 @@ namespace LogOn
             }
         }
 
-
+        // Overwrite Size property (to change grpApp.Size when this.Size is changed)
         public new Size Size
         {
             get
@@ -86,6 +99,8 @@ namespace LogOn
 
             }
         }
+        
+        // Status property: Sets the status value and changes the appearance of some related controls
         public AppBotStatus Status
         {
             get
@@ -94,12 +109,14 @@ namespace LogOn
             }
             set
             {
+                // Log it to the debugBox.
                 if (Values.debugBox != null)
                 {
                     Values.debugBox.AppendText(string.Format("App {0} status: {1}\n", Code, value));
                 }
                 switch (value)
                 {
+                    // When INIT/UPDATED -> Button enabled, ProgressBar not visible.
                     case AppBotStatus.INIT:
                     case AppBotStatus.UPDATED:
                         if (Special)
@@ -107,22 +124,25 @@ namespace LogOn
                         else
                             try
                             {
+                                // First try to get the App icon from the exe file.
                                 AppIcon = Icon.ExtractAssociatedIcon(LocalPath).ToBitmap();
                             }
                             catch
                             {
+                                // If not possible, we use the default App icon.
                                 AppIcon = Properties.Resources.Prototype_96;
                             }
                         pctApp.Image = AppIcon;
                         pctApp.Enabled = true;
                         prgApp.Visible = false;
-                        break; 
+                        break;
+                    // When CHECKING -> Button disabled, ProgressBar not visible.
                     case AppBotStatus.CHECKING:
                         pctApp.Enabled = false;
                         prgApp.Visible = false;
                         break;
+                    // When PENDING_UPDATE -> Button disabled, ProgressBar visible and running.
                     case AppBotStatus.PENDING_UPDATE:
-
                         prgApp.Style = ProgressBarStyle.Marquee;
                         prgApp.Minimum = 0;
                         prgApp.Maximum = 200;
@@ -135,6 +155,8 @@ namespace LogOn
                 _status = value;
             }
         }
+        
+        // Some "constants" for the appearance of this control.
         public static int GROUP_HEIGHT = 125;
         public static int GROUP_WIDTH = 125;
 
@@ -150,6 +172,7 @@ namespace LogOn
         public static int PICTURE_HEIGHT = GROUP_HEIGHT - DESCRIPTION_PADDING - DESCRIPTION_HEIGHT - PICTURE_PADDING * 2;
         public static int PICTURE_WIDTH = GROUP_WIDTH - PICTURE_PADDING * 2;
 
+        // Constructor (with args) -> Calls the base constructor and sets some properties
         public cAppBot(string pCode, string pDescription, string pDatabase, string pExeName, string ServiceZone, cServer pDBServer, cServer pShareServer, bool pSpecial=false)
             : this()
         {
@@ -158,21 +181,20 @@ namespace LogOn
             DataBase = pDatabase;
             ExeName = pExeName;
             LocalPath= Values.LOCAL_PATH + Code + "/" + ExeName;
-            //
             DBServer = pDBServer;
             ShareServer = pShareServer;
             lblDescriptionApp.Text = Description;
             pctApp.Image = AppIcon;
             Special = pSpecial;
-            ChangeStatus(AppBotStatus.INIT);
             
+            // Set Initial Status.
+            ChangeStatus(AppBotStatus.INIT);
         }
 
+        // Constructor (without args) -> Creates the Button, the ProgressBar, the Label and a GroupBox that will contain them. 
         public cAppBot()
         {
-
             grpApp = new GroupBox() { Size = new Size(GROUP_WIDTH, GROUP_HEIGHT), Location = new Point(0, 0) };
-            //pctApp = new PictureBox();
             pctApp = new Button();
             prgApp = new ProgressBar()
             {
@@ -181,28 +203,33 @@ namespace LogOn
                 Visible = false
             };
             lblDescriptionApp = new Label() { Size = new Size(DESCRIPTION_WIDTH, DESCRIPTION_HEIGHT), Location = new Point(DESCRIPTION_PADDING, GROUP_HEIGHT - DESCRIPTION_HEIGHT - DESCRIPTION_PADDING), TextAlign = ContentAlignment.MiddleCenter };
-            //pctApp = new PictureBox() { Size = new Size(PICTURE_WIDTH, PICTURE_HEIGHT), Location = new Point(PICTURE_PADDING, PICTURE_PADDING) };
             pctApp = new Button() { Size = new Size(PICTURE_WIDTH, PICTURE_HEIGHT), Location = new Point(PICTURE_PADDING, PICTURE_PADDING) };
 #if DEBUG
-            //pctApp.BorderStyle = BorderStyle.FixedSingle;
             lblDescriptionApp.BorderStyle = BorderStyle.FixedSingle;
 #else
             pctApp.FlatAppearance.BorderSize = 0;
             pctApp.FlatStyle = FlatStyle.Flat;
 #endif
 
-            //pctApp.Image = Properties.Resources.Prototype_96;
-            //pctApp.SizeMode = PictureBoxSizeMode.CenterImage;
-
+            // Add prgApp, pctApp and lblDescriptionApp to the grpApp GroupBox.
             grpApp.Controls.Add(prgApp);
             grpApp.Controls.Add(pctApp);
             grpApp.Controls.Add(lblDescriptionApp);
             MaximumSize = Size;
             MinimumSize = Size;
             this.Controls.Add(grpApp);
-            
+
+            // Add the Click event.
+            pctApp.Click += PctApp_Click;
         }
 
+        private void PctApp_Click(object sender, EventArgs e)
+        {
+            if (!Special)
+                LaunchApp();
+        }
+
+        // Overwrite resize event 
         protected override void OnResize(EventArgs e)
         {
             this.Size = new Size(GROUP_WIDTH, GROUP_HEIGHT);
@@ -215,6 +242,7 @@ namespace LogOn
 
         }
 
+        // CheckUpdated -> Returns true if all the files for this APP are updated.
         public async Task<bool> CheckUpdated()
         {
             ChangeStatus(AppBotStatus.CHECKING);
@@ -492,11 +520,33 @@ namespace LogOn
             return _clean;
         }
 
-
-        private void cAppBot_()
+        private async void LaunchApp()
         {
+            ChangeStatus(AppBotStatus.PENDING_UPDATE);
 
+            if (!await CheckUpdated())
+            {
+
+            }
+            ChangeStatus(AppBotStatus.UPDATED);
+
+            // Use ProcessStartInfo class
+            ProcessStartInfo startInfo = new ProcessStartInfo();
+            startInfo.UseShellExecute = false;
+            startInfo.FileName = LocalPath;
+            startInfo.WindowStyle = ProcessWindowStyle.Maximized;
+            startInfo.Arguments = "/srv="+DBServer.IP.ToString()+" /db="+DataBase+" /usr="+DBServer.User+" /pwd="+DBServer.Password+" /loc="+DBServer.COD3+" /app="+ExeName.ToUpper().Replace(".EXE","");
+
+            try
+            {
+                Process exeProcess = Process.Start(startInfo);
+            }
+            catch
+            {
+                // Log error.
+            }
         }
+
     }
 
 

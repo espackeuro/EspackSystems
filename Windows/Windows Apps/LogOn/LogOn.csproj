@@ -60,6 +60,7 @@
     <Reference Include="CtlVSGrid">
       <HintPath>..\..\..\EspackControls\CtlVSGrid\obj\Debug\CtlVSGrid.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.FtpClient, Version=1.0.5824.34026, Culture=neutral, PublicKeyToken=fa4be07daa57c2b7, processorArchitecture=MSIL">

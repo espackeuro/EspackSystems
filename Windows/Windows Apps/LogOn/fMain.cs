@@ -34,6 +34,7 @@ namespace LogOn
         delegate void gbDebugCallBack(Control c);
         delegate void LogOnChangeStatusCallBack(LogOnStatus l);
 
+        
 
 
         private void LogOnChangeStatus(LogOnStatus pStatus)
@@ -517,7 +518,6 @@ namespace LogOn
             }
 
         }
-
     }
 
 
@@ -546,7 +546,7 @@ namespace LogOn
                 _RS.Open();
                 while (!_RS.EOF)
                 {
-                    Values.DBServerList.Add(new cServer() { HostName = _RS["ServerDB"].ToString(), IP = IPAddress.Parse(_RS["ServerDBIP"].ToString()), COD3 = _RS["COD3"].ToString(), Type = ServerTypes.DATABASE });
+                    Values.DBServerList.Add(new cServer() { HostName = _RS["ServerDB"].ToString(), IP = IPAddress.Parse(_RS["ServerDBIP"].ToString()), COD3 = _RS["COD3"].ToString(), Type = ServerTypes.DATABASE, User=Values.User, Password=Values.Password });
                     Values.ShareServerList.Add(new cServer()
                     {
                         HostName = _RS["ServerShare"].ToString(),
@@ -559,12 +559,12 @@ namespace LogOn
                     if (Convert.ToInt16(_RS["zone"]) == pZone)
                     {
                         Values.COD3 = _RS["COD3"].ToString();
-                        Values.DBServerList.Add(new cServer() { HostName = _RS["ServerDB"].ToString(), IP = IPAddress.Parse(_RS["ServerDBIP"].ToString()), COD3 = "LOC", Type = ServerTypes.DATABASE });
+                        Values.DBServerList.Add(new cServer() { HostName = _RS["ServerDB"].ToString(), IP = IPAddress.Parse(_RS["ServerDBIP"].ToString()), COD3 = "LOC", Type = ServerTypes.DATABASE, User = Values.User, Password = Values.Password });
                     }
 
                     _RS.MoveNext();
                 }
-                Values.DBServerList.Add(new cServer() { HostName = "DB01", IP = Dns.GetHostEntry("DB01").AddressList[0], COD3 = "OUT", Type = ServerTypes.DATABASE });
+                Values.DBServerList.Add(new cServer() { HostName = "DB01", IP = Dns.GetHostEntry("DB01").AddressList[0], COD3 = "OUT", Type = ServerTypes.DATABASE, User = Values.User, Password = Values.Password });
             }
         }
 
