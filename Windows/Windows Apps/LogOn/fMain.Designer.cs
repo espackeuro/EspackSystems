@@ -1,4 +1,6 @@
-﻿namespace LogOn
+﻿using System;
+
+namespace LogOn
 {
     partial class fMain
     {
@@ -63,7 +65,6 @@
             this.gbCredentials.Size = new System.Drawing.Size(1686, 55);
             this.gbCredentials.TabIndex = 0;
             this.gbCredentials.TabStop = false;
-
             // 
             // gbChangePassword
             // 
@@ -402,6 +403,7 @@
         private System.Windows.Forms.Button btnOk;
         private EspackFormControls.EspackTextBox txtPassword;
         private EspackFormControls.EspackTextBox txtUser;
+        private EventHandler gbCred_MouseDoubleClick;
     }
 }
 
