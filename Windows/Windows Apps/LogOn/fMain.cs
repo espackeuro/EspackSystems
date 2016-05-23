@@ -316,36 +316,6 @@ namespace LogOn
             }
         }
 
-        private void FillServers()
-        {
-
-            using (var _RS = new DynamicRS("select COD3,ServerDB,ServerDBIP,ServerShare,ServerShareIP,zone,UserShare,PasswordShare from general..sedes", Values.gDatos))
-            {
-                _RS.Open();
-                while (!_RS.EOF)
-                {
-                    Values.DBServerList.Add(new cServer() { HostName = _RS["ServerDB"].ToString(), IP = IPAddress.Parse(_RS["ServerDBIP"].ToString()), COD3 = _RS["COD3"].ToString(), Type = ServerTypes.DATABASE });
-                    Values.ShareServerList.Add(new cServer()
-                    {
-                        HostName = _RS["ServerShare"].ToString(),
-                        IP = IPAddress.Parse(_RS["ServerShareIP"].ToString()),
-                        COD3 = _RS["COD3"].ToString(),
-                        Type = ServerTypes.DATABASE,
-                        User = _RS["UserShare"].ToString(),
-                        Password = _RS["PasswordShare"].ToString()
-                    });
-                    if (Convert.ToInt16(_RS["zone"]) == _zone)
-                    {
-                        Values.COD3 = _RS["COD3"].ToString();
-                        Values.DBServerList.Add(new cServer() { HostName = _RS["ServerDB"].ToString(), IP = IPAddress.Parse(_RS["ServerDBIP"].ToString()), COD3 = "LOC", Type = ServerTypes.DATABASE });
-                    }
-
-                    _RS.MoveNext();
-                }
-                Values.DBServerList.Add(new cServer() { HostName = "DB01", IP = Dns.GetHostEntry("DB01").AddressList[0], COD3 = "OUT", Type = ServerTypes.DATABASE });
-            }
-        }
-
         private void FillApps()
         {
 
@@ -434,8 +404,7 @@ namespace LogOn
                 }
                 Values.User = txtUser.Text;
                 Values.Password = txtPassword.Text;
-
-                FillServers();
+                Values.FillServers(_zone);
                 FillApps();
                 DrawListApps();
                 await CheckUpdatableApps().ConfigureAwait(false);
@@ -510,22 +479,45 @@ namespace LogOn
             LogOnChangeStatus(LogOnStatus.CONNECTED);
         }
 
-
+        // Capture some pressed key
         protected override void OnKeyDown(KeyEventArgs e)
         {
+            // ENTER Key
             if (e.KeyCode == Keys.Enter)
-                if (gbCred.ContainsFocus)
+            {
+                // Focus on Password Textbox -> Press OK button
+                if (txtPassword.ContainsFocus)
                 {
                     btnOk.PerformClick();
-
                 }
-                else if (gbChangePassword.ContainsFocus)
+                // Focus on PINConfirm Textbox -> Press OKChange button
+                else if (txtNewPINConfirm.ContainsFocus)
                 {
                     btnOKChange.PerformClick();
                 }
+                // Focus on any other control in gbCred or gbChangePassword -> Send TAB Key
+                else if (gbCred.ContainsFocus || gbChangePassword.ContainsFocus)
+                {
+                    SendKeys.Send("{tab}");
+                }
+                // Any other case -> Do base OnKeyDown
                 else
                     base.OnKeyDown(e);
+            }
+
+            // ESC Key
+            if (e.KeyCode == Keys.Escape)
+            {
+                // Focus on gbCred controls (when not connected) -> Clean the credentials fields (done in LogOnStatus.INIT)
+                if (Status==LogOnStatus.INIT && gbCred.ContainsFocus)
+                    LogOnChangeStatus(LogOnStatus.INIT);
+                // Focus on gbChangePassword controls -> Cancel the ChangePassword status
+                else if (gbChangePassword.ContainsFocus)
+                    LogOnChangeStatus(LogOnStatus.CONNECTED);
+            }
+
         }
+
     }
 
 
@@ -545,6 +537,37 @@ namespace LogOn
         public static cUpdateList UpdateDir = new cUpdateList();
         public static int ActiveThreads=0;
         public static DebugTextbox debugBox;
+
+        public static void FillServers(int pZone)
+        {
+
+            using (var _RS = new DynamicRS("select COD3,ServerDB,ServerDBIP,ServerShare,ServerShareIP,zone,UserShare,PasswordShare from general..sedes", Values.gDatos))
+            {
+                _RS.Open();
+                while (!_RS.EOF)
+                {
+                    Values.DBServerList.Add(new cServer() { HostName = _RS["ServerDB"].ToString(), IP = IPAddress.Parse(_RS["ServerDBIP"].ToString()), COD3 = _RS["COD3"].ToString(), Type = ServerTypes.DATABASE });
+                    Values.ShareServerList.Add(new cServer()
+                    {
+                        HostName = _RS["ServerShare"].ToString(),
+                        IP = IPAddress.Parse(_RS["ServerShareIP"].ToString()),
+                        COD3 = _RS["COD3"].ToString(),
+                        Type = ServerTypes.DATABASE,
+                        User = _RS["UserShare"].ToString(),
+                        Password = _RS["PasswordShare"].ToString()
+                    });
+                    if (Convert.ToInt16(_RS["zone"]) == pZone)
+                    {
+                        Values.COD3 = _RS["COD3"].ToString();
+                        Values.DBServerList.Add(new cServer() { HostName = _RS["ServerDB"].ToString(), IP = IPAddress.Parse(_RS["ServerDBIP"].ToString()), COD3 = "LOC", Type = ServerTypes.DATABASE });
+                    }
+
+                    _RS.MoveNext();
+                }
+                Values.DBServerList.Add(new cServer() { HostName = "DB01", IP = Dns.GetHostEntry("DB01").AddressList[0], COD3 = "OUT", Type = ServerTypes.DATABASE });
+            }
+        }
+
     }
 
     public class DebugTextbox : TextBox
