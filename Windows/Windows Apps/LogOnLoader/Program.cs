@@ -19,8 +19,8 @@ namespace LogOnLoader
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            cLogonCheck.check(args);
-            //Application.Run(new fMain());
+            fMain fMain = new fMain(args);
+            Application.Run(fMain);
         }
     }
 }

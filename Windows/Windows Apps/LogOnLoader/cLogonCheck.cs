@@ -10,19 +10,16 @@ using System.Windows.Forms;
 
 namespace LogOnLoader
 {
-    public static class cLogonCheck
+    public partial class fMain : frmSplash
     {
         private static int _zone = 0;
         public static EspackParamArray espackArgs { get; set; }
-        public static frmSplash fSplash;
-        public static void check(string[] args)
+        public void LogonCheck()
         {
-            fSplash = new CommonTools.frmSplash(null, "Checking Logon Updates.", false);
-            fSplash.ShowDialog();
-
+            //System.Threading.Thread.Sleep(5000);
             // Load the vars from the given args
-            espackArgs = CT.LoadVars(args);
-            
+            espackArgs = CT.LoadVars(Args);
+
 
             // If DB is not set in args, we assume any args are set
             if (espackArgs.DataBase == null)
@@ -82,19 +79,25 @@ namespace LogOnLoader
                 throw new Exception("Error connecting database server: " + e.Message);
             }
             Values.FillServers(_zone);
-            Values.AppList.Add(new cAppBot("logon", "LOGON", "SISTEMAS", "logon.exe", "LOC", Values.DBServerList[Values.COD3], Values.ShareServerList[Values.COD3]));
-            Values.AppList[0].CheckUpdated();
+            Values.AppList.Add(new cAppBot("logon", "LOGON", "SISTEMAS", "logon.exe", "LOC", Values.DBServerList[Values.COD3], Values.ShareServerList[Values.COD3],true));
+            Values.AppList[0].CheckUpdatedSync();
             if (Values.AppList.PendingApps.Count != 0)
             {
-                fSplash.Message = "Updating LogOn.";
+
+                this.Message = "Updating LogOn.";
+                Application.DoEvents();
+                System.Threading.Thread.Sleep(250);
                 Values.ActiveThreads++;
                 var _thread = new cUpdaterThread(Values.debugBox, Values.ActiveThreads);
                 // launch task not async
                 _thread.Process();
             }
-            fSplash.Message = "LogOn updated.";
-            fSplash.TimerEnabled(true);
+            this.Message = "LogOn updated. Launching.";
+            System.Threading.Thread.Sleep(250);
+            Values.AppList[0].LaunchApp();
             //
         }
+
     }
+
 }
