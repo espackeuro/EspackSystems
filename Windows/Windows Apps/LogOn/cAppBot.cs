@@ -223,10 +223,10 @@ namespace LogOn
             pctApp.Click += PctApp_Click;
         }
 
-        private void PctApp_Click(object sender, EventArgs e)
+        private async void PctApp_Click(object sender, EventArgs e)
         {
             if (!Special)
-                LaunchApp();
+                await LaunchApp().ConfigureAwait(false);
         }
 
         // Overwrite resize event 
@@ -534,14 +534,18 @@ namespace LogOn
             return _clean;
         }
 
-        public async void LaunchApp()
+        public async Task LaunchApp()
         {
             ChangeStatus(AppBotStatus.PENDING_UPDATE);
 
             if (!Special)
-                if (!await CheckUpdated())
+                if (!await CheckUpdated().ConfigureAwait(false))
                 {
-
+                    Application.DoEvents();
+                    Values.ActiveThreads++;
+                    var _thread = new cUpdaterThread(Values.debugBox, Values.ActiveThreads);
+                    // launch task not async
+                    _thread.Process();
                 }
             ChangeStatus(AppBotStatus.UPDATED);
 
@@ -550,7 +554,7 @@ namespace LogOn
             startInfo.UseShellExecute = false;
             startInfo.FileName = LocalPath;
             startInfo.WindowStyle = ProcessWindowStyle.Maximized;
-            startInfo.Arguments = "/srv="+DBServer.IP.ToString()+" /db="+DataBase+" /usr="+DBServer.User+" /pwd="+DBServer.Password+" /loc="+DBServer.COD3+" /app="+ExeName.ToUpper().Replace(".EXE","");
+            startInfo.Arguments = "/srv="+DBServer.IP.ToString()+" /db="+DataBase+" /usr="+DBServer.User+" /pwd="+DBServer.Password+" /loc=OUT /app="+ExeName.ToUpper().Replace(".EXE","");
 
             try
             {

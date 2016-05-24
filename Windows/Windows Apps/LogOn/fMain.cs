@@ -143,7 +143,19 @@ namespace LogOn
             Panel2.Text = "My IP: " + Values.gDatos.IP.ToString();
             Panel3.Text = "DB Server IP: " + espackArgs.Server;
 
-            //
+            // Check LogOnLoader update
+            if (File.Exists(Values.LOCAL_PATH+"/logonloader.exe"))
+            {
+                if (File.GetLastWriteTime(Values.LOCAL_PATH + "/logonloader.exe")!= File.GetLastWriteTime(Values.LOCAL_PATH + "/logon/logonloader.exe"))
+                {
+                    File.Delete(Values.LOCAL_PATH + "/logonloader.exe");
+                    File.Copy(Values.LOCAL_PATH + "/logon/logonloader.exe", Values.LOCAL_PATH + "/logonloader.exe");
+                }
+            }
+            else
+            {
+                File.Copy(Values.LOCAL_PATH + "/logon/logonloader.exe", Values.LOCAL_PATH + "/logonloader.exe");
+            }
         }
 
         protected override void OnResize (EventArgs e)
