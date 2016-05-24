@@ -14,18 +14,33 @@ namespace CommonTools
 {
     public partial class frmSplash : Form
     {
-        public frmSplash(string[] args)
+        public string Message
+        {
+            get
+            {
+                return lblMessage.Text;
+            }
+            set
+            {
+                lblMessage.Text = value;
+            }
+        }
+        public frmSplash(string[] args, string pMessage="", bool pTimer=true)
         {
             InitializeComponent();
+            TimerEnabled(pTimer);
             lblCredit.Text = "© Espack Eurologistica Systems Area " + CT.GetBuildDateTime(Assembly.GetExecutingAssembly()).Year.ToString() + " Build " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            lblCommandLine.Text = string.Join(" ", args);
-            MouseClick += delegate
-             {
-                 this.Close();
-             };
+            Message = pMessage=="" ? string.Join(" ", args): pMessage;
+            //MouseClick += delegate
+            // {
+            //     this.Close();
+            // };
         }
-
-        private void timer1_Tick(object sender, EventArgs e)
+        public void TimerEnabled(bool pStatus)
+        {
+            timer1.Enabled = pStatus;
+        }
+        public void timer1_Tick(object sender, EventArgs e)
         {
             timer1.Enabled = false;
             this.Close();

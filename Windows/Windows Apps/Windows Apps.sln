@@ -37,6 +37,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Renci.SshNet", "..\..\Netwo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cFTP", "cFTP\cFTP.csproj", "{04D920D4-F298-4006-9C6A-DA56130E8BDB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogOnLoader", "LogOnLoader\LogOnLoader.csproj", "{690EFA4D-CC4A-4AB1-AA91-5CC2B5E66A7F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +93,10 @@ Global
 		{04D920D4-F298-4006-9C6A-DA56130E8BDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04D920D4-F298-4006-9C6A-DA56130E8BDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04D920D4-F298-4006-9C6A-DA56130E8BDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{690EFA4D-CC4A-4AB1-AA91-5CC2B5E66A7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{690EFA4D-CC4A-4AB1-AA91-5CC2B5E66A7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{690EFA4D-CC4A-4AB1-AA91-5CC2B5E66A7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{690EFA4D-CC4A-4AB1-AA91-5CC2B5E66A7F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -108,9 +114,10 @@ Global
 		{E8C2A7EF-3D7E-4D4E-B594-8A7E625621C4} = {1D17A21A-95D8-436A-8A3A-38AE2EF835CA}
 		{2F5F8C90-0BD1-424F-997C-7BC6280919D1} = {AD5A54CB-AD85-45E0-B075-83BD4834C36D}
 		{04D920D4-F298-4006-9C6A-DA56130E8BDB} = {AD5A54CB-AD85-45E0-B075-83BD4834C36D}
+		{690EFA4D-CC4A-4AB1-AA91-5CC2B5E66A7F} = {1D17A21A-95D8-436A-8A3A-38AE2EF835CA}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 13
+		SccNumberOfProjects = 14
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://espack.visualstudio.com/defaultcollection
 		SccLocalPath0 = .
@@ -162,5 +169,9 @@ Global
 		SccProjectTopLevelParentUniqueName12 = Windows\u0020Apps.sln
 		SccProjectName12 = cFTP
 		SccLocalPath12 = cFTP
+		SccProjectUniqueName13 = LogOnLoader\\LogOnLoader.csproj
+		SccProjectTopLevelParentUniqueName13 = Windows\u0020Apps.sln
+		SccProjectName13 = LogOnLoader
+		SccLocalPath13 = LogOnLoader
 	EndGlobalSection
 EndGlobal
