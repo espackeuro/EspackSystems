@@ -53,6 +53,7 @@ namespace LogOn
         // Main
         public fMain(string[] args)
         {
+
             InitializeComponent();
 
             // Customize the textbox controls 
@@ -71,6 +72,8 @@ namespace LogOn
             Values.debugBox.TabIndex = 3;
             gbDebugAdd(Values.debugBox);
 #endif
+
+          
 
             LogOnChangeStatus(LogOnStatus.INIT);
 
@@ -97,7 +100,7 @@ namespace LogOn
 #else
             _pathLogonHosts = ".\\logonHosts";
 #endif
-                _pathLogonHosts = "c:\\espack\\logonHosts";
+                _pathLogonHosts = Values.LOCAL_PATH +"logon/logonHosts";
                 // Get logonHosts file content       
                 if (File.Exists(_pathLogonHosts))
                 {
@@ -144,17 +147,17 @@ namespace LogOn
             Panel3.Text = "DB Server IP: " + espackArgs.Server;
 
             // Check LogOnLoader update
-            if (File.Exists(Values.LOCAL_PATH+"/logonloader.exe"))
+            if (File.Exists(Values.LOCAL_PATH+"logonloader.exe"))
             {
-                if (File.GetLastWriteTime(Values.LOCAL_PATH + "/logonloader.exe")!= File.GetLastWriteTime(Values.LOCAL_PATH + "/logon/logonloader.exe"))
+                if (File.GetLastWriteTime(Values.LOCAL_PATH + "logonloader.exe") != File.GetLastWriteTime(Values.LOCAL_PATH + "logon/logonloader.exe"))
                 {
-                    File.Delete(Values.LOCAL_PATH + "/logonloader.exe");
-                    File.Copy(Values.LOCAL_PATH + "/logon/logonloader.exe", Values.LOCAL_PATH + "/logonloader.exe");
+                    File.Delete(Values.LOCAL_PATH + "logonloader.exe");
+                    File.Copy(Values.LOCAL_PATH + "logon/logonloader.exe", Values.LOCAL_PATH + "logonloader.exe");
                 }
             }
             else
             {
-                File.Copy(Values.LOCAL_PATH + "/logon/logonloader.exe", Values.LOCAL_PATH + "/logonloader.exe");
+                File.Copy(Values.LOCAL_PATH + "logon/logonloader.exe", Values.LOCAL_PATH + "logonloader.exe");
             }
         }
 

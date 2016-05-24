@@ -403,7 +403,6 @@ namespace LogOn
         private System.Windows.Forms.Button btnOk;
         private EspackFormControls.EspackTextBox txtPassword;
         private EspackFormControls.EspackTextBox txtUser;
-        private EventHandler gbCred_MouseDoubleClick;
     }
 }
 

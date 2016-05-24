@@ -16,7 +16,7 @@ namespace LogOn
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            new CommonTools.frmSplash(args).ShowDialog();
+            //new CommonTools.frmSplash(args).ShowDialog();
             Application.Run(new fMain(args));
         }
     }

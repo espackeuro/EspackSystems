@@ -20,7 +20,6 @@ namespace LogOnLoader
             // Load the vars from the given args
             espackArgs = CT.LoadVars(Args);
 
-
             // If DB is not set in args, we assume any args are set
             if (espackArgs.DataBase == null)
             {
@@ -39,7 +38,7 @@ namespace LogOnLoader
 #else
             _pathLogonHosts = ".\\logonHosts";
 #endif
-                _pathLogonHosts = "c:\\espack\\logonHosts";
+                _pathLogonHosts = Values.LOCAL_PATH+"logon/logonHosts";
                 // Get logonHosts file content       
                 if (File.Exists(_pathLogonHosts))
                 {
@@ -78,6 +77,8 @@ namespace LogOnLoader
             {
                 throw new Exception("Error connecting database server: " + e.Message);
             }
+            Values.User = espackArgs.User;
+            Values.Password= espackArgs.Password;
             Values.FillServers(_zone);
             Values.AppList.Add(new cAppBot("logon", "LOGON", "SISTEMAS", "logon.exe", "LOC", Values.DBServerList[Values.COD3], Values.ShareServerList[Values.COD3],true));
             Values.AppList[0].CheckUpdatedSync();

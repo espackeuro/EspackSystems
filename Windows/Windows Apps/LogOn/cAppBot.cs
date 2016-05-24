@@ -536,9 +536,11 @@ namespace LogOn
 
         public async Task LaunchApp()
         {
-            ChangeStatus(AppBotStatus.PENDING_UPDATE);
+            
 
             if (!Special)
+            {
+                ChangeStatus(AppBotStatus.PENDING_UPDATE);
                 if (!await CheckUpdated().ConfigureAwait(false))
                 {
                     Application.DoEvents();
@@ -547,7 +549,8 @@ namespace LogOn
                     // launch task not async
                     _thread.Process();
                 }
-            ChangeStatus(AppBotStatus.UPDATED);
+                ChangeStatus(AppBotStatus.UPDATED);
+            }
 
             // Use ProcessStartInfo class
             ProcessStartInfo startInfo = new ProcessStartInfo();
@@ -560,9 +563,9 @@ namespace LogOn
             {
                 Process exeProcess = Process.Start(startInfo);
             }
-            catch
+            catch (Exception ex)
             {
-                // Log error.
+                throw ex;
             }
         }
 
