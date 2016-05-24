@@ -1,6 +1,6 @@
 ﻿namespace LogOnLoader
 {
-    partial class Form1
+    partial class fMain
     {
         /// <summary>
         /// Required designer variable.
