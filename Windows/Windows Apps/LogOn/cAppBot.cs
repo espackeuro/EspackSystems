@@ -262,6 +262,20 @@ namespace LogOn
               }).ConfigureAwait(false);
 
         }
+        public bool CheckUpdatedSync()
+        {
+            ChangeStatus(AppBotStatus.CHECKING);
+            bool _clean = true;
+            using (var client = new FtpClient())
+            {
+                client.Host = ShareServer.IP.ToString();
+                client.Credentials = new NetworkCredential(ShareServer.User, ShareServer.Password);
+                client.DataConnectionType = FtpDataConnectionType.AutoActive;
+                client.Connect();
+                _clean = readDirFTP(client, "/APPS_CS/", Code.ToLower());
+            }
+            return _clean;
+        }
         private bool readDirFTP(FtpClient client, string basePath, string relativePath, bool _checkFiles=true)
         {
             bool _clean = true;
@@ -520,14 +534,15 @@ namespace LogOn
             return _clean;
         }
 
-        private async void LaunchApp()
+        public async void LaunchApp()
         {
             ChangeStatus(AppBotStatus.PENDING_UPDATE);
 
-            if (!await CheckUpdated())
-            {
+            if (!Special)
+                if (!await CheckUpdated())
+                {
 
-            }
+                }
             ChangeStatus(AppBotStatus.UPDATED);
 
             // Use ProcessStartInfo class

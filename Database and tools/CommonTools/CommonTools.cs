@@ -17,7 +17,7 @@ namespace CommonTools
 {
     public enum EnumStatus { ADDNEW, EDIT, DELETE, SEARCH, NAVIGATE, EDITGRIDLINE, ADDGRIDLINE }
 
-    public struct EspackParamArray
+    public class EspackParamArray
     {
         public string AppName { get; set; }
         public string Server { get; set; }
