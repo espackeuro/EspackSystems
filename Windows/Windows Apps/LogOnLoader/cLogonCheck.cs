@@ -67,7 +67,8 @@ namespace LogOnLoader
             Values.gDatos.Server = espackArgs.Server;
             Values.gDatos.User = espackArgs.User;
             Values.gDatos.Password = espackArgs.Password;
-
+            Values.User = "procesos";
+            Values.Password = "*seso69*";
             // Connect (or try)
             try
             {
