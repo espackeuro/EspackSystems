@@ -57,9 +57,6 @@
     <Reference Include="CTLMantenimientoNet">
       <HintPath>..\..\..\EspackControls\CTLMantenimientoNet\obj\Debug\CTLMantenimientoNet.dll</HintPath>
     </Reference>
-    <Reference Include="CtlVSGrid">
-      <HintPath>..\..\..\EspackControls\CtlVSGrid\obj\Debug\CtlVSGrid.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -128,6 +125,10 @@
     <ProjectReference Include="..\..\..\Database and tools\CommonTools\CommonTools.csproj">
       <Project>{9148f7e6-31f6-4f96-b7dc-afea449998c7}</Project>
       <Name>CommonTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\EspackControls\CtlVSGrid\CtlVSGrid.csproj">
+      <Project>{6e156f1f-61f2-402b-a942-356427642a52}</Project>
+      <Name>CtlVSGrid</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\EspackControls\EspackControls\EspackControls.csproj">
       <Project>{ece9aa32-f756-4be3-a926-b0771e69066b}</Project>

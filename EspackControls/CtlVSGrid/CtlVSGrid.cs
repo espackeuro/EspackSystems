@@ -175,6 +175,13 @@ namespace VSGrid
                 return Columns.Cast<DataGridViewColumn>().Where(x => ((CtlVSColumn)x).LinkedControl != null);
             }
         }
+
+        public List<object[]> ToList()
+        {
+            return Rows.OfType<DataGridViewRow>().Select(
+            r => r.Cells.OfType<DataGridViewCell>().Select(c => c.Value).ToArray()).ToList();
+        }
+
         public SqlQuery CtlQuery { get; set; }
         public int Page
         {
@@ -657,6 +664,7 @@ namespace VSGrid
             {
                 CtlQuery = CT.SimpleParseSQL(SQL);
                 mDA.FillSchema();
+                Columns.Clear();
                 foreach (DataColumn Col in mDA.Schema)
                 {
                     this.Columns.Add(new CtlVSTextBoxColumn()
