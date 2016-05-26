@@ -417,6 +417,7 @@ namespace VSGrid
                if (_Col is CtlVSTextBoxColumn)
                 {
                     TextBox _box = (TextBox)e.Control;
+                    
                     if (_box != null)
                     {
                         _box.AutoCompleteMode = ((CtlVSColumn)_Col).AutoCompleteMode;

@@ -319,6 +319,11 @@ namespace CommonTools
             return dialogResult;
         }
 
+        public static void MsgError(string pMsg)
+        {
+            MessageBox.Show(pMsg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
         #endregion
     }
 
@@ -405,5 +410,6 @@ namespace CommonTools
             ServerList.Add(pServer);
         }
     }
+
 
 }
