@@ -10,6 +10,10 @@ using CommonTools;
 using System.Linq;
 using System.Collections.Generic;
 using VSGrid;
+using System.Data;
+using System.Data.SqlClient;
+using EspackClasses;
+using System.Collections.Specialized;
 
 namespace Etiquetas_CS
 {
@@ -23,6 +27,8 @@ namespace Etiquetas_CS
         public string SQLQty { get; set; }
         public Dictionary<string, string> Parameters { get; set; } = new Dictionary<string, string>();
         public string SQLParameterString { get; set; }
+        private int labelWidth;
+        private int labelHeight;
 
         public fMain(string[] args)
         {
@@ -51,12 +57,34 @@ namespace Etiquetas_CS
             }
             Values.gDatos.Close();
 
-            vsParameters.AddColumn("Parameter", pLocked:true);
-            vsParameters.AddColumn("Value",pWidth: 150, pLocked:false);
+            vsParameters.AddColumn("Parameter", pLocked: true);
+            vsParameters.AddColumn("Value", pWidth: 150, pLocked: false);
+
             //((CtlVSColumn)vsParameters.Columns[1]).Locked = false;
             //vsParameters.Status = EnumStatus.ADDNEW;
             txtCode.Validating += TxtCode_Validating;
+            vsLabels.RowsAdded += VsLabels_RowsAdded;
+            vsGroups.SelectionChanged += VsGroups_SelectionChanged;
+            vsLabels.DoubleClick += VsLabels_DoubleClick;
+        }
 
+        private void VsLabels_DoubleClick(object sender, EventArgs e)
+        {
+            var box = vsLabels.CurrentCell.Value;
+        }
+
+        private void VsGroups_SelectionChanged(object sender, EventArgs e)
+        {
+            ShowDetails();
+        }
+
+        private void VsLabels_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            vsLabels.Rows.OfType<DataGridViewRow>().Where(x => x.Index >= e.RowIndex && x.Index < e.RowIndex + e.RowCount).ToList().ForEach(r =>
+               {
+                   if (r.Cells[3].Value.ToString() == "S")
+                       r.DefaultCellStyle.BackColor = Color.Red;
+               });
         }
 
         private void TxtCode_Validating(object sender, System.ComponentModel.CancelEventArgs e)
@@ -77,10 +105,15 @@ namespace Etiquetas_CS
                 SQLQty = _RS["Campo_QTY"].ToString();
                 SQLGroup = _RS["Campo_GROUP"].ToString();
                 SQLOrder = _RS["Campos_ORDER"].ToString();
-
+                labelHeight = Convert.ToInt32(_RS["Alto"]);
+                labelWidth = Convert.ToInt32(_RS["Ancho"]);
                 if (SQLGroup != "")
+                {
+                    vsGroups.ClearEspackControl();
+                    vsGroups.Columns.Clear();
+                    vsGroups.AddColumn(SQLGroup);
                     SQLSelect += "|" + SQLGroup;
-
+                }
                 // Params GRID
                 vsParameters.ClearEspackControl();
                 Parameters.Clear();
@@ -106,7 +139,7 @@ namespace Etiquetas_CS
                     }
                     else
                     {
-                        Parameters.Add(_param[0],"NOTHING");
+                        Parameters.Add(_param[0], "NOTHING");
                     }
 
                 });
@@ -117,9 +150,10 @@ namespace Etiquetas_CS
                     vsParameters.BeginEdit(true);
                 }
 
-                cboPrinters.Source("select Codigo from general..datos_empresa where descripcion like '%" + txtCode.Text + "%' order by cmp_integer", Values.gDatos);
-                
+                cboPrinters.Source("select Codigo from datosEmpresa where descripcion like '%" + txtCode.Text + "%' order by cmp_integer", Values.gDatos);
+
             }
+
 
 
         }
@@ -160,7 +194,7 @@ namespace Etiquetas_CS
                     cRawPrinterHelper.SendUTF8StringToPrinter(pd.PrinterSettings.PrinterName, label.ToString());
                 }
                 // Send a printer-specific to the printer.
-                
+
             }
         }
 
@@ -180,16 +214,16 @@ namespace Etiquetas_CS
             {
                 Parameters[z[0].ToString()] = z[1].ToString();
             });
-            
 
-            var s = Parameters.Where(x => x.Value == "").ToDictionary(a => a.Key,a => a.Value);
+
+            var s = Parameters.Where(x => x.Value == "").ToDictionary(a => a.Key, a => a.Value);
             //Dictionary<string, string>)
             if (s.Count != 0)
             {
                 MessageBox.Show("Parameter " + s.First().Key + " must be entered.", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             };
-            
+
             var _Sql = "SELECT " + SQLSelect.Replace("|", ",") + " FROM " + SQLView;
             SQLParameterString = "";
             Parameters.ToList().ForEach(x =>
@@ -204,7 +238,7 @@ namespace Etiquetas_CS
             if (SQLOrder != "")
                 _Sql += " ORDER BY " + SQLOrder.Replace("|", ",");
 
-            using (var _RS=new DynamicRS(_Sql,Values.gDatos))
+            using (var _RS = new DynamicRS(_Sql, Values.gDatos))
             {
                 _RS.Open();
                 if (_RS.EOF)
@@ -213,19 +247,110 @@ namespace Etiquetas_CS
                     return;
                 }
 
+
+                ShowDetails();
+                GenerateGroups(_RS.ToList());
+                if (_RS.RecordCount != vsLabels.RowCount)
+                {
+                    GenerateNewLabels(_RS.ToList());
+                    ShowDetails();
+                }
+
             }
-            ShowDetails();
         }
         private void ShowDetails()
         {
             vsLabels.ClearEspackControl();
             vsLabels.Conn = Values.gDatos;
-            var _Sql=string.Format("SELECT IDREG,DATA=datos,QTY,PRINTED=impreso FROM etiquetas_detalle WHERE codigo='{0}' and parametros='{1}' order by idreg", txtCode.Text, SQLParameterString.Replace("'", "#"));
-            var _RS = new DynamicRS(_Sql, Values.gDatos);
-            _RS.Open();
-            vsLabels.SQL = string.Format("SELECT IDREG,DATA=datos,QTY,PRINTED=impreso FROM etiquetas_detalle WHERE codigo='{0}' and parametros='{1}' order by idreg", txtCode.Text, SQLParameterString.Replace("'", "#"));
+
+            string _group = "";
+            if (vsGroups.CurrentCell != null)
+                _group = (vsGroups.CurrentCell.Value != "" ? " and grupo='" + vsGroups.CurrentCell.Value + "'" : "");
+            var _Sql = string.Format("SELECT IDREG,DATA=datos,QTY,PRINTED=impreso FROM etiquetas_detalle WHERE codigo='{0}' and parametros='{1}'{2} order by idreg", txtCode.Text, SQLParameterString.Replace("'", "#"), _group);
+            vsLabels.SQL = _Sql;
             vsLabels.Start();
-            vsLabels.UpdateEspackControl();
+            using (var _RS = new DynamicRS(_Sql, Values.gDatos))
+            {
+                _RS.Open();
+                _RS.ToList().ForEach(x =>
+                {
+                    vsLabels.Rows.Add(x["IDREG"].ToString(), x["DATA"].ToString(), x["QTY"].ToString(), x["PRINTED"]);
+                });
+                
+            };
+            //vsLabels.UpdateEspackControl();
+        } 
+
+        private void GenerateGroups(List<DataRow> r)
+        {
+            vsGroups.SelectionChanged -= VsGroups_SelectionChanged;
+            vsGroups.ClearEspackControl();
+            vsGroups.Rows.Add("");
+            var l = r.GroupBy(p => p[SQLGroup].ToString());
+            l.ToList().ForEach(x =>
+            {
+                vsGroups.Rows.Add(x.Key);
+            });
+            vsGroups.SelectionChanged += VsGroups_SelectionChanged;
+
+        }
+        private void GenerateNewLabels(List<DataRow> r)
+        {
+            var l = r.GroupBy(p => p[SQLGroup].ToString());
+            r.ForEach(x =>
+            {
+                int _qty = SQLQty != "" ? Convert.ToInt32(x[SQLQty]):1;
+                var _SP = new SP(Values.gDatos, "pAddEtiquetasDetalle");
+                _SP.AddParameterValue("codigo", txtCode.Text.ToUpper());
+                var _split = SQLSelect.Split('|');
+                string _dataString = "";
+                _split.ToList().ForEach(s => _dataString += x[s] + "|");
+                _SP.AddParameterValue("parametros", SQLParameterString.Replace("'","#"));
+                _SP.AddParameterValue("datos", _dataString);
+                _SP.AddParameterValue("qty", _qty);
+                _SP.AddParameterValue("Grupo", SQLGroup != "" ? x[SQLGroup] : "");
+                _SP.Execute();
+                if (_SP.LastMsg.Substring(0, 2) != "OK")
+                {
+                    CT.MsgError("Error: " + _SP.LastMsg);
+                    return;
+                }
+                Application.DoEvents();
+            });
+        }
+
+        private void btnPrint_Click(object sender, EventArgs e)
+        {
+            if (cboPrinters.Value.ToString() == "")
+            {
+                CT.MsgError("Select a printer first.");
+                return;
+            }
+            string _printerType = "";
+            string _printerAddress = "";
+            using (var _RS = new DynamicRS(string.Format("select descripcion,cmp_varchar from datosEmpresa where codigo='{0}'",cboPrinters.Value),Values.gDatos))
+            {
+                _RS.Open();
+                _printerAddress = _RS["cmp_varchar"].ToString();
+                _printerType = _RS["descripcion"].ToString().Split('|')[0];
+            }
+            cLabel _label;
+            if (_printerType=="ZPL")
+            {
+                _label = new ZPLLabel(labelHeight,labelWidth,3,204);
+            } else
+            {
+                throw new NotImplementedException();
+            }
+            using (var _RS = new DynamicRS(string.Format("Select * from campos where codigo='{0}'", txtCode.Text),Values.gDatos))
+            {
+                _RS.Open();
+                _RS.ToList().ForEach(z =>
+                {
+                    _label.addLine(Convert.ToInt32(z["Col"]), Convert.ToInt32(z["Fila"]), Convert.ToSingle(z["TamTexto"]),z["Orientacion"].ToString(),z["Estilo"].ToString(),z["Texto"].ToString());
+                });
+            }
+            cRawPrinterHelper.SendUTF8StringToPrinter(_printerAddress, _label.ToString());
         }
     }
 }
