@@ -82,13 +82,14 @@ namespace Etiquetas_CS
         {
             vsLabels.Rows.OfType<DataGridViewRow>().Where(x => x.Index >= e.RowIndex && x.Index < e.RowIndex + e.RowCount).ToList().ForEach(r =>
                {
-                   if (r.Cells[3].Value.ToString() == "S")
+                   if (r.Cells[r.Cells.Count-1].Value.ToString() == "S")
                        r.DefaultCellStyle.BackColor = Color.Red;
                });
         }
 
         private void TxtCode_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            vsGroups.SelectionChanged -= VsGroups_SelectionChanged;
             using (var _RS = new DynamicRS("select *,NoDelim=dbo.checkflag(flags,'NODELIM') from etiquetas where codigo='" + txtCode.Text + "'", Values.gDatos))
             {
                 _RS.Open();
@@ -117,7 +118,8 @@ namespace Etiquetas_CS
                 // Params GRID
                 vsParameters.ClearEspackControl();
                 Parameters.Clear();
-
+                vsLabels.ClearEspackControl();
+                vsLabels.Columns.Clear();
                 SQLWhere.Split('|').ToList().ForEach(x =>
                 {
                     //var _row = (DataGridViewRow) vsParameters.Rows[0].Clone();
@@ -153,7 +155,7 @@ namespace Etiquetas_CS
                 cboPrinters.Source("select Codigo from datosEmpresa where descripcion like '%" + txtCode.Text + "%' order by cmp_integer", Values.gDatos);
 
             }
-
+            vsGroups.SelectionChanged += VsGroups_SelectionChanged;
 
 
         }
@@ -209,6 +211,7 @@ namespace Etiquetas_CS
 
         private void btnObtain_Click(object sender, EventArgs e)
         {
+            vsGroups.SelectionChanged -= VsGroups_SelectionChanged;
             vsGroups.ClearEspackControl();
             vsParameters.ToList().ForEach(z =>
             {
@@ -257,6 +260,7 @@ namespace Etiquetas_CS
                 }
 
             }
+            vsGroups.SelectionChanged += VsGroups_SelectionChanged;
         }
         private void ShowDetails()
         {
@@ -265,16 +269,29 @@ namespace Etiquetas_CS
 
             string _group = "";
             if (vsGroups.CurrentCell != null)
-                _group = (vsGroups.CurrentCell.Value != "" ? " and grupo='" + vsGroups.CurrentCell.Value + "'" : "");
+                _group = (vsGroups.CurrentCell.Value.ToString() != "" ? " and grupo='" + vsGroups.CurrentCell.Value + "'" : "");
+            List<string> _SelectFields = new List<string>();
+            _SelectFields.Add("IDREG");
+            _SelectFields.AddRange(SQLSelect.Split('|'));
+            _SelectFields.Add("QTY");
+            _SelectFields.Add("PRINTED");
+            vsLabels.ColumnCount = _SelectFields.Count;
+            vsLabels.Columns.Cast<DataGridViewColumn>().ToList().ForEach(x => x.Name = _SelectFields[x.Index].ToUpper());
+            //Application.DoEvents();
             var _Sql = string.Format("SELECT IDREG,DATA=datos,QTY,PRINTED=impreso FROM etiquetas_detalle WHERE codigo='{0}' and parametros='{1}'{2} order by idreg", txtCode.Text, SQLParameterString.Replace("'", "#"), _group);
-            vsLabels.SQL = _Sql;
-            vsLabels.Start();
             using (var _RS = new DynamicRS(_Sql, Values.gDatos))
             {
                 _RS.Open();
                 _RS.ToList().ForEach(x =>
                 {
-                    vsLabels.Rows.Add(x["IDREG"].ToString(), x["DATA"].ToString(), x["QTY"].ToString(), x["PRINTED"]);
+                    List<string> row= new List<string>();
+                    row.Add( x["IDREG"].ToString());
+                    row.AddRange(x["DATA"].ToString().Split('|'));
+                    row.Add(x["QTY"].ToString());
+                    row.Add(x["PRINTED"].ToString());
+                    vsLabels.Rows.Add(row.ToArray());
+                    //Application.DoEvents();
+                    //vsLabels.Rows.Add(x["IDREG"].ToString(), x["DATA"].ToString(), x["QTY"].ToString(), x["PRINTED"]);
                 });
                 
             };
@@ -305,6 +322,7 @@ namespace Etiquetas_CS
                 var _split = SQLSelect.Split('|');
                 string _dataString = "";
                 _split.ToList().ForEach(s => _dataString += x[s] + "|");
+                _dataString = _dataString.Substring(0, _dataString.Length - 1);
                 _SP.AddParameterValue("parametros", SQLParameterString.Replace("'","#"));
                 _SP.AddParameterValue("datos", _dataString);
                 _SP.AddParameterValue("qty", _qty);
@@ -347,7 +365,7 @@ namespace Etiquetas_CS
                 _RS.Open();
                 _RS.ToList().ForEach(z =>
                 {
-                    _label.addLine(Convert.ToInt32(z["Col"]), Convert.ToInt32(z["Fila"]), Convert.ToSingle(z["TamTexto"]),z["Orientacion"].ToString(),z["Estilo"].ToString(),z["Texto"].ToString());
+                    _label.addLine(Convert.ToInt32(z["Col"]), Convert.ToInt32(z["Fila"]), Convert.ToSingle(CT.Qnuln(z["TamTexto"])),z["Orientacion"].ToString(),z["Estilo"].ToString(),z["Texto"].ToString(),Convert.ToSingle(z["charSize"]));
                 });
             }
             cRawPrinterHelper.SendUTF8StringToPrinter(_printerAddress, _label.ToString());
