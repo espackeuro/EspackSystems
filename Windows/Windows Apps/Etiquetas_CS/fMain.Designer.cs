@@ -105,6 +105,7 @@
             this.btnPrintList.TabIndex = 14;
             this.btnPrintList.Text = "Print List";
             this.btnPrintList.UseVisualStyleBackColor = true;
+            this.btnPrintList.Click += new System.EventHandler(this.btnPrintList_Click);
             // 
             // vsLabels
             // 
