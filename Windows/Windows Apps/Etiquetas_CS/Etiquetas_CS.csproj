@@ -92,10 +92,6 @@
       <Project>{265be0fe-a0b7-4a6f-84a3-2364a5cf865e}</Project>
       <Name>RawPrinterHelper</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\EspackClasses\EspackClasses.csproj">
-      <Project>{60c3af59-c083-4db1-a9ff-ddec1e429029}</Project>
-      <Name>EspackClasses</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\EspackControls\CtlVSGrid\CtlVSGrid.csproj">
       <Project>{6e156f1f-61f2-402b-a942-356427642a52}</Project>
       <Name>CtlVSGrid</Name>
