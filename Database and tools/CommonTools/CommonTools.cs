@@ -323,7 +323,20 @@ namespace CommonTools
         {
             MessageBox.Show(pMsg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
-
+        public static string Qnul(object t)
+        {
+            if (t is DBNull)
+                return "";
+            else
+                return t.ToString();
+        }
+        public static object Qnuln(object t)
+        {
+            if (t is DBNull)
+                return 0;
+            else
+                return t;
+        }
         #endregion
     }
 
