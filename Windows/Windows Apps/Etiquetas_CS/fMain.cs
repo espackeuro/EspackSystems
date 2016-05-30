@@ -216,7 +216,7 @@ namespace Etiquetas_CS
             vsGroups.ClearEspackControl();
             vsParameters.ToList().ForEach(z =>
             {
-                Parameters[z[0].ToString()] = z[1].ToString();
+                Parameters[z.Cells[0].Value.ToString()] = z.Cells[1].Value.ToString();
             });
 
 
@@ -366,10 +366,17 @@ namespace Etiquetas_CS
                 _RS.Open();
                 _RS.ToList().ForEach(z =>
                 {
-                    _label.addLine(Convert.ToInt32(z["Col"]), Convert.ToInt32(z["Fila"]), Convert.ToSingle(CT.Qnuln(z["TamTexto"])),z["Orientacion"].ToString(),z["Estilo"].ToString(),z["Texto"].ToString(),Convert.ToSingle(z["charSize"]));
+                    _label.addLine(Convert.ToInt32(z["Col"]), Convert.ToInt32(z["Fila"]), Convert.ToSingle(CT.Qnuln(z["TamTexto"])),z["Orientacion"].ToString(),z["Estilo"].ToString(),z["Texto"].ToString(),Convert.ToInt32(z["charSize"]));
                 });
             }
-            cRawPrinterHelper.SendUTF8StringToPrinter(_printerAddress, _label.ToString());
+            Dictionary<string, string> _parameters = new Dictionary<string, string>();
+            SQLSelect.Split('|').ToList().ForEach(x => _parameters.Add(x, ""));
+            vsLabels.ToList().Where(line => line.Cells["PRINTED"].Value.ToString()=="N").ToList().ForEach(line =>
+            {
+                _parameters.ToList().ForEach(p => _parameters[p.Key] = line.Cells[p.Key].Value.ToString());
+                cRawPrinterHelper.SendUTF8StringToPrinter(_printerAddress, _label.ToString(_parameters),Convert.ToInt32(line.Cells["QTY"].Value));
+            });
+            
         }
 
         public class PrintPage : PrintDocument

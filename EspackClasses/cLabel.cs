@@ -3,9 +3,39 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
+using System.Drawing.Printing;
 
 namespace EspackClasses
 {
+    public class printerLine: ICloneable
+    {
+        public int x;
+        public int y;
+        public float textSize;
+        public string align;
+        public string style;
+        public string textData;
+        public int charSize;
+
+        object ICloneable.Clone()
+        {
+            return this.Clone();
+            //return new printerLine() {
+            //    x = x,
+            //    y = y,
+            //    textSize = textSize,
+            //    align = align,
+            //    style = style,
+            //    textData = textData,
+            //    charSize = charSize
+            //};
+        }
+        public printerLine Clone()
+        {
+            return (printerLine)this.MemberwiseClone();
+        }
+    }
     public abstract class cLabel
     {
         protected float width { get; set; }
@@ -15,15 +45,52 @@ namespace EspackClasses
         protected float dpm { get; set; }
         protected List<string> labelHeader { get; set; } = new List<string>();
         protected List<string> labelFooter { get; set; } = new List<string>();
-        protected List<string> labelBody { get; set; } = new List<string>();
+        protected List<printerLine> labelBody { get; set; } = new List<printerLine>();
         public override string ToString()
         {
             //return base.ToString();
-            return string.Join("", labelHeader) + string.Join("", labelBody) + string.Join("", labelFooter);
+            return string.Join("", labelHeader) + string.Join("", labelBody.Select(x => renderLine(x))) + string.Join("", labelFooter);
         }
-        public virtual void addLine(int x, int y, float textSize, string align, string style, string textData, float charWidth = 0, int mul = 1, int mulv = 1, bool overrideSize = false)
+        public string ToString(Dictionary<string,string> pParameters)
         {
+            List<printerLine> _replacedList = new List<printerLine>();
+            //labelBody.ForEach(l => _replacedList.Add(new printerLine()
+            //{
+            //    x = l.x,
+            //    y = l.y,
+            //    textSize = l.textSize,
+            //    align = l.align,
+            //    style = l.style,
+            //    textData = l.textData,
+            //    charSize = l.charSize
+            //}));
+            _replacedList = labelBody.Select(x => x.Clone()).ToList();
+            pParameters.ToList().ForEach(p =>
+            {
+                _replacedList.Where(x => x.textData.IndexOf("[")!=-1).ToList().ForEach(x =>
+                {
+                    x.textData = x.textData.Replace("["+p.Key.ToUpper()+"]", p.Value);
+                });
+            });
+            return string.Join("", labelHeader) + string.Join("", _replacedList.Select(x => renderLine(x))) + string.Join("", labelFooter);
+        }
 
+        public virtual void addLine(int x, int y, float textSize, string align, string style, string textData, int charSize = 0)
+        {
+            labelBody.Add(new printerLine()
+            {
+                x = x,
+                y = y,
+                textSize = textSize,
+                align = align,
+                style = style,
+                textData = textData,
+                charSize = charSize
+            });
+        }
+        public virtual string renderLine(printerLine p)
+        {
+            return "";
         }
     };
  
@@ -44,38 +111,62 @@ namespace EspackClasses
             labelHeader.Add("^LH0,0");
             labelFooter.Add("^XZ");
         }
-        public override void addLine(int x, int y, float textSize, string align, string style, string textData, float charWidth=0,int mul = 1, int mulv = 1, bool overrideSize = false)
+
+        public override string renderLine(printerLine p)
         {
-            int _xdpm = Convert.ToInt32(x * dpm);
-            int _ydpm = Convert.ToInt32(y * dpm);
-            textSize = textSize == 0F ? charWidth * textData.Length: textSize;
-            float _width = textSize * dpm;// = 2.1F * (textSize - 1);
-            int _charWidthDPM = charWidth == 0 ? Convert.ToInt32(textSize / textData.Length * dpm * 1.9) : Convert.ToInt32(charWidth * 1.9F * dpm);//(textSize / textData.Length) < ((textSize-1)*2+10) ? (textSize / textData.Length): ((textSize - 1) * 2 + 10);
-            switch (align)
+            List<string> _result= new List<string>();
+            int _xdpm = Convert.ToInt32(p.x * dpm);
+            int _ydpm = Convert.ToInt32(p.y * dpm);
+            float _charSize_mm = p.charSize * 0.3527777777778F;
+            
+            if (p.textSize == 0)
+            {
+                Font _font = new Font("Swis721 BT", p.charSize);
+                p.textSize = TextMeasurer.MeasureString(p.textData, _font).Width*1.7F;
+             }
+                
+            //textSize = textSize == 0F ? ): textSize;
+            float _width = p.textSize * dpm;// = 2.1F * (textSize - 1);
+            int _charWidthDPM = _charSize_mm == 0 ? Convert.ToInt32(p.textSize / p.textData.Length * dpm * 1.9) : Convert.ToInt32(_charSize_mm * 1.9F * dpm);//(textSize / textData.Length) < ((textSize-1)*2+10) ? (textSize / textData.Length): ((textSize - 1) * 2 + 10);
+            switch (p.align)
             {
                 case "C":
-                    //_width = width - 2 * Math.Abs(width / 2 - _xdpm);
                     _xdpm = (_xdpm - Convert.ToInt32(_width / 2F));
-                    labelBody.Add(string.Format("^FT{0},{1},0", _xdpm, _ydpm));
+                    _result.Add(string.Format("^FT{0},{1},0", _xdpm, _ydpm));
                     break;
                 case "D":
-                    labelBody.Add(string.Format("^FT{0},{1},1", _xdpm, _ydpm));//(_charWidth*1.2).ToString()
+                    _result.Add(string.Format("^FT{0},{1},1", _xdpm, _ydpm));//(_charWidth*1.2).ToString()
                     //_width = _xdpm;
                     break;
                 case "I":
-                    labelBody.Add(string.Format("^FT{0},{1},0", _xdpm, _ydpm));
+                    _result.Add(string.Format("^FT{0},{1},0", _xdpm, _ydpm));
                     break;
             }
             
-            if (style.IndexOf("M") != -1)
-                textData = textData.ToUpper();
+            if (p.style.IndexOf("M") != -1)
+                p.textData = p.textData.ToUpper();
             //labelBody.Add(string.Format("^FB{0},1,0,{1},0",Convert.ToInt32(_width),_alignChar));
             //labelBody.Add(string.Format("^FO{0},{1}",_xdpm,_ydpm));//(_charWidth*1.2).ToString()
-            labelBody.Add(string.Format("^AX,{0},{1}", _charWidthDPM, _charWidthDPM));
-            labelBody.Add(string.Format("^FH^FD{0}^FS", textData));
+            _result.Add(string.Format("^AX,{0},{1}", _charWidthDPM, _charWidthDPM));
+            _result.Add(string.Format("^FH^FD{0}^FS", p.textData));
+
+            return string.Join("\n",_result);
         }
+        
     }
 
 
 
+
+    public static class TextMeasurer 
+    {
+        private static readonly Image _fakeImage=new Bitmap(1, 1);
+        private static readonly Graphics _graphics= Graphics.FromImage(_fakeImage);
+
+        public static SizeF MeasureString(string text, Font font)
+        {
+            _graphics.PageUnit = GraphicsUnit.Millimeter;
+            return _graphics.MeasureString(text, font, int.MaxValue);
+        }
+    }
 }
