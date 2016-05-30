@@ -193,6 +193,7 @@
             this.vsGroups.TabIndex = 8;
             this.vsGroups.Upp = false;
             this.vsGroups.Value = null;
+            //this.vsGroups.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.vsGroups_CellContentClick);
             // 
             // vsParameters
             // 

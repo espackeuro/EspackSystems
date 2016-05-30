@@ -66,13 +66,49 @@ namespace Etiquetas_CS
             txtCode.Validating += TxtCode_Validating;
             vsLabels.RowsAdded += VsLabels_RowsAdded;
             vsGroups.SelectionChanged += VsGroups_SelectionChanged;
-            vsLabels.DoubleClick += VsLabels_DoubleClick;
+            //vsLabels.DoubleClick += VsLabels_DoubleClick;
+            //vsGroups.DoubleClick += VsGroups_DoubleClick;
+            vsLabels.CellContentClick += VsLabels_CellContentClick;
+            vsGroups.CellDoubleClick += VsGroups_CellDoubleClick;
         }
 
-        private void VsLabels_DoubleClick(object sender, EventArgs e)
+        private void VsLabels_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            var box = vsLabels.CurrentCell.Value;
+            throw new NotImplementedException();
         }
+
+        private void VsGroups_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            ChangeLinesStatus(vsLabels.Rows.OfType<DataGridViewRow>().Where(x => x.Cells["LP"].Value.ToString() == vsGroups.CurrentRow.Cells["LP"].Value.ToString()).ToList());
+
+        }
+
+        private void ChangeLinesStatus(List<DataGridViewRow> pList)
+        {
+            string _status = "";
+            pList.ForEach(x =>
+            {
+                _status = x.Cells["PRINTED"].Value.ToString() != "S" ? "S" : "N";
+                SP _SP = new SP(Values.gDatos, "pCambiarEstadoImpresion");
+                _SP.AddParameterValue("idreg", Convert.ToInt32(x.Cells["IDREG"].Value));
+                _SP.AddParameterValue("estado", _status);
+                _SP.Execute();
+                if (_SP.LastMsg.Substring(0, 2) != "OK")
+                {
+                    CT.MsgError("Could not change the status: " + _SP.LastMsg.ToString());
+                    return;
+                }
+                x.Cells["PRINTED"].Value =_status;
+                
+                x.DefaultCellStyle.BackColor = _status !="S"?Color.Red:Color.White;
+            });
+
+        }
+        
+        //private void VsLabels_DoubleClick(object sender, EventArgs e)
+        //{
+        //    var box = vsLabels.CurrentCell.Value;
+        //}
 
         private void VsGroups_SelectionChanged(object sender, EventArgs e)
         {
@@ -476,6 +512,7 @@ namespace Etiquetas_CS
             }
                 
         }
-    
+
+        
     }
 }
