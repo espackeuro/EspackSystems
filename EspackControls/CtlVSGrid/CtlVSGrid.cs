@@ -176,10 +176,9 @@ namespace VSGrid
             }
         }
 
-        public List<object[]> ToList()
+        public List<DataGridViewRow> ToList()
         {
-            return Rows.OfType<DataGridViewRow>().Select(
-            r => r.Cells.OfType<DataGridViewCell>().Select(c => c.Value).ToArray()).ToList();
+            return Rows.OfType<DataGridViewRow>().ToList();
         }
 
         public SqlQuery CtlQuery { get; set; }

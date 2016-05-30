@@ -59,6 +59,7 @@ namespace RawPrinterHelper
             // Open the printer.
             if (OpenPrinter(szPrinterName.Normalize(), out hPrinter, IntPtr.Zero))
             {
+                
                 // Start a document.
                 if (StartDocPrinter(hPrinter, 1, di))
                 {
@@ -122,7 +123,7 @@ namespace RawPrinterHelper
             Marshal.FreeCoTaskMem(pBytes);
             return true;
         }
-        public static bool SendUTF8StringToPrinter(string szPrinterName, string szString)
+        public static bool SendUTF8StringToPrinter(string szPrinterName, string szString, int num=1)
         {
             IntPtr pBytes = new IntPtr(0);
             Int32 dwCount;
@@ -137,7 +138,8 @@ namespace RawPrinterHelper
             // the string to ANSI text.
             Marshal.Copy(aBytes,0,pBytes,dwCount);
             // Send the converted ANSI string to the printer.
-            SendBytesToPrinter(szPrinterName, pBytes, dwCount);
+            for (var i=1;i<=num;i++)
+                SendBytesToPrinter(szPrinterName, pBytes, dwCount);
             Marshal.FreeCoTaskMem(pBytes);
             return true;
         }
