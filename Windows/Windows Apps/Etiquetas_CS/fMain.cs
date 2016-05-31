@@ -137,6 +137,12 @@ namespace Etiquetas_CS
             vsGroups.SelectionChanged -= VsGroups_SelectionChanged;
             using (var _RS = new DynamicRS("select *,NoDelim=dbo.checkflag(flags,'NODELIM') from etiquetas where codigo='" + txtCode.Text + "'", Values.gDatos))
             {
+                // Clean things
+                vsParameters.ClearEspackControl();
+                Parameters.Clear();
+                vsLabels.ClearEspackControl();
+                vsLabels.Columns.Clear();
+
                 _RS.Open();
                 if (_RS.RecordCount==0)
                 {
@@ -161,11 +167,7 @@ namespace Etiquetas_CS
                     vsGroups.AddColumn(SQLGroup);
                     SQLSelect += "|" + SQLGroup;
                 }
-                // Params GRID
-                vsParameters.ClearEspackControl();
-                Parameters.Clear();
-                vsLabels.ClearEspackControl();
-                vsLabels.Columns.Clear();
+
                 SQLWhere.Split('|').ToList().ForEach(x =>
                 {
                     //var _row = (DataGridViewRow) vsParameters.Rows[0].Clone();
@@ -251,6 +253,7 @@ namespace Etiquetas_CS
             public static cAccesoDatosNet gDatos = new cAccesoDatosNet();
         }
 
+        // Get/Generate the labels
         private void btnObtain_Click(object sender, EventArgs e)
         {
             SetFormEnabled(false);
@@ -261,12 +264,13 @@ namespace Etiquetas_CS
                 Parameters[z.Cells[0].Value.ToString()] = z.Cells[1].Value.ToString();
             });
 
-
+            //
             var s = Parameters.Where(x => x.Value == "").ToDictionary(a => a.Key, a => a.Value);
             //Dictionary<string, string>)
             if (s.Count != 0)
             {
                 MessageBox.Show("Parameter " + s.First().Key + " must be entered.", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                SetFormEnabled(true);
                 return;
             };
 
@@ -307,6 +311,7 @@ namespace Etiquetas_CS
             vsGroups.SelectionChanged += VsGroups_SelectionChanged;
             SetFormEnabled(true);
         }
+
         private void ShowDetails()
         {
             vsLabels.ClearEspackControl();
@@ -383,6 +388,7 @@ namespace Etiquetas_CS
             });
         }
 
+        // Print all "unprinted" labels of the selected group
         private void btnPrint_Click(object sender, EventArgs e)
         {
             SetFormEnabled(false);
@@ -433,83 +439,168 @@ namespace Etiquetas_CS
             private Font PrinterFont { get; set; }
             private string TextToPrint { get; set; }
             static int curChar;
+            PrintDocument pdoc  = null;
 
-            public PrintPage() : base()
+            public void print()
             {
-                PrinterFont = new Font("Times New Roman", 10);
-                TextToPrint = string.Empty;
-            }
+                PrintDialog pd = new PrintDialog();
+                pdoc = new PrintDocument();
+                PrinterSettings ps = new PrinterSettings();
+                Font font = new Font("Courier New", 15);
 
-            public PrintPage(String pStr) : base()
-            {
-                PrinterFont = new Font("Times New Roman", 10);
-                TextToPrint = pStr;
-            }
 
-            protected override void OnPrintPage(System.Drawing.Printing.PrintPageEventArgs e)
-            {
-                // Run base code
-                base.OnPrintPage(e);
+                PaperSize psize = new PaperSize("Custom", 100, 200);
+                //ps.DefaultPageSettings.PaperSize = psize;
 
-                //Declare local variables needed
+                pd.Document = pdoc;
+                pd.Document.DefaultPageSettings.PaperSize = psize;
+                //pdoc.DefaultPageSettings.PaperSize.Height =320;
+                pdoc.DefaultPageSettings.PaperSize.Height = 820;
 
-                int printHeight;
-                int printWidth;
-                int leftMargin;
-                int rightMargin;
-                Int32 lines;
-                Int32 chars;
+                pdoc.DefaultPageSettings.PaperSize.Width = 520;
 
-                //Set print area size and margins
+                pdoc.PrintPage += new PrintPageEventHandler(pdoc_PrintPage);
+
+                DialogResult result = pd.ShowDialog();
+                if (result == DialogResult.OK)
                 {
-                    printHeight = base.DefaultPageSettings.PaperSize.Height - base.DefaultPageSettings.Margins.Top - base.DefaultPageSettings.Margins.Bottom;
-                    printWidth = base.DefaultPageSettings.PaperSize.Width - base.DefaultPageSettings.Margins.Left - base.DefaultPageSettings.Margins.Right;
-                    leftMargin = base.DefaultPageSettings.Margins.Left;  //X
-                    rightMargin = base.DefaultPageSettings.Margins.Top;  //Y
-                }
-
-                //Check if the user selected to print in Landscape mode
-                //if they did then we need to swap height/width parameters
-                if (base.DefaultPageSettings.Landscape)
-                {
-                    int tmp;
-                    tmp = printHeight;
-                    printHeight = printWidth;
-                    printWidth = tmp;
-                }
-
-                //Now we need to determine the total number of lines
-                //we're going to be printing
-                Int32 numLines = (int)printHeight / PrinterFont.Height;
-
-                //Create a rectangle printing are for our document
-                RectangleF printArea = new RectangleF(leftMargin, rightMargin, printWidth, printHeight);
-
-                //Use the StringFormat class for the text layout of our document
-                StringFormat format = new StringFormat(StringFormatFlags.LineLimit);
-
-                //Fit as many characters as we can into the print area     
-                e.Graphics.MeasureString(TextToPrint.Substring(curChar), PrinterFont, new SizeF(printWidth, printHeight), format, out chars, out lines);
-
-                //Print the page
-                e.Graphics.DrawString(TextToPrint.Substring(curChar), PrinterFont, Brushes.Black, printArea, format);
-
-                //Increase current char count
-                curChar += chars;
-
-                //Detemine if there is more text to print, if
-                //there is the tell the printer there is more coming
-                if (curChar < TextToPrint.Length)
-                {
-                    e.HasMorePages = true;
-                }
-                else
-                {
-                    e.HasMorePages = false;
-                    curChar = 0;
+                    PrintPreviewDialog pp = new PrintPreviewDialog();
+                    pp.Document = pdoc;
+                    result = pp.ShowDialog();
+                    if (result == DialogResult.OK)
+                    {
+                        pdoc.Print();
+                    }
                 }
 
             }
+            private void pdoc_PrintPage(object sender, PrintPageEventArgs e)
+            {
+                Graphics graphics = e.Graphics;
+                Font font = new Font("Courier New", 10);
+                float fontHeight = font.GetHeight();
+                int startX = 50;
+                int startY = 55;
+                int Offset = 40;
+                graphics.DrawString("Welcome to MSST", new Font("Courier New", 14),
+                                    new SolidBrush(Color.Black), startX, startY + Offset);
+                Offset = Offset + 20;
+                graphics.DrawString("Ticket No: xxxxx",
+                         new Font("Courier New", 14),
+                         new SolidBrush(Color.Black), startX, startY + Offset);
+                Offset = Offset + 20;
+                graphics.DrawString("Ticket Date : xx/xx/xxxx",
+                         new Font("Courier New", 12),
+                         new SolidBrush(Color.Black), startX, startY + Offset);
+                Offset = Offset + 20;
+                String underLine = "------------------------------------------";
+                graphics.DrawString(underLine, new Font("Courier New", 10),
+                         new SolidBrush(Color.Black), startX, startY + Offset);
+
+                Offset = Offset + 20;
+                String Source = "xxxxx";
+                graphics.DrawString("From " + "xxxxx" + " To " + "xxxxxx", new Font("Courier New", 10),
+                         new SolidBrush(Color.Black), startX, startY + Offset);
+
+                Offset = Offset + 20;
+                String Grosstotal = "Total Amount to Pay = xxxx.xx";
+
+                Offset = Offset + 20;
+                underLine = "------------------------------------------";
+                graphics.DrawString(underLine, new Font("Courier New", 10),
+                         new SolidBrush(Color.Black), startX, startY + Offset);
+                Offset = Offset + 20;
+
+                graphics.DrawString(Grosstotal, new Font("Courier New", 10),
+                         new SolidBrush(Color.Black), startX, startY + Offset);
+                Offset = Offset + 20;
+                String DrawnBy = "xxxxxx";
+                graphics.DrawString("Conductor - " + DrawnBy, new Font("Courier New", 10),
+                         new SolidBrush(Color.Black), startX, startY + Offset);
+            }
+            //public PrintPage() : base()
+            //{
+            //    PrinterFont = new Font("Times New Roman", 10);
+            //    TextToPrint = "Cosas que imprimir cuando no se tiene nada que imprimir.\n";
+
+            //    TextToPrint += "--------------------------------------------------------\n";
+
+            //    TextToPrint += "En un momento dado, que quizá al tirarlo me salga un 6, \n";
+            //    TextToPrint += "no existe la estupidez del hecho y del curro al lecho me\n";
+            //    TextToPrint += "falta un trecho.\n";
+
+            //}
+
+            //public PrintPage(String pStr) : base()
+            //{
+            //    PrinterFont = new Font("Times New Roman", 10);
+            //    TextToPrint = pStr;
+            //}
+
+            //protected override void OnPrintPage(System.Drawing.Printing.PrintPageEventArgs e)
+            //{
+            //    // Run base code
+            //    base.OnPrintPage(e);
+
+            //    //Declare local variables needed
+
+            //    int printHeight;
+            //    int printWidth;
+            //    int leftMargin;
+            //    int rightMargin;
+            //    Int32 lines;
+            //    Int32 chars;
+
+            //    //Set print area size and margins
+            //    {
+            //        printHeight = base.DefaultPageSettings.PaperSize.Height - base.DefaultPageSettings.Margins.Top - base.DefaultPageSettings.Margins.Bottom;
+            //        printWidth = base.DefaultPageSettings.PaperSize.Width - base.DefaultPageSettings.Margins.Left - base.DefaultPageSettings.Margins.Right;
+            //        leftMargin = base.DefaultPageSettings.Margins.Left;  //X
+            //        rightMargin = base.DefaultPageSettings.Margins.Top;  //Y
+            //    }
+
+            //    //Check if the user selected to print in Landscape mode
+            //    //if they did then we need to swap height/width parameters
+            //    if (base.DefaultPageSettings.Landscape)
+            //    {
+            //        int tmp;
+            //        tmp = printHeight;
+            //        printHeight = printWidth;
+            //        printWidth = tmp;
+            //    }
+
+            //    //Now we need to determine the total number of lines
+            //    //we're going to be printing
+            //    Int32 numLines = (int)printHeight / PrinterFont.Height;
+
+            //    //Create a rectangle printing are for our document
+            //    RectangleF printArea = new RectangleF(leftMargin, rightMargin, printWidth, printHeight);
+
+            //    //Use the StringFormat class for the text layout of our document
+            //    StringFormat format = new StringFormat(StringFormatFlags.LineLimit);
+
+            //    //Fit as many characters as we can into the print area     
+            //    e.Graphics.MeasureString(TextToPrint.Substring(curChar), PrinterFont, new SizeF(printWidth, printHeight), format, out chars, out lines);
+
+            //    //Print the page
+            //    e.Graphics.DrawString(TextToPrint.Substring(curChar), PrinterFont, Brushes.Black, printArea, format);
+
+            //    //Increase current char count
+            //    curChar += chars;
+
+            //    //Detemine if there is more text to print, if
+            //    //there is the tell the printer there is more coming
+            //    if (curChar < TextToPrint.Length)
+            //    {
+            //        e.HasMorePages = true;
+            //    }
+            //    else
+            //    {
+            //        e.HasMorePages = false;
+            //        curChar = 0;
+            //    }
+
+            //}
 
             internal void BeginPrint()
             {
@@ -519,12 +610,15 @@ namespace Etiquetas_CS
 
         private void btnPrintList_Click(object sender, EventArgs e)
         {
-            using (var _printIt = new PrintPage("Pollos nights"))
+            using (var _printIt = new PrintPage())
             {
-                _printIt.Print();
+
+                _printIt.print();
             }
                 
         }
+
+        
 
         
     }
