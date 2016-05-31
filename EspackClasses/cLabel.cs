@@ -147,9 +147,9 @@ namespace EspackClasses
                 p.textData = p.textData.ToUpper();
             //labelBody.Add(string.Format("^FB{0},1,0,{1},0",Convert.ToInt32(_width),_alignChar));
             //labelBody.Add(string.Format("^FO{0},{1}",_xdpm,_ydpm));//(_charWidth*1.2).ToString()
+            _result.Add("^PA1,1,1,1");
             _result.Add(string.Format("^AX,{0},{1}", _charWidthDPM, _charWidthDPM));
             _result.Add(string.Format("^FH^FD{0}^FS", p.textData));
-
             return string.Join("\n",_result);
         }
         

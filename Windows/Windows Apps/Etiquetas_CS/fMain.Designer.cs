@@ -30,7 +30,6 @@
         {
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
             this.btnObtain = new System.Windows.Forms.Button();
             this.btnPrint = new System.Windows.Forms.Button();
             this.btnPrintList = new System.Windows.Forms.Button();
@@ -47,7 +46,7 @@
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(922, 161);
+            this.button1.Location = new System.Drawing.Point(876, 190);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 0;
@@ -58,7 +57,7 @@
             // button2
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(922, 190);
+            this.button2.Location = new System.Drawing.Point(876, 219);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 1;
@@ -66,20 +65,9 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // button3
-            // 
-            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button3.Location = new System.Drawing.Point(922, 219);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 2;
-            this.button3.Text = "button3";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
             // btnObtain
             // 
-            this.btnObtain.Location = new System.Drawing.Point(258, 66);
+            this.btnObtain.Location = new System.Drawing.Point(304, 66);
             this.btnObtain.Name = "btnObtain";
             this.btnObtain.Size = new System.Drawing.Size(75, 23);
             this.btnObtain.TabIndex = 12;
@@ -89,7 +77,7 @@
             // 
             // btnPrint
             // 
-            this.btnPrint.Location = new System.Drawing.Point(258, 95);
+            this.btnPrint.Location = new System.Drawing.Point(304, 95);
             this.btnPrint.Name = "btnPrint";
             this.btnPrint.Size = new System.Drawing.Size(75, 23);
             this.btnPrint.TabIndex = 13;
@@ -99,7 +87,7 @@
             // 
             // btnPrintList
             // 
-            this.btnPrintList.Location = new System.Drawing.Point(258, 124);
+            this.btnPrintList.Location = new System.Drawing.Point(304, 124);
             this.btnPrintList.Name = "btnPrintList";
             this.btnPrintList.Size = new System.Drawing.Size(75, 23);
             this.btnPrintList.TabIndex = 14;
@@ -171,7 +159,7 @@
             this.vsGroups.DependingRS = null;
             this.vsGroups.EspackControlParent = null;
             this.vsGroups.GridColor = System.Drawing.SystemColors.ButtonFace;
-            this.vsGroups.Location = new System.Drawing.Point(1003, 66);
+            this.vsGroups.Location = new System.Drawing.Point(957, 66);
             this.vsGroups.MsgStatusLabel = null;
             this.vsGroups.Name = "vsGroups";
             this.vsGroups.NumPages = 0;
@@ -184,7 +172,7 @@
             this.vsGroups.ReadOnly = true;
             this.vsGroups.RowHeadersVisible = false;
             this.vsGroups.Search = false;
-            this.vsGroups.Size = new System.Drawing.Size(240, 176);
+            this.vsGroups.Size = new System.Drawing.Size(286, 176);
             this.vsGroups.SQL = null;
             this.vsGroups.sSPAdd = "";
             this.vsGroups.sSPDel = "";
@@ -193,7 +181,6 @@
             this.vsGroups.TabIndex = 8;
             this.vsGroups.Upp = false;
             this.vsGroups.Value = null;
-            //this.vsGroups.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.vsGroups_CellContentClick);
             // 
             // vsParameters
             // 
@@ -228,7 +215,7 @@
             this.vsParameters.PK = false;
             this.vsParameters.RowHeadersVisible = false;
             this.vsParameters.Search = false;
-            this.vsParameters.Size = new System.Drawing.Size(240, 176);
+            this.vsParameters.Size = new System.Drawing.Size(286, 176);
             this.vsParameters.SQL = null;
             this.vsParameters.sSPAdd = "";
             this.vsParameters.sSPDel = "";
@@ -255,7 +242,7 @@
             this.cboPrinters.Font = new System.Drawing.Font("Tahoma", 10F);
             this.cboPrinters.ForeColor = System.Drawing.Color.Black;
             this.cboPrinters.FormattingEnabled = true;
-            this.cboPrinters.Location = new System.Drawing.Point(1003, 25);
+            this.cboPrinters.Location = new System.Drawing.Point(957, 25);
             this.cboPrinters.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.cboPrinters.Name = "cboPrinters";
             this.cboPrinters.Order = 0;
@@ -263,7 +250,7 @@
             this.cboPrinters.ParentDA = null;
             this.cboPrinters.PK = false;
             this.cboPrinters.Search = false;
-            this.cboPrinters.Size = new System.Drawing.Size(240, 24);
+            this.cboPrinters.Size = new System.Drawing.Size(286, 24);
             this.cboPrinters.Status = CommonTools.EnumStatus.ADDNEW;
             this.cboPrinters.TabIndex = 5;
             this.cboPrinters.TBDescription = null;
@@ -292,7 +279,7 @@
             this.txtCode.ParentDA = null;
             this.txtCode.PK = false;
             this.txtCode.Search = false;
-            this.txtCode.Size = new System.Drawing.Size(240, 24);
+            this.txtCode.Size = new System.Drawing.Size(286, 24);
             this.txtCode.Status = CommonTools.EnumStatus.ADDNEW;
             this.txtCode.TabIndex = 3;
             this.txtCode.Upp = false;
@@ -311,13 +298,12 @@
             this.Controls.Add(this.vsParameters);
             this.Controls.Add(this.cboPrinters);
             this.Controls.Add(this.txtCode);
-            this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.KeyPreview = true;
             this.Name = "fMain";
-            this.Text = "Form1";
+            this.Text = "Labels";
             ((System.ComponentModel.ISupportInitialize)(this.vsLabels)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.vsGroups)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.vsParameters)).EndInit();
@@ -330,7 +316,6 @@
 
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
         private EspackFormControls.EspackTextBox txtCode;
         private EspackFormControls.EspackComboBox cboPrinters;
         private VSGrid.CtlVSGrid vsParameters;

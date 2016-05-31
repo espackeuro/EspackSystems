@@ -68,55 +68,62 @@ namespace Etiquetas_CS
             vsGroups.SelectionChanged += VsGroups_SelectionChanged;
             //vsLabels.DoubleClick += VsLabels_DoubleClick;
             //vsGroups.DoubleClick += VsGroups_DoubleClick;
-            vsLabels.CellContentClick += VsLabels_CellContentClick;
+            vsLabels.CellDoubleClick += VsLabels_CellDoubleClick;
             vsGroups.CellDoubleClick += VsGroups_CellDoubleClick;
         }
 
-        private void VsLabels_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void VsLabels_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            throw new NotImplementedException();
+            // Send a list with the selected row as a sole element.
+            SetFormEnabled(false);
+            ChangeLineStatus(vsLabels.CurrentRow);
+            SetFormEnabled(true);
         }
 
         private void VsGroups_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            ChangeLinesStatus(vsLabels.Rows.OfType<DataGridViewRow>().Where(x => x.Cells["LP"].Value.ToString() == vsGroups.CurrentRow.Cells["LP"].Value.ToString()).ToList());
-
+            // Send a list with the rows whose LP matches to the selected group.
+            SetFormEnabled(false);
+            vsLabels.Rows.OfType<DataGridViewRow>().Where(x => (x.Cells["LP"].Value.ToString() == vsGroups.CurrentRow.Cells["LP"].Value.ToString()) || vsGroups.CurrentRow.Cells["LP"].Value.ToString()=="").ToList().ForEach(_row => ChangeLineStatus(_row));
+            SetFormEnabled(true);
         }
 
-        private void ChangeLinesStatus(List<DataGridViewRow> pList)
+        private void SetFormEnabled(bool pValue)
+        {
+            Cursor.Current = pValue?Cursors.Default:Cursors.WaitCursor;
+            //(from Control control in this.Controls select control).ToList().ForEach(x => x.Enabled = pValue);
+            this.Controls.Cast<Control>().ToList().ForEach(x => x.Enabled = pValue);
+        }
+
+        private void ChangeLineStatus(DataGridViewRow pRow)
         {
             string _status = "";
-            pList.ForEach(x =>
-            {
-                _status = x.Cells["PRINTED"].Value.ToString() != "S" ? "S" : "N";
-                SP _SP = new SP(Values.gDatos, "pCambiarEstadoImpresion");
-                _SP.AddParameterValue("idreg", Convert.ToInt32(x.Cells["IDREG"].Value));
-                _SP.AddParameterValue("estado", _status);
-                _SP.Execute();
-                if (_SP.LastMsg.Substring(0, 2) != "OK")
-                {
-                    CT.MsgError("Could not change the status: " + _SP.LastMsg.ToString());
-                    return;
-                }
-                x.Cells["PRINTED"].Value =_status;
-                
-                x.DefaultCellStyle.BackColor = _status !="S"?Color.Red:Color.White;
-            });
 
+            _status = pRow.Cells["PRINTED"].Value.ToString() != "S" ? "S" : "N";
+            SP _SP = new SP(Values.gDatos, "pCambiarEstadoImpresion");
+            _SP.AddParameterValue("idreg", Convert.ToInt32(pRow.Cells["IDREG"].Value));
+            _SP.AddParameterValue("estado", _status);
+            _SP.Execute();
+            if (_SP.LastMsg.Substring(0, 2) != "OK")
+            {
+                CT.MsgError("Could not change the status: " + _SP.LastMsg.ToString());
+                return;
+            }
+
+            // Change PRINTED status and the color of the corresponding row.
+            pRow.Cells["PRINTED"].Value = _status;
+            pRow.DefaultCellStyle.BackColor = _status != "S" ? Color.White : Color.Red;
         }
         
-        //private void VsLabels_DoubleClick(object sender, EventArgs e)
-        //{
-        //    var box = vsLabels.CurrentCell.Value;
-        //}
-
         private void VsGroups_SelectionChanged(object sender, EventArgs e)
         {
+            // Refresh the vsLabels grid.
             ShowDetails();
         }
 
         private void VsLabels_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
+            // Change color of the new added rows depending on their status
             vsLabels.Rows.OfType<DataGridViewRow>().Where(x => x.Index >= e.RowIndex && x.Index < e.RowIndex + e.RowCount).ToList().ForEach(r =>
                {
                    if (r.Cells[r.Cells.Count-1].Value.ToString() == "S")
@@ -126,12 +133,14 @@ namespace Etiquetas_CS
 
         private void TxtCode_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            SetFormEnabled(false);
             vsGroups.SelectionChanged -= VsGroups_SelectionChanged;
             using (var _RS = new DynamicRS("select *,NoDelim=dbo.checkflag(flags,'NODELIM') from etiquetas where codigo='" + txtCode.Text + "'", Values.gDatos))
             {
                 _RS.Open();
                 if (_RS.RecordCount==0)
                 {
+                    SetFormEnabled(true);
                     MessageBox.Show("Unknown label code.", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     txtCode.Text = "";
                     e.Cancel = true;
@@ -193,7 +202,7 @@ namespace Etiquetas_CS
 
             }
             vsGroups.SelectionChanged += VsGroups_SelectionChanged;
-
+            SetFormEnabled(true);
 
         }
 
@@ -237,10 +246,6 @@ namespace Etiquetas_CS
             }
         }
 
-        private void button3_Click(object sender, EventArgs e)
-        {
-
-        }
         public static class Values
         {
             public static cAccesoDatosNet gDatos = new cAccesoDatosNet();
@@ -248,6 +253,7 @@ namespace Etiquetas_CS
 
         private void btnObtain_Click(object sender, EventArgs e)
         {
+            SetFormEnabled(false);
             vsGroups.SelectionChanged -= VsGroups_SelectionChanged;
             vsGroups.ClearEspackControl();
             vsParameters.ToList().ForEach(z =>
@@ -283,6 +289,7 @@ namespace Etiquetas_CS
                 _RS.Open();
                 if (_RS.EOF)
                 {
+                    SetFormEnabled(true);
                     MessageBox.Show("No rows returned.", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
@@ -298,6 +305,7 @@ namespace Etiquetas_CS
 
             }
             vsGroups.SelectionChanged += VsGroups_SelectionChanged;
+            SetFormEnabled(true);
         }
         private void ShowDetails()
         {
@@ -337,6 +345,7 @@ namespace Etiquetas_CS
 
         private void GenerateGroups(List<DataRow> r)
         {
+            SetFormEnabled(false);
             vsGroups.SelectionChanged -= VsGroups_SelectionChanged;
             vsGroups.ClearEspackControl();
             vsGroups.Rows.Add("");
@@ -346,7 +355,7 @@ namespace Etiquetas_CS
                 vsGroups.Rows.Add(x.Key);
             });
             vsGroups.SelectionChanged += VsGroups_SelectionChanged;
-
+            SetFormEnabled(true);
         }
         private void GenerateNewLabels(List<DataRow> r)
         {
@@ -376,8 +385,10 @@ namespace Etiquetas_CS
 
         private void btnPrint_Click(object sender, EventArgs e)
         {
+            SetFormEnabled(false);
             if (cboPrinters.Value.ToString() == "")
             {
+                SetFormEnabled(true);
                 CT.MsgError("Select a printer first.");
                 return;
             }
@@ -395,6 +406,7 @@ namespace Etiquetas_CS
                 _label = new ZPLLabel(labelHeight,labelWidth,3,204);
             } else
             {
+                SetFormEnabled(true);
                 throw new NotImplementedException();
             }
             using (var _RS = new DynamicRS(string.Format("Select * from campos where codigo='{0}'", txtCode.Text),Values.gDatos))
@@ -411,8 +423,9 @@ namespace Etiquetas_CS
             {
                 _parameters.ToList().ForEach(p => _parameters[p.Key] = line.Cells[p.Key].Value.ToString());
                 cRawPrinterHelper.SendUTF8StringToPrinter(_printerAddress, _label.ToString(_parameters),Convert.ToInt32(line.Cells["QTY"].Value));
+                ChangeLineStatus(line);
             });
-            
+            SetFormEnabled(true);
         }
 
         public class PrintPage : PrintDocument
