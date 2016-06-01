@@ -4,21 +4,20 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{690EFA4D-CC4A-4AB1-AA91-5CC2B5E66A7F}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <ProjectGuid>{5F489D49-0A82-42E5-AF0F-3B2C580FB746}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LogOnLoader</RootNamespace>
-    <AssemblyName>logonloader</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <RootNamespace>LogonObjects</RootNamespace>
+    <AssemblyName>LogonObjects</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -26,99 +25,81 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>key2.ico</ApplicationIcon>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Net.FtpClient, Version=1.0.5824.34026, Culture=neutral, PublicKeyToken=fa4be07daa57c2b7, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Net.FtpClient.1.0.5824.34026\lib\net40\System.Net.FtpClient.dll</HintPath>
+      <HintPath>..\..\packages\System.Net.FtpClient.1.0.5824.34026\lib\net40\System.Net.FtpClient.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="cLogonCheck.cs">
-      <SubType>Form</SubType>
+    <Compile Include="cAppBot.cs">
+      <SubType>Component</SubType>
     </Compile>
-    <Compile Include="fMain.cs">
-      <SubType>Form</SubType>
+    <Compile Include="cUpdaterThread.cs">
+      <SubType>Component</SubType>
     </Compile>
-    <Compile Include="fMain.Designer.cs">
-      <DependentUpon>fMain.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Program.cs" />
+    <Compile Include="LogOnObjects.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <None Include="packages.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Database and tools\cAccesoDatos.NET\cAccesoDatosNet.csproj">
-      <Project>{D3E453AA-39B7-480F-8917-6D7F5076C3ED}</Project>
+    <ProjectReference Include="..\..\..\..\Database and tools\cAccesoDatos.NET\cAccesoDatosNet.csproj">
+      <Project>{d3e453aa-39b7-480f-8917-6d7f5076c3ed}</Project>
       <Name>cAccesoDatosNet</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Database and tools\CommonTools\CommonTools.csproj">
+    <ProjectReference Include="..\..\..\..\Database and tools\CommonTools\CommonTools.csproj">
       <Project>{9148f7e6-31f6-4f96-b7dc-afea449998c7}</Project>
       <Name>CommonTools</Name>
     </ProjectReference>
-    <ProjectReference Include="..\cFTP\cFTP.csproj">
+    <ProjectReference Include="..\..\cFTP\cFTP.csproj">
       <Project>{04d920d4-f298-4006-9c6a-da56130e8bdb}</Project>
       <Name>cFTP</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LogonObjects\LogonObjects\LogOnObjects.csproj">
-      <Project>{5f489d49-0a82-42e5-af0f-3b2c580fb746}</Project>
-      <Name>LogOnObjects</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="key2.ico" />
+    <EmbeddedResource Include="cAppBot.resx">
+      <DependentUpon>cAppBot.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\prototype-96.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\engineering-48.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>ROBOCOPY "$(TargetDir) " "$(TargetDir)lib " /XF *.exe *.config *.manifest /XD lib logs data /E /IS /MOV
-; Move all to APPs folder
-ROBOCOPY "$(TargetDir) " "D:\APPS_CS\logon " /XF *.vshost.* /XD logs data /E /IS 
-if %25errorlevel%25 leq 4 exit 0 else exit %25errorlevel</PostBuildEvent>
-  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -14,6 +14,10 @@ using EspackFormControls;
 using System.IO;
 using System.Net;
 using System.Threading;
+using System.Data.SqlClient;
+using System.Text.RegularExpressions;
+using Owncloud;
+using LogOnObjects;
 
 namespace LogOn
 {
@@ -27,6 +31,7 @@ namespace LogOn
         public ToolStripStatusLabel Panel2;
         public ToolStripStatusLabel Panel3;
         public ToolStripStatusLabel Panel4;
+        public ToolStripStatusLabel Panel5;
         private int _zone = 0;
         public List<cUpdaterThread> UpdatingThreads = new List<cUpdaterThread>();
         public const int NUMTHREADS = 8;
@@ -34,7 +39,7 @@ namespace LogOn
         delegate void gbDebugCallBack(Control c);
         delegate void LogOnChangeStatusCallBack(LogOnStatus l);
 
-        
+        private LogOnStatus previousStatus { get; set; }
 
 
         private void LogOnChangeStatus(LogOnStatus pStatus)
@@ -145,20 +150,24 @@ namespace LogOn
             Panel1.Text = "You are connected to "+Values.gDatos.oServer.HostName.Replace(".local","")+"!";
             Panel2.Text = "My IP: " + Values.gDatos.IP.ToString();
             Panel3.Text = "DB Server IP: " + espackArgs.Server;
-
+            string[] FilesToUpdate = new string[] { "logonHosts", "logonloader.exe", "logonloader.exe.config" };
             // Check LogOnLoader update
-            if (File.Exists(Values.LOCAL_PATH+"logonloader.exe"))
+            FilesToUpdate.ToList().ForEach(x =>
             {
-                if (File.GetLastWriteTime(Values.LOCAL_PATH + "logonloader.exe") != File.GetLastWriteTime(Values.LOCAL_PATH + "logon/logonloader.exe"))
+                if (File.Exists(Values.LOCAL_PATH + x))
                 {
-                    File.Delete(Values.LOCAL_PATH + "logonloader.exe");
-                    File.Copy(Values.LOCAL_PATH + "logon/logonloader.exe", Values.LOCAL_PATH + "logonloader.exe");
+                    if (File.GetLastWriteTime(Values.LOCAL_PATH + x) != File.GetLastWriteTime(Values.LOCAL_PATH + "logon/"+x))
+                    {
+                        File.Delete(Values.LOCAL_PATH + x);
+                        File.Copy(Values.LOCAL_PATH + "logon/"+x, Values.LOCAL_PATH + x);
+                    }
                 }
-            }
-            else
-            {
-                File.Copy(Values.LOCAL_PATH + "logon/logonloader.exe", Values.LOCAL_PATH + "logonloader.exe");
-            }
+                else
+                {
+                    File.Copy(Values.LOCAL_PATH + "logon/" + x, Values.LOCAL_PATH + x);
+                }
+            });
+
         }
 
         protected override void OnResize (EventArgs e)
@@ -196,8 +205,12 @@ namespace LogOn
             mDefaultStatusStrip.Items.Add(Panel3);
             mDefaultStatusStrip.Items.Add(new ToolStripSeparator());
 
-            Panel4 = new ToolStripStatusLabel("Place your Ad HERE!!") { AutoSize = true };
+            Panel4 = new ToolStripStatusLabel("") { AutoSize = true };
             mDefaultStatusStrip.Items.Add(Panel4);
+            mDefaultStatusStrip.Items.Add(new ToolStripSeparator());
+
+            Panel5 = new ToolStripStatusLabel("Place your Ad HERE!!") { AutoSize = true };
+            mDefaultStatusStrip.Items.Add(Panel5);
             mDefaultStatusStrip.Items.Add(new ToolStripSeparator());
 
             Controls.Add(mDefaultStatusStrip);
@@ -399,23 +412,37 @@ namespace LogOn
         }
         private async void btnOk_Click(object sender, EventArgs e)
         {
+            previousStatus = Status;
             if (Status == LogOnStatus.INIT)
             {
                 LogOnChangeStatus(LogOnStatus.CONNECTING);
-
+                SqlParameter _flags;
+                SqlParameter _fullName;
                 var _SP = new SP(Values.gDatos, "pLogOnUser");
                 _SP.AddControlParameter("User", txtUser);
-                _SP.AddParameterValue("Password", txtPassword.Text);
+                _SP.AddControlParameter("Password", txtPassword);
                 _SP.AddParameterValue("Origin", "LOGON_CS");
+                _SP.AssignOutputParameterContainer("flags",out _flags);
+                _SP.AssignOutputParameterContainer("FullName", out _fullName);
                 try
                 {
                     _SP.Execute();
+
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     txtPassword.Text = "";
                     Status = LogOnStatus.INIT;
+                    return;
+                }
+                Values.userFlags = _flags.Value.ToString().Split('|').Where(x => x!="").ToList() ;
+                Values.FullName = _fullName.Value.ToString();
+                Panel4.Text = Values.FullName;
+                if (_SP.LastMsg == "OK/CHANGE")
+                {
+                    this.Status = LogOnStatus.CHANGE_PASSWORD;
+                    CT.MsgError("Your password has expired, please change it.");
                     return;
                 }
                 Values.User = txtUser.Text;
@@ -453,10 +480,11 @@ namespace LogOn
 
         private void btnChange_Click(object sender, EventArgs e)
         {
+            previousStatus = Status;
             LogOnChangeStatus(LogOnStatus.CHANGE_PASSWORD);
         }
 
-        private void btnOKChange_Click(object sender, EventArgs e)
+        private async void btnOKChange_Click(object sender, EventArgs e)
         {
             Status = LogOnStatus.CHANGING_PASSWORD;
             if (txtNewPassword.Text != txtNewPasswordConfirm.Text || txtNewPIN.Text != txtNewPINConfirm.Text)
@@ -484,15 +512,49 @@ namespace LogOn
                 Status = LogOnStatus.CHANGE_PASSWORD;
                 return;
             }
-            Values.User = txtUser.Text;
-            Values.Password = txtPassword.Text=txtNewPassword.Text;
+            if (_SP.LastMsg.Substring(0, 2) != "OK")
+            {
+                CT.MsgError(_SP.LastMsg);
+                return;
+            }
+            //checking OWNCLOUD settings
+            if (Values.userFlags.Contains("OWNCLOUD"))
+            {
+                string _master="";
+                using (var _RS= new DynamicRS("select master=cast(dbo.fGetContextInfo() as nvarchar)", Values.gDatos))
+                {
+                    _RS.Open();
+                    _master = _RS["master"].ToString();
+                }
+                bool _result= await OCCommands.CheckUser(txtUser.Text, _master);
+                Panel4.Text = (_result ? "Owncloud user found" : "Owncoud user not found");
+                if (!_result)
+                {
+                    _result = await OCCommands.AddUser(txtUser.Text, txtNewPassword.Text, Values.FullName, Values.COD3, _master);
+                    Panel4.Text = (_result ? "Owncloud user created correctly" : "ERROR creating Owncloud user!!!");
+                }
+                else
+                {
+                    _result = await OCCommands.UppUser(txtUser.Text, txtNewPassword.Text, Values.FullName, "", _master);
+                    Panel4.Text = (_result ? "Owncloud user updated correctly" : "ERROR updating Owncloud user!!!");
+                }
+            }
+
             MessageBox.Show("Password and PIN changed OK", "Success!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            LogOnChangeStatus(LogOnStatus.CONNECTED);
+            Panel4.Text = Values.FullName;
+            Values.User = txtUser.Text;
+            Values.Password = txtPassword.Text = txtNewPassword.Text;
+            LogOnChangeStatus(previousStatus);
+            txtUser.Text = Values.User;
+            txtPassword.Text = Values.Password;
+            if (Status==LogOnStatus.INIT)
+                btnOk.PerformClick();
         }
 
         private void btnCancelChange_Click(object sender, EventArgs e)
         {
-            LogOnChangeStatus(LogOnStatus.CONNECTED);
+            LogOnChangeStatus(previousStatus);
+            //LogOnChangeStatus(LogOnStatus.CONNECTED);
         }
 
         // Capture some pressed key
@@ -537,88 +599,9 @@ namespace LogOn
 
 
 
-    public static class Values
-    {
-        public const string LOCAL_PATH = "C:/ESPACK_CS/";
-        public static cAccesoDatosNet gDatos = new cAccesoDatosNet();
-        public static string gMasterPassword = "";
-        public static string User;
-        public static string Password;
-        public static cServerList DBServerList = new cServerList(ServerTypes.DATABASE);
-        public static cServerList ShareServerList = new cServerList(ServerTypes.SHARE);
-        public static cAppList AppList=new cAppList();
-        public static string COD3="";
-        public static cUpdateList UpdateList = new cUpdateList();
-        public static cUpdateList UpdateDir = new cUpdateList();
-        public static int ActiveThreads=0;
-        public static DebugTextbox debugBox;
+   
 
-        public static void FillServers(int pZone)
-        {
-
-            using (var _RS = new DynamicRS("select COD3,ServerDB,ServerDBIP,ServerShare,ServerShareIP,zone,UserShare,PasswordShare from general..sedes", Values.gDatos))
-            {
-                _RS.Open();
-                while (!_RS.EOF)
-                {
-                    Values.DBServerList.Add(new cServer() { HostName = _RS["ServerDB"].ToString(), IP = IPAddress.Parse(_RS["ServerDBIP"].ToString()), COD3 = _RS["COD3"].ToString(), Type = ServerTypes.DATABASE, User=Values.User, Password=Values.Password });
-                    Values.ShareServerList.Add(new cServer()
-                    {
-                        HostName = _RS["ServerShare"].ToString(),
-                        IP = IPAddress.Parse(_RS["ServerShareIP"].ToString()),
-                        COD3 = _RS["COD3"].ToString(),
-                        Type = ServerTypes.DATABASE,
-                        User = _RS["UserShare"].ToString(),
-                        Password = _RS["PasswordShare"].ToString()
-                    });
-                    if (Convert.ToInt16(_RS["zone"]) == pZone)
-                    {
-                        Values.COD3 = _RS["COD3"].ToString();
-                        Values.DBServerList.Add(new cServer() { HostName = _RS["ServerDB"].ToString(), IP = IPAddress.Parse(_RS["ServerDBIP"].ToString()), COD3 = "LOC", Type = ServerTypes.DATABASE, User = Values.User, Password = Values.Password });
-                    }
-
-                    _RS.MoveNext();
-                }
-                Values.DBServerList.Add(new cServer() { HostName = "DB01", IP = Dns.GetHostEntry("DB01").AddressList[0], COD3 = "OUT", Type = ServerTypes.DATABASE, User = Values.User, Password = Values.Password });
-            }
-        }
-
-    }
-
-    public class DebugTextbox : TextBox
-    {
-        public DebugTextbox()
-            : base()
-        {
-            Multiline = true;
-        }
-        delegate void AppendTextCallback(string text);
-        delegate void DisposeCallBack();
-        public new void AppendText(string text)
-        {
-            if (this.InvokeRequired)
-            {
-                AppendTextCallback a = new AppendTextCallback(AppendText);
-                this.Invoke(a, new object[] { text });
-            }
-            else
-            {
-                base.AppendText(text);
-            }
-        }
-        public new void Dispose()
-        {
-            if (this.InvokeRequired)
-            {
-                DisposeCallBack a = new DisposeCallBack(Dispose);
-                this.Invoke(a);
-            }
-            else
-            {
-                base.Dispose();
-            }
-        }
-    }
+    
 
 }
 

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LogOn;
 using CommonTools;
 using System.IO;
 using System.Windows.Forms;
+using LogOnObjects;
 
 namespace LogOnLoader
 {
@@ -32,13 +32,7 @@ namespace LogOnLoader
                 string _pathLogonHosts;
                 List<string> _content = new List<string>();
 
-                // Programmer rest (just for DEBUG time)
-#if DEBUG
-                _pathLogonHosts = "c:\\espack\\logonHosts";
-#else
-            _pathLogonHosts = ".\\logonHosts";
-#endif
-                _pathLogonHosts = Values.LOCAL_PATH+"logon/logonHosts";
+                _pathLogonHosts = "logonHosts";
                 // Get logonHosts file content       
                 if (File.Exists(_pathLogonHosts))
                 {

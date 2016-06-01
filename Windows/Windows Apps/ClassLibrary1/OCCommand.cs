@@ -109,6 +109,13 @@ namespace Owncloud
                 if (ocCommand.status != "ok")
                     return false;
             }
+            using (var ocCommand = new OCEditUser(user, "password", password))
+            {
+                ocCommand.setCredentials("admin", masterPassword);
+                await ocCommand.sendRequest();
+                if (ocCommand.status != "ok")
+                    return false;
+            }
             foreach (var group in groups.Split('|'))
             {
                 if (group.Trim()!="")

@@ -125,7 +125,7 @@ namespace Sistemas
                 if (lPwd != "")
                 {
                     var vbresult = new byte[128];
-                    cAccesoDatosNet lDatos = new cAccesoDatosNet(Values.gDatos);
+                    cAccesoDatosNet lDatos = Values.gDatos.Clone();
                     lDatos.DataBase = "SISTEMAS";
                     SP lSP = new SP(lDatos, "pCheckContext");
                     lSP.AddParameterValue("password", lPwd);
