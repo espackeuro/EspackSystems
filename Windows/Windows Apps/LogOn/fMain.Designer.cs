@@ -387,7 +387,7 @@ namespace LogOn
 
         private System.Windows.Forms.GroupBox gbCredentials;
         private System.Windows.Forms.GroupBox gbApps;
-        private LogOn.cAppBot cAppBot1;
+        private LogOnObjects.cAppBot cAppBot1;
         private System.Windows.Forms.TableLayoutPanel tlpApps;
         private System.Windows.Forms.TextBox txtDebug1;
         private System.Windows.Forms.GroupBox gbDebug;

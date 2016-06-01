@@ -2,16 +2,50 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Renci.SshNet;
 using System.IO;
 using CommonTools;
 using FTP;
 using System.Net.FtpClient;
 using System.Net;
+using System.Windows.Forms;
 
-namespace LogOn
+namespace LogOnObjects
 
 {
+    public class DebugTextbox : TextBox
+    {
+        public DebugTextbox()
+            : base()
+        {
+            Multiline = true;
+        }
+        delegate void AppendTextCallback(string text);
+        delegate void DisposeCallBack();
+        public new void AppendText(string text)
+        {
+            if (this.InvokeRequired)
+            {
+                AppendTextCallback a = new AppendTextCallback(AppendText);
+                this.Invoke(a, new object[] { text });
+            }
+            else
+            {
+                base.AppendText(text);
+            }
+        }
+        public new void Dispose()
+        {
+            if (this.InvokeRequired)
+            {
+                DisposeCallBack a = new DisposeCallBack(Dispose);
+                this.Invoke(a);
+            }
+            else
+            {
+                base.Dispose();
+            }
+        }
+    }
     public enum LogonItemUpdateStatus { PENDING, UPDATING, UPDATED}
     public class cUpdateListItem
     {
@@ -29,7 +63,7 @@ namespace LogOn
 
     public class cUpdaterThread: IDisposable
     {
-        private SftpClient Client { get; set; }
+        
         private cServer Server { get; set; }
         private DebugTextbox debug { get; set; }
         public int NumThread { get; set; } 

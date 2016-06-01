@@ -75,10 +75,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="cAppBot.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="cUpdaterThread.cs" />
     <Compile Include="fMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -87,9 +83,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="cAppBot.resx">
-      <DependentUpon>cAppBot.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="fMain.resx">
       <DependentUpon>fMain.cs</DependentUpon>
     </EmbeddedResource>
@@ -150,6 +143,10 @@
       <Project>{0f193f80-9610-4020-8974-9aaa02bd1ca8}</Project>
       <Name>Owncloud</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LogonObjects\LogonObjects\LogOnObjects.csproj">
+      <Project>{5f489d49-0a82-42e5-af0f-3b2c580fb746}</Project>
+      <Name>LogOnObjects</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Prototype-96.png" />
@@ -177,7 +174,7 @@
   <PropertyGroup>
     <PostBuildEvent>ROBOCOPY "$(TargetDir) " "$(TargetDir)lib " /XF *.exe *.config *.manifest /XD lib logs data /E /IS /MOV
 ; Move all to APPs folder
-ROBOCOPY "$(TargetDir) " "D:\APPS " /XF *.vshost.* /XD logs data /E /IS 
+ROBOCOPY "$(TargetDir) " "D:\APPS_CS\logon " /XF *.vshost.* /XD logs data /E /IS 
 if %25errorlevel%25 leq 4 exit 0 else exit %25errorlevel</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

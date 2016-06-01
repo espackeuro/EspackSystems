@@ -19,12 +19,33 @@ namespace AccesoDatosNet
         public Object LinkedControl;
         public SqlParameter Parameter;
     }
-
-    public class cAccesoDatosNet 
+    public class ObjectParameter
+    {
+        public object Container;
+        public SqlParameter Parameter;
+    }
+    public class cAccesoDatosNet : ICloneable
     {
         public SqlConnection AdoCon { get; set; }
         public string Path { get; set; }
         public string AppName { get; set; }
+        public string ServerIP
+        {
+            get
+            {
+                return oServer.IP.ToString();
+            }
+            set
+            {
+                if (oServer != null)
+                {
+                    IPAddress _serverIP;
+                    if (IPAddress.TryParse(value, out _serverIP))
+                        oServer.IP = _serverIP;
+                }
+            }
+        }
+        
         public string Server {
             get
             {
@@ -55,14 +76,15 @@ namespace AccesoDatosNet
                     }
                     else
                     {
-                        try
-                        {
-                            var result = Dns.GetHostEntry(_serverIP);
-                            _hostName = result.HostName;
-                        } catch (Exception ex)
-                        {
-                            _hostName = value;
-                        }
+                        _hostName = value;
+                        //try
+                        //{
+                        //    var result = Dns.GetHostEntry(_serverIP);
+                        //    _hostName = result.HostName;
+                        //} catch (Exception ex)
+                        //{
+                        //    _hostName = value;
+                        //}
                     }
                     oServer.HostName = _hostName;
                     oServer.IP = _serverIP;
@@ -260,6 +282,16 @@ namespace AccesoDatosNet
         public void Close()
         {
             AdoCon.Close();
+        }
+
+        public cAccesoDatosNet Clone()
+        {
+            return (cAccesoDatosNet)this.MemberwiseClone();
+        }
+
+        object ICloneable.Clone()
+        {
+            return Clone();
         }
     }
 
@@ -843,7 +875,8 @@ namespace AccesoDatosNet
         private cAccesoDatosNet mConn;
         
         public List<ControlParameter> ControlParameters { set; get; }
-        public SqlParameterCollection OutputParameters { get; set; }
+        public List<SqlParameter> OutputParameters { get; set; }
+        //public List<ObjectParameter> ObjectParameters { get; set; }
         public SqlCommand Cmd { get; set; }
 
         public SqlParameterCollection Parameters
@@ -920,6 +953,8 @@ namespace AccesoDatosNet
         {
             Cmd = new SqlCommand();
             ControlParameters = new List<ControlParameter>();
+            OutputParameters = new List<SqlParameter>();
+            //ObjectParameters = new List<ObjectParameter>();
             SPName = pSPName;
             Conn = pConn;
             Connection = Conn.AdoCon;
@@ -1059,7 +1094,34 @@ namespace AccesoDatosNet
                 }
             }
         }
-
+        public void AssignOutputParameterContainer(string ParamName, out SqlParameter ParamOut, object Value=null)
+        {
+            SqlParameter _param;
+            if (ParamName.Substring(0, 1) != "@")
+            {
+                ParamName = '@' + ParamName;
+            }
+            if (Parameters[ParamName] != null)
+            {
+                _param = Parameters[ParamName];
+            }
+            else
+            {
+                _param = new SqlParameter()
+                {
+                    ParameterName = ParamName
+                };
+                Parameters.Add(_param);
+            }
+            if (Value!= null)
+            {
+                AddParameterValue(ParamName, Value);
+            }
+            OutputParameters.Add(_param);
+            ParamOut = _param;
+            //ObjectParameters.Add(new ObjectParameter() {Container=Container, Parameter=_param });
+            
+        }
         public void AssignValuesParameters()
         {
             foreach (ControlParameter lParam in ControlParameters)
@@ -1072,6 +1134,7 @@ namespace AccesoDatosNet
                     }
                 }
             }
+            //ObjectParameters.ToList().ForEach(x => x.Container = x.Parameter.Value);
         }
 
         public void Execute()
@@ -1088,18 +1151,15 @@ namespace AccesoDatosNet
                 Conn.Close();
             }
             AssignValuesParameters();
-            foreach (SqlParameter lParameter in Parameters)
+            try
             {
-                if (lParameter.ParameterName == "@msg")
-                {
-                    LastMsg = Parameters["@msg"].Value == null ? "" : Parameters["@msg"].Value.ToString();
-                    lParameter.Value = "";
-                }
-                else
-                {
-                    //lParameter.Value = DBNull.Value;
-                }
+                LastMsg = Parameters.OfType<SqlParameter>().ToList().First(x => x.ParameterName == "@msg").Value.ToString();
             }
+            catch
+            {
+                LastMsg = "";
+            }
+
         }
         public Dictionary<string, object> ReturnValues()
         {
