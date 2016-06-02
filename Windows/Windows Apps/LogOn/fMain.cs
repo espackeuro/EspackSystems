@@ -18,6 +18,7 @@ using System.Data.SqlClient;
 using System.Text.RegularExpressions;
 using Owncloud;
 using LogOnObjects;
+using System.Reflection;
 
 namespace LogOn
 {
@@ -25,6 +26,7 @@ namespace LogOn
 
     public partial class fMain : Form
     {
+        
         // Definitions for dynamically create the toolbar and accessing its panels
         public StatusStrip mDefaultStatusStrip;
         public ToolStripStatusLabel Panel1;
@@ -60,7 +62,7 @@ namespace LogOn
         {
 
             InitializeComponent();
-
+            this.Text=string.Format("LogOn Build {0} - ({1:yyyyMMdd})*" , Assembly.GetExecutingAssembly().GetName().Version.ToString(),CT.GetBuildDateTime(Assembly.GetExecutingAssembly()));
             // Customize the textbox controls 
             txtUser.Multiline = false;
             txtPassword.Multiline = false;
@@ -68,6 +70,9 @@ namespace LogOn
             txtNewPasswordConfirm.Multiline = false;
             txtNewPIN.Multiline = false;
             txtNewPINConfirm.Multiline = false;
+
+            LogOnChangeStatus(LogOnStatus.INIT);
+
 #if DEBUG
             Values.debugBox = new DebugTextbox();
             Values.debugBox.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -76,11 +81,9 @@ namespace LogOn
             Values.debugBox.Size = new System.Drawing.Size(300, 98);
             Values.debugBox.TabIndex = 3;
             gbDebugAdd(Values.debugBox);
+            txtUser.Text = "dvalles";
+            txtPassword.Text = "*Kru0DMar*";
 #endif
-
-          
-
-            LogOnChangeStatus(LogOnStatus.INIT);
 
             // Load the vars from the given args
             var espackArgs = CT.LoadVars(args);
@@ -100,21 +103,14 @@ namespace LogOn
                 // Programmer rest (just for DEBUG time)
 #if DEBUG
                 _pathLogonHosts = "c:\\espack\\logonHosts";
-                txtUser.Text = "dvalles";
-                txtPassword.Text = "*Kru0DMar*";
 #else
-            _pathLogonHosts = ".\\logonHosts";
+            _pathLogonHosts = "logonHosts";
 #endif
                 _pathLogonHosts = Values.LOCAL_PATH +"logon/logonHosts";
                 // Get logonHosts file content       
                 if (File.Exists(_pathLogonHosts))
                 {
                     _content = File.ReadAllLines(_pathLogonHosts).ToList<string>();
-                    var _IP = Values.gDatos.IP.GetAddressBytes();
-                    if (_IP[0] == 10)
-                        _zone = _IP[1];
-                    else
-                        _zone = _IP[2];
                 }
                 else
                 {
@@ -128,7 +124,11 @@ namespace LogOn
                 espackArgs.Server = _line.Split('|')[1];
 
             }
-
+            var _IP = Values.gDatos.IP.GetAddressBytes();
+            if (_IP[0] == 10)
+                _zone = _IP[1];
+            else
+                _zone = _IP[2];
             // Set the values of gDatos from the given args or default settings 
             Values.gDatos.DataBase = espackArgs.DataBase;
             Values.gDatos.Server = espackArgs.Server;
