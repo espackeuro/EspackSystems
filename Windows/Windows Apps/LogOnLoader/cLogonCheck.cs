@@ -31,8 +31,11 @@ namespace LogOnLoader
                 //int _zone = 0;
                 string _pathLogonHosts;
                 List<string> _content = new List<string>();
-
+#if DEBUG
+                _pathLogonHosts = "D:/APPS_CS/logon/logonHosts";
+#else
                 _pathLogonHosts = "logonHosts";
+#endif
                 // Get logonHosts file content       
                 if (File.Exists(_pathLogonHosts))
                 {
