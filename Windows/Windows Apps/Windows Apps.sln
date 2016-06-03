@@ -47,6 +47,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EspackClasses", "..\..\Espa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogOnObjects", "LogonObjects\LogonObjects\LogOnObjects.csproj", "{5F489D49-0A82-42E5-AF0F-3B2C580FB746}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiverseControls", "..\..\EspackControls\DiverseControls\DiverseControls\DiverseControls.csproj", "{005BD28A-42C7-4785-9EB1-BD6F2B7564C3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -121,6 +123,10 @@ Global
 		{5F489D49-0A82-42E5-AF0F-3B2C580FB746}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F489D49-0A82-42E5-AF0F-3B2C580FB746}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F489D49-0A82-42E5-AF0F-3B2C580FB746}.Release|Any CPU.Build.0 = Release|Any CPU
+		{005BD28A-42C7-4785-9EB1-BD6F2B7564C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{005BD28A-42C7-4785-9EB1-BD6F2B7564C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{005BD28A-42C7-4785-9EB1-BD6F2B7564C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{005BD28A-42C7-4785-9EB1-BD6F2B7564C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -143,9 +149,10 @@ Global
 		{265BE0FE-A0B7-4A6F-84A3-2364A5CF865E} = {9A5F1334-96A2-4343-B6B5-94245973DB55}
 		{60C3AF59-C083-4DB1-A9FF-DDEC1E429029} = {740EE352-1137-4924-ADA9-AD599D1CB2BE}
 		{5F489D49-0A82-42E5-AF0F-3B2C580FB746} = {1D17A21A-95D8-436A-8A3A-38AE2EF835CA}
+		{005BD28A-42C7-4785-9EB1-BD6F2B7564C3} = {740EE352-1137-4924-ADA9-AD599D1CB2BE}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 18
+		SccNumberOfProjects = 19
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://espack.visualstudio.com/defaultcollection
 		SccLocalPath0 = .
@@ -213,9 +220,13 @@ Global
 		SccProjectTopLevelParentUniqueName16 = Windows\u0020Apps.sln
 		SccProjectName16 = ../../EspackClasses
 		SccLocalPath16 = ..\\..\\EspackClasses
-		SccProjectUniqueName17 = LogonObjects\\LogonObjects\\LogonObjects.csproj
+		SccProjectUniqueName17 = LogonObjects\\LogonObjects\\LogOnObjects.csproj
 		SccProjectTopLevelParentUniqueName17 = Windows\u0020Apps.sln
 		SccProjectName17 = LogonObjects/LogonObjects
 		SccLocalPath17 = LogonObjects\\LogonObjects
+		SccProjectUniqueName18 = ..\\..\\EspackControls\\DiverseControls\\DiverseControls\\DiverseControls.csproj
+		SccProjectTopLevelParentUniqueName18 = Windows\u0020Apps.sln
+		SccProjectName18 = ../../EspackControls/DiverseControls/DiverseControls
+		SccLocalPath18 = ..\\..\\EspackControls\\DiverseControls\\DiverseControls
 	EndGlobalSection
 EndGlobal

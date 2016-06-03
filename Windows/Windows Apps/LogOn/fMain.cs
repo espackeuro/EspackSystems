@@ -19,6 +19,7 @@ using System.Text.RegularExpressions;
 using Owncloud;
 using LogOnObjects;
 using System.Reflection;
+using DiverseControls;
 
 namespace LogOn
 {
@@ -33,7 +34,7 @@ namespace LogOn
         public ToolStripStatusLabel Panel2;
         public ToolStripStatusLabel Panel3;
         public ToolStripStatusLabel Panel4;
-        public ToolStripStatusLabel Panel5;
+        public ScrollingStatusLabel PanelQOTD;
         private int _zone = 0;
         public List<cUpdaterThread> UpdatingThreads = new List<cUpdaterThread>();
         public const int NUMTHREADS = 8;
@@ -209,8 +210,8 @@ namespace LogOn
             mDefaultStatusStrip.Items.Add(Panel4);
             mDefaultStatusStrip.Items.Add(new ToolStripSeparator());
 
-            Panel5 = new ToolStripStatusLabel("Place your Ad HERE!!") { AutoSize = true };
-            mDefaultStatusStrip.Items.Add(Panel5);
+            PanelQOTD = new ScrollingStatusLabel("") {AutoSize=false, Width=350 , Interval=150};
+            mDefaultStatusStrip.Items.Add(PanelQOTD);
             mDefaultStatusStrip.Items.Add(new ToolStripSeparator());
 
             Controls.Add(mDefaultStatusStrip);
@@ -439,6 +440,20 @@ namespace LogOn
                 Values.userFlags = _flags.Value.ToString().Split('|').Where(x => x!="").ToList() ;
                 Values.FullName = _fullName.Value.ToString();
                 Panel4.Text = Values.FullName;
+
+                var _SPQuote = new SP(Values.gDatos, "pGetQOTD");
+                SqlParameter _quote;
+                _SPQuote.AssignOutputParameterContainer("quote", out _quote);
+                try
+                {
+                    _SPQuote.Execute();
+                    PanelQOTD.Text = _quote.Value.ToString();
+                }
+                catch (Exception ex)
+                {
+                    PanelQOTD.Text = "";
+                }
+                
                 if (_SP.LastMsg == "OK/CHANGE")
                 {
                     this.Status = LogOnStatus.CHANGE_PASSWORD;
