@@ -477,11 +477,30 @@ namespace Etiquetas_CS
             private void pdoc_PrintPage(object sender, PrintPageEventArgs e)
             {
                 Graphics graphics = e.Graphics;
-                Font font = new Font("Courier New", 10);
+                Font font = new Font("Courier New", 10); // 7 in old VB code
                 float fontHeight = font.GetHeight();
-                int startX = 50;
-                int startY = 55;
-                int Offset = 40;
+                float Offset
+
+                // Margins (to be reviewed)
+                //int _leftMargin = Convert.ToInt32(pdoc.DefaultPageSettings.HardMarginX.ToString());
+                //int _topMargin = Convert.ToInt32(pdoc.DefaultPageSettings.HardMarginY.ToString());
+                //int _rightMargin = Convert.ToInt32(pdoc.DefaultPageSettings.HardMarginY.ToString());
+                int _xMin = Convert.ToInt32(pdoc.DefaultPageSettings.PrintableArea.Left);
+                int _xMax = Convert.ToInt32(pdoc.DefaultPageSettings.PrintableArea.Right);
+                int _yMin = Convert.ToInt32(pdoc.DefaultPageSettings.PrintableArea.Top);
+                int _yMax = Convert.ToInt32(pdoc.DefaultPageSettings.PrintableArea.Bottom);
+
+                // Initialize x,y positions
+                int _xCurrent = _xMin;
+                int _yCurrent = _yMin;
+
+                // Header
+                graphics.DrawString(String.Format("Parametros: {0} ", s));
+
+                 graphics.DrawLine(Pens.Black, new Point(_xMin, 50), new Point(_xMax, 50));
+
+                /*
+
                 graphics.DrawString("Welcome to MSST", new Font("Courier New", 14),
                                     new SolidBrush(Color.Black), startX, startY + Offset);
                 Offset = Offset + 20;
@@ -517,6 +536,7 @@ namespace Etiquetas_CS
                 String DrawnBy = "xxxxxx";
                 graphics.DrawString("Conductor - " + DrawnBy, new Font("Courier New", 10),
                          new SolidBrush(Color.Black), startX, startY + Offset);
+                */
             }
             //public PrintPage() : base()
             //{
