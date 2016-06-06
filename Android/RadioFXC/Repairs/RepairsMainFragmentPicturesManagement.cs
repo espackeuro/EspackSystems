@@ -34,6 +34,7 @@ namespace RadioFXC
         private static File cFile;
         private string cUnitNumber;
         public string cRepairCode { get; set; }
+        private int cNUM;
         private int cCount;
         public static int cOldPictures { get; set; }
         private DynamicRS cRSOld = new DynamicRS();
@@ -135,7 +136,7 @@ namespace RadioFXC
         }
         private void TakeAPicture(object sender, EventArgs eventArgs)
         {
-            var _RS = new DynamicRS("select Num=isnull(max(cast(replace(replace(filename,ltrim(UnitNumber)+'_'+ltrim(RepairCode)+'_',''),'.jpg','') as int)),0)+1 from PicturesRepairs where repaircode='" + cRepairCode + "'", Values.gDatos);
+            var _RS = new DynamicRS("select Num=isnull(Max(Num)+1,1) from PicturesRepairs where repaircode='" + cRepairCode + "'", Values.gDatos);
             try
             {
                 _RS.Open();
@@ -144,11 +145,11 @@ namespace RadioFXC
             {
                 throw;
             }
-            var _num = _RS["Num"].ToString();
+            cNUM = Convert.ToInt32(_RS["Num"]);
 
             Intent intent = new Intent(MediaStore.ActionImageCapture);
 
-            cFile = new File(cDir, String.Format(cUnitNumber + "_" + cRepairCode + "_{0}.jpg",_num));
+            cFile = new File(cDir, String.Format(cUnitNumber + "_" + cRepairCode + "_{0}.jpg",cNUM));
             intent.PutExtra(MediaStore.ExtraOutput, Uri.FromFile(cFile));
             this.StartActivityForResult(intent, 4);
         }
@@ -166,7 +167,7 @@ namespace RadioFXC
                 mediaScanIntent.SetData(contentUri);
                 Activity.SendBroadcast(mediaScanIntent);
                 Bitmap bitmap = cFile.Path.LoadAndResizeBitmap(cWidthThumbnail, cWidthThumbnail);
-                ImageFile elFile = new ImageFile(cFile, cDir, bitmap);
+                ImageFile elFile = new ImageFile(cFile, cDir, bitmap,cNUM);
                 cImageAdapter.AddImage(elFile);
                 //cImageFileList.Add(elFile);
                 cImageAdapter.NotifyDataSetChanged();
@@ -204,6 +205,7 @@ namespace RadioFXC
         private string cRepairCode;
         private string cUnitNumber;
         private int cImageWidth;
+        private int cNUM;
         public ListImageAdapter(Context c, string pRepairCode, string pUnitNumber, int pImageWidth)
         {
             context = c;
@@ -238,6 +240,7 @@ namespace RadioFXC
                 pAddPicturesRepairs.AddParameterValue("FilePath", FilePath);
                 pAddPicturesRepairs.AddParameterValue("Thumbnail", rawBitmap);
                 pAddPicturesRepairs.AddParameterValue("IdPicture", "");
+                pAddPicturesRepairs.AddParameterValue("Num", cImageFileList[FileName].NumPicture);
                 pAddPicturesRepairs.Execute();
                 if (pAddPicturesRepairs.LastMsg != "OK")
                 {
@@ -529,8 +532,9 @@ namespace RadioFXC
         public string ServerPath { get; set; }
         public string Text { get; set; }
         public string IdPicture { get; set; }
+        public int NumPicture { get; set; }
         public ProgressBar Progress;
-        public ImageFile(Java.IO.File pFile, Java.IO.File pDir, Bitmap pBitmap)
+        public ImageFile(Java.IO.File pFile, Java.IO.File pDir, Bitmap pBitmap, int pNum)
         {
             File = pFile;
             Dir = pDir;
@@ -538,6 +542,7 @@ namespace RadioFXC
             Uploaded = false;
             Status = "PENDING";
             Text = pFile.Name;
+            NumPicture = pNum;
         }
         public ImageFile(string pFileName, Bitmap pBitmap)
         {
