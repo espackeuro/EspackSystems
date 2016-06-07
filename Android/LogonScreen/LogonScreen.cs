@@ -5,7 +5,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
-using cAccesoDatosAndroid;
+using AccesoDatosNet;
 using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using DataWedge;
@@ -121,8 +121,8 @@ namespace LogonScreen
                     else
                     {
                         //Toast.MakeText(this, "Logon OK!", ToastLength.Short).Show();
-                        LogonDetails.user = LogonSP.StringParameter("@User"); ;
-                        LogonDetails.password = LogonSP.StringParameter("@Password");
+                        LogonDetails.user = LogonSP.ReturnValues()["@User"].ToString();
+                        LogonDetails.password = LogonSP.ReturnValues()["@Password"].ToString();
                         Intent intent = new Intent();
                         intent.PutExtra("Result", "OK");
                         SetResult(Result.Ok, intent);

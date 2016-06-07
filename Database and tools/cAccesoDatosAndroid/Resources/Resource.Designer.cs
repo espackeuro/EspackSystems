@@ -9,9 +9,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Android.Runtime.ResourceDesignerAttribute("cAccesoDatosAndroid.Resource", IsApplication=false)]
+[assembly: global::Android.Runtime.ResourceDesignerAttribute("AccesoDatosNet.Resource", IsApplication=false)]
 
-namespace cAccesoDatosAndroid
+namespace AccesoDatosNet
 {
 	
 	
