@@ -34,14 +34,18 @@ namespace LogOn
         public ToolStripStatusLabel Panel1;
         public ToolStripStatusLabel Panel2;
         public ToolStripStatusLabel Panel3;
-        public ToolStripStatusLabel Panel4;
+        public ToolStripStatusLabel PanelName;
         public ScrollingStatusLabel PanelQOTD;
+        public ToolStripStatusLabel PanelTime;
+        private System.Timers.Timer _timer;
+        private int _time;
         private int _zone = 0;
         public List<cUpdaterThread> UpdatingThreads = new List<cUpdaterThread>();
         public const int NUMTHREADS = 8;
         
         delegate void gbDebugCallBack(Control c);
         delegate void LogOnChangeStatusCallBack(LogOnStatus l);
+        delegate void ClearListAppsCallBack();
 
         private LogOnStatus previousStatus { get; set; }
 
@@ -72,6 +76,13 @@ namespace LogOn
             txtNewPasswordConfirm.Multiline = false;
             txtNewPIN.Multiline = false;
             txtNewPINConfirm.Multiline = false;
+            //timer control
+            _time = 0;
+            _timer = new System.Timers.Timer() { Interval = 1000, Enabled = false };
+            _timer.Elapsed += _timer_Elapsed;
+
+            // Add the toolbar and set the panels texts
+            AddDefaultStatusStrip();
 
             LogOnChangeStatus(LogOnStatus.INIT);
 
@@ -147,13 +158,13 @@ namespace LogOn
                 throw new Exception("Error connecting database server: " + e.Message);
             }
 
-            // Add the toolbar and set the panels texts
-            AddDefaultStatusStrip();
+
             Panel1.Text = "You are connected to "+Values.gDatos.oServer.HostName.Replace(".local","")+"!";
             Panel2.Text = "My IP: " + Values.gDatos.IP.ToString();
             Panel3.Text = "DB Server IP: " + espackArgs.Server;
             string[] FilesToUpdate = new string[] { "logonHosts", "logonloader.exe", "logonloader.exe.config" };
             // Check LogOnLoader update
+#if !DEBUG 
             FilesToUpdate.ToList().ForEach(x =>
             {
                 if (File.Exists(Values.LOCAL_PATH + x))
@@ -169,7 +180,21 @@ namespace LogOn
                     File.Copy(Values.LOCAL_PATH + "logon/" + x, Values.LOCAL_PATH + x);
                 }
             });
+#endif
 
+
+        }
+
+        private void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            _time--;
+            if (_time == 0)
+            {
+                LogOnChangeStatus(LogOnStatus.INIT);
+                return;
+            }
+            var t = TimeSpan.FromSeconds(_time);
+            PanelTime.Text=t.ToString(@"mm\:ss");
         }
 
         protected override void OnResize (EventArgs e)
@@ -207,13 +232,17 @@ namespace LogOn
             mDefaultStatusStrip.Items.Add(Panel3);
             mDefaultStatusStrip.Items.Add(new ToolStripSeparator());
 
-            Panel4 = new ToolStripStatusLabel("") { AutoSize = true };
-            mDefaultStatusStrip.Items.Add(Panel4);
+            PanelName = new ToolStripStatusLabel("") { AutoSize = true };
+            mDefaultStatusStrip.Items.Add(PanelName);
             mDefaultStatusStrip.Items.Add(new ToolStripSeparator());
 
             PanelQOTD = new ScrollingStatusLabel("") {AutoSize=false, Width=350 , Interval=150};
             mDefaultStatusStrip.Items.Add(PanelQOTD);
             mDefaultStatusStrip.Items.Add(new ToolStripSeparator());
+
+            PanelTime = new ToolStripStatusLabel("") { AutoSize = false, Width = 100 };
+            mDefaultStatusStrip.Items.Add(PanelTime);
+            //mDefaultStatusStrip.Items.Add(new ToolStripSeparator());
 
             Controls.Add(mDefaultStatusStrip);
             KeyPreview = true;
@@ -233,6 +262,7 @@ namespace LogOn
                 switch (value)
                 {
                     case LogOnStatus.INIT:
+                        _time = 300;
                         txtUser.Text = "";
                         txtPassword.Text = "";
                         txtUser.Enabled = true;
@@ -247,6 +277,12 @@ namespace LogOn
                         btnOKChange.Visible = false;
                         btnCancelChange.Visible = false;
                         ActiveControl = txtUser;
+                        _timer.Stop();
+                        ClearListApps();
+                        PanelName.Text = "";
+                        PanelQOTD.Text = "";
+                        PanelTime.Text = "";
+                        
                         break;
                     case LogOnStatus.CONNECTING:
                         txtUser.Enabled = false;
@@ -273,6 +309,7 @@ namespace LogOn
                         txtNewPINConfirm.Visible = false;
                         btnOKChange.Visible = false;
                         btnCancelChange.Visible = false;
+                        _timer.Start();
                         break;
                     case LogOnStatus.CHANGE_PASSWORD:
                         txtUser.Enabled = false;
@@ -393,12 +430,20 @@ namespace LogOn
 
         private void ClearListApps()
         {
-            //Values.AppList.ToList().ForEach(x => x.Dispose());
-            Values.AppList.Dispose();
-            tlpApps.ColumnCount=0;
-            tlpApps.RowCount=0;
-
+            if (this.InvokeRequired)
+            {
+                ClearListAppsCallBack a = new ClearListAppsCallBack(ClearListApps);
+                this.Invoke(a);
+            }
+            else
+            {
+                //Values.AppList.ToList().ForEach(x => x.Dispose());
+                Values.AppList.Dispose();
+                tlpApps.ColumnCount = 0;
+                tlpApps.RowCount = 0;
+            }
         }
+
         private async Task CheckUpdatableApps()
         {
             var task = Task.Run(() =>
@@ -440,7 +485,7 @@ namespace LogOn
                 }
                 Values.userFlags = _flags.Value.ToString().Split('|').Where(x => x!="").ToList() ;
                 Values.FullName = _fullName.Value.ToString();
-                Panel4.Text = Values.FullName;
+                PanelName.Text = Values.FullName;
 
                 var _SPQuote = new SP(Values.gDatos, "pGetQOTD");
                 SqlParameter _quote;
@@ -490,7 +535,6 @@ namespace LogOn
             else
             {
                 LogOnChangeStatus(LogOnStatus.INIT);
-                ClearListApps();
             }
         }
 
@@ -543,21 +587,21 @@ namespace LogOn
                     _master = _RS["master"].ToString();
                 }
                 bool _result= await OCCommands.CheckUser(txtUser.Text, _master);
-                Panel4.Text = (_result ? "Owncloud user found" : "Owncoud user not found");
+                PanelName.Text = (_result ? "Owncloud user found" : "Owncoud user not found");
                 if (!_result)
                 {
                     _result = await OCCommands.AddUser(txtUser.Text, txtNewPassword.Text, Values.FullName, Values.COD3, _master);
-                    Panel4.Text = (_result ? "Owncloud user created correctly" : "ERROR creating Owncloud user!!!");
+                    PanelName.Text = (_result ? "Owncloud user created correctly" : "ERROR creating Owncloud user!!!");
                 }
                 else
                 {
                     _result = await OCCommands.UppUser(txtUser.Text, txtNewPassword.Text, Values.FullName, "", _master);
-                    Panel4.Text = (_result ? "Owncloud user updated correctly" : "ERROR updating Owncloud user!!!");
+                    PanelName.Text = (_result ? "Owncloud user updated correctly" : "ERROR updating Owncloud user!!!");
                 }
             }
 
             MessageBox.Show("Password and PIN changed OK", "Success!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            Panel4.Text = Values.FullName;
+            PanelName.Text = Values.FullName;
             Values.User = txtUser.Text;
             Values.Password = txtPassword.Text = txtNewPassword.Text;
             LogOnChangeStatus(previousStatus);

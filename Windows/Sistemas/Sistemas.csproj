@@ -287,7 +287,7 @@
   <PropertyGroup>
     <PostBuildEvent>ROBOCOPY "$(TargetDir) " "$(TargetDir)lib " /XF *.exe *.config *.manifest /XD lib logs data /E /IS /MOV
 ; Move all to APPs folder
-ROBOCOPY "$(TargetDir) " "D:\APPS " /XF *.vshost.* /XD logs data /E /IS 
+ROBOCOPY "$(TargetDir) " "D:\APPS_CS\sistemas_cs" /XF *.vshost.* /XD logs data /E /IS 
 if %25errorlevel%25 leq 4 exit 0 else exit %25errorlevel</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>

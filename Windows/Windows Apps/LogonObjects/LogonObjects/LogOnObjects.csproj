@@ -72,6 +72,10 @@
       <Project>{d3e453aa-39b7-480f-8917-6d7f5076c3ed}</Project>
       <Name>cAccesoDatosNet</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Database and tools\CommonToolsWin\CommonToolsWin\CommonToolsWin.csproj">
+      <Project>{de462c35-3e22-4a1f-a3a0-1ba33173c623}</Project>
+      <Name>CommonToolsWin</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\Database and tools\CommonTools\CommonTools.csproj">
       <Project>{9148f7e6-31f6-4f96-b7dc-afea449998c7}</Project>
       <Name>CommonTools</Name>
@@ -98,6 +102,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\engineering-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\índice.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
