@@ -16,11 +16,11 @@ namespace EspackControls
         DEPENDANT = 0x4
     }
 
-    public interface EspackControl
+    public interface EspackControl:IsValuable
     {
         EspackControlTypeEnum EspackControlType { get; set; }
         EnumStatus Status { get; set; }
-        object Value { get; set; }
+        new object Value { get; set; }
         string DBField { get; set; }
         bool Add { get; set; }
         bool Upp { get; set; }

@@ -7,14 +7,17 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.Net;
+/*
 using System.Windows.Forms;
 using EspackControls;
+*/
 using CommonTools;
 using System.Data.Common;
 
 namespace AccesoDatosNet
 {
-    public struct ControlParameter
+
+    public class ControlParameter
     {
         public Object LinkedControl;
         public SqlParameter Parameter;
@@ -316,6 +319,7 @@ namespace AccesoDatosNet
 //events
         //Events
         public event EventHandler<EventArgs> AfterExecution; //launched when the query is executed
+        public event EventHandler<EventArgs> BeforeExecution;
 //properties
         public string SQL { get; set; }
         public int Index
@@ -373,9 +377,22 @@ namespace AccesoDatosNet
         public abstract void MoveLast();
         public abstract void MoveFirst();
         public abstract void Move(int Idx);
+        public abstract void Execute();
+        public void Open()
+        {
+            AssignParameterValues();
+            var e = new EventArgs();
+            OnBeforeExecution(e);
+            Execute();
+            OnAfterExecution(e);
+        }
+        public void Open(string Sql, cAccesoDatosNet Conn)
+        {
+            SQL = Sql;
+            mConn = Conn;
+            Open();
+        }
 
-        public abstract void Open();
-        public abstract void Open(string Sql, cAccesoDatosNet Conn);
         public abstract void Close();
 
         public SqlParameterCollection Parameters
@@ -395,9 +412,19 @@ namespace AccesoDatosNet
             AutoUpdate = false;
         }
 
-        protected virtual void OnExecution(EventArgs e)
+        protected virtual void OnAfterExecution(EventArgs e)
         {
             EventHandler<EventArgs> handler = AfterExecution;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+
+        }
+
+        protected virtual void OnBeforeExecution(EventArgs e)
+        {
+            EventHandler<EventArgs> handler = BeforeExecution;
             if (handler != null)
             {
                 handler(this, e);
@@ -417,12 +444,11 @@ namespace AccesoDatosNet
                 LinkedControl = ParamControl
             });
             Parameters.Add(lParam);
-            if (AutoUpdate && ParamControl is Control)
+            if (AutoUpdate && ParamControl is IsValuable)
             {
-                ((Control)ParamControl).TextChanged += RSFrame_TextChanged;
+                ((IsValuable)ParamControl).TextChanged += RSFrame_TextChanged;
             }
         }
-
         void RSFrame_TextChanged(object sender, EventArgs e)
         {
             Open();
@@ -430,18 +456,8 @@ namespace AccesoDatosNet
 
         public void AssignParameterValues()
         {
-            foreach (ControlParameter lParam in ControlParameters)
-            {
-                if (lParam.LinkedControl is EspackControl)
-                {
-                    lParam.Parameter.Value = ((EspackControl)lParam.LinkedControl).Value;
-                }
-                else
-                {
-                    lParam.Parameter.Value = lParam.LinkedControl;
-                }
-
-            }
+            ControlParameters.Where(x => x.LinkedControl is IsValuable).ToList().ForEach(p => p.Parameter.Value = ((IsValuable)p.LinkedControl).Value);
+            ControlParameters.Where(x => !(x.LinkedControl is IsValuable)).ToList().ForEach(p => p.Parameter.Value = p.LinkedControl);
         }
 
         public abstract List<object> getList();
@@ -486,7 +502,7 @@ namespace AccesoDatosNet
 
     public class StaticRS :RSFrame
     {
-        private SqlDataReader mDR = null;
+        protected SqlDataReader mDR = null;
         //private cAccesoDatosNet mConn = null;
         //Events
         public new event EventHandler<EventArgs> AfterExecution; //launched when the query is executed
@@ -543,7 +559,7 @@ namespace AccesoDatosNet
             mConn = Conn;
             mState = RSState.Closed;
         }
-        public override void Open()
+        public override void Execute()
         {
             ConnectionState prevState = mConn.State;
             if (prevState != ConnectionState.Open)
@@ -551,7 +567,6 @@ namespace AccesoDatosNet
                 mConn.Open();
             }
             Cmd = new SqlCommand(SQL, mConn.AdoCon);
-            AssignParameterValues();
             mState = RSState.Executing;
             mDR = Cmd.ExecuteReader();
             mEOF = !mDR.Read();
@@ -561,15 +576,9 @@ namespace AccesoDatosNet
                 mConn.Close();
             }
             mIndex = 1;
-            OnExecution(new EventArgs());
         }
 
-        public override void Open(string Sql, cAccesoDatosNet Conn)
-        {
-            SQL = Sql;
-            mConn = Conn;
-            Open();
-        }
+
 
         public override void MoveNext()
         {
@@ -624,10 +633,11 @@ namespace AccesoDatosNet
 
     public class DynamicRS : RSFrame
     {
-        private DataSet mDS;
-        private SqlDataAdapter mDA = new SqlDataAdapter();
+        protected DataSet mDS;
+        protected SqlDataAdapter mDA = new SqlDataAdapter();
         //Events
-        new public event EventHandler<EventArgs> AfterExecution; //launched when the query is executed        
+        new public event EventHandler<EventArgs> AfterExecution; //launched when the query is executed     
+        new public event EventHandler<EventArgs> BeforeExecution;
         //private cAccesoDatosNet mConn;
         public new int Index
         {
@@ -712,7 +722,7 @@ namespace AccesoDatosNet
 
         public new List<DataRow> ToList()
         {
-            return mDS.Tables["Result"].AsEnumerable().ToList();
+            return mDS.Tables["Result"].Rows.Cast<DataRow>().ToList();
         }
         public override object DataObject
         {
@@ -740,14 +750,13 @@ namespace AccesoDatosNet
             
         }
         
-        public override void Open()
+        public override void Execute()
         {
             ConnectionState prevState = mConn.State;
             if (prevState != ConnectionState.Open)
             {
                 mConn.Open();
             }
-            AssignParameterValues();
             mDS = new DataSet();
             mState = RSState.Executing;
             mDA.Fill(mDS, "Result");
@@ -757,25 +766,21 @@ namespace AccesoDatosNet
             {
                 mConn.Close();
             }
-            OnExecution(new EventArgs());
         }
 
 
-        public override void Open(string Sql, cAccesoDatosNet Conn)
-        {
-            SQL = Sql;
-            mConn = Conn;
-            Open();
-        }
 
         public void Open(int pCurrentIndex, int pPageSize)
         {
+            AssignParameterValues();
+            var e = new EventArgs();
+            OnBeforeExecution(e);
+
             ConnectionState prevState = mConn.State;
             if (prevState != ConnectionState.Open)
             {
                 mConn.Open();
             }
-            AssignParameterValues();
             mDS = new DataSet();
             mState = RSState.Executing;
             mDA.Fill(mDS, pCurrentIndex, pPageSize, "Result");
@@ -785,7 +790,7 @@ namespace AccesoDatosNet
             {
                 mConn.Close();
             }
-            OnExecution(new EventArgs());
+            OnAfterExecution(e);
         }
 
 
@@ -1081,18 +1086,7 @@ namespace AccesoDatosNet
         }
         public void AssignParameterValues()
         {
-            object lValue;
-            foreach (ControlParameter lParam in ControlParameters)
-            {
-                if (lParam.LinkedControl is EspackControl)
-                {
-                    AddParameterValue(lParam.Parameter.ParameterName, ((EspackControl)lParam.LinkedControl).Value);
-                }
-                else
-                {
-                    lValue = lParam.LinkedControl;
-                }
-            }
+            ControlParameters.Where(x => x.LinkedControl is IsValuable).ToList().ForEach(p => AddParameterValue(p.Parameter.ParameterName,((IsValuable)p.LinkedControl).Value));
         }
         public void AssignOutputParameterContainer(string ParamName, out SqlParameter ParamOut, object Value=null)
         {
@@ -1124,17 +1118,7 @@ namespace AccesoDatosNet
         }
         public void AssignValuesParameters()
         {
-            foreach (ControlParameter lParam in ControlParameters)
-            {
-                if (lParam.Parameter.Direction==ParameterDirection.InputOutput || lParam.Parameter.Direction == ParameterDirection.Output)
-                {
-                    if (lParam.LinkedControl is EspackControl)
-                    {
-                        ((EspackControl)lParam.LinkedControl).Value = lParam.Parameter.Value;
-                    }
-                }
-            }
-            //ObjectParameters.ToList().ForEach(x => x.Container = x.Parameter.Value);
+            ControlParameters.Where(x => x.LinkedControl is IsValuable && (x.Parameter.Direction == ParameterDirection.InputOutput || x.Parameter.Direction == ParameterDirection.Output)).ToList().ForEach(p => AddParameterValue(p.Parameter.ParameterName, ((IsValuable)p.LinkedControl).Value));
         }
 
         public void Execute()
@@ -1163,33 +1147,37 @@ namespace AccesoDatosNet
         }
         public Dictionary<string, object> ReturnValues()
         {
-            Dictionary<string, object> Result = new Dictionary<string, object>();
-            foreach (SqlParameter Param in Parameters)
-            {
-                if (Param.Direction == ParameterDirection.InputOutput || Param.Direction == ParameterDirection.Output)
-                {
-                    Result.Add(Param.ParameterName, Param.Value);
-                }
-            }
-            return Result;
+            return Parameters.OfType<SqlParameter>()
+                .Where(p => p.Direction == ParameterDirection.InputOutput || p.Direction == ParameterDirection.Output)
+                .ToDictionary(i => i.ParameterName, i => i.Value);
+
+            //Dictionary<string, object> Result = new Dictionary<string, object>();
+            //foreach (SqlParameter Param in Parameters)
+            //{
+            //    if (Param.Direction == ParameterDirection.InputOutput || Param.Direction == ParameterDirection.Output)
+            //    {
+            //        Result.Add(Param.ParameterName, Param.Value);
+            //    }
+            //}
+            //return Result;
         }
     }
 
     public class DA
     {
-        private SqlDataAdapter mDA;
+        protected SqlDataAdapter mDA;
         //private DataSet mDS;
-        private string msSPAdd = "";
-        private string msSPUpp = "";
-        private string msSPDel = "";
-        private DynamicRS mSelectRS;
-        private SP mInsertCommand;
-        private SP mUpdateCommand;
-        private SP mDeleteCommand;
+        protected string msSPAdd = "";
+        protected string msSPUpp = "";
+        protected string msSPDel = "";
+        protected DynamicRS mSelectRS { get; set; }
+        protected SP mInsertCommand;
+        protected SP mUpdateCommand;
+        protected SP mDeleteCommand;
         public cAccesoDatosNet Conn { get;set; }
 
 
-        public DynamicRS SelectRS
+        public virtual DynamicRS SelectRS
         {
             get
             {
@@ -1294,15 +1282,6 @@ namespace AccesoDatosNet
             {
                 SelectRS = new DynamicRS(value, Conn);
                 ConnectionState prevState = Conn.State;
-                //if (prevState != ConnectionState.Open)
-                //{
-                //    Conn.Open();
-                //}
-                //SqlCommandBuilder.DeriveParameters(SelectRS.Cmd);
-                //if (prevState != ConnectionState.Open)
-                //{
-                //    Conn.Close();
-                //}
             }
             get
             {
@@ -1371,8 +1350,8 @@ namespace AccesoDatosNet
         {
             mDA = new SqlDataAdapter();
         }
-        
-        public void AddParameter(string pParameterName, Object LinkedControl=null)
+
+        public void AddParameter(string pParameterName, Object LinkedControl = null)
         {
             if (LinkedControl != null)
             {

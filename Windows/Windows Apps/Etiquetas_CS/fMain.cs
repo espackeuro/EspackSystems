@@ -3,18 +3,14 @@ using System;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.Windows.Forms;
-using System.Runtime.InteropServices;
 using RawPrinterHelper;
 using AccesoDatosNet;
 using CommonTools;
+using CommonToolsWin;
 using System.Linq;
 using System.Collections.Generic;
-using VSGrid;
 using System.Data;
-using System.Data.SqlClient;
 using EspackClasses;
-using System.Collections.Specialized;
-using System.Drawing.Printing;
 
 namespace Etiquetas_CS
 {
@@ -106,7 +102,7 @@ namespace Etiquetas_CS
             _SP.Execute();
             if (_SP.LastMsg.Substring(0, 2) != "OK")
             {
-                CT.MsgError("Could not change the status: " + _SP.LastMsg.ToString());
+                CTWin.MsgError("Could not change the status: " + _SP.LastMsg.ToString());
                 return;
             }
 
@@ -381,7 +377,7 @@ namespace Etiquetas_CS
                 _SP.Execute();
                 if (_SP.LastMsg.Substring(0, 2) != "OK")
                 {
-                    CT.MsgError("Error: " + _SP.LastMsg);
+                    CTWin.MsgError("Error: " + _SP.LastMsg);
                     return;
                 }
                 Application.DoEvents();
@@ -395,7 +391,7 @@ namespace Etiquetas_CS
             if (cboPrinters.Value.ToString() == "")
             {
                 SetFormEnabled(true);
-                CT.MsgError("Select a printer first.");
+                CTWin.MsgError("Select a printer first.");
                 return;
             }
             string _printerType = "";

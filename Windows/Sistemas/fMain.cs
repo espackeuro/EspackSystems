@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CommonToolsWin;
 
 namespace Sistemas
 {
@@ -121,7 +122,7 @@ namespace Sistemas
 #if DEBUG
                 lPwd = "*hwLD8e*";
 #endif
-                CT.InputBox("", "Enter Master Password", ref lPwd, true);
+                CTWin.InputBox("", "Enter Master Password", ref lPwd, true);
                 if (lPwd != "")
                 {
                     var vbresult = new byte[128];

@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Reflection;
 
-namespace CommonTools
+namespace CommonToolsWin
 {
     partial class frmSplash
     {
@@ -68,7 +68,7 @@ namespace CommonTools
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.HighlightText;
-            this.BackgroundImage = global::ComunVisor.Properties.Resources.Membrete_logoEspack;
+            this.BackgroundImage = global::CommonToolsWin.Properties.Resources.membrete_logoespack;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.ClientSize = new System.Drawing.Size(432, 281);
             this.ControlBox = false;

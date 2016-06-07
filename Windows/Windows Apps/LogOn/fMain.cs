@@ -20,6 +20,7 @@ using Owncloud;
 using LogOnObjects;
 using System.Reflection;
 using DiverseControls;
+using CommonToolsWin;
 
 namespace LogOn
 {
@@ -457,7 +458,7 @@ namespace LogOn
                 if (_SP.LastMsg == "OK/CHANGE")
                 {
                     this.Status = LogOnStatus.CHANGE_PASSWORD;
-                    CT.MsgError("Your password has expired, please change it.");
+                    CTWin.MsgError("Your password has expired, please change it.");
                     return;
                 }
                 Values.User = txtUser.Text;
@@ -529,7 +530,7 @@ namespace LogOn
             }
             if (_SP.LastMsg.Substring(0, 2) != "OK")
             {
-                CT.MsgError(_SP.LastMsg);
+                CTWin.MsgError(_SP.LastMsg);
                 return;
             }
             //checking OWNCLOUD settings
