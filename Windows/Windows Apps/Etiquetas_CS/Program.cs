@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CommonTools;
-
+using CommonToolsWin;
 namespace Etiquetas_CS
 {
     static class Program
@@ -17,7 +17,7 @@ namespace Etiquetas_CS
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            new CommonTools.frmSplash(args).ShowDialog();
+            new frmSplash(args).ShowDialog();
             Application.Run(new fMain(args));
         }
     }

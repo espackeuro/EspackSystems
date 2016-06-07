@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CommonTools;
-
+using CommonToolsWin;
 namespace LogOnLoader
 {
     public partial class fMain : frmSplash

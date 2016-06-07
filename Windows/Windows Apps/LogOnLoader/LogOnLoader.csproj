@@ -100,6 +100,10 @@
       <Project>{D3E453AA-39B7-480F-8917-6D7F5076C3ED}</Project>
       <Name>cAccesoDatosNet</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Database and tools\CommonToolsWin\CommonToolsWin\CommonToolsWin.csproj">
+      <Project>{de462c35-3e22-4a1f-a3a0-1ba33173c623}</Project>
+      <Name>CommonToolsWin</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Database and tools\CommonTools\CommonTools.csproj">
       <Project>{9148f7e6-31f6-4f96-b7dc-afea449998c7}</Project>
       <Name>CommonTools</Name>

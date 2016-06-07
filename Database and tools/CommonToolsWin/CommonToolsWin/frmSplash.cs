@@ -7,10 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using CommonTools;
 using System.Reflection;
-
-namespace CommonTools
+using CommonTools;
+namespace CommonToolsWin
 {
     public partial class frmSplash : Form
     {

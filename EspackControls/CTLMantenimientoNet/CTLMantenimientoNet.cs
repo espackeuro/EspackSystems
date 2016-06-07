@@ -46,7 +46,7 @@ namespace CTLMantenimientoNet
         public ToolStripStatusLabel MsgStatusInfoLabel { get; set; }
         public ToolStripStatusLabel MsgStatusLabel { get; set; }
         public ToolStripProgressBar StatusBarProgress { get; set; }
-        //Properties with SPs but in string format, we will use this when assigning a SP by its name, it will assign the properties to the Insert, Update and Delete commands of the mDA connection
+        //Properties with SPs but in string format, we will use this when assigning a SP_Controls by its name, it will assign the properties to the Insert, Update and Delete commands of the mDA connection
         public string sSPAdd //Insert
         {
             set

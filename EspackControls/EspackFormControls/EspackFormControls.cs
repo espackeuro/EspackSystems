@@ -24,7 +24,7 @@ namespace EspackFormControls
         cAccesoDatosNet ParentConn { get; set; }
         StaticRS DependingRS { get; set; }
         Point Location { get; set; }
-
+        
         //List<StaticRS> ExternalControls;//list of possible external controls, the key is the parameter name and the object is the control
         //List<EspackControl> DependingControls { get; set; } //list of those controls which have me as external control
         //void AddRS(string pFieldName, EspackControl pControl);
@@ -821,6 +821,8 @@ namespace EspackFormControls
         public object DefaultValue { get; set; }
         public Type DBFieldType { get; set; }
 
+        public event EventHandler TextChanged;
+
         public void UpdateEspackControl()
         {
             theString = ParentDA.SelectRS[DBField.ToString()].ToString();
@@ -832,6 +834,19 @@ namespace EspackFormControls
         public EspackLabel CaptionLabel { get; set; }
         public DA ParentDA { get; set; }
         public string Caption { get; set; }
+
+        public string Text
+        {
+            get
+            {
+                return theString;
+            }
+
+            set
+            {
+                theString = value; ;
+            }
+        }
     }
 
 

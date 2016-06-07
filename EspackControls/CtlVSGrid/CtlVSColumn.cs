@@ -49,6 +49,9 @@ namespace VSGrid
         // non used stuff, must be declared to accomplisht with EspackFormControl interface
         public EspackLabel CaptionLabel { get; set; }
         private EnumStatus _status;
+
+        public event EventHandler TextChanged;
+
         public EnumStatus Status
         {
             get
@@ -229,6 +232,20 @@ namespace VSGrid
                 }
             }
         }
+
+        public string Text
+        {
+            get
+            {
+                return Value.ToString();
+            }
+
+            set
+            {
+                Value=value;
+            }
+        }
+
         public CtlVSTextBoxColumn():
             base()
         {
@@ -248,6 +265,9 @@ namespace VSGrid
         // non used stuff, must be declared to accomplisht with EspackFormControl interface
         //public EspackLabel CaptionLabel { get; set; }
         private EnumStatus _status;
+
+        public event EventHandler TextChanged;
+
         public EnumStatus Status
         {
             get
@@ -445,6 +465,20 @@ namespace VSGrid
                 }
             }
         }
+
+        public string Text
+        {
+            get
+            {
+                return Value.ToString();
+            }
+
+            set
+            {
+                Value = value;
+            }
+        }
+
         public CtlVSComboColumn():
             base()
         {

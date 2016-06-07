@@ -837,7 +837,7 @@ namespace VSGrid
             {
                 mDA.Open((Page - 1) * mPageSize, mPageSize);
                 lSql = "SELECT NumRecords=count(*) FROM " + CtlQuery.Tablename.DBItemName + " WHERE " + CtlQuery.WhereString;
-                DynamicRS lRS = new DynamicRS(lSql,Conn);
+                DynamicRS lRS = (DynamicRS)new DynamicRS(lSql,Conn);
                 foreach (CtlVSColumn lColumn in ColumnsExternalKeys)
                 {
                     lRS.AddControlParameter(lColumn.Name,lColumn.LinkedControl);
