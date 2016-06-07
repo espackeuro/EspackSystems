@@ -92,7 +92,7 @@ namespace FTP
                     File.SetLastWriteTime(localPath, item.DateCreated);
                 } catch (Exception ex)
                 {
-                    var p = 1;
+                    throw ex;
                 }
                 //await ftpClient.DownloadFileTaskAsync(item.Uri, @localPath);
             }

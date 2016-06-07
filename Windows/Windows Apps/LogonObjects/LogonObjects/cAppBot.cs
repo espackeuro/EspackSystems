@@ -22,7 +22,7 @@ using LogonObjects.Properties;
 
 namespace LogOnObjects
 {
-    public enum AppBotStatus {INIT, CHECKING, PENDING_UPDATE, UPDATED}
+    public enum AppBotStatus {INIT, CHECKING, PENDING_UPDATE, UPDATED, ERROR}
 
     // Class cAppBot: It contains the data for each APP, some methods for the APP management (run, update, etc) and some visual controls (progress bar, button, etc).
     public class cAppBot : Control
@@ -43,6 +43,14 @@ namespace LogOnObjects
         public string LocalPath { get; set; }
         public bool Special { get; set; }
 
+        //Events
+        public event EventHandler AfterLaunch;
+        protected virtual void OnAfterLaunch(EventArgs e)
+        {
+            EventHandler handler = AfterLaunch;
+            if (handler != null)
+                handler(this, e);
+        }
         // For the calls from different threads
         delegate void ChangeStatusCallback(AppBotStatus pStatus);
 
@@ -150,6 +158,11 @@ namespace LogOnObjects
                         prgApp.Visible = true;
                         pctApp.Enabled = false;
 
+                        break;
+                    case AppBotStatus.ERROR:
+                        pctApp.Image = Resources.Forbid;
+                        pctApp.Enabled = false;
+                        prgApp.Visible = false;
                         break;
                 }
                 _status = value;
@@ -564,6 +577,7 @@ namespace LogOnObjects
             try
             {
                 Process exeProcess = Process.Start(startInfo);
+                OnAfterLaunch(new EventArgs());
             }
             catch (Exception ex)
             {

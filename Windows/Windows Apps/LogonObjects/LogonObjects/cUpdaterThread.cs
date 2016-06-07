@@ -8,7 +8,7 @@ using FTP;
 using System.Net.FtpClient;
 using System.Net;
 using System.Windows.Forms;
-
+using CommonToolsWin;
 namespace LogOnObjects
 
 {
@@ -46,7 +46,7 @@ namespace LogOnObjects
             }
         }
     }
-    public enum LogonItemUpdateStatus { PENDING, UPDATING, UPDATED}
+    public enum LogonItemUpdateStatus { PENDING, UPDATING, UPDATED, ERROR}
     public class cUpdateListItem
     {
         public cAppBot Parent;
@@ -194,7 +194,7 @@ namespace LogOnObjects
         {
             while (Values.AppList.PendingApps.Count != 0 || Values.AppList.CheckingApps.Count != 0)
             {
-                cUpdateListItem _item;
+                cUpdateListItem _item= new cUpdateListItem();
                 try
                 {
                     _item = stealOne(this, Values.UpdateList);
@@ -208,12 +208,25 @@ namespace LogOnObjects
                         _item.Parent.ChangeStatus(AppBotStatus.UPDATED);
                     }
                 }
-                catch (InvalidOperationException)
+                catch (WebException ex)
+                {
+                    if (null != _item)
+                    {
+                        _item.Status = LogonItemUpdateStatus.ERROR;
+                        _item.Parent.ChangeStatus(AppBotStatus.ERROR);
+                    }
+                    CTWin.MsgError(ex.InnerException.Message);
+
+
+                }
+                catch (InvalidOperationException ex)
                 {
                     if (debug != null)
                     {
                         AppendDebugText(string.Format("Thread {0} Done.\n", NumThread));
                         Values.ActiveThreads--;
+                        if (Values.ActiveThreads == 1)
+                            break;
                         this.Dispose();
                     }
                     System.Threading.Thread.Sleep(500);

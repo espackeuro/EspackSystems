@@ -73,6 +73,16 @@ namespace LogonObjects.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Forbid {
+            get {
+                object obj = ResourceManager.GetObject("Forbid", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Prototype_96 {
             get {
                 object obj = ResourceManager.GetObject("Prototype_96", resourceCulture);
