@@ -9,7 +9,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using cAccesoDatosAndroid;
+using AccesoDatosNet;
 using Android.Support.V4.App;
 namespace RadioFXC
 {

@@ -7,42 +7,134 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.Net;
+/*
+using System.Windows.Forms;
+using EspackControls;
+*/
+using CommonTools;
+using System.Data.Common;
 
-
-
-namespace cAccesoDatosAndroid
+namespace AccesoDatosNet
 {
-    public struct EspackParamArray
-    {
-        public string AppName { get; set; }
-        public string Server { get; set; }
-        public string User { get; set; }
-        public string Password { get; set; }
-        public string Cod3 { get; set; }
-        public string DataBase { get; set; }
-    }
 
-    public struct ControlParameter
+    public class ControlParameter
     {
         public Object LinkedControl;
         public SqlParameter Parameter;
     }
-
-    public class cAccesoDatosNet
+    public class ObjectParameter
+    {
+        public object Container;
+        public SqlParameter Parameter;
+    }
+    public class cAccesoDatosNet : ICloneable
     {
         public SqlConnection AdoCon { get; set; }
         public string Path { get; set; }
         public string AppName { get; set; }
-        public string Server { get; set; }
+        public string ServerIP
+        {
+            get
+            {
+                return oServer.IP.ToString();
+            }
+            set
+            {
+                if (oServer != null)
+                {
+                    IPAddress _serverIP;
+                    if (IPAddress.TryParse(value, out _serverIP))
+                        oServer.IP = _serverIP;
+                }
+            }
+        }
+
+        public string Server
+        {
+            get
+            {
+                if (oServer != null)
+                    return oServer.HostName;
+                else
+                    return null;
+            }
+            set
+            {
+                if (oServer != null)
+                {
+                    IPAddress _serverIP;
+                    string _hostName = "";
+
+                    if (!IPAddress.TryParse(value, out _serverIP))
+                    {
+                        _hostName = value;
+                        try
+                        {
+                            var result = Dns.GetHostEntry(value);
+                            _hostName = result.HostName;
+                            _serverIP = result.AddressList[0];
+                        }
+                        catch (Exception ex)
+                        {
+                            throw ex;
+                        }
+                    }
+                    else
+                    {
+                        _hostName = value;
+                        //try
+                        //{
+                        //    var result = Dns.GetHostEntry(_serverIP);
+                        //    _hostName = result.HostName;
+                        //} catch (Exception ex)
+                        //{
+                        //    _hostName = value;
+                        //}
+                    }
+                    oServer.HostName = _hostName;
+                    oServer.IP = _serverIP;
+                }
+            }
+        }
         public string Printer { get; set; }
         public string DataBase { get; set; }
-        public string User { get; set; }
-        public string Password { get; set; }
+        public string User
+        {
+            get
+            {
+                if (oServer != null)
+                    return oServer.User;
+                else return null;
+            }
+            set
+            {
+                if (oServer != null)
+                    oServer.User = value;
+            }
+        }
+
+        public string Password
+        {
+            get
+            {
+                if (oServer != null)
+                    return oServer.Password;
+                else return null;
+            }
+            set
+            {
+                if (oServer != null)
+                    oServer.Password = value;
+            }
+        }
         public bool Silent { get; set; }
         public IPAddress IP { get; set; }
         public DateTime TimeTic { get; set; }
         public long TimeOut { get; set; }
         public string Cod3 { get; set; }
+        public byte[] context_info { get; set; }
+        public cServer oServer { get; set; }
+
         public System.Data.ConnectionState State
         {
             get
@@ -71,35 +163,44 @@ namespace cAccesoDatosAndroid
             //Provider = "SQLOLEDB";
             Silent = false;
             IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
-            foreach (IPAddress lIP in ipHostInfo.AddressList)
+            var lIP = ipHostInfo.AddressList.FirstOrDefault(x => x.GetAddressBytes()[0] == 10);
+            if (lIP == null)
+                lIP = ipHostInfo.AddressList.First(x => x.GetAddressBytes()[0] == 192);
+            //foreach (IPAddress lIP in ipHostInfo.AddressList)
+            //{
+            //    if (lIP.AddressFamily.ToString() == "InterNetwork" && ((lIP.GetAddressBytes()[0] == 192 && lIP.GetAddressBytes()[1] == 168) || lIP.GetAddressBytes()[0] == 10))
+            //    { //IPV4
+            //        IP = lIP;
+            //        break;
+            //    }
+            //}
+            IP = lIP;
+            if (oServer == null)
             {
-                if (lIP.AddressFamily.ToString() == "InterNetwork")
-                { //IPV4
-                    IP = lIP;
-                    break;
-                }
+                oServer = new cServer() { Type = ServerTypes.DATABASE };
             }
 
         }
 
         public cAccesoDatosNet(string pServer, string pDataBase, string pUser, string pPassword)
+            : this()
         {
-            AdoCon = new SqlConnection();
-            //Provider = "SQLOLEDB";
-            Silent = false;
-            IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
-            foreach (IPAddress lIP in ipHostInfo.AddressList)
-            {
-                if (lIP.AddressFamily.ToString() == "InterNetwork")
-                { //IPV4
-                    IP = lIP;
-                    break;
-                }
-            }
+            //Server = pServer;
+            //User = pUser;
+            //Password = pPassword;
+
             Server = pServer;
-            DataBase = pDataBase;
             User = pUser;
             Password = pPassword;
+            DataBase = pDataBase;
+
+        }
+
+        public cAccesoDatosNet(cServer pServer, string pDataBase)
+            : this()
+        {
+            oServer = pServer;
+            DataBase = pDataBase;
         }
         public cAccesoDatosNet(cAccesoDatosNet parent)
         {
@@ -158,12 +259,25 @@ namespace cAccesoDatosAndroid
         {
             try
             {
-                AdoCon.ConnectionString = "Server=" + Server + ";Initial Catalog=" + DataBase + ";User Id=" + User + ";Password=" + Password + ";";
+                AdoCon.ConnectionString = "Server=" + Server.Replace(".local", "") + ";Initial Catalog=" + DataBase + ";User Id=" + User + ";Password=" + Password + ";MultipleActiveResultSets=True;";
                 AdoCon.Open();
+                if (context_info != null)
+                {
+                    SqlCommand cmd = AdoCon.CreateCommand();
+                    string lSql = "set CONTEXT_INFO @C";
+                    cmd.CommandText = lSql;
+                    SqlParameter param = new SqlParameter();
+                    param.ParameterName = "@C";
+                    param.DbType = DbType.Binary;
+                    param.Size = 127;
+                    param.Value = context_info;
+                    cmd.Parameters.Add(param);
+                    cmd.ExecuteNonQuery();
+                }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                throw(e);
+                throw;
             }
         }
         public void Open()
@@ -173,6 +287,16 @@ namespace cAccesoDatosAndroid
         public void Close()
         {
             AdoCon.Close();
+        }
+
+        public cAccesoDatosNet Clone()
+        {
+            return (cAccesoDatosNet)this.MemberwiseClone();
+        }
+
+        object ICloneable.Clone()
+        {
+            return Clone();
         }
     }
 
@@ -185,7 +309,7 @@ namespace cAccesoDatosAndroid
         Fetching = 8
     }
 
-    public abstract class RSFrame
+    public abstract class RSFrame : IDisposable
     {
         //private SqlDataReader mDR = null;
         //private SqlCommand mCmd = null;
@@ -193,12 +317,12 @@ namespace cAccesoDatosAndroid
         protected bool mEOF;
         protected bool mBOF;
         protected RSState mState;
-
         protected int mIndex = 0;
         //events
         //Events
         public event EventHandler<EventArgs> AfterExecution; //launched when the query is executed
-                                                             //properties
+        public event EventHandler<EventArgs> BeforeExecution;
+        //properties
         public string SQL { get; set; }
         public int Index
         {
@@ -236,6 +360,16 @@ namespace cAccesoDatosAndroid
         {
             get;
         }
+        public abstract object DataObject
+        {
+            get;
+        }
+
+        public List<object> ToList()
+        {
+            return getList();
+        }
+
         public bool HasRows { get; set; }
         public bool AutoUpdate { get; set; }
         public abstract SqlCommand Cmd { get; set; }
@@ -245,9 +379,22 @@ namespace cAccesoDatosAndroid
         public abstract void MoveLast();
         public abstract void MoveFirst();
         public abstract void Move(int Idx);
+        public abstract void Execute();
+        public void Open()
+        {
+            AssignParameterValues();
+            var e = new EventArgs();
+            OnBeforeExecution(e);
+            Execute();
+            OnAfterExecution(e);
+        }
+        public void Open(string Sql, cAccesoDatosNet Conn)
+        {
+            SQL = Sql;
+            mConn = Conn;
+            Open();
+        }
 
-        public abstract void Open();
-        public abstract void Open(string Sql, cAccesoDatosNet Conn);
         public abstract void Close();
 
         public SqlParameterCollection Parameters
@@ -258,15 +405,28 @@ namespace cAccesoDatosAndroid
             }
         }
         public List<ControlParameter> ControlParameters { set; get; }
+
+
+
         public RSFrame()
         {
             ControlParameters = new List<ControlParameter>();
             AutoUpdate = false;
         }
 
-        protected virtual void OnExecution(EventArgs e)
+        protected virtual void OnAfterExecution(EventArgs e)
         {
             EventHandler<EventArgs> handler = AfterExecution;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+
+        }
+
+        protected virtual void OnBeforeExecution(EventArgs e)
+        {
+            EventHandler<EventArgs> handler = BeforeExecution;
             if (handler != null)
             {
                 handler(this, e);
@@ -286,12 +446,11 @@ namespace cAccesoDatosAndroid
                 LinkedControl = ParamControl
             });
             Parameters.Add(lParam);
-            //if (AutoUpdate && ParamControl is Control)
-            //{
-            //    ((Control)ParamControl).TextChanged += RSFrame_TextChanged;
-            //}
+            if (AutoUpdate && ParamControl is IsValuable)
+            {
+                ((IsValuable)ParamControl).TextChanged += RSFrame_TextChanged;
+            }
         }
-
         void RSFrame_TextChanged(object sender, EventArgs e)
         {
             Open();
@@ -299,29 +458,57 @@ namespace cAccesoDatosAndroid
 
         public void AssignParameterValues()
         {
-            foreach (ControlParameter lParam in ControlParameters)
-            {
-                //if (lParam.LinkedControl is EspackControl)
-                //{
-                //    lParam.Parameter.Value = ((EspackControl)lParam.LinkedControl).Value;
-                //}
-                //else
-                //{
-                    lParam.Parameter.Value = lParam.LinkedControl;
-                //}
+            ControlParameters.Where(x => x.LinkedControl is IsValuable).ToList().ForEach(p => p.Parameter.Value = ((IsValuable)p.LinkedControl).Value);
+            ControlParameters.Where(x => !(x.LinkedControl is IsValuable)).ToList().ForEach(p => p.Parameter.Value = p.LinkedControl);
+        }
 
+        public abstract List<object> getList();
+
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: dispose managed state (managed objects).
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // TODO: set large fields to null.
+
+                disposedValue = true;
             }
         }
+
+        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+        // ~RSFrame() {
+        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+        //   Dispose(false);
+        // }
+
+        // This code added to correctly implement the disposable pattern.
+        public void Dispose()
+        {
+            Close();
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+            // TODO: uncomment the following line if the finalizer is overridden above.
+            // GC.SuppressFinalize(this);
+        }
+        #endregion
     }
 
 
     public class StaticRS : RSFrame
     {
-        private SqlDataReader mDR = null;
+        protected SqlDataReader mDR = null;
         //private cAccesoDatosNet mConn = null;
         //Events
         public new event EventHandler<EventArgs> AfterExecution; //launched when the query is executed
-                                                             //properties
+                                                                 //properties
 
         public override SqlCommand Cmd { get; set; }
 
@@ -348,6 +535,16 @@ namespace cAccesoDatosAndroid
             }
         }
 
+        public override object DataObject
+        {
+            get
+            {
+                if (mDR == null)
+                    Open();
+                return mDR;
+            }
+        }
+
         public StaticRS()
             : base()
         {
@@ -364,7 +561,7 @@ namespace cAccesoDatosAndroid
             mConn = Conn;
             mState = RSState.Closed;
         }
-        public override void Open()
+        public override void Execute()
         {
             ConnectionState prevState = mConn.State;
             if (prevState != ConnectionState.Open)
@@ -372,7 +569,6 @@ namespace cAccesoDatosAndroid
                 mConn.Open();
             }
             Cmd = new SqlCommand(SQL, mConn.AdoCon);
-            AssignParameterValues();
             mState = RSState.Executing;
             mDR = Cmd.ExecuteReader();
             mEOF = !mDR.Read();
@@ -382,15 +578,9 @@ namespace cAccesoDatosAndroid
                 mConn.Close();
             }
             mIndex = 1;
-            OnExecution(new EventArgs());
         }
 
-        public override void Open(string Sql, cAccesoDatosNet Conn)
-        {
-            SQL = Sql;
-            mConn = Conn;
-            Open();
-        }
+
 
         public override void MoveNext()
         {
@@ -405,7 +595,11 @@ namespace cAccesoDatosAndroid
 
         public override void MovePrevious() { }
         public override void MoveLast() { }
-        public override void MoveFirst() { }
+        public override void MoveFirst()
+        {
+            mDR = null;
+            Open();
+        }
         public override void Move(int Idx) { }
 
         public override void Close()
@@ -415,16 +609,38 @@ namespace cAccesoDatosAndroid
             Cmd = null;
             mState = RSState.Closed;
         }
+        ~StaticRS()
+        {
+            if (mDR != null)
+                mDR.Close();
+            mDR = null;
+            Cmd = null;
+        }
 
+
+        public override List<object> getList()
+        {
+            var _list = new List<object>();
+            MoveFirst();
+            while (!EOF)
+            {
+                var _array = new Object[mDR.FieldCount];
+                mDR.GetValues(_array);
+                _list.Add(_array.ToList<object>());
+                MoveNext();
+            }
+            return _list;
+        }
 
     }
 
     public class DynamicRS : RSFrame
     {
-        private DataSet mDS;
-        private SqlDataAdapter mDA = new SqlDataAdapter();
+        protected DataSet mDS;
+        protected SqlDataAdapter mDA = new SqlDataAdapter();
         //Events
-        public new event EventHandler<EventArgs> AfterExecution; //launched when the query is executed        
+        new public event EventHandler<EventArgs> AfterExecution; //launched when the query is executed     
+        new public event EventHandler<EventArgs> BeforeExecution;
         //private cAccesoDatosNet mConn;
         public new int Index
         {
@@ -457,6 +673,21 @@ namespace cAccesoDatosAndroid
             get
             {
                 return mDS.Tables["Result"].Rows[Index][Idx];
+            }
+        }
+        public int FieldCount
+        {
+            get
+            {
+                return mDS.Tables["Result"].Columns.Count;
+            }
+        }
+
+        public List<string> Fields
+        {
+            get
+            {
+                return mDS.Tables["Result"].Columns.Cast<DataColumn>().Select(x => x.ColumnName).ToList();
             }
         }
 
@@ -492,8 +723,19 @@ namespace cAccesoDatosAndroid
             }
         }
 
-
-
+        public new List<DataRow> ToList()
+        {
+            return mDS.Tables["Result"].Rows.Cast<DataRow>().ToList();
+        }
+        public override object DataObject
+        {
+            get
+            {
+                if (mDS == null)
+                    Open();
+                return mDS.Tables["Result"];
+            }
+        }
 
         public DynamicRS()
             : base()
@@ -511,45 +753,37 @@ namespace cAccesoDatosAndroid
 
         }
 
-        public override void Open()
+        public override void Execute()
         {
             ConnectionState prevState = mConn.State;
             if (prevState != ConnectionState.Open)
             {
                 mConn.Open();
             }
-            AssignParameterValues();
             mDS = new DataSet();
             mState = RSState.Executing;
             mDA.Fill(mDS, "Result");
             Index = 0;
             mState = RSState.Open;
-            if (RecordCount == 0)
-                mEOF = true;
             if (prevState != ConnectionState.Open)
             {
                 mConn.Close();
             }
-            OnExecution(new EventArgs());
         }
 
 
-        public override void Open(string Sql, cAccesoDatosNet Conn)
-        {
-            SQL = Sql;
-            mConn = Conn;
-            mDA.SelectCommand = new SqlCommand(SQL, mConn.AdoCon);
-            Open();
-        }
 
         public void Open(int pCurrentIndex, int pPageSize)
         {
+            AssignParameterValues();
+            var e = new EventArgs();
+            OnBeforeExecution(e);
+
             ConnectionState prevState = mConn.State;
             if (prevState != ConnectionState.Open)
             {
                 mConn.Open();
             }
-            AssignParameterValues();
             mDS = new DataSet();
             mState = RSState.Executing;
             mDA.Fill(mDS, pCurrentIndex, pPageSize, "Result");
@@ -559,7 +793,7 @@ namespace cAccesoDatosAndroid
             {
                 mConn.Close();
             }
-            OnExecution(new EventArgs());
+            OnAfterExecution(e);
         }
 
 
@@ -625,6 +859,24 @@ namespace cAccesoDatosAndroid
             mDA = null;
         }
 
+        ~DynamicRS()
+        {
+            mDS = null;
+            mDA = null;
+        }
+        public override List<Object> getList()
+        {
+            //var _list = new List<DbDataRecord>();
+            var rows = new string[RecordCount];
+            int i = 0;
+
+            foreach (DataRow dataRow in mDS.Tables["Result"].Rows)
+            {
+                rows[i] = string.Join(";", dataRow.ItemArray.Select(item => item.ToString()));
+                i++;
+            }
+            return rows.ToList<object>();
+        }
     }
 
     public class SP
@@ -632,6 +884,8 @@ namespace cAccesoDatosAndroid
         private cAccesoDatosNet mConn;
 
         public List<ControlParameter> ControlParameters { set; get; }
+        public List<SqlParameter> OutputParameters { get; set; }
+        //public List<ObjectParameter> ObjectParameters { get; set; }
         public SqlCommand Cmd { get; set; }
 
         public SqlParameterCollection Parameters
@@ -687,7 +941,6 @@ namespace cAccesoDatosAndroid
                 Cmd.CommandText = value;
             }
         }
-        public string ErrorMessage { get; set; }
         public bool MsgOut
         {
             get
@@ -705,15 +958,12 @@ namespace cAccesoDatosAndroid
         public string SPName { get; set; }
         public string LastMsg { get; set; }
 
-        public string StringParameter(string pParamName)
-        {
-            return Parameters[pParamName].Value.ToString();
-        }
-
         public SP(cAccesoDatosNet pConn, string pSPName = "")
         {
             Cmd = new SqlCommand();
             ControlParameters = new List<ControlParameter>();
+            OutputParameters = new List<SqlParameter>();
+            //ObjectParameters = new List<ObjectParameter>();
             SPName = pSPName;
             Conn = pConn;
             Connection = Conn.AdoCon;
@@ -745,6 +995,14 @@ namespace cAccesoDatosAndroid
                     pParamName = '@' + pParamName;
                 }
                 DateTime res;
+                if (Parameters[pParamName].SqlDbType.IsNumericType())
+                {
+                    if (pValue != null && pValue.ToString() == "")
+                    {
+                        pValue = null;
+                    }
+                }
+
                 if (Parameters[pParamName].SqlDbType == SqlDbType.Timestamp)
                 {
                     if (pValue is DateTime)
@@ -786,18 +1044,22 @@ namespace cAccesoDatosAndroid
 
         }
 
-        public void AddControlParameter(string ParamName, object ParamControl)
+        public void AddControlParameter(string pParamName, object ParamControl)
         {
-            SqlParameter lParam;
-            if (Parameters[ParamName] != null)
+            if (pParamName.Substring(0, 1) != "@")
             {
-                lParam = Parameters[ParamName];
+                pParamName = '@' + pParamName;
+            }
+            SqlParameter lParam;
+            if (Parameters[pParamName] != null)
+            {
+                lParam = Parameters[pParamName];
             }
             else
             {
                 lParam = new SqlParameter()
                 {
-                    ParameterName = ParamName
+                    ParameterName = pParamName
                 };
                 Parameters.Add(lParam);
             }
@@ -809,108 +1071,117 @@ namespace cAccesoDatosAndroid
             });
 
         }
+        public void AssignOutputParameter(string ParamName, SqlParameter pParam)
+        {
+            if (Parameters[ParamName] != null)
+            {
+                pParam = Parameters[ParamName];
+            }
+            else
+            {
+                pParam = new SqlParameter()
+                {
+                    ParameterName = ParamName
+                };
+                Parameters.Add(pParam);
+            }
 
+            OutputParameters.Add(pParam);
+        }
         public void AssignParameterValues()
         {
-            object lValue;
-            foreach (ControlParameter lParam in ControlParameters)
+            ControlParameters.Where(x => x.LinkedControl is IsValuable).ToList().ForEach(p => AddParameterValue(p.Parameter.ParameterName, ((IsValuable)p.LinkedControl).Value));
+        }
+        public void AssignOutputParameterContainer(string ParamName, out SqlParameter ParamOut, object Value = null)
+        {
+            SqlParameter _param;
+            if (ParamName.Substring(0, 1) != "@")
             {
-
-                //if (lParam.LinkedControl is Control || lParam.LinkedControl is DataGridViewColumn)
-                //{
-                //    if (lParam.LinkedControl is DateTimePicker)
-                //    {
-                //        lValue = ((DateTimePicker)lParam.LinkedControl).Value;
-                //    }
-                //    else if (lParam.LinkedControl is NumericTextBox)
-                //    {
-                //        lValue = ((NumericTextBox)lParam.LinkedControl).Value;
-                //    }
-                //    else if (lParam.LinkedControl is DataGridViewColumn)
-                //    {
-                //        DataGridView lDG=((DataGridViewColumn)lParam.LinkedControl).DataGridView;
-                //        int lColNumber=((DataGridViewColumn)lParam.LinkedControl).Index;
-                //        int lRowNumber=lDG.CurrentCell.RowIndex;
-                //        lValue = lDG.Rows[lRowNumber].Cells[lColNumber].Value;
-                //    }
-                //    else
-                //    {
-                //        lValue = ((Control)lParam.LinkedControl).Text;
-                //    }
-                //}
-
-                //AddParameterValue(lParam.Parameter.ParameterName, lValue);
-                lValue = lParam.LinkedControl;
+                ParamName = '@' + ParamName;
             }
+            if (Parameters[ParamName] != null)
+            {
+                _param = Parameters[ParamName];
+            }
+            else
+            {
+                _param = new SqlParameter()
+                {
+                    ParameterName = ParamName
+                };
+                Parameters.Add(_param);
+            }
+            if (Value != null)
+            {
+                AddParameterValue(ParamName, Value);
+            }
+            OutputParameters.Add(_param);
+            ParamOut = _param;
+            //ObjectParameters.Add(new ObjectParameter() {Container=Container, Parameter=_param });
+
+        }
+        public void AssignValuesParameters()
+        {
+            ControlParameters.Where(x => x.LinkedControl is IsValuable && (x.Parameter.Direction == ParameterDirection.InputOutput || x.Parameter.Direction == ParameterDirection.Output)).ToList().ForEach(p => AddParameterValue(p.Parameter.ParameterName, ((IsValuable)p.LinkedControl).Value));
         }
 
-
-        public Boolean Execute()
+        public void Execute()
         {
             AssignParameterValues();
+            if (Conn.State == ConnectionState.Open)
+            {
+                Cmd.ExecuteNonQuery();
+            }
+            else
+            {
+                Conn.Open();
+                Cmd.ExecuteNonQuery();
+                Conn.Close();
+            }
+            AssignValuesParameters();
             try
             {
-                if (Conn.State == ConnectionState.Open)
-                {
-                    Cmd.ExecuteNonQuery();
-                }
-                else
-                {
-                    Conn.Open();
-                    Cmd.ExecuteNonQuery();
-                    Conn.Close();
-                }
-            } catch (Exception e)
-            {
-                if (Conn.State == ConnectionState.Open)
-                    Conn.Close();
-                ErrorMessage = e.Message;
-                LastMsg = e.Message;
-                return false;
+                LastMsg = Parameters.OfType<SqlParameter>().ToList().First(x => x.ParameterName == "@msg").Value.ToString();
             }
-            foreach (SqlParameter lParameter in Parameters)
+            catch
             {
-                if (lParameter.ParameterName == "@msg")
-                {
-                    LastMsg = Parameters["@msg"].Value == null ? "" : Parameters["@msg"].Value.ToString();
-                    lParameter.Value = "";
-                }
-                else
-                {
-                   // lParameter.Value = DBNull.Value;
-                }
+                LastMsg = "";
             }
-            return true;
+
         }
         public Dictionary<string, object> ReturnValues()
         {
-            Dictionary<string, object> Result = new Dictionary<string, object>();
-            foreach (SqlParameter Param in Parameters)
-            {
-                if (Param.Direction == ParameterDirection.InputOutput || Param.Direction == ParameterDirection.Output)
-                {
-                    Result.Add(Param.ParameterName, Param.Value);
-                }
-            }
-            return Result;
+            return Parameters.OfType<SqlParameter>()
+                .Where(p => p.Direction == ParameterDirection.InputOutput || p.Direction == ParameterDirection.Output)
+                .ToDictionary(i => i.ParameterName, i => i.Value);
+
+            //Dictionary<string, object> Result = new Dictionary<string, object>();
+            //foreach (SqlParameter Param in Parameters)
+            //{
+            //    if (Param.Direction == ParameterDirection.InputOutput || Param.Direction == ParameterDirection.Output)
+            //    {
+            //        Result.Add(Param.ParameterName, Param.Value);
+            //    }
+            //}
+            //return Result;
         }
     }
 
     public class DA
     {
-        private SqlDataAdapter mDA;
+        protected SqlDataAdapter mDA;
         //private DataSet mDS;
-        private string msSPAdd = "";
-        private string msSPUpp = "";
-        private string msSPDel = "";
-        private DynamicRS mSelectRS;
-        private SP mInsertCommand;
-        private SP mUpdateCommand;
-        private SP mDeleteCommand;
+        protected string msSPAdd = "";
+        protected string msSPUpp = "";
+        protected string msSPDel = "";
+        protected DynamicRS mSelectRS { get; set; }
+        protected SP mInsertCommand;
+        protected SP mUpdateCommand;
+        protected SP mDeleteCommand;
         public cAccesoDatosNet Conn { get; set; }
 
 
-        public DynamicRS SelectRS
+        public virtual DynamicRS SelectRS
         {
             get
             {
@@ -1015,15 +1286,6 @@ namespace cAccesoDatosAndroid
             {
                 SelectRS = new DynamicRS(value, Conn);
                 ConnectionState prevState = Conn.State;
-                //if (prevState != ConnectionState.Open)
-                //{
-                //    Conn.Open();
-                //}
-                //SqlCommandBuilder.DeriveParameters(SelectRS.Cmd);
-                //if (prevState != ConnectionState.Open)
-                //{
-                //    Conn.Close();
-                //}
             }
             get
             {
@@ -1107,6 +1369,10 @@ namespace cAccesoDatosAndroid
             }
         }
     }
+
+
+
+
 
 
 }
