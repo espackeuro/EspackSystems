@@ -74,7 +74,7 @@ namespace AccesoDatosNet
                             _serverIP = result.AddressList[0];
                         } catch (Exception ex)
                         {
-                            throw ex;
+                            throw new Exception(string.Format("Error trying {0}: {1}", _hostName, ex.Message));
                         }
                     }
                     else
