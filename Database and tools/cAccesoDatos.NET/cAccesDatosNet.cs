@@ -757,11 +757,16 @@ namespace AccesoDatosNet
             {
                 mConn.Open();
             }
+            if (mDA.SelectCommand== null)
+            {
+                mDA.SelectCommand = new SqlCommand(SQL, mConn.AdoCon);
+            }
             mDS = new DataSet();
             mState = RSState.Executing;
             mDA.Fill(mDS, "Result");
             Index = 0;
             mState = RSState.Open;
+            mEOF = (RecordCount == 0);
             if (prevState != ConnectionState.Open)
             {
                 mConn.Close();
