@@ -23,6 +23,11 @@ using System.Threading.Tasks;
 
 namespace RadioFXC
 {
+    public static class ListImage
+    {
+        public static ListImageFile cImageFileList = new ListImageFile();
+    }
+
     [Activity(Label = "RepairManagement")]
     //[IntentFilter(new[] {Action = new[] {Intent.Action,"" })]
     public class FragmentPicturesManagement : Android.Support.V4.App.Fragment, IScrollDirectorListener, AbsListView.IOnScrollListener 
@@ -39,14 +44,25 @@ namespace RadioFXC
         private int cCount;
         public static int cOldPictures { get; set; }
         private DynamicRS cRSOld = new DynamicRS();
+        
 
         public FragmentPicturesManagement() 
             : base()
         {
+            ListImage.cImageFileList.Dispose();
             cUnitNumber = UnitRepair.cUnitNumber;
             cRepairCode = UnitRepair.cRepairCode;
             cCount = 0;
             cRSOld.Open("Select FileName,FilePath,Thumbnail,len=len(Thumbnail),IdPicture from PicturesRepairs where RepairCode='" + cRepairCode+"' and UnitNumber='"+cUnitNumber+"' order by xfec", Values.gDatos );
+            while (!cRSOld.EOF)
+            {
+                Bitmap _bm = BitmapFactory.DecodeByteArray((byte[])cRSOld["Thumbnail"], 0, Convert.ToInt32(cRSOld["len"]));
+                ImageFile elFile = new ImageFile(cRSOld["FileName"].ToString(), _bm);
+                elFile.IdPicture = cRSOld["IdPicture"].ToString();
+                ListImage.cImageFileList.Add(elFile);
+                cRSOld.MoveNext();
+            }
+            cRSOld.Close();
         }
         public int cWidthThumbnail
         {
@@ -62,17 +78,18 @@ namespace RadioFXC
             root.FindViewById<TextView>(Resource.Id.lblRepairNumber).Text = cRepairCode;
             cListView = root.FindViewById<ListView>(Resource.Id.listPictures);
             //cGridview.LayoutParameters= new GridView.LayoutParams(cGridview.Width, (Resources.DisplayMetrics.WidthPixels - 100) / 3 + 100);
+
             cImageAdapter = new ListImageAdapter(Activity, cRepairCode, cUnitNumber,cWidthThumbnail);
             cListView.Adapter = cImageAdapter;
-            while (!cRSOld.EOF)
-            {
-                Bitmap _bm = BitmapFactory.DecodeByteArray((byte[])cRSOld["Thumbnail"], 0, Convert.ToInt32(cRSOld["len"]));
-                ImageFile elFile = new ImageFile(cRSOld["FileName"].ToString(), _bm);
-                elFile.IdPicture = cRSOld["IdPicture"].ToString();
-                cImageAdapter.AddImage(elFile);
-                cRSOld.MoveNext();
-            }
-            cRSOld.Close();
+            //while (!cRSOld.EOF)
+            //{
+            //    Bitmap _bm = BitmapFactory.DecodeByteArray((byte[])cRSOld["Thumbnail"], 0, Convert.ToInt32(cRSOld["len"]));
+            //    ImageFile elFile = new ImageFile(cRSOld["FileName"].ToString(), _bm);
+            //    elFile.IdPicture = cRSOld["IdPicture"].ToString();
+            //    cImageAdapter.AddImage(elFile);
+            //    cRSOld.MoveNext();
+            //}
+            //cRSOld.Close();
             var fab = root.FindViewById<FloatingActionButton>(Resource.Id.fab);
             cOldPictures = Convert.ToInt32(cCount);
             CreateDirectoryForPictures();
@@ -209,7 +226,7 @@ namespace RadioFXC
     }
     public class ListImageAdapter : BaseAdapter<ImageFile>
     {
-        private ListImageFile cImageFileList;
+        
         private readonly Context context;
         private string cRepairCode;
         private string cUnitNumber;
@@ -218,25 +235,29 @@ namespace RadioFXC
         public ListImageAdapter(Context c, string pRepairCode, string pUnitNumber, int pImageWidth)
         {
             context = c;
-            cImageFileList = new ListImageFile((Activity)context, pRepairCode, pUnitNumber);
+            //cImageFileList = new ListImageFile((Activity)context, pRepairCode, pUnitNumber);
             //cImageFileList.AfterFTP += CImageFileList_AfterFTP;
             cRepairCode = pRepairCode;
             cUnitNumber = pUnitNumber;
             cImageWidth = pImageWidth;
+            ListImage.cImageFileList.cParentActivity = (Activity)context;
+            ListImage.cImageFileList.cRepairCode = cRepairCode;
+            ListImage.cImageFileList.cUnitNumber = cUnitNumber;
+
         }
 
         
 
         public override int Count
         {
-            get { return cImageFileList.Count; }
+            get { return ListImage.cImageFileList.Count; }
         }
 
         public override ImageFile this[int position]
         {
             get
             {
-                return cImageFileList[position];
+                return ListImage.cImageFileList[position];
             }
         }
 
@@ -248,17 +269,17 @@ namespace RadioFXC
 
         public string GetPictureId(int position)
         {
-            return cImageFileList[position].IdPicture;
+            return ListImage.cImageFileList[position].IdPicture;
         }
 
         public async Task AddImage(ImageFile pFile)
         {
-            await cImageFileList.Add(pFile);
+            await ListImage.cImageFileList.Add(pFile);
         }
 
         public void RemoveImage(string IdPicture)
         {
-            cImageFileList.Remove(cImageFileList[IdPicture]);
+            ListImage.cImageFileList.Remove(ListImage.cImageFileList[IdPicture]);
         }
 
         public override View GetView(int position, View convertView, ViewGroup parent)
@@ -278,18 +299,18 @@ namespace RadioFXC
             _image.LayoutParameters = new RelativeLayout.LayoutParams(cImageWidth, cImageWidth);
             //_image.SetScaleType(ImageView.ScaleType.CenterCrop);
             //_image.SetPadding(8, 8, 8, 8);
-            _image.SetImageBitmap(cImageFileList[position].Bitmap);
-            _text.Text = cImageFileList[position].Text;
-            this[position].Progress.Progress = cImageFileList[position].intProgress;
+            _image.SetImageBitmap(ListImage.cImageFileList[position].Bitmap);
+            _text.Text = ListImage.cImageFileList[position].Text;
+            this[position].Progress.Progress = ListImage.cImageFileList[position].intProgress;
             return view;
         }
     }
-    public class ListImageFile : List<ImageFile>
+    public class ListImageFile : List<ImageFile>, IDisposable
     {
         
-        private Activity cParentActivity;
-        private string cRepairCode;
-        private string cUnitNumber;
+        public Activity cParentActivity { get; set; }
+        public string cRepairCode { get; set; }
+        public string cUnitNumber { get; set; }
         public List<ImageFile> pendingItems
         {
             get
@@ -314,7 +335,10 @@ namespace RadioFXC
                 
             }
         }
+        public ListImageFile()
+        {
 
+        }
         public ListImageFile(Activity parent = null, string pRepairCode = "", string pUnitNumber="")
         {
             cParentActivity = parent;
@@ -342,6 +366,41 @@ namespace RadioFXC
                 //ThreadPool.QueueUserWorkItem(o => item.FtpImage(directory));
             }
         }
+
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    this.ForEach(x => { x.Dispose(); x = null; });
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // TODO: set large fields to null.
+
+                disposedValue = true;
+            }
+        }
+
+        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+        // ~ListImageFile() {
+        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+        //   Dispose(false);
+        // }
+
+        // This code added to correctly implement the disposable pattern.
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+            // TODO: uncomment the following line if the finalizer is overridden above.
+            // GC.SuppressFinalize(this);
+        }
+        #endregion
 
 
 
