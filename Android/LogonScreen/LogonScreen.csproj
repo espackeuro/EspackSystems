@@ -99,10 +99,6 @@
     <AndroidResource Include="Resources\Values\Strings.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Database and tools\cAccesoDatosAndroid\cAccesoDatosNet.csproj">
-      <Project>{9c95e323-c7e8-45b9-84bb-3ee165e28c3c}</Project>
-      <Name>cAccesoDatosNet</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DataWedge\DataWedge.csproj">
       <Project>{6d6d5061-87e6-42ce-aed2-a631b5a25979}</Project>
       <Name>DataWedge</Name>
