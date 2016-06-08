@@ -21,8 +21,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Controls", "Controls", "{CE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PictureProgressView", "..\..\EspackControls\EspackAndoidControls\PictureProgressView\PictureProgressView.csproj", "{18EDE257-F3E5-469D-AC02-72194014AD87}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cAccesoDatosNet", "..\..\Database and tools\cAccesoDatosAndroid\cAccesoDatosNet.csproj", "{9C95E323-C7E8-45B9-84BB-3EE165E28C3C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonTools", "..\..\Database and tools\CommonToolsAndroid\CommonTools\CommonTools.csproj", "{6168D25C-FDC9-4A47-A349-4F59DADAC002}"
 EndProject
 Global
@@ -53,10 +51,6 @@ Global
 		{18EDE257-F3E5-469D-AC02-72194014AD87}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18EDE257-F3E5-469D-AC02-72194014AD87}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{18EDE257-F3E5-469D-AC02-72194014AD87}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9C95E323-C7E8-45B9-84BB-3EE165E28C3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9C95E323-C7E8-45B9-84BB-3EE165E28C3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9C95E323-C7E8-45B9-84BB-3EE165E28C3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9C95E323-C7E8-45B9-84BB-3EE165E28C3C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6168D25C-FDC9-4A47-A349-4F59DADAC002}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6168D25C-FDC9-4A47-A349-4F59DADAC002}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6168D25C-FDC9-4A47-A349-4F59DADAC002}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -71,11 +65,10 @@ Global
 		{59692AC9-88FB-40FC-BB6C-E76AC5575758} = {5802ACA1-E788-4592-BB10-63A26AA1A336}
 		{FB3A88F4-03B5-450C-AB8A-D363BDBB8D64} = {DD5ED550-A29E-485F-A18C-04FE8256767A}
 		{18EDE257-F3E5-469D-AC02-72194014AD87} = {CE470E76-9506-485B-AB6F-0DDC05CD6F08}
-		{9C95E323-C7E8-45B9-84BB-3EE165E28C3C} = {8388EEDE-523A-4541-BF5A-D71D220A366A}
 		{6168D25C-FDC9-4A47-A349-4F59DADAC002} = {5802ACA1-E788-4592-BB10-63A26AA1A336}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 8
+		SccNumberOfProjects = 7
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://espack.visualstudio.com/defaultcollection
 		SccLocalPath0 = .
@@ -99,13 +92,9 @@ Global
 		SccProjectTopLevelParentUniqueName5 = Android\u0020Apps.sln
 		SccProjectName5 = ../../EspackControls/EspackAndoidControls/PictureProgressView
 		SccLocalPath5 = ..\\..\\EspackControls\\EspackAndoidControls\\PictureProgressView
-		SccProjectUniqueName6 = ..\\..\\Database\u0020and\u0020tools\\cAccesoDatosAndroid\\cAccesoDatosNet.csproj
+		SccProjectUniqueName6 = ..\\..\\Database\u0020and\u0020tools\\CommonToolsAndroid\\CommonTools\\CommonTools.csproj
 		SccProjectTopLevelParentUniqueName6 = Android\u0020Apps.sln
-		SccProjectName6 = ../../Database\u0020and\u0020tools/cAccesoDatosAndroid
-		SccLocalPath6 = ..\\..\\Database\u0020and\u0020tools\\cAccesoDatosAndroid
-		SccProjectUniqueName7 = ..\\..\\Database\u0020and\u0020tools\\CommonToolsAndroid\\CommonTools\\CommonTools.csproj
-		SccProjectTopLevelParentUniqueName7 = Android\u0020Apps.sln
-		SccProjectName7 = ../../Database\u0020and\u0020tools/CommonToolsAndroid/CommonTools
-		SccLocalPath7 = ..\\..\\Database\u0020and\u0020tools\\CommonToolsAndroid\\CommonTools
+		SccProjectName6 = ../../Database\u0020and\u0020tools/CommonToolsAndroid/CommonTools
+		SccLocalPath6 = ..\\..\\Database\u0020and\u0020tools\\CommonToolsAndroid\\CommonTools
 	EndGlobalSection
 EndGlobal

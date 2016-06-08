@@ -187,10 +187,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Database and tools\cAccesoDatosAndroid\cAccesoDatosNet.csproj">
-      <Project>{9c95e323-c7e8-45b9-84bb-3ee165e28c3c}</Project>
-      <Name>cAccesoDatosNet</Name>
-    </ProjectReference>
     <ProjectReference Include="..\BitmapHelpers\CommonAndroidTools.csproj">
       <Project>{fe45781b-38cb-44f0-9de7-08e15e0c53bd}</Project>
       <Name>CommonAndroidTools</Name>
