@@ -23,7 +23,8 @@ namespace RadioFXC
     {
         private string cUnitNumber;
         public string cRepairCode { get; set; }
-
+        private FragmentPicturesManagement _fpim;
+        private FragmentPartsManagement _fpam;
         //public MainRepairs(string pUnitNumber, string pRepairCode)
         //{
         //    cUnitNumber = pUnitNumber;
@@ -54,15 +55,20 @@ namespace RadioFXC
 
         }
 
+        
         public void OnTabSelected(ActionBar.Tab tab, Android.Support.V4.App.FragmentTransaction ft)
         {
             switch (tab.Text)
             {
                 case "Pictures":
-                    ft.Replace(Android.Resource.Id.Content, new FragmentPicturesManagement());
+                    if (_fpim == null)
+                        _fpim = new FragmentPicturesManagement();
+                    ft.Replace(Android.Resource.Id.Content, _fpim);
                     break;
                 case "Parts":
-                    ft.Replace(Android.Resource.Id.Content, new FragmentPartsManagement());
+                    if (_fpam == null)
+                        _fpam = new FragmentPartsManagement();
+                    ft.Replace(Android.Resource.Id.Content, _fpam);
                     break;
             }
         }
