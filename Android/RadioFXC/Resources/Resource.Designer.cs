@@ -53,6 +53,8 @@ namespace RadioFXC
 			global::AccesoDatosNet.Resource.Styleable.FloatingActionButton_fab_size = global::RadioFXC.Resource.Styleable.FloatingActionButton_fab_size;
 			global::CommonAndroidTools.Resource.String.ApplicationName = global::RadioFXC.Resource.String.ApplicationName;
 			global::CommonAndroidTools.Resource.String.Hello = global::RadioFXC.Resource.String.Hello;
+			global::CommonTools.Resource.String.ApplicationName = global::RadioFXC.Resource.String.ApplicationName;
+			global::CommonTools.Resource.String.Hello = global::RadioFXC.Resource.String.Hello;
 			global::DataWedge.Resource.String.ApplicationName = global::RadioFXC.Resource.String.ApplicationName;
 			global::DataWedge.Resource.String.Hello = global::RadioFXC.Resource.String.Hello;
 			global::LogonScreen.Resource.Animation.abc_fade_in = global::RadioFXC.Resource.Animation.abc_fade_in;
