@@ -34,6 +34,7 @@ namespace LogOn
         public ToolStripStatusLabel Panel1;
         public ToolStripStatusLabel Panel2;
         public ToolStripStatusLabel Panel3;
+        public ToolStripStatusLabel Panel4;
         public ToolStripStatusLabel PanelName;
         public ScrollingStatusLabel PanelQOTD;
         public ToolStripStatusLabel PanelTime;
@@ -42,7 +43,7 @@ namespace LogOn
         private int _zone = 0;
         public List<cUpdaterThread> UpdatingThreads = new List<cUpdaterThread>();
         public const int NUMTHREADS = 8;
-        
+        public const int MAXTIMER = 300;
         delegate void gbDebugCallBack(Control c);
         delegate void LogOnChangeStatusCallBack(LogOnStatus l);
         delegate void ClearListAppsCallBack();
@@ -87,13 +88,7 @@ namespace LogOn
             LogOnChangeStatus(LogOnStatus.INIT);
 
 #if DEBUG
-            Values.debugBox = new DebugTextbox();
-            Values.debugBox.Dock = System.Windows.Forms.DockStyle.Bottom;
-            Values.debugBox.Location = new System.Drawing.Point(3, 411);
-            Values.debugBox.Multiline = true;
-            Values.debugBox.Size = new System.Drawing.Size(300, 98);
-            Values.debugBox.TabIndex = 3;
-            gbDebugAdd(Values.debugBox);
+            chkDebug.Checked = true;
             txtUser.Text = "dvalles";
             txtPassword.Text = "*Kru0DMar*";
 #endif
@@ -147,7 +142,7 @@ namespace LogOn
             Values.gDatos.Server = espackArgs.Server;
             Values.gDatos.User = espackArgs.User;
             Values.gDatos.Password = espackArgs.Password;
-
+            Values.FillServers(_zone);
             // Connect (or try)
             try
             {
@@ -162,6 +157,7 @@ namespace LogOn
             Panel1.Text = "You are connected to "+Values.gDatos.oServer.HostName.Replace(".local","")+"!";
             Panel2.Text = "My IP: " + Values.gDatos.IP.ToString();
             Panel3.Text = "DB Server IP: " + espackArgs.Server;
+            Panel4.Text = "Share Server IP: " + Values.ShareServerList[Values.COD3].HostName;
             string[] FilesToUpdate = new string[] { "logonHosts", "logonloader.exe", "logonloader.exe.config" };
             // Check LogOnLoader update
 #if !DEBUG 
@@ -181,9 +177,11 @@ namespace LogOn
                 }
             });
 #endif
-
-
+            KeyDown += restartTimer;
+            MouseClick += restartTimer;
         }
+
+
 
         private void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
@@ -232,6 +230,10 @@ namespace LogOn
             mDefaultStatusStrip.Items.Add(Panel3);
             mDefaultStatusStrip.Items.Add(new ToolStripSeparator());
 
+            Panel4 = new ToolStripStatusLabel("Share Server IP: None") { AutoSize = true };
+            mDefaultStatusStrip.Items.Add(Panel4);
+            mDefaultStatusStrip.Items.Add(new ToolStripSeparator());
+
             PanelName = new ToolStripStatusLabel("") { AutoSize = true };
             mDefaultStatusStrip.Items.Add(PanelName);
             mDefaultStatusStrip.Items.Add(new ToolStripSeparator());
@@ -262,7 +264,7 @@ namespace LogOn
                 switch (value)
                 {
                     case LogOnStatus.INIT:
-                        _time = 300;
+                        _time = MAXTIMER;
                         txtUser.Text = "";
                         txtPassword.Text = "";
                         txtUser.Enabled = true;
@@ -282,7 +284,7 @@ namespace LogOn
                         PanelName.Text = "";
                         PanelQOTD.Text = "";
                         PanelTime.Text = "";
-                        
+                        chkDebug.Enabled = true;
                         break;
                     case LogOnStatus.CONNECTING:
                         txtUser.Enabled = false;
@@ -296,6 +298,7 @@ namespace LogOn
                         txtNewPINConfirm.Visible = false;
                         btnOKChange.Visible = false;
                         btnCancelChange.Visible = false;
+                        chkDebug.Enabled = false;
                         break;
                     case LogOnStatus.CONNECTED:
                         txtUser.Enabled = false;
@@ -310,6 +313,7 @@ namespace LogOn
                         btnOKChange.Visible = false;
                         btnCancelChange.Visible = false;
                         _timer.Start();
+                        chkDebug.Enabled = false;
                         break;
                     case LogOnStatus.CHANGE_PASSWORD:
                         txtUser.Enabled = false;
@@ -334,6 +338,7 @@ namespace LogOn
                         txtNewPIN.Text = "";
                         txtNewPINConfirm.Text = "";
                         ActiveControl = txtNewPassword;
+                        chkDebug.Enabled = false;
                         break;
                     case LogOnStatus.CHANGING_PASSWORD:
                         txtUser.Enabled = false;
@@ -353,6 +358,7 @@ namespace LogOn
                         btnCancelChange.Visible = true;
                         btnOKChange.Enabled = false;
                         btnCancelChange.Enabled = false;
+                        chkDebug.Enabled = false;
                         break;
                     case LogOnStatus.ERROR:
                         txtUser.Enabled = false;
@@ -366,6 +372,7 @@ namespace LogOn
                         txtNewPINConfirm.Visible = false;
                         btnOKChange.Visible = false;
                         btnCancelChange.Visible = false;
+                        chkDebug.Enabled = false;
                         break;
                 }
                 _status = value;
@@ -394,11 +401,18 @@ namespace LogOn
                     //.Where(a => a["Code"].ToString()=="LOGISTICA").ToList()
                     .ForEach(x =>
                 {
-                    Values.AppList.Add(new cAppBot(x["Code"].ToString(), x["Description"].ToString(), x["DB"].ToString(), x["ExeName"].ToString(), x["Zone"].ToString(), Values.DBServerList[x["Zone"].ToString()], Values.ShareServerList[Values.COD3]));
+                    var _app = new cAppBot(x["Code"].ToString(), x["Description"].ToString(), x["DB"].ToString(), x["ExeName"].ToString(), x["Zone"].ToString(), Values.DBServerList[x["Zone"].ToString()], Values.ShareServerList[Values.COD3]);
+                    _app.AfterLaunch += restartTimer;
+                    Values.AppList.Add(_app);
                 });
             }
             Values.AppList.Add(new cAppBot("Tools", "TOOLS", "", "", "", null, Values.ShareServerList[Values.COD3], true));
             //Values.AppList.Add(new cAppBot("lib", "lib", "", "", "", null, Values.ShareServerList[Values.COD3], true));
+        }
+
+        private void restartTimer(object sender, EventArgs e)
+        {
+            _time=MAXTIMER;
         }
 
         private void DrawListApps()
@@ -486,7 +500,7 @@ namespace LogOn
                 Values.userFlags = _flags.Value.ToString().Split('|').Where(x => x!="").ToList() ;
                 Values.FullName = _fullName.Value.ToString();
                 PanelName.Text = Values.FullName;
-
+                Values.DBServerList.ServerList.ForEach(x => { x.User = txtUser.Text; x.Password = txtPassword.Text; }) ;
                 var _SPQuote = new SP(Values.gDatos, "pGetQOTD");
                 SqlParameter _quote;
                 _SPQuote.AssignOutputParameterContainer("quote", out _quote);
@@ -508,7 +522,6 @@ namespace LogOn
                 }
                 Values.User = txtUser.Text;
                 Values.Password = txtPassword.Text;
-                Values.FillServers(_zone);
                 FillApps();
                 DrawListApps();
                 await CheckUpdatableApps().ConfigureAwait(false);
@@ -616,10 +629,15 @@ namespace LogOn
             LogOnChangeStatus(previousStatus);
             //LogOnChangeStatus(LogOnStatus.CONNECTED);
         }
-
+        protected override void OnMouseClick(MouseEventArgs e)
+        {
+            _time = MAXTIMER;
+            base.OnMouseClick(e);
+        }
         // Capture some pressed key
         protected override void OnKeyDown(KeyEventArgs e)
         {
+            _time = MAXTIMER;
             // ENTER Key
             if (e.KeyCode == Keys.Enter)
             {
@@ -652,6 +670,28 @@ namespace LogOn
                 // Focus on gbChangePassword controls -> Cancel the ChangePassword status
                 else if (gbChangePassword.ContainsFocus)
                     LogOnChangeStatus(LogOnStatus.CONNECTED);
+            }
+
+        }
+
+        private void chkDebug_CheckedChanged(object sender, EventArgs e)
+        {
+            if (((CheckBox)sender).Checked)
+            {
+                Values.debugBox = new DebugTextbox();
+                Values.debugBox.Dock = System.Windows.Forms.DockStyle.Bottom;
+                Values.debugBox.Location = new System.Drawing.Point(3, 411);
+                Values.debugBox.Multiline = true;
+                Values.debugBox.Size = new System.Drawing.Size(300, 98);
+                Values.debugBox.TabIndex = 3;
+                gbDebugAdd(Values.debugBox);
+            } else
+            {
+                if (Values.debugBox != null)
+                {
+                    Values.debugBox.Dispose();
+                    Values.debugBox = null;
+                }
             }
 
         }

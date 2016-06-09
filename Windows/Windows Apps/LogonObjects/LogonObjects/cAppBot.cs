@@ -42,7 +42,17 @@ namespace LogOnObjects
         public Bitmap AppIcon { get; set; }
         public string LocalPath { get; set; }
         public bool Special { get; set; }
-
+        public int ProgressValue
+        {
+            get
+            {
+                return prgApp.Value;
+            }
+            set
+            {
+                prgApp.Value = value;
+            }
+        }
         //Events
         public event EventHandler AfterLaunch;
         protected virtual void OnAfterLaunch(EventArgs e)
@@ -53,7 +63,7 @@ namespace LogOnObjects
         }
         // For the calls from different threads
         delegate void ChangeStatusCallback(AppBotStatus pStatus);
-
+        delegate void ChangeProgressCallback(int Value);
         // List of PENDING TO UPDATE items
         public List<cUpdateListItem> PendingItems
         {
@@ -151,10 +161,10 @@ namespace LogOnObjects
                         break;
                     // When PENDING_UPDATE -> Button disabled, ProgressBar visible and running.
                     case AppBotStatus.PENDING_UPDATE:
-                        prgApp.Style = ProgressBarStyle.Marquee;
+                        prgApp.Style = ProgressBarStyle.Continuous;
                         prgApp.Minimum = 0;
-                        prgApp.Maximum = 200;
-                        prgApp.MarqueeAnimationSpeed = 50;
+                        prgApp.Maximum = PendingItems.Count;
+                        //prgApp.MarqueeAnimationSpeed = 50;
                         prgApp.Visible = true;
                         pctApp.Enabled = false;
 
@@ -176,7 +186,7 @@ namespace LogOnObjects
         public static int GROUP_WIDTH = 125;
 
         public static int PROGRESS_PADDING = 10;
-        public static int PROGRESS_HEIGHT = 40;
+        public static int PROGRESS_HEIGHT = 15;
         public static int PROGRESS_WIDTH = GROUP_WIDTH - (PROGRESS_PADDING * 2);
 
         public static int DESCRIPTION_PADDING = PROGRESS_PADDING;
@@ -214,10 +224,16 @@ namespace LogOnObjects
             prgApp = new ProgressBar()
             {
                 Size = new Size(PROGRESS_WIDTH, PROGRESS_HEIGHT),
-                Location = new Point(PROGRESS_PADDING, (GROUP_HEIGHT / 2) - (PROGRESS_HEIGHT / 2)),
-                Visible = false
+                Location = new Point(PROGRESS_PADDING, PICTURE_HEIGHT + PICTURE_PADDING), //(GROUP_HEIGHT / 2) - (PROGRESS_HEIGHT / 2)),
+                Visible = false,
+                ForeColor = Color.Blue
             };
-            lblDescriptionApp = new Label() { Size = new Size(DESCRIPTION_WIDTH, DESCRIPTION_HEIGHT), Location = new Point(DESCRIPTION_PADDING, GROUP_HEIGHT - DESCRIPTION_HEIGHT - DESCRIPTION_PADDING), TextAlign = ContentAlignment.MiddleCenter };
+            lblDescriptionApp = new Label()
+            {
+                Size = new Size(DESCRIPTION_WIDTH, DESCRIPTION_HEIGHT),
+                Location = new Point(DESCRIPTION_PADDING, GROUP_HEIGHT - DESCRIPTION_HEIGHT - DESCRIPTION_PADDING),
+                TextAlign = ContentAlignment.MiddleCenter
+            };
             pctApp = new Button() { Size = new Size(PICTURE_WIDTH, PICTURE_HEIGHT), Location = new Point(PICTURE_PADDING, PICTURE_PADDING) };
 #if DEBUG
             lblDescriptionApp.BorderStyle = BorderStyle.FixedSingle;
@@ -267,12 +283,15 @@ namespace LogOnObjects
                   bool _clean = true;
                   using (var client = new FtpClient())
                   {
+                      client.ConnectTimeout = 60000;
                       client.Host = ShareServer.IP.ToString();
                       client.Credentials = new NetworkCredential(ShareServer.User, ShareServer.Password);
                       client.DataConnectionType = FtpDataConnectionType.AutoActive;
                       client.Connect();
                       _clean = readDirFTP(client, "/APPS_CS/", Code.ToLower());
                   }
+                  if (!_clean)
+                      ChangeStatus(AppBotStatus.PENDING_UPDATE);
                   return _clean;
               }).ConfigureAwait(false);
 
@@ -283,12 +302,15 @@ namespace LogOnObjects
             bool _clean = true;
             using (var client = new FtpClient())
             {
+                client.ConnectTimeout = 60000;
                 client.Host = ShareServer.IP.ToString();
                 client.Credentials = new NetworkCredential(ShareServer.User, ShareServer.Password);
                 client.DataConnectionType = FtpDataConnectionType.AutoActive;
                 client.Connect();
                 _clean = readDirFTP(client, "/APPS_CS/", Code.ToLower());
             }
+            if (!_clean)
+                ChangeStatus(AppBotStatus.PENDING_UPDATE);
             return _clean;
         }
         private bool readDirFTP(FtpClient client, string basePath, string relativePath, bool _checkFiles=true)
@@ -336,8 +358,8 @@ namespace LogOnObjects
                     {
                         if (File.GetLastWriteTime(Values.LOCAL_PATH + relativePath + "/" + a.Name) != a.Modified)
                         {
-                            if (Status != AppBotStatus.PENDING_UPDATE)
-                                ChangeStatus(AppBotStatus.PENDING_UPDATE);
+                            //if (Status != AppBotStatus.PENDING_UPDATE)
+                            //    ChangeStatus(AppBotStatus.PENDING_UPDATE);
                             Values.UpdateList.Add(new cUpdateListItem()
                             {
                                 Parent = this,
@@ -465,6 +487,29 @@ namespace LogOnObjects
             }
         }
 
+        public void ChangeProgress(int Value)
+        {
+
+            try
+            {
+                if (this.prgApp.InvokeRequired)
+                {
+                    ChangeProgressCallback a = new ChangeProgressCallback(ChangeProgress);
+                    this.Invoke(a, new object[] { Value });
+                }
+                else
+                {
+                    prgApp.Value=Value;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        //ChangeProgressCallback(int Value);
         //private bool readDirSSH(SftpClient client, string basePath, string relativePath, bool checkFiles)
         //{
         //    bool _clean = true;

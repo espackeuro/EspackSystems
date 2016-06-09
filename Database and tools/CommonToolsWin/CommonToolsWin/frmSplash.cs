@@ -24,6 +24,7 @@ namespace CommonToolsWin
                 lblMessage.Text = value;
             }
         }
+
         public frmSplash(string[] args, string pMessage="", bool pTimer=true)
         {
             InitializeComponent();
