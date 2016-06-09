@@ -95,7 +95,11 @@ namespace LogOn
 
             // Load the vars from the given args
             var espackArgs = CT.LoadVars(args);
-
+            var _IP = Values.gDatos.IP.GetAddressBytes();
+            if (_IP[0] == 10)
+                _zone = _IP[1];
+            else
+                _zone = _IP[2];
             // If DB is not set in args, we assume any args are set
             if (espackArgs.DataBase == null)
             {
@@ -115,6 +119,8 @@ namespace LogOn
             _pathLogonHosts = "logonHosts";
 #endif
                 _pathLogonHosts = Values.LOCAL_PATH +"logon/logonHosts";
+
+
                 // Get logonHosts file content       
                 if (File.Exists(_pathLogonHosts))
                 {
@@ -132,17 +138,13 @@ namespace LogOn
                 espackArgs.Server = _line.Split('|')[1];
 
             }
-            var _IP = Values.gDatos.IP.GetAddressBytes();
-            if (_IP[0] == 10)
-                _zone = _IP[1];
-            else
-                _zone = _IP[2];
+
             // Set the values of gDatos from the given args or default settings 
             Values.gDatos.DataBase = espackArgs.DataBase;
             Values.gDatos.Server = espackArgs.Server;
             Values.gDatos.User = espackArgs.User;
             Values.gDatos.Password = espackArgs.Password;
-            Values.FillServers(_zone);
+
             // Connect (or try)
             try
             {
@@ -153,7 +155,7 @@ namespace LogOn
                 throw new Exception("Error connecting database server: " + e.Message);
             }
 
-
+            Values.FillServers(_zone);
             Panel1.Text = "You are connected to "+Values.gDatos.oServer.HostName.Replace(".local","")+"!";
             Panel2.Text = "My IP: " + Values.gDatos.IP.ToString();
             Panel3.Text = "DB Server IP: " + espackArgs.Server;
