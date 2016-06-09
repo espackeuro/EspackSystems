@@ -396,19 +396,19 @@ namespace LogOn
         private void FillApps()
         {
 
-            using (var _RS = new DynamicRS("select Code=ServiceCode,Description,DB,ExeName=s.app,Zone=s.location from general..Permiso_Servicios p inner join services s on s.ServiceCode=p.codigo where p.LoginSql= '" + Values.User + "' and general.dbo.checkFlag(flags,'OBS')=0", Values.gDatos))
+            using (var _RS = new DynamicRS("select Code=ServiceCode,Description,DB,ExeName=s.app,Zone=s.location,s.ServiceCode from general..Permiso_Servicios p inner join services s on s.ServiceCode=p.codigo where p.LoginSql= '" + Values.User + "' and general.dbo.checkFlag(flags,'OBS')=0", Values.gDatos))
             {
                 _RS.Open();
                 _RS.ToList()
                     //.Where(a => a["Code"].ToString()=="LOGISTICA").ToList()
                     .ForEach(x =>
                 {
-                    var _app = new cAppBot(x["Code"].ToString(), x["Description"].ToString(), x["DB"].ToString(), x["ExeName"].ToString(), x["Zone"].ToString(), Values.DBServerList[x["Zone"].ToString()], Values.ShareServerList[Values.COD3]);
+                    var _app = new cAppBot(x["Code"].ToString(), x["Description"].ToString(), x["DB"].ToString(), x["ExeName"].ToString(), x["Zone"].ToString(), Values.DBServerList[x["Zone"].ToString()], Values.ShareServerList[Values.COD3], x["ServiceCode"].ToString());
                     _app.AfterLaunch += restartTimer;
                     Values.AppList.Add(_app);
                 });
             }
-            Values.AppList.Add(new cAppBot("Tools", "TOOLS", "", "", "", null, Values.ShareServerList[Values.COD3], true));
+            Values.AppList.Add(new cAppBot("Tools", "TOOLS", "", "", "", null, Values.ShareServerList[Values.COD3], "",true));
             //Values.AppList.Add(new cAppBot("lib", "lib", "", "", "", null, Values.ShareServerList[Values.COD3], true));
         }
 
