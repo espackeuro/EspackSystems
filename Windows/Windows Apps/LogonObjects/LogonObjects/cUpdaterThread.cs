@@ -12,6 +12,10 @@ using CommonToolsWin;
 namespace LogOnObjects
 
 {
+    public static class myLock
+    {
+        public static object Lock { get; set; } = new object();
+    }
     public class DebugTextbox : TextBox
     {
         public DebugTextbox()
@@ -68,6 +72,7 @@ namespace LogOnObjects
         private DebugTextbox debug { get; set; }
         public int NumThread { get; set; } 
         delegate void AppendTextCallback(string text);
+        
 
         public cUpdaterThread(DebugTextbox pDebug =null, int pNum=0)
         {
@@ -75,27 +80,32 @@ namespace LogOnObjects
             NumThread = pNum;
         }
 
-        public cUpdateListItem stealOne(cUpdaterThread pThread, cUpdateList pList)
+        private cUpdateListItem stealOne(cUpdaterThread pThread, cUpdateList pList)
         {
             //semaforo
-            cUpdateListItem _item;
-            try
+            lock (myLock.Lock)
             {
-                _item = pList.OrderBy(x => x.Parent.Code).First(x => x.Status == LogonItemUpdateStatus.PENDING);
-                _item.Thread = pThread;
-                _item.Status = LogonItemUpdateStatus.UPDATING;
-                if (debug!=null)
+                cUpdateListItem _item;
+                try
                 {
-                    AppendDebugText(string.Format("Thread {0} Updating {1}\n",NumThread, _item.LocalPath));
+                    _item = pList.OrderBy(x => x.Parent.Code).First(x => x.Status == LogonItemUpdateStatus.PENDING);
+                    _item.Thread = pThread;
+                    _item.Status = LogonItemUpdateStatus.UPDATING;
+                    if (debug != null)
+                    {
+                        AppendDebugText(string.Format("Thread {0} Updating {1}\n", NumThread, _item.LocalPath));
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
+                catch (Exception ex)
+                {
+                    throw ex;
+                    //fin semaforo
+                }
                 //fin semaforo
+                return _item;
             }
-            //fin semaforo
-            return _item;
+
+
         }
         public void AppendDebugText(string text)
         {
@@ -203,6 +213,7 @@ namespace LogOnObjects
                         ftp.DownloadItem(_item.Item, _item.LocalPath);
                     }
                     _item.Status = LogonItemUpdateStatus.UPDATED;
+                    _item.Parent.ChangeProgress(_item.Parent.ProgressValue + 1);
                     if (_item.Parent.UpdatedItems.Count == _item.Parent.Items.Count())
                     {
                         _item.Parent.ChangeStatus(AppBotStatus.UPDATED);

@@ -31,32 +31,35 @@ namespace LogOnLoader
                 // Init _zone var (200, 210, 220, etc...), _pathLogonHosts (the path for the logonHosts file) and the list _content (that will contain logonHosts contents)
                 //int _zone = 0;
                 string _pathLogonHosts;
+                _pathLogonHosts = Directory.GetCurrentDirectory() + "\\logonHosts";
                 List<string> _content = new List<string>();
 #if DEBUG
                 _pathLogonHosts = "D:/APPS_CS/logon/logonHosts";
-#else
-                _pathLogonHosts = "logonHosts";
+        
 #endif
                 // Get logonHosts file content       
+                var _IP = Values.gDatos.IP.GetAddressBytes();
+                if (_IP[0] == 10)
+                    _zone = _IP[1];
+                else
+                    _zone = _IP[2];
+
                 if (File.Exists(_pathLogonHosts))
                 {
                     _content = File.ReadAllLines(_pathLogonHosts).ToList<string>();
-                    var _IP = Values.gDatos.IP.GetAddressBytes();
-                    if (_IP[0] == 10)
-                        _zone = _IP[1];
-                    else
-                        _zone = _IP[2];
                 }
                 else
                 {
-                    throw new Exception("Can not find connection details");
-                }
 
+
+                    throw new Exception("Can not find connection details:"+ _pathLogonHosts);
+                }
                 // Put in _line the corresponding to the _zone (if (_zone==200) then _line="200|10.200.10.130|10.200.10.138|80.33.195.45|VAL")
                 string _line = _content.FirstOrDefault(p => p.Substring(0, 3) == _zone.ToString());
 
                 // DB Server is the 2nd element in _line
                 espackArgs.Server = _line.Split('|')[1];
+
 
             }
 

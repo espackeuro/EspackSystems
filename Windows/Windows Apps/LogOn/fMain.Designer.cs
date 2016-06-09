@@ -47,6 +47,7 @@ namespace LogOn
             this.gbApps = new System.Windows.Forms.GroupBox();
             this.tlpApps = new System.Windows.Forms.TableLayoutPanel();
             this.gbDebug = new System.Windows.Forms.GroupBox();
+            this.chkDebug = new System.Windows.Forms.CheckBox();
             this.gbCredentials.SuspendLayout();
             this.gbChangePassword.SuspendLayout();
             this.gbCred.SuspendLayout();
@@ -58,6 +59,7 @@ namespace LogOn
             this.gbCredentials.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gbCredentials.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.gbCredentials.Controls.Add(this.chkDebug);
             this.gbCredentials.Controls.Add(this.gbChangePassword);
             this.gbCredentials.Controls.Add(this.gbCred);
             this.gbCredentials.Location = new System.Drawing.Point(12, 12);
@@ -361,6 +363,18 @@ namespace LogOn
             this.gbDebug.TabStop = false;
             this.gbDebug.Text = "Debug";
             // 
+            // chkDebug
+            // 
+            this.chkDebug.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkDebug.AutoSize = true;
+            this.chkDebug.Location = new System.Drawing.Point(1600, 26);
+            this.chkDebug.Name = "chkDebug";
+            this.chkDebug.Size = new System.Drawing.Size(58, 17);
+            this.chkDebug.TabIndex = 36;
+            this.chkDebug.Text = "Debug";
+            this.chkDebug.UseVisualStyleBackColor = true;
+            this.chkDebug.CheckedChanged += new System.EventHandler(this.chkDebug_CheckedChanged);
+            // 
             // fMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -374,6 +388,7 @@ namespace LogOn
             this.Text = "LogOn";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.gbCredentials.ResumeLayout(false);
+            this.gbCredentials.PerformLayout();
             this.gbChangePassword.ResumeLayout(false);
             this.gbChangePassword.PerformLayout();
             this.gbCred.ResumeLayout(false);
@@ -403,6 +418,7 @@ namespace LogOn
         private System.Windows.Forms.Button btnOk;
         private EspackFormControls.EspackTextBox txtPassword;
         private EspackFormControls.EspackTextBox txtUser;
+        private System.Windows.Forms.CheckBox chkDebug;
     }
 }
 
