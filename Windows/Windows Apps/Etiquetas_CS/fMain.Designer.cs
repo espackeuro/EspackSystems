@@ -38,9 +38,11 @@
             this.vsParameters = new VSGrid.CtlVSGrid();
             this.cboPrinters = new EspackFormControls.EspackComboBox();
             this.txtCode = new EspackFormControls.EspackTextBox();
+            this.ctlVSGrid1 = new VSGrid.CtlVSGrid();
             ((System.ComponentModel.ISupportInitialize)(this.vsLabels)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.vsGroups)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.vsParameters)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ctlVSGrid1)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -128,7 +130,7 @@
             this.vsLabels.ReadOnly = true;
             this.vsLabels.RowHeadersVisible = false;
             this.vsLabels.Search = false;
-            this.vsLabels.Size = new System.Drawing.Size(1231, 660);
+            this.vsLabels.Size = new System.Drawing.Size(1231, 506);
             this.vsLabels.SQL = null;
             this.vsLabels.sSPAdd = "";
             this.vsLabels.sSPDel = "";
@@ -285,11 +287,55 @@
             this.txtCode.Upp = false;
             this.txtCode.Value = "";
             // 
+            // ctlVSGrid1
+            // 
+            this.ctlVSGrid1.Add = false;
+            this.ctlVSGrid1.AllowDelete = true;
+            this.ctlVSGrid1.AllowInsert = true;
+            this.ctlVSGrid1.AllowUpdate = false;
+            this.ctlVSGrid1.AllowUserToAddRows = false;
+            this.ctlVSGrid1.AllowUserToDeleteRows = false;
+            this.ctlVSGrid1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            this.ctlVSGrid1.Caption = "";
+            this.ctlVSGrid1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.ctlVSGrid1.Conn = null;
+            this.ctlVSGrid1.DBField = null;
+            this.ctlVSGrid1.DBFieldType = null;
+            this.ctlVSGrid1.DBTable = null;
+            this.ctlVSGrid1.DefaultValue = null;
+            this.ctlVSGrid1.Del = false;
+            this.ctlVSGrid1.DependingRS = null;
+            this.ctlVSGrid1.EspackControlParent = null;
+            this.ctlVSGrid1.GridColor = System.Drawing.SystemColors.ButtonFace;
+            this.ctlVSGrid1.Location = new System.Drawing.Point(12, 808);
+            this.ctlVSGrid1.MsgStatusLabel = null;
+            this.ctlVSGrid1.Name = "ctlVSGrid1";
+            this.ctlVSGrid1.NumPages = 0;
+            this.ctlVSGrid1.Order = 0;
+            this.ctlVSGrid1.Page = 0;
+            this.ctlVSGrid1.Paginate = false;
+            this.ctlVSGrid1.ParentConn = null;
+            this.ctlVSGrid1.ParentDA = null;
+            this.ctlVSGrid1.PK = false;
+            this.ctlVSGrid1.ReadOnly = true;
+            this.ctlVSGrid1.RowHeadersVisible = false;
+            this.ctlVSGrid1.Search = false;
+            this.ctlVSGrid1.Size = new System.Drawing.Size(1231, 154);
+            this.ctlVSGrid1.SQL = null;
+            this.ctlVSGrid1.sSPAdd = "";
+            this.ctlVSGrid1.sSPDel = "";
+            this.ctlVSGrid1.sSPUpp = "";
+            this.ctlVSGrid1.Status = CommonTools.EnumStatus.SEARCH;
+            this.ctlVSGrid1.TabIndex = 17;
+            this.ctlVSGrid1.Upp = false;
+            this.ctlVSGrid1.Value = null;
+            // 
             // fMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1264, 985);
+            this.Controls.Add(this.ctlVSGrid1);
             this.Controls.Add(this.btnPrintList);
             this.Controls.Add(this.btnPrint);
             this.Controls.Add(this.btnObtain);
@@ -307,6 +353,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.vsLabels)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.vsGroups)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.vsParameters)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ctlVSGrid1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -324,6 +371,7 @@
         private System.Windows.Forms.Button btnObtain;
         private System.Windows.Forms.Button btnPrint;
         private System.Windows.Forms.Button btnPrintList;
+        private VSGrid.CtlVSGrid ctlVSGrid1;
     }
 }
 

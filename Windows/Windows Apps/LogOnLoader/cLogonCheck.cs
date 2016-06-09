@@ -82,7 +82,7 @@ namespace LogOnLoader
             Values.User = espackArgs.User;
             Values.Password= espackArgs.Password;
             Values.FillServers(_zone);
-            Values.AppList.Add(new cAppBot("logon", "LOGON", "SISTEMAS", "logon.exe", "LOC", Values.DBServerList[Values.COD3], Values.ShareServerList[Values.COD3],true));
+            Values.AppList.Add(new cAppBot("logon", "LOGON", "SISTEMAS", "logon.exe", "LOC", Values.DBServerList[Values.COD3], Values.ShareServerList[Values.COD3],"",true));
             Values.AppList[0].CheckUpdatedSync();
             if (Values.AppList.PendingApps.Count != 0)
             {

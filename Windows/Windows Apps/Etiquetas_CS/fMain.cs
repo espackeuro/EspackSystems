@@ -435,6 +435,9 @@ namespace Etiquetas_CS
             private Font PrinterFont { get; set; }
             private string TextToPrint { get; set; }
             static int curChar;
+            public string SQLParameterString { get; set; }
+            public List<string> Groups { get; set; }
+
             PrintDocument pdoc  = null;
 
             public void print()
@@ -475,7 +478,7 @@ namespace Etiquetas_CS
                 Graphics graphics = e.Graphics;
                 Font font = new Font("Courier New", 10); // 7 in old VB code
                 float fontHeight = font.GetHeight();
-                float Offset
+                float Offset;
 
                 // Margins (to be reviewed)
                 //int _leftMargin = Convert.ToInt32(pdoc.DefaultPageSettings.HardMarginX.ToString());
@@ -489,11 +492,22 @@ namespace Etiquetas_CS
                 // Initialize x,y positions
                 int _xCurrent = _xMin;
                 int _yCurrent = _yMin;
+                string _sqlStr = "select distinct(grupo) from etiquetas_detalle where parametros = '" + SQLParameterString + "'" + (Group != "" ? " and grupo like ' % " + Group + " % '" : "") + " order by grupo";
+
+                using (var _RS = new DynamicRS(_sqlStr, Values.gDatos))
+                {
+                    PrintHeader(Group);
+
+                }
+            }
+
+            private void PrintHeader(string Group)
+            {
 
                 // Header
-                graphics.DrawString(String.Format("Parametros: {0} ", s));
+                //graphics.DrawString(String.Format("Parametros: {0} ", s));
 
-                 graphics.DrawLine(Pens.Black, new Point(_xMin, 50), new Point(_xMax, 50));
+                //graphics.DrawLine(Pens.Black, new Point(_xMin, 50), new Point(_xMax, 50));
 
                 /*
 
@@ -628,7 +642,19 @@ namespace Etiquetas_CS
         {
             using (var _printIt = new PrintPage())
             {
+                _printIt.SQLParameterString = SQLParameterString.Replace("'", "''");
+                _printIt.Groups = vsGroups.ToList().Where(line => line.Cells["LP"].Value.ToString() !="").ToList();
 
+
+            vsLabels.ToList().Where(line => line.Cells["PRINTED"].Value.ToString() == "N").ToList().ForEach(line =>
+            {
+                _parameters.ToList().ForEach(p => _parameters[p.Key] = line.Cells[p.Key].Value.ToString());
+                cRawPrinterHelper.SendUTF8StringToPrinter(_printerAddress, _label.ToString(_parameters), Convert.ToInt32(line.Cells["QTY"].Value));
+                ChangeLineStatus(line);
+            });
+
+                vsLabels.Rows.OfType<DataGridViewRow>().Where(x => (x.Cells["LP"].Value.ToString() == vsGroups.CurrentRow.Cells["LP"].Value.ToString()) || vsGroups.CurrentRow.Cells["LP"].Value.ToString() == "").ToList().ForEach(_row => ChangeLineStatus(_row));
+                vsGroups.CurrentRow.Cells["LP"].Value.ToString();
                 _printIt.print();
             }
                 

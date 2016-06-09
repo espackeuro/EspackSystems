@@ -198,7 +198,7 @@ namespace LogOnObjects
         public static int PICTURE_WIDTH = GROUP_WIDTH - PICTURE_PADDING * 2;
 
         // Constructor (with args) -> Calls the base constructor and sets some properties
-        public cAppBot(string pCode, string pDescription, string pDatabase, string pExeName, string ServiceZone, cServer pDBServer, cServer pShareServer, bool pSpecial=false)
+        public cAppBot(string pCode, string pDescription, string pDatabase, string pExeName, string ServiceZone, cServer pDBServer, cServer pShareServer, string pName, bool pSpecial=false)
             : this()
         {
             Code = pCode;
@@ -211,6 +211,7 @@ namespace LogOnObjects
             lblDescriptionApp.Text = Description;
             pctApp.Image = AppIcon;
             Special = pSpecial;
+            Name = pName;
             
             // Set Initial Status.
             ChangeStatus(AppBotStatus.INIT);
@@ -617,7 +618,7 @@ namespace LogOnObjects
             startInfo.UseShellExecute = false;
             startInfo.FileName = LocalPath;
             startInfo.WindowStyle = ProcessWindowStyle.Maximized;
-            startInfo.Arguments = "/srv="+DBServer.IP.ToString()+" /db="+DataBase+" /usr="+DBServer.User+" /pwd="+DBServer.Password+" /loc=OUT /app="+ExeName.ToUpper().Replace(".EXE","");
+            startInfo.Arguments = "/srv=" + DBServer.IP.ToString() + " /db=" + DataBase + " /usr=" + DBServer.User + " /pwd=" + DBServer.Password + " /loc=OUT /app=" + Name;
 
             try
             {

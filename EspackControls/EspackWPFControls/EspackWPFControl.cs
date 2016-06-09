@@ -225,6 +225,19 @@ namespace EspackWPFControls
             
         }
 
+        event EventHandler IsValuable.TextChanged
+        {
+            add
+            {
+                throw new NotImplementedException();
+            }
+
+            remove
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         protected override void OnRender(DrawingContext drawingContext)
         {
             CaptionLabel.Location = new Point(Location.X, Location.Y - ActualHeight - 2);
