@@ -23,10 +23,7 @@ using System.Threading.Tasks;
 
 namespace RadioFXC
 {
-    public static class ListImage
-    {
-        public static ListImageFile cImageFileList = new ListImageFile();
-    }
+
 
     [Activity(Label = "RepairManagement")]
     //[IntentFilter(new[] {Action = new[] {Intent.Action,"" })]
@@ -44,12 +41,12 @@ namespace RadioFXC
         private int cCount;
         public static int cOldPictures { get; set; }
         private DynamicRS cRSOld = new DynamicRS();
-        
+        private ListImageFile cImageFileList;
 
         public FragmentPicturesManagement() 
             : base()
         {
-            ListImage.cImageFileList.Dispose();
+            cImageFileList = new ListImageFile();
             cUnitNumber = UnitRepair.cUnitNumber;
             cRepairCode = UnitRepair.cRepairCode;
             cCount = 0;
@@ -59,7 +56,7 @@ namespace RadioFXC
                 Bitmap _bm = BitmapFactory.DecodeByteArray((byte[])cRSOld["Thumbnail"], 0, Convert.ToInt32(cRSOld["len"]));
                 ImageFile elFile = new ImageFile(cRSOld["FileName"].ToString(), _bm);
                 elFile.IdPicture = cRSOld["IdPicture"].ToString();
-                ListImage.cImageFileList.Add(elFile);
+                cImageFileList.Add(elFile);
                 cRSOld.MoveNext();
             }
             cRSOld.Close();
@@ -79,7 +76,7 @@ namespace RadioFXC
             cListView = root.FindViewById<ListView>(Resource.Id.listPictures);
             //cGridview.LayoutParameters= new GridView.LayoutParams(cGridview.Width, (Resources.DisplayMetrics.WidthPixels - 100) / 3 + 100);
 
-            cImageAdapter = new ListImageAdapter(Activity, cRepairCode, cUnitNumber,cWidthThumbnail);
+            cImageAdapter = new ListImageAdapter(Activity, cRepairCode, cUnitNumber,cWidthThumbnail,cImageFileList);
             cListView.Adapter = cImageAdapter;
             //while (!cRSOld.EOF)
             //{
@@ -226,13 +223,13 @@ namespace RadioFXC
     }
     public class ListImageAdapter : BaseAdapter<ImageFile>
     {
-        
+        private ListImageFile cImageFileList;
         private readonly Context context;
         private string cRepairCode;
         private string cUnitNumber;
         private int cImageWidth;
         private int cNUM;
-        public ListImageAdapter(Context c, string pRepairCode, string pUnitNumber, int pImageWidth)
+        public ListImageAdapter(Context c, string pRepairCode, string pUnitNumber, int pImageWidth, ListImageFile pImagefileList)
         {
             context = c;
             //cImageFileList = new ListImageFile((Activity)context, pRepairCode, pUnitNumber);
@@ -240,9 +237,10 @@ namespace RadioFXC
             cRepairCode = pRepairCode;
             cUnitNumber = pUnitNumber;
             cImageWidth = pImageWidth;
-            ListImage.cImageFileList.cParentActivity = (Activity)context;
-            ListImage.cImageFileList.cRepairCode = cRepairCode;
-            ListImage.cImageFileList.cUnitNumber = cUnitNumber;
+            cImageFileList = pImagefileList;
+            cImageFileList.cParentActivity = (Activity)context;
+            cImageFileList.cRepairCode = cRepairCode;
+            cImageFileList.cUnitNumber = cUnitNumber;
 
         }
 
@@ -250,14 +248,14 @@ namespace RadioFXC
 
         public override int Count
         {
-            get { return ListImage.cImageFileList.Count; }
+            get { return cImageFileList.Count; }
         }
 
         public override ImageFile this[int position]
         {
             get
             {
-                return ListImage.cImageFileList[position];
+                return cImageFileList[position];
             }
         }
 
@@ -269,17 +267,17 @@ namespace RadioFXC
 
         public string GetPictureId(int position)
         {
-            return ListImage.cImageFileList[position].IdPicture;
+            return cImageFileList[position].IdPicture;
         }
 
         public async Task AddImage(ImageFile pFile)
         {
-            await ListImage.cImageFileList.Add(pFile);
+            await cImageFileList.Add(pFile);
         }
 
         public void RemoveImage(string IdPicture)
         {
-            ListImage.cImageFileList.Remove(ListImage.cImageFileList[IdPicture]);
+            cImageFileList.Remove(cImageFileList[IdPicture]);
         }
 
         public override View GetView(int position, View convertView, ViewGroup parent)
@@ -299,9 +297,9 @@ namespace RadioFXC
             _image.LayoutParameters = new RelativeLayout.LayoutParams(cImageWidth, cImageWidth);
             //_image.SetScaleType(ImageView.ScaleType.CenterCrop);
             //_image.SetPadding(8, 8, 8, 8);
-            _image.SetImageBitmap(ListImage.cImageFileList[position].Bitmap);
-            _text.Text = ListImage.cImageFileList[position].Text;
-            this[position].Progress.Progress = ListImage.cImageFileList[position].intProgress;
+            _image.SetImageBitmap(cImageFileList[position].Bitmap);
+            _text.Text = cImageFileList[position].Text;
+            this[position].Progress.Progress = cImageFileList[position].intProgress;
             return view;
         }
     }
