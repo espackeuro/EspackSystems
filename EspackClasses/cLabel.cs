@@ -38,8 +38,8 @@ namespace EspackClasses
     }
     public abstract class cLabel
     {
-        protected float width { get; set; }
-        protected float height { get; set; }
+        public float width { get; set; }
+        public float height { get; set; }
         protected float gap { get; set; }
         protected int dpi { get; set; }
         protected float dpm { get; set; }
@@ -51,8 +51,15 @@ namespace EspackClasses
             //return base.ToString();
             return string.Join("", labelHeader) + string.Join("", labelBody.Select(x => renderLine(x))) + string.Join("", labelFooter);
         }
+
+        public void Clear()
+        {
+            labelBody.Clear();
+        }
+
         public string ToString(Dictionary<string,string> pParameters)
         {
+
             List<printerLine> _replacedList = new List<printerLine>();
             //labelBody.ForEach(l => _replacedList.Add(new printerLine()
             //{
@@ -155,8 +162,26 @@ namespace EspackClasses
         
     }
 
-
-
+    public static class delimiterLabel
+    {
+        public static void delim(cLabel pLabel,string pCode, string pValue)
+        {
+            pLabel.Clear();
+            var _x = Convert.ToInt32(pLabel.width / 2);
+            var _width = pLabel.width - 10;
+            var i = 10;
+            pLabel.addLine(_x, i += 5, _width - 20, "C", "", pCode);
+            pLabel.addLine(_x, i += 3, _width, "C", "", "######################");
+            pLabel.addLine(_x, i += 3, _width, "C", "", "######################");
+            pLabel.addLine(_x, i += 3, _width, "C", "", "######################");
+            pValue.Split('|').ToList().ForEach(x =>
+            {
+            pLabel.addLine(5, i += 6, 0, "I", "", x.Length > 40 ? x.Substring(0, 40) : x,9);
+            });
+            pLabel.addLine(_x, i += 6, _width, "C", "", "######################");
+        }
+            
+    }
 
     public static class TextMeasurer 
     {

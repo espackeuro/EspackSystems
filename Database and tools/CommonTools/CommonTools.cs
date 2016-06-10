@@ -160,9 +160,9 @@ namespace CommonTools
             return value == null ? "" : value;
         }
 
-        #region Gets the build date and time (by reading the COFF header)
 
-        // http://msdn.microsoft.com/en-us/library/ms680313
+
+
 
         struct _IMAGE_FILE_HEADER
         {
@@ -272,7 +272,12 @@ namespace CommonTools
                 .Where(c => char.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark));
         }
 
-        
+        public static string PadCenter(this string pString, int totalWidth,char paddingChar)
+        {
+            pString = "**********************" + pString + "*******************************";
+            var _sb = new StringBuilder("",totalWidth);
+            return _sb.AppendFormat("{0:C}", pString).ToString();
+        }
 
         public static string Qnul(object t)
         {
@@ -288,7 +293,7 @@ namespace CommonTools
             else
                 return t;
         }
-        #endregion
+
     }
 
     public struct SqlItem 
@@ -382,4 +387,5 @@ namespace CommonTools
         object Value { get; set; }
     }
 
+    
 }
