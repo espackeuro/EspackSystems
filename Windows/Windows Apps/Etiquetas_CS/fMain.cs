@@ -404,15 +404,22 @@ namespace Etiquetas_CS
                 _printerAddress = _RS["cmp_varchar"].ToString();
                 _printerType = _RS["descripcion"].ToString().Split('|')[0];
             }
+            cLabel _delimiterLabel;
             cLabel _label;
             if (_printerType=="ZPL")
             {
+                _delimiterLabel = new ZPLLabel(labelHeight, labelWidth, 3, 204);
+                delimiterLabel.delim(_delimiterLabel, "START", SQLParameterString.Replace(" WHERE ",""));
                 _label = new ZPLLabel(labelHeight,labelWidth,3,204);
             } else
             {
                 SetFormEnabled(true);
                 throw new NotImplementedException();
             }
+
+            //print delimiter start
+            cRawPrinterHelper.SendUTF8StringToPrinter(_printerAddress, _delimiterLabel.ToString(), 1);
+
             using (var _RS = new DynamicRS(string.Format("Select * from campos where codigo='{0}'", txtCode.Text),Values.gDatos))
             {
                 _RS.Open();
@@ -423,12 +430,21 @@ namespace Etiquetas_CS
             }
             Dictionary<string, string> _parameters = new Dictionary<string, string>();
             SQLSelect.Split('|').ToList().ForEach(x => _parameters.Add(x, ""));
+            string _group = "";
             vsLabels.ToList().Where(line => line.Cells["PRINTED"].Value.ToString()=="N").ToList().ForEach(line =>
             {
                 _parameters.ToList().ForEach(p => _parameters[p.Key] = line.Cells[p.Key].Value.ToString());
+                if (_group!=line.Cells[SQLGroup].Value.ToString())
+                {
+                    _group = line.Cells[SQLGroup].Value.ToString();
+                    delimiterLabel.delim(_delimiterLabel, "GROUP", SQLGroup+"|"+_group);
+                    cRawPrinterHelper.SendUTF8StringToPrinter(_printerAddress, _delimiterLabel.ToString(), 1);
+                }
                 cRawPrinterHelper.SendUTF8StringToPrinter(_printerAddress, _label.ToString(_parameters),Convert.ToInt32(line.Cells["QTY"].Value));
                 ChangeLineStatus(line);
             });
+            delimiterLabel.delim(_delimiterLabel, "END","***");
+            cRawPrinterHelper.SendUTF8StringToPrinter(_printerAddress, _delimiterLabel.ToString(), 1);
             SetFormEnabled(true);
         }
 
@@ -436,9 +452,11 @@ namespace Etiquetas_CS
         {
 
             public string SQLParameterString { get; set; }
+            public string SQLSelect { get; set; }
             public List<string> Groups { get; set; }
             PrintDocument pdoc  = null;
 
+            public int CurrentX { get; set; }
             public int CurrentY { get; set; }
 
             public int XMin
@@ -482,6 +500,7 @@ namespace Etiquetas_CS
 
 
                 PaperSize psize = new PaperSize("Custom", 100, 200);
+
                 //ps.DefaultPageSettings.PaperSize = psize;
 
                 pd.Document = pdoc;
@@ -510,42 +529,75 @@ namespace Etiquetas_CS
             {
                 Graphics graphics = e.Graphics;
 
-
-                // Initialize Y
+                // Initialize X and Y
+                CurrentX = XMin;
                 CurrentY = YMin;
-                
+                graphics.PageUnit = GraphicsUnit.Millimeter;
+                                
                 // For each group, print page
                 Groups.ForEach(x =>
                 {
                     PrintHeader(x.ToString(), graphics);
                     PrintDetails(x.ToString(), graphics);
-                    
                 });
 
             }
 
             private void PrintHeader(string pGroup, Graphics graphics)
             {
+                // Initial settings
                 Font _font = new Font("Courier New", 14);
                 SolidBrush _brush = new SolidBrush(Color.Black);
+                int _delta = graphics.MeasureString(" ", _font).ToSize().Height;
 
-                // Header
+                // Print parameters
                 graphics.DrawString(String.Format("Parametros:\n{0} ", SQLParameterString), _font, _brush, XMin, CurrentY);
-                CurrentY = YMin + _font.Height;
+                CurrentY = YMin + _delta * 2;
 
-                graphics.DrawString(String.Format("Nº {0}", pGroup), _font, _brush, XMin, CurrentY);
-                CurrentY = YMin + _font.Height;
+                // Print group
+                //                graphics.DrawString(String.Format("Nº {0}", pGroup), _font, _brush, XMin, CurrentY);
+                graphics.DrawString(String.Format("Nº {0}", pGroup.PadCenter(30, '*')), _font, _brush, XMin, CurrentY);
+                CurrentY = YMin + _delta;
 
+                // Print group barcode
                 BarcodeDraw drawObject = BarcodeDrawFactory.GetSymbology(BarcodeSymbology.Code39C);
                 var metrics = drawObject.GetDefaultMetrics(40);
                 metrics.Scale = 1;
                 CurrentY = YMin + drawObject.Draw(pGroup, metrics).Height;
                 graphics.DrawImage(drawObject.Draw(pGroup, metrics), new Point(XMin,CurrentY));
+
+
+                // Print separator line
+                graphics.DrawLine(Pens.Black, new Point(XMin, CurrentY), new Point(XMax, CurrentY));
+
+                CurrentY += _delta * 2;
        
             }
             private void PrintDetails(string pGroup, Graphics graphics)
             {
- 
+                // Initial settings
+                Font _font = new Font("Courier New", 9);
+                SolidBrush _brush = new SolidBrush(Color.Black);
+                int _delta = graphics.MeasureString(" ", _font).ToSize().Height;
+
+                // Get the column names and print them
+                var _split = SQLSelect.Split('|');
+                int _width;
+                CurrentX = XMin;
+                _split.ToList().ForEach(x =>
+                {
+                    graphics.DrawString(x.ToString(), _font, _brush, new Point(CurrentX, CurrentY));
+                    _width = graphics.MeasureString(x.ToString(), _font).ToSize().Width;
+                    graphics.DrawLine(Pens.Black, new Point(CurrentX, CurrentY + _font.Height), new Point(CurrentX + _width, CurrentY + _font.Height));
+                    CurrentX += _width + graphics.MeasureString(" ", _font).ToSize().Width;
+                });
+
+                //using (var _RS = new DynamicRS("SELECT * FROM etiquetas_detalle WHERE grupo='" + pGroup + "'", Values.gDatos))
+                //{
+                //    graphics.DrawString(x.ToString(), _font, _brush, new Point(CurrentX, CurrentY));
+                //    _RS.MoveNext();
+                //}
+
             }
             internal void BeginPrint()
             {
@@ -558,10 +610,22 @@ namespace Etiquetas_CS
             using (var _printIt = new PrintPage())
             {
                 _printIt.SQLParameterString = SQLParameterString;
-                _printIt.Groups = vsGroups.ToList()
-                    .Select(p => p.Cells[0].Value.ToString())
-                    .Where(p => p != "")
-                    .ToList();//Where(line => line.Cells[0].Value.ToString() != "").ToList();
+                _printIt.SQLSelect = SQLSelect;
+                string _group = vsGroups.CurrentCell.Value.ToString();
+                if (_group != "")
+                {
+                    _printIt.Groups = vsGroups.ToList()
+                        .Select(p => p.Cells[0].Value.ToString())
+                        .Where(p => p == _group)
+                        .ToList();
+                }
+                else
+                {
+                    _printIt.Groups = vsGroups.ToList()
+                        .Select(p => p.Cells[0].Value.ToString())
+                        .Where(p => p != "")
+                        .ToList();
+                }
                 _printIt.print();
             }
 
