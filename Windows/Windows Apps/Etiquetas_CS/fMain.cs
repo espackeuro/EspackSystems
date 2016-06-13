@@ -74,7 +74,19 @@ namespace Etiquetas_CS
         {
             // Send a list with the selected row as a sole element.
             SetFormEnabled(false);
-            ChangeLineStatus(vsLabels.CurrentRow);
+            if (vsLabels.Columns[vsLabels.CurrentCell.ColumnIndex].Name=="QTY_ETIQ")
+            {
+                string _value=vsLabels.CurrentRow.Cells["QTY_ETIQ"].Value.ToString();
+                DialogResult _result=CTWin.InputBox("Change Label QTY", "Please enter the new value or press cancel", ref _value);
+                if (_result!=DialogResult.Cancel)
+                {
+                    vsLabels.CurrentRow.Cells["QTY_ETIQ"].Value=_value;
+                }
+            }
+            else
+            {
+                ChangeLineStatus(vsLabels.CurrentRow);
+            }
             SetFormEnabled(true);
         }
 
@@ -124,7 +136,8 @@ namespace Etiquetas_CS
             // Change color of the new added rows depending on their status
             vsLabels.Rows.OfType<DataGridViewRow>().Where(x => x.Index >= e.RowIndex && x.Index < e.RowIndex + e.RowCount).ToList().ForEach(r =>
                {
-                   if (r.Cells[r.Cells.Count-1].Value.ToString() == "S")
+                   //if (r.Cells[r.Cells.Count - 1].Value.ToString() == "S")
+                    if (r.Cells["PRINTED"].Value.ToString() == "S")
                        r.DefaultCellStyle.BackColor = Color.Red;
                });
         }
@@ -441,6 +454,7 @@ namespace Etiquetas_CS
                     cRawPrinterHelper.SendUTF8StringToPrinter(_printerAddress, _delimiterLabel.ToString(), 1);
                 }
                 cRawPrinterHelper.SendUTF8StringToPrinter(_printerAddress, _label.ToString(_parameters),Convert.ToInt32(line.Cells["QTY"].Value));
+                //cRawPrinterHelper.SendUTF8StringToPrinter(_printerAddress, _label.ToString(_parameters), Convert.ToInt32("2"));
                 ChangeLineStatus(line);
             });
             delimiterLabel.delim(_delimiterLabel, "END","***");
@@ -548,6 +562,7 @@ namespace Etiquetas_CS
                 // Initial settings
                 Font _font = new Font("Courier New", 14);
                 SolidBrush _brush = new SolidBrush(Color.Black);
+                Pen _blackPen = new Pen(Color.FromArgb(255, 0, 0, 0), 0.5F);
                 int _delta = graphics.MeasureString(" ", _font).ToSize().Height;
 
                 // Print parameters
@@ -555,29 +570,30 @@ namespace Etiquetas_CS
                 CurrentY = YMin + _delta * 2;
 
                 // Print group
-                //                graphics.DrawString(String.Format("Nº {0}", pGroup), _font, _brush, XMin, CurrentY);
-                graphics.DrawString(String.Format("Nº {0}", pGroup.PadCenter(30, '*')), _font, _brush, XMin, CurrentY);
-                CurrentY = YMin + _delta;
+                graphics.DrawString(String.Format("Nº {0}", pGroup), _font, _brush, XMin, CurrentY);
+                CurrentY += _delta;
 
                 // Print group barcode
                 BarcodeDraw drawObject = BarcodeDrawFactory.GetSymbology(BarcodeSymbology.Code39C);
                 var metrics = drawObject.GetDefaultMetrics(40);
                 metrics.Scale = 1;
-                CurrentY = YMin + drawObject.Draw(pGroup, metrics).Height;
+               // CurrentY += drawObject.Draw(pGroup, metrics).Height/2;
                 graphics.DrawImage(drawObject.Draw(pGroup, metrics), new Point(XMin,CurrentY));
 
 
                 // Print separator line
-                graphics.DrawLine(Pens.Black, new Point(XMin, CurrentY), new Point(XMax, CurrentY));
-
                 CurrentY += _delta * 2;
-       
+                graphics.DrawLine(_blackPen, new Point(XMin, CurrentY), new Point(XMax, CurrentY));
+                CurrentY += _delta * 2;
+
+
             }
             private void PrintDetails(string pGroup, Graphics graphics)
             {
                 // Initial settings
-                Font _font = new Font("Courier New", 9);
+                Font _font = new Font("Courier New", 11);
                 SolidBrush _brush = new SolidBrush(Color.Black);
+                Pen _blackPen = new Pen(Color.FromArgb(255, 0, 0, 0), 0.5F);
                 int _delta = graphics.MeasureString(" ", _font).ToSize().Height;
 
                 // Get the column names and print them
@@ -586,9 +602,9 @@ namespace Etiquetas_CS
                 CurrentX = XMin;
                 _split.ToList().ForEach(x =>
                 {
-                    graphics.DrawString(x.ToString(), _font, _brush, new Point(CurrentX, CurrentY));
-                    _width = graphics.MeasureString(x.ToString(), _font).ToSize().Width;
-                    graphics.DrawLine(Pens.Black, new Point(CurrentX, CurrentY + _font.Height), new Point(CurrentX + _width, CurrentY + _font.Height));
+                    graphics.DrawString(x.ToString().ToUpper(), _font, _brush, new Point(CurrentX, CurrentY));
+                    _width = graphics.MeasureString(x.ToString().ToUpper(), _font).ToSize().Width;
+                    graphics.DrawLine(_blackPen, new Point(CurrentX, CurrentY + _delta), new Point(CurrentX + _width, CurrentY + _delta));
                     CurrentX += _width + graphics.MeasureString(" ", _font).ToSize().Width;
                 });
 
