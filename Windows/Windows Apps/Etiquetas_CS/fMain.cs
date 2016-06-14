@@ -28,6 +28,7 @@ namespace Etiquetas_CS
         public string SQLParameterString { get; set; }
         private int labelWidth;
         private int labelHeight;
+        private bool clearing;
 
         public fMain(string[] args)
         {
@@ -68,19 +69,20 @@ namespace Etiquetas_CS
             //vsGroups.DoubleClick += VsGroups_DoubleClick;
             vsLabels.CellDoubleClick += VsLabels_CellDoubleClick;
             vsGroups.CellDoubleClick += VsGroups_CellDoubleClick;
+            clearing = false;
         }
 
         private void VsLabels_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             // Send a list with the selected row as a sole element.
             SetFormEnabled(false);
-            if (vsLabels.Columns[vsLabels.CurrentCell.ColumnIndex].Name=="QTY_ETIQ")
+            if (vsLabels.Columns[vsLabels.CurrentCell.ColumnIndex].Name=="QTY")
             {
-                string _value=vsLabels.CurrentRow.Cells["QTY_ETIQ"].Value.ToString();
+                string _value=vsLabels.CurrentRow.Cells["QTY"].Value.ToString();
                 DialogResult _result=CTWin.InputBox("Change Label QTY", "Please enter the new value or press cancel", ref _value);
                 if (_result!=DialogResult.Cancel)
                 {
-                    vsLabels.CurrentRow.Cells["QTY_ETIQ"].Value=_value;
+                    vsLabels.CurrentRow.Cells["QTY"].Value=_value;
                 }
             }
             else
@@ -128,7 +130,8 @@ namespace Etiquetas_CS
         private void VsGroups_SelectionChanged(object sender, EventArgs e)
         {
             // Refresh the vsLabels grid.
-            ShowDetails();
+            if (!clearing)
+                ShowDetails();
         }
 
         private void VsLabels_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
@@ -146,13 +149,21 @@ namespace Etiquetas_CS
         {
             SetFormEnabled(false);
             vsGroups.SelectionChanged -= VsGroups_SelectionChanged;
+            Application.DoEvents();
             using (var _RS = new DynamicRS("select *,NoDelim=dbo.checkflag(flags,'NODELIM') from etiquetas where codigo='" + txtCode.Text + "'", Values.gDatos))
             {
                 // Clean things
+                clearing = true;
                 vsParameters.ClearEspackControl();
+                vsParameters.Rows.Clear();
                 Parameters.Clear();
                 vsLabels.ClearEspackControl();
                 vsLabels.Columns.Clear();
+                vsGroups.ClearEspackControl();
+                vsGroups.Columns.Clear();
+                Application.DoEvents();
+
+                SQLParameterString = "";
 
                 _RS.Open();
                 if (_RS.RecordCount==0)
@@ -173,8 +184,7 @@ namespace Etiquetas_CS
                 labelWidth = Convert.ToInt32(_RS["Ancho"]);
                 if (SQLGroup != "")
                 {
-                    vsGroups.ClearEspackControl();
-                    vsGroups.Columns.Clear();
+
                     vsGroups.AddColumn(SQLGroup);
                     SQLSelect += "|" + SQLGroup;
                 }
@@ -215,6 +225,7 @@ namespace Etiquetas_CS
 
             }
             vsGroups.SelectionChanged += VsGroups_SelectionChanged;
+            clearing = false;
             SetFormEnabled(true);
 
         }
@@ -319,7 +330,7 @@ namespace Etiquetas_CS
                 }
 
             }
-            vsGroups.SelectionChanged += VsGroups_SelectionChanged;
+                vsGroups.SelectionChanged += VsGroups_SelectionChanged;
             SetFormEnabled(true);
         }
 
@@ -363,6 +374,7 @@ namespace Etiquetas_CS
         {
             SetFormEnabled(false);
             vsGroups.SelectionChanged -= VsGroups_SelectionChanged;
+
             vsGroups.ClearEspackControl();
             vsGroups.Rows.Add("");
             var l = r.GroupBy(p => p[SQLGroup].ToString());
@@ -467,7 +479,8 @@ namespace Etiquetas_CS
 
             public string SQLParameterString { get; set; }
             public string SQLSelect { get; set; }
-            public List<string> Groups { get; set; }
+            //public List<string> Groups { get; set; }
+            public string group { get; set; }
             PrintDocument pdoc  = null;
 
             public int CurrentX { get; set; }
@@ -504,7 +517,6 @@ namespace Etiquetas_CS
                 }
             }
 
-
             public void print()
             {
                 PrintDialog pd = new PrintDialog();
@@ -513,32 +525,59 @@ namespace Etiquetas_CS
                 Font font = new Font("Courier New", 15);
 
 
-                PaperSize psize = new PaperSize("Custom", 100, 200);
+                PaperSize psize = new PaperSize("Custom", 520, 820);
 
-                //ps.DefaultPageSettings.PaperSize = psize;
+                ////ps.DefaultPageSettings.PaperSize = psize;
 
                 pd.Document = pdoc;
                 pd.Document.DefaultPageSettings.PaperSize = psize;
-                //pdoc.DefaultPageSettings.PaperSize.Height =320;
-                pdoc.DefaultPageSettings.PaperSize.Height = 820;
+                ////pdoc.DefaultPageSettings.PaperSize.Height =320;
+                //pdoc.DefaultPageSettings.PaperSize.Height = 820;
 
-                pdoc.DefaultPageSettings.PaperSize.Width = 520;
+                //pdoc.DefaultPageSettings.PaperSize.Width = 520;
 
                 pdoc.PrintPage += new PrintPageEventHandler(pdoc_PrintPage);
 
-                DialogResult result = pd.ShowDialog();
-                if (result == DialogResult.OK)
-                {
-                    PrintPreviewDialog pp = new PrintPreviewDialog();
-                    pp.Document = pdoc;
-                    result = pp.ShowDialog();
-                    if (result == DialogResult.OK)
-                    {
-                        pdoc.Print();
-                    }
-                }
+                pdoc.Print();
+            }
+            public void print(string pGroup)
+            {
+                group = pGroup;
+                PrintDialog pd = new PrintDialog();
+                pdoc = new PrintDocument();
+                PrinterSettings ps = new PrinterSettings();
+                Font font = new Font("Courier New", 15);
+
+
+                PaperSize psize = new PaperSize("Custom", 520, 820);
+
+                ////ps.DefaultPageSettings.PaperSize = psize;
+
+                pd.Document = pdoc;
+                pd.Document.DefaultPageSettings.PaperSize = psize;
+                ////pdoc.DefaultPageSettings.PaperSize.Height =320;
+                //pdoc.DefaultPageSettings.PaperSize.Height = 820;
+
+                //pdoc.DefaultPageSettings.PaperSize.Width = 520;
+
+                pdoc.PrintPage += new PrintPageEventHandler(pdoc_PrintPage);
+
+                //DialogResult result = pd.ShowDialog();
+                //if (result == DialogResult.OK)
+                //{
+                //    PrintPreviewDialog pp = new PrintPreviewDialog();
+                //    pp.Document = pdoc;
+                //    result = pp.ShowDialog();
+                //    if (result == DialogResult.OK)
+                //    {
+                //        pdoc.Print();
+                //    }
+                //}
+                pdoc.Print();
 
             }
+
+
             private void pdoc_PrintPage(object sender, PrintPageEventArgs e)
             {
                 Graphics graphics = e.Graphics;
@@ -547,13 +586,15 @@ namespace Etiquetas_CS
                 CurrentX = XMin;
                 CurrentY = YMin;
                 graphics.PageUnit = GraphicsUnit.Millimeter;
-                                
+
                 // For each group, print page
-                Groups.ForEach(x =>
-                {
-                    PrintHeader(x.ToString(), graphics);
-                    PrintDetails(x.ToString(), graphics);
-                });
+                //Groups.ForEach(x =>
+                //{
+                //PrintHeader(x.ToString(), graphics);
+                //PrintDetails(x.ToString(), graphics);
+                //});
+                PrintHeader(group, graphics);
+                //PrintDetails(group, graphics);
 
             }
 
@@ -594,25 +635,37 @@ namespace Etiquetas_CS
                 Font _font = new Font("Courier New", 11);
                 SolidBrush _brush = new SolidBrush(Color.Black);
                 Pen _blackPen = new Pen(Color.FromArgb(255, 0, 0, 0), 0.5F);
+                Dictionary<string, int> _colSizes = new Dictionary<string, int>();
                 int _delta = graphics.MeasureString(" ", _font).ToSize().Height;
 
-                // Get the column names and print them
+                // Get the widths for each column and print them
                 var _split = SQLSelect.Split('|');
                 int _width;
                 CurrentX = XMin;
+
                 _split.ToList().ForEach(x =>
                 {
                     graphics.DrawString(x.ToString().ToUpper(), _font, _brush, new Point(CurrentX, CurrentY));
                     _width = graphics.MeasureString(x.ToString().ToUpper(), _font).ToSize().Width;
+                    //vsLabels.Rows.OfType<DataGridViewRow>().ToList();
+
+                    
+                    //Where(y => y.Cells[y.ToString().ToUpper()].Value.ToString().Length > 10);
+                });
+
+                _split.ToList().ForEach(x =>
+                {
+                    graphics.DrawString(x.ToString().ToUpper(), _font, _brush, new Point(CurrentX, CurrentY));
+                    _width = graphics.MeasureString(x.ToString().ToUpper(), _font).ToSize().Width + 20;
                     graphics.DrawLine(_blackPen, new Point(CurrentX, CurrentY + _delta), new Point(CurrentX + _width, CurrentY + _delta));
                     CurrentX += _width + graphics.MeasureString(" ", _font).ToSize().Width;
                 });
 
-                //using (var _RS = new DynamicRS("SELECT * FROM etiquetas_detalle WHERE grupo='" + pGroup + "'", Values.gDatos))
-                //{
-                //    graphics.DrawString(x.ToString(), _font, _brush, new Point(CurrentX, CurrentY));
-                //    _RS.MoveNext();
-                //}
+                using (var _RS = new DynamicRS("SELECT * FROM etiquetas_detalle WHERE grupo='" + pGroup + "'", Values.gDatos))
+                {
+                   // graphics.DrawString(x.ToString(), _font, _brush, new Point(CurrentX, CurrentY));
+                    _RS.MoveNext();
+                }
 
             }
             internal void BeginPrint()
@@ -628,150 +681,41 @@ namespace Etiquetas_CS
                 _printIt.SQLParameterString = SQLParameterString;
                 _printIt.SQLSelect = SQLSelect;
                 string _group = vsGroups.CurrentCell.Value.ToString();
-                if (_group != "")
+                PrintDialog _pd = new PrintDialog();
+
+                // Ask for the printer
+                if (_pd.ShowDialog() == DialogResult.OK)
                 {
-                    _printIt.Groups = vsGroups.ToList()
-                        .Select(p => p.Cells[0].Value.ToString())
-                        .Where(p => p == _group)
-                        .ToList();
+
+
+
+                    //if (_group != "")
+                    //{
+                    //    _printIt.Groups = vsGroups.ToList()
+                    //        .Select(p => p.Cells[0].Value.ToString())
+                    //        .Where(p => p == _group)
+                    //        .ToList();
+                    //}
+                    //else
+                    //{
+                    //    _printIt.Groups = vsGroups.ToList()
+                    //        .Select(p => p.Cells[0].Value.ToString())
+                    //        .Where(p => p != "")
+                    //        .ToList();
+                    //}
+
+                    vsGroups.ToList().Select(p => p.Cells[0].Value.ToString()).Where(p => ( (_group!="" && p.ToString() == _group) || (_group == "" && p.ToString() != ""))).ToList().ForEach(x =>
+                    {
+                        _printIt.print(x.ToString());
+                        //e.HasMorePages = true
+                    });
                 }
-                else
-                {
-                    _printIt.Groups = vsGroups.ToList()
-                        .Select(p => p.Cells[0].Value.ToString())
-                        .Where(p => p != "")
-                        .ToList();
-                }
-                _printIt.print();
+
             }
 
         }
 
-        /*
-
-                        Font font = new Font("Courier New", 10); // 7 in old VB code
-        float fontHeight = font.GetHeight();
-
-        graphics.DrawString("Welcome to MSST", new Font("Courier New", 14),
-                            new SolidBrush(Color.Black), startX, startY + Offset);
-        Offset = Offset + 20;
-        graphics.DrawString("Ticket No: xxxxx",
-                 new Font("Courier New", 14),
-                 new SolidBrush(Color.Black), startX, startY + Offset);
-        Offset = Offset + 20;
-        graphics.DrawString("Ticket Date : xx/xx/xxxx",
-                 new Font("Courier New", 12),
-                 new SolidBrush(Color.Black), startX, startY + Offset);
-        Offset = Offset + 20;
-        String underLine = "------------------------------------------";
-        graphics.DrawString(underLine, new Font("Courier New", 10),
-                 new SolidBrush(Color.Black), startX, startY + Offset);
-
-        Offset = Offset + 20;
-        String Source = "xxxxx";
-        graphics.DrawString("From " + "xxxxx" + " To " + "xxxxxx", new Font("Courier New", 10),
-                 new SolidBrush(Color.Black), startX, startY + Offset);
-
-        Offset = Offset + 20;
-        String Grosstotal = "Total Amount to Pay = xxxx.xx";
-
-        Offset = Offset + 20;
-        underLine = "------------------------------------------";
-        graphics.DrawString(underLine, new Font("Courier New", 10),
-                 new SolidBrush(Color.Black), startX, startY + Offset);
-        Offset = Offset + 20;
-
-        graphics.DrawString(Grosstotal, new Font("Courier New", 10),
-                 new SolidBrush(Color.Black), startX, startY + Offset);
-        Offset = Offset + 20;
-        String DrawnBy = "xxxxxx";
-        graphics.DrawString("Conductor - " + DrawnBy, new Font("Courier New", 10),
-                 new SolidBrush(Color.Black), startX, startY + Offset);
-        */
-
-        //public PrintPage() : base()
-        //{
-        //    PrinterFont = new Font("Times New Roman", 10);
-        //    TextToPrint = "Cosas que imprimir cuando no se tiene nada que imprimir.\n";
-
-        //    TextToPrint += "--------------------------------------------------------\n";
-
-        //    TextToPrint += "En un momento dado, que quizá al tirarlo me salga un 6, \n";
-        //    TextToPrint += "no existe la estupidez del hecho y del curro al lecho me\n";
-        //    TextToPrint += "falta un trecho.\n";
-
-        //}
-
-        //public PrintPage(String pStr) : base()
-        //{
-        //    PrinterFont = new Font("Times New Roman", 10);
-        //    TextToPrint = pStr;
-        //}
-
-        //protected override void OnPrintPage(System.Drawing.Printing.PrintPageEventArgs e)
-        //{
-        //    // Run base code
-        //    base.OnPrintPage(e);
-
-        //    //Declare local variables needed
-
-        //    int printHeight;
-        //    int printWidth;
-        //    int leftMargin;
-        //    int rightMargin;
-        //    Int32 lines;
-        //    Int32 chars;
-
-        //    //Set print area size and margins
-        //    {
-        //        printHeight = base.DefaultPageSettings.PaperSize.Height - base.DefaultPageSettings.Margins.Top - base.DefaultPageSettings.Margins.Bottom;
-        //        printWidth = base.DefaultPageSettings.PaperSize.Width - base.DefaultPageSettings.Margins.Left - base.DefaultPageSettings.Margins.Right;
-        //        leftMargin = base.DefaultPageSettings.Margins.Left;  //X
-        //        rightMargin = base.DefaultPageSettings.Margins.Top;  //Y
-        //    }
-
-        //    //Check if the user selected to print in Landscape mode
-        //    //if they did then we need to swap height/width parameters
-        //    if (base.DefaultPageSettings.Landscape)
-        //    {
-        //        int tmp;
-        //        tmp = printHeight;
-        //        printHeight = printWidth;
-        //        printWidth = tmp;
-        //    }
-
-        //    //Now we need to determine the total number of lines
-        //    //we're going to be printing
-        //    Int32 numLines = (int)printHeight / PrinterFont.Height;
-
-        //    //Create a rectangle printing are for our document
-        //    RectangleF printArea = new RectangleF(leftMargin, rightMargin, printWidth, printHeight);
-
-        //    //Use the StringFormat class for the text layout of our document
-        //    StringFormat format = new StringFormat(StringFormatFlags.LineLimit);
-
-        //    //Fit as many characters as we can into the print area     
-        //    e.Graphics.MeasureString(TextToPrint.Substring(curChar), PrinterFont, new SizeF(printWidth, printHeight), format, out chars, out lines);
-
-        //    //Print the page
-        //    e.Graphics.DrawString(TextToPrint.Substring(curChar), PrinterFont, Brushes.Black, printArea, format);
-
-        //    //Increase current char count
-        //    curChar += chars;
-
-        //    //Detemine if there is more text to print, if
-        //    //there is the tell the printer there is more coming
-        //    if (curChar < TextToPrint.Length)
-        //    {
-        //        e.HasMorePages = true;
-        //    }
-        //    else
-        //    {
-        //        e.HasMorePages = false;
-        //        curChar = 0;
-        //    }
-
-        //}
+ 
 
     }
 }
