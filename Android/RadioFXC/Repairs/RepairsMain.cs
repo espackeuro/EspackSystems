@@ -55,7 +55,20 @@ namespace RadioFXC
 
         }
 
-        
+        //to cancel back button in Android
+        public override void OnBackPressed()
+        {
+            if (_fpim != null)
+            {
+                if (_fpim.cImageFileList.pendingItems.Count != 0)
+                {
+                    RunOnUiThread(() => Toast.MakeText(this, "There are pictures pending to transmit, wait till transmission is done.", ToastLength.Long).Show());
+                    return;
+                }
+            }
+            base.OnBackPressed();
+        }
+
         public void OnTabSelected(ActionBar.Tab tab, Android.Support.V4.App.FragmentTransaction ft)
         {
             switch (tab.Text)
@@ -87,26 +100,36 @@ namespace RadioFXC
         }
         public override bool OnOptionsItemSelected(IMenuItem item)
         {
+            if (_fpim != null)
+            {
+                if (_fpim.cImageFileList.pendingItems.Count!=0)
+                {
+                    RunOnUiThread(() => Toast.MakeText(this, "There are pictures pending to transmit, wait till transmission is done.", ToastLength.Long).Show());
+                    return false;
+                }
+            }
             base.OnOptionsItemSelected(item);
-
+            Intent intent;
             switch (item.ItemId)
             {
+                case Resource.Id.mnumain:
+                    intent = new Intent(this, typeof(MainScreen));
+                    StartActivity(intent);
+                    break;
                 case Resource.Id.mnurepair:
-                    //Intent intent = new Intent(this, typeof(RepairSelection));
-                    //StartActivity(intent);
-                    //break;
+                    intent = new Intent(this, typeof(RepairsMain));
+                    StartActivity(intent);
+                    break;
                 case Resource.Id.mnuloads:
-                    {
-                        break;
-                    }
+                    intent = new Intent(this, typeof(LoadsMain));
+                    StartActivity(intent);
+                    break;
                 case Resource.Id.mnuclose:
-                    {
-                        break;
-                    }
+                    System.Environment.Exit(0);
+                    break;
                 default:
                     break;
-            }
-
+            } 
             return true;
         }
     }

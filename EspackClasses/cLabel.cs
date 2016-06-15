@@ -43,8 +43,9 @@ namespace EspackClasses
         protected float gap { get; set; }
         protected int dpi { get; set; }
         protected float dpm { get; set; }
-        protected List<string> labelHeader { get; set; } = new List<string>();
-        protected List<string> labelFooter { get; set; } = new List<string>();
+        protected int qty { get; set; }
+        protected virtual List<string> labelHeader { get; } 
+        protected virtual List<string> labelFooter { get; } 
         protected List<printerLine> labelBody { get; set; } = new List<printerLine>();
         public override string ToString()
         {
@@ -57,7 +58,7 @@ namespace EspackClasses
             labelBody.Clear();
         }
 
-        public string ToString(Dictionary<string,string> pParameters)
+        public string ToString(Dictionary<string,string> pParameters, int pQty=1)
         {
 
             List<printerLine> _replacedList = new List<printerLine>();
@@ -79,6 +80,7 @@ namespace EspackClasses
                     x.textData = x.textData.Replace("["+p.Key.ToUpper()+"]", p.Value);
                 });
             });
+            qty = pQty;
             return string.Join("", labelHeader) + string.Join("", _replacedList.Select(x => renderLine(x))) + string.Join("", labelFooter);
         }
 
@@ -103,8 +105,21 @@ namespace EspackClasses
  
     public class ZPLLabel: cLabel
     {
+        protected override List<string> labelHeader
+        {
+            get
+            {
+                return (new List<string>() { "^XA^CWX,E:TT0003M_.FNT^XZ", "^XA", "^CI28", "^LH0,0" });
+            }
+        }
 
-
+        protected override List<string> labelFooter
+        {
+            get
+            {
+                return (new List<string>() { string.Format("^PQ{0},0,0,N", qty), "^XZ" });
+            }
+        }
         public ZPLLabel(float pwidth, float pheight, float pgap, int pdpi)
         {
             width = pwidth;
@@ -112,11 +127,6 @@ namespace EspackClasses
             gap = pgap;
             dpi = pdpi;
             dpm=(dpi/25.4F);
-            labelHeader.Add("^XA^CWX,E:TT0003M_.FNT^XZ");
-            labelHeader.Add("^XA");
-            labelHeader.Add("^CI28");
-            labelHeader.Add("^LH0,0");
-            labelFooter.Add("^XZ");
         }
 
         public override string renderLine(printerLine p)

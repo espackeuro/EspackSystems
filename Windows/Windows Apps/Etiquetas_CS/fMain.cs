@@ -83,6 +83,8 @@ namespace Etiquetas_CS
                 if (_result!=DialogResult.Cancel)
                 {
                     vsLabels.CurrentRow.Cells["QTY"].Value=_value;
+                    if (vsLabels.CurrentRow.Cells["PRINTED"].Value.ToString()=="S")
+                        ChangeLineStatus(vsLabels.CurrentRow);
                 }
             }
             else
@@ -465,7 +467,7 @@ namespace Etiquetas_CS
                     delimiterLabel.delim(_delimiterLabel, "GROUP", SQLGroup+"|"+_group);
                     cRawPrinterHelper.SendUTF8StringToPrinter(_printerAddress, _delimiterLabel.ToString(), 1);
                 }
-                cRawPrinterHelper.SendUTF8StringToPrinter(_printerAddress, _label.ToString(_parameters),Convert.ToInt32(line.Cells["QTY"].Value));
+                cRawPrinterHelper.SendUTF8StringToPrinter(_printerAddress, _label.ToString(_parameters, Convert.ToInt32(line.Cells["QTY"].Value)),1);
                 //cRawPrinterHelper.SendUTF8StringToPrinter(_printerAddress, _label.ToString(_parameters), Convert.ToInt32("2"));
                 ChangeLineStatus(line);
             });

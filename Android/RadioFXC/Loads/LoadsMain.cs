@@ -82,26 +82,29 @@ namespace RadioFXC
         public override bool OnOptionsItemSelected(IMenuItem item)
         {
             base.OnOptionsItemSelected(item);
-
+            Intent intent;
             switch (item.ItemId)
             {
+                case Resource.Id.mnumain:
+                    intent = new Intent(this, typeof(MainScreen));
+                    StartActivity(intent);
+                    break;
                 case Resource.Id.mnurepair:
-                //Intent intent = new Intent(this, typeof(RepairSelection));
-                //StartActivity(intent);
-                //break;
+                    intent = new Intent(this, typeof(RepairsMain));
+                    StartActivity(intent);
+                    break;
                 case Resource.Id.mnuloads:
-                    {
-                        break;
-                    }
+                    intent = new Intent(this, typeof(LoadsMain));
+                    StartActivity(intent);
+                    break;
                 case Resource.Id.mnuclose:
-                    {
-                        break;
-                    }
+                    System.Environment.Exit(0);
+                    break;
                 default:
                     break;
             }
-
             return true;
         }
+
     }
 }

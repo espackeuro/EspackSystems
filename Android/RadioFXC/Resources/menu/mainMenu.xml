@@ -1,6 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
 android:id="@+id/mainMenu">
+  <item android:id="@+id/mnumain"
+      android:title="Main">
+  </item>
   <item android:id="@+id/mnurepair"
         android:title="Repairs">
   </item>
