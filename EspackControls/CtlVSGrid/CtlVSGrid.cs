@@ -12,6 +12,8 @@ using AccesoDatosNet;
 using CommonTools;
 using EspackControls;
 using EspackFormControls;
+using DiverseControls;
+using System.Drawing.Printing;
 
 namespace VSGrid
 {
@@ -711,7 +713,7 @@ namespace VSGrid
         }
 
         public void AddColumn(string pName, string pDBFieldName = "", string pSPAdd = "", string pSPUpp = "", string pSPDel = "", bool pSortable = false,
-            bool pIsFlag=false, bool pLocked=false, string pQuery = "", int pWidth = 0, string pAlignment = "",  string pAttr="",AutoCompleteMode aMode=AutoCompleteMode.None,AutoCompleteSource aSource=AutoCompleteSource.None,string aQuery="")
+            bool pIsFlag=false, bool pLocked=false, string pQuery = "", int pWidth = 0, string pAlignment = "",  string pAttr="",AutoCompleteMode aMode=AutoCompleteMode.None,AutoCompleteSource aSource=AutoCompleteSource.None,string aQuery="", bool pPrint=true)
         {
             if (pQuery=="")
             {
@@ -741,7 +743,8 @@ namespace VSGrid
                     AutoSizeMode = pWidth == 0 ? DataGridViewAutoSizeColumnMode.DisplayedCells : DataGridViewAutoSizeColumnMode.None,
                     AutoCompleteMode = aMode,
                     AutoCompleteSource = aSource,
-                    AutoCompleteQuery = aQuery
+                    AutoCompleteQuery = aQuery,
+                    Print = pPrint
                
                 };
                 Columns.Add(_Col);
@@ -777,12 +780,13 @@ namespace VSGrid
                     AutoCompleteMode = aMode,
                     AutoCompleteSource = aSource,
                     AutoCompleteQuery = aQuery,
+                    Print = pPrint
                 };
                 Columns.Add(_Col);
             }
         }
 
-        public void AddColumn(string pName, EspackFormControl pLinkedControl, string pSPAdd = "", string pSPUpp = "", string pSPDel = "", AutoCompleteMode aMode = AutoCompleteMode.None, AutoCompleteSource aSource = AutoCompleteSource.None, string aQuery="")
+        public void AddColumn(string pName, EspackFormControl pLinkedControl, string pSPAdd = "", string pSPUpp = "", string pSPDel = "", AutoCompleteMode aMode = AutoCompleteMode.None, AutoCompleteSource aSource = AutoCompleteSource.None, string aQuery="", bool pPrint=true)
         {
             var _Col = new CtlVSTextBoxColumn()
             {
@@ -811,7 +815,8 @@ namespace VSGrid
                 AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells,
                 AutoCompleteMode = aMode,
                 AutoCompleteSource = aSource,
-                AutoCompleteQuery = aQuery
+                AutoCompleteQuery = aQuery,
+                Print = pPrint
             };
             Columns.Add(_Col);
         }
@@ -869,6 +874,20 @@ namespace VSGrid
             RowEditedBool = false;
             this.DataSource=null;
             this.RowCount = 0;
+        }
+
+        public void Print(EspackPrintDocument p)
+        {
+            p.NewLine();
+            List<int> _colWidths = new List<int>();
+            // get the col max widths
+            Columns.OfType<CtlVSColumn>().ToList().ForEach(x => _colWidths.Add(x.MaxWidth));
+            //headers
+            var _font = p.CurrentFont;
+            p.CurrentFont = new Font(_font, _font.Style & ~FontStyle.Bold);
+            Columns.OfType<DataGridViewColumn>().ToList().ForEach(x => p.Add(x.HeaderCell.Value.ToString().PadLeft(_colWidths[x.Index])));
+            p.CurrentFont = _font;
+            p.NewLine();
         }
 
     }

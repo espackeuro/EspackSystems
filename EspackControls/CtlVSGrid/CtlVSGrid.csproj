@@ -65,6 +65,10 @@
       <Project>{9148f7e6-31f6-4f96-b7dc-afea449998c7}</Project>
       <Name>CommonTools</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DiverseControls\DiverseControls\DiverseControls.csproj">
+      <Project>{005bd28a-42c7-4785-9eb1-bd6f2b7564c3}</Project>
+      <Name>DiverseControls</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EspackControls\EspackControls.csproj">
       <Project>{ece9aa32-f756-4be3-a926-b0771e69066b}</Project>
       <Name>EspackControls</Name>

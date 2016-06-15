@@ -20,7 +20,9 @@ namespace VSGrid
         string Attr { get; set; }
         bool IsFlag { get; set; }
         bool Locked { get; set; }
+        bool Print { get; set; }
         int Colnumber { get; set; }
+        int MaxWidth { get; }
         string SPAddParamName { get; set; }
         string SPUppParamName { get; set; }
         string SPDelParamName { get; set; }
@@ -38,6 +40,7 @@ namespace VSGrid
         string AutoCompleteQuery { get; set; }
         cAccesoDatosNet Conn { get; }
         CtlVSGrid Parent { get; set; }
+        DataGridViewCellCollection Cells { get; }
         //object Value { get; set; }
     }
 
@@ -49,7 +52,7 @@ namespace VSGrid
         // non used stuff, must be declared to accomplisht with EspackFormControl interface
         public EspackLabel CaptionLabel { get; set; }
         private EnumStatus _status;
-
+        public bool Print { get; set; }
         public event EventHandler TextChanged;
 
         public EnumStatus Status
@@ -251,6 +254,20 @@ namespace VSGrid
         {
             CellTemplate = new DataGridViewTextBoxCell();
         }
+        public int MaxWidth
+        {
+            get
+            {
+                return Cells.OfType<DataGridViewCell>().OrderByDescending(x => x.Value.ToString().Length).First().Value.ToString().Length;
+            }
+        }
+        public DataGridViewCellCollection Cells
+        {
+            get
+            {
+                return (DataGridViewCellCollection)DataGridView.Rows.OfType<DataGridViewRow>().Select(x => x.Cells[Index]);
+            }
+        }
 
     }
 
@@ -265,7 +282,7 @@ namespace VSGrid
         // non used stuff, must be declared to accomplisht with EspackFormControl interface
         //public EspackLabel CaptionLabel { get; set; }
         private EnumStatus _status;
-
+        public bool Print { get; set; }
         public event EventHandler TextChanged;
 
         public EnumStatus Status
@@ -483,6 +500,20 @@ namespace VSGrid
             base()
         {
             CellTemplate = new DataGridViewComboBoxCell();
+        }
+        public int MaxWidth
+        {
+            get
+            {
+                return Cells.OfType<DataGridViewCell>().OrderByDescending(x => x.Value.ToString().Length).First().Value.ToString().Length;
+            }
+        }
+        public DataGridViewCellCollection Cells
+        {
+            get
+            {
+                return (DataGridViewCellCollection)DataGridView.Rows.OfType<DataGridViewRow>().Select(x => x.Cells[Index]);
+            }
         }
     }
 }
