@@ -881,7 +881,11 @@ namespace VSGrid
             p.NewLine();
             List<int> _colWidths = new List<int>();
             // get the col max widths
-            Columns.OfType<CtlVSColumn>().ToList().ForEach(x => _colWidths.Add(x.MaxWidth));
+            Columns.Cast<DataGridViewColumn>().ToList().ForEach(x =>
+            {
+                if (x is CtlVSColumn)
+                    _colWidths.Add(((CtlVSColumn)x).MaxWidth);
+            });
             //headers
             var _font = p.CurrentFont;
             p.CurrentFont = new Font(_font, _font.Style & ~FontStyle.Bold);
