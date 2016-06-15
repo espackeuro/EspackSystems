@@ -4481,14 +4481,17 @@ namespace RadioFXC
 			// aapt resource value: 0x7f070037
 			public const int mini = 2131165239;
 			
-			// aapt resource value: 0x7f0700be
-			public const int mnuclose = 2131165374;
+			// aapt resource value: 0x7f0700bf
+			public const int mnuclose = 2131165375;
 			
-			// aapt resource value: 0x7f0700bd
-			public const int mnuloads = 2131165373;
+			// aapt resource value: 0x7f0700be
+			public const int mnuloads = 2131165374;
 			
 			// aapt resource value: 0x7f0700bc
-			public const int mnurepair = 2131165372;
+			public const int mnumain = 2131165372;
+			
+			// aapt resource value: 0x7f0700bd
+			public const int mnurepair = 2131165373;
 			
 			// aapt resource value: 0x7f070099
 			public const int mr_art = 2131165337;

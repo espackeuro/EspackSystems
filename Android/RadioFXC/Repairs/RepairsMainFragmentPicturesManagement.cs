@@ -41,7 +41,7 @@ namespace RadioFXC
         private int cCount;
         public static int cOldPictures { get; set; }
         private DynamicRS cRSOld = new DynamicRS();
-        private ListImageFile cImageFileList;
+        public ListImageFile cImageFileList;
 
         public FragmentPicturesManagement() 
             : base()
