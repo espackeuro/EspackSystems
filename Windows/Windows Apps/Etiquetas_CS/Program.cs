@@ -12,13 +12,16 @@ namespace Etiquetas_CS
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
+        ///
+        public static fMain fMain;
         [STAThread]
         static void Main(string[] args)
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             new frmSplash(args).ShowDialog();
-            Application.Run(new fMain(args));
+            fMain = new fMain(args);
+            Application.Run(fMain);
         }
     }
 

@@ -16,6 +16,7 @@ using System.IO;
 using DiverseControls;
 using VSGrid;
 
+
 namespace Etiquetas_CS
 {
     public partial class fMain : Form
@@ -349,6 +350,7 @@ namespace Etiquetas_CS
         private void ShowDetails()
         {
             vsLabels.ClearEspackControl();
+            vsLabels.ColumnCount = 0;
             vsLabels.Conn = Values.gDatos;
 
             string _group = "";
@@ -359,8 +361,12 @@ namespace Etiquetas_CS
             _SelectFields.AddRange(SQLSelect.Split('|'));
             _SelectFields.Add("QTY");
             _SelectFields.Add("PRINTED");
-            vsLabels.ColumnCount = _SelectFields.Count;
-            vsLabels.Columns.Cast<DataGridViewColumn>().ToList().ForEach(x => x.Name = _SelectFields[x.Index].ToUpper());
+            for (int i=0; i< _SelectFields.Count; i++)
+            {
+                vsLabels.AddColumn(_SelectFields[i].ToUpper());
+            }
+            //vsLabels.ColumnCount = _SelectFields.Count;
+            //vsLabels.Columns.Cast<DataGridViewColumn>().ToList().ForEach(x => x.Name = _SelectFields[x.Index].ToUpper());
             //Application.DoEvents();
             var _Sql = string.Format("SELECT IDREG,DATA=datos,QTY,PRINTED=impreso FROM etiquetas_detalle WHERE codigo='{0}' and parametros='{1}'{2} order by idreg", txtCode.Text, SQLParameterString.Replace("'", "#"), _group);
             using (var _RS = new DynamicRS(_Sql, Values.gDatos))
@@ -495,204 +501,33 @@ namespace Etiquetas_CS
             public string group { get; set; }
             //PrintDocument pdoc  = null;
 
-            public void print()
-            {
-                PrintDialog pd = new PrintDialog();
-
-                PrinterSettings ps = new PrinterSettings();
-                Font font = new Font("Courier New", 15);
-
-
-                PaperSize psize = new PaperSize("Custom", 520, 820);
-
-                ////ps.DefaultPageSettings.PaperSize = psize;
-
-                pd.Document = this;
-                pd.Document.DefaultPageSettings.PaperSize = psize;
-                ////pdoc.DefaultPageSettings.PaperSize.Height =320;
-                //pdoc.DefaultPageSettings.PaperSize.Height = 820;
-
-                //pdoc.DefaultPageSettings.PaperSize.Width = 520;
-
-                this.PrintPage += new PrintPageEventHandler(pdoc_PrintPage);
-
-                this.Print();
-            }
-            public void print(string pGroup)
-            {
-                group = pGroup;
-                PrintDialog pd = new PrintDialog();
-                //pdoc = new PrintDocument();
-                PrinterSettings ps = new PrinterSettings();
-                Font font = new Font("Courier New", 15);
-
-
-                PaperSize psize = new PaperSize("Custom", 520, 820);
-
-                ////ps.DefaultPageSettings.PaperSize = psize;
-
-                pd.Document = this;
-                pd.Document.DefaultPageSettings.PaperSize = psize;
-                ////pdoc.DefaultPageSettings.PaperSize.Height =320;
-                //pdoc.DefaultPageSettings.PaperSize.Height = 820;
-
-                //pdoc.DefaultPageSettings.PaperSize.Width = 520;
-
-                this.PrintPage += new PrintPageEventHandler(pdoc_PrintPage);
-
-                //DialogResult result = pd.ShowDialog();
-                //if (result == DialogResult.OK)
-                //{
-                //    PrintPreviewDialog pp = new PrintPreviewDialog();
-                //    pp.Document = pdoc;
-                //    result = pp.ShowDialog();
-                //    if (result == DialogResult.OK)
-                //    {
-                //        pdoc.Print();
-                //    }
-                //}
-                this.Print();
-
-            }
-
-
             private void pdoc_PrintPage(object sender, PrintPageEventArgs e)
             {
                 Graphics graphics = e.Graphics;
-
-                // Initialize X and Y
-                CurrentX = XMin;
-                CurrentY = YMin;
-                graphics.PageUnit = GraphicsUnit.Millimeter;
-
-                // For each group, print page
-                //Groups.ForEach(x =>
-                //{
-                //PrintHeader(x.ToString(), graphics);
-                //PrintDetails(x.ToString(), graphics);
-                //});
-                PrintHeader(group, graphics);
-                fMain;
-
-                //PrintDetails(group, graphics);
-
+                this.CurrentFont = new Font("Courier New", 11);
+                Program.fMain.LabelsGrid.Print(this);
             }
 
-            private void PrintHeader(string pGroup, Graphics graphics)
+
+
+            public PrintPage()
             {
-                // Initial settings
-                Font _font = new Font("Courier New", 14);
-                SolidBrush _brush = new SolidBrush(Color.Black);
-                Pen _blackPen = new Pen(Color.FromArgb(255, 0, 0, 0), 0.5F);
-                int _delta = graphics.MeasureString(" ", _font).ToSize().Height;
-
-                // Print parameters
-                graphics.DrawString(String.Format("Parametros:\n{0} ", SQLParameterString), _font, _brush, XMin, CurrentY);
-                CurrentY = YMin + _delta * 2;
-
-                // Print group
-                graphics.DrawString(String.Format("Nº {0}", pGroup), _font, _brush, XMin, CurrentY);
-                CurrentY += _delta;
-
-                // Print group barcode
-                BarcodeDraw drawObject = BarcodeDrawFactory.GetSymbology(BarcodeSymbology.Code39C);
-                var metrics = drawObject.GetDefaultMetrics(40);
-                metrics.Scale = 1;
-               // CurrentY += drawObject.Draw(pGroup, metrics).Height/2;
-                graphics.DrawImage(drawObject.Draw(pGroup, metrics), new Point(XMin,CurrentY));
-
-
-                // Print separator line
-                CurrentY += _delta * 2;
-                graphics.DrawLine(_blackPen, new Point(XMin, CurrentY), new Point(XMax, CurrentY));
-                CurrentY += _delta * 2;
-
-
+                PrintPage += pdoc_PrintPage;
             }
-            private void PrintDetails(string pGroup, Graphics graphics)
-            {
-                // Initial settings
-                Font _font = new Font("Courier New", 11);
-                SolidBrush _brush = new SolidBrush(Color.Black);
-                Pen _blackPen = new Pen(Color.FromArgb(255, 0, 0, 0), 0.5F);
-                Dictionary<string, int> _colSizes = new Dictionary<string, int>();
-                int _delta = graphics.MeasureString(" ", _font).ToSize().Height;
 
-                // Get the widths for each column and print them
-                var _split = SQLSelect.Split('|');
-                int _width;
-                CurrentX = XMin;
-
-                _split.ToList().ForEach(x =>
-                {
-                    graphics.DrawString(x.ToString().ToUpper(), _font, _brush, new Point(CurrentX, CurrentY));
-                    _width = graphics.MeasureString(x.ToString().ToUpper(), _font).ToSize().Width;
-                    //vsLabels.Rows.OfType<DataGridViewRow>().ToList();
-
-                    
-                    //Where(y => y.Cells[y.ToString().ToUpper()].Value.ToString().Length > 10);
-                });
-
-                _split.ToList().ForEach(x =>
-                {
-                    graphics.DrawString(x.ToString().ToUpper(), _font, _brush, new Point(CurrentX, CurrentY));
-                    _width = graphics.MeasureString(x.ToString().ToUpper(), _font).ToSize().Width + 20;
-                    graphics.DrawLine(_blackPen, new Point(CurrentX, CurrentY + _delta), new Point(CurrentX + _width, CurrentY + _delta));
-                    CurrentX += _width + graphics.MeasureString(" ", _font).ToSize().Width;
-                });
-
-                using (var _RS = new DynamicRS("SELECT * FROM etiquetas_detalle WHERE grupo='" + pGroup + "'", Values.gDatos))
-                {
-                   // graphics.DrawString(x.ToString(), _font, _brush, new Point(CurrentX, CurrentY));
-                    _RS.MoveNext();
-                }
-
-            }
-            internal void BeginPrint()
-            {
-                throw new NotImplementedException();
-            }
         }
 
         private void btnPrintList_Click(object sender, EventArgs e)
         {
             using (var _printIt = new PrintPage())
             {
-                _printIt.SQLParameterString = SQLParameterString;
-                _printIt.SQLSelect = SQLSelect;
-                string _group = vsGroups.CurrentCell.Value.ToString();
-                PrintDialog _pd = new PrintDialog();
-
-                // Ask for the printer
-                if (_pd.ShowDialog() == DialogResult.OK)
+                var pd = new PrintDialog();
+                pd.Document = _printIt;
+                if (pd.ShowDialog() == DialogResult.OK)
                 {
-
-
-
-                    //if (_group != "")
-                    //{
-                    //    _printIt.Groups = vsGroups.ToList()
-                    //        .Select(p => p.Cells[0].Value.ToString())
-                    //        .Where(p => p == _group)
-                    //        .ToList();
-                    //}
-                    //else
-                    //{
-                    //    _printIt.Groups = vsGroups.ToList()
-                    //        .Select(p => p.Cells[0].Value.ToString())
-                    //        .Where(p => p != "")
-                    //        .ToList();
-                    //}
-
-                    vsGroups.ToList().Select(p => p.Cells[0].Value.ToString()).Where(p => ( (_group!="" && p.ToString() == _group) || (_group == "" && p.ToString() != ""))).ToList().ForEach(x =>
-                    {
-                        _printIt.print(x.ToString());
-                        //e.HasMorePages = true
-                    });
+                    _printIt.Print();
                 }
-
             }
-
         }
 
  

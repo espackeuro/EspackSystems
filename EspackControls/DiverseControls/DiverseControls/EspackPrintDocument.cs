@@ -101,7 +101,9 @@ namespace DiverseControls
         {
             get
             {
-                return Things.Max(x => x.Height);
+                if (Things.Count != 0)
+                    return Things.Max(x => x.Height);
+                else return 0;
             }
         }
         public float Width
