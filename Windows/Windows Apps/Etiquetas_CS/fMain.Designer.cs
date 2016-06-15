@@ -367,7 +367,7 @@
         private EspackFormControls.EspackComboBox cboPrinters;
         private VSGrid.CtlVSGrid vsParameters;
         private VSGrid.CtlVSGrid vsGroups;
-        private VSGrid.CtlVSGrid vsLabels;
+        public VSGrid.CtlVSGrid vsLabels;
         private System.Windows.Forms.Button btnObtain;
         private System.Windows.Forms.Button btnPrint;
         private System.Windows.Forms.Button btnPrintList;

@@ -13,6 +13,8 @@ using System.Data;
 using EspackClasses;
 using Zen.Barcode;
 using System.IO;
+using DiverseControls;
+using VSGrid;
 
 namespace Etiquetas_CS
 {
@@ -29,6 +31,14 @@ namespace Etiquetas_CS
         private int labelWidth;
         private int labelHeight;
         private bool clearing;
+
+        public CtlVSGrid LabelsGrid
+        {
+            get
+            {
+                return vsLabels;
+            }
+        }
 
         public fMain(string[] args)
         {
@@ -476,53 +486,19 @@ namespace Etiquetas_CS
             SetFormEnabled(true);
         }
 
-        public class PrintPage : PrintDocument
+        public class PrintPage : EspackPrintDocument
         {
 
             public string SQLParameterString { get; set; }
             public string SQLSelect { get; set; }
             //public List<string> Groups { get; set; }
             public string group { get; set; }
-            PrintDocument pdoc  = null;
-
-            public int CurrentX { get; set; }
-            public int CurrentY { get; set; }
-
-            public int XMin
-            {
-                get
-                {
-                    return Convert.ToInt32(pdoc.DefaultPageSettings.PrintableArea.Left);
-                }
-            }
-            public int XMax
-            {
-                get
-                {
-                    return Convert.ToInt32(pdoc.DefaultPageSettings.PrintableArea.Right);
-                }
-            }
-
-            public int YMin
-            {
-                get
-                {
-                    return Convert.ToInt32(pdoc.DefaultPageSettings.PrintableArea.Top);
-                }
-            }
-
-            public int YMax
-            {
-                get
-                {
-                    return Convert.ToInt32(pdoc.DefaultPageSettings.PrintableArea.Bottom);
-                }
-            }
+            //PrintDocument pdoc  = null;
 
             public void print()
             {
                 PrintDialog pd = new PrintDialog();
-                pdoc = new PrintDocument();
+
                 PrinterSettings ps = new PrinterSettings();
                 Font font = new Font("Courier New", 15);
 
@@ -531,22 +507,22 @@ namespace Etiquetas_CS
 
                 ////ps.DefaultPageSettings.PaperSize = psize;
 
-                pd.Document = pdoc;
+                pd.Document = this;
                 pd.Document.DefaultPageSettings.PaperSize = psize;
                 ////pdoc.DefaultPageSettings.PaperSize.Height =320;
                 //pdoc.DefaultPageSettings.PaperSize.Height = 820;
 
                 //pdoc.DefaultPageSettings.PaperSize.Width = 520;
 
-                pdoc.PrintPage += new PrintPageEventHandler(pdoc_PrintPage);
+                this.PrintPage += new PrintPageEventHandler(pdoc_PrintPage);
 
-                pdoc.Print();
+                this.Print();
             }
             public void print(string pGroup)
             {
                 group = pGroup;
                 PrintDialog pd = new PrintDialog();
-                pdoc = new PrintDocument();
+                //pdoc = new PrintDocument();
                 PrinterSettings ps = new PrinterSettings();
                 Font font = new Font("Courier New", 15);
 
@@ -555,14 +531,14 @@ namespace Etiquetas_CS
 
                 ////ps.DefaultPageSettings.PaperSize = psize;
 
-                pd.Document = pdoc;
+                pd.Document = this;
                 pd.Document.DefaultPageSettings.PaperSize = psize;
                 ////pdoc.DefaultPageSettings.PaperSize.Height =320;
                 //pdoc.DefaultPageSettings.PaperSize.Height = 820;
 
                 //pdoc.DefaultPageSettings.PaperSize.Width = 520;
 
-                pdoc.PrintPage += new PrintPageEventHandler(pdoc_PrintPage);
+                this.PrintPage += new PrintPageEventHandler(pdoc_PrintPage);
 
                 //DialogResult result = pd.ShowDialog();
                 //if (result == DialogResult.OK)
@@ -575,7 +551,7 @@ namespace Etiquetas_CS
                 //        pdoc.Print();
                 //    }
                 //}
-                pdoc.Print();
+                this.Print();
 
             }
 
@@ -596,6 +572,8 @@ namespace Etiquetas_CS
                 //PrintDetails(x.ToString(), graphics);
                 //});
                 PrintHeader(group, graphics);
+                fMain;
+
                 //PrintDetails(group, graphics);
 
             }
