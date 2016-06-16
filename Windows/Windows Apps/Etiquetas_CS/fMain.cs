@@ -374,6 +374,8 @@ namespace Etiquetas_CS
             ((CtlVSColumn)vsLabels.Columns[0]).Print = false;
             ((CtlVSColumn)vsLabels.Columns[3]).Print = false;
             ((CtlVSColumn)vsLabels.Columns[4]).Print = false;
+            ((CtlVSColumn)vsLabels.Columns[0]).Aggregate = AggregateOperations.COUNT;
+            ((CtlVSColumn)vsLabels.Columns["QTY"]).Aggregate = AggregateOperations.SUM;
             //vsLabels.ColumnCount = _SelectFields.Count;
             //vsLabels.Columns.Cast<DataGridViewColumn>().ToList().ForEach(x => x.Name = _SelectFields[x.Index].ToUpper());
             //Application.DoEvents();
