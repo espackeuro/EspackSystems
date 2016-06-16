@@ -15,6 +15,7 @@ using EspackFormControls;
 
 namespace VSGrid
 {
+    public enum AggregateOperations { COUNT, MIN, MAX, SUM, AVERAGE, NONE }
     public interface CtlVSColumn : EspackControl
     {
         string Attr { get; set; }
@@ -42,6 +43,8 @@ namespace VSGrid
         CtlVSGrid Parent { get; set; }
         List<DataGridViewCell> Cells { get; }
         bool IsNumeric { get; }
+        AggregateOperations Aggregate { get; set; }
+        float AggregateValue { get; }
         //object Value { get; set; }
     }
 
@@ -254,6 +257,7 @@ namespace VSGrid
             base()
         {
             CellTemplate = new DataGridViewTextBoxCell();
+            Aggregate = AggregateOperations.NONE;
         }
         public int MaxWidth
         {
@@ -282,6 +286,48 @@ namespace VSGrid
                     return false;
                 }
                 return true;
+            }
+        }
+        public AggregateOperations Aggregate { get; set; }
+        public float AggregateValue
+        {
+            get
+            {
+                switch (Aggregate)
+                {
+                    case AggregateOperations.COUNT:
+                        return Cells.Count;
+                    case AggregateOperations.AVERAGE:
+                        if (IsNumeric)
+                        {
+                            return Cells.Select(x => Single.Parse(x.Value.ToString())).Average();
+                        }
+                        else
+                            throw new InvalidDataException("Not numeric data.");
+                    case AggregateOperations.MAX:
+                        if (IsNumeric)
+                        {
+                            return Cells.Select(x => Single.Parse(x.Value.ToString())).Max();
+                        }
+                        else
+                            throw new InvalidDataException("Not numeric data.");
+                    case AggregateOperations.MIN:
+                        if (IsNumeric)
+                        {
+                            return Cells.Select(x => Single.Parse(x.Value.ToString())).Min();
+                        }
+                        else
+                            throw new InvalidDataException("Not numeric data.");
+                    case AggregateOperations.SUM:
+                        if (IsNumeric)
+                        {
+                            return Cells.Select(x => Single.Parse(x.Value.ToString())).Sum();
+                        }
+                        else
+                            throw new InvalidDataException("Not numeric data.");
+                    default:
+                        return 0;
+                }
             }
         }
     }
@@ -438,31 +484,6 @@ namespace VSGrid
             that.Width = this.Width;
             return that;
         }
-        //public object Value
-        //{
-        //    get
-        //    {
-        //        if (DataGridView != null)
-        //        {
-        //            DataGridView lDG = DataGridView;
-        //            int lColNumber = Index;
-        //            if (lDG.CurrentCell != null)
-        //            {
-        //                int lRowNumber = lDG.CurrentCell.RowIndex;
-        //                if (lDG.Rows[lRowNumber].Cells[lColNumber] != null)
-        //                    return lDG.Rows[lRowNumber].Cells[lColNumber].Value;
-        //            }
-        //        }
-        //        return "";
-        //    }
-        //    set
-        //    {
-        //        DataGridView lDG = DataGridView;
-        //        int lColNumber = Index;
-        //        int lRowNumber = lDG.CurrentCell.RowIndex;
-        //        lDG.Rows[lRowNumber].Cells[lColNumber].Value = value;
-        //    }
-        //}
         public object Value
         {
             get
@@ -515,6 +536,7 @@ namespace VSGrid
             base()
         {
             CellTemplate = new DataGridViewComboBoxCell();
+            Aggregate = AggregateOperations.NONE;
         }
         public int MaxWidth
         {
@@ -544,6 +566,48 @@ namespace VSGrid
                     return false;
                 }
                 return true;
+            }
+        }
+        public AggregateOperations Aggregate { get; set; }
+        public float AggregateValue
+        {
+            get
+            {
+                switch (Aggregate)
+                {
+                    case AggregateOperations.COUNT:
+                        return Cells.Count;
+                    case AggregateOperations.AVERAGE:
+                        if (IsNumeric)
+                        {
+                            return Cells.Select(x => Single.Parse(x.Value.ToString())).Average();
+                        }
+                        else
+                            throw new InvalidDataException("Not numeric data.");
+                    case AggregateOperations.MAX:
+                        if (IsNumeric)
+                        {
+                            return Cells.Select(x => Single.Parse(x.Value.ToString())).Max();
+                        }
+                        else
+                            throw new InvalidDataException("Not numeric data.");
+                    case AggregateOperations.MIN:
+                        if (IsNumeric)
+                        {
+                            return Cells.Select(x => Single.Parse(x.Value.ToString())).Min();
+                        }
+                        else
+                            throw new InvalidDataException("Not numeric data.");
+                    case AggregateOperations.SUM:
+                        if (IsNumeric)
+                        {
+                            return Cells.Select(x => Single.Parse(x.Value.ToString())).Sum();
+                        }
+                        else
+                            throw new InvalidDataException("Not numeric data.");
+                    default:
+                        return 0;
+                }
             }
         }
     }

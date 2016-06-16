@@ -891,16 +891,17 @@ namespace VSGrid
             //headers
             var _font = p.CurrentFont;
             p.CurrentFont = new Font(_font, FontStyle.Bold);
-            Columns.OfType<DataGridViewColumn>().Where(x => ((CtlVSColumn)x).Print==true).ToList().ForEach(x => {
-                if (_colAligns[x.Index]=='L')
+            Columns.OfType<DataGridViewColumn>().Where(x => ((CtlVSColumn)x).Print == true).ToList().ForEach(x =>
+            {
+                if (_colAligns[x.Index] == 'L')
                     p.Add(x.HeaderCell.Value.ToString().PadRight(_colWidths[x.Index]));
                 else
                     p.Add(x.HeaderCell.Value.ToString().PadLeft(_colWidths[x.Index]));
             });
-        
+
             p.CurrentFont = _font;
             p.NewLine(true);
-            Rows.OfType<DataGridViewRow>().ToList().ForEach(r => 
+            Rows.OfType<DataGridViewRow>().ToList().ForEach(r =>
             {
                 r.Cells.OfType<DataGridViewCell>().Where(x => ((CtlVSColumn)x.OwningColumn).Print == true).ToList().ForEach(x =>
                 {
@@ -911,8 +912,70 @@ namespace VSGrid
                 });
                 p.NewLine(true);
             });
+            p.NewLine();
+            //aggregates
+            p.CurrentFont = new Font(_font, FontStyle.Bold);
+            var _aggregateList = new AggregateItemList();
+            //Columns.OfType<DataGridViewColumn>().Where(x => ((CtlVSColumn)x).Print == true).ToList().ForEach(x => {
+            //    string _value = ((CtlVSColumn)x).Aggregate != AggregateOperations.NONE ? ((CtlVSColumn)x).AggregateValue.ToString() : " ";
+            //    if (_colAligns[x.Index] == 'L')
+            //        p.Add(_value.PadRight(_colWidths[x.Index]));
+            //    else
+            //        p.Add(_value.PadLeft(_colWidths[x.Index]));
+            //});
+            Columns.OfType<CtlVSColumn>().Where(x => x.Aggregate != AggregateOperations.NONE).ToList().ForEach(x => _aggregateList.Items.Add(new AggregateItem() { Aggregate = x.Aggregate, FieldName = ((DataGridViewColumn)x).HeaderCell.Value.ToString(), Value = x.AggregateValue }));
+            //Columns.OfType<CtlVSColumn>().Where(x => x.Aggregate != AggregateOperations.NONE).ToList().ForEach(x => _aggregates[string.Format("{0}({1})", x.Aggregate.ToString(), ((DataGridViewColumn)x).HeaderCell.Value.ToString())] = x.AggregateValue.ToString());
+            //_aggregates.Select(x => )
+            //p.Add(string.Format("{0}({1}) = {2}", x.Aggregate.ToString(), ((DataGridViewColumn)x).HeaderCell.Value.ToString(), x.AggregateValue));
+            //    p.NewLine(true);
+            //});
+            _aggregateList.Items.ForEach(a => {
+                p.Add(a.Title.PadLeft(_aggregateList.LenghtTitle));
+                p.Add("=");
+                p.Add(a.StringValue.PadLeft(_aggregateList.LenghtValue));
+                p.NewLine();
+            });
+            p.CurrentFont = _font;
         }
-
+        public class AggregateItem
+        {
+            public AggregateOperations Aggregate;
+            public string FieldName;
+            public float Value;
+            public string Title
+            {
+                get
+                {
+                    return string.Format("{0}({1})", Aggregate, FieldName);
+                }
+            }
+            public string StringValue
+            {
+                get
+                {
+                    return Value.ToString();
+                }
+            }
+                        
+        }
+        public class AggregateItemList
+        {
+            public List<AggregateItem> Items = new List<AggregateItem>();
+            public int LenghtTitle
+            {
+                get
+                {
+                    return Items.Max(x => x.Title.Length);
+                }
+            }
+            public int LenghtValue
+            {
+                get
+                {
+                    return Items.Max(x => x.StringValue.Length);
+                }
+            }
+        }
     }
 
     public static class Colors
