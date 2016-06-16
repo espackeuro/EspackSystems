@@ -878,20 +878,39 @@ namespace VSGrid
 
         public void Print(EspackPrintDocument p)
         {
-            p.NewLine();
+            p.NewLine(true);
             List<int> _colWidths = new List<int>();
+            List<char> _colAligns = new List<char>();
             // get the col max widths
-            Columns.Cast<DataGridViewColumn>().ToList().ForEach(x =>
+            Columns.Cast<CtlVSColumn>().ToList().ForEach(x =>
             {
-                if (x is CtlVSColumn)
-                    _colWidths.Add(((CtlVSColumn)x).MaxWidth);
+                _colWidths.Add(x.MaxWidth);
+                _colAligns.Add(x.IsNumeric ? 'R' : 'L');
+
             });
             //headers
             var _font = p.CurrentFont;
-            p.CurrentFont = new Font(_font, _font.Style & ~FontStyle.Bold);
-            Columns.OfType<DataGridViewColumn>().ToList().ForEach(x => p.Add(x.HeaderCell.Value.ToString().PadLeft(_colWidths[x.Index])));
+            p.CurrentFont = new Font(_font, FontStyle.Bold);
+            Columns.OfType<DataGridViewColumn>().Where(x => ((CtlVSColumn)x).Print==true).ToList().ForEach(x => {
+                if (_colAligns[x.Index]=='L')
+                    p.Add(x.HeaderCell.Value.ToString().PadRight(_colWidths[x.Index]));
+                else
+                    p.Add(x.HeaderCell.Value.ToString().PadLeft(_colWidths[x.Index]));
+            });
+        
             p.CurrentFont = _font;
-            p.NewLine();
+            p.NewLine(true);
+            Rows.OfType<DataGridViewRow>().ToList().ForEach(r => 
+            {
+                r.Cells.OfType<DataGridViewCell>().Where(x => ((CtlVSColumn)x.OwningColumn).Print == true).ToList().ForEach(x =>
+                {
+                    if (_colAligns[x.ColumnIndex] == 'L')
+                        p.Add(x.Value.ToString().PadRight(_colWidths[x.ColumnIndex]));
+                    else
+                        p.Add(x.Value.ToString().PadLeft(_colWidths[x.ColumnIndex]));
+                });
+                p.NewLine(true);
+            });
         }
 
     }

@@ -40,7 +40,13 @@ namespace Etiquetas_CS
                 return vsLabels;
             }
         }
-
+        public CtlVSGrid GroupsGrid
+        {
+            get
+            {
+                return vsGroups;
+            }
+        }
         public fMain(string[] args)
         {
             InitializeComponent();
@@ -365,6 +371,9 @@ namespace Etiquetas_CS
             {
                 vsLabels.AddColumn(_SelectFields[i].ToUpper());
             }
+            ((CtlVSColumn)vsLabels.Columns[0]).Print = false;
+            ((CtlVSColumn)vsLabels.Columns[3]).Print = false;
+            ((CtlVSColumn)vsLabels.Columns[4]).Print = false;
             //vsLabels.ColumnCount = _SelectFields.Count;
             //vsLabels.Columns.Cast<DataGridViewColumn>().ToList().ForEach(x => x.Name = _SelectFields[x.Index].ToUpper());
             //Application.DoEvents();
@@ -501,18 +510,26 @@ namespace Etiquetas_CS
             public string group { get; set; }
             //PrintDocument pdoc  = null;
 
-            private void pdoc_PrintPage(object sender, PrintPageEventArgs e)
+            protected override void OnPrintPage(PrintPageEventArgs e)
             {
                 Graphics graphics = e.Graphics;
-                this.CurrentFont = new Font("Courier New", 11);
+                Header();
+                this.CurrentFont = new Font("Courier New", 10);
                 Program.fMain.LabelsGrid.Print(this);
+                base.OnPrintPage(e);
             }
 
-
+            private void Header()
+            {
+                this.CurrentFont= new Font("Courier New", 16, FontStyle.Bold);
+                NewLine();
+                Add(string.Format("{0}: {1}",Program.fMain.GroupsGrid.Columns[0].HeaderCell.Value.ToString(), Program.fMain.GroupsGrid.CurrentCell.Value.ToString()));
+                NewLine();
+            }
 
             public PrintPage()
             {
-                PrintPage += pdoc_PrintPage;
+                //PrintPage += pdoc_PrintPage;
             }
 
         }
