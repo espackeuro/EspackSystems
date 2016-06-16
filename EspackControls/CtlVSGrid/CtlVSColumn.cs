@@ -40,7 +40,8 @@ namespace VSGrid
         string AutoCompleteQuery { get; set; }
         cAccesoDatosNet Conn { get; }
         CtlVSGrid Parent { get; set; }
-        DataGridViewCellCollection Cells { get; }
+        List<DataGridViewCell> Cells { get; }
+        bool IsNumeric { get; }
         //object Value { get; set; }
     }
 
@@ -258,17 +259,31 @@ namespace VSGrid
         {
             get
             {
-                return Cells.OfType<DataGridViewCell>().OrderByDescending(x => x.Value.ToString().Length).First().Value.ToString().Length;
+                var _grid= Cells.OfType<DataGridViewCell>().Max(x => x.Value.ToString().Length);
+                return _grid > HeaderCell.Value.ToString().Length ? _grid : HeaderCell.Value.ToString().Length;
             }
         }
-        public DataGridViewCellCollection Cells
+        public List<DataGridViewCell> Cells
         {
             get
             {
-                return (DataGridViewCellCollection)DataGridView.Rows.OfType<DataGridViewRow>().Select(x => x.Cells[Index]);
+                return DataGridView.Rows.OfType<DataGridViewRow>().Select(x => x.Cells[Index]).ToList();
             }
         }
-
+        public bool IsNumeric
+        {
+            get
+            {
+                try
+                {
+                    Cells.ForEach(c => Single.Parse(c.Value.ToString()));
+                } catch (FormatException)
+                {
+                    return false;
+                }
+                return true;
+            }
+        }
     }
 
 
@@ -505,14 +520,30 @@ namespace VSGrid
         {
             get
             {
-                return Cells.OfType<DataGridViewCell>().OrderByDescending(x => x.Value.ToString().Length).First().Value.ToString().Length;
+                var _grid = Cells.OfType<DataGridViewCell>().Max(x => x.Value.ToString().Length);
+                return _grid > HeaderCell.Value.ToString().Length ? _grid : HeaderCell.Value.ToString().Length;
             }
         }
-        public DataGridViewCellCollection Cells
+        public List<DataGridViewCell> Cells
         {
             get
             {
-                return (DataGridViewCellCollection)DataGridView.Rows.OfType<DataGridViewRow>().Select(x => x.Cells[Index]);
+                return DataGridView.Rows.OfType<DataGridViewRow>().Select(x => x.Cells[Index]).ToList();
+            }
+        }
+        public bool IsNumeric
+        {
+            get
+            {
+                try
+                {
+                    Cells.ForEach(c => Single.Parse(c.Value.ToString()));
+                }
+                catch (FormatException)
+                {
+                    return false;
+                }
+                return true;
             }
         }
     }

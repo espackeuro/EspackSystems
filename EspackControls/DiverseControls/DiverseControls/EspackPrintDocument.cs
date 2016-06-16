@@ -41,7 +41,7 @@ namespace DiverseControls
             get
             {
                 if (Graphics != null)
-                    return Graphics.MeasureString(_item, Font).Height;
+                    return Graphics.MeasureString(_item.Replace(' ', '@'), Font).Height;
                 else return 0;
             }
         }
@@ -50,7 +50,7 @@ namespace DiverseControls
             get
             {
                 if (Graphics != null)
-                    return Graphics.MeasureString(_item, Font).Width;
+                    return Graphics.MeasureString(_item.Replace(' ', '@') + '@', Font).Width;
                 else return 0;
             }
         }
@@ -113,6 +113,8 @@ namespace DiverseControls
                 return Things.Sum(x => x.Width);
             }
         }
+        public bool Banding { get; set; } = false;
+        public int LineNumber { get; set; }
     }
 
     public class EspackPrintDocument:PrintDocument
@@ -169,10 +171,10 @@ namespace DiverseControls
             Lines.Add(new PrintableLine());
             CurrentLineIndex = 0;
         }
-        public void NewLine()
+        public void NewLine(bool pBanding = false)
         {
-            var _line = new PrintableLine();
-            _line.Add(new PrintableText(" ",CurrentFont));
+            var _line = new PrintableLine() { Banding = pBanding, LineNumber=Lines.Count };
+            _line.Add(new PrintableText(" ", CurrentFont));
             Lines.Add(_line);
             CurrentLineIndex = Lines.Count - 1;
         }
@@ -208,12 +210,17 @@ namespace DiverseControls
             Lines.ForEach(l => 
             {
                 l.Graphics = g;
+                if (l.Banding && (l.LineNumber % 2 == 0))
+                    e.Graphics.FillRectangle(new SolidBrush(Color.LightGray), XMin, _y, l.Width, l.Height);
                 l.Things.ForEach(t =>
                 {
                     t.Draw(_x, _y);
                     _x += t.Width;
                 });
+
                 _y += l.Height;
+                _x = XMin;
+
             });
             base.OnPrintPage(e);
         }
