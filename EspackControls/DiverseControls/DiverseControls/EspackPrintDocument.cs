@@ -72,6 +72,9 @@ namespace DiverseControls
     public class PrintableLine
     {
         public List<PrintableThing> Things { get; set; } = new List<PrintableThing>();
+        //public float x { get; set; }
+        //public float y { get; set; }
+
         public void Add(PrintableThing pThing)
         {
             Things.Add(pThing);
@@ -110,26 +113,69 @@ namespace DiverseControls
         {
             get
             {
-                return Things.Sum(x => x.Width);
+                if (Things.Count != 0)
+                    return Things.Sum(x => x.Width);
+                else return 0;
             }
         }
         public bool Banding { get; set; } = false;
         public int LineNumber { get; set; }
     }
 
+    public class PrintableLineList
+    {
+        private Graphics _g;
+        public int LastPrintedLine { get; set; } = 0;
+        public List<PrintableLine> Lines { get; set; } = new List<PrintableLine>();
+        public Graphics Graphics
+        {
+            get
+            {
+                return _g;
+            }
+            set
+            {
+                _g = value;
+                Lines.ForEach(x => x.Graphics = value);
+            }
+        }
+        public float MaxHeight
+        {
+            get
+            {
+                if (Lines.Count != 0)
+                    return Lines.Select(x => x.Height).Max();
+                else
+                    return 0;
+            }
+        }
+        public float MaxWidth
+        {
+            get
+            {
+                if (Lines.Count != 0)
+                    return Lines.Select(x => x.Width).Max();
+                else
+                    return 0;
+            }
+        }
+
+    }
+
     public class EspackPrintDocument:PrintDocument
     {
         public float CurrentX { get; set; }
         public float CurrentY { get; set; }
+        public PrintableLineList LineList { get; set; } = new PrintableLineList();
         public PrintableLine CurrentLine
         {
             get
             {
-                return Lines[CurrentLineIndex];
+                return LineList.Lines[CurrentLineIndex];
             }
         }
         public int CurrentLineIndex { get; set; }
-        public List<PrintableLine> Lines { get; set; } = new List<PrintableLine>();
+        
         public Font CurrentFont { get; set; }
         public Brush CurrentBrush { get; set; }
 
@@ -167,16 +213,16 @@ namespace DiverseControls
         {
             CurrentX = XMin;
             CurrentY = YMin;
-            
-            Lines.Add(new PrintableLine());
+
+            LineList.Lines.Add(new PrintableLine());
             CurrentLineIndex = 0;
         }
         public void NewLine(bool pBanding = false)
         {
-            var _line = new PrintableLine() { Banding = pBanding, LineNumber=Lines.Count };
+            var _line = new PrintableLine() { Banding = pBanding, LineNumber= LineList.Lines.Count };
             _line.Add(new PrintableText(" ", CurrentFont));
-            Lines.Add(_line);
-            CurrentLineIndex = Lines.Count - 1;
+            LineList.Lines.Add(_line);
+            CurrentLineIndex = LineList.Lines.Count - 1;
         }
         public void Add(PrintableThing pThing)
         {
@@ -207,8 +253,22 @@ namespace DiverseControls
             g.PageUnit = GraphicsUnit.Millimeter;
             float _x = XMin;
             float _y = YMin;
-            Lines.ForEach(l => 
+
+            //LineList.Lines[0].x = _x;
+            //LineList.Lines[0].y = _y;
+            //var query = LineList.Lines.TakeWhile(x => x.y <= YMax );
+
+            //query.ToList().ForEach(x =>
+            //{
+            //    _y+=200;
+            //    LineList.Lines[LineList.LastPrintedLine++].y = _y;
+            //});
+
+
+            // RAFA, no ha habido manera... ya harás tu las pruebas con el TakeWhile a ver si lo consigues tú.
+            while (_y <= YMax && LineList.LastPrintedLine < LineList.Lines.Count-1 )
             {
+                var l = LineList.Lines[LineList.LastPrintedLine];
                 l.Graphics = g;
                 if (l.Banding && (l.LineNumber % 2 == 0))
                     e.Graphics.FillRectangle(new SolidBrush(Color.LightGray), XMin, _y, l.Width, l.Height);
@@ -220,8 +280,11 @@ namespace DiverseControls
 
                 _y += l.Height;
                 _x = XMin;
+                LineList.LastPrintedLine++;
+            }
 
-            });
+            e.HasMorePages = (_y > YMax && LineList.LastPrintedLine < LineList.Lines.Count - 1);
+
             base.OnPrintPage(e);
         }
         

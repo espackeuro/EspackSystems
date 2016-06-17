@@ -713,7 +713,7 @@ namespace VSGrid
         }
 
         public void AddColumn(string pName, string pDBFieldName = "", string pSPAdd = "", string pSPUpp = "", string pSPDel = "", bool pSortable = false,
-            bool pIsFlag=false, bool pLocked=false, string pQuery = "", int pWidth = 0, string pAlignment = "",  string pAttr="",AutoCompleteMode aMode=AutoCompleteMode.None,AutoCompleteSource aSource=AutoCompleteSource.None,string aQuery="", bool pPrint=true)
+            bool pIsFlag=false, bool pLocked=false, string pQuery = "", int pWidth = 0, string pAlignment = "",  string pAttr="",AutoCompleteMode aMode=AutoCompleteMode.None,AutoCompleteSource aSource=AutoCompleteSource.None,string aQuery="", bool pPrint=false)
         {
             if (pQuery=="")
             {
@@ -786,7 +786,7 @@ namespace VSGrid
             }
         }
 
-        public void AddColumn(string pName, EspackFormControl pLinkedControl, string pSPAdd = "", string pSPUpp = "", string pSPDel = "", AutoCompleteMode aMode = AutoCompleteMode.None, AutoCompleteSource aSource = AutoCompleteSource.None, string aQuery="", bool pPrint=true)
+        public void AddColumn(string pName, EspackFormControl pLinkedControl, string pSPAdd = "", string pSPUpp = "", string pSPDel = "", AutoCompleteMode aMode = AutoCompleteMode.None, AutoCompleteSource aSource = AutoCompleteSource.None, string aQuery="", bool pPrint=false)
         {
             var _Col = new CtlVSTextBoxColumn()
             {
