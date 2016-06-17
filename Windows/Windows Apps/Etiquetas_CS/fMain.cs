@@ -27,6 +27,7 @@ namespace Etiquetas_CS
         public string SQLGroup { get; set; }
         public string SQLOrder { get; set; }
         public string SQLQty { get; set; }
+        public string SQLPrintable { get; set; }
         public Dictionary<string, string> Parameters { get; set; } = new Dictionary<string, string>();
         public string SQLParameterString { get; set; }
         private int labelWidth;
@@ -81,12 +82,20 @@ namespace Etiquetas_CS
             //vsParameters.Status = EnumStatus.ADDNEW;
             txtCode.Validating += TxtCode_Validating;
             vsLabels.RowsAdded += VsLabels_RowsAdded;
-            vsGroups.SelectionChanged += VsGroups_SelectionChanged;
+            //vsGroups.SelectionChanged += VsGroups_SelectionChanged;
+            vsGroups.CurrentCellChanged += VsGroups_CurrentCellChanged;
             //vsLabels.DoubleClick += VsLabels_DoubleClick;
             //vsGroups.DoubleClick += VsGroups_DoubleClick;
             vsLabels.CellDoubleClick += VsLabels_CellDoubleClick;
             vsGroups.CellDoubleClick += VsGroups_CellDoubleClick;
             clearing = false;
+        }
+
+        private void VsGroups_CurrentCellChanged(object sender, EventArgs e)
+        {
+            // Refresh the vsLabels grid.
+            if (!clearing)
+                ShowDetails();
         }
 
         private void VsLabels_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -145,13 +154,6 @@ namespace Etiquetas_CS
             pRow.Cells["PRINTED"].Value = _status;
             pRow.DefaultCellStyle.BackColor = _status != "S" ? Color.White : Color.Red;
         }
-        
-        private void VsGroups_SelectionChanged(object sender, EventArgs e)
-        {
-            // Refresh the vsLabels grid.
-            if (!clearing)
-                ShowDetails();
-        }
 
         private void VsLabels_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
@@ -167,12 +169,12 @@ namespace Etiquetas_CS
         private void TxtCode_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
             SetFormEnabled(false);
-            vsGroups.SelectionChanged -= VsGroups_SelectionChanged;
+            //vsGroups.SelectionChanged -= VsGroups_SelectionChanged;
+            clearing = true;
             Application.DoEvents();
             using (var _RS = new DynamicRS("select *,NoDelim=dbo.checkflag(flags,'NODELIM') from etiquetas where codigo='" + txtCode.Text + "'", Values.gDatos))
             {
                 // Clean things
-                clearing = true;
                 vsParameters.ClearEspackControl();
                 vsParameters.Rows.Clear();
                 Parameters.Clear();
@@ -199,6 +201,7 @@ namespace Etiquetas_CS
                 SQLQty = _RS["Campo_QTY"].ToString();
                 SQLGroup = _RS["Campo_GROUP"].ToString();
                 SQLOrder = _RS["Campos_ORDER"].ToString();
+                SQLPrintable = _RS["Campos_PRINT"].ToString();
                 labelHeight = Convert.ToInt32(_RS["Alto"]);
                 labelWidth = Convert.ToInt32(_RS["Ancho"]);
                 if (SQLGroup != "")
@@ -243,7 +246,6 @@ namespace Etiquetas_CS
                 cboPrinters.Source("select Codigo from datosEmpresa where descripcion like '%" + txtCode.Text + "%' order by cmp_integer", Values.gDatos);
 
             }
-            vsGroups.SelectionChanged += VsGroups_SelectionChanged;
             clearing = false;
             SetFormEnabled(true);
 
@@ -298,7 +300,7 @@ namespace Etiquetas_CS
         private void btnObtain_Click(object sender, EventArgs e)
         {
             SetFormEnabled(false);
-            vsGroups.SelectionChanged -= VsGroups_SelectionChanged;
+            clearing = true;
             vsGroups.ClearEspackControl();
             vsParameters.ToList().ForEach(z =>
             {
@@ -312,6 +314,7 @@ namespace Etiquetas_CS
             {
                 MessageBox.Show("Parameter " + s.First().Key + " must be entered.", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 SetFormEnabled(true);
+                clearing = false;
                 return;
             };
 
@@ -349,8 +352,8 @@ namespace Etiquetas_CS
                 }
 
             }
-                vsGroups.SelectionChanged += VsGroups_SelectionChanged;
             SetFormEnabled(true);
+            clearing = false;
         }
 
         private void ShowDetails()
@@ -362,7 +365,9 @@ namespace Etiquetas_CS
             string _group = "";
             if (vsGroups.CurrentCell != null)
                 _group = (vsGroups.CurrentCell.Value.ToString() != "" ? " and grupo='" + vsGroups.CurrentCell.Value + "'" : "");
-            List<string> _SelectFields = new List<string>();
+
+
+            List <string> _SelectFields = new List<string>();
             _SelectFields.Add("IDREG");
             _SelectFields.AddRange(SQLSelect.Split('|'));
             _SelectFields.Add("QTY");
@@ -371,9 +376,12 @@ namespace Etiquetas_CS
             {
                 vsLabels.AddColumn(_SelectFields[i].ToUpper());
             }
-            ((CtlVSColumn)vsLabels.Columns[0]).Print = false;
-            ((CtlVSColumn)vsLabels.Columns[3]).Print = false;
-            ((CtlVSColumn)vsLabels.Columns[4]).Print = false;
+
+            SQLPrintable.Split('|').ToList().ForEach(x => ((CtlVSColumn)vsLabels.Columns[x.ToString()]).Print = true);
+
+            //((CtlVSColumn)vsLabels.Columns[0]).Print = false;
+            //((CtlVSColumn)vsLabels.Columns[3]).Print = false;
+            //((CtlVSColumn)vsLabels.Columns[4]).Print = false;
             ((CtlVSColumn)vsLabels.Columns[0]).Aggregate = AggregateOperations.COUNT;
             ((CtlVSColumn)vsLabels.Columns["QTY"]).Aggregate = AggregateOperations.SUM;
             //vsLabels.ColumnCount = _SelectFields.Count;
@@ -402,7 +410,7 @@ namespace Etiquetas_CS
         private void GenerateGroups(List<DataRow> r)
         {
             SetFormEnabled(false);
-            vsGroups.SelectionChanged -= VsGroups_SelectionChanged;
+            clearing = true;
 
             vsGroups.ClearEspackControl();
             vsGroups.Rows.Add("");
@@ -411,7 +419,7 @@ namespace Etiquetas_CS
             {
                 vsGroups.Rows.Add(x.Key);
             });
-            vsGroups.SelectionChanged += VsGroups_SelectionChanged;
+            clearing = false;
             SetFormEnabled(true);
         }
         private void GenerateNewLabels(List<DataRow> r)
@@ -529,27 +537,48 @@ namespace Etiquetas_CS
                 NewLine();
             }
 
-            public PrintPage()
-            {
-                //PrintPage += pdoc_PrintPage;
-            }
-
         }
 
         private void btnPrintList_Click(object sender, EventArgs e)
         {
-            using (var _printIt = new PrintPage())
+            SetFormEnabled(false);
+            using (var pd = new PrintDialog())
             {
-                var pd = new PrintDialog();
-                pd.Document = _printIt;
+                vsGroups.MultiSelect = false;
+
                 if (pd.ShowDialog() == DialogResult.OK)
                 {
-                    _printIt.Print();
+                    if (vsGroups.RowCount == 1 || vsGroups.CurrentCell.Value.ToString() != "")
+                    {
+                        PrintSelectedGroup(pd);
+                    }
+                    else
+                    {
+                        //vsGroups[0,0].Selected=true;
+                        vsGroups.CurrentCell = vsGroups[0, 0];
+                        vsGroups.ToList().Where(x => x.Index>0).ToList().ForEach(x =>
+                       {
+                           vsGroups.CurrentCell = x.Cells[0];
+                           Application.DoEvents();
+                           PrintSelectedGroup(pd);
+                       });
+                        vsGroups.CurrentCell = vsGroups.Rows[0].Cells[0];
+                    }
                 }
+            }
+            SetFormEnabled(true);
+        }
+
+        private void PrintSelectedGroup(PrintDialog pd)
+        {
+            using (var _printIt = new PrintPage())
+            {
+                _printIt.PrinterSettings = pd.PrinterSettings;
+                pd.Document = _printIt;
+               _printIt.Print();
             }
         }
 
- 
 
     }
 }
