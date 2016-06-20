@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button2 = new System.Windows.Forms.Button();
             this.btnObtain = new System.Windows.Forms.Button();
             this.btnPrint = new System.Windows.Forms.Button();
             this.btnPrintList = new System.Windows.Forms.Button();
@@ -43,17 +42,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.vsParameters)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ctlVSGrid1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // button2
-            // 
-            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(876, 219);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // btnObtain
             // 
@@ -332,7 +320,6 @@
             this.Controls.Add(this.vsParameters);
             this.Controls.Add(this.cboPrinters);
             this.Controls.Add(this.txtCode);
-            this.Controls.Add(this.button2);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.KeyPreview = true;
             this.Name = "fMain";
@@ -347,7 +334,6 @@
         }
 
         #endregion
-        private System.Windows.Forms.Button button2;
         private EspackFormControls.EspackTextBox txtCode;
         private EspackFormControls.EspackComboBox cboPrinters;
         private VSGrid.CtlVSGrid vsParameters;
