@@ -48,6 +48,13 @@ namespace Etiquetas_CS
                 return vsGroups;
             }
         }
+        public CtlVSGrid ParametersGrid
+        {
+            get
+            {
+                return vsParameters;
+            }
+        }
         public fMain(string[] args)
         {
             InitializeComponent();
@@ -168,6 +175,7 @@ namespace Etiquetas_CS
 
         private void TxtCode_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            //return;
             SetFormEnabled(false);
             //vsGroups.SelectionChanged -= VsGroups_SelectionChanged;
             clearing = true;
@@ -341,14 +349,9 @@ namespace Etiquetas_CS
 
             SQLPrintable.Split('|').ToList().ForEach(x => ((CtlVSColumn)vsLabels.Columns[x.ToString()]).Print = true);
 
-            //((CtlVSColumn)vsLabels.Columns[0]).Print = false;
-            //((CtlVSColumn)vsLabels.Columns[3]).Print = false;
-            //((CtlVSColumn)vsLabels.Columns[4]).Print = false;
             ((CtlVSColumn)vsLabels.Columns[0]).Aggregate = AggregateOperations.COUNT;
             ((CtlVSColumn)vsLabels.Columns["QTY"]).Aggregate = AggregateOperations.SUM;
-            //vsLabels.ColumnCount = _SelectFields.Count;
-            //vsLabels.Columns.Cast<DataGridViewColumn>().ToList().ForEach(x => x.Name = _SelectFields[x.Index].ToUpper());
-            //Application.DoEvents();
+
             var _Sql = string.Format("SELECT IDREG,DATA=datos,QTY,PRINTED=impreso FROM etiquetas_detalle WHERE codigo='{0}' and parametros='{1}'{2} order by idreg", txtCode.Text, SQLParameterString.Replace("'", "#"), _group);
             using (var _RS = new DynamicRS(_Sql, Values.gDatos))
             {
@@ -478,26 +481,61 @@ namespace Etiquetas_CS
 
             public string SQLParameterString { get; set; }
             public string SQLSelect { get; set; }
+            private int PageNumber { get; set; } = 0;
             //public List<string> Groups { get; set; }
             public string group { get; set; }
             //PrintDocument pdoc  = null;
 
             protected override void OnPrintPage(PrintPageEventArgs e)
             {
+                PageNumber++;
                 Graphics graphics = e.Graphics;
-                Header();
-                this.CurrentFont = new Font("Courier New", 10);
-                Program.fMain.LabelsGrid.Print(this);
+
+                if (PageNumber == 1)
+                {
+                    Header();
+                    this.CurrentFont = new Font("Courier New", 10);
+                    Program.fMain.LabelsGrid.Print(this);
+                    Footer();
+                }
                 base.OnPrintPage(e);
             }
 
             private void Header()
             {
+
                 this.CurrentFont= new Font("Courier New", 16, FontStyle.Bold);
-                NewLine();
-                Add(string.Format("{0}: {1}",Program.fMain.GroupsGrid.Columns[0].HeaderCell.Value.ToString(), Program.fMain.GroupsGrid.CurrentCell.Value.ToString()));
-                NewLine();
+                
+                NewLine(false, EnumDocumentParts.HEADER);
+                Add(string.Format("Parameters:"));
+                NewLine(false, EnumDocumentParts.HEADER);
+                if (Program.fMain.ParametersGrid.RowCount==0)
+                {
+                    Add(string.Format("{0}", Program.fMain.SQLParameterString.Replace(" WHERE ", "")));
+                    NewLine(false, EnumDocumentParts.HEADER);
+                }
+                else
+                {
+                    Program.fMain.ParametersGrid.ToList().ForEach(x =>
+                    {
+                        Add(string.Format("{0}={1}", x.Cells[0].Value, x.Cells[1].Value));
+                        NewLine(false, EnumDocumentParts.HEADER);
+                    });
+                }
+                if (Program.fMain.SQLGroup != "")
+                {
+                    Add(string.Format("{0}={1}", Program.fMain.GroupsGrid.Columns[0].HeaderCell.Value.ToString(), Program.fMain.GroupsGrid.CurrentCell.Value.ToString()));
+                    NewLine(false, EnumDocumentParts.HEADER);
+                }
             }
+
+            private void Footer()
+            {
+                this.CurrentFont = new Font("Courier New", 12, FontStyle.Bold);
+                NewLine(false, EnumDocumentParts.FOOTER);
+                Add(string.Format("Page {0}", 1));
+            }
+
 
         }
 
@@ -540,7 +578,6 @@ namespace Etiquetas_CS
                _printIt.Print();
             }
         }
-
 
     }
 }

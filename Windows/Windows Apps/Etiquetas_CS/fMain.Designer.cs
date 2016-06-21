@@ -31,16 +31,16 @@
             this.btnObtain = new System.Windows.Forms.Button();
             this.btnPrint = new System.Windows.Forms.Button();
             this.btnPrintList = new System.Windows.Forms.Button();
-            this.vsLabels = new VSGrid.CtlVSGrid();
-            this.vsGroups = new VSGrid.CtlVSGrid();
-            this.vsParameters = new VSGrid.CtlVSGrid();
             this.cboPrinters = new EspackFormControls.EspackComboBox();
             this.txtCode = new EspackFormControls.EspackTextBox();
             this.ctlVSGrid1 = new VSGrid.CtlVSGrid();
+            this.vsLabels = new VSGrid.CtlVSGrid();
+            this.vsGroups = new VSGrid.CtlVSGrid();
+            this.vsParameters = new VSGrid.CtlVSGrid();
+            ((System.ComponentModel.ISupportInitialize)(this.ctlVSGrid1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.vsLabels)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.vsGroups)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.vsParameters)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ctlVSGrid1)).BeginInit();
             this.SuspendLayout();
             // 
             // btnObtain
@@ -72,6 +72,110 @@
             this.btnPrintList.Text = "Print List";
             this.btnPrintList.UseVisualStyleBackColor = true;
             this.btnPrintList.Click += new System.EventHandler(this.btnPrintList_Click);
+            // 
+            // cboPrinters
+            // 
+            this.cboPrinters.Add = false;
+            this.cboPrinters.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.cboPrinters.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboPrinters.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboPrinters.BackColor = System.Drawing.Color.White;
+            this.cboPrinters.Caption = "Printer";
+            this.cboPrinters.DBField = null;
+            this.cboPrinters.DBFieldType = null;
+            this.cboPrinters.DefaultValue = null;
+            this.cboPrinters.Del = false;
+            this.cboPrinters.DependingRS = null;
+            this.cboPrinters.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cboPrinters.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.cboPrinters.ForeColor = System.Drawing.Color.Black;
+            this.cboPrinters.FormattingEnabled = true;
+            this.cboPrinters.Location = new System.Drawing.Point(957, 25);
+            this.cboPrinters.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
+            this.cboPrinters.Name = "cboPrinters";
+            this.cboPrinters.Order = 0;
+            this.cboPrinters.ParentConn = null;
+            this.cboPrinters.ParentDA = null;
+            this.cboPrinters.PK = false;
+            this.cboPrinters.Search = false;
+            this.cboPrinters.Size = new System.Drawing.Size(286, 24);
+            this.cboPrinters.Status = CommonTools.EnumStatus.ADDNEW;
+            this.cboPrinters.TabIndex = 5;
+            this.cboPrinters.TBDescription = null;
+            this.cboPrinters.Upp = false;
+            this.cboPrinters.Value = "";
+            // 
+            // txtCode
+            // 
+            this.txtCode.Add = false;
+            this.txtCode.BackColor = System.Drawing.Color.White;
+            this.txtCode.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtCode.Caption = "Code";
+            this.txtCode.DBField = null;
+            this.txtCode.DBFieldType = null;
+            this.txtCode.DefaultValue = null;
+            this.txtCode.Del = false;
+            this.txtCode.DependingRS = null;
+            this.txtCode.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.txtCode.ForeColor = System.Drawing.Color.Black;
+            this.txtCode.Location = new System.Drawing.Point(12, 25);
+            this.txtCode.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
+            this.txtCode.Multiline = true;
+            this.txtCode.Name = "txtCode";
+            this.txtCode.Order = 0;
+            this.txtCode.ParentConn = null;
+            this.txtCode.ParentDA = null;
+            this.txtCode.PK = false;
+            this.txtCode.Search = false;
+            this.txtCode.Size = new System.Drawing.Size(286, 24);
+            this.txtCode.Status = CommonTools.EnumStatus.ADDNEW;
+            this.txtCode.TabIndex = 3;
+            this.txtCode.TabStop = false;
+            this.txtCode.Upp = false;
+            this.txtCode.Value = "";
+            // 
+            // ctlVSGrid1
+            // 
+            this.ctlVSGrid1.Add = false;
+            this.ctlVSGrid1.AllowDelete = true;
+            this.ctlVSGrid1.AllowInsert = true;
+            this.ctlVSGrid1.AllowUpdate = false;
+            this.ctlVSGrid1.AllowUserToAddRows = false;
+            this.ctlVSGrid1.AllowUserToDeleteRows = false;
+            this.ctlVSGrid1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            this.ctlVSGrid1.Caption = "";
+            this.ctlVSGrid1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.ctlVSGrid1.Conn = null;
+            this.ctlVSGrid1.DBField = null;
+            this.ctlVSGrid1.DBFieldType = null;
+            this.ctlVSGrid1.DBTable = null;
+            this.ctlVSGrid1.DefaultValue = null;
+            this.ctlVSGrid1.Del = false;
+            this.ctlVSGrid1.DependingRS = null;
+            this.ctlVSGrid1.EspackControlParent = null;
+            this.ctlVSGrid1.GridColor = System.Drawing.SystemColors.ButtonFace;
+            this.ctlVSGrid1.Location = new System.Drawing.Point(12, 808);
+            this.ctlVSGrid1.MsgStatusLabel = null;
+            this.ctlVSGrid1.Name = "ctlVSGrid1";
+            this.ctlVSGrid1.NumPages = 0;
+            this.ctlVSGrid1.Order = 0;
+            this.ctlVSGrid1.Page = 0;
+            this.ctlVSGrid1.Paginate = false;
+            this.ctlVSGrid1.ParentConn = null;
+            this.ctlVSGrid1.ParentDA = null;
+            this.ctlVSGrid1.PK = false;
+            this.ctlVSGrid1.ReadOnly = true;
+            this.ctlVSGrid1.RowHeadersVisible = false;
+            this.ctlVSGrid1.Search = false;
+            this.ctlVSGrid1.Size = new System.Drawing.Size(1231, 154);
+            this.ctlVSGrid1.SQL = null;
+            this.ctlVSGrid1.sSPAdd = "";
+            this.ctlVSGrid1.sSPDel = "";
+            this.ctlVSGrid1.sSPUpp = "";
+            this.ctlVSGrid1.Status = CommonTools.EnumStatus.SEARCH;
+            this.ctlVSGrid1.TabIndex = 17;
+            this.ctlVSGrid1.Upp = false;
+            this.ctlVSGrid1.Value = null;
             // 
             // vsLabels
             // 
@@ -203,109 +307,6 @@
             this.vsParameters.Upp = false;
             this.vsParameters.Value = null;
             // 
-            // cboPrinters
-            // 
-            this.cboPrinters.Add = false;
-            this.cboPrinters.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.cboPrinters.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.cboPrinters.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cboPrinters.BackColor = System.Drawing.Color.White;
-            this.cboPrinters.Caption = "Printer";
-            this.cboPrinters.DBField = null;
-            this.cboPrinters.DBFieldType = null;
-            this.cboPrinters.DefaultValue = null;
-            this.cboPrinters.Del = false;
-            this.cboPrinters.DependingRS = null;
-            this.cboPrinters.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cboPrinters.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.cboPrinters.ForeColor = System.Drawing.Color.Black;
-            this.cboPrinters.FormattingEnabled = true;
-            this.cboPrinters.Location = new System.Drawing.Point(957, 25);
-            this.cboPrinters.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
-            this.cboPrinters.Name = "cboPrinters";
-            this.cboPrinters.Order = 0;
-            this.cboPrinters.ParentConn = null;
-            this.cboPrinters.ParentDA = null;
-            this.cboPrinters.PK = false;
-            this.cboPrinters.Search = false;
-            this.cboPrinters.Size = new System.Drawing.Size(286, 24);
-            this.cboPrinters.Status = CommonTools.EnumStatus.ADDNEW;
-            this.cboPrinters.TabIndex = 5;
-            this.cboPrinters.TBDescription = null;
-            this.cboPrinters.Upp = false;
-            this.cboPrinters.Value = "";
-            // 
-            // txtCode
-            // 
-            this.txtCode.Add = false;
-            this.txtCode.BackColor = System.Drawing.Color.White;
-            this.txtCode.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtCode.Caption = "Code";
-            this.txtCode.DBField = null;
-            this.txtCode.DBFieldType = null;
-            this.txtCode.DefaultValue = null;
-            this.txtCode.Del = false;
-            this.txtCode.DependingRS = null;
-            this.txtCode.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtCode.ForeColor = System.Drawing.Color.Black;
-            this.txtCode.Location = new System.Drawing.Point(12, 25);
-            this.txtCode.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
-            this.txtCode.Multiline = true;
-            this.txtCode.Name = "txtCode";
-            this.txtCode.Order = 0;
-            this.txtCode.ParentConn = null;
-            this.txtCode.ParentDA = null;
-            this.txtCode.PK = false;
-            this.txtCode.Search = false;
-            this.txtCode.Size = new System.Drawing.Size(286, 24);
-            this.txtCode.Status = CommonTools.EnumStatus.ADDNEW;
-            this.txtCode.TabIndex = 3;
-            this.txtCode.Upp = false;
-            this.txtCode.Value = "";
-            // 
-            // ctlVSGrid1
-            // 
-            this.ctlVSGrid1.Add = false;
-            this.ctlVSGrid1.AllowDelete = true;
-            this.ctlVSGrid1.AllowInsert = true;
-            this.ctlVSGrid1.AllowUpdate = false;
-            this.ctlVSGrid1.AllowUserToAddRows = false;
-            this.ctlVSGrid1.AllowUserToDeleteRows = false;
-            this.ctlVSGrid1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
-            this.ctlVSGrid1.Caption = "";
-            this.ctlVSGrid1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.ctlVSGrid1.Conn = null;
-            this.ctlVSGrid1.DBField = null;
-            this.ctlVSGrid1.DBFieldType = null;
-            this.ctlVSGrid1.DBTable = null;
-            this.ctlVSGrid1.DefaultValue = null;
-            this.ctlVSGrid1.Del = false;
-            this.ctlVSGrid1.DependingRS = null;
-            this.ctlVSGrid1.EspackControlParent = null;
-            this.ctlVSGrid1.GridColor = System.Drawing.SystemColors.ButtonFace;
-            this.ctlVSGrid1.Location = new System.Drawing.Point(12, 808);
-            this.ctlVSGrid1.MsgStatusLabel = null;
-            this.ctlVSGrid1.Name = "ctlVSGrid1";
-            this.ctlVSGrid1.NumPages = 0;
-            this.ctlVSGrid1.Order = 0;
-            this.ctlVSGrid1.Page = 0;
-            this.ctlVSGrid1.Paginate = false;
-            this.ctlVSGrid1.ParentConn = null;
-            this.ctlVSGrid1.ParentDA = null;
-            this.ctlVSGrid1.PK = false;
-            this.ctlVSGrid1.ReadOnly = true;
-            this.ctlVSGrid1.RowHeadersVisible = false;
-            this.ctlVSGrid1.Search = false;
-            this.ctlVSGrid1.Size = new System.Drawing.Size(1231, 154);
-            this.ctlVSGrid1.SQL = null;
-            this.ctlVSGrid1.sSPAdd = "";
-            this.ctlVSGrid1.sSPDel = "";
-            this.ctlVSGrid1.sSPUpp = "";
-            this.ctlVSGrid1.Status = CommonTools.EnumStatus.SEARCH;
-            this.ctlVSGrid1.TabIndex = 17;
-            this.ctlVSGrid1.Upp = false;
-            this.ctlVSGrid1.Value = null;
-            // 
             // fMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -324,10 +325,10 @@
             this.KeyPreview = true;
             this.Name = "fMain";
             this.Text = "Labels";
+            ((System.ComponentModel.ISupportInitialize)(this.ctlVSGrid1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.vsLabels)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.vsGroups)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.vsParameters)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ctlVSGrid1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -336,7 +337,7 @@
         #endregion
         private EspackFormControls.EspackTextBox txtCode;
         private EspackFormControls.EspackComboBox cboPrinters;
-        private VSGrid.CtlVSGrid vsParameters;
+        public VSGrid.CtlVSGrid vsParameters;
         private VSGrid.CtlVSGrid vsGroups;
         public VSGrid.CtlVSGrid vsLabels;
         private System.Windows.Forms.Button btnObtain;
