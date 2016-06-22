@@ -2,21 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using AccesoDatosNet;
 using System.Drawing;
-using static System.Windows.Forms.ListViewItem;
 using System.Collections;
 using System.IO;
-using System.Net;
-using System.ComponentModel;
-using System.Globalization;
 using FTP;
 using CommonTools;
 using System.Net.FtpClient;
-using System.Windows.Input;
 using System.Diagnostics;
 using LogonObjects.Properties;
 
@@ -612,7 +606,28 @@ namespace LogOnObjects
                 }
                 ChangeStatus(AppBotStatus.UPDATED);
             }
-
+            if (DBServer.HostName != Values.gDatos.Server || DBServer.User != "procesos")
+            {
+                var _datos = new cAccesoDatosNet();
+                _datos.User = Values.gDatos.User;
+                _datos.Password = Values.gDatos.Password;
+                _datos.DataBase = Values.gDatos.DataBase;
+                _datos.Server = DBServer.IP.ToString();
+                // check the password in the new server
+                var _SP = new SP(_datos, "pLogOnUser");
+                _SP.AddParameterValue("User", DBServer.User);
+                _SP.AddParameterValue("Password", DBServer.Password);
+                _SP.AddParameterValue("Origin", "LOGON_CS");
+                try
+                {
+                    _SP.Execute();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message + "\nIf you have recently changed your password, wait a couple of minutes before opening this app.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
             // Use ProcessStartInfo class
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.UseShellExecute = false;

@@ -325,6 +325,7 @@ namespace VSGrid
                             lCell.Style.ForeColor = Colors.CELLFORECOLOR;
                         }
                     }
+                    this.CurrentCell = Rows[RowCount - 1].Cells.Cast<DataGridViewCell>().First(x => x.ReadOnly == false && x.Visible==true);
                 }
             }
             get
@@ -626,10 +627,10 @@ namespace VSGrid
                             }
                         }
                         lCommand.Execute();
-                        if (lCommand.LastMsg != "OK")
+                        if (lCommand.LastMsg.Substring(0, 2) != "OK")
                         {
                             MessageBox.Show("ERROR:" + lCommand.LastMsg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            lMsg="ERROR:" + lCommand.LastMsg;
+                            lMsg = "ERROR:" + lCommand.LastMsg;
                             if (lCommand == mDA.UpdateCommand) //si es un update que ha dado error, reconsultamos el grid para eliminar los valores erróneos
                             {
                                 RowEditedBool = false;
@@ -638,7 +639,7 @@ namespace VSGrid
                                 UpdateEspackControl();
                                 CurrentCell = Rows[y].Cells[x];
                             }
-                                
+
                             break;
                         }
                         StatusMsg(lMsg);

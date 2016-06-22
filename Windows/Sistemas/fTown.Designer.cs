@@ -164,12 +164,14 @@
             this.CTLM.MsgStatusInfoLabel = null;
             this.CTLM.MsgStatusLabel = null;
             this.CTLM.Name = "CTLM";
+            this.CTLM.ReQuery = false;
             this.CTLM.RSPosition = -1;
             this.CTLM.Size = new System.Drawing.Size(290, 29);
             this.CTLM.sSPAdd = "";
             this.CTLM.sSPDel = "";
             this.CTLM.sSPUpp = "";
             this.CTLM.Status = CommonTools.EnumStatus.SEARCH;
+            this.CTLM.StatusBarProgress = null;
             this.CTLM.TabIndex = 0;
             this.CTLM.Text = "CTLM";
             // 

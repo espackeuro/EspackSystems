@@ -622,8 +622,15 @@ namespace LogOn
             LogOnChangeStatus(previousStatus);
             txtUser.Text = Values.User;
             txtPassword.Text = Values.Password;
+            btnOk.PerformClick();
+
             if (Status==LogOnStatus.INIT)
+            {
+                txtUser.Text = Values.User;
+                txtPassword.Text = Values.Password;
                 btnOk.PerformClick();
+            }
+                
         }
 
         private void btnCancelChange_Click(object sender, EventArgs e)
