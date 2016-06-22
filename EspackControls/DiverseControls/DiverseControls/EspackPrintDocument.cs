@@ -162,16 +162,37 @@ namespace DiverseControls
 
     }
 
+    public enum EnumDocumentParts { HEADER, BODY, FOOTER }
+
     public class EspackPrintDocument:PrintDocument
     {
+        public const float TOP_MARGIN = 15F;
+        public const float BOTTOM_MARGIN = 15F;
+        public const float LEFT_MARGIN = 15F;
+        public const float RIGHT_MARGIN = 15F;
+        public const float FOOTER_TOP = 20F;
+
         public float CurrentX { get; set; }
         public float CurrentY { get; set; }
-        public PrintableLineList LineList { get; set; } = new PrintableLineList();
+        public PrintableLineList HeaderList { get; set; } = new PrintableLineList();
+        public PrintableLineList BodyList { get; set; } = new PrintableLineList();
+        public PrintableLineList FooterList { get; set; } = new PrintableLineList();
+        public EnumDocumentParts CurrentPart { get; set; }
         public PrintableLine CurrentLine
         {
             get
             {
-                return LineList.Lines[CurrentLineIndex];
+                switch (CurrentPart)
+                {
+                    case EnumDocumentParts.HEADER:
+                        return HeaderList.Lines[CurrentLineIndex];
+                    case EnumDocumentParts.BODY:
+                        return BodyList.Lines[CurrentLineIndex];
+                    case EnumDocumentParts.FOOTER:
+                        return FooterList.Lines[CurrentLineIndex];
+                    default:
+                        return BodyList.Lines[CurrentLineIndex];
+                }
             }
         }
         public int CurrentLineIndex { get; set; }
@@ -183,30 +204,30 @@ namespace DiverseControls
         {
             get
             {
-                return DefaultPageSettings.PrintableArea.Left;
+                return (DefaultPageSettings.PrintableArea.Left * 0.254F) + TOP_MARGIN;
             }
         }
         public float XMax
         {
             get
             {
-                return DefaultPageSettings.PrintableArea.Right;
+                return (DefaultPageSettings.PrintableArea.Right * 0.254F) - BOTTOM_MARGIN;
             }
         }
 
-        public int YMin
+        public float YMin
         {
             get
             {
-                return Convert.ToInt32(DefaultPageSettings.PrintableArea.Top);
+                return (DefaultPageSettings.PrintableArea.Top * 0.254F) + LEFT_MARGIN;
             }
         }
 
-        public int YMax
+        public float YMax
         {
             get
             {
-                return Convert.ToInt32(DefaultPageSettings.PrintableArea.Bottom);
+                return (DefaultPageSettings.PrintableArea.Bottom * 0.254F) - RIGHT_MARGIN - FOOTER_TOP;
             }
         }
         public EspackPrintDocument() : base()
@@ -214,15 +235,32 @@ namespace DiverseControls
             CurrentX = XMin;
             CurrentY = YMin;
 
-            LineList.Lines.Add(new PrintableLine());
+            BodyList.Lines.Add(new PrintableLine());
             CurrentLineIndex = 0;
         }
-        public void NewLine(bool pBanding = false)
+        public void NewLine(bool pBanding = false, EnumDocumentParts pPart=EnumDocumentParts.BODY)
         {
-            var _line = new PrintableLine() { Banding = pBanding, LineNumber= LineList.Lines.Count };
+            var _line = new PrintableLine() { Banding = pBanding, LineNumber= BodyList.Lines.Count };
             _line.Add(new PrintableText(" ", CurrentFont));
-            LineList.Lines.Add(_line);
-            CurrentLineIndex = LineList.Lines.Count - 1;
+            switch (pPart)
+            {
+                case EnumDocumentParts.HEADER:
+                    HeaderList.Lines.Add(_line);
+                    CurrentLineIndex = HeaderList.Lines.Count - 1;
+                    CurrentPart = EnumDocumentParts.HEADER;
+                    break;
+                case EnumDocumentParts.BODY:
+                    BodyList.Lines.Add(_line);
+                    CurrentLineIndex = BodyList.Lines.Count - 1;
+                    CurrentPart = EnumDocumentParts.BODY;
+                    break;
+                case EnumDocumentParts.FOOTER:
+                    FooterList.Lines.Add(_line);
+                    CurrentLineIndex = FooterList.Lines.Count - 1;
+                    CurrentPart = EnumDocumentParts.FOOTER;
+                    break;
+            }
+            
         }
         public void Add(PrintableThing pThing)
         {
@@ -254,39 +292,50 @@ namespace DiverseControls
             float _x = XMin;
             float _y = YMin;
 
-            //LineList.Lines[0].x = _x;
-            //LineList.Lines[0].y = _y;
-            //var query = LineList.Lines.TakeWhile(x => x.y <= YMax );
-
-            //query.ToList().ForEach(x =>
-            //{
-            //    _y+=200;
-            //    LineList.Lines[LineList.LastPrintedLine++].y = _y;
-            //});
-
-
-            // RAFA, no ha habido manera... ya harás tu las pruebas con el TakeWhile a ver si lo consigues tú.
-            while (_y <= YMax && LineList.LastPrintedLine < LineList.Lines.Count-1 )
+            //lets print the header
+            HeaderList.Lines.ForEach(l =>
             {
-                var l = LineList.Lines[LineList.LastPrintedLine];
-                l.Graphics = g;
-                if (l.Banding && (l.LineNumber % 2 == 0))
-                    e.Graphics.FillRectangle(new SolidBrush(Color.LightGray), XMin, _y, l.Width, l.Height);
-                l.Things.ForEach(t =>
-                {
-                    t.Draw(_x, _y);
-                    _x += t.Width;
-                });
+                PrintDocumentLine(l, g, ref _y);
+            });
 
-                _y += l.Height;
-                _x = XMin;
-                LineList.LastPrintedLine++;
+            // lets print the lines
+            if (BodyList.LastPrintedLine >1)
+                PrintDocumentLine(BodyList.Lines[1], g, ref _y); // column titles in following new pages
+            while (_y <= YMax && BodyList.LastPrintedLine < BodyList.Lines.Count-1 )
+            {
+                PrintDocumentLine(BodyList.Lines[BodyList.LastPrintedLine], g, ref _y);
+                BodyList.LastPrintedLine++;
             }
 
-            e.HasMorePages = (_y > YMax && LineList.LastPrintedLine < LineList.Lines.Count - 1);
+            // lets print the footer
+            _y = YMax;
+            FooterList.Lines.ForEach(l =>
+            {
+                PrintDocumentLine(l, g, ref _y);
+            });
+
+            // are going to be more pages?
+            e.HasMorePages = (BodyList.LastPrintedLine < BodyList.Lines.Count - 1);
 
             base.OnPrintPage(e);
         }
-        
+        private void PrintDocumentLine(PrintableLine Line, Graphics g, ref float _y)
+        {
+            //var l = BodyList.Lines[BodyList.LastPrintedLine];
+            Line.Graphics = g;
+            var _x = XMin;
+            var __y = _y;
+            if (Line.Banding && (Line.LineNumber % 2 == 0))
+                g.FillRectangle(new SolidBrush(Color.LightGray), XMin, _y, Line.Width, Line.Height);
+            Line.Things.ForEach(t =>
+            {
+                t.Draw(_x, __y);
+                _x += t.Width;
+            });
+
+            _y += Line.Height;
+            _x = XMin;
+            
+        }
     }
 }
