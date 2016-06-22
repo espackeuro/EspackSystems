@@ -352,7 +352,7 @@ namespace Etiquetas_CS
             ((CtlVSColumn)vsLabels.Columns[0]).Aggregate = AggregateOperations.COUNT;
             ((CtlVSColumn)vsLabels.Columns["QTY"]).Aggregate = AggregateOperations.SUM;
 
-            var _Sql = string.Format("SELECT IDREG,DATA=datos,QTY,PRINTED=impreso FROM etiquetas_detalle WHERE codigo='{0}' and parametros='{1}'{2} order by idreg", txtCode.Text, SQLParameterString.Replace("'", "#"), _group);
+            var _Sql = string.Format("SELECT IDREG,DATA=datos,QTY,PRINTED=impreso FROM etiquetas_detalle WHERE codigo='{0}' and parametros='{1}'{2} order by datos,idreg", txtCode.Text, SQLParameterString.Replace("'", "#"), _group);
             using (var _RS = new DynamicRS(_Sql, Values.gDatos))
             {
                 _RS.Open();
