@@ -27,7 +27,7 @@ namespace AccesoDatosNet
         public object Container;
         public SqlParameter Parameter;
     }
-    public class cAccesoDatosNet : ICloneable
+    public class cAccesoDatosNet : ICloneable,IDisposable
     {
         public SqlConnection AdoCon { get; set; }
         public string Path { get; set; }
@@ -296,6 +296,46 @@ namespace AccesoDatosNet
         {
             return Clone();
         }
+
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    AdoCon.Close();
+                    AdoCon.Dispose();
+                    IP = null;
+                    oServer = null;
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // TODO: set large fields to null.
+
+                disposedValue = true;
+            }
+        }
+
+        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+        // ~cAccesoDatosNet() {
+        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+        //   Dispose(false);
+        // }
+
+        // This code added to correctly implement the disposable pattern.
+        void IDisposable.Dispose()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+            // TODO: uncomment the following line if the finalizer is overridden above.
+            // GC.SuppressFinalize(this);
+        }
+        #endregion
+
+
     }
 
     public enum RSState
@@ -880,7 +920,7 @@ namespace AccesoDatosNet
         }
     }
 
-    public class SP
+    public class SP:IDisposable
     {
         private cAccesoDatosNet mConn;
         
@@ -1166,6 +1206,35 @@ namespace AccesoDatosNet
             //}
             //return Result;
         }
+
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    Cmd.Dispose();
+                    ControlParameters.Clear();
+                    ControlParameters = null;
+                    OutputParameters.Clear();
+                    OutputParameters = null;
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // TODO: set large fields to null.
+
+                disposedValue = true;
+            }
+        }
+
+        void IDisposable.Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
     }
 
     public class DA
