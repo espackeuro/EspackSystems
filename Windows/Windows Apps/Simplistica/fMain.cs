@@ -44,6 +44,12 @@ namespace Simplistica
             fSimpleReceivals fSimpleReceivals = new fSimpleReceivals();
             fSimpleReceivals.Show();
         }
+
+        private void printRepairsUnitLabelsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            fPrintUnitLabels fPrintUnitLabels = new fPrintUnitLabels();
+            fPrintUnitLabels.Show();
+        }
     }
     public static class Values
     {

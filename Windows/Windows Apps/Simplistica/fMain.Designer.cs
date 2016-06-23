@@ -31,13 +31,16 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.receivalsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.simpleReceivalsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.printRepairsUnitLabelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.receivalsToolStripMenuItem});
+            this.receivalsToolStripMenuItem,
+            this.toolsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(284, 24);
@@ -58,6 +61,21 @@
             this.simpleReceivalsToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.simpleReceivalsToolStripMenuItem.Text = "Simple Receivals";
             this.simpleReceivalsToolStripMenuItem.Click += new System.EventHandler(this.simpleReceivalsToolStripMenuItem_Click);
+            // 
+            // toolsToolStripMenuItem
+            // 
+            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.printRepairsUnitLabelsToolStripMenuItem});
+            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
+            this.toolsToolStripMenuItem.Text = "Tools";
+            // 
+            // printRepairsUnitLabelsToolStripMenuItem
+            // 
+            this.printRepairsUnitLabelsToolStripMenuItem.Name = "printRepairsUnitLabelsToolStripMenuItem";
+            this.printRepairsUnitLabelsToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.printRepairsUnitLabelsToolStripMenuItem.Text = "Print Repairs Unit Labels";
+            this.printRepairsUnitLabelsToolStripMenuItem.Click += new System.EventHandler(this.printRepairsUnitLabelsToolStripMenuItem_Click);
             // 
             // fMain
             // 
@@ -81,6 +99,8 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem receivalsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem simpleReceivalsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem printRepairsUnitLabelsToolStripMenuItem;
     }
 }
 

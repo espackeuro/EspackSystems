@@ -131,7 +131,7 @@ namespace Etiquetas_CS
         {
             // Send a list with the rows whose LP matches to the selected group.
             SetFormEnabled(false);
-            vsLabels.Rows.OfType<DataGridViewRow>().Where(x => (x.Cells["LP"].Value.ToString() == vsGroups.CurrentRow.Cells["LP"].Value.ToString()) || vsGroups.CurrentRow.Cells["LP"].Value.ToString()=="").ToList().ForEach(_row => ChangeLineStatus(_row));
+            vsLabels.Rows.OfType<DataGridViewRow>().Where(x => (vsGroups.CurrentRow.Cells[SQLGroup].Value.ToString() == "") || (x.Cells[SQLGroup].Value.ToString() == vsGroups.CurrentRow.Cells[SQLGroup].Value.ToString())).ToList().ForEach(_row => ChangeLineStatus(_row));
             SetFormEnabled(true);
         }
 
@@ -217,6 +217,9 @@ namespace Etiquetas_CS
 
                     vsGroups.AddColumn(SQLGroup);
                     SQLSelect += "|" + SQLGroup;
+                } else
+                {
+                    vsGroups.AddColumn("");
                 }
 
                 SQLWhere.Split('|').ToList().ForEach(x =>
@@ -370,20 +373,22 @@ namespace Etiquetas_CS
                 
             };
             //vsLabels.UpdateEspackControl();
-        } 
+        }
 
         private void GenerateGroups(List<DataRow> r)
         {
             SetFormEnabled(false);
             clearing = true;
-
             vsGroups.ClearEspackControl();
             vsGroups.Rows.Add("");
-            var l = r.GroupBy(p => p[SQLGroup].ToString());
-            l.ToList().ForEach(x =>
+            if (SQLGroup != "")
             {
-                vsGroups.Rows.Add(x.Key);
-            });
+                var l = r.GroupBy(p => p[SQLGroup].ToString());
+                l.ToList().ForEach(x =>
+                {
+                    vsGroups.Rows.Add(x.Key);
+                });
+            }
             clearing = false;
             SetFormEnabled(true);
         }
@@ -452,7 +457,10 @@ namespace Etiquetas_CS
                 _RS.Open();
                 _RS.ToList().ForEach(z =>
                 {
-                    _label.addLine(Convert.ToInt32(z["Col"]), Convert.ToInt32(z["Fila"]), Convert.ToSingle(CT.Qnuln(z["TamTexto"])),z["Orientacion"].ToString(),z["Estilo"].ToString(),z["Texto"].ToString(),Convert.ToInt32(z["charSize"]));
+                    float _bh = z["barcodeHeight"] is DBNull ? 0 : Convert.ToSingle(z["barcodeHeight"]);
+                    float _bm = z["barcodeWidthmult"] is DBNull ? 0 : Convert.ToSingle(z["barcodeWidthmult"]);
+                    int _cs = z["charSize"] is DBNull ? 0 : Convert.ToInt32(z["charSize"]);
+                    _label.addLine(Convert.ToInt32(z["Col"]), Convert.ToInt32(z["Fila"]), Convert.ToSingle(CT.Qnuln(z["TamTexto"])),z["Orientacion"].ToString(),z["Estilo"].ToString(),z["Texto"].ToString(),_cs,_bh, _bm);
                 });
             }
             Dictionary<string, string> _parameters = new Dictionary<string, string>();
@@ -461,7 +469,7 @@ namespace Etiquetas_CS
             vsLabels.ToList().Where(line => line.Cells["PRINTED"].Value.ToString()=="N").ToList().ForEach(line =>
             {
                 _parameters.ToList().ForEach(p => _parameters[p.Key] = line.Cells[p.Key].Value.ToString());
-                if (_group!=line.Cells[SQLGroup].Value.ToString())
+                if (SQLGroup!="" && _group!=line.Cells[SQLGroup].Value.ToString())
                 {
                     _group = line.Cells[SQLGroup].Value.ToString();
                     delimiterLabel.delim(_delimiterLabel, "GROUP", SQLGroup+"|"+_group);

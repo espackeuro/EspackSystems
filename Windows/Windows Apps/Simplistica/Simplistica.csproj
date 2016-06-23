@@ -59,6 +59,12 @@
     <Compile Include="fMain.Designer.cs">
       <DependentUpon>fMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="fPrintUnitLabels.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fPrintUnitLabels.Designer.cs">
+      <DependentUpon>fPrintUnitLabels.cs</DependentUpon>
+    </Compile>
     <Compile Include="fSimpleReceivals.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -69,6 +75,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="fMain.resx">
       <DependentUpon>fMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fPrintUnitLabels.resx">
+      <DependentUpon>fPrintUnitLabels.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="fSimpleReceivals.resx">
       <DependentUpon>fSimpleReceivals.cs</DependentUpon>
@@ -108,6 +117,10 @@
     <ProjectReference Include="..\..\..\Database and tools\CommonTools\CommonTools.csproj">
       <Project>{9148f7e6-31f6-4f96-b7dc-afea449998c7}</Project>
       <Name>CommonTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Database and tools\RawPrinterHelper\RawPrinterHelper\RawPrinterHelper.csproj">
+      <Project>{265be0fe-a0b7-4a6f-84a3-2364a5cf865e}</Project>
+      <Name>RawPrinterHelper</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\EspackClasses\EspackClasses.csproj">
       <Project>{60c3af59-c083-4db1-a9ff-ddec1e429029}</Project>
