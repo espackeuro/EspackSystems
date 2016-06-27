@@ -198,6 +198,12 @@ namespace Sistemas
         {
             fTests fTests = (fTests)GetChildInstance("fTests");
         }
+
+        private void testCarlosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            fTest fTest = new fTest();
+            fTest.Show();
+        }
     }
 
     public static class Values
