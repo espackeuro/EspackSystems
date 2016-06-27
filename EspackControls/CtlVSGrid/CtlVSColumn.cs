@@ -45,6 +45,7 @@ namespace VSGrid
         bool IsNumeric { get; }
         AggregateOperations Aggregate { get; set; }
         float AggregateValue { get; }
+        void ReQuery();
         //object Value { get; set; }
     }
 
@@ -70,19 +71,7 @@ namespace VSGrid
                 _status = value;
                 if (value== EnumStatus.ADDNEW || value==EnumStatus.EDIT)
                 {
-                    if (aQuery != "" && Conn != null)
-                    {
-                        AutoCompleteCustomSource = new AutoCompleteStringCollection();
-                        DynamicRS _RS = new DynamicRS(aQuery, Conn);
-                        _RS.Open();
-                        while (!_RS.EOF)
-                        {
-                            AutoCompleteCustomSource.Add(_RS[0].ToString());
-                            _RS.MoveNext();
-                        }
-                        _RS.Close();
-                        _RS = null;
-                    }
+                    ReQuery();
                 }
             }
         }
@@ -174,6 +163,23 @@ namespace VSGrid
         public string RowColor { get; set; }
         public List<CtlVSColumn> ChangedCols { get; set; }
         public EspackFormControl LinkedControl { get; set; }
+
+        public void ReQuery()
+        {
+            if (aQuery != "" && Conn != null)
+            {
+                AutoCompleteCustomSource = new AutoCompleteStringCollection();
+                using (DynamicRS _RS = new DynamicRS(aQuery, Conn))
+                {
+                    _RS.Open();
+                    while (!_RS.EOF)
+                    {
+                        AutoCompleteCustomSource.Add(_RS[0].ToString());
+                        _RS.MoveNext();
+                    }
+                }
+            }
+        }
 
         public override object Clone()
         {
@@ -437,13 +443,7 @@ namespace VSGrid
             set
             {
                 _query = value;
-                if (_query != "" && Conn != null)
-                {
-                    var _RS = new DynamicRS(_query, Conn);
-                    DataSource = _RS.DataObject;
-                    DisplayMember = _RS.Fields[0];
-                    ValueMember = DisplayMember;
-                }
+                ReQuery();
             }
         }
         //public int Width { get; set; }
@@ -452,7 +452,16 @@ namespace VSGrid
         public string RowColor { get; set; }
         public List<CtlVSColumn> ChangedCols { get; set; }
         public EspackFormControl LinkedControl { get; set; }
-
+        public void ReQuery()
+        {
+            if (_query != "" && Conn != null)
+            {
+                var _RS = new DynamicRS(_query, Conn);
+                DataSource = _RS.DataObject;
+                DisplayMember = _RS.Fields[0];
+                ValueMember = DisplayMember;
+            }
+        }
         public override object Clone()
         {
             CtlVSComboColumn that = (CtlVSComboColumn)base.Clone();

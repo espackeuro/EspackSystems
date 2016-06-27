@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using AccesoDatosNet;
 using CommonToolsWin;
+using VSGrid;
 
 namespace Simplistica
 {
@@ -31,16 +32,19 @@ namespace Simplistica
             CTLM.AddItem(cboServicio, "Servicio", true, true, false, 0, false, true);
             CTLM.AddItem(txtSuppDoc, "Doc_Proveedor", true, true, false, 0, false, true);
             CTLM.AddItem(txtNotes, "Notas", true, true, false, 0, false, false);
+            CTLM.AddItem(lstFlags, "flags", false, false, false, 0, false, true);
+
             //empty header values
             CTLM.AddItem("", "transportista", true, true, false, 0, false, false);
             CTLM.AddItem("", "matricula", true, true, false, 0, false, false);
-            CTLM.AddItem("", "conductor", true, true, false, 0, false, false);
+            CTLM.AddItem("@@@"+txtEntrada.Value.ToString(), "conductor", true, true, false, 0, false, false);
             CTLM.AddItem("", "documento_aduana", true, true, false, 0, false, false);
             CTLM.AddItem("01/01/2001 00:00", "fecha_doc_proveedor", true, true, false, 0, false, false);
 
             //fields
             cboServicio.Source("Select Codigo,Nombre from Servicios where dbo.CheckFlag(flags,'SIMPLE')=1 order by codigo", txtDesServicio);
             cboServicio.SelectedValueChanged += CboServicio_SelectedValueChanged;
+            lstFlags.Source("Select codigo,DescFlagEng from flags where Tabla='Cab_Recepcion'");
             //VS Definitions
             VS.Conn = Values.gDatos;
             VS.sSPAdd = "PAdd_Det_Recepcion";
@@ -64,7 +68,8 @@ namespace Simplistica
 
         private void CboServicio_SelectedValueChanged(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            ((CtlVSColumn)VS.Columns["PartNumber"]).AutoCompleteQuery = string.Format("select partnumber from referencias where servicio='{0}'", cboServicio.Value);
+            ((CtlVSColumn)VS.Columns["PartNumber"]).ReQuery();
         }
 
         private void VS_CellEndEdit(object sender, DataGridViewCellEventArgs e)
@@ -89,6 +94,51 @@ namespace Simplistica
                     }
                 }
 
+            }
+        }
+
+        private void btnLabelCMs_Click(object sender, EventArgs e)
+        {
+            using (var _sp = new SP(Values.gDatos, "PGenerar_Paletags"))
+            {
+                _sp.AddParameterValue("@entrada", txtEntrada.Value.ToString());
+                try
+                {
+                    _sp.Execute();
+                }
+                catch (Exception ex)
+                {
+                    CTWin.MsgError(ex.Message);
+                    return;
+                }
+                if (_sp.LastMsg.Substring(0, 2) != "OK")
+                {
+                    CTWin.MsgError(_sp.LastMsg);
+                    return;
+                }
+                lstFlags["PALETAGS"] = true;
+            }
+        }
+
+        private void btnReceived_Click(object sender, EventArgs e)
+        {
+            using (var _sp = new SP(Values.gDatos, "PUpp_Cab_Recepcion_Recibida"))
+            {
+                _sp.AddParameterValue("@conductor", "@@@" + txtEntrada.Value.ToString());
+                try
+                {
+                    _sp.Execute();
+                } catch(Exception ex)
+                {
+                    CTWin.MsgError(ex.Message);
+                    return;
+                }
+                if (_sp.LastMsg.Substring(0, 2) != "OK")
+                {
+                    CTWin.MsgError(_sp.LastMsg);
+                    return;
+                }
+                lstFlags["RECEIVED"]=true;
             }
         }
     }

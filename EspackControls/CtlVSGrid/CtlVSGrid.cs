@@ -276,8 +276,15 @@ namespace VSGrid
                         }
                     case EnumStatus.EDIT:
                         {
-                            DataRow newRow = mDA.Table.NewRow();
-                            mDA.Table.Rows.Add(newRow);
+                            if (RowCount == 0)
+                            {
+                                Rows.Add();
+                            } else
+                            {
+                                DataRow newRow = mDA.Table.NewRow();
+                                mDA.Table.Rows.Add(newRow);
+                            }
+                            Refresh();
                             break;
                         }
                     case EnumStatus.DELETE:

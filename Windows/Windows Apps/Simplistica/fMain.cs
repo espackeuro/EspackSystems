@@ -37,11 +37,13 @@ namespace Simplistica
                 Application.Exit();
             }
             Values.gDatos.Close();
+
         }
 
         private void simpleReceivalsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             fSimpleReceivals fSimpleReceivals = new fSimpleReceivals();
+            fSimpleReceivals.MdiParent = this;
             fSimpleReceivals.Show();
         }
 

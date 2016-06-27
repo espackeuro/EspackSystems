@@ -1084,16 +1084,29 @@ namespace EspackFormControls
         }
         public int indexItem(string key)
         {
-            for (var i = 0; i < Items.Count; i++)
+            return Items.IndexOf(Items.Cast<DataRowView>().First(x => x[ValueMember].ToString() == key));
+            //for (var i = 0; i < Items.Count; i++)
+            //{
+            //    var r = ((DataRowView)Items[i]).Row;
+            //    var _l = r[ValueMember].ToString();
+            //    if (_l == key)
+            //    {
+            //        return i;
+            //    }
+            //}
+            //return -1;
+        }
+
+        public bool this[string key]
+        {
+            get
             {
-                var r = ((DataRowView)Items[i]).Row;
-                var _l = r[ValueMember].ToString();
-                if (_l == key)
-                {
-                    return i;
-                }
+                return GetItemChecked(Items.IndexOf(Items.Cast<DataRowView>().First(x => x[ValueMember].ToString()==key)));
             }
-            return -1;
+            set
+            {
+                SetItemChecked(indexItem(key), value);
+            }
         }
 
         public bool itemStatus(string key)
@@ -1107,39 +1120,22 @@ namespace EspackFormControls
 
         public void CheckItem(string key)
         {
-            for (var i = 0; i < Items.Count; i++)
-            {
-                var r = ((DataRowView)Items[i]).Row;
-                var _l = r[ValueMember].ToString();
-                if (_l == key)
-                {
-                    SetItemChecked(i, true);
-                    break;
-                }
-            }
+            SetItemChecked(indexItem(key),true);
         }
 
         public void UnCheckItem(string key)
         {
-            for (var i = 0; i < Items.Count; i++)
-            {
-                var r = ((DataRowView)Items[i]).Row;
-                var _l = r[ValueMember].ToString();
-                if (_l == key)
-                {
-                    SetItemChecked(i, false);
-                    break;
-                }
-            }
+            SetItemChecked(indexItem(key), false);
         }
 
         public void ClearEspackControl()
         {
             noChange = true;
-            for (var i = 0; i < Items.Count; i++)
-            {
-                SetItemChecked(i, false);
-            }
+            Items.Cast<DataRowView>().ToList().ForEach(x => SetItemChecked(Items.IndexOf(x), false));
+            //for (var i = 0; i < Items.Count; i++)
+            //{
+            //    SetItemChecked(i, false);
+            //}
             noChange = false;
             EventArgs _ev = new EventArgs();
             Changed(this, _ev);
@@ -1148,8 +1144,9 @@ namespace EspackFormControls
         {
             get
             {
-                IEnumerable<string> l = (from DataRowView item in CheckedItems select item.Row[ValueMember].ToString());
-                return l.ToList<string>();
+                return CheckedItems.Cast<DataRowView>().Select(x => x[ValueMember].ToString()).ToList();
+                //IEnumerable<string> l = (from DataRowView item in CheckedItems select item.Row[ValueMember].ToString());
+                //return l.ToList<string>();
             }
         }
         private string ListJoin

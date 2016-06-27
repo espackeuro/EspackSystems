@@ -623,7 +623,7 @@ namespace CTLMantenimientoNet
                     {
                         if (mDA.Conn.State == ConnectionState.Open)
                             mDA.Conn.Close();
-                            mDA.InsertCommand.Execute();
+                        mDA.InsertCommand.Execute();
                         if (mDA.InsertCommand.LastMsg.Substring(0, 2) != "OK")
                         {
                             MessageBox.Show("ERROR:" + mDA.InsertCommand.LastMsg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -647,9 +647,16 @@ namespace CTLMantenimientoNet
                         {
                             ClearValues(true);
                             Status = EnumStatus.SEARCH;
-                            Click_OK(pButtonName);;
+                            Click_OK(pButtonName); ;
                         }
-                        Status = VsGrids.Count != 0 ? EnumStatus.EDIT : EnumStatus.SEARCH;
+
+                        if (VsGrids.Count != 0)
+                        {
+                            Status = EnumStatus.EDIT;
+                            ((Control)VsGrids[0]).Focus();
+                        }
+                        else
+                            Status = EnumStatus.SEARCH;
                         break;
                     }
                 case EnumStatus.EDIT:
