@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using AccesoDatosNet;
 using CommonToolsWin;
 using VSGrid;
+using EspackClasses;
+using RawPrinterHelper;
 
 namespace Simplistica
 {
@@ -37,7 +39,7 @@ namespace Simplistica
             //empty header values
             CTLM.AddItem("", "transportista", true, true, false, 0, false, false);
             CTLM.AddItem("", "matricula", true, true, false, 0, false, false);
-            CTLM.AddItem("@@@"+txtEntrada.Value.ToString(), "conductor", true, true, false, 0, false, false);
+            CTLM.AddItem("@@@", "conductor", true, true, false, 0, false, false);
             CTLM.AddItem("", "documento_aduana", true, true, false, 0, false, false);
             CTLM.AddItem("01/01/2001 00:00", "fecha_doc_proveedor", true, true, false, 0, false, false);
 
@@ -45,6 +47,11 @@ namespace Simplistica
             cboServicio.Source("Select Codigo,Nombre from Servicios where dbo.CheckFlag(flags,'SIMPLE')=1 order by codigo", txtDesServicio);
             cboServicio.SelectedValueChanged += CboServicio_SelectedValueChanged;
             lstFlags.Source("Select codigo,DescFlagEng from flags where Tabla='Cab_Recepcion'");
+            cboPrinters.Enabled = true;
+            cboPrinters.Source("select Codigo from  ETIQUETAS..datosEmpresa where descripcion like '%PALETAG%' order by cmp_integer", Values.gDatos);
+
+
+
             //VS Definitions
             VS.Conn = Values.gDatos;
             VS.sSPAdd = "PAdd_Det_Recepcion";
@@ -96,30 +103,95 @@ namespace Simplistica
 
             }
         }
-
+        #region CM GENERATION
         private void btnLabelCMs_Click(object sender, EventArgs e)
         {
-            using (var _sp = new SP(Values.gDatos, "PGenerar_Paletags"))
+            //printer preparation
+            string _printerAddress = "";
+            if (cboPrinters.Value.ToString() == "")
             {
-                _sp.AddParameterValue("@entrada", txtEntrada.Value.ToString());
-                try
+                CTWin.MsgError("Select a label printer first.");
+                return;
+            }
+            using (var _RS = new DynamicRS(string.Format("select descripcion,cmp_varchar from ETIQUETAS..datosEmpresa where codigo='{0}'", cboPrinters.Value), Values.gDatos))
+            {
+                _RS.Open();
+                _printerAddress = _RS["cmp_varchar"].ToString();
+                //_printerType = _RS["descripcion"].ToString().Split('|')[0];
+            }
+            //label preparation
+            var _label = new ZPLLabel(70, 31, 3, 203);
+            var _CMLabel = new MicroCM(_label);
+            //sp preparation
+            using (var _sp = new SP(Values.gDatos, "PGenerar_Paletags_linea"))
+            {
+                
+                //we will check line by line
+                VS.ToList().Where(r => r.Cells[0].Value.ToString()!="").ToList().ForEach(r => 
                 {
-                    _sp.Execute();
-                }
-                catch (Exception ex)
-                {
-                    CTWin.MsgError(ex.Message);
-                    return;
-                }
-                if (_sp.LastMsg.Substring(0, 2) != "OK")
-                {
-                    CTWin.MsgError(_sp.LastMsg);
-                    return;
-                }
+                    //first we generate the cms
+                    try
+                    {
+                        generateCM(Convert.ToInt32(txtEntrada.Value), Convert.ToInt32(r.Cells[1].Value));
+                    } catch (Exception ex)
+                    {
+                        CTWin.MsgError(ex.Message);
+                        CTLM.StatusMsg(ex.Message);
+                    }
+                    // then we print the labels 
+                    using (var _rs = new DynamicRS(string.Format("Select cp.CM,cp.Entrada,cp.Linea,cp.Partnumber,cp.QTY,cp.xfec,c.Doc_Proveedor from CMS_PALETAGS cp inner join cab_Recepcion c on c.entrada=cp.entrada where cp.Entrada='{0}' and Linea='{1}'", Convert.ToInt32(txtEntrada.Value), Convert.ToInt32(r.Cells[1].Value)), Values.gDatos))
+                    {
+                        _rs.Open();
+                        _rs.ToList().ForEach(row =>
+                        {
+                            _CMLabel.Parameters["CM"] = row["CM"].ToString();
+                            _CMLabel.Parameters["RECEIVAL"] = row["Entrada"].ToString();
+                            _CMLabel.Parameters["RECEIVAL_DATE"] = row["xfec"].ToString();
+                            _CMLabel.Parameters["PARTNUMBER"] = string.Format("{0} - {1}", row["Partnumber"].ToString(), row["Doc_Proveedor"].ToString());
+                            _CMLabel.Parameters["QTY"] = row["QTY"].ToString();
+                            cRawPrinterHelper.SendUTF8StringToPrinter(_printerAddress, _CMLabel.ToString(), 1);
+                        });
+                    }
+                });
+
                 lstFlags["PALETAGS"] = true;
+                CTLM.StatusMsg("CMs generated OK.");
             }
         }
+        private void generateCM(int pReceival, int pLine)
+        {
+            //sp preparation
+            using (var _sp = new SP(Values.gDatos, "PGenerar_Paletags_linea"))
+            {
+                using (var _rs = new DynamicRS(string.Format("Select 0 from CMS_PALETAGS where Entrada='{0}' and Linea='{1}'", pReceival, pLine), Values.gDatos))
+                {
+                    _rs.Open();
+                    //if no paletags for the line
+                    if (_rs.RecordCount == 0)
+                    {
+                        CTLM.StatusMsg(string.Format("Generating paletags for line {0}", pLine));
+                        _sp.AddParameterValue("@Entrada", pReceival);
+                        _sp.AddParameterValue("@Linea", pLine);
+                        try
+                        {
+                            //generate them
+                            _sp.Execute();
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception(ex.Message);
+                        }
+                        if (_sp.LastMsg.Substring(0, 2) != "OK")
+                        {
+                            throw new Exception(_sp.LastMsg);
+                        }
+                    }
+                    //now we print them
 
+                }
+            }
+        }
+        #endregion
         private void btnReceived_Click(object sender, EventArgs e)
         {
             using (var _sp = new SP(Values.gDatos, "PUpp_Cab_Recepcion_Recibida"))

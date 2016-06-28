@@ -12,8 +12,8 @@ namespace EspackClasses
 
     public interface printerItem : ICloneable
     {
-        int x { get; set; }
-        int y { get; set; }
+        float x { get; set; }
+        float y { get; set; }
         Size Size { get; }
         string textData { get; set; }
         cLabel Parent { get; set; }
@@ -26,8 +26,8 @@ namespace EspackClasses
     public class printerBarcode : printerItem
     {
 
-        public int x { get; set; }
-        public int y { get; set; }
+        public float x { get; set; }
+        public float y { get; set; }
         public Size Size
         {
             get
@@ -47,7 +47,7 @@ namespace EspackClasses
         }
         public string align { get; set; }
         public float WidthMult { get; set; }
-        public int xDimension { get; set; }
+        public float xDimension { get; set; }
         //constructor
         public printerBarcode(cLabel pParent)
         {
@@ -64,13 +64,13 @@ namespace EspackClasses
     }
     public class printerLine: printerItem
     {
-        public int x { get; set; }
-        public int y { get; set; }
+        public float x { get; set; }
+        public float y { get; set; }
         public float textSize { get; set; }
         public string align { get; set; }
         public string style { get; set; }
         public string textData { get; set; }
-        public int charSize { get; set; }
+        public float charSize { get; set; }
         public cLabel Parent { get; set; }
         public Size Size
         {
@@ -155,7 +155,7 @@ namespace EspackClasses
             return string.Join("", labelHeader) + string.Join("", _replacedList.Select(x => renderLine(x))) + string.Join("", labelFooter);
         }
 
-        public virtual void addLine(int x, int y, float textSize, string align, string style, string textData, int charSize = 0, float barcodeHeight=0, float barcodeWidthMult=0, bool humanReadable=false)
+        public virtual void addLine(float x, float y, float textSize, string align, string style, string textData, float charSize = 0, float barcodeHeight=0, float barcodeWidthMult=0, bool humanReadable=false)
         {
             if (textData.Length>4 && textData.Substring(0,4) == "[BC]")
             {
@@ -163,7 +163,7 @@ namespace EspackClasses
                 {
                     x = x,
                     y = y,
-                    Height = barcodeHeight * 50F / 8F,
+                    Height = barcodeHeight,
                     align = align,
                     WidthMult = barcodeWidthMult,
                     xDimension = Convert.ToInt32(Math.Ceiling(barcodeWidthMult * 2)),
@@ -236,12 +236,12 @@ namespace EspackClasses
                 if (_p.textSize == 0)
                 {
                     Font _font = new Font("Swis721 BT", _p.charSize);
-                    _p.textSize = TextMeasurer.MeasureString(_p.textData, _font).Width * 1.7F;
+                    _p.textSize = TextMeasurer.MeasureString(_p.textData, _font, dpi).Width; //* 1.7F;
                 }
 
                 //textSize = textSize == 0F ? ): textSize;
                 float _width = _p.textSize * dpm;// = 2.1F * (textSize - 1);
-                int _charWidthDPM = _charSize_mm == 0 ? Convert.ToInt32(_p.textSize / _p.textData.Length * dpm * 1.9) : Convert.ToInt32(_charSize_mm * 1.9F * dpm);//(textSize / textData.Length) < ((textSize-1)*2+10) ? (textSize / textData.Length): ((textSize - 1) * 2 + 10);
+                int _charWidthDPM = _charSize_mm == 0 ? Convert.ToInt32(_p.textSize / _p.textData.Length * dpm) : Convert.ToInt32(_charSize_mm * dpm);//(textSize / textData.Length) < ((textSize-1)*2+10) ? (textSize / textData.Length): ((textSize - 1) * 2 + 10);
                 switch (_p.align)
                 {
                     case "C":
@@ -249,10 +249,12 @@ namespace EspackClasses
                         _result.Add(string.Format("^FT{0},{1},0", _xdpm, _ydpm));
                         break;
                     case "D":
+                    case "R":
                         _result.Add(string.Format("^FT{0},{1},1", _xdpm, _ydpm));//(_charWidth*1.2).ToString()
                                                                                  //_width = _xdpm;
                         break;
                     case "I":
+                    case "L":
                         _result.Add(string.Format("^FT{0},{1},0", _xdpm, _ydpm));
                         break;
                 }
@@ -321,11 +323,14 @@ namespace EspackClasses
 
     public static class TextMeasurer 
     {
-        private static readonly Image _fakeImage=new Bitmap(1, 1);
-        private static readonly Graphics _graphics= Graphics.FromImage(_fakeImage);
+        private static readonly Bitmap _fakeImage=new Bitmap(1, 1);
+        
+        //private static readonly Graphics _graphics= Graphics.FromImage(_fakeImage);
 
-        public static SizeF MeasureString(string text, Font font)
+        public static SizeF MeasureString(string text, Font font, int DPI=203)
         {
+            _fakeImage.SetResolution(DPI, DPI);
+            Graphics _graphics = Graphics.FromImage(_fakeImage);
             _graphics.PageUnit = GraphicsUnit.Millimeter;
             return _graphics.MeasureString(text, font, int.MaxValue);
         }
