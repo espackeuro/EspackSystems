@@ -452,7 +452,7 @@ namespace Etiquetas_CS
             //print delimiter start
             cRawPrinterHelper.SendUTF8StringToPrinter(_printerAddress, _delimiterLabel.ToString(), 1);
 
-            using (var _RS = new DynamicRS(string.Format("Select * from campos where codigo='{0}'", txtCode.Text),Values.gDatos))
+            using (var _RS = new DynamicRS(string.Format("Select * from Campos_CS where codigo='{0}'", txtCode.Text),Values.gDatos))
             {
                 _RS.Open();
                 _RS.ToList().ForEach(z =>

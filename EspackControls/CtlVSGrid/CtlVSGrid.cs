@@ -276,7 +276,9 @@ namespace VSGrid
                         }
                     case EnumStatus.EDIT:
                         {
-                            if (RowCount == 0)
+
+
+                            if (RowCount == 0 && DataSource == null)
                             {
                                 Rows.Add();
                             } else

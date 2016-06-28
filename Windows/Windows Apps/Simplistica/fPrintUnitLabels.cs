@@ -54,12 +54,13 @@ namespace Simplistica
                 //_printerType = _RS["descripcion"].ToString().Split('|')[0];
             }
             var _label = new ZPLLabel(70, 32, 3, 203);
-            _label.addLine(35, 3, 0, "C", "", "[BC][UNITNUMBER]", 0, 2.5F, 1,true);
-            var _param = new Dictionary<string, string>();
+            var _unitLabel = new SingleBarcode(_label);
+            //_label.addLine(35, 3, 0, "C", "", "[BC][UNITNUMBER]", 0, 2.5F, 1,true);
+            //var _param = new Dictionary<string, string>();
             for (var i=_labelInit; i < _labelInit + Convert.ToInt32(txtQty.Value);i++)
             {
-                _param["UNITNUMBER"] = "U" + i.ToString().PadLeft(9, '0');
-                cRawPrinterHelper.SendUTF8StringToPrinter(_printerAddress, _label.ToString(_param,1), 1);
+                _unitLabel.Parameters["VALUE"] = "U" + i.ToString().PadLeft(9, '0');
+                cRawPrinterHelper.SendUTF8StringToPrinter(_printerAddress, _unitLabel.ToString(), 1);
             }
         }
 

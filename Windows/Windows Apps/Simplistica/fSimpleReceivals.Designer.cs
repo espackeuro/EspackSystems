@@ -39,9 +39,10 @@
             this.VS = new VSGrid.CtlVSGrid();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnLabelCMs = new System.Windows.Forms.ToolStripButton();
-            this.btnReceived = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnReceived = new System.Windows.Forms.ToolStripButton();
             this.lstFlags = new EspackFormControls.EspackCheckedListBox();
+            this.cboPrinters = new EspackFormControls.EspackComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.VS)).BeginInit();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -81,7 +82,7 @@
             this.txtEntrada.DependingRS = null;
             this.txtEntrada.Font = new System.Drawing.Font("Tahoma", 10F);
             this.txtEntrada.ForeColor = System.Drawing.Color.Black;
-            this.txtEntrada.Location = new System.Drawing.Point(13, 86);
+            this.txtEntrada.Location = new System.Drawing.Point(11, 110);
             this.txtEntrada.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtEntrada.Multiline = true;
             this.txtEntrada.Name = "txtEntrada";
@@ -112,7 +113,7 @@
             this.txtFecha.Font = new System.Drawing.Font("Tahoma", 10F);
             this.txtFecha.ForeColor = System.Drawing.Color.Black;
             this.txtFecha.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.txtFecha.Location = new System.Drawing.Point(389, 86);
+            this.txtFecha.Location = new System.Drawing.Point(388, 113);
             this.txtFecha.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtFecha.Name = "txtFecha";
             this.txtFecha.Order = 0;
@@ -139,7 +140,7 @@
             this.txtSuppDoc.DependingRS = null;
             this.txtSuppDoc.Font = new System.Drawing.Font("Tahoma", 10F);
             this.txtSuppDoc.ForeColor = System.Drawing.Color.Black;
-            this.txtSuppDoc.Location = new System.Drawing.Point(13, 172);
+            this.txtSuppDoc.Location = new System.Drawing.Point(12, 198);
             this.txtSuppDoc.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtSuppDoc.Multiline = true;
             this.txtSuppDoc.Name = "txtSuppDoc";
@@ -167,7 +168,7 @@
             this.txtNotes.DependingRS = null;
             this.txtNotes.Font = new System.Drawing.Font("Tahoma", 10F);
             this.txtNotes.ForeColor = System.Drawing.Color.Black;
-            this.txtNotes.Location = new System.Drawing.Point(169, 172);
+            this.txtNotes.Location = new System.Drawing.Point(168, 198);
             this.txtNotes.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtNotes.Multiline = true;
             this.txtNotes.Name = "txtNotes";
@@ -198,7 +199,7 @@
             this.cboServicio.Font = new System.Drawing.Font("Tahoma", 10F);
             this.cboServicio.ForeColor = System.Drawing.Color.Black;
             this.cboServicio.FormattingEnabled = true;
-            this.cboServicio.Location = new System.Drawing.Point(12, 129);
+            this.cboServicio.Location = new System.Drawing.Point(11, 153);
             this.cboServicio.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.cboServicio.Name = "cboServicio";
             this.cboServicio.Order = 0;
@@ -226,7 +227,7 @@
             this.txtDesServicio.DependingRS = null;
             this.txtDesServicio.Font = new System.Drawing.Font("Tahoma", 10F);
             this.txtDesServicio.ForeColor = System.Drawing.Color.Black;
-            this.txtDesServicio.Location = new System.Drawing.Point(169, 129);
+            this.txtDesServicio.Location = new System.Drawing.Point(168, 156);
             this.txtDesServicio.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtDesServicio.Multiline = true;
             this.txtDesServicio.Name = "txtDesServicio";
@@ -286,10 +287,10 @@
             // 
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnReceived,
             this.btnLabelCMs,
-            this.toolStripSeparator1,
-            this.btnReceived});
-            this.toolStrip1.Location = new System.Drawing.Point(460, 16);
+            this.toolStripSeparator1});
+            this.toolStrip1.Location = new System.Drawing.Point(393, 13);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(142, 25);
             this.toolStrip1.TabIndex = 30;
@@ -305,6 +306,11 @@
             this.btnLabelCMs.Text = "Label CMs";
             this.btnLabelCMs.Click += new System.EventHandler(this.btnLabelCMs_Click);
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
             // btnReceived
             // 
             this.btnReceived.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -314,11 +320,6 @@
             this.btnReceived.Size = new System.Drawing.Size(58, 22);
             this.btnReceived.Text = "Received";
             this.btnReceived.Click += new System.EventHandler(this.btnReceived_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // lstFlags
             // 
@@ -335,7 +336,7 @@
             this.lstFlags.Font = new System.Drawing.Font("Tahoma", 10F);
             this.lstFlags.ForeColor = System.Drawing.Color.Black;
             this.lstFlags.FormattingEnabled = true;
-            this.lstFlags.Location = new System.Drawing.Point(12, 218);
+            this.lstFlags.Location = new System.Drawing.Point(11, 241);
             this.lstFlags.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.lstFlags.Name = "lstFlags";
             this.lstFlags.Order = 0;
@@ -349,11 +350,44 @@
             this.lstFlags.Upp = false;
             this.lstFlags.Value = "";
             // 
+            // cboPrinters
+            // 
+            this.cboPrinters.Add = false;
+            this.cboPrinters.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.cboPrinters.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboPrinters.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboPrinters.BackColor = System.Drawing.Color.White;
+            this.cboPrinters.Caption = "Printer";
+            this.cboPrinters.DBField = null;
+            this.cboPrinters.DBFieldType = null;
+            this.cboPrinters.DefaultValue = null;
+            this.cboPrinters.Del = false;
+            this.cboPrinters.DependingRS = null;
+            this.cboPrinters.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cboPrinters.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.cboPrinters.ForeColor = System.Drawing.Color.Black;
+            this.cboPrinters.FormattingEnabled = true;
+            this.cboPrinters.Location = new System.Drawing.Point(388, 58);
+            this.cboPrinters.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
+            this.cboPrinters.Name = "cboPrinters";
+            this.cboPrinters.Order = 0;
+            this.cboPrinters.ParentConn = null;
+            this.cboPrinters.ParentDA = null;
+            this.cboPrinters.PK = false;
+            this.cboPrinters.Search = false;
+            this.cboPrinters.Size = new System.Drawing.Size(163, 24);
+            this.cboPrinters.Status = CommonTools.EnumStatus.ADDNEW;
+            this.cboPrinters.TabIndex = 41;
+            this.cboPrinters.TBDescription = null;
+            this.cboPrinters.Upp = false;
+            this.cboPrinters.Value = "";
+            // 
             // fSimpleReceivals
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(617, 650);
+            this.ClientSize = new System.Drawing.Size(575, 650);
+            this.Controls.Add(this.cboPrinters);
             this.Controls.Add(this.lstFlags);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.VS);
@@ -389,5 +423,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton btnReceived;
         private EspackFormControls.EspackCheckedListBox lstFlags;
+        private EspackFormControls.EspackComboBox cboPrinters;
     }
 }
