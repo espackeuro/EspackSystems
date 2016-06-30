@@ -12,6 +12,7 @@ using CommonToolsWin;
 using VSGrid;
 using EspackClasses;
 using RawPrinterHelper;
+using System.Threading;
 
 namespace Simplistica
 {
@@ -47,8 +48,6 @@ namespace Simplistica
             cboServicio.Source("Select Codigo,Nombre from Servicios where dbo.CheckFlag(flags,'SIMPLE')=1 order by codigo", txtDesServicio);
             cboServicio.SelectedValueChanged += CboServicio_SelectedValueChanged;
             lstFlags.Source("Select codigo,DescFlagEng from flags where Tabla='Cab_Recepcion'");
-            cboPrinters.Enabled = true;
-            cboPrinters.Source("select Codigo from  ETIQUETAS..datosEmpresa where descripcion like '%PALETAG%' order by cmp_integer", Values.gDatos);
 
 
 
@@ -106,57 +105,75 @@ namespace Simplistica
         #region CM GENERATION
         private void btnLabelCMs_Click(object sender, EventArgs e)
         {
-            //printer preparation
-            string _printerAddress = "";
-            if (cboPrinters.Value.ToString() == "")
+            if (MessageBox.Show("This will generate and print all CMs. Are you sure?","SIMPLISTICA",MessageBoxButtons.YesNoCancel,MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                CTWin.MsgError("Select a label printer first.");
-                return;
-            }
-            using (var _RS = new DynamicRS(string.Format("select descripcion,cmp_varchar from ETIQUETAS..datosEmpresa where codigo='{0}'", cboPrinters.Value), Values.gDatos))
-            {
-                _RS.Open();
-                _printerAddress = _RS["cmp_varchar"].ToString();
-                //_printerType = _RS["descripcion"].ToString().Split('|')[0];
-            }
-            //label preparation
-            var _label = new ZPLLabel(70, 31, 3, 203);
-            var _CMLabel = new MicroCM(_label);
-            //sp preparation
-            using (var _sp = new SP(Values.gDatos, "PGenerar_Paletags_linea"))
-            {
-                
-                //we will check line by line
-                VS.ToList().Where(r => r.Cells[0].Value.ToString()!="").ToList().ForEach(r => 
+
+                //printer preparation
+
+                string _printerAddress = "";
+                if (Values.LabelPrinterAddress == "")
                 {
+                    CTWin.MsgError("Select a label printer first in preferences.");
+                    return;
+                }
+                using (var _RS = new DynamicRS(string.Format("select descripcion,cmp_varchar from ETIQUETAS..datosEmpresa where codigo='{0}'", Values.LabelPrinterAddress), Values.gDatos))
+                {
+                    _RS.Open();
+                    _printerAddress = _RS["cmp_varchar"].ToString();
+                    //_printerType = _RS["descripcion"].ToString().Split('|')[0];
+                }
+                //label preparation
+                var _label = new ZPLLabel(70, 31, 3, 203);
+                var _CMLabel = new MicroCM(_label);
+                //sp preparation
+                using (var _printer = new cRawPrinterHelper(_printerAddress))
+                using (var _sp = new SP(Values.gDatos, "PGenerar_Paletags_linea"))
+                {
+                    var _delimiterLabel = new ZPLLabel(_CMLabel.Label.width, _CMLabel.Label.height, 3, _CMLabel.Label.dpi);
+                    delimiterLabel.delim(_delimiterLabel, "START RECEIVAL", txtEntrada.Text);
+                    _printer.SendUTF8StringToPrinter(_delimiterLabel.ToString(), 1);
+                    //we will check line by line
+                    VS.ToList().Where(r => r.Cells[0].Value.ToString() != "").ToList().ForEach(r =>
+                      {
                     //first we generate the cms
                     try
-                    {
-                        generateCM(Convert.ToInt32(txtEntrada.Value), Convert.ToInt32(r.Cells[1].Value));
-                    } catch (Exception ex)
-                    {
-                        CTWin.MsgError(ex.Message);
-                        CTLM.StatusMsg(ex.Message);
-                    }
+                          {
+                              generateCM(Convert.ToInt32(txtEntrada.Value), Convert.ToInt32(r.Cells[1].Value));
+                          }
+                          catch (Exception ex)
+                          {
+                              CTWin.MsgError(ex.Message);
+                              CTLM.StatusMsg(ex.Message);
+                          }
+                    //delimiter
+                    delimiterLabel.delim(_delimiterLabel, "LINE", r.Cells[1].Value.ToString());
+                          _printer.SendUTF8StringToPrinter(_delimiterLabel.ToString(), 1);
                     // then we print the labels 
                     using (var _rs = new DynamicRS(string.Format("Select cp.CM,cp.Entrada,cp.Linea,cp.Partnumber,cp.QTY,cp.xfec,c.Doc_Proveedor from CMS_PALETAGS cp inner join cab_Recepcion c on c.entrada=cp.entrada where cp.Entrada='{0}' and Linea='{1}'", Convert.ToInt32(txtEntrada.Value), Convert.ToInt32(r.Cells[1].Value)), Values.gDatos))
-                    {
-                        _rs.Open();
-                        _rs.ToList().ForEach(row =>
-                        {
-                            _CMLabel.Parameters["CM"] = row["CM"].ToString();
-                            _CMLabel.Parameters["RECEIVAL"] = row["Entrada"].ToString();
-                            _CMLabel.Parameters["RECEIVAL_DATE"] = row["xfec"].ToString();
-                            _CMLabel.Parameters["PARTNUMBER"] = string.Format("{0} - {1}", row["Partnumber"].ToString(), row["Doc_Proveedor"].ToString());
-                            _CMLabel.Parameters["QTY"] = row["QTY"].ToString();
-                            cRawPrinterHelper.SendUTF8StringToPrinter(_printerAddress, _CMLabel.ToString(), 1);
-                        });
-                    }
-                });
+                          {
+                              _rs.Open();
+                              _rs.ToList().ForEach(row =>
+                              {
+                                  _CMLabel.Parameters["CM"] = row["CM"].ToString();
+                                  _CMLabel.Parameters["RECEIVAL"] = row["Entrada"].ToString();
+                                  _CMLabel.Parameters["RECEIVAL_DATE"] = row["xfec"].ToString();
+                                  _CMLabel.Parameters["PARTNUMBER"] = string.Format("{0} - {1}", row["Partnumber"].ToString(), row["Doc_Proveedor"].ToString());
+                                  _CMLabel.Parameters["QTY"] = row["QTY"].ToString();
+                                  if (!_printer.SendUTF8StringToPrinter(_CMLabel.ToString(), 1))
+                                  {
+                                      CTWin.MsgError(string.Format("Error printing label {}.", row["CM"]));
+                                  }
+                              });
+                          }
+                          delimiterLabel.delim(_delimiterLabel, "END RECEIVAL", txtEntrada.Text);
+                          _printer.SendUTF8StringToPrinter(_delimiterLabel.ToString(), 1);
+                      });
 
-                lstFlags["PALETAGS"] = true;
-                CTLM.StatusMsg("CMs generated OK.");
+                    lstFlags["PALETAGS"] = true;
+                    CTLM.StatusMsg("CMs generated OK.");
+                }
             }
+            MessageBox.Show("Label printing task finished.", "SIMPLISTICA", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
         private void generateCM(int pReceival, int pLine)
         {

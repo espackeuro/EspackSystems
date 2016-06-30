@@ -57,10 +57,13 @@ namespace Simplistica
             var _unitLabel = new SingleBarcode(_label);
             //_label.addLine(35, 3, 0, "C", "", "[BC][UNITNUMBER]", 0, 2.5F, 1,true);
             //var _param = new Dictionary<string, string>();
-            for (var i=_labelInit; i < _labelInit + Convert.ToInt32(txtQty.Value);i++)
+            using (var _printer = new cRawPrinterHelper(_printerAddress))
             {
-                _unitLabel.Parameters["VALUE"] = "U" + i.ToString().PadLeft(9, '0');
-                cRawPrinterHelper.SendUTF8StringToPrinter(_printerAddress, _unitLabel.ToString(), 1);
+                for (var i = _labelInit; i < _labelInit + Convert.ToInt32(txtQty.Value); i++)
+                {
+                    _unitLabel.Parameters["VALUE"] = "U" + i.ToString().PadLeft(9, '0');
+                    _printer.SendUTF8StringToPrinter(_unitLabel.ToString(), 1);
+                }
             }
         }
 

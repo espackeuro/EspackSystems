@@ -273,7 +273,7 @@ namespace AccesoDatosNet
                     cmd.ExecuteNonQuery();
                 }
             }
-            catch (Exception e)
+            catch 
             {
                 throw;
             }
@@ -1380,7 +1380,7 @@ namespace AccesoDatosNet
                     {
                         FillSchema();
                     }
-                    catch (Exception e)
+                    catch 
                     {
                         return null;
                     }

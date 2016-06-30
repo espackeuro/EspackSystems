@@ -112,7 +112,7 @@ namespace EspackClasses
         public float height { get; set; }
         public Size Size { get; set; }
         protected float gap { get; set; }
-        protected int dpi { get; set; }
+        public int dpi { get; set; }
         public float dpm { get; set; }
         protected int qty { get; set; }
         protected virtual List<string> labelHeader { get; } 
@@ -231,17 +231,28 @@ namespace EspackClasses
                 List<string> _result = new List<string>();
                 int _xdpm = Convert.ToInt32(_p.x * dpm);
                 int _ydpm = Convert.ToInt32(_p.y * dpm);
-                float _charSize_mm = _p.charSize * 0.3527777777778F;
+                
 
                 if (_p.textSize == 0)
                 {
                     Font _font = new Font("Swis721 BT", _p.charSize);
                     _p.textSize = TextMeasurer.MeasureString(_p.textData, _font, dpi).Width; //* 1.7F;
+                } else
+                {
+                    for (float i=1; i<100; i += 0.1F)
+                    {
+                        Font _font = new Font("Swis721 BT", i);
+                        if (TextMeasurer.MeasureString(_p.textData, _font, dpi).Width>_p.textSize)
+                        {
+                            _p.charSize = i;
+                            break;
+                        }
+                    }
                 }
-
+                float _charSize_mm = _p.charSize * 0.3527777777778F;
                 //textSize = textSize == 0F ? ): textSize;
                 float _width = _p.textSize * dpm;// = 2.1F * (textSize - 1);
-                int _charWidthDPM = _charSize_mm == 0 ? Convert.ToInt32(_p.textSize / _p.textData.Length * dpm) : Convert.ToInt32(_charSize_mm * dpm);//(textSize / textData.Length) < ((textSize-1)*2+10) ? (textSize / textData.Length): ((textSize - 1) * 2 + 10);
+                int _charWidthDPM = _charSize_mm == 0 ? Convert.ToInt32(Math.Ceiling(_p.textSize / _p.textData.Length * dpm)) : Convert.ToInt32(_charSize_mm * dpm);//(textSize / textData.Length) < ((textSize-1)*2+10) ? (textSize / textData.Length): ((textSize - 1) * 2 + 10);
                 switch (_p.align)
                 {
                     case "C":
@@ -302,21 +313,28 @@ namespace EspackClasses
 
     public static class delimiterLabel
     {
-        public static void delim(cLabel pLabel,string pCode, string pValue)
+        public static void delim(cLabel pLabel, string pCode, string pValue)
         {
             pLabel.Clear();
             var _x = Convert.ToInt32(pLabel.width / 2);
-            var _width = pLabel.width - 10;
-            var i = 10;
-            pLabel.addLine(_x, i += 5, _width - 20, "C", "", pCode);
-            pLabel.addLine(_x, i += 3, _width, "C", "", "######################");
-            pLabel.addLine(_x, i += 3, _width, "C", "", "######################");
+            var _width = pLabel.width - 3;
+            var i = 2;
+            pLabel.addLine(_x, i += 7, 0, "C", "", pCode, 12);
             pLabel.addLine(_x, i += 3, _width, "C", "", "######################");
             pValue.Split('|').ToList().ForEach(x =>
             {
-            pLabel.addLine(5, i += 6, 0, "I", "", x.Length > 40 ? x.Substring(0, 40) : x,9);
+                pLabel.addLine(_x, i += 2, 0, "C", "", "[BC]" + (x.Length > 40 ? x.Substring(0, 40) : x), 0, 5, 1);
+                pLabel.addLine(_x, i += 9, 0, "C", "", x.Length > 40 ? x.Substring(0, 40) : x, 12);
             });
-            pLabel.addLine(_x, i += 6, _width, "C", "", "######################");
+            pLabel.addLine(_x, i += 3, _width, "C", "", "######################");
+
+
+            //pLabel.addLine(1, i += 6, 10, "I", "", "1234567890");
+            //pLabel.addLine(1, i += 6, 20, "I", "", "1234567890");
+            //pLabel.addLine(1, i += 6, 40, "I", "", "1234567890");
+            //pLabel.addLine(1, i += 6, 60, "I", "", "1234567890");
+            //pLabel.addLine(1, i += 6, 80, "I", "", "1234567890");
+
         }
             
     }

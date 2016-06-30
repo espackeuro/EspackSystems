@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using AccesoDatosNet;
 using CommonTools;
+using System.IO;
+using System.IO.IsolatedStorage;
+using CommonToolsWin;
 
 namespace Simplistica
 {
@@ -37,7 +40,12 @@ namespace Simplistica
                 Application.Exit();
             }
             Values.gDatos.Close();
-
+            //check settings file
+            if (!cSettings.SettingFileNameExists)
+            {
+                fSettings fSettings = new fSettings();
+                fSettings.ShowDialog();
+            }
         }
 
         private void simpleReceivalsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -52,10 +60,18 @@ namespace Simplistica
             fPrintUnitLabels fPrintUnitLabels = new fPrintUnitLabels();
             fPrintUnitLabels.Show();
         }
+
+        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            fSettings fSettings = new fSettings();
+            fSettings.ShowDialog();
+        }
     }
     public static class Values
     {
         public static cAccesoDatosNet gDatos = new cAccesoDatosNet();
-        public static string gMasterPassword = "";
+        public static string LabelPrinterAddress = "";
+        public static string COD3 = "";
+
     }
 }

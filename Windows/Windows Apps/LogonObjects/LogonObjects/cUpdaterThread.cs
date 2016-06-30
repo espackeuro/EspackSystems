@@ -230,7 +230,7 @@ namespace LogOnObjects
 
 
                 }
-                catch (InvalidOperationException ex)
+                catch (InvalidOperationException)
                 {
                     if (debug != null)
                     {
