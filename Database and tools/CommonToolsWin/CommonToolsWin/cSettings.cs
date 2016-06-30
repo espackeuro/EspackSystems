@@ -58,11 +58,10 @@ namespace CommonToolsWin
                 if (!isoStore.FileExists(cSettings.SettingsFileName))
                 {
                     string _xml = string.Format(
-                        @"
-<?xml version='1.0' encoding='utf - 8'?> _
-< !--{0} preferences file-->
-< preferences>
-</ preferences>", callingAssembly.ToUpper());
+                        @"<?xml version='1.0' encoding='utf - 8'?>
+<!--{0} preferences file-->
+<preferences>
+</preferences>", callingAssembly.ToUpper());
                     _x = XDocument.Parse(_xml);
                 }
                 else
