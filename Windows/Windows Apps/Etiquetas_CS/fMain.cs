@@ -448,40 +448,44 @@ namespace Etiquetas_CS
                 SetFormEnabled(true);
                 throw new NotImplementedException();
             }
-
-            //print delimiter start
-            cRawPrinterHelper.SendUTF8StringToPrinter(_printerAddress, _delimiterLabel.ToString(), 1);
-
-            using (var _RS = new DynamicRS(string.Format("Select * from Campos_CS where codigo='{0}'", txtCode.Text),Values.gDatos))
+            using (var _printer = new cRawPrinterHelper(_printerAddress))
             {
-                _RS.Open();
-                _RS.ToList().ForEach(z =>
+
+
+                //print delimiter start
+                _printer.SendUTF8StringToPrinter(_delimiterLabel.ToString(), 1);
+
+                using (var _RS = new DynamicRS(string.Format("Select * from Campos_CS where codigo='{0}'", txtCode.Text), Values.gDatos))
                 {
-                    float _bh = z["barcodeHeight"] is DBNull ? 0 : Convert.ToSingle(z["barcodeHeight"]);
-                    float _bm = z["barcodeWidthmult"] is DBNull ? 0 : Convert.ToSingle(z["barcodeWidthmult"]);
-                    int _cs = z["charSize"] is DBNull ? 0 : Convert.ToInt32(z["charSize"]);
-                    _label.addLine(Convert.ToInt32(z["Col"]), Convert.ToInt32(z["Fila"]), Convert.ToSingle(CT.Qnuln(z["TamTexto"])),z["Orientacion"].ToString(),z["Estilo"].ToString(),z["Texto"].ToString(),_cs,_bh, _bm);
-                });
-            }
-            Dictionary<string, string> _parameters = new Dictionary<string, string>();
-            SQLSelect.Split('|').ToList().ForEach(x => _parameters.Add(x, ""));
-            string _group = "";
-            vsLabels.ToList().Where(line => line.Cells["PRINTED"].Value.ToString()=="N").ToList().ForEach(line =>
-            {
-                _parameters.ToList().ForEach(p => _parameters[p.Key] = line.Cells[p.Key].Value.ToString());
-                if (SQLGroup!="" && _group!=line.Cells[SQLGroup].Value.ToString())
-                {
-                    _group = line.Cells[SQLGroup].Value.ToString();
-                    delimiterLabel.delim(_delimiterLabel, "GROUP", SQLGroup+"|"+_group);
-                    cRawPrinterHelper.SendUTF8StringToPrinter(_printerAddress, _delimiterLabel.ToString(), 1);
+                    _RS.Open();
+                    _RS.ToList().ForEach(z =>
+                    {
+                        float _bh = z["barcodeHeight"] is DBNull ? 0 : Convert.ToSingle(z["barcodeHeight"]);
+                        float _bm = z["barcodeWidthmult"] is DBNull ? 0 : Convert.ToSingle(z["barcodeWidthmult"]);
+                        float _cs = z["charSize"] is DBNull ? 0 : Convert.ToSingle(z["charSize"]);
+                        _label.addLine(Convert.ToInt32(z["Col"]), Convert.ToInt32(z["Fila"]), Convert.ToSingle(CT.Qnuln(z["TamTexto"])), z["Orientacion"].ToString(), z["Estilo"].ToString(), z["Texto"].ToString(), _cs, _bh, _bm);
+                    });
                 }
-                cRawPrinterHelper.SendUTF8StringToPrinter(_printerAddress, _label.ToString(_parameters, Convert.ToInt32(line.Cells["QTY"].Value)),1);
+                Dictionary<string, string> _parameters = new Dictionary<string, string>();
+                SQLSelect.Split('|').ToList().ForEach(x => _parameters.Add(x, ""));
+                string _group = "";
+                vsLabels.ToList().Where(line => line.Cells["PRINTED"].Value.ToString() == "N").ToList().ForEach(line =>
+                  {
+                      _parameters.ToList().ForEach(p => _parameters[p.Key] = line.Cells[p.Key].Value.ToString());
+                      if (SQLGroup != "" && _group != line.Cells[SQLGroup].Value.ToString())
+                      {
+                          _group = line.Cells[SQLGroup].Value.ToString();
+                          delimiterLabel.delim(_delimiterLabel, "GROUP", SQLGroup + "|" + _group);
+                          _printer.SendUTF8StringToPrinter(_delimiterLabel.ToString(), 1);
+                      }
+                      _printer.SendUTF8StringToPrinter(_label.ToString(_parameters, Convert.ToInt32(line.Cells["QTY"].Value)), 1);
                 //cRawPrinterHelper.SendUTF8StringToPrinter(_printerAddress, _label.ToString(_parameters), Convert.ToInt32("2"));
                 ChangeLineStatus(line);
-            });
-            delimiterLabel.delim(_delimiterLabel, "END","***");
-            cRawPrinterHelper.SendUTF8StringToPrinter(_printerAddress, _delimiterLabel.ToString(), 1);
-            SetFormEnabled(true);
+                  });
+                delimiterLabel.delim(_delimiterLabel, "END", "***");
+                _printer.SendUTF8StringToPrinter(_delimiterLabel.ToString(), 1);
+                SetFormEnabled(true);
+            }
         }
 
         public class PrintPage : EspackPrintDocument

@@ -38,11 +38,10 @@
             this.txtDesServicio = new EspackFormControls.EspackTextBox();
             this.VS = new VSGrid.CtlVSGrid();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.btnReceived = new System.Windows.Forms.ToolStripButton();
             this.btnLabelCMs = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnReceived = new System.Windows.Forms.ToolStripButton();
             this.lstFlags = new EspackFormControls.EspackCheckedListBox();
-            this.cboPrinters = new EspackFormControls.EspackComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.VS)).BeginInit();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -296,6 +295,16 @@
             this.toolStrip1.TabIndex = 30;
             this.toolStrip1.Text = "toolStrip1";
             // 
+            // btnReceived
+            // 
+            this.btnReceived.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnReceived.Image = ((System.Drawing.Image)(resources.GetObject("btnReceived.Image")));
+            this.btnReceived.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnReceived.Name = "btnReceived";
+            this.btnReceived.Size = new System.Drawing.Size(58, 22);
+            this.btnReceived.Text = "Received";
+            this.btnReceived.Click += new System.EventHandler(this.btnReceived_Click);
+            // 
             // btnLabelCMs
             // 
             this.btnLabelCMs.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -310,16 +319,6 @@
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
-            // btnReceived
-            // 
-            this.btnReceived.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnReceived.Image = ((System.Drawing.Image)(resources.GetObject("btnReceived.Image")));
-            this.btnReceived.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnReceived.Name = "btnReceived";
-            this.btnReceived.Size = new System.Drawing.Size(58, 22);
-            this.btnReceived.Text = "Received";
-            this.btnReceived.Click += new System.EventHandler(this.btnReceived_Click);
             // 
             // lstFlags
             // 
@@ -350,44 +349,11 @@
             this.lstFlags.Upp = false;
             this.lstFlags.Value = "";
             // 
-            // cboPrinters
-            // 
-            this.cboPrinters.Add = false;
-            this.cboPrinters.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.cboPrinters.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.cboPrinters.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cboPrinters.BackColor = System.Drawing.Color.White;
-            this.cboPrinters.Caption = "Printer";
-            this.cboPrinters.DBField = null;
-            this.cboPrinters.DBFieldType = null;
-            this.cboPrinters.DefaultValue = null;
-            this.cboPrinters.Del = false;
-            this.cboPrinters.DependingRS = null;
-            this.cboPrinters.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cboPrinters.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.cboPrinters.ForeColor = System.Drawing.Color.Black;
-            this.cboPrinters.FormattingEnabled = true;
-            this.cboPrinters.Location = new System.Drawing.Point(388, 58);
-            this.cboPrinters.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
-            this.cboPrinters.Name = "cboPrinters";
-            this.cboPrinters.Order = 0;
-            this.cboPrinters.ParentConn = null;
-            this.cboPrinters.ParentDA = null;
-            this.cboPrinters.PK = false;
-            this.cboPrinters.Search = false;
-            this.cboPrinters.Size = new System.Drawing.Size(163, 24);
-            this.cboPrinters.Status = CommonTools.EnumStatus.ADDNEW;
-            this.cboPrinters.TabIndex = 41;
-            this.cboPrinters.TBDescription = null;
-            this.cboPrinters.Upp = false;
-            this.cboPrinters.Value = "";
-            // 
             // fSimpleReceivals
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(575, 650);
-            this.Controls.Add(this.cboPrinters);
             this.Controls.Add(this.lstFlags);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.VS);
@@ -423,6 +389,5 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton btnReceived;
         private EspackFormControls.EspackCheckedListBox lstFlags;
-        private EspackFormControls.EspackComboBox cboPrinters;
     }
 }
