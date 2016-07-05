@@ -430,19 +430,22 @@ namespace Etiquetas_CS
             }
             string _printerType = "";
             string _printerAddress = "";
-            using (var _RS = new DynamicRS(string.Format("select descripcion,cmp_varchar from datosEmpresa where codigo='{0}'",cboPrinters.Value),Values.gDatos))
+            int _printerResolution = 0;
+            using (var _RS = new DynamicRS(string.Format("select descripcion,cmp_varchar,cmp_integer from datosEmpresa where codigo='{0}'",cboPrinters.Value),Values.gDatos))
             {
                 _RS.Open();
                 _printerAddress = _RS["cmp_varchar"].ToString();
                 _printerType = _RS["descripcion"].ToString().Split('|')[0];
+                _printerResolution = Convert.ToInt32(_RS["cmp_integer"]);
+
             }
             cLabel _delimiterLabel;
             cLabel _label;
             if (_printerType=="ZPL")
             {
-                _delimiterLabel = new ZPLLabel(labelHeight, labelWidth, 3, 204);
+                _delimiterLabel = new ZPLLabel(labelHeight, labelWidth, 3, _printerResolution);
                 delimiterLabel.delim(_delimiterLabel, "START", SQLParameterString.Replace(" WHERE ",""));
-                _label = new ZPLLabel(labelHeight,labelWidth,3,204);
+                _label = new ZPLLabel(labelHeight,labelWidth,3, _printerResolution);
             } else
             {
                 SetFormEnabled(true);
