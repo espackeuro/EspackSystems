@@ -32,7 +32,6 @@
             this.cboService = new EspackFormControls.EspackComboBox();
             this.btnPrint = new System.Windows.Forms.Button();
             this.txtDesService = new EspackFormControls.EspackTextBox();
-            this.cboPrinters = new EspackFormControls.EspackComboBox();
             this.SuspendLayout();
             // 
             // txtQty
@@ -102,7 +101,7 @@
             // 
             // btnPrint
             // 
-            this.btnPrint.Location = new System.Drawing.Point(407, 165);
+            this.btnPrint.Location = new System.Drawing.Point(407, 114);
             this.btnPrint.Name = "btnPrint";
             this.btnPrint.Size = new System.Drawing.Size(75, 23);
             this.btnPrint.TabIndex = 4;
@@ -138,44 +137,11 @@
             this.txtDesService.Upp = false;
             this.txtDesService.Value = "";
             // 
-            // cboPrinters
-            // 
-            this.cboPrinters.Add = false;
-            this.cboPrinters.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.cboPrinters.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.cboPrinters.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cboPrinters.BackColor = System.Drawing.Color.White;
-            this.cboPrinters.Caption = "Printer";
-            this.cboPrinters.DBField = null;
-            this.cboPrinters.DBFieldType = null;
-            this.cboPrinters.DefaultValue = null;
-            this.cboPrinters.Del = false;
-            this.cboPrinters.DependingRS = null;
-            this.cboPrinters.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cboPrinters.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.cboPrinters.ForeColor = System.Drawing.Color.Black;
-            this.cboPrinters.FormattingEnabled = true;
-            this.cboPrinters.Location = new System.Drawing.Point(225, 110);
-            this.cboPrinters.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
-            this.cboPrinters.Name = "cboPrinters";
-            this.cboPrinters.Order = 0;
-            this.cboPrinters.ParentConn = null;
-            this.cboPrinters.ParentDA = null;
-            this.cboPrinters.PK = false;
-            this.cboPrinters.Search = false;
-            this.cboPrinters.Size = new System.Drawing.Size(257, 24);
-            this.cboPrinters.Status = CommonTools.EnumStatus.ADDNEW;
-            this.cboPrinters.TabIndex = 10;
-            this.cboPrinters.TBDescription = null;
-            this.cboPrinters.Upp = false;
-            this.cboPrinters.Value = "";
-            // 
             // fPrintUnitLabels
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(524, 209);
-            this.Controls.Add(this.cboPrinters);
+            this.ClientSize = new System.Drawing.Size(537, 189);
             this.Controls.Add(this.txtDesService);
             this.Controls.Add(this.btnPrint);
             this.Controls.Add(this.cboService);
@@ -191,7 +157,6 @@
         private EspackFormControls.EspackComboBox cboService;
         private System.Windows.Forms.Button btnPrint;
         private EspackFormControls.EspackTextBox txtDesService;
-        private EspackFormControls.EspackComboBox cboPrinters;
         private EspackFormControls.NumericTextBox txtQty;
     }
 }
