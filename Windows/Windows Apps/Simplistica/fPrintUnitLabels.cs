@@ -23,14 +23,9 @@ namespace Simplistica
             txtQty.Enabled = true;
             cboService.ParentConn = Values.gDatos;
             cboService.Source("Select Codigo,Nombre from Servicios where dbo.CheckFlag(flags,'REPAIRS')=1 order by codigo", txtDesService);
-            cboService.SelectedValueChanged += CboService_SelectedValueChanged;
         }
 
-        private void CboService_SelectedValueChanged(object sender, EventArgs e)
-        {
-            cboPrinters.Enabled = true;
-            cboPrinters.Source("select Codigo from  ETIQUETAS..datosEmpresa where descripcion like '%" + cboService.Text + "%' order by cmp_integer", Values.gDatos);
-        }
+
 
         private void btnPrint_Click(object sender, EventArgs e)
         {
@@ -47,13 +42,15 @@ namespace Simplistica
                 _labelInit = Convert.ToInt32(_sp.ReturnValues()["@Contador"]);
             }
             string _printerAddress = "";
-            using (var _RS = new DynamicRS(string.Format("select descripcion,cmp_varchar from ETIQUETAS..datosEmpresa where codigo='{0}'", cboPrinters.Value), Values.gDatos))
+            int _printerResolution = 0;
+            using (var _RS = new DynamicRS(string.Format("select descripcion,cmp_varchar,cmp_integer from ETIQUETAS..datosEmpresa where codigo='{0}'", Values.LabelPrinterAddress), Values.gDatos))
             {
                 _RS.Open();
                 _printerAddress = _RS["cmp_varchar"].ToString();
+                _printerResolution = Convert.ToInt32(_RS["cmp_integer"]);
                 //_printerType = _RS["descripcion"].ToString().Split('|')[0];
             }
-            var _label = new ZPLLabel(70, 32, 3, 203);
+            var _label = new ZPLLabel(70, 32, 3, _printerResolution);
             var _unitLabel = new SingleBarcode(_label);
             //_label.addLine(35, 3, 0, "C", "", "[BC][UNITNUMBER]", 0, 2.5F, 1,true);
             //var _param = new Dictionary<string, string>();

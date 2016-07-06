@@ -111,19 +111,21 @@ namespace Simplistica
                 //printer preparation
 
                 string _printerAddress = "";
+                int _printerResolution = 0;
                 if (Values.LabelPrinterAddress == "")
                 {
                     CTWin.MsgError("Select a label printer first in preferences.");
                     return;
                 }
-                using (var _RS = new DynamicRS(string.Format("select descripcion,cmp_varchar from ETIQUETAS..datosEmpresa where codigo='{0}'", Values.LabelPrinterAddress), Values.gDatos))
+                using (var _RS = new DynamicRS(string.Format("select descripcion,cmp_varchar,cmp_integer from ETIQUETAS..datosEmpresa where codigo='{0}'", Values.LabelPrinterAddress), Values.gDatos))
                 {
                     _RS.Open();
                     _printerAddress = _RS["cmp_varchar"].ToString();
+                    _printerResolution = Convert.ToInt32(_RS["cmp_integer"]);
                     //_printerType = _RS["descripcion"].ToString().Split('|')[0];
                 }
                 //label preparation
-                var _label = new ZPLLabel(70, 31, 3, 203);
+                var _label = new ZPLLabel(70, 31, 3, _printerResolution);
                 var _CMLabel = new MicroCM(_label);
                 //sp preparation
                 using (var _printer = new cRawPrinterHelper(_printerAddress))
@@ -157,7 +159,7 @@ namespace Simplistica
                                   _CMLabel.Parameters["CM"] = row["CM"].ToString();
                                   _CMLabel.Parameters["RECEIVAL"] = row["Entrada"].ToString();
                                   _CMLabel.Parameters["RECEIVAL_DATE"] = row["xfec"].ToString();
-                                  _CMLabel.Parameters["PARTNUMBER"] = string.Format("{0} - {1}", row["Partnumber"].ToString(), row["Doc_Proveedor"].ToString());
+                                  _CMLabel.Parameters["PARTNUMBER"] = row["Partnumber"].ToString();
                                   _CMLabel.Parameters["QTY"] = row["QTY"].ToString();
                                   if (!_printer.SendUTF8StringToPrinter(_CMLabel.ToString(), 1))
                                   {
