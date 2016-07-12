@@ -76,7 +76,7 @@
             // cboPrinters
             // 
             this.cboPrinters.Add = false;
-            this.cboPrinters.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.cboPrinters.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cboPrinters.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cboPrinters.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cboPrinters.BackColor = System.Drawing.Color.White;
@@ -228,7 +228,7 @@
             this.vsGroups.AllowUpdate = false;
             this.vsGroups.AllowUserToAddRows = false;
             this.vsGroups.AllowUserToDeleteRows = false;
-            this.vsGroups.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.vsGroups.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.vsGroups.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
             this.vsGroups.Caption = "Groups";
             this.vsGroups.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -272,7 +272,6 @@
             this.vsParameters.AllowUpdate = false;
             this.vsParameters.AllowUserToAddRows = false;
             this.vsParameters.AllowUserToDeleteRows = false;
-            this.vsParameters.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.vsParameters.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
             this.vsParameters.Caption = "Parameters";
             this.vsParameters.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
