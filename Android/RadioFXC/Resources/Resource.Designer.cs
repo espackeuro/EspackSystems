@@ -4286,6 +4286,9 @@ namespace RadioFXC
 			// aapt resource value: 0x7f07002a
 			public const int bottom = 2131165226;
 			
+			// aapt resource value: 0x7f070084
+			public const int btnAdd2Load = 2131165316;
+			
 			// aapt resource value: 0x7f0700ba
 			public const int btnAddPart = 2131165370;
 			
@@ -4594,9 +4597,6 @@ namespace RadioFXC
 			
 			// aapt resource value: 0x7f07008b
 			public const int progressBar = 2131165323;
-			
-			// aapt resource value: 0x7f070084
-			public const int progressBar1 = 2131165316;
 			
 			// aapt resource value: 0x7f070006
 			public const int progress_circular = 2131165190;

@@ -257,6 +257,8 @@ namespace AccesoDatosNet
         {
             try
             {
+                if (AdoCon.State == ConnectionState.Open)
+                    Close();
                 AdoCon.ConnectionString = "Server=" + Server.Replace(".local","") + ";Initial Catalog=" + DataBase + ";User Id=" + User + ";Password=" + Password + ";MultipleActiveResultSets=True;";
                 AdoCon.Open();
                 if (context_info != null)
@@ -1176,8 +1178,19 @@ namespace AccesoDatosNet
             else
             {
                 Conn.Open();
-                Cmd.ExecuteNonQuery();
-                Conn.Close();
+                try
+                {
+                    Cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+                    throw;
+                }
+                finally
+                {
+                    Conn.Close();
+                }
+                
             }
             AssignValuesParameters();
             try

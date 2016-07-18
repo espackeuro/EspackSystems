@@ -48,6 +48,10 @@ namespace LogonScreen
             cUser.Text = "restelles";
             cPassword.Text = "1312";
 #endif
+            gDatos.DataBase = "SISTEMAS";
+            gDatos.Server = "main.db.logon";
+            gDatos.User = "SA";
+            gDatos.Password = "5380";
         }
 
         //to cancel back button in Android
@@ -59,11 +63,7 @@ namespace LogonScreen
         {
             var _ad = new Android.App.AlertDialog.Builder(this)
                 .SetTitle("Alert")
-                .SetMessage(text)
-
-
-
-                ;
+                .SetMessage(text);
         }
 
         private void CLoginButton_Click(object sender, EventArgs e)
@@ -73,11 +73,6 @@ namespace LogonScreen
                 cMsgText.Text = "Please input correct User and Password";
             } else
             {
-                
-                gDatos.DataBase = "SISTEMAS";
-                gDatos.Server = "main.db.logon";
-                gDatos.User = "SA";
-                gDatos.Password = "5380";
                 bool error = false;
                 try
                 {
@@ -108,7 +103,18 @@ namespace LogonScreen
                     LogonSP.AddParameterValue("User", cUser.Text);
                     LogonSP.AddParameterValue("Password", cPassword.Text);
                     LogonSP.AddParameterValue("Origin", "RADIO LOGISTICA (VAL)");
-                    LogonSP.Execute();
+                    try
+                    {
+                        LogonSP.Execute();
+                    }
+                    catch(Exception ex)
+                    {
+                        cMsgText.Text = "ERROR: " + ex.Message;
+                        cUser.Text = "";
+                        cPassword.Text = "";
+                        cUser.RequestFocus();
+                        return;
+                    }
                     if (LogonSP.LastMsg.Substring(0, 2) != "OK")
                     {
                         cMsgText.Text = "ERROR: " + LogonSP.LastMsg;
