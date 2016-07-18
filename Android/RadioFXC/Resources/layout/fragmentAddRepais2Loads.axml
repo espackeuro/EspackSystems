@@ -22,33 +22,31 @@
         android:id="@+id/lblLoadNumber"
         android:layout_marginBottom="7.5dp"
         android:layout_marginLeft="15.0dp" />
-    <FrameLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-        <ListView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:columnWidth="90dp"
-            android:numColumns="auto_fit"
-            android:verticalSpacing="10dp"
-            android:horizontalSpacing="10dp"
-            android:stretchMode="columnWidth"
-            android:gravity="center"
-            android:id="@android:id/list" />
-        <ProgressBar
-            style="?android:attr/progressBarStyleLarge"
+    <TextView
+        android:text="Press the button to add repairs to the load."
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/msgText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <ListView
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:stackFromBottom="true"
+        android:transcriptMode="alwaysScroll"
+        android:layout_weight="1"
+        android:id="@android:id/list" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minWidth="25px"
+        android:minHeight="25px">
+        <Button
+            android:text="Add to load"
+            android:id="@+id/btnAdd2Load"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/progressBar1" />
-        <com.refractored.fab.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:layout_margin="16dp"
-            android:src="@drawable/ic_add_white_24dp"
-            fab:fab_colorNormal="@color/accent"
-            fab:fab_colorPressed="@color/accent_pressed"
-            fab:fab_colorRipple="@color/ripple" />
-    </FrameLayout>
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 </LinearLayout>
