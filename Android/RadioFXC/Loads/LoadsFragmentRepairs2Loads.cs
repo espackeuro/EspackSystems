@@ -26,27 +26,26 @@ namespace RadioFXC
         {
             var root = inflater.Inflate(Resource.Layout.fragmentAddRepais2Loads, container, false);
             list = root.FindViewById<Android.Widget.ListView>(Android.Resource.Id.List);
-            var progress = root.FindViewById<ProgressBar>(Resource.Id.progressBar1);
-            progress.Visibility = ViewStates.Invisible;
+            //var progress = root.FindViewById<ProgressBar>(Resource.Id.progressBar1);
+            //progress.Visibility = ViewStates.Invisible;
 
             var adapter = new ListRepairs2LoadAdapter(Activity);
             list.Adapter = adapter;
             adapter.list = list;
             list.ChoiceMode = ChoiceMode.Multiple;
-            var fab = root.FindViewById<FloatingActionButton>(Resource.Id.fab);
+
+            //var fab = root.FindViewById<FloatingActionButton>(Resource.Id.fab);
             LoadLabel = root.FindViewById<TextView>(Resource.Id.lblLoadNumber);
             LoadLabel.Text = Loads.Label;
             adapter.LoadLabel = LoadLabel;
-            fab.AttachToListView(list, this, this);
-            fab.Focusable = false;
-            fab.FocusableInTouchMode = false;
-            fab.Clickable = true;
-            fab.Click += delegate
+            var button = root.FindViewById<Button>(Resource.Id.btnAdd2Load);
+            button.Click += delegate
             {
                 //indicator in the middle of the screen
-                progress.Visibility = ViewStates.Visible;
+                //progress.Visibility = ViewStates.Visible;
                 try
                 {
+                    button.Enabled = false;
                     var checkedItemsPositions = list.CheckedItemPositions;
                     var _cadena = "|";
                     for (var i = 0; i < checkedItemsPositions.Size(); i++)
@@ -83,16 +82,18 @@ namespace RadioFXC
                         Values.gDatos.Close();
                     }
                     Values.gDatos.DataBase = "REPAIRS";
-                    progress.Visibility = ViewStates.Invisible;
+                    //progress.Visibility = ViewStates.Invisible;
                     Activity.RunOnUiThread(() => Toast.MakeText(Activity, "Process OK!!", ToastLength.Long).Show());
                     list.CheckedItemPositions.Clear();
                     adapter.NotifyDataSetChanged();
                     list.InvalidateViews();
+                    button.Enabled = true;
                 }
                 catch (Exception ex)
                 {
                     Activity.RunOnUiThread (()=> Toast.MakeText(Activity, "ERROR: " + ex.Message, ToastLength.Long).Show());
-                    progress.Visibility = ViewStates.Invisible;
+                    button.Enabled = true;
+                    //progress.Visibility = ViewStates.Invisible;
                 }
             };
             var filter = new IntentFilter("com.espack.radiofxc.SCAN");
@@ -100,6 +101,7 @@ namespace RadioFXC
             var receiver = new ScanReceiver();
             receiver.list = list;
             Activity.RegisterReceiver(receiver, filter);
+            list.SetSelection(0);
             //list.ItemSelected += List_ItemSelected;
             return root;
         }
@@ -153,7 +155,7 @@ namespace RadioFXC
     public class ListRepairs2LoadAdapter : BaseAdapter
     {
         private Context context;
-        private DynamicRS _RS = new DynamicRS("Select RepairCode,UnitNumber from Repairs where dbo.checkFlag(flags,'INI')=1 and service='"+Values.gService+"' order by UnitNumber", Values.gDatos);
+        private DynamicRS _RS = new DynamicRS("Select RepairCode,UnitNumber from Repairs r where dbo.checkFlag(flags,'INI')=1 and service='"+Values.gService+ "' and exists (select 0 from PartsRepairs where RepairCode=r.RepairCode) order by UnitNumber", Values.gDatos);
         public ListView list { get; set; }
         public TextView LoadLabel { get; set; }
 
@@ -168,7 +170,7 @@ namespace RadioFXC
             base.NotifyDataSetChanged();
             _RS = null;
             _RS = new DynamicRS();
-            _RS.Open("Select RepairCode,UnitNumber from Repairs where dbo.checkFlag(flags,'INI')=1 and service='" + Values.gService + "' order by xfec", Values.gDatos);
+            _RS.Open("Select RepairCode,UnitNumber from Repairs r where dbo.checkFlag(flags,'INI')=1 and service='" + Values.gService + "' and exists (select 0 from PartsRepairs where RepairCode=r.RepairCode) order by xfec", Values.gDatos);
         }
 
         public override int Count
