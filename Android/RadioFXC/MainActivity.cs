@@ -45,7 +45,7 @@ namespace RadioFXC
                 if (Result == "OK")
                 {
                     Values.gDatos.DataBase = "REPAIRS";
-                    Values.gDatos.Server = "main.db.logon";
+                    Values.gDatos.Server = "10.200.10.138";
                     Values.gDatos.User = LogonDetails.user;
                     Values.gDatos.Password = LogonDetails.password;
 
@@ -59,7 +59,7 @@ namespace RadioFXC
 
                     // gDatos for LOGISTICA
                     Values.gDatosLOG.DataBase = "LOGTEST";
-                    Values.gDatosLOG.Server = "main.db.logon";
+                    Values.gDatosLOG.Server = "10.200.10.138";
                     Values.gDatosLOG.User = LogonDetails.user;
                     Values.gDatosLOG.Password = LogonDetails.password;
 
