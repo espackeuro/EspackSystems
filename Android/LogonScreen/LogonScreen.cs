@@ -49,7 +49,7 @@ namespace LogonScreen
             cPassword.Text = "1312";
 #endif
             gDatos.DataBase = "SISTEMAS";
-            gDatos.Server = "main.db.logon";
+            gDatos.Server = "10.200.10.138";
             gDatos.User = "SA";
             gDatos.Password = "5380";
         }
