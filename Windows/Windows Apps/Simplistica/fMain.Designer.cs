@@ -28,12 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(fMain));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.receivalsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.simpleReceivalsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.printRepairsUnitLabelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.printRepairsUnitLabelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -72,13 +73,6 @@
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
             // 
-            // printRepairsUnitLabelsToolStripMenuItem
-            // 
-            this.printRepairsUnitLabelsToolStripMenuItem.Name = "printRepairsUnitLabelsToolStripMenuItem";
-            this.printRepairsUnitLabelsToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
-            this.printRepairsUnitLabelsToolStripMenuItem.Text = "Print Repairs Unit Labels";
-            this.printRepairsUnitLabelsToolStripMenuItem.Click += new System.EventHandler(this.printRepairsUnitLabelsToolStripMenuItem_Click);
-            // 
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
@@ -86,12 +80,20 @@
             this.settingsToolStripMenuItem.Text = "Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
+            // printRepairsUnitLabelsToolStripMenuItem
+            // 
+            this.printRepairsUnitLabelsToolStripMenuItem.Name = "printRepairsUnitLabelsToolStripMenuItem";
+            this.printRepairsUnitLabelsToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.printRepairsUnitLabelsToolStripMenuItem.Text = "Print Repairs Unit Labels";
+            this.printRepairsUnitLabelsToolStripMenuItem.Click += new System.EventHandler(this.printRepairsUnitLabelsToolStripMenuItem_Click);
+            // 
             // fMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "fMain";

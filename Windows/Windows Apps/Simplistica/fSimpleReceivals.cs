@@ -27,7 +27,7 @@ namespace Simplistica
             CTLM.sSPAdd = "PAdd_Cab_Recepcion";
             CTLM.sSPUpp = "PUpp_Cab_Recepcion";
             CTLM.sSPDel = "PDel_Cab_Recepcion";
-            CTLM.DBTable = "Cab_Recepcion";
+            CTLM.DBTable = "(Select c.* from Cab_Recepcion c inner join Servicios s on s.codigo=c.servicio where s.cod3='"+Values.COD3+"' and dbo.CheckFlag(s.flags,'SIMPLE')=1) a";
 
             //Header
             CTLM.AddItem(txtEntrada, "Entrada", false, true, true, 1, true, true);

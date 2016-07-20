@@ -52,7 +52,6 @@
             this.txtQty.Location = new System.Drawing.Point(58, 113);
             this.txtQty.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtQty.Mask = false;
-            this.txtQty.Multiline = true;
             this.txtQty.Name = "txtQty";
             this.txtQty.Order = 0;
             this.txtQty.ParentConn = null;
@@ -60,7 +59,7 @@
             this.txtQty.PK = false;
             this.txtQty.Precision = 0;
             this.txtQty.Search = false;
-            this.txtQty.Size = new System.Drawing.Size(160, 24);
+            this.txtQty.Size = new System.Drawing.Size(160, 17);
             this.txtQty.Status = CommonTools.EnumStatus.ADDNEW;
             this.txtQty.TabIndex = 0;
             this.txtQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -147,7 +146,8 @@
             this.Controls.Add(this.cboService);
             this.Controls.Add(this.txtQty);
             this.Name = "fPrintUnitLabels";
-            this.Text = "fPrintUnitLabels";
+            this.ShowIcon = false;
+            this.Text = "Unit Labels";
             this.ResumeLayout(false);
             this.PerformLayout();
 
