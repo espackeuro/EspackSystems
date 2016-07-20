@@ -59,7 +59,7 @@ namespace EspackFormControls
                 }
                 ((TextBox)_control).BorderStyle = DefaultBorderStyle;
                 ((EspackTextBox)_control).Margin = DefaultMargin;
-                ((TextBox)_control).Multiline = true;
+                //((TextBox)_control).Multiline = true;
                 ((TextBox)_control).Height  = DefaultControlHeight;
             }
             //EspackMaskedMaskedTextBox

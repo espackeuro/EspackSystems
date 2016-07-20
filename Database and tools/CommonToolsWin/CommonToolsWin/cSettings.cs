@@ -52,29 +52,28 @@ namespace CommonToolsWin
         {
             callingAssembly = Assembly.GetCallingAssembly().GetName().Name;
             XDocument _x;
-            //IsolatedStorageFile isoStore = IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Assembly, null, null);
-            using (var isoStream = new IsolatedStorageFileStream(SettingsFileName, FileMode.OpenOrCreate, isoStore))
+            if (!isoStore.FileExists(cSettings.SettingsFileName))
             {
-                if (!isoStore.FileExists(cSettings.SettingsFileName))
-                {
-                    string _xml = string.Format(
-                        @"<?xml version='1.0' encoding='utf - 8'?>
+                string _xml = string.Format(
+                    @"<?xml version='1.0' encoding='utf - 8'?>
 <!--{0} preferences file-->
 <preferences>
 </preferences>", callingAssembly.ToUpper());
-                    _x = XDocument.Parse(_xml);
-                }
-                else
-                    _x = XDocument.Load(isoStream);
-                try
-                {
-                    _x.Descendants(settingName).First().Value = settingValue;
-                }
-                catch
-                {
-                    _x.Descendants("preferences").FirstOrDefault().Add(new XElement(settingName, settingValue));
-                }
+                _x = XDocument.Parse(_xml);
             }
+            else
+                //IsolatedStorageFile isoStore = IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Assembly, null, null);
+                using (var isoStream = new IsolatedStorageFileStream(SettingsFileName, FileMode.OpenOrCreate, isoStore))
+                    _x = XDocument.Load(isoStream);
+            try
+            {
+                _x.Descendants(settingName).First().Value = settingValue;
+            }
+            catch
+            {
+                _x.Descendants("preferences").FirstOrDefault().Add(new XElement(settingName, settingValue));
+            }
+
             using (var isoStream = new IsolatedStorageFileStream(SettingsFileName, FileMode.Create, isoStore))
                 _x.Save(isoStream);
         }
