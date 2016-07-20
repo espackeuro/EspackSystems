@@ -12,6 +12,7 @@ using CommonTools;
 using System.IO;
 using System.IO.IsolatedStorage;
 using CommonToolsWin;
+using System.Reflection;
 
 namespace Simplistica
 {
@@ -20,6 +21,7 @@ namespace Simplistica
         public fMain(string[] args)
         {
             InitializeComponent();
+            this.Text = string.Format("Simplistica Build {0} - ({1:yyyyMMdd})*", Assembly.GetExecutingAssembly().GetName().Version.ToString(), CT.GetBuildDateTime(Assembly.GetExecutingAssembly()));
             var espackArgs = CT.LoadVars(args);
             //Values.gDatos.DataBase = "Sistemas";//espackArgs.DataBase;
             //Values.gDatos.Server = "192.168.200.7";//espackArgs.Server;
@@ -46,6 +48,8 @@ namespace Simplistica
                 fSettings fSettings = new fSettings();
                 fSettings.ShowDialog();
             }
+            Values.LabelPrinterAddress = cSettings.readSetting("labelPrinter");
+            Values.COD3 = cSettings.readSetting("COD3");
         }
 
         private void simpleReceivalsToolStripMenuItem_Click(object sender, EventArgs e)

@@ -104,6 +104,7 @@
             this.Controls.Add(this.cboWarehouse);
             this.Controls.Add(this.cboPrinters);
             this.Name = "fSettings";
+            this.ShowIcon = false;
             this.Text = "fSettings";
             this.ResumeLayout(false);
             this.PerformLayout();
