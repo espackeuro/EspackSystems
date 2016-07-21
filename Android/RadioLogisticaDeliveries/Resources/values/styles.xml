@@ -1,0 +1,5 @@
+<resources>
+  <!-- extend one of the Theme.AppCompat themes -->
+  <style name="AppTheme" parent="Theme.AppCompat.Light">
+  </style>
+</resources>
