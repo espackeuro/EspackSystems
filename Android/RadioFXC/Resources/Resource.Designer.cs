@@ -26,31 +26,8 @@ namespace RadioFXC
 		
 		public static void UpdateIdValues()
 		{
-			global::AccesoDatosNet.Resource.Attribute.fab_colorDisabled = global::RadioFXC.Resource.Attribute.fab_colorDisabled;
-			global::AccesoDatosNet.Resource.Attribute.fab_colorNormal = global::RadioFXC.Resource.Attribute.fab_colorNormal;
-			global::AccesoDatosNet.Resource.Attribute.fab_colorPressed = global::RadioFXC.Resource.Attribute.fab_colorPressed;
-			global::AccesoDatosNet.Resource.Attribute.fab_colorRipple = global::RadioFXC.Resource.Attribute.fab_colorRipple;
-			global::AccesoDatosNet.Resource.Attribute.fab_shadow = global::RadioFXC.Resource.Attribute.fab_shadow;
-			global::AccesoDatosNet.Resource.Attribute.fab_size = global::RadioFXC.Resource.Attribute.fab_size;
-			global::AccesoDatosNet.Resource.Color.fab_material_blue_500 = global::RadioFXC.Resource.Color.fab_material_blue_500;
-			global::AccesoDatosNet.Resource.Dimension.fab_elevation_lollipop = global::RadioFXC.Resource.Dimension.fab_elevation_lollipop;
-			global::AccesoDatosNet.Resource.Dimension.fab_scroll_threshold = global::RadioFXC.Resource.Dimension.fab_scroll_threshold;
-			global::AccesoDatosNet.Resource.Dimension.fab_shadow_size = global::RadioFXC.Resource.Dimension.fab_shadow_size;
-			global::AccesoDatosNet.Resource.Dimension.fab_size_mini = global::RadioFXC.Resource.Dimension.fab_size_mini;
-			global::AccesoDatosNet.Resource.Dimension.fab_size_normal = global::RadioFXC.Resource.Dimension.fab_size_normal;
-			global::AccesoDatosNet.Resource.Drawable.fab_shadow = global::RadioFXC.Resource.Drawable.fab_shadow;
-			global::AccesoDatosNet.Resource.Drawable.fab_shadow_mini = global::RadioFXC.Resource.Drawable.fab_shadow_mini;
-			global::AccesoDatosNet.Resource.Id.mini = global::RadioFXC.Resource.Id.mini;
-			global::AccesoDatosNet.Resource.Id.normal = global::RadioFXC.Resource.Id.normal;
 			global::AccesoDatosNet.Resource.String.ApplicationName = global::RadioFXC.Resource.String.ApplicationName;
 			global::AccesoDatosNet.Resource.String.Hello = global::RadioFXC.Resource.String.Hello;
-			global::AccesoDatosNet.Resource.Styleable.FloatingActionButton = global::RadioFXC.Resource.Styleable.FloatingActionButton;
-			global::AccesoDatosNet.Resource.Styleable.FloatingActionButton_fab_colorDisabled = global::RadioFXC.Resource.Styleable.FloatingActionButton_fab_colorDisabled;
-			global::AccesoDatosNet.Resource.Styleable.FloatingActionButton_fab_colorNormal = global::RadioFXC.Resource.Styleable.FloatingActionButton_fab_colorNormal;
-			global::AccesoDatosNet.Resource.Styleable.FloatingActionButton_fab_colorPressed = global::RadioFXC.Resource.Styleable.FloatingActionButton_fab_colorPressed;
-			global::AccesoDatosNet.Resource.Styleable.FloatingActionButton_fab_colorRipple = global::RadioFXC.Resource.Styleable.FloatingActionButton_fab_colorRipple;
-			global::AccesoDatosNet.Resource.Styleable.FloatingActionButton_fab_shadow = global::RadioFXC.Resource.Styleable.FloatingActionButton_fab_shadow;
-			global::AccesoDatosNet.Resource.Styleable.FloatingActionButton_fab_size = global::RadioFXC.Resource.Styleable.FloatingActionButton_fab_size;
 			global::CommonAndroidTools.Resource.String.ApplicationName = global::RadioFXC.Resource.String.ApplicationName;
 			global::CommonAndroidTools.Resource.String.Hello = global::RadioFXC.Resource.String.Hello;
 			global::CommonTools.Resource.String.ApplicationName = global::RadioFXC.Resource.String.ApplicationName;
