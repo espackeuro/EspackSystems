@@ -84,8 +84,8 @@ namespace EspackClasses
             var _middle = Convert.ToInt32(Label.width / 2f);
             var _right = Convert.ToInt32(Label.width) - 3;
             var _height = Convert.ToInt32(Label.height);
-            Label.addLine(_middle, 3, 0, "C", "", "[VALUE]", 0, _height / 2, 1, false);
-            Label.addLine(_right, _height / 2 + 8, 0, "C", "[BC][VALUE]", 14);
+            Label.addLine(_middle, 3, 0, "C", "", "[VALUE]", 14);
+            Label.addLine(_right, 3, 0, "C", "", "[BC][VALUE]", 0, _height / 2, 1, false);
 
         }
         public override string ToString()
