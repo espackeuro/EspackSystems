@@ -70,4 +70,27 @@ namespace EspackClasses
             return Label.ToString(Parameters);
         }
     }
+    public class RackLabelWOL : cEspackPreDefinedLabels
+    {
+        public cLabel Label { get; set; }
+        public Dictionary<string, string> Parameters { get; set; } = new Dictionary<string, string>();
+        public RackLabelWOL(cLabel pLabel)
+        {
+            //Assignments
+            Label = pLabel;
+            //Parameters
+            Parameters.Add("VALUE", "");
+            //Label Design
+            var _middle = Convert.ToInt32(Label.width / 2f);
+            var _right = Convert.ToInt32(Label.width) - 3;
+            var _height = Convert.ToInt32(Label.height);
+            Label.addLine(_middle, 3, 0, "C", "", "[VALUE]", 0, _height / 2, 1, false);
+            Label.addLine(_right, _height / 2 + 8, 0, "C", "[BC][VALUE]", 14);
+
+        }
+        public override string ToString()
+        {
+            return Label.ToString(Parameters);
+        }
+    }
 }
