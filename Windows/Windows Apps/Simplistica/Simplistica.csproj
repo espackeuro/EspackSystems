@@ -62,6 +62,12 @@
     <Compile Include="fMain.Designer.cs">
       <DependentUpon>fMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="fPrintRackLabels.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fPrintRackLabels.Designer.cs">
+      <DependentUpon>fPrintRackLabels.cs</DependentUpon>
+    </Compile>
     <Compile Include="fPrintUnitLabels.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -80,10 +86,19 @@
     <Compile Include="fSimpleReceivals.Designer.cs">
       <DependentUpon>fSimpleReceivals.cs</DependentUpon>
     </Compile>
+    <Compile Include="fSimpleReferences.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fSimpleReferences.Designer.cs">
+      <DependentUpon>fSimpleReferences.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="fMain.resx">
       <DependentUpon>fMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fPrintRackLabels.resx">
+      <DependentUpon>fPrintRackLabels.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="fPrintUnitLabels.resx">
       <DependentUpon>fPrintUnitLabels.cs</DependentUpon>
@@ -93,6 +108,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="fSimpleReceivals.resx">
       <DependentUpon>fSimpleReceivals.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fSimpleReferences.resx">
+      <DependentUpon>fSimpleReferences.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
