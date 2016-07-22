@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:id="@+id/txtReading" />
+    <TableLayout
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:id="@+id/tableLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="35dp"
+        android:stretchColumns="1">
+        <TableRow>
+            <TextView
+                android:text=""
+                android:hint="PARTNUMBER"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:padding="5dip"
+                android:id="@+id/txtPartnumber" />
+            <TextView
+                android:text=""
+                android:hint="QTY"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:padding="5dip"
+                android:gravity="right"
+                android:id="@+id/txtQty" />
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:text=""
+                android:hint="LABELRACK"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:padding="5dip"
+                android:id="@+id/txtLabelRack" />
+            <TextView
+                android:text=""
+                android:hint="CM"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:padding="5dip"
+                android:gravity="right"
+                android:id="@+id/txtCM" />
+        </TableRow>
+    </TableLayout>
+    <ListView
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/ReadingsList" />
+    <Button
+        android:text="Close Session"
+        android:id="@+id/btnCloseSession"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
+</RelativeLayout>
