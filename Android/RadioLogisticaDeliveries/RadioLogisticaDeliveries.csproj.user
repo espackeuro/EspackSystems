@@ -3,5 +3,6 @@
   <PropertyGroup>
     <SelectedDevice>AVD_GalaxyNexus_ToolsForApacheCordova</SelectedDevice>
     <AndroidDesignerPreferredDevice>Nexus 4</AndroidDesignerPreferredDevice>
+    <AndroidDesignerPreferredTheme>Theme.DeviceDefault</AndroidDesignerPreferredTheme>
   </PropertyGroup>
 </Project>

@@ -40,6 +40,15 @@ namespace RadioLogisticaDeliveries
                     Values.gDatos.User = LogonDetails.user;
                     Values.gDatos.Password = LogonDetails.password;
 
+                    //create sqlite database
+                    SQLiteDatabase.CreateDatabase("DELIVERIES");
+                    SQLiteDatabase.db.CreateTable<Readings>();
+                    // to do what to do when readings exist
+
+
+
+                    //
+
                     var intent = new Intent(this, typeof(BlockSelection));
                     StartActivityForResult(intent, 1);
                 }

@@ -34,8 +34,8 @@ namespace RadioLogisticaDeliveries
         private void _list_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
             Values.gBlock = _list.Adapter.GetItem(e.Position).ToString();
-            //var intent = new Intent(this, typeof(MainScreen));
-            //StartActivityForResult(intent, 2);
+            var intent = new Intent(this, typeof(MainScreen));
+            StartActivityForResult(intent, 2);
         }
 
     }
