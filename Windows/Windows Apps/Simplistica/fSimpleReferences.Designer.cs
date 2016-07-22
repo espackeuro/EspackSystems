@@ -1,4 +1,4 @@
-﻿namespace simplistica
+﻿namespace Simplistica
 {
     partial class fSimpleReferences
     {

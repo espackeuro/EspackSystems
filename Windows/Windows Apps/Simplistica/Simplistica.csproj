@@ -68,6 +68,12 @@
     <Compile Include="fPrintUnitLabels.Designer.cs">
       <DependentUpon>fPrintUnitLabels.cs</DependentUpon>
     </Compile>
+    <Compile Include="fRackLabels.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fRackLabels.Designer.cs">
+      <DependentUpon>fRackLabels.cs</DependentUpon>
+    </Compile>
     <Compile Include="fSettings.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -93,6 +99,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="fPrintUnitLabels.resx">
       <DependentUpon>fPrintUnitLabels.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fRackLabels.resx">
+      <DependentUpon>fRackLabels.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="fSettings.resx">
       <DependentUpon>fSettings.cs</DependentUpon>
