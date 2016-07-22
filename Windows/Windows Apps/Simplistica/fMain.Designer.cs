@@ -35,6 +35,7 @@
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.printRepairsUnitLabelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.printRackLabelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -68,7 +69,8 @@
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.settingsToolStripMenuItem,
-            this.printRepairsUnitLabelsToolStripMenuItem});
+            this.printRepairsUnitLabelsToolStripMenuItem,
+            this.printRackLabelsToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
@@ -86,6 +88,13 @@
             this.printRepairsUnitLabelsToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
             this.printRepairsUnitLabelsToolStripMenuItem.Text = "Print Repairs Unit Labels";
             this.printRepairsUnitLabelsToolStripMenuItem.Click += new System.EventHandler(this.printRepairsUnitLabelsToolStripMenuItem_Click);
+            // 
+            // printRackLabelsToolStripMenuItem
+            // 
+            this.printRackLabelsToolStripMenuItem.Name = "printRackLabelsToolStripMenuItem";
+            this.printRackLabelsToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.printRackLabelsToolStripMenuItem.Text = "Print Rack Labels";
+            this.printRackLabelsToolStripMenuItem.Click += new System.EventHandler(this.printRackLabelsToolStripMenuItem_Click);
             // 
             // fMain
             // 
@@ -114,6 +123,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem printRepairsUnitLabelsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem printRackLabelsToolStripMenuItem;
     }
 }
 

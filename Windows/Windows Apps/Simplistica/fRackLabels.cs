@@ -22,6 +22,12 @@ namespace Simplistica
             txtAISLE.Enabled = true;
             txtLOCATION.Enabled = true;
             cboCOD3.ParentConn = Values.gDatos;
+            cboCOD3.Source("select cod3,cod3 as txt from general..sedes order by cod3", txtCOD3);
+            txtCOD3.Hide();
+        }
+
+        private void btnPrint_Click(object sender, EventArgs e)
+        {
 
         }
     }
