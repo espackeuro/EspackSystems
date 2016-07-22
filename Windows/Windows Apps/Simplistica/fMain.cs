@@ -70,6 +70,13 @@ namespace Simplistica
             fSettings fSettings = new fSettings();
             fSettings.ShowDialog();
         }
+
+        private void printRackLabelsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            fRackLabels fRackLabels = new fRackLabels();
+            fRackLabels.MdiParent = this;
+            fRackLabels.Show();
+        }
     }
     public static class Values
     {
