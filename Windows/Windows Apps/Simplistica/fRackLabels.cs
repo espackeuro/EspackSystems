@@ -7,14 +7,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using AccesoDatosNet;
+using EspackClasses;
+using RawPrinterHelper;
 
 namespace Simplistica
 {
-    public partial class fSimpleReferences : Form
+    public partial class fRackLabels : Form
     {
-        public fSimpleReferences()
+        public fRackLabels()
         {
             InitializeComponent();
+            cboCOD3.Enabled = true;
+            txtAISLE.Enabled = true;
+            txtLOCATION.Enabled = true;
+            cboCOD3.ParentConn = Values.gDatos;
+
         }
     }
 }
