@@ -48,6 +48,7 @@ namespace EspackClasses
         public string align { get; set; }
         public float WidthMult { get; set; }
         public float xDimension { get; set; }
+        public bool Rotated { get; set; }
         //constructor
         public printerBarcode(cLabel pParent)
         {
@@ -71,6 +72,7 @@ namespace EspackClasses
         public string style { get; set; }
         public string textData { get; set; }
         public float charSize { get; set; }
+        public bool Rotated { get; set; }
         public cLabel Parent { get; set; }
         public Size Size
         {
@@ -155,9 +157,9 @@ namespace EspackClasses
             return string.Join("", labelHeader) + string.Join("", _replacedList.Select(x => renderLine(x))) + string.Join("", labelFooter);
         }
 
-        public virtual void addLine(float x, float y, float textSize, string align, string style, string textData, float charSize = 0, float barcodeHeight=0, float barcodeWidthMult=0, bool humanReadable=false)
+        public virtual void addLine(float x, float y, float textSize, string align, string style, string textData, float charSize = 0, float barcodeHeight=0, float barcodeWidthMult=0, bool humanReadable=false, bool rotated=false)
         {
-            if (textData.Length>4 && textData.Substring(0,4) == "[BC]")
+            if (textData.Length > 4 && textData.Substring(0, 4) == "[BC]")
             {
                 labelBody.Add(new printerBarcode(this)
                 {
@@ -168,7 +170,8 @@ namespace EspackClasses
                     WidthMult = barcodeWidthMult,
                     xDimension = Convert.ToInt32(Math.Ceiling(barcodeWidthMult * 2)),
                     textData = textData.Replace("[BC]", ""),
-                    HumanReadable = humanReadable
+                    HumanReadable = humanReadable,
+                    Rotated = rotated
                 });
             }
             else
@@ -181,7 +184,8 @@ namespace EspackClasses
                     align = align,
                     style = style,
                     textData = textData,
-                    charSize = charSize
+                    charSize = charSize,
+                    Rotated = rotated
                 });
             }
         }
@@ -231,18 +235,19 @@ namespace EspackClasses
                 List<string> _result = new List<string>();
                 int _xdpm = Convert.ToInt32(_p.x * dpm);
                 int _ydpm = Convert.ToInt32(_p.y * dpm);
-                
+
 
                 if (_p.textSize == 0)
                 {
                     Font _font = new Font("Swis721 BT", _p.charSize);
                     _p.textSize = TextMeasurer.MeasureString(_p.textData, _font, dpi).Width; //* 1.7F;
-                } else
+                }
+                else
                 {
-                    for (float i=1; i<100; i += 0.1F)
+                    for (float i = 1; i < 100; i += 0.1F)
                     {
                         Font _font = new Font("Swis721 BT", i);
-                        if (TextMeasurer.MeasureString(_p.textData, _font, dpi).Width>_p.textSize)
+                        if (TextMeasurer.MeasureString(_p.textData, _font, dpi).Width > _p.textSize)
                         {
                             _p.charSize = i;
                             break;
@@ -275,16 +280,17 @@ namespace EspackClasses
                 //labelBody.Add(string.Format("^FB{0},1,0,{1},0",Convert.ToInt32(_width),_alignChar));
                 //labelBody.Add(string.Format("^FO{0},{1}",_xdpm,_ydpm));//(_charWidth*1.2).ToString()
                 _result.Add("^PA1,1,1,1");
-                _result.Add(string.Format("^AX,{0},{1}", _charWidthDPM, _charWidthDPM));
+                _result.Add(string.Format("^AX{0},{1},{2}", _p.Rotated ? "R" : "", _charWidthDPM, _charWidthDPM));
                 _result.Add(string.Format("^FH^FD{0}^FS", _p.textData));
                 return string.Join("\n", _result);
-            } else if (p is printerBarcode)
+            }
+            else if (p is printerBarcode)
             {
                 var _p = (printerBarcode)p;
                 List<string> _result = new List<string>();
                 int _xdpm = Convert.ToInt32(_p.x * dpm);
                 int _ydpm = Convert.ToInt32(_p.y * dpm);
-                int _heightDpm= Convert.ToInt32(_p.Height * dpm);
+                int _heightDpm = Convert.ToInt32(_p.Height * dpm);
                 switch (_p.align)
                 {
                     case "C":
@@ -295,14 +301,14 @@ namespace EspackClasses
                     case "D":
                         _xdpm = (_xdpm - Convert.ToInt32(_p.Width));
                         _result.Add(string.Format("^FO{0},{1}", _xdpm, _ydpm));//(_charWidth*1.2).ToString()
-                                                                                 //_width = _xdpm;
+                                                                               //_width = _xdpm;
                         break;
                     case "I":
                         _result.Add(string.Format("^FO{0},{1}", _xdpm, _ydpm));
                         break;
                 }
                 _result.Add(string.Format("^BY{0},3,{1}", _p.xDimension, _heightDpm));
-                _result.Add(string.Format("^BCN,{0},{1},N,N,N", _heightDpm, _p.HumanReadable?"Y":"N"));
+                _result.Add(string.Format("^BC{0},{1},{2},N,N,N", _p.Rotated ? "R" : "N", _heightDpm, _p.HumanReadable ? "Y" : "N"));
                 _result.Add(string.Format("^FD{0}^FS", _p.textData));
                 return string.Join("\n", _result);
             }
