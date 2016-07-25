@@ -16,9 +16,9 @@ using System.Reflection;
 
 namespace Simplistica
 {
-    public partial class fMain : Form
+    public partial class fMainSimplistica : Form
     {
-        public fMain(string[] args)
+        public fMainSimplistica(string[] args)
         {
             InitializeComponent();
             
@@ -76,7 +76,13 @@ namespace Simplistica
             fSettings fSettings = (fSettings)GetChildInstance("fSettings");
         }
 
-
+        private void printRackLabelsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            fRackLabels fRackLabels = (fRackLabels)GetChildInstance("fRackLabels");
+            //fRackLabels fRackLabels = new fRackLabels();
+            //fRackLabels.MdiParent = this;
+            //fRackLabels.Show();
+        }
 
 
         //form opening control
@@ -101,12 +107,7 @@ namespace Simplistica
             return InstancedForms[pFormName];  //just created or created earlier.Return it+69
         }
 
-        private void printRackLabelsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            fRackLabels fRackLabels = new fRackLabels();
-            fRackLabels.MdiParent = this;
-            fRackLabels.Show();
-        }
+
     }
     public static class Values
     {

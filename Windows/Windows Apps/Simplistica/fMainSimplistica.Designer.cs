@@ -1,6 +1,6 @@
 ﻿namespace Simplistica
 {
-    partial class fMain
+    partial class fMainSimplistica
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(fMain));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(fMainSimplistica));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.receivalsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.simpleReceivalsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();

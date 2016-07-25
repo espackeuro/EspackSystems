@@ -56,11 +56,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="fMain.cs">
+    <Compile Include="fMainSimplistica.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="fMain.Designer.cs">
-      <DependentUpon>fMain.cs</DependentUpon>
+    <Compile Include="fMainSimplistica.Designer.cs">
+      <DependentUpon>fMainSimplistica.cs</DependentUpon>
     </Compile>
     <Compile Include="fPrintUnitLabels.cs">
       <SubType>Form</SubType>
@@ -94,8 +94,8 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="fMain.resx">
-      <DependentUpon>fMain.cs</DependentUpon>
+    <EmbeddedResource Include="fMainSimplistica.resx">
+      <DependentUpon>fMainSimplistica.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="fPrintUnitLabels.resx">
       <DependentUpon>fPrintUnitLabels.cs</DependentUpon>
