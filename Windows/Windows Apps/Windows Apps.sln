@@ -57,6 +57,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{85D16BFF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerSocketConsole", "..\Tests\ServerSocketConsole\ServerSocketConsole.csproj", "{995CDE43-FB3E-4E59-96F1-696D7C5F5EFA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketClientWinForm", "..\Tests\SocketClientWinForm\SocketClientWinForm.csproj", "{95098D3B-FB2A-4699-93AD-4379F8474BD9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketClientSyncConsole", "SocketClientSyncConsole\SocketClientSyncConsole.csproj", "{3B0D2D70-5D68-46AB-9D33-B89DE67C3560}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -147,6 +151,14 @@ Global
 		{995CDE43-FB3E-4E59-96F1-696D7C5F5EFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{995CDE43-FB3E-4E59-96F1-696D7C5F5EFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{995CDE43-FB3E-4E59-96F1-696D7C5F5EFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95098D3B-FB2A-4699-93AD-4379F8474BD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95098D3B-FB2A-4699-93AD-4379F8474BD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95098D3B-FB2A-4699-93AD-4379F8474BD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95098D3B-FB2A-4699-93AD-4379F8474BD9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B0D2D70-5D68-46AB-9D33-B89DE67C3560}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B0D2D70-5D68-46AB-9D33-B89DE67C3560}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B0D2D70-5D68-46AB-9D33-B89DE67C3560}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B0D2D70-5D68-46AB-9D33-B89DE67C3560}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -173,9 +185,11 @@ Global
 		{DE462C35-3E22-4A1F-A3A0-1BA33173C623} = {9A5F1334-96A2-4343-B6B5-94245973DB55}
 		{E4130D08-D657-4F61-ADEA-ABD58ECBAC69} = {1D17A21A-95D8-436A-8A3A-38AE2EF835CA}
 		{995CDE43-FB3E-4E59-96F1-696D7C5F5EFA} = {85D16BFF-F5DA-4CE8-85D0-78D26D7C6E2A}
+		{95098D3B-FB2A-4699-93AD-4379F8474BD9} = {85D16BFF-F5DA-4CE8-85D0-78D26D7C6E2A}
+		{3B0D2D70-5D68-46AB-9D33-B89DE67C3560} = {85D16BFF-F5DA-4CE8-85D0-78D26D7C6E2A}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 22
+		SccNumberOfProjects = 24
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://espack.visualstudio.com/defaultcollection
 		SccLocalPath0 = .
@@ -263,5 +277,13 @@ Global
 		SccProjectTopLevelParentUniqueName21 = Windows\u0020Apps.sln
 		SccProjectName21 = ../Tests/ServerSocketConsole
 		SccLocalPath21 = ..\\Tests\\ServerSocketConsole
+		SccProjectUniqueName22 = ..\\Tests\\SocketClientWinForm\\SocketClientWinForm.csproj
+		SccProjectTopLevelParentUniqueName22 = Windows\u0020Apps.sln
+		SccProjectName22 = ../Tests/SocketClientWinForm
+		SccLocalPath22 = ..\\Tests\\SocketClientWinForm
+		SccProjectUniqueName23 = SocketClientSyncConsole\\SocketClientSyncConsole.csproj
+		SccProjectTopLevelParentUniqueName23 = Windows\u0020Apps.sln
+		SccProjectName23 = SocketClientSyncConsole
+		SccLocalPath23 = SocketClientSyncConsole
 	EndGlobalSection
 EndGlobal
