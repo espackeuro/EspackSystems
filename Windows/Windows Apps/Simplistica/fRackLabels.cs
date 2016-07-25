@@ -41,21 +41,42 @@ namespace Simplistica
                 }
                 var _label = new ZPLLabel(75, 150, 3, _printerResolution);
                 var _racklabel = new RackLabelWOL(_label);
-                //using (var _rs = new DynamicRS(string.Format("Select cp.CM,cp.Entrada,cp.Linea,cp.Partnumber,cp.QTY,cp.xfec,c.Doc_Proveedor from CMS_PALETAGS cp inner join cab_Recepcion c on c.entrada=cp.entrada where cp.Entrada='{0}' and Linea='{1}'", Convert.ToInt32(txtEntrada.Value), Convert.ToInt32(r.Cells[1].Value)), Values.gDatos))
+
                 using (var _printer = new cRawPrinterHelper(_printerAddress))
-                using (var _rs = new DynamicRS(string.Format("select cod3,ubicacion from mapa_ubicaciones where cod3='{0}' and ubicacion='{1}'", Convert.ToString(txtCOD3.Text), Convert.ToString(txtLOCATION.Text)), Values.gDatos))
-                {
-                    _rs.Open();
-                    //iterate labels
-                    _rs.ToList().ForEach(row =>
+
+                if (txtAISLE.Text=="")
                     {
-                        _racklabel.Parameters["VALUE"] = row["ubicacion"].ToString();
-                        if (!_printer.SendUTF8StringToPrinter(_racklabel.ToString(), 1))
+                        using (var _rs = new DynamicRS(string.Format("select cod3,location,alias from sistemas..whmapaliases where cod3='{0}' and location='{1}'", Convert.ToString(txtCOD3.Text), Convert.ToString(txtLOCATION.Text)), Values.gDatos))
                         {
-                            CTWin.MsgError(string.Format("Error printing label {}.", row["VALUE"]));
+                            _rs.Open();
+                            //iterate labels
+                            _rs.ToList().ForEach(row =>
+                            {
+                                _racklabel.Parameters["VALUE"] = row["location"].ToString();
+                                if (!_printer.SendUTF8StringToPrinter(_racklabel.ToString(), 1))
+                                {
+                                    CTWin.MsgError(string.Format("Error printing label {}.", row["VALUE"]));
+                                }
+                            });
                         }
-                    });
-                }
+                    }
+                else
+                    {
+                        using (var _rs = new DynamicRS(string.Format("select cod3,location,alias from sistemas..whmapaliasess where cod3='{0}' and location like('{1}'+'%')", Convert.ToString(txtCOD3.Text), Convert.ToString(txtAISLE.Text)), Values.gDatos))
+                        {
+                            _rs.Open();
+                            //iterate labels
+                            _rs.ToList().ForEach(row =>
+                            {
+                                _racklabel.Parameters["VALUE"] = row["location"].ToString();
+                                if (!_printer.SendUTF8StringToPrinter(_racklabel.ToString(), 1))
+                                {
+                                    CTWin.MsgError(string.Format("Error printing label {}.", row["VALUE"]));
+                                }
+                            });
+                        }
+                    }
+                
 
             }
 
