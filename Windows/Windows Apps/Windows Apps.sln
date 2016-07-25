@@ -53,6 +53,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonToolsWin", "..\..\Dat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplistica", "Simplistica\Simplistica.csproj", "{E4130D08-D657-4F61-ADEA-ABD58ECBAC69}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{85D16BFF-F5DA-4CE8-85D0-78D26D7C6E2A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerSocketConsole", "..\Tests\ServerSocketConsole\ServerSocketConsole.csproj", "{995CDE43-FB3E-4E59-96F1-696D7C5F5EFA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -139,6 +143,10 @@ Global
 		{E4130D08-D657-4F61-ADEA-ABD58ECBAC69}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E4130D08-D657-4F61-ADEA-ABD58ECBAC69}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E4130D08-D657-4F61-ADEA-ABD58ECBAC69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{995CDE43-FB3E-4E59-96F1-696D7C5F5EFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{995CDE43-FB3E-4E59-96F1-696D7C5F5EFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{995CDE43-FB3E-4E59-96F1-696D7C5F5EFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{995CDE43-FB3E-4E59-96F1-696D7C5F5EFA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -164,9 +172,10 @@ Global
 		{005BD28A-42C7-4785-9EB1-BD6F2B7564C3} = {740EE352-1137-4924-ADA9-AD599D1CB2BE}
 		{DE462C35-3E22-4A1F-A3A0-1BA33173C623} = {9A5F1334-96A2-4343-B6B5-94245973DB55}
 		{E4130D08-D657-4F61-ADEA-ABD58ECBAC69} = {1D17A21A-95D8-436A-8A3A-38AE2EF835CA}
+		{995CDE43-FB3E-4E59-96F1-696D7C5F5EFA} = {85D16BFF-F5DA-4CE8-85D0-78D26D7C6E2A}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 21
+		SccNumberOfProjects = 22
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://espack.visualstudio.com/defaultcollection
 		SccLocalPath0 = .
@@ -250,5 +259,9 @@ Global
 		SccProjectTopLevelParentUniqueName20 = Windows\u0020Apps.sln
 		SccProjectName20 = ../../Database\u0020and\u0020tools/CommonToolsWin/CommonToolsWin
 		SccLocalPath20 = ..\\..\\Database\u0020and\u0020tools\\CommonToolsWin\\CommonToolsWin
+		SccProjectUniqueName21 = ..\\Tests\\ServerSocketConsole\\ServerSocketConsole.csproj
+		SccProjectTopLevelParentUniqueName21 = Windows\u0020Apps.sln
+		SccProjectName21 = ../Tests/ServerSocketConsole
+		SccLocalPath21 = ..\\Tests\\ServerSocketConsole
 	EndGlobalSection
 EndGlobal
