@@ -35,7 +35,11 @@ namespace SocketClientSyncConsole
                         sender.RemoteEndPoint.ToString());
 
                     // Encode the data string into a byte array.
-                    byte[] msg = Encoding.ASCII.GetBytes("This is a test<EOF>");
+                    byte[] msg = Encoding.ASCII.GetBytes(@"<procedure> 
+  <DB>TEST</DB>
+  <name>pAddTest</name>
+  <parameters>@Value='patatita huevos 2'</parameters>
+</procedure>");
 
                     // Send the data through the socket.
                     int bytesSent = sender.Send(msg);
