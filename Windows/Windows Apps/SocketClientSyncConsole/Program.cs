@@ -38,7 +38,7 @@ namespace SocketClientSyncConsole
                     byte[] msg = Encoding.ASCII.GetBytes(@"<procedure> 
   <DB>TEST</DB>
   <name>pAddTest</name>
-  <parameters>@Value='patatita huevos 2'</parameters>
+  <parameters>@Value='patatita huevos 3'</parameters>
 </procedure>");
 
                     // Send the data through the socket.
@@ -61,7 +61,7 @@ namespace SocketClientSyncConsole
                 catch (SocketException se)
                 {
                     Console.WriteLine("SocketException : {0}", se.ToString());
-                }
+                 }
                 catch (Exception e)
                 {
                     Console.WriteLine("Unexpected exception : {0}", e.ToString());
