@@ -32,6 +32,7 @@
             this.cboService = new EspackFormControls.EspackComboBox();
             this.btnPrint = new System.Windows.Forms.Button();
             this.txtDesService = new EspackFormControls.EspackTextBox();
+            this.txtQtyLabel = new EspackFormControls.NumericTextBox();
             this.SuspendLayout();
             // 
             // txtQty
@@ -49,7 +50,7 @@
             this.txtQty.Font = new System.Drawing.Font("Tahoma", 10F);
             this.txtQty.ForeColor = System.Drawing.Color.Black;
             this.txtQty.Length = 0;
-            this.txtQty.Location = new System.Drawing.Point(58, 113);
+            this.txtQty.Location = new System.Drawing.Point(12, 68);
             this.txtQty.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtQty.Mask = false;
             this.txtQty.Name = "txtQty";
@@ -83,7 +84,7 @@
             this.cboService.Font = new System.Drawing.Font("Tahoma", 10F);
             this.cboService.ForeColor = System.Drawing.Color.Black;
             this.cboService.FormattingEnabled = true;
-            this.cboService.Location = new System.Drawing.Point(58, 59);
+            this.cboService.Location = new System.Drawing.Point(12, 25);
             this.cboService.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.cboService.Name = "cboService";
             this.cboService.Order = 0;
@@ -100,7 +101,7 @@
             // 
             // btnPrint
             // 
-            this.btnPrint.Location = new System.Drawing.Point(407, 114);
+            this.btnPrint.Location = new System.Drawing.Point(360, 65);
             this.btnPrint.Name = "btnPrint";
             this.btnPrint.Size = new System.Drawing.Size(75, 23);
             this.btnPrint.TabIndex = 4;
@@ -121,7 +122,7 @@
             this.txtDesService.DependingRS = null;
             this.txtDesService.Font = new System.Drawing.Font("Tahoma", 10F);
             this.txtDesService.ForeColor = System.Drawing.Color.Black;
-            this.txtDesService.Location = new System.Drawing.Point(225, 58);
+            this.txtDesService.Location = new System.Drawing.Point(178, 25);
             this.txtDesService.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtDesService.Multiline = true;
             this.txtDesService.Name = "txtDesService";
@@ -136,11 +137,39 @@
             this.txtDesService.Upp = false;
             this.txtDesService.Value = "";
             // 
+            // txtQtyLabel
+            // 
+            this.txtQtyLabel.Add = false;
+            this.txtQtyLabel.BackColor = System.Drawing.Color.White;
+            this.txtQtyLabel.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtQtyLabel.Caption = "Copies per label";
+            this.txtQtyLabel.DBField = null;
+            this.txtQtyLabel.DBFieldType = null;
+            this.txtQtyLabel.DefaultValue = null;
+            this.txtQtyLabel.Del = false;
+            this.txtQtyLabel.DependingRS = null;
+            this.txtQtyLabel.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.txtQtyLabel.ForeColor = System.Drawing.Color.Black;
+            this.txtQtyLabel.Location = new System.Drawing.Point(188, 68);
+            this.txtQtyLabel.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
+            this.txtQtyLabel.Name = "txtQtyLabel";
+            this.txtQtyLabel.Order = 0;
+            this.txtQtyLabel.ParentConn = null;
+            this.txtQtyLabel.ParentDA = null;
+            this.txtQtyLabel.PK = false;
+            this.txtQtyLabel.Search = false;
+            this.txtQtyLabel.Size = new System.Drawing.Size(100, 17);
+            this.txtQtyLabel.Status = CommonTools.EnumStatus.ADDNEW;
+            this.txtQtyLabel.TabIndex = 9;
+            this.txtQtyLabel.Upp = false;
+            this.txtQtyLabel.Value = "";
+            // 
             // fPrintUnitLabels
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(537, 189);
+            this.ClientSize = new System.Drawing.Size(472, 124);
+            this.Controls.Add(this.txtQtyLabel);
             this.Controls.Add(this.txtDesService);
             this.Controls.Add(this.btnPrint);
             this.Controls.Add(this.cboService);
@@ -158,5 +187,6 @@
         private System.Windows.Forms.Button btnPrint;
         private EspackFormControls.EspackTextBox txtDesService;
         private EspackFormControls.NumericTextBox txtQty;
+        private EspackFormControls.NumericTextBox txtQtyLabel;
     }
 }
