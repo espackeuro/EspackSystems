@@ -10,6 +10,7 @@ using AccesoDatosNet;
 using System.Net.Sockets;
 using System.Net;
 using System.Text;
+using System.Threading;
 
 namespace RadioLogisticaDeliveries
 {
@@ -22,7 +23,7 @@ namespace RadioLogisticaDeliveries
         protected TextView txtQty;
         protected TextView txtLabelRack;
         protected TextView txtCM;
-
+        public TextView txtConsole;
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -33,6 +34,7 @@ namespace RadioLogisticaDeliveries
             txtQty = FindViewById<TextView>(Resource.Id.txtQty);
             txtLabelRack = FindViewById<TextView>(Resource.Id.txtLabelRack);
             var btnCloseSession = FindViewById<Button>(Resource.Id.btnCloseSession);
+            txtConsole = FindViewById<TextView>(Resource.Id.txtConsole);
             btnCloseSession.Click += BtnCloseSession_Click;
             txtReading.KeyPress += TxtReading_KeyPress;
 
@@ -40,7 +42,7 @@ namespace RadioLogisticaDeliveries
 
         private void BtnCloseSession_Click(object sender, EventArgs e)
         {
-            StartClient();
+            ThreadPool.QueueUserWorkItem(o =>  StartClient());
         }
 
         private void TxtReading_KeyPress(object sender, View.KeyEventArgs e)
@@ -56,7 +58,7 @@ namespace RadioLogisticaDeliveries
             throw new NotImplementedException();
         }
 
-        public static void StartClient()
+        public void StartClient()
         {
             // Data buffer for incoming data.
             byte[] bytes = new byte[1024];
@@ -79,9 +81,9 @@ namespace RadioLogisticaDeliveries
                 try
                 {
                     sender.Connect(remoteEP);
-
-                    Console.WriteLine("Socket connected to {0}",
-                        sender.RemoteEndPoint.ToString());
+                    RunOnUiThread(() => txtConsole.Text += String.Format("Socket connected to {0}\n", sender.RemoteEndPoint.ToString()));
+                    //Console.WriteLine("Socket connected to {0}",
+                    //    sender.RemoteEndPoint.ToString());
 
                     // Encode the data string into a byte array.
                     byte[] msg = Encoding.ASCII.GetBytes(@"<procedure> 
@@ -95,8 +97,9 @@ namespace RadioLogisticaDeliveries
 
                     // Receive the response from the remote device.
                     int bytesRec = sender.Receive(bytes);
-                    Console.WriteLine("Echoed test = {0}",
-                        Encoding.ASCII.GetString(bytes, 0, bytesRec));
+                    RunOnUiThread(() => txtConsole.Text += String.Format("Echoed test = {0}\n",Encoding.ASCII.GetString(bytes, 0, bytesRec)));
+                    //Console.WriteLine("Echoed test = {0}",
+                    //    Encoding.ASCII.GetString(bytes, 0, bytesRec));
 
                     // Release the socket.
                     sender.Shutdown(SocketShutdown.Both);
