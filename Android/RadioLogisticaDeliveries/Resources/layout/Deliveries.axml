@@ -46,6 +46,15 @@
                 android:gravity="right"
                 android:id="@+id/txtCM" />
         </TableRow>
+        <TableRow>
+            <TextView
+                android:text=""
+                android:hint="CONSOLE"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:padding="5dip"
+                android:gravity="left"
+                android:id="@+id/txtConsole" />
+        </TableRow>
     </TableLayout>
     <ListView
         android:minWidth="25px"
