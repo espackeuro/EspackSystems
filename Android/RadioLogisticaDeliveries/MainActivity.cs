@@ -25,6 +25,7 @@ namespace RadioLogisticaDeliveries
         {
             base.OnCreate(bundle);
             var intent = new Intent(this, typeof(LogonScreenClass));
+            intent.PutExtra("Socks", true);
             StartActivityForResult(intent, 0);
         }
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)

@@ -9,6 +9,9 @@ using AccesoDatosNet;
 using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using DataWedge;
+using System.Net;
+using Android.Telephony;
+using Socks;
 
 namespace LogonScreen
 {
@@ -16,7 +19,55 @@ namespace LogonScreen
     {
         public static string user { get; set; }
         public static string password { get; set; }
-    }
+
+
+        public static String getDeviceID(Context p_context)
+        {
+            String m_deviceID = null;
+            TelephonyManager m_telephonyManager = null;
+            m_telephonyManager = (TelephonyManager)p_context.GetSystemService(Context.TelephonyService);
+            m_deviceID = m_telephonyManager.DeviceId;
+
+            if (m_deviceID == null || "00000000000000".Equals(m_deviceID))
+            {
+                m_deviceID = "AAAAAAA";
+            }
+
+            return m_deviceID;
+        }
+        public static string Serial
+        {
+            get
+            {
+                return Android.OS.Build.Serial;
+            }
+                
+        }
+        public static string getDeviceInfo(string p_seperator)
+        {
+            string m_data = "";
+            Java.Lang.StringBuilder m_builder = new Java.Lang.StringBuilder();
+            m_builder.Append("RELEASE " + Android.OS.Build.VERSION.Release + p_seperator);
+            m_builder.Append("DEVICE " + Android.OS.Build.Device + p_seperator);
+            m_builder.Append("MODEL " + Android.OS.Build.Model + p_seperator);
+            m_builder.Append("PRODUCT " + Android.OS.Build.Product + p_seperator);
+            m_builder.Append("BRAND " + Android.OS.Build.Brand + p_seperator);
+            m_builder.Append("DISPLAY " + Android.OS.Build.Display + p_seperator);
+            // TODO : Android.OS.Build.CPU_ABI is deprecated
+            m_builder.Append("CPU_ABI " + Android.OS.Build.CpuAbi + p_seperator);
+            // TODO : Android.OS.Build.CPU_ABI2 is deprecated
+            m_builder.Append("CPU_ABI2 " + Android.OS.Build.CpuAbi2 + p_seperator);
+            m_builder.Append("UNKNOWN " + Android.OS.Build.Unknown + p_seperator);
+            m_builder.Append("HARDWARE " + Android.OS.Build.Hardware + p_seperator);
+            m_builder.Append("ID " + Android.OS.Build.Id + p_seperator);
+            m_builder.Append("MANUFACTURER " + Android.OS.Build.Manufacturer + p_seperator);
+            m_builder.Append("SERIAL " + Android.OS.Build.Serial + p_seperator);
+            m_builder.Append("USER " + Android.OS.Build.User + p_seperator);
+            m_builder.Append("HOST " + Android.OS.Build.Host + p_seperator);
+            m_data = m_builder.ToString();
+            return m_data;
+        }
+}
 
     [Activity(Label = "Logon Screen")]
     public class LogonScreenClass : AppCompatActivity
@@ -26,8 +77,10 @@ namespace LogonScreen
         private TextView cMsgText;
         private Button cLoginButton;
         private cAccesoDatosNet gDatos = new cAccesoDatosNet();
-        private string typeofCaller;
-        
+        private cSocks gSocks;
+        //private string typeofCaller;
+        private bool Socks;
+        private cSocks SocksServer;
         //Main method
         protected override void OnCreate(Bundle bundle)
         {
@@ -43,7 +96,21 @@ namespace LogonScreen
             cMsgText= FindViewById<TextView>(Resource.Id.msgText);
             //Button event
             cLoginButton.Click += CLoginButton_Click;
-            typeofCaller = Intent.GetStringExtra("typeof") ?? "Data not available";
+            //typeofCaller = Intent.GetStringExtra("typeof") ;
+            Socks = Intent.GetBooleanExtra("Socks", false);
+            if (Socks)
+            {
+                gSocks = new cSocks("socks.espackeuro.com");
+                try
+                {
+                    var _msgOut = gSocks.SyncConversation(gSocks.BuildXML("SISTEMAS", "pGetExternalIP", string.Format("@Serial='{0}'", LogonDetails.Serial)));
+                } catch (Exception ex)
+                {
+                    cMsgText.Text = "ERROR: " + ex.Message;
+                }
+                //SocksServer = Dns.GetHostEntry("socks.espackeuro.com").AddressList[0];
+            }
+
 #if DEBUG
             cUser.Text = "restelles";
             cPassword.Text = "1312";
@@ -137,5 +204,11 @@ namespace LogonScreen
                 }
             }
         }
+
+
+
     }
+
+
+
 }

@@ -203,6 +203,10 @@
       <Project>{59692ac9-88fb-40fc-bb6c-e76ac5575758}</Project>
       <Name>LogonScreen</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Network\cSocks\Socks.csproj">
+      <Project>{42cab531-7dcb-4a55-9572-e86597e96651}</Project>
+      <Name>Socks</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\icon2.png" />
