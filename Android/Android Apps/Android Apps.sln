@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonAndroidTools", "..\BitmapHelpers\CommonAndroidTools.csproj", "{FE45781B-38CB-44F0-9DE7-08E15E0C53BD}"
 EndProject
@@ -26,6 +26,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cAccesoDatosNet", "..\..\Database and tools\cAccesoDatosAndroid\cAccesoDatosNet.csproj", "{9C95E323-C7E8-45B9-84BB-3EE165E28C3C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RadioLogisticaDeliveries", "..\RadioLogisticaDeliveries\RadioLogisticaDeliveries.csproj", "{C05D6121-8E8F-43A9-B8A0-4906A28D550C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Network", "Network", "{3A654A15-9225-4336-8D89-227689080C5A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Socks", "..\Network\cSocks\Socks.csproj", "{42CAB531-7DCB-4A55-9572-E86597E96651}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +73,10 @@ Global
 		{C05D6121-8E8F-43A9-B8A0-4906A28D550C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C05D6121-8E8F-43A9-B8A0-4906A28D550C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C05D6121-8E8F-43A9-B8A0-4906A28D550C}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{42CAB531-7DCB-4A55-9572-E86597E96651}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42CAB531-7DCB-4A55-9572-E86597E96651}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42CAB531-7DCB-4A55-9572-E86597E96651}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42CAB531-7DCB-4A55-9572-E86597E96651}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -82,9 +90,10 @@ Global
 		{6168D25C-FDC9-4A47-A349-4F59DADAC002} = {5802ACA1-E788-4592-BB10-63A26AA1A336}
 		{9C95E323-C7E8-45B9-84BB-3EE165E28C3C} = {8388EEDE-523A-4541-BF5A-D71D220A366A}
 		{C05D6121-8E8F-43A9-B8A0-4906A28D550C} = {DD5ED550-A29E-485F-A18C-04FE8256767A}
+		{42CAB531-7DCB-4A55-9572-E86597E96651} = {3A654A15-9225-4336-8D89-227689080C5A}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 9
+		SccNumberOfProjects = 10
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://espack.visualstudio.com/defaultcollection
 		SccLocalPath0 = .
@@ -120,5 +129,9 @@ Global
 		SccProjectTopLevelParentUniqueName8 = Android\u0020Apps.sln
 		SccProjectName8 = ../RadioLogisticaDeliveries
 		SccLocalPath8 = ..\\RadioLogisticaDeliveries
+		SccProjectUniqueName9 = ..\\Network\\cSocks\\Socks.csproj
+		SccProjectTopLevelParentUniqueName9 = Android\u0020Apps.sln
+		SccProjectName9 = ../Network/cSocks
+		SccLocalPath9 = ..\\Network\\cSocks
 	EndGlobalSection
 EndGlobal

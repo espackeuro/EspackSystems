@@ -72,6 +72,7 @@
     <DevInstrumentationEnabled>False</DevInstrumentationEnabled>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Java.Interop" />
     <Reference Include="Mono.Android" />
     <Reference Include="mscorlib" />
     <Reference Include="Refractored.FloatingActionButton, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">

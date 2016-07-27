@@ -1843,6 +1843,8 @@ namespace RadioLogisticaDeliveries
 			global::com.refractored.fab.Resource.Styleable.FloatingActionButton_fab_colorRipple = global::RadioLogisticaDeliveries.Resource.Styleable.FloatingActionButton_fab_colorRipple;
 			global::com.refractored.fab.Resource.Styleable.FloatingActionButton_fab_shadow = global::RadioLogisticaDeliveries.Resource.Styleable.FloatingActionButton_fab_shadow;
 			global::com.refractored.fab.Resource.Styleable.FloatingActionButton_fab_size = global::RadioLogisticaDeliveries.Resource.Styleable.FloatingActionButton_fab_size;
+			global::Socks.Resource.String.ApplicationName = global::RadioLogisticaDeliveries.Resource.String.ApplicationName;
+			global::Socks.Resource.String.Hello = global::RadioLogisticaDeliveries.Resource.String.Hello;
 		}
 		
 		public partial class Animation
