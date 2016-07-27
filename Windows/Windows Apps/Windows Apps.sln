@@ -277,13 +277,13 @@ Global
 		SccProjectTopLevelParentUniqueName21 = Windows\u0020Apps.sln
 		SccProjectName21 = ../Tests/ServerSocketConsole
 		SccLocalPath21 = ..\\Tests\\ServerSocketConsole
-		SccProjectUniqueName22 = ..\\Tests\\SocketClientWinForm\\SocketClientWinForm.csproj
+		SccProjectUniqueName22 = SocketClientSyncConsole\\SocketClientSyncConsole.csproj
 		SccProjectTopLevelParentUniqueName22 = Windows\u0020Apps.sln
-		SccProjectName22 = ../Tests/SocketClientWinForm
-		SccLocalPath22 = ..\\Tests\\SocketClientWinForm
-		SccProjectUniqueName23 = SocketClientSyncConsole\\SocketClientSyncConsole.csproj
+		SccProjectName22 = SocketClientSyncConsole
+		SccLocalPath22 = SocketClientSyncConsole
+		SccProjectUniqueName23 = ..\\Tests\\SocketClientWinForm\\SocketClientWinForm.csproj
 		SccProjectTopLevelParentUniqueName23 = Windows\u0020Apps.sln
-		SccProjectName23 = SocketClientSyncConsole
-		SccLocalPath23 = SocketClientSyncConsole
+		SccProjectName23 = ../Tests/SocketClientWinForm
+		SccLocalPath23 = ..\\Tests\\SocketClientWinForm
 	EndGlobalSection
 EndGlobal
