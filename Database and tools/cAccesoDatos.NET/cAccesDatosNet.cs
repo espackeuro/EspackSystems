@@ -186,7 +186,6 @@ namespace AccesoDatosNet
             //Server = pServer;
             //User = pUser;
             //Password = pPassword;
-
             Server = pServer;
             User = pUser;
             Password = pPassword;
@@ -201,8 +200,8 @@ namespace AccesoDatosNet
             DataBase = pDataBase;
         }
         public cAccesoDatosNet(cAccesoDatosNet parent)
+            :this()
         {
-            AdoCon = new SqlConnection();
             Server = parent.Server;
             DataBase = parent.DataBase;
             User = parent.User;
@@ -210,8 +209,8 @@ namespace AccesoDatosNet
             //AdoCon.ConnectionString = parent.ConnectionString;
         }
         public cAccesoDatosNet(EspackParamArray pParams)
+            : this()
         {
-            AdoCon = new SqlConnection();
             Server = pParams.Server;
             DataBase = pParams.DataBase;
             User = pParams.User;

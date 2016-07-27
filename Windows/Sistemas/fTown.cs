@@ -27,6 +27,7 @@ namespace Sistemas
             CTLM.AddItem(cboCOD3, "COD3", true, true, true, 1, true, true);
             CTLM.AddItem(txtSubNet, "SubNet", true, true, false, 0, false, true);
             CTLM.AddItem(txtMask, "Mask", true, true,false, 0, false, false);
+            CTLM.AddItem(txtExternalIP, "ExternalIP",true, true, false, 0, false, false);
             CTLM.AddDefaultStatusStrip();
             CTLM.DBTable = "NetworkSedes";
             CTLM.Start();

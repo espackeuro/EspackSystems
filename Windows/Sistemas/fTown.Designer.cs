@@ -28,41 +28,40 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.txtCOD3Name = new EspackFormControls.EspackTextBox();
+            this.txtExternalIP = new EspackFormControls.EspackTextBox();
             this.txtMask = new EspackFormControls.EspackTextBox();
             this.txtSubNet = new EspackFormControls.EspackTextBox();
+            this.txtCOD3Name = new EspackFormControls.EspackTextBox();
             this.cboCOD3 = new EspackFormControls.EspackComboBox();
             this.CTLM = new CTLMantenimientoNet.CTLMantenimientoNet();
             this.SuspendLayout();
             // 
-            // txtCOD3Name
+            // txtExternalIP
             // 
-            this.txtCOD3Name.Add = false;
-            this.txtCOD3Name.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.txtCOD3Name.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtCOD3Name.Caption = "";
-            this.txtCOD3Name.DBField = null;
-            this.txtCOD3Name.DBFieldType = null;
-            this.txtCOD3Name.DefaultValue = null;
-            this.txtCOD3Name.Del = false;
-            this.txtCOD3Name.DependingRS = null;
-            this.txtCOD3Name.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtCOD3Name.ForeColor = System.Drawing.Color.Black;
-            this.txtCOD3Name.Location = new System.Drawing.Point(206, 72);
-            this.txtCOD3Name.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
-            this.txtCOD3Name.Multiline = true;
-            this.txtCOD3Name.Name = "txtCOD3Name";
-            this.txtCOD3Name.Order = 0;
-            this.txtCOD3Name.ParentConn = null;
-            this.txtCOD3Name.ParentDA = null;
-            this.txtCOD3Name.PK = false;
-            this.txtCOD3Name.ReadOnly = true;
-            this.txtCOD3Name.Search = false;
-            this.txtCOD3Name.Size = new System.Drawing.Size(204, 24);
-            this.txtCOD3Name.Status = CommonTools.EnumStatus.ADDNEW;
-            this.txtCOD3Name.TabIndex = 5;
-            this.txtCOD3Name.Upp = false;
-            this.txtCOD3Name.Value = "";
+            this.txtExternalIP.Add = false;
+            this.txtExternalIP.BackColor = System.Drawing.Color.White;
+            this.txtExternalIP.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtExternalIP.Caption = "External IP";
+            this.txtExternalIP.DBField = null;
+            this.txtExternalIP.DBFieldType = null;
+            this.txtExternalIP.DefaultValue = null;
+            this.txtExternalIP.Del = false;
+            this.txtExternalIP.DependingRS = null;
+            this.txtExternalIP.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.txtExternalIP.ForeColor = System.Drawing.Color.Black;
+            this.txtExternalIP.Location = new System.Drawing.Point(58, 200);
+            this.txtExternalIP.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
+            this.txtExternalIP.Name = "txtExternalIP";
+            this.txtExternalIP.Order = 0;
+            this.txtExternalIP.ParentConn = null;
+            this.txtExternalIP.ParentDA = null;
+            this.txtExternalIP.PK = false;
+            this.txtExternalIP.Search = false;
+            this.txtExternalIP.Size = new System.Drawing.Size(352, 17);
+            this.txtExternalIP.Status = CommonTools.EnumStatus.ADDNEW;
+            this.txtExternalIP.TabIndex = 15;
+            this.txtExternalIP.Upp = false;
+            this.txtExternalIP.Value = "";
             // 
             // txtMask
             // 
@@ -79,7 +78,7 @@
             this.txtMask.ForeColor = System.Drawing.Color.Black;
             this.txtMask.Location = new System.Drawing.Point(58, 157);
             this.txtMask.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
-            this.txtMask.Multiline = true;
+            //this.txtMask.Multiline = true;
             this.txtMask.Name = "txtMask";
             this.txtMask.Order = 0;
             this.txtMask.ParentConn = null;
@@ -108,7 +107,7 @@
             this.txtSubNet.ForeColor = System.Drawing.Color.Black;
             this.txtSubNet.Location = new System.Drawing.Point(58, 114);
             this.txtSubNet.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
-            this.txtSubNet.Multiline = true;
+            //this.txtSubNet.Multiline = true;
             this.txtSubNet.Name = "txtSubNet";
             this.txtSubNet.Order = 0;
             this.txtSubNet.ParentConn = null;
@@ -121,6 +120,35 @@
             this.txtSubNet.TabIndex = 7;
             this.txtSubNet.Upp = false;
             this.txtSubNet.Value = "";
+            // 
+            // txtCOD3Name
+            // 
+            this.txtCOD3Name.Add = false;
+            this.txtCOD3Name.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.txtCOD3Name.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtCOD3Name.Caption = "";
+            this.txtCOD3Name.DBField = null;
+            this.txtCOD3Name.DBFieldType = null;
+            this.txtCOD3Name.DefaultValue = null;
+            this.txtCOD3Name.Del = false;
+            this.txtCOD3Name.DependingRS = null;
+            this.txtCOD3Name.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.txtCOD3Name.ForeColor = System.Drawing.Color.Black;
+            this.txtCOD3Name.Location = new System.Drawing.Point(206, 72);
+            this.txtCOD3Name.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
+            //this.txtCOD3Name.Multiline = true;
+            this.txtCOD3Name.Name = "txtCOD3Name";
+            this.txtCOD3Name.Order = 0;
+            this.txtCOD3Name.ParentConn = null;
+            this.txtCOD3Name.ParentDA = null;
+            this.txtCOD3Name.PK = false;
+            this.txtCOD3Name.ReadOnly = true;
+            this.txtCOD3Name.Search = false;
+            this.txtCOD3Name.Size = new System.Drawing.Size(204, 24);
+            this.txtCOD3Name.Status = CommonTools.EnumStatus.ADDNEW;
+            this.txtCOD3Name.TabIndex = 5;
+            this.txtCOD3Name.Upp = false;
+            this.txtCOD3Name.Value = "";
             // 
             // cboCOD3
             // 
@@ -146,7 +174,7 @@
             this.cboCOD3.ParentDA = null;
             this.cboCOD3.PK = false;
             this.cboCOD3.Search = false;
-            this.cboCOD3.Size = new System.Drawing.Size(130, 24);
+            this.cboCOD3.Size = new System.Drawing.Size(130, 17);
             this.cboCOD3.Status = CommonTools.EnumStatus.ADDNEW;
             this.cboCOD3.TabIndex = 3;
             this.cboCOD3.TBDescription = null;
@@ -179,7 +207,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(430, 218);
+            this.ClientSize = new System.Drawing.Size(437, 275);
+            this.Controls.Add(this.txtExternalIP);
             this.Controls.Add(this.txtMask);
             this.Controls.Add(this.txtSubNet);
             this.Controls.Add(this.txtCOD3Name);
@@ -199,5 +228,6 @@
         private EspackFormControls.EspackTextBox txtCOD3Name;
         private EspackFormControls.EspackTextBox txtSubNet;
         private EspackFormControls.EspackTextBox txtMask;
+        private EspackFormControls.EspackTextBox txtExternalIP;
     }
 }
