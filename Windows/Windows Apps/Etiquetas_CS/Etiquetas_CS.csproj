@@ -54,6 +54,9 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>etiquetas_cs.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -72,15 +75,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="fMain.cs">
+    <Compile Include="fMainEtiquetas.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="fMain.Designer.cs">
-      <DependentUpon>fMain.cs</DependentUpon>
+    <Compile Include="fMainEtiquetas.Designer.cs">
+      <DependentUpon>fMainEtiquetas.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
-    <EmbeddedResource Include="fMain.resx">
-      <DependentUpon>fMain.cs</DependentUpon>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="fMainEtiquetas.resx">
+      <DependentUpon>fMainEtiquetas.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -123,7 +127,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="My Project\" />
-    <Folder Include="Properties\" />
     <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
@@ -141,6 +144,9 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="etiquetas_cs.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

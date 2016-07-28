@@ -15,11 +15,11 @@ using Zen.Barcode;
 using System.IO;
 using DiverseControls;
 using VSGrid;
-
+using System.Reflection;
 
 namespace Etiquetas_CS
 {
-    public partial class fMain : Form
+    public partial class fMainEtiquetas : Form
     {
         public string SQLSelect { get; set; }
         public string SQLView { get; set; }
@@ -55,7 +55,7 @@ namespace Etiquetas_CS
                 return vsParameters;
             }
         }
-        public fMain(string[] args)
+        public fMainEtiquetas(string[] args)
         {
             InitializeComponent();
             txtCode.Enabled = true;
@@ -66,7 +66,7 @@ namespace Etiquetas_CS
             //Values.gDatos.Server = "192.168.200.7";//espackArgs.Server;
             //Values.gDatos.User = "sa";//espackArgs.User;
             //Values.gDatos.Password = "5380"; //espackArgs.Password;
-
+            this.Text = string.Format("{0} Build {1} - ({2:yyyyMMdd})*", "ETIQUETAS", Assembly.GetExecutingAssembly().GetName().Version.ToString(), CT.GetBuildDateTime(Assembly.GetExecutingAssembly()));
             Values.gDatos.DataBase = espackArgs.DataBase;
             Values.gDatos.Server = espackArgs.Server;
             Values.gDatos.User = espackArgs.User;
@@ -380,6 +380,7 @@ namespace Etiquetas_CS
             SetFormEnabled(false);
             clearing = true;
             vsGroups.ClearEspackControl();
+            vsGroups.ScrollBars = ScrollBars.None;
             vsGroups.Rows.Add("");
             if (SQLGroup != "")
             {
@@ -390,6 +391,7 @@ namespace Etiquetas_CS
                 });
             }
             clearing = false;
+            vsGroups.ScrollBars = ScrollBars.Both;
             SetFormEnabled(true);
         }
         private void GenerateNewLabels(List<DataRow> r)

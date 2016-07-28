@@ -1,6 +1,6 @@
 ﻿namespace Etiquetas_CS
 {
-    partial class fMain
+    partial class fMainEtiquetas
     {
         /// <summary>
         /// Required designer variable.
@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(fMainEtiquetas));
             this.btnObtain = new System.Windows.Forms.Button();
             this.btnPrint = new System.Windows.Forms.Button();
             this.btnPrintList = new System.Windows.Forms.Button();
@@ -253,6 +254,7 @@
             this.vsGroups.PK = false;
             this.vsGroups.ReadOnly = true;
             this.vsGroups.RowHeadersVisible = false;
+            this.vsGroups.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.vsGroups.Search = false;
             this.vsGroups.Size = new System.Drawing.Size(286, 176);
             this.vsGroups.SQL = null;
@@ -306,7 +308,7 @@
             this.vsParameters.Upp = false;
             this.vsParameters.Value = null;
             // 
-            // fMain
+            // fMainEtiquetas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -321,8 +323,9 @@
             this.Controls.Add(this.cboPrinters);
             this.Controls.Add(this.txtCode);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
-            this.Name = "fMain";
+            this.Name = "fMainEtiquetas";
             this.Text = "Labels";
             ((System.ComponentModel.ISupportInitialize)(this.ctlVSGrid1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.vsLabels)).EndInit();
