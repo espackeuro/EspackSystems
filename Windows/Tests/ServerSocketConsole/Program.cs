@@ -114,6 +114,12 @@ public class AsynchronousSocketListener
             // Check for end-of-file tag. If it is not there, read 
             // more data.
             content = state.sb.ToString();
+
+            // All the data has been read from the 
+            // client. Display it on the console.
+            Console.WriteLine("--------------------------------\n- Client -> Server: {0} bytes\n--------------------------------\n{1}",
+                content.Length, content);
+
             if (content.IndexOf("</procedure>") > -1)
             {
                 string _msgExec = "";
@@ -137,10 +143,9 @@ public class AsynchronousSocketListener
                     }
 
                 }
-                // All the data has been read from the 
-                // client. Display it on the console.
-                Console.WriteLine("Read {0} bytes from socket. \n Data : {1}",
-                    content.Length, content);
+                // Return result value. Display it on the console.
+                Console.WriteLine("--------------------------------\n- Server -> Client: {0} bytes\n--------------------------------\n{1}",
+                    _msgExec.Length, _msgExec);
                 // Echo the data back to the client.
                 Send(handler, _msgExec);
             }
