@@ -884,6 +884,7 @@ namespace VSGrid
             RowEditedBool = false;
             this.DataSource=null;
             this.RowCount = 0;
+            //this.ScrollBars = ScrollBars.None;
         }
 
         public void Print(EspackPrintDocument p)
