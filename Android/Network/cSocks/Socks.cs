@@ -114,13 +114,27 @@ namespace Socks
             }
         }
 
-        public string BuildXML(string DataBase, string ProcedureName, string Parameters)
+        public string BuildSPXML(string DataBase, string ProcedureName, string Parameters, string User="", string Password="", string Session="")
         {
             return string.Format(@"<procedure>
   <DB>{0}</DB>
   <name>{1}</name>
-  <parameters>{2}</parameters>
-</procedure>",DataBase,ProcedureName,Parameters);
+  <parameters>{2}</parameters>{3}{4}{5}
+</procedure>",DataBase,ProcedureName,Parameters, User !=""?@"
+  <user>"+User+ "</user>" : "", Password != "" ? @"
+  <password>" + Password + "</password>" : "", Session != "" ? @"
+  <session>" + Session + "</session>" : "");
+        }
+
+
+        public string BuildQueryXML(string DataBase, string Query, string Parameters, string User = "", string Password = "", string Session = "")
+        {
+            return string.Format(@"<query>
+  <DB>{0}</DB>
+  <sqlQuery>{2}</sqlQuery>{3}
+  {4}
+  {5}
+</query>", DataBase, Query, Parameters, User != "" ? "<user>" + User + "</users>" : "", Password != "" ? "<password>" + Password + "</password>" : "", Session != "" ? "<session>" + Session + "</session>" : "");
         }
 
         public string SyncConversation(string msgOut)
