@@ -5,10 +5,14 @@ using System.Text;
 using CommonTools;
 using System.Net;
 using System.Net.Sockets;
+using Encryption;
 
 namespace Socks
 {
     public enum SocksStatus { OFFLINE, TRYCONNECT, CONNECTED, ERROR}
+
+    
+
     public class cSocks
     {
         public cServer oServer { get; set; } = new cServer();
@@ -137,6 +141,11 @@ namespace Socks
 </query>", DataBase, Query, Parameters, User != "" ? "<user>" + User + "</users>" : "", Password != "" ? "<password>" + Password + "</password>" : "", Session != "" ? "<session>" + Session + "</session>" : "");
         }
 
+        public string SyncEncConversation(string msgOut)
+        {
+            return StringCipher.Decrypt(SyncConversation(StringCipher.Encrypt(msgOut)));
+        }
+
         public string SyncConversation(string msgOut)
         {
             // Data buffer for incoming data.
@@ -220,7 +229,13 @@ namespace Socks
             }
         }
 
+
+
+
         private string _ErrorMsg = "";
+
+
+
         public string ErrorMsg
         {
             get

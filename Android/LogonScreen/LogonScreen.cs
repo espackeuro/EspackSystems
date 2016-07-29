@@ -13,6 +13,7 @@ using System.Net;
 using Android.Telephony;
 using Socks;
 using System.Xml.Linq;
+using Encryption;
 
 namespace LogonScreen
 {
@@ -20,7 +21,7 @@ namespace LogonScreen
     {
         public static string user { get; set; }
         public static string password { get; set; }
-
+        
 
         public static String getDeviceID(Context p_context)
         {
@@ -112,7 +113,7 @@ namespace LogonScreen
                 gSocks = new cSocks("socks.espackeuro.com");
                 try
                 {
-                    var _msg = gSocks.SyncConversation(gSocks.BuildSPXML("SISTEMAS", "pGetExternalIP", string.Format("@Serial='{0}'", LogonDetails.Serial)));
+                    var _msg = gSocks.SyncEncConversation(gSocks.BuildSPXML("SISTEMAS", "pGetExternalIP", string.Format("@Serial='{0}'", LogonDetails.Serial)));
                     _msgOut = XDocument.Parse(_msg);
                     _result = _msgOut.Element("Result").Value;
                 } catch (Exception ex)
@@ -163,7 +164,7 @@ namespace LogonScreen
                     XDocument _msgOut;
                     try
                     {
-                        var _msg = gSocks.SyncConversation(gSocks.BuildSPXML(gDatos.DataBase, "pLogonUser", "@Origin='RADIO LOGISTICA (VAL)'", cUser.Text, cPassword.Text));
+                        var _msg = gSocks.SyncEncConversation(gSocks.BuildSPXML(gDatos.DataBase, "pLogonUser", "@Origin='RADIO LOGISTICA (VAL)'", cUser.Text, StringCipher.Encrypt(cPassword.Text)));
                         _msgOut = XDocument.Parse(_msg);
                     }
                     catch (Exception ex)
@@ -184,7 +185,7 @@ namespace LogonScreen
 
                     }
                     LogonDetails.user = _msgOut.Root.Element("User").Value;
-                    LogonDetails.password = _msgOut.Root.Element("Password").Value;
+                    LogonDetails.password = StringCipher.Decrypt(_msgOut.Root.Element("Password").Value);
                 }
                 else
                 {
