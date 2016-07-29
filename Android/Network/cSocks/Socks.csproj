@@ -62,6 +62,10 @@
       <Project>{6168d25c-fdc9-4a47-a349-4f59dadac002}</Project>
       <Name>CommonTools</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Database and tools\EncryptionAndroid\Encryption\Encryption.csproj">
+      <Project>{44a86c5a-9221-4425-a960-64aeeb027cc8}</Project>
+      <Name>Encryption</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

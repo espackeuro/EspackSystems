@@ -15,6 +15,12 @@ namespace Encryption
 
         // This constant determines the number of iterations for the password bytes generation function.
         private const int DerivationIterations = 1000;
+        private const string PASSPHRASE = "31m7016a78";
+
+        public static string Encrypt(string plainText)
+        {
+            return Encrypt(plainText, PASSPHRASE);
+        }
 
         public static string Encrypt(string plainText, string passPhrase)
         {
@@ -51,6 +57,11 @@ namespace Encryption
                     }
                 }
             }
+        }
+
+        public static string Decrypt(string plainText)
+        {
+            return Decrypt(plainText, PASSPHRASE);
         }
 
         public static string Decrypt(string cipherText, string passPhrase)
