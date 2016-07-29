@@ -73,7 +73,7 @@ namespace Simplistica
                     _printer.SendUTF8StringToPrinter(_delimiterLabel.ToString(), 1);
                     for (var i = _labelInit; i < _labelInit + Convert.ToInt32(txtQty.Value); i++)
                     {
-                        _unitLabel.Parameters["VALUE"] = "U" + i.ToString().PadLeft(9, '0');
+                        _unitLabel.Parameters["VALUE"] = "U" + i.ToString().PadLeft(8, '0');
                         for (var j = 0; j < Convert.ToInt32(txtQtyLabel.Text); j++)
                             _printer.SendUTF8StringToPrinter(_unitLabel.ToString(), 1);
                     }
