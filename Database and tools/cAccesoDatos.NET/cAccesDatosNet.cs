@@ -13,6 +13,7 @@ using EspackControls;
 */
 using CommonTools;
 using System.Data.Common;
+using System.Xml;
 
 namespace AccesoDatosNet
 {
@@ -918,6 +919,12 @@ namespace AccesoDatosNet
                 i++;
             }
             return rows.ToList<object>();
+        }
+
+
+        public string GetXml()
+        {
+            return mDS.GetXml();
         }
     }
 

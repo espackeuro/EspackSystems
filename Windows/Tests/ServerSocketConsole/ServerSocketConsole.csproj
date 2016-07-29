@@ -61,6 +61,10 @@
       <Project>{9148f7e6-31f6-4f96-b7dc-afea449998c7}</Project>
       <Name>CommonTools</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Database and tools\EncryptionWindows\Encryption\Encryption.csproj">
+      <Project>{b6ce04c5-9462-43c8-a039-f8ea3c5ace91}</Project>
+      <Name>Encryption</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
