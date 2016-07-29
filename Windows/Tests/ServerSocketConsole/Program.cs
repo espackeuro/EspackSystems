@@ -112,14 +112,19 @@ public class AsynchronousSocketListener
             // There  might be more data, so store the data received so far.
             state.sb.Append(Encoding.ASCII.GetString(
                 state.buffer, 0, bytesRead));
-
+            
             // Check for end-of-file tag. If it is not there, read 
             // more data.
             content = state.sb.ToString();
 
+            Console.WriteLine("-ENCRYPTED-------------------------------\n- Client -> Server: {0} bytes\n-----------------------------------------\n{1}",
+               content.Length, content);
+
+            content = StringCipher.Decrypt(content);
+
             // All the data has been read from the 
             // client. Display it on the console.
-            Console.WriteLine("--------------------------------\n- Client -> Server: {0} bytes\n--------------------------------\n{1}",
+            Console.WriteLine("-DECRYPTED-------------------------------\n- Client -> Server: {0} bytes\n-----------------------------------------\n{1}",
                 content.Length, content);
 
             if (content.IndexOf("</procedure>") > -1)
@@ -131,7 +136,7 @@ public class AsynchronousSocketListener
                 if (_procedureName=="pLogonUser")
                 {
                     var _encryptPassword= _msgIn.Root.Element("password").Value;
-                    var _password = StringCipher.Decrypt(_encryptPassword, Values.PASSPHRASE);
+                    var _password = StringCipher.Decrypt(_encryptPassword);
                     _msgIn.Root.Element("password").Value = _password;
                     content = _msgIn.ToString();
                 }
@@ -160,13 +165,17 @@ public class AsynchronousSocketListener
                 XDocument _msgOut = XDocument.Parse(_msgExec);
                 if (_msgOut.Root.Element("Password") !=null)
                 {
-                    _msgOut.Root.Element("Password").Value = StringCipher.Encrypt(_msgOut.Root.Element("Password").Value, Values.PASSPHRASE);
+                    _msgOut.Root.Element("Password").Value = StringCipher.Encrypt(_msgOut.Root.Element("Password").Value).ToString();
                 }
                 // Return result value. Display it on the console.
-                Console.WriteLine("--------------------------------\n- Server -> Client: {0} bytes\n--------------------------------\n{1}",
+                Console.WriteLine("-DECRYPTED-------------------------------\n- Server -> Client: {0} bytes\n-----------------------------------------\n{1}",
                     _msgOut.ToString().Length, _msgOut.ToString());
                 // Echo the data back to the client.
-                Send(handler, _msgOut.ToString());
+
+                //Console.WriteLine("-ENCRYPTED-------------------------------\n- Server -> Client: {0} bytes\n-----------------------------------------\n{1}",
+                //   content.Length, content);
+
+                Send(handler, StringCipher.Encrypt(_msgOut.ToString()));
             }
             else
             {
@@ -230,65 +239,7 @@ public class AsynchronousSocketListener
         public static string LabelPrinterAddress = "";
         public static string COD3 = "";
         public static string ProjectName = "";
-        public const string PASSPHRASE = "31m7016a78";
     }
 }
   
- /*
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Net.Sockets;
-
-
-
-
-namespace ConsoleApplication1
-{
-    class Program
-    {
-        static void Main(string[] args)
-        {
-
-            TcpListener serverSocket = new TcpListener(15000);
-            int requestCount = 0;
-            TcpClient clientSocket = default(TcpClient);
-            serverSocket.Start();
-            Console.WriteLine(" >> Server Started");
-            clientSocket = serverSocket.AcceptTcpClient();
-            Console.WriteLine(" >> Accept connection from client");
-            requestCount = 0;
-
-            while ((true))
-            {
-                try
-                {
-                    requestCount = requestCount + 1;
-                    NetworkStream networkStream = clientSocket.GetStream();
-                    byte[] bytesFrom = new byte[10025];
-                    networkStream.Read(bytesFrom, 0, 10025); // (int)clientSocket.ReceiveBufferSize);
-                    string dataFromClient = System.Text.Encoding.ASCII.GetString(bytesFrom);
-                    dataFromClient = dataFromClient.Substring(0, dataFromClient.IndexOf("$"));
-                    Console.WriteLine(" >> Data from client - " + dataFromClient);
-                    string serverResponse = "Last Message from client huevo: " + dataFromClient;
-                    Byte[] sendBytes = Encoding.ASCII.GetBytes(serverResponse);
-                    networkStream.Write(sendBytes, 0, sendBytes.Length);
-                    networkStream.Flush();
-                    Console.WriteLine(" >> " + serverResponse);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.ToString());
-                }
-            }
-
-            clientSocket.Close();
-            serverSocket.Stop();
-            Console.WriteLine(" >> exit");
-            Console.ReadLine();
-        }
-
-    }
-}
-*/
+ 
