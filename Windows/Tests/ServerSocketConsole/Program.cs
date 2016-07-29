@@ -6,6 +6,8 @@ using System.Threading;
 using AccesoDatosNet;
 using CommonTools;
 using System.Reflection;
+using System.Xml.Linq;
+using Encryption;
 
 // State object for reading client data asynchronously
 public class StateObject
@@ -122,6 +124,18 @@ public class AsynchronousSocketListener
 
             if (content.IndexOf("</procedure>") > -1)
             {
+
+                XDocument _msgIn=XDocument.Parse(content);
+                var _procedureName = _msgIn.Root.Element("name").Value;
+
+                if (_procedureName=="pLogonUser")
+                {
+                    var _encryptPassword= _msgIn.Root.Element("password").Value;
+                    var _password = StringCipher.Decrypt(_encryptPassword, Values.PASSPHRASE);
+                    _msgIn.Root.Element("password").Value = _password;
+                    content = _msgIn.ToString();
+                }
+
                 string _msgExec = "";
                 using (var _datos = new cAccesoDatosNet(Values.gDatos))
                 {
@@ -143,11 +157,16 @@ public class AsynchronousSocketListener
                     }
 
                 }
+                XDocument _msgOut = XDocument.Parse(_msgExec);
+                if (_msgOut.Root.Element("Password") !=null)
+                {
+                    _msgOut.Root.Element("Password").Value = StringCipher.Encrypt(_msgOut.Root.Element("Password").Value, Values.PASSPHRASE);
+                }
                 // Return result value. Display it on the console.
                 Console.WriteLine("--------------------------------\n- Server -> Client: {0} bytes\n--------------------------------\n{1}",
-                    _msgExec.Length, _msgExec);
+                    _msgOut.ToString().Length, _msgOut.ToString());
                 // Echo the data back to the client.
-                Send(handler, _msgExec);
+                Send(handler, _msgOut.ToString());
             }
             else
             {
@@ -211,6 +230,7 @@ public class AsynchronousSocketListener
         public static string LabelPrinterAddress = "";
         public static string COD3 = "";
         public static string ProjectName = "";
+        public const string PASSPHRASE = "31m7016a78";
     }
 }
   
