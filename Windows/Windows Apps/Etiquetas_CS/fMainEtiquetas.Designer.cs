@@ -49,7 +49,7 @@
             this.btnObtain.Location = new System.Drawing.Point(304, 66);
             this.btnObtain.Name = "btnObtain";
             this.btnObtain.Size = new System.Drawing.Size(75, 23);
-            this.btnObtain.TabIndex = 12;
+            this.btnObtain.TabIndex = 3;
             this.btnObtain.Text = "Obtain";
             this.btnObtain.UseVisualStyleBackColor = true;
             this.btnObtain.Click += new System.EventHandler(this.btnObtain_Click);
@@ -59,7 +59,7 @@
             this.btnPrint.Location = new System.Drawing.Point(304, 95);
             this.btnPrint.Name = "btnPrint";
             this.btnPrint.Size = new System.Drawing.Size(75, 23);
-            this.btnPrint.TabIndex = 13;
+            this.btnPrint.TabIndex = 4;
             this.btnPrint.Text = "Print";
             this.btnPrint.UseVisualStyleBackColor = true;
             this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
@@ -69,7 +69,7 @@
             this.btnPrintList.Location = new System.Drawing.Point(304, 124);
             this.btnPrintList.Name = "btnPrintList";
             this.btnPrintList.Size = new System.Drawing.Size(75, 23);
-            this.btnPrintList.TabIndex = 14;
+            this.btnPrintList.TabIndex = 5;
             this.btnPrintList.Text = "Print List";
             this.btnPrintList.UseVisualStyleBackColor = true;
             this.btnPrintList.Click += new System.EventHandler(this.btnPrintList_Click);
@@ -101,7 +101,7 @@
             this.cboPrinters.Search = false;
             this.cboPrinters.Size = new System.Drawing.Size(286, 24);
             this.cboPrinters.Status = CommonTools.EnumStatus.ADDNEW;
-            this.cboPrinters.TabIndex = 5;
+            this.cboPrinters.TabIndex = 1;
             this.cboPrinters.TBDescription = null;
             this.cboPrinters.Upp = false;
             this.cboPrinters.Value = "";
@@ -130,7 +130,7 @@
             this.txtCode.Search = false;
             this.txtCode.Size = new System.Drawing.Size(286, 24);
             this.txtCode.Status = CommonTools.EnumStatus.ADDNEW;
-            this.txtCode.TabIndex = 3;
+            this.txtCode.TabIndex = 0;
             this.txtCode.TabStop = false;
             this.txtCode.Upp = false;
             this.txtCode.Value = "";
@@ -217,7 +217,7 @@
             this.vsLabels.sSPDel = "";
             this.vsLabels.sSPUpp = "";
             this.vsLabels.Status = CommonTools.EnumStatus.SEARCH;
-            this.vsLabels.TabIndex = 9;
+            this.vsLabels.TabIndex = 7;
             this.vsLabels.Upp = false;
             this.vsLabels.Value = null;
             // 
@@ -262,7 +262,7 @@
             this.vsGroups.sSPDel = "";
             this.vsGroups.sSPUpp = "";
             this.vsGroups.Status = CommonTools.EnumStatus.SEARCH;
-            this.vsGroups.TabIndex = 8;
+            this.vsGroups.TabIndex = 6;
             this.vsGroups.Upp = false;
             this.vsGroups.Value = null;
             // 
@@ -304,7 +304,7 @@
             this.vsParameters.sSPDel = "";
             this.vsParameters.sSPUpp = "";
             this.vsParameters.Status = CommonTools.EnumStatus.SEARCH;
-            this.vsParameters.TabIndex = 7;
+            this.vsParameters.TabIndex = 2;
             this.vsParameters.Upp = false;
             this.vsParameters.Value = null;
             // 
