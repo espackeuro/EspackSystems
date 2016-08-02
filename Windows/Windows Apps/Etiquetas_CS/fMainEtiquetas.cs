@@ -33,7 +33,7 @@ namespace Etiquetas_CS
         private int labelWidth;
         private int labelHeight;
         private bool clearing;
-
+        
         public CtlVSGrid LabelsGrid
         {
             get
@@ -95,6 +95,7 @@ namespace Etiquetas_CS
             //vsGroups.DoubleClick += VsGroups_DoubleClick;
             vsLabels.CellDoubleClick += VsLabels_CellDoubleClick;
             vsGroups.CellDoubleClick += VsGroups_CellDoubleClick;
+            txtCode.Focus();
             clearing = false;
         }
 
@@ -175,25 +176,35 @@ namespace Etiquetas_CS
 
         private void TxtCode_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
+
+
             //return;
             SetFormEnabled(false);
             //vsGroups.SelectionChanged -= VsGroups_SelectionChanged;
             clearing = true;
             Application.DoEvents();
+
+
+            // Clean things
+            vsParameters.ClearEspackControl();
+            vsParameters.Rows.Clear();
+            Parameters.Clear();
+            vsLabels.ClearEspackControl();
+            vsLabels.Columns.Clear();
+            vsGroups.ClearEspackControl();
+            vsGroups.Columns.Clear();
+            Application.DoEvents();
+            SQLParameterString = "";
+
+            if (txtCode.Text == "")
+            {
+                clearing = false;
+                SetFormEnabled(true);
+                return;
+            }
+
             using (var _RS = new DynamicRS("select *,NoDelim=dbo.checkflag(flags,'NODELIM') from etiquetas where codigo='" + txtCode.Text + "'", Values.gDatos))
             {
-                // Clean things
-                vsParameters.ClearEspackControl();
-                vsParameters.Rows.Clear();
-                Parameters.Clear();
-                vsLabels.ClearEspackControl();
-                vsLabels.Columns.Clear();
-                vsGroups.ClearEspackControl();
-                vsGroups.Columns.Clear();
-                Application.DoEvents();
-
-                SQLParameterString = "";
-
                 _RS.Open();
                 if (_RS.RecordCount==0)
                 {
