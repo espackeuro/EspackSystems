@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sistemas", "..\Sistemas\Sistemas.csproj", "{DFF98615-73BD-4E97-B388-A139E206B174}"
 EndProject
@@ -189,7 +189,7 @@ Global
 		{B6CE04C5-9462-43C8-A039-F8EA3C5ACE91} = {9A5F1334-96A2-4343-B6B5-94245973DB55}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 25
+		SccNumberOfProjects = 24
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://espack.visualstudio.com/defaultcollection
 		SccLocalPath0 = .
@@ -285,9 +285,5 @@ Global
 		SccProjectTopLevelParentUniqueName23 = Windows\u0020Apps.sln
 		SccProjectName23 = ../../Database\u0020and\u0020tools/EncryptionWindows/Encryption
 		SccLocalPath23 = ..\\..\\Database\u0020and\u0020tools\\EncryptionWindows\\Encryption
-		SccProjectUniqueName24 = ..\\Tests\\SocketClientWinForm\\SocketClientWinForm.csproj
-		SccProjectTopLevelParentUniqueName24 = Windows\u0020Apps.sln
-		SccProjectName24 = ../Tests/SocketClientWinForm
-		SccLocalPath24 = ..\\Tests\\SocketClientWinForm
 	EndGlobalSection
 EndGlobal

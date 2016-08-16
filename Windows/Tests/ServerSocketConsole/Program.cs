@@ -8,6 +8,7 @@ using CommonTools;
 using System.Reflection;
 using System.Xml.Linq;
 using Encryption;
+using System.Linq;
 
 // State object for reading client data asynchronously
 public class StateObject
@@ -39,8 +40,8 @@ public class AsynchronousSocketListener
         // Establish the local endpoint for the socket.
         // The DNS name of the computer
         // running the listener is "host.contoso.com".
-        IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
-        IPAddress ipAddress = ipHostInfo.AddressList[0];
+        IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
+        IPAddress ipAddress = ipHostInfo.AddressList.FirstOrDefault(x => x.GetAddressBytes()[0] == 10);
         IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 15000);
 
         // Create a TCP/IP socket.
