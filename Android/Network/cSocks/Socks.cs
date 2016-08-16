@@ -143,7 +143,15 @@ namespace Socks
 
         public string SyncEncConversation(string msgOut)
         {
-            return StringCipher.Decrypt(SyncConversation(StringCipher.Encrypt(msgOut)));
+            try
+            {
+                return StringCipher.Decrypt(SyncConversation(StringCipher.Encrypt(msgOut)));
+            } catch (Exception ex)
+            {
+                throw ex;
+                //return null;
+            }
+            
         }
 
         public string SyncConversation(string msgOut)

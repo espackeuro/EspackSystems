@@ -110,7 +110,12 @@ namespace LogonScreen
             {
                 XDocument _msgOut;
                 string _result = "";
+#if DEBUG
+                gSocks = new cSocks("10.180.90.1");
+#else
                 gSocks = new cSocks("socks.espackeuro.com");
+#endif
+
                 try
                 {
                     var _msg = gSocks.SyncEncConversation(gSocks.BuildSPXML("SISTEMAS", "pGetExternalIP", string.Format("@Serial='{0}'", LogonDetails.Serial)));
