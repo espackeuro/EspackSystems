@@ -61,7 +61,14 @@ namespace Encryption
 
         public static string Decrypt(string plainText)
         {
-            return Decrypt(plainText, PASSPHRASE);
+            try
+            {
+                return Decrypt(plainText, PASSPHRASE);
+            } catch (Exception ex)
+            {
+                throw ex;
+            }
+            
         }
 
         public static string Decrypt(string cipherText, string passPhrase)
