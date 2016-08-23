@@ -80,12 +80,13 @@ namespace EspackClasses
             Label = pLabel;
             //Parameters
             Parameters.Add("VALUE", "");
+            Parameters.Add("HASHVAL", "");
             //Label Design
             var _middle = Convert.ToInt32(Label.width / 2f);
             var _right = Convert.ToInt32(Label.width) - 3;
             var _height = Convert.ToInt32(Label.height);
             Label.addLine(_middle, 13, 0, "C", "", "[VALUE]", 85, rotated:true);
-            Label.addLine(_right, 75, 0, "I", "", "[BC][VALUE]", 0, _height / 4 , 2, false, true);
+            Label.addLine(_right, 75, 0, "I", "", "[BC][HASHVAL]", 0, _height / 4 , 2, false, true);
 
         }
         public override string ToString()
