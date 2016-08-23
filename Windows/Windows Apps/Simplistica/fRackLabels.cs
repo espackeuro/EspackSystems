@@ -53,6 +53,7 @@ namespace Simplistica
                             _rs.ToList().ForEach(row =>
                             {
                                 _racklabel.Parameters["VALUE"] = row["location"].ToString();
+                                _racklabel.Parameters["HASHVAL"] = row["alias"].ToString();
                                 if (!_printer.SendUTF8StringToPrinter(_racklabel.ToString(), 1))
                                 {
                                     CTWin.MsgError(string.Format("Error printing label {}.", row["VALUE"]));
@@ -69,6 +70,7 @@ namespace Simplistica
                             _rs.ToList().ForEach(row =>
                             {
                                 _racklabel.Parameters["VALUE"] = row["location"].ToString();
+                                _racklabel.Parameters["HASHVAL"] = row["alias"].ToString();
                                 if (!_printer.SendUTF8StringToPrinter(_racklabel.ToString(), 1))
                                 {
                                     CTWin.MsgError(string.Format("Error printing label {}.", row["VALUE"]));
