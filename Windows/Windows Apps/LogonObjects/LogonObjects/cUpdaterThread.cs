@@ -221,17 +221,18 @@ namespace LogOnObjects
                 }
                 catch (WebException ex)
                 {
+                    CTWin.MsgError(ex.Message+"\n"+ex.InnerException.Message);
                     if (null != _item)
                     {
                         _item.Status = LogonItemUpdateStatus.ERROR;
                         _item.Parent.ChangeStatus(AppBotStatus.ERROR);
                     }
-                    CTWin.MsgError(ex.InnerException.Message);
 
 
                 }
-                catch (InvalidOperationException)
+                catch (InvalidOperationException ex)
                 {
+                    CTWin.MsgError(ex.InnerException.Message);
                     if (debug != null)
                     {
                         AppendDebugText(string.Format("Thread {0} Done.\n", NumThread));
@@ -244,6 +245,7 @@ namespace LogOnObjects
                 }
                 catch (Exception ex)
                 {
+                    CTWin.MsgError(ex.InnerException.Message);
                     if (debug != null)
                     {
                         AppendDebugText(string.Format("Thread {0} Waiting {1}\n",NumThread,ex.Message));
@@ -267,6 +269,7 @@ namespace LogOnObjects
                     }
                     catch (Exception ex)
                     {
+                        CTWin.MsgError(ex.InnerException.Message);
                         if (debug != null)
                         {
                             AppendDebugText(ex.Message + "\n");

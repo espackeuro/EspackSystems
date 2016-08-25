@@ -15,6 +15,8 @@ namespace LogOnLoader
     {
         private static int _zone = 0;
         public static EspackParamArray espackArgs { get; set; }
+
+
         public void LogonCheck()
         {
             //System.Threading.Thread.Sleep(5000);
@@ -34,7 +36,7 @@ namespace LogOnLoader
                 _pathLogonHosts = Directory.GetCurrentDirectory() + "\\logonHosts";
                 List<string> _content = new List<string>();
 #if DEBUG
-                _pathLogonHosts = "D:/APPS_CS/logon/logonHosts";
+                //_pathLogonHosts = "D:/APPS_CS/logon/logonHosts";
         
 #endif
                 // Get logonHosts file content       
