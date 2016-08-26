@@ -42,7 +42,7 @@ namespace LogOn
         private int _time;
         private int _zone = 0;
         public List<cUpdaterThread> UpdatingThreads = new List<cUpdaterThread>();
-        public const int NUMTHREADS = 8;
+        public const int NUMTHREADS = 1;
         public const int MAXTIMER = 300;
         delegate void gbDebugCallBack(Control c);
         delegate void LogOnChangeStatusCallBack(LogOnStatus l);
@@ -161,10 +161,14 @@ namespace LogOn
             Panel3.Text = "DB Server IP: " + espackArgs.Server;
             Panel4.Text = "Share Server IP: " + Values.ShareServerList[Values.COD3].HostName;
             string[] FilesToUpdate = new string[] { "logonHosts", "logonloader.exe", "logonloader.exe.config" };
+            FilesToUpdate = FilesToUpdate.Concat(System.IO.Directory.GetFiles("lib").Select(x => x.Replace("\\","/")).Where(x => Path.GetExtension(x)==".dll")).ToArray();
+            if (!Directory.Exists(Values.LOCAL_PATH + "/lib"))
+                Directory.CreateDirectory(Values.LOCAL_PATH + "/lib");
             // Check LogOnLoader update
-#if !DEBUG 
+//#if !DEBUG
             FilesToUpdate.ToList().ForEach(x =>
             {
+                x = x.Replace("\\", "/");
                 if (File.Exists(Values.LOCAL_PATH + x))
                 {
                     if (File.GetLastWriteTime(Values.LOCAL_PATH + x) != File.GetLastWriteTime(Values.LOCAL_PATH + "logon/"+x))
@@ -175,10 +179,15 @@ namespace LogOn
                 }
                 else
                 {
-                    File.Copy(Values.LOCAL_PATH + "logon/" + x, Values.LOCAL_PATH + x);
+                    if (File.Exists(Values.LOCAL_PATH + "logon/" + x))
+                        File.Copy(Values.LOCAL_PATH + "logon/" + x, Values.LOCAL_PATH + x);
                 }
             });
-#endif
+
+
+
+
+//#endif
             KeyDown += restartTimer;
             MouseClick += restartTimer;
         }
@@ -499,6 +508,7 @@ namespace LogOn
                     Status = LogOnStatus.INIT;
                     return;
                 }
+                //txtUser.Text = _SP.ReturnValues()["User"].ToString();
                 Values.userFlags = _flags.Value.ToString().Split('|').Where(x => x!="").ToList() ;
                 Values.FullName = _fullName.Value.ToString();
                 PanelName.Text = Values.FullName;
