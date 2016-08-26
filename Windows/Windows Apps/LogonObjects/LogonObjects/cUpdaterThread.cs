@@ -256,7 +256,8 @@ namespace LogOnObjects
             }
             if (Values.ActiveThreads == 1)
             {
-                while (Values.UpdateDir.Where(x => x.Status == LogonItemUpdateStatus.PENDING).ToList().Count != 0)
+                while (Values.AppList.PendingApps.Count != 0)
+                //while (Values.UpdateDir.Where(x => x.Status == LogonItemUpdateStatus.PENDING).ToList().Count != 0)
                 {
                     if (debug != null)
                         AppendDebugText(string.Format("Thread {0} Syncing directories.\n",NumThread));

@@ -83,6 +83,7 @@ namespace FTP
             using (WebClient ftpClient = new WebClient())
             {
                 ftpClient.Credentials= new NetworkCredential(server.User, server.Password);
+                ftpClient.Proxy = null;
                 var _path = Path.GetDirectoryName(localPath);
                 if (!Directory.Exists(_path))
                     Directory.CreateDirectory(_path);
