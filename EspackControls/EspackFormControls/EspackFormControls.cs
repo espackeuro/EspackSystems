@@ -640,6 +640,10 @@ namespace EspackFormControls
         public cAccesoDatosNet ParentConn { get; set; }
         public StaticRS DependingRS { get; set; }
         private EnumStatus mStatus;
+        private DateTime? _value;
+        private bool _nullable;
+        private bool _checked;
+
         public EnumStatus Status
         {
             get
@@ -672,13 +676,71 @@ namespace EspackFormControls
         {
             get
             {
-                return base.Value;
+                return _value;
             }
             set
             {
-                base.Value = (DateTime)value;
+                if (value == null)
+                {
+                    _nochangeevent = true;
+                    var _ch = Checked;
+                    base.Value = MinDate;
+                    Checked = _ch;
+                    CustomFormat = " ";
+                    //Text = "";
+                    _nochangeevent = false;
+                    Checked = false;
+                }
+                else
+                {
+                    var _ch = Checked;
+                    _nochangeevent = true;
+                    base.Value = (DateTime)value;
+                    Checked = _ch; //base.Value assignment always changes Checked to true, we return to the origina value
+                    CustomFormat = _customFormat;
+                    _nochangeevent = false;
+                    Checked = true; 
+                }
             }
         }
+
+
+        #region Checked
+        // for the event raised when Checked the nullable check
+        public new bool Checked
+        {
+            get
+            {
+                return base.Checked;
+            }
+            set
+            {
+                if (base.Checked != value)
+                {
+                    base.Checked = value;
+                    _checked = value;
+                    OnCheckedChanged(new CheckedChangedEventArgs { OldCheckedValue = !value, NewCheckedValue = value });
+                }
+            }
+        }
+
+
+        protected virtual void OnCheckedChanged(CheckedChangedEventArgs e)
+        {
+            if (!_nochangeevent)
+                CheckedChanged?.Invoke(this, e);
+        }
+
+        public class CheckedChangedEventArgs : EventArgs
+        {
+            public bool OldCheckedValue { get; set; }
+            public bool NewCheckedValue { get; set; }
+        }
+        public delegate void CheckedChangedEventHandler(object sender, CheckedChangedEventArgs e);
+        public event CheckedChangedEventHandler CheckedChanged;
+        // end CheckedChanged event definition
+
+        #endregion Checked
 
         public string DBField { get; set; }
         public bool Add { get; set; }
@@ -689,7 +751,8 @@ namespace EspackFormControls
         public bool Search { get; set; }
         public object DefaultValue { get; set; }
         public Type DBFieldType { get; set; }
-
+        private string _customFormat { get; set; }
+        private bool _nochangeevent { get; set; }
         public string Caption
         {
             get
@@ -715,23 +778,46 @@ namespace EspackFormControls
         public EspackDateTimePicker()
         {
             CaptionLabel = new EspackLabel("", this) { AutoSize = true };
+            //MinDate = DateTime.MinValue;
             Format = DateTimePickerFormat.Custom;
-            CustomFormat = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern‌ + " " + System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortTimePattern‌;
+            _customFormat = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern‌ + " " + System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortTimePattern‌;
             Size = new Size(130, 20);
             var _m = new Padding();
             _m = base.Margin;
             _m.Top = 16;
             base.Margin = _m;
             EspackTheme.changeControlFormat(this);
+            CheckedChanged += EspackDateTimePicker_CheckedChanged;
+        }
+
+        private void EspackDateTimePicker_CheckedChanged(object sender, CheckedChangedEventArgs e)
+        {
+            if (e.NewCheckedValue == false)
+            {
+                if (Value != null)
+                    Value = null;
+            } else
+            {
+                if (base.Value == MinDate)
+                    Value = DateTime.Now;
+            }
         }
 
         public void UpdateEspackControl()
         {
-            Text = ParentDA.SelectRS[DBField.ToString()].ToString();
+            if (ParentDA.SelectRS[DBField.ToString()] is DBNull)
+            {
+                Value = null;
+            } else
+            {
+                //Text = ParentDA.SelectRS[DBField.ToString()].ToString();
+                Value = ParentDA.SelectRS[DBField.ToString()];
+                CustomFormat = _customFormat;
+            }
         }
         public void ClearEspackControl()
         {
-            base.Value = DefaultValue == null ? DateTime.Today : (DateTime)DefaultValue; 
+            Value = DefaultValue;
         }
 
         protected override void OnParentChanged(EventArgs e)
@@ -742,7 +828,20 @@ namespace EspackFormControls
                 base.OnParentChanged(e);
             }
         }
+        protected override void OnValueChanged(EventArgs eventargs)
+        {
+            base.OnValueChanged(eventargs);
+            //launches CheckedChanged event if needed
+            if (Checked != _checked)
+            {
+                _checked = Checked;
+                CheckedChangedEventArgs cce = new CheckedChangedEventArgs { OldCheckedValue = !_checked, NewCheckedValue = _checked };
+                OnCheckedChanged(cce);
+            }
 
+            _value = base.Value == MinDate ? null : (DateTime?)base.Value;
+            
+        }
         protected override void OnMove(EventArgs e)
         {
             //CaptionLabel.Location = new Point(Location.X - CaptionLabel.PreferredWidth - 6, Location.Y);
@@ -767,6 +866,20 @@ namespace EspackFormControls
             }
         }
 
+        protected override void OnEnter(EventArgs e)
+        {
+            if (!Checked) // null the data
+            {
+                CustomFormat = " ";
+                Value = null;
+            } else
+            {
+                CustomFormat = _customFormat;
+            }
+            base.OnEnter(e);
+        }
+
+
         [Category("Appearance")]
         public Color BorderColor
         {
@@ -788,7 +901,19 @@ namespace EspackFormControls
                 Invalidate();
             }
         }
-
+        [Category("Behavior")]
+        public bool Nullable
+        {
+            get
+            {
+                return _nullable;
+            }
+            set
+            {
+                _nullable = value;
+                ShowCheckBox = _nullable;
+            }
+        }
     }
 
     public class EspackString : EspackFormControl
