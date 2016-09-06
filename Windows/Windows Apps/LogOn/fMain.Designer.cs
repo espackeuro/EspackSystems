@@ -32,6 +32,7 @@ namespace LogOn
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(fMain));
             this.gbCredentials = new System.Windows.Forms.GroupBox();
+            this.chkDebug = new System.Windows.Forms.CheckBox();
             this.gbChangePassword = new System.Windows.Forms.GroupBox();
             this.btnCancelChange = new System.Windows.Forms.Button();
             this.btnOKChange = new System.Windows.Forms.Button();
@@ -47,7 +48,6 @@ namespace LogOn
             this.gbApps = new System.Windows.Forms.GroupBox();
             this.tlpApps = new System.Windows.Forms.TableLayoutPanel();
             this.gbDebug = new System.Windows.Forms.GroupBox();
-            this.chkDebug = new System.Windows.Forms.CheckBox();
             this.gbCredentials.SuspendLayout();
             this.gbChangePassword.SuspendLayout();
             this.gbCred.SuspendLayout();
@@ -67,6 +67,18 @@ namespace LogOn
             this.gbCredentials.Size = new System.Drawing.Size(1686, 55);
             this.gbCredentials.TabIndex = 0;
             this.gbCredentials.TabStop = false;
+            // 
+            // chkDebug
+            // 
+            this.chkDebug.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkDebug.AutoSize = true;
+            this.chkDebug.Location = new System.Drawing.Point(1600, 26);
+            this.chkDebug.Name = "chkDebug";
+            this.chkDebug.Size = new System.Drawing.Size(58, 17);
+            this.chkDebug.TabIndex = 36;
+            this.chkDebug.Text = "Debug";
+            this.chkDebug.UseVisualStyleBackColor = true;
+            this.chkDebug.CheckedChanged += new System.EventHandler(this.chkDebug_CheckedChanged);
             // 
             // gbChangePassword
             // 
@@ -143,6 +155,7 @@ namespace LogOn
             this.txtNewPINConfirm.Size = new System.Drawing.Size(100, 17);
             this.txtNewPINConfirm.Status = CommonTools.EnumStatus.ADDNEW;
             this.txtNewPINConfirm.TabIndex = 38;
+            this.txtNewPINConfirm.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtNewPINConfirm.Upp = false;
             this.txtNewPINConfirm.UseSystemPasswordChar = true;
             this.txtNewPINConfirm.Value = "";
@@ -175,6 +188,7 @@ namespace LogOn
             this.txtNewPIN.Size = new System.Drawing.Size(100, 17);
             this.txtNewPIN.Status = CommonTools.EnumStatus.ADDNEW;
             this.txtNewPIN.TabIndex = 37;
+            this.txtNewPIN.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtNewPIN.Upp = false;
             this.txtNewPIN.UseSystemPasswordChar = true;
             this.txtNewPIN.Value = "";
@@ -362,18 +376,6 @@ namespace LogOn
             this.gbDebug.TabIndex = 3;
             this.gbDebug.TabStop = false;
             this.gbDebug.Text = "Debug";
-            // 
-            // chkDebug
-            // 
-            this.chkDebug.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.chkDebug.AutoSize = true;
-            this.chkDebug.Location = new System.Drawing.Point(1600, 26);
-            this.chkDebug.Name = "chkDebug";
-            this.chkDebug.Size = new System.Drawing.Size(58, 17);
-            this.chkDebug.TabIndex = 36;
-            this.chkDebug.Text = "Debug";
-            this.chkDebug.UseVisualStyleBackColor = true;
-            this.chkDebug.CheckedChanged += new System.EventHandler(this.chkDebug_CheckedChanged);
             // 
             // fMain
             // 

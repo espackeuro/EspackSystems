@@ -149,6 +149,7 @@ namespace LogOn
             try
             {
                 Values.gDatos.Connect();
+                Values.gDatos.Close();
             }
             catch (Exception e)
             {

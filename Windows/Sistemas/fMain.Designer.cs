@@ -44,11 +44,9 @@
             this.usersToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.aliasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.securityProfilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tESTSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnMaster = new System.Windows.Forms.ToolStripButton();
-            this.testCarlosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
@@ -64,8 +62,7 @@
             this.mnuNetwork,
             this.actionsToolStripMenuItem,
             this.tasksToolStripMenuItem,
-            this.controlToolStripMenuItem,
-            this.tESTSToolStripMenuItem});
+            this.controlToolStripMenuItem});
             this.menuStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.menuStrip1.Location = new System.Drawing.Point(9, 3);
             this.menuStrip1.Name = "menuStrip1";
@@ -183,15 +180,6 @@
             this.securityProfilesToolStripMenuItem.Text = "Security Profiles";
             this.securityProfilesToolStripMenuItem.Click += new System.EventHandler(this.securityProfilesToolStripMenuItem_Click);
             // 
-            // tESTSToolStripMenuItem
-            // 
-            this.tESTSToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.testCarlosToolStripMenuItem});
-            this.tESTSToolStripMenuItem.Name = "tESTSToolStripMenuItem";
-            this.tESTSToolStripMenuItem.Size = new System.Drawing.Size(51, 19);
-            this.tESTSToolStripMenuItem.Text = "TESTS";
-            this.tESTSToolStripMenuItem.Click += new System.EventHandler(this.tESTSToolStripMenuItem_Click);
-            // 
             // toolStripContainer1
             // 
             this.toolStripContainer1.BottomToolStripPanelVisible = false;
@@ -234,13 +222,6 @@
             this.btnMaster.Text = "btnMaster";
             this.btnMaster.ToolTipText = "Master status";
             this.btnMaster.Click += new System.EventHandler(this.btnMaster_Click);
-            // 
-            // testCarlosToolStripMenuItem
-            // 
-            this.testCarlosToolStripMenuItem.Name = "testCarlosToolStripMenuItem";
-            this.testCarlosToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.testCarlosToolStripMenuItem.Text = "testCarlos";
-            this.testCarlosToolStripMenuItem.Click += new System.EventHandler(this.testCarlosToolStripMenuItem_Click);
             // 
             // fMain
             // 
@@ -285,8 +266,6 @@
         private System.Windows.Forms.ToolStripMenuItem aliasToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem securityProfilesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dNSControlToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem tESTSToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem testCarlosToolStripMenuItem;
     }
 }
 

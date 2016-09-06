@@ -259,7 +259,7 @@ namespace AccesoDatosNet
             {
                 if (AdoCon.State == ConnectionState.Open)
                     Close();
-                AdoCon.ConnectionString = "Server=" + Server.Replace(".local","") + ";Initial Catalog=" + DataBase + ";User Id=" + User + ";Password=" + Password + ";MultipleActiveResultSets=True;";
+                AdoCon.ConnectionString = "Server=" + Server.Replace(".local","") + ";Initial Catalog=" + DataBase + ";User Id=" + User + ";Password=" + Password + ";MultipleActiveResultSets=True;Connection Lifetime=3;Max Pool Size=3";
                 AdoCon.Open();
                 if (context_info != null)
                 {
