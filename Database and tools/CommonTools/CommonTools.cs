@@ -352,8 +352,50 @@ namespace CommonTools
         public string COD3 { get; set; }
         public string User { get; set; }
         public string Password { get; set; }
-    }
+        public string Server
+        {
+            get
+            {
+                return HostName;
+            }
+            set
+            {
+                IPAddress _serverIP;
+                HostName = value;
+                if (!IPAddress.TryParse(value, out _serverIP))
+                {
 
+                    try
+                    {
+                        var result = Dns.GetHostEntry(value);
+                        HostName = result.HostName;
+                        IP = result.AddressList[0];
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception(string.Format("Error trying {0}: {1}", HostName, ex.Message));
+                    }
+                } else
+                {
+                    IP = _serverIP;
+                }
+            }
+        }
+        public cServer(string ServerName)
+        {
+            Server = ServerName;
+        }
+
+
+        public cServer()
+        {
+            HostName = "";
+            IPAddress _IP;
+            if (IPAddress.TryParse("0.0.0.0", out _IP))
+                IP = _IP;
+
+        }
+    }
     public enum ServerTypes { SHARE, DATABASE }
     // Class cServerList
     public class cServerList

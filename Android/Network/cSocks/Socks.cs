@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Sockets;
 using Encryption;
 
+
 namespace Socks
 {
     public enum SocksStatus { OFFLINE, TRYCONNECT, CONNECTED, ERROR}
@@ -15,7 +16,7 @@ namespace Socks
 
     public class cSocks
     {
-        public cServer oServer { get; set; } = new cServer();
+        public cServer oServer { get; set; }
 
         public string ServerIP
         {
@@ -65,40 +66,10 @@ namespace Socks
             }
             set
             {
-                if (oServer != null)
-                {
-                    IPAddress _serverIP;
-                    string _hostName = "";
-
-                    if (!IPAddress.TryParse(value, out _serverIP))
-                    {
-                        _hostName = value;
-                        try
-                        {
-                            var result = Dns.GetHostEntry(value);
-                            _hostName = result.HostName;
-                            _serverIP = result.AddressList[0];
-                        }
-                        catch (Exception ex)
-                        {
-                            throw new Exception(string.Format("Error trying {0}: {1}", _hostName, ex.Message));
-                        }
-                    }
-                    else
-                    {
-                        _hostName = value;
-                        //try
-                        //{
-                        //    var result = Dns.GetHostEntry(_serverIP);
-                        //    _hostName = result.HostName;
-                        //} catch (Exception ex)
-                        //{
-                        //    _hostName = value;
-                        //}
-                    }
-                    oServer.HostName = _hostName;
-                    oServer.IP = _serverIP;
-                }
+                if (oServer == null)
+                    oServer = new cServer(value);
+                else
+                    oServer.Server = value;
             }
         }
 
@@ -118,7 +89,7 @@ namespace Socks
             }
         }
 
-        public string BuildSPXML(string DataBase, string ProcedureName, string Parameters, string User="", string Password="", string Session="")
+        public static string BuildSPXML(string DataBase, string ProcedureName, string Parameters, string User="", string Password="", string Session="")
         {
             return string.Format(@"<procedure>
   <DB>{0}</DB>

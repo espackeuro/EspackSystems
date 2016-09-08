@@ -4,12 +4,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{995CDE43-FB3E-4E59-96F1-696D7C5F5EFA}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{EE92E147-47C5-4A6B-9665-52153C02AC36}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ServerSocketConsole</RootNamespace>
-    <AssemblyName>ServerSocketConsole</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <RootNamespace>SocksData</RootNamespace>
+    <AssemblyName>SocksData</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
@@ -17,7 +17,6 @@
     <SccProvider>SAK</SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -27,7 +26,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -46,26 +44,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="cSocksData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Database and tools\cAccesoDatos.NET\cAccesoDatosNet.csproj">
+    <ProjectReference Include="..\..\..\..\Database and tools\cAccesoDatos.NET\cAccesoDatosNet.csproj">
       <Project>{d3e453aa-39b7-480f-8917-6d7f5076c3ed}</Project>
       <Name>cAccesoDatosNet</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Database and tools\CommonTools\CommonTools.csproj">
-      <Project>{9148f7e6-31f6-4f96-b7dc-afea449998c7}</Project>
-      <Name>CommonTools</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Database and tools\EncryptionWindows\Encryption\Encryption.csproj">
-      <Project>{b6ce04c5-9462-43c8-a039-f8ea3c5ace91}</Project>
-      <Name>Encryption</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Network\Socks\Socks.csproj">
+    <ProjectReference Include="..\Socks.csproj">
       <Project>{89a2bec9-3beb-4635-a016-442c5d1d7d4f}</Project>
       <Name>Socks</Name>
     </ProjectReference>

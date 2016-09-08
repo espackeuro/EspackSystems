@@ -45,9 +45,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="cAccesDatosNet.cs" />
+    <Compile Include="cAccesoDatos.cs" />
+    <Compile Include="cAccesoDatosXML.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Windows\Network\Socks\Socks.csproj">
+      <Project>{89a2bec9-3beb-4635-a016-442c5d1d7d4f}</Project>
+      <Name>Socks</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CommonTools\CommonTools.csproj">
       <Project>{9148f7e6-31f6-4f96-b7dc-afea449998c7}</Project>
       <Name>CommonTools</Name>

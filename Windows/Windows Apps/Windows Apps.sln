@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sistemas", "..\Sistemas\Sistemas.csproj", "{DFF98615-73BD-4E97-B388-A139E206B174}"
 EndProject
@@ -60,6 +60,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketClientSyncConsole", "SocketClientSyncConsole\SocketClientSyncConsole.csproj", "{3B0D2D70-5D68-46AB-9D33-B89DE67C3560}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Encryption", "..\..\Database and tools\EncryptionWindows\Encryption\Encryption.csproj", "{B6CE04C5-9462-43C8-A039-F8EA3C5ACE91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Socks", "..\Network\Socks\Socks.csproj", "{89A2BEC9-3BEB-4635-A016-442C5D1D7D4F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestADS", "TestADS\TestADS.csproj", "{D5D4B4AE-41CB-4F94-AEC8-AABDBE452BC8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocksData", "..\Network\Socks\SocksData\SocksData.csproj", "{EE92E147-47C5-4A6B-9665-52153C02AC36}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -159,6 +165,18 @@ Global
 		{B6CE04C5-9462-43C8-A039-F8EA3C5ACE91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6CE04C5-9462-43C8-A039-F8EA3C5ACE91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6CE04C5-9462-43C8-A039-F8EA3C5ACE91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89A2BEC9-3BEB-4635-A016-442C5D1D7D4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89A2BEC9-3BEB-4635-A016-442C5D1D7D4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89A2BEC9-3BEB-4635-A016-442C5D1D7D4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89A2BEC9-3BEB-4635-A016-442C5D1D7D4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5D4B4AE-41CB-4F94-AEC8-AABDBE452BC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5D4B4AE-41CB-4F94-AEC8-AABDBE452BC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5D4B4AE-41CB-4F94-AEC8-AABDBE452BC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5D4B4AE-41CB-4F94-AEC8-AABDBE452BC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE92E147-47C5-4A6B-9665-52153C02AC36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE92E147-47C5-4A6B-9665-52153C02AC36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE92E147-47C5-4A6B-9665-52153C02AC36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE92E147-47C5-4A6B-9665-52153C02AC36}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -187,9 +205,12 @@ Global
 		{995CDE43-FB3E-4E59-96F1-696D7C5F5EFA} = {85D16BFF-F5DA-4CE8-85D0-78D26D7C6E2A}
 		{3B0D2D70-5D68-46AB-9D33-B89DE67C3560} = {85D16BFF-F5DA-4CE8-85D0-78D26D7C6E2A}
 		{B6CE04C5-9462-43C8-A039-F8EA3C5ACE91} = {9A5F1334-96A2-4343-B6B5-94245973DB55}
+		{89A2BEC9-3BEB-4635-A016-442C5D1D7D4F} = {AD5A54CB-AD85-45E0-B075-83BD4834C36D}
+		{D5D4B4AE-41CB-4F94-AEC8-AABDBE452BC8} = {85D16BFF-F5DA-4CE8-85D0-78D26D7C6E2A}
+		{EE92E147-47C5-4A6B-9665-52153C02AC36} = {AD5A54CB-AD85-45E0-B075-83BD4834C36D}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 24
+		SccNumberOfProjects = 27
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://espack.visualstudio.com/defaultcollection
 		SccLocalPath0 = .
@@ -285,5 +306,17 @@ Global
 		SccProjectTopLevelParentUniqueName23 = Windows\u0020Apps.sln
 		SccProjectName23 = ../../Database\u0020and\u0020tools/EncryptionWindows/Encryption
 		SccLocalPath23 = ..\\..\\Database\u0020and\u0020tools\\EncryptionWindows\\Encryption
+		SccProjectUniqueName24 = ..\\Network\\Socks\\Socks.csproj
+		SccProjectTopLevelParentUniqueName24 = Windows\u0020Apps.sln
+		SccProjectName24 = ../Network/Socks
+		SccLocalPath24 = ..\\Network\\Socks
+		SccProjectUniqueName25 = TestADS\\TestADS.csproj
+		SccProjectTopLevelParentUniqueName25 = Windows\u0020Apps.sln
+		SccProjectName25 = TestADS
+		SccLocalPath25 = TestADS
+		SccProjectUniqueName26 = ..\\Network\\Socks\\SocksData\\SocksData.csproj
+		SccProjectTopLevelParentUniqueName26 = Windows\u0020Apps.sln
+		SccProjectName26 = ../Network/Socks/SocksData
+		SccLocalPath26 = ..\\Network\\Socks\\SocksData
 	EndGlobalSection
 EndGlobal
