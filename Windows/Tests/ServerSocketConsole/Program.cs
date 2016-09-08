@@ -9,6 +9,8 @@ using System.Reflection;
 using System.Xml.Linq;
 using Encryption;
 using System.Linq;
+using System.Collections.Generic;
+using Socks;
 
 // State object for reading client data asynchronously
 public class StateObject
@@ -25,12 +27,17 @@ public class StateObject
 
 public class AsynchronousSocketListener
 {
+    //connection list
+    protected static Dictionary<string, cAccesoDatosNet> Connections = new Dictionary<string, cAccesoDatosNet>();
+
     // Thread signal.
     public static ManualResetEvent allDone = new ManualResetEvent(false);
 
     public AsynchronousSocketListener()
     {
     }
+
+
 
     public static void StartListening()
     {
@@ -107,13 +114,13 @@ public class AsynchronousSocketListener
 
         // Read data from the client socket. 
         int bytesRead = handler.EndReceive(ar);
-
+        string _msgOut = "";
         if (bytesRead > 0)
         {
             // There  might be more data, so store the data received so far.
             state.sb.Append(Encoding.ASCII.GetString(
                 state.buffer, 0, bytesRead));
-            
+
             // Check for end-of-file tag. If it is not there, read 
             // more data.
             content = state.sb.ToString();
@@ -128,55 +135,22 @@ public class AsynchronousSocketListener
             Console.WriteLine("-DECRYPTED-------------------------------\n- Client -> Server: {0} bytes\n-----------------------------------------\n{1}",
                 content.Length, content);
 
+            if (content.IndexOf("</StartSession>") > -1)
+            {
+                _msgOut = StartSession(content);
+                var _x = XDocument.Parse(_msgOut);
+                var _result = _x.Root.Element("Result");
+                if (_result.Value.Substring(0, 2) == "OK")
+                {
+                    //create a new local connection to the session just opened
+                    Connections.Add
+                }
+            }
+            else
             if (content.IndexOf("</procedure>") > -1)
             {
-
-                XDocument _msgIn=XDocument.Parse(content);
-                var _procedureName = _msgIn.Root.Element("name").Value;
-
-                if (_procedureName=="pLogonUser")
-                {
-                    var _encryptPassword= _msgIn.Root.Element("password").Value;
-                    var _password = StringCipher.Decrypt(_encryptPassword);
-                    _msgIn.Root.Element("password").Value = _password;
-                    content = _msgIn.ToString();
-                }
-
-                string _msgExec = "";
-                using (var _datos = new cAccesoDatosNet(Values.gDatos))
-                {
-                    
-                    using (var _SP = new SP(_datos, "pLaunchCommand"))
-                    {
-                        _SP.AddParameterValue("@xmlCommand", content);
-                        _SP.AddParameterValue("@msgExec", "");
-                        try
-                        {
-                            _SP.Execute();
-                            _msgExec = _SP.ReturnValues()["@msgExec"].ToString();
-                        }
-                        catch
-                        {
-                            throw; // acer halgo
-                        }
-
-                    }
-
-                }
-                XDocument _msgOut = XDocument.Parse(_msgExec);
-                if (_msgOut.Root.Element("Password") !=null)
-                {
-                    _msgOut.Root.Element("Password").Value = StringCipher.Encrypt(_msgOut.Root.Element("Password").Value).ToString();
-                }
-                // Return result value. Display it on the console.
-                Console.WriteLine("-DECRYPTED-------------------------------\n- Server -> Client: {0} bytes\n-----------------------------------------\n{1}",
-                    _msgOut.ToString().Length, _msgOut.ToString());
-                // Echo the data back to the client.
-
-                //Console.WriteLine("-ENCRYPTED-------------------------------\n- Server -> Client: {0} bytes\n-----------------------------------------\n{1}",
-                //   content.Length, content);
-
-                Send(handler, StringCipher.Encrypt(_msgOut.ToString()));
+                //launch the procedure
+                _msgOut = launchProcedure(content);
             }
             else
             {
@@ -185,7 +159,68 @@ public class AsynchronousSocketListener
                 new AsyncCallback(ReadCallback), state);
             }
         }
+        // Return result value. Display it on the console.
+        Console.WriteLine("-DECRYPTED-------------------------------\n- Server -> Client: {0} bytes\n-----------------------------------------\n{1}",
+        _msgOut.Length, _msgOut);
+        Send(handler, StringCipher.Encrypt(_msgOut));
     }
+    
+
+    private static string StartSession(string content)
+    {
+        XDocument _msgIn = XDocument.Parse(content);
+        string _serial= _msgIn.Root.Element("Serial").Value;
+        string _sessionProc = cSocks.BuildSPXML("SISTEMAS", "pStartSockSession", string.Format("@Serial='{0}'", _serial));
+        return launchProcedure(_sessionProc);
+    }
+
+    private static string launchProcedure(string content)
+    {
+        XDocument _msgIn = XDocument.Parse(content);
+        var _procedureName = _msgIn.Root.Element("name").Value;
+
+        if (_procedureName == "pLogonUser")
+        {
+            var _encryptPassword = _msgIn.Root.Element("password").Value;
+            var _password = StringCipher.Decrypt(_encryptPassword);
+            _msgIn.Root.Element("password").Value = _password;
+            content = _msgIn.ToString();
+        }
+
+        string _msgExec = "";
+        using (var _datos = new cAccesoDatosNet(Values.gDatos))
+        {
+
+            using (var _SP = new SP(_datos, "pLaunchCommand"))
+            {
+                _SP.AddParameterValue("@xmlCommand", content);
+                _SP.AddParameterValue("@msgExec", "");
+                try
+                {
+                    _SP.Execute();
+                    _msgExec = _SP.ReturnValues()["@msgExec"].ToString();
+                }
+                catch
+                {
+                    throw; // acer halgo
+                }
+
+            }
+
+        }
+        XDocument _msgOut = XDocument.Parse(_msgExec);
+        if (_msgOut.Root.Element("Password") != null)
+        {
+            _msgOut.Root.Element("Password").Value = StringCipher.Encrypt(_msgOut.Root.Element("Password").Value).ToString();
+        }
+
+        // Echo the data back to the client.
+
+        //Console.WriteLine("-ENCRYPTED-------------------------------\n- Server -> Client: {0} bytes\n-----------------------------------------\n{1}",
+        //   content.Length, content);
+        return _msgOut.ToString();
+        
+    } 
 
     private static void Send(Socket handler, String data)
     {
