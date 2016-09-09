@@ -2,16 +2,24 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data.SqlClient;
+using System.Data;
+using System.Data.Common;
+//using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Text;
 
 namespace AccesoDatosNet
 {
+    public class ControlParameter
+    {
+        public Object LinkedControl;
+        public DbParameter Parameter;
+    }
+
     public abstract class cAccesoDatos : ICloneable, IDisposable
     {
-        //public SqlConnection AdoCon { get; set; }
+        public DbConnection AdoCon { get; set; }
         public string Path { get; set; }
         public string AppName { get; set; }
         public string ServerIP
@@ -272,7 +280,7 @@ namespace AccesoDatosNet
         protected bool mBOF;
         protected RSState mState;
         protected int mIndex = 0;
-        protected SqlParameterCollection _parameters;
+        protected DbParameterCollection _parameters;
         //events
         //Events
         public event EventHandler<EventArgs> AfterExecution; //launched when the query is executed
@@ -352,7 +360,7 @@ namespace AccesoDatosNet
 
         public abstract void Close();
 
-        public SqlParameterCollection Parameters
+        public virtual DbParameterCollection Parameters
         {
             get
             {
@@ -389,24 +397,9 @@ namespace AccesoDatosNet
 
         }
 
-        public void AddControlParameter(string ParamName, Object ParamControl)
-        {
-            SqlParameter lParam = new SqlParameter()
-            {
-                ParameterName = ParamName
-            };
-            ControlParameters.Add(new ControlParameter()
-            {
-                Parameter = lParam,
-                LinkedControl = ParamControl
-            });
-            Parameters.Add(lParam);
-            if (AutoUpdate && ParamControl is IsValuable)
-            {
-                ((IsValuable)ParamControl).TextChanged += RSFrame_TextChanged;
-            }
-        }
-        void RSFrame_TextChanged(object sender, EventArgs e)
+        public abstract void AddControlParameter(string ParamName, Object ParamControl);
+
+        protected void RSFrame_TextChanged(object sender, EventArgs e)
         {
             Open();
         }
@@ -452,6 +445,267 @@ namespace AccesoDatosNet
             Dispose(true);
             // TODO: uncomment the following line if the finalizer is overridden above.
             // GC.SuppressFinalize(this);
+        }
+        #endregion
+    }
+
+    public abstract class SPFrame: IDisposable
+    {
+        private cAccesoDatos mConn;
+
+        public List<ControlParameter> ControlParameters { set; get; }
+        //public List<ObjectParameter> ObjectParameters { get; set; }
+        public DbCommand Cmd { get; set; }
+        private DbParameterCollection _parameters;
+
+        public virtual DbParameterCollection Parameters
+        {
+            get
+            {
+                return _parameters;
+            }
+        }
+        public virtual cAccesoDatos Conn
+        {
+            get
+            {
+                return mConn;
+            }
+            set
+            {
+               mConn = (cAccesoDatos)value;
+            }
+        }
+
+        public virtual DbConnection Connection
+        {
+            get
+            {
+                return Cmd.Connection;
+            }
+            set
+            {
+                Cmd.Connection = value;
+            }
+        }
+
+        public abstract CommandType CommandType { get; set; }
+        public string CommandText
+        {
+            get
+            {
+                return Cmd.CommandText;
+            }
+            set
+            {
+                Cmd.CommandText = value;
+            }
+        }
+        public abstract bool MsgOut { get; }
+
+        public string SPName { get; set; }
+        public string LastMsg { get; set; }
+
+        //public SPFrame(cAccesoDatos pConn, string pSPName = "")
+        //{
+        //    //Cmd = new SqlCommand();
+        //    ControlParameters = new List<ControlParameter>();
+        //    //ObjectParameters = new List<ObjectParameter>();
+        //    SPName = pSPName;
+        //    Conn = pConn;
+        //    Connection = pConn.AdoCon;
+        //    CommandType = System.Data.CommandType.StoredProcedure;
+        //    CommandText = pSPName;
+        //    ConnectionState prevState = mConn.State;
+        //    if (prevState != ConnectionState.Open)
+        //    {
+        //        mConn.Open();
+        //    }
+        //   // DbCommandBuilder.DeriveParameters(Cmd);
+        //    if (MsgOut)
+        //    {
+        //        Parameters["@msg"].Value = "";
+        //    }
+        //    Cmd.CommandTimeout = 300;
+        //    if (prevState != ConnectionState.Open)
+        //    {
+        //        mConn.Close();
+        //    }
+        //}
+
+        public virtual void AddParameterValue(string pParamName, object pValue, string DBFieldName = "")
+        {
+            try
+            {
+                if (pParamName.Substring(0, 1) != "@")
+                {
+                    pParamName = '@' + pParamName;
+                }
+                DateTime res;
+                if (Parameters[pParamName].DbType.IsNumericType())
+                {
+                    if (pValue != null && pValue.ToString() == "")
+                    {
+                        pValue = null;
+                    }
+                }
+
+                if (Parameters[pParamName].DbType == DbType.DateTime)
+                {
+                    if (pValue is DateTime)
+                    {
+                        Parameters[pParamName].Value = (DateTime)pValue;
+                        return;
+                    }
+                    if (!DateTime.TryParse(pValue.ToString(), out res))
+                    {
+                        throw new Exception("Wrong DateTime parameter " + pParamName);
+                    }
+                    else
+                    {
+                        Parameters[pParamName].Value = res;
+                    }
+                }
+                if (pValue != null && pValue is System.String)
+                {
+                    Parameters[pParamName].Value = pValue.ToString();
+                }
+                else if (pValue == null)
+                {
+                    Parameters[pParamName].Value = DBNull.Value;
+                }
+                else
+                {
+                    Parameters[pParamName].Value = pValue;
+                }
+                if (DBFieldName != "")
+                {
+                    Parameters[pParamName].SourceColumn = DBFieldName;
+                }
+            }
+            catch
+            {
+                //AdoPar = null;
+                throw;
+            }
+
+        }
+
+        public abstract void AddControlParameter(string pParamName, object ParamControl);
+
+        //public abstract void AssignOutputParameter(string ParamName, DbParameter pParam);
+
+        public void AssignParameterValues()
+        {
+            ControlParameters.Where(x => x.LinkedControl is IsValuable).ToList().ForEach(p => AddParameterValue(p.Parameter.ParameterName, ((IsValuable)p.LinkedControl).Value));
+        }
+
+
+        public virtual void AssignOutputParameterContainer(string ParamName, out DbParameter ParamOut, object Value = null)
+        {
+            DbParameter _param;
+            if (ParamName.Substring(0, 1) != "@")
+            {
+                ParamName = '@' + ParamName;
+            }
+            if (Parameters[ParamName] != null)
+            {
+                _param = Parameters[ParamName];
+                ParamOut = _param;
+            }
+            else
+                ParamOut = null;
+
+            if (Value != null)
+            {
+                AddParameterValue(ParamName, Value);
+            }
+            
+            //ObjectParameters.Add(new ObjectParameter() {Container=Container, Parameter=_param });
+
+        }
+
+        public virtual void AssignValuesParameters()
+        {
+            ControlParameters.Where(x => x.LinkedControl is IsValuable && (x.Parameter.Direction == ParameterDirection.InputOutput || x.Parameter.Direction == ParameterDirection.Output)).ToList().ForEach(p => ((IsValuable)p.LinkedControl).Value = p.Parameter.Value);
+        }
+
+        public virtual void Execute()
+        {
+            AssignParameterValues();
+            if (Conn.State == ConnectionState.Open)
+            {
+                Cmd.ExecuteNonQuery();
+            }
+            else
+            {
+                Conn.Open();
+                try
+                {
+                    Cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+                    throw;
+                }
+                finally
+                {
+                    Conn.Close();
+                }
+
+            }
+            AssignValuesParameters();
+            try
+            {
+                LastMsg = Parameters.OfType<DbParameter>().ToList().First(x => x.ParameterName == "@msg").Value.ToString();
+            }
+            catch
+            {
+                LastMsg = "";
+            }
+
+        }
+        public virtual Dictionary<string, object> ReturnValues()
+        {
+            return Parameters.OfType<DbParameter>()
+                .Where(p => p.Direction == ParameterDirection.InputOutput || p.Direction == ParameterDirection.Output)
+                .ToDictionary(i => i.ParameterName, i => i.Value);
+
+            //Dictionary<string, object> Result = new Dictionary<string, object>();
+            //foreach (SqlParameter Param in Parameters)
+            //{
+            //    if (Param.Direction == ParameterDirection.InputOutput || Param.Direction == ParameterDirection.Output)
+            //    {
+            //        Result.Add(Param.ParameterName, Param.Value);
+            //    }
+            //}
+            //return Result;
+        }
+
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    Cmd.Dispose();
+                    ControlParameters.Clear();
+                    ControlParameters = null;
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // TODO: set large fields to null.
+
+                disposedValue = true;
+            }
+        }
+
+        void IDisposable.Dispose()
+        {
+            Dispose(true);
         }
         #endregion
     }

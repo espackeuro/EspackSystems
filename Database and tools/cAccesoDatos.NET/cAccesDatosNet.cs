@@ -19,11 +19,7 @@ using System.Xml;
 namespace AccesoDatosNet
 {
 
-    public class ControlParameter
-    {
-        public Object LinkedControl;
-        public SqlParameter Parameter;
-    }
+
     public class ObjectParameter
     {
         public object Container;
@@ -347,6 +343,25 @@ namespace AccesoDatosNet
             return _list;
         }
 
+        public override void AddControlParameter(string ParamName, object ParamControl)
+        {
+            {
+                SqlParameter lParam = new SqlParameter()
+                {
+                    ParameterName = ParamName
+                };
+                ControlParameters.Add(new ControlParameter()
+                {
+                    Parameter = lParam,
+                    LinkedControl = ParamControl
+                });
+                Parameters.Add(lParam);
+                if (AutoUpdate && ParamControl is IsValuable)
+                {
+                    ((IsValuable)ParamControl).TextChanged += RSFrame_TextChanged;
+                }
+            }
+        }
     }
 
     public class DynamicRS : RSFrame
@@ -357,6 +372,16 @@ namespace AccesoDatosNet
         //Events
         new public event EventHandler<EventArgs> AfterExecution; //launched when the query is executed     
         new public event EventHandler<EventArgs> BeforeExecution;
+        protected new SqlParameterCollection _parameters;
+
+        public new SqlParameterCollection Parameters
+        {
+            get
+            {
+                return Cmd.Parameters;
+            }
+        }
+
         //private cAccesoDatosNet mConn;
         public new int Index
         {
@@ -603,26 +628,44 @@ namespace AccesoDatosNet
         {
             return mDS.GetXml();
         }
+
+        public override void AddControlParameter(string ParamName, object ParamControl)
+        {
+            {
+                SqlParameter lParam = new SqlParameter()
+                {
+                    ParameterName = ParamName
+                };
+                ControlParameters.Add(new ControlParameter()
+                {
+                    Parameter = lParam,
+                    LinkedControl = ParamControl
+                });
+                Parameters.Add(lParam);
+                if (AutoUpdate && ParamControl is IsValuable)
+                {
+                    ((IsValuable)ParamControl).TextChanged += RSFrame_TextChanged;
+                }
+            }
+        }
     }
 
 
-    public class SP:IDisposable
+    public class SP:SPFrame
     {
         private cAccesoDatosNet mConn;
         
-        public List<ControlParameter> ControlParameters { set; get; }
-        public List<SqlParameter> OutputParameters { get; set; }
         //public List<ObjectParameter> ObjectParameters { get; set; }
-        public SqlCommand Cmd { get; set; }
+        public new SqlCommand Cmd { get; set; }
 
-        public SqlParameterCollection Parameters
+        public new SqlParameterCollection Parameters
         {
             get 
             {
                 return Cmd.Parameters;
             }
         }
-        public SqlConnection Connection
+        public new SqlConnection Connection
         {
             get
             {
@@ -634,7 +677,7 @@ namespace AccesoDatosNet
             }
         }
 
-        public cAccesoDatosNet Conn
+        public new cAccesoDatosNet Conn
         {
             get
             {
@@ -646,7 +689,7 @@ namespace AccesoDatosNet
                 Cmd.Connection = mConn.AdoCon;
             }
         }
-        public CommandType CommandType
+        public override CommandType CommandType
         {
             get
             {
@@ -657,7 +700,7 @@ namespace AccesoDatosNet
                 Cmd.CommandType = value;
             }
         }
-        public string CommandText
+        public new string CommandText
         {
             get
             {
@@ -668,7 +711,8 @@ namespace AccesoDatosNet
                 Cmd.CommandText = value;
             }
         }
-        public bool MsgOut
+
+        public override bool MsgOut
         {
             get
             {
@@ -682,17 +726,13 @@ namespace AccesoDatosNet
                 }
             }
         }
-        public string SPName { get; set; }
-        public string LastMsg { get; set; }
-
         public SP(cAccesoDatosNet pConn, string pSPName = "")
         {
             Cmd = new SqlCommand();
             ControlParameters = new List<ControlParameter>();
-            OutputParameters = new List<SqlParameter>();
             //ObjectParameters = new List<ObjectParameter>();
             SPName = pSPName;
-            Conn = pConn;
+            Conn = (cAccesoDatosNet)pConn;
             Connection = Conn.AdoCon;
             CommandType = System.Data.CommandType.StoredProcedure;
             CommandText = pSPName;
@@ -713,7 +753,7 @@ namespace AccesoDatosNet
             }
         }
 
-        public void AddParameterValue(string pParamName, object pValue, string DBFieldName="" )
+        public override void AddParameterValue(string pParamName, object pValue, string DBFieldName="" )
         {
             try
             {
@@ -771,7 +811,7 @@ namespace AccesoDatosNet
 
         }
 
-        public void AddControlParameter(string pParamName, object ParamControl)
+        public override void AddControlParameter(string pParamName, object ParamControl)
         {
             if (pParamName.Substring(0, 1) != "@")
             {
@@ -798,27 +838,24 @@ namespace AccesoDatosNet
             });
             
         }
-        public void AssignOutputParameter(string ParamName, SqlParameter pParam)
-        {
-            if (Parameters[ParamName] != null)
-            {
-                pParam = Parameters[ParamName];
-            }
-            else
-            {
-                pParam = new SqlParameter()
-                {
-                    ParameterName = ParamName
-                };
-                Parameters.Add(pParam);
-            }
+        //public override void AssignOutputParameter(string ParamName, DbParameter pParam)
+        //{
+        //    if (Parameters[ParamName] != null)
+        //    {
+        //        pParam = Parameters[ParamName];
+        //    }
+        //    else
+        //    {
+        //        pParam = new SqlParameter()
+        //        {
+        //            ParameterName = ParamName
+        //        };
+        //        Parameters.Add(pParam);
+        //    }
 
-            OutputParameters.Add(pParam);
-        }
-        public void AssignParameterValues()
-        {
-            ControlParameters.Where(x => x.LinkedControl is IsValuable).ToList().ForEach(p => AddParameterValue(p.Parameter.ParameterName,((IsValuable)p.LinkedControl).Value));
-        }
+        //    OutputParameters.Add(pParam);
+        //}
+
         public void AssignOutputParameterContainer(string ParamName, out SqlParameter ParamOut, object Value=null)
         {
             SqlParameter _param;
@@ -842,7 +879,6 @@ namespace AccesoDatosNet
             {
                 AddParameterValue(ParamName, Value);
             }
-            OutputParameters.Add(_param);
             ParamOut = _param;
             //ObjectParameters.Add(new ObjectParameter() {Container=Container, Parameter=_param });
             
@@ -907,7 +943,7 @@ namespace AccesoDatosNet
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
 
-        protected virtual void Dispose(bool disposing)
+        protected override void Dispose(bool disposing)
         {
             if (!disposedValue)
             {
@@ -916,8 +952,6 @@ namespace AccesoDatosNet
                     Cmd.Dispose();
                     ControlParameters.Clear();
                     ControlParameters = null;
-                    OutputParameters.Clear();
-                    OutputParameters = null;
                 }
 
                 // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
@@ -927,10 +961,6 @@ namespace AccesoDatosNet
             }
         }
 
-        void IDisposable.Dispose()
-        {
-            Dispose(true);
-        }
         #endregion
     }
 
@@ -1063,7 +1093,7 @@ namespace AccesoDatosNet
         {
             get
             {
-                return SelectRS.Parameters;
+                return (SqlParameterCollection)SelectRS.Parameters;
             }
         }
         
