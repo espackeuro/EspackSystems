@@ -143,7 +143,9 @@ public class AsynchronousSocketListener
                 if (_result.Value.Substring(0, 2) == "OK")
                 {
                     //create a new local connection to the session just opened
-                    Connections.Add
+                    XDocument _msgIn = XDocument.Parse(content);
+                    string _serial = _msgIn.Root.Element("Serial").Value;
+                    Connections.Add(_serial, Values.gDatos.Clone());
                 }
             }
             else
