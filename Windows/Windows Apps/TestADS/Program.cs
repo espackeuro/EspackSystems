@@ -12,10 +12,20 @@ namespace TestADS
     {
         static void Main(string[] args)
         {
-            string _serverIP = "10.200.90.3";
             cAccesoDatosXML gDatosx = new cAccesoDatosXML();
-            gDatosx.Server = _serverIP;
+            gDatosx.Server = "DB01";
+            gDatosx.User = "sa";
+            gDatosx.Password = "5380";
+            gDatosx.DataBase = "Sistemas";
             gDatosx.Connect();
+
+            using (var _SP= new SPXML(gDatosx, "pLogonUser"))
+            {
+                _SP.AddParameterValue("User", "restelles");
+                _SP.AddParameterValue("Password", "G8npi3rc");
+                _SP.Execute();
+            }
+            
             
         }
     }

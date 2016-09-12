@@ -451,7 +451,7 @@ namespace AccesoDatosNet
 
     public abstract class SPFrame: IDisposable
     {
-        private cAccesoDatos mConn;
+        protected cAccesoDatos mConn;
 
         public List<ControlParameter> ControlParameters { set; get; }
         //public List<ObjectParameter> ObjectParameters { get; set; }
@@ -597,7 +597,8 @@ namespace AccesoDatosNet
 
         public void AssignParameterValues()
         {
-            ControlParameters.Where(x => x.LinkedControl is IsValuable).ToList().ForEach(p => AddParameterValue(p.Parameter.ParameterName, ((IsValuable)p.LinkedControl).Value));
+            if (ControlParameters != null)
+                ControlParameters.Where(x => x.LinkedControl is IsValuable).ToList().ForEach(p => AddParameterValue(p.Parameter.ParameterName, ((IsValuable)p.LinkedControl).Value));
         }
 
 

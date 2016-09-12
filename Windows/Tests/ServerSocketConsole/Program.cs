@@ -145,7 +145,7 @@ public class AsynchronousSocketListener
                     //create a new local connection to the session just opened
                     XDocument _msgIn = XDocument.Parse(content);
                     string _serial = _msgIn.Root.Element("Serial").Value;
-                    Connections.Add(_serial, Values.gDatos.Clone());
+                    //Connections.Add(_serial, Values.gDatos.Clone());
                 }
             }
             else
@@ -153,6 +153,11 @@ public class AsynchronousSocketListener
             {
                 //launch the procedure
                 _msgOut = launchProcedure(content);
+            }
+            else
+            if (content.IndexOf("</connection>") > -1)
+            {
+                _msgOut = launchConnection(content).ToString();
             }
             else
             {
@@ -166,7 +171,24 @@ public class AsynchronousSocketListener
         _msgOut.Length, _msgOut);
         Send(handler, StringCipher.Encrypt(_msgOut));
     }
-    
+
+    private static XElement launchConnection(string content)
+    {
+        var _x = XDocument.Parse(content);
+        XElement _xServer = _x.Root.Element("server");
+        var _server = new cServer();
+        _server.xServer = _xServer;
+        var _conn = new cAccesoDatosNet(_server, _x.Root.Element("DataBase").Value);
+        try
+        {
+            _conn.Connect();
+            return new XElement("result", "OK");
+        } catch (Exception ex)
+        {
+            return new XElement("result", "Error: "+ex.Message);
+        }
+        
+    }
 
     private static string StartSession(string content)
     {

@@ -12,6 +12,7 @@ using System.Text;
 using System.Linq;
 using System.Globalization;
 using System.Net;
+using System.Xml.Linq;
 //using ADODB;
 namespace CommonTools
 {
@@ -202,6 +203,32 @@ namespace CommonTools
             }
             return new DateTime();
         }
+
+        public static bool IsNumericType(this DbType o)
+        {
+            switch (o)
+            {
+                case DbType.Byte:
+                case DbType.Currency:
+                case DbType.Decimal:
+                case DbType.Double:
+                case DbType.Int16:
+                case DbType.Int32:
+                case DbType.Int64:
+                case DbType.UInt16:
+                case DbType.UInt32:
+                case DbType.UInt64:
+                case DbType.VarNumeric:
+                case DbType.SByte:
+                    return true;
+                default:
+                    return false;
+
+
+            }
+        }
+
+
         public static bool IsNumericType(this object o)
         {
             switch (Type.GetTypeCode(o.GetType()))
@@ -352,6 +379,31 @@ namespace CommonTools
         public string COD3 { get; set; }
         public string User { get; set; }
         public string Password { get; set; }
+        public XElement xServer
+        {
+            get
+            {
+                var _root = new XElement("server");
+                _root.Add(new XElement("HostName", HostName));
+                _root.Add(new XElement("IP", IP));
+                _root.Add(new XElement("Type", Type));
+                _root.Add(new XElement("COD3", COD3));
+                _root.Add(new XElement("User", User));
+                _root.Add(new XElement("Password", Password));
+                return _root;
+            }
+            set
+            {
+                IPAddress _serverIP;
+                HostName = value.Element("HostName").Value;
+                if (IPAddress.TryParse(value.Element("IP").Value, out _serverIP))
+                    IP=_serverIP;
+                Type = (ServerTypes)Enum.Parse(typeof(ServerTypes), value.Element("Type").Value);
+                COD3 = value.Element("COD3").Value;
+                User = value.Element("User").Value;
+                Password = value.Element("Password").Value;
+            }
+        }
         public string Server
         {
             get
