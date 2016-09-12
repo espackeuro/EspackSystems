@@ -6,13 +6,68 @@ using CommonTools;
 using System.Net;
 using System.Net.Sockets;
 using Encryption;
-
+using System.Xml.Linq;
 
 namespace Socks
 {
     public enum SocksStatus { OFFLINE, TRYCONNECT, CONNECTED, ERROR}
 
-    
+    public static class EspackSocksServer
+    {
+        public const string MAINSERVERIP = "10.200.90.3";
+        public static cSocks InitialServer { get; set; }
+        public static string Serial
+        {
+            get
+            {
+                return Environment.MachineName;
+            }
+        }
+        //session number
+        private static string _session;
+        public static string SessionNumber
+        {
+            get
+            {
+                return _session;
+            }
+        }
+
+        //final connection server
+        private static cSocks _connectionServer;
+        public static cSocks ConnectionServer
+        {
+            get
+            {
+                if (_connectionServer == null)
+                    getSocksConnection();
+                return _connectionServer;
+            }
+        }
+
+
+        public static void getSocksConnection()
+        {
+            if (InitialServer == null)
+            {
+                InitialServer = new cSocks(MAINSERVERIP);
+            }
+            //first phase, get the destination external IP to connect
+            //create the xml message with the session information
+            var _msgIn = new XElement("StartSession");
+            _msgIn.Add(new XElement("Serial", Serial));
+            XDocument _msgOut = InitialServer.xSyncEncConversation(new XDocument(_msgIn));
+            var _result = _msgOut.Root.Element("Result");
+            if (_result == null || _result.Value.Substring(0, 2) != "OK")
+            {
+                throw new Exception(_result.Value ?? "Error no result obtained");
+            }
+            var _IP = _msgOut.Root.Element("ExternalIP").Value;
+            var _COD3 = _msgOut.Root.Element("COD3").Value;
+            _session = _msgOut.Root.Element("SessionNumber").Value;
+            _connectionServer = new cSocks(_IP);
+        }
+    }
 
     public class cSocks
     {
@@ -124,6 +179,17 @@ namespace Socks
             }
             
         }
+
+        public string SyncEncConversation(XDocument msgOut)
+        {
+            return (SyncEncConversation(msgOut.ToString()));
+        }
+
+        public XDocument xSyncEncConversation(object msgOut)
+        {
+            return (XDocument.Parse(SyncEncConversation(msgOut.ToString())));
+        }
+
 
         public string SyncConversation(string msgOut)
         {

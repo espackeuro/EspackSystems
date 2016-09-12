@@ -16,6 +16,27 @@ namespace AccesoDatosNet
     {
         private ParameterDirection _paramdir = new ParameterDirection();
 
+        public XElement XParameter
+        {
+            get
+            {
+                XElement _root = new XElement("parameter");
+                _root.Add(new XElement("parameterName", ParameterName));
+                _root.Add(new XElement("parameterValue", this.Value));
+                return _root;
+            }
+
+
+        }
+
+        public string XMLParameterText
+        {
+            get
+            {
+                return XParameter.ToString();
+            }
+        }
+
         public override DbType DbType { get; set; }
 
         public override ParameterDirection Direction { get; set; }
@@ -44,11 +65,36 @@ namespace AccesoDatosNet
         {
             throw new NotImplementedException();
         }
+
+        public XMLParameter()
+        {
+
+        }
+
+
     }
 
     public class XMLParameterCollection : DbParameterCollection
     {
         private List<XMLParameter> _paramList = new List<XMLParameter>();
+
+        public XElement XParameterCollection
+        {
+            get
+            {
+                XElement _root = new XElement("parameterCollection");
+                _paramList.ForEach(o => { _root.Add((XElement)o.XParameter); });
+                return _root;
+            }
+        }
+
+        public string XMLParameterCollectionText
+        {
+            get
+            {
+                return XParameterCollection.ToString();
+            }
+        }
 
         public new XMLParameter this[string paramName] {
             get
@@ -224,10 +270,8 @@ namespace AccesoDatosNet
 
     public class cAccesoDatosXML : cAccesoDatos, IDisposable
     {
-        public cSocks SocksCon { get; set; }
-        String Serial { get; set; } = "";
+        
         String Origin { get; set; } = "LOGON";
-        cServer SecondServer { get; set; }
         string SessionNumber { get; set; }
         public override string HostName
         {
@@ -249,7 +293,7 @@ namespace AccesoDatosNet
         {
             get
             {
-                if (SocksCon.Status == SocksStatus.CONNECTED)
+                if (EspackSocksServer.ConnectionServer.Status == SocksStatus.CONNECTED)
                     return ConnectionState.Open;
                 else
                     return ConnectionState.Closed;
@@ -270,66 +314,80 @@ namespace AccesoDatosNet
                     oServer = new cServer(value);
                 else
                     oServer.Server = value;
-                if (SocksCon == null)
-                    SocksCon = new cSocks(value);
-                else SocksCon.Server = value;
             }
         }
+
+        public XElement xConn
+        {
+            get
+            {
+                XElement _root = new XElement("connection");
+                _root.Add(oServer.xServer);
+                _root.Add(new XElement("DataBase", DataBase));
+                return _root;
+            }
+        }
+
+
         public override void Close()
         {
             throw new NotImplementedException();
         }
 
+
         public override void Connect()
         {
             try
             {
-                string _msg;
-                XDocument _msgOut;
-                //string _result;
-
-                //first phase, get the destination external IP to connect
-                if (SecondServer== null)
-                {
-                    Serial = Serial == "" ? Environment.MachineName : Serial;
-                    string _msgIn = string.Format(@"
-<StartSession>
-    <Serial>{0}</Serial>
-</StartSession>",Serial);
-                    _msg = SocksCon.SyncEncConversation(_msgIn);
-                    _msgOut = XDocument.Parse(_msg);
-                    var _result = _msgOut.Root.Element("Result");
-                    if (_result==null || _result.Value.Substring(0,2)!="OK")
-                    {
-                        throw new Exception(_result.Value ?? "Error no result obtained");
-                    }
-                    var _IP = _msgOut.Root.Element("ExternalIP").Value;
-                    var _COD3 = _msgOut.Root.Element("COD3").Value;
-                    SessionNumber= _msgOut.Root.Element("SessionNumber").Value;
-                    SecondServer = new cServer(_IP) { User = oServer.User, Password = oServer.Password, COD3=_COD3, Type=oServer.Type };
-                }
-                //try
-                {
-                    //_msg = SocksCon.SyncEncConversation(SocksCon.BuildSPXML(DataBase, SecondServer.User, "@Origin='RADIO LOGISTICA (VAL)'", cUser.Text, StringCipher.Encrypt(cPassword.Text)));
-                    //_msgOut = XDocument.Parse(_msg);
-                } 
-                //second phase, connect to the destination Server
-
-
-
+                XDocument _msgOut = EspackSocksServer.ConnectionServer.xSyncEncConversation(xConn.ToString());
+                if (_msgOut.Element("result").Value != "OK")
+                    throw new Exception(_msgOut.Element("result").Value);
             }
             catch (Exception ex)
             {
-                throw new Exception("ERROR: " + ex.Message);
+                throw new Exception(ex.Message);
             }
         }
     }
 
-    
+
 
     public class SPXML : SPFrame
     {
-        private cAccesoDatosXML mConn;
+        protected new cAccesoDatosXML mConn;
+        //private string SPName {get;set;}
+        private XMLParameterCollection _parameters = new XMLParameterCollection();
+
+        public new XMLParameterCollection Parameters
+        {
+            get
+            {
+                return _parameters;
+            }
+        }
+        public new cAccesoDatosXML Conn
+        {
+            get
+            {
+                return mConn;
+            }
+            set
+            {
+                mConn = (cAccesoDatosXML)value;
+            }
+        }
+
+        public XElement xSP
+        {
+            get
+            {
+                var _x = new XElement("procedurex");
+                _x.Add(Conn.xConn);
+                _x.Add(Parameters.XParameterCollection);
+                _x.Add(new XElement("procedureName", SPName));
+                return _x;
+            }
+        }
 
         public override CommandType CommandType
         {
@@ -348,14 +406,177 @@ namespace AccesoDatosNet
         {
             get
             {
-                throw new NotImplementedException();
+                try
+                {
+                    return (Parameters[1].ParameterName == "@msg");
+                }
+                catch
+                {
+                    return false;
+                }
             }
         }
+        
+        public SPXML(cAccesoDatosXML pConn, string pSPNAme = "")
+        {
+            SPName = pSPNAme;
+            Conn = pConn;
+        }
 
+        public override void AddParameterValue(string pParamName, object pValue, string DBFieldName = "")
+        {
+            try
+            {
+                if (pParamName.Substring(0, 1) != "@")
+                {
+                    pParamName = '@' + pParamName;
+                }
+                DateTime res;
+                if (Parameters[pParamName] == null)
+                    Parameters.Add(new XMLParameter() { ParameterName = pParamName, DbType= DbType.String });
+                if (Parameters[pParamName].DbType.IsNumericType())
+                {
+                    if (pValue != null && pValue.ToString() == "")
+                    {
+                        pValue = null;
+                    }
+                }
+
+                if (Parameters[pParamName].DbType == DbType.DateTime)
+                {
+                    if (pValue is DateTime)
+                    {
+                        Parameters[pParamName].Value = (DateTime)pValue;
+                        return;
+                    }
+                    if (!DateTime.TryParse(pValue.ToString(), out res))
+                    {
+                        throw new Exception("Wrong DateTime parameter " + pParamName);
+                    }
+                    else
+                    {
+                        Parameters[pParamName].Value = res;
+                    }
+                }
+                if (pValue != null && pValue is System.String)
+                {
+                    Parameters[pParamName].Value = pValue.ToString();
+                }
+                else if (pValue == null)
+                {
+                    Parameters[pParamName].Value = DBNull.Value;
+                }
+                else
+                {
+                    Parameters[pParamName].Value = pValue;
+                }
+                if (DBFieldName != "")
+                {
+                    Parameters[pParamName].SourceColumn = DBFieldName;
+                }
+            }
+            catch
+            {
+                //AdoPar = null;
+                throw;
+            }
+
+        }
         public override void AddControlParameter(string pParamName, object ParamControl)
         {
-            throw new NotImplementedException();
+            if (pParamName.Substring(0, 1) != "@")
+            {
+                pParamName = '@' + pParamName;
+            }
+            XMLParameter lParam;
+            if (Parameters[pParamName] != null)
+            {
+                lParam = Parameters[pParamName];
+            }
+            else
+            {
+                lParam = new XMLParameter()
+                {
+                    ParameterName = pParamName
+                };
+                Parameters.Add(lParam);
+            }
+
+            ControlParameters.Add(new ControlParameter()
+            {
+                Parameter = lParam,
+                LinkedControl = ParamControl
+            });
         }
+        public void AssignOutputParameterContainer(string ParamName, out XMLParameter ParamOut, object Value = null)
+        {
+            XMLParameter _param;
+            if (ParamName.Substring(0, 1) != "@")
+            {
+                ParamName = '@' + ParamName;
+            }
+            if (Parameters[ParamName] != null)
+            {
+                _param = Parameters[ParamName];
+            }
+            else
+            {
+                _param = new XMLParameter()
+                {
+                    ParameterName = ParamName
+                };
+                Parameters.Add(_param);
+            }
+            if (Value != null)
+            {
+                AddParameterValue(ParamName, Value);
+            }
+            ParamOut = _param;
+            //ObjectParameters.Add(new ObjectParameter() {Container=Container, Parameter=_param });
+
+        }
+        public override void AssignValuesParameters()
+        {
+            ControlParameters.Where(x => x.LinkedControl is IsValuable && (x.Parameter.Direction == ParameterDirection.InputOutput || x.Parameter.Direction == ParameterDirection.Output)).ToList().ForEach(p => ((IsValuable)p.LinkedControl).Value = p.Parameter.Value);
+        }
+        public override void Execute()
+        {
+            AssignParameterValues();
+
+            XDocument _msgOut = EspackSocksServer.ConnectionServer.xSyncEncConversation(xSP.ToString());
+            if (_msgOut.Element("result").Value != "OK")
+                throw new Exception(_msgOut.Element("result").Value);
+
+
+            AssignValuesParameters();
+            try
+            {
+                LastMsg = Parameters.OfType<XMLParameter>().ToList().First(x => x.ParameterName == "@msg").Value.ToString();
+            }
+            catch
+            {
+                LastMsg = "";
+            }
+
+        }
+
+        public override Dictionary<string, object> ReturnValues()
+        {
+            return Parameters.OfType<XMLParameter>()
+                .Where(p => p.Direction == ParameterDirection.InputOutput || p.Direction == ParameterDirection.Output)
+                .ToDictionary(i => i.ParameterName, i => i.Value);
+
+            //Dictionary<string, object> Result = new Dictionary<string, object>();
+            //foreach (SqlParameter Param in Parameters)
+            //{
+            //    if (Param.Direction == ParameterDirection.InputOutput || Param.Direction == ParameterDirection.Output)
+            //    {
+            //        Result.Add(Param.ParameterName, Param.Value);
+            //    }
+            //}
+            //return Result;
+        }
+
     }
 
 }

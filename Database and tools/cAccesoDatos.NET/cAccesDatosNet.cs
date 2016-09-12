@@ -883,12 +883,12 @@ namespace AccesoDatosNet
             //ObjectParameters.Add(new ObjectParameter() {Container=Container, Parameter=_param });
             
         }
-        public void AssignValuesParameters()
+        public override void AssignValuesParameters()
         {
             ControlParameters.Where(x => x.LinkedControl is IsValuable && (x.Parameter.Direction == ParameterDirection.InputOutput || x.Parameter.Direction == ParameterDirection.Output)).ToList().ForEach(p => ((IsValuable)p.LinkedControl).Value= p.Parameter.Value);
         }
 
-        public void Execute()
+        public override void Execute()
         {
             AssignParameterValues();
             if (Conn.State == ConnectionState.Open)
