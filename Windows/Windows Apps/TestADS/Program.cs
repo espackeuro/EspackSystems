@@ -23,6 +23,7 @@ namespace TestADS
             {
                 _SP.AddParameterValue("User", "restelles");
                 _SP.AddParameterValue("Password", "G8npi3rc");
+                _SP.AddParameterValue("Origin", "LOGON_CS");
                 _SP.Execute();
             }
             

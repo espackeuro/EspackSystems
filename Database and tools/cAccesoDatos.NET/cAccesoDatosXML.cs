@@ -266,13 +266,17 @@ namespace AccesoDatosNet
         }
     }
 
+    public interface XMLEspackDataThing
+    {
+        XElement XThingElement { get; }
+        XEspackSocksMessage XMessage { get; }
+    }
 
-
-    public class cAccesoDatosXML : cAccesoDatos, IDisposable
+    public class cAccesoDatosXML : cAccesoDatos, IDisposable, XMLEspackDataThing
     {
         
         String Origin { get; set; } = "LOGON";
-        string SessionNumber { get; set; }
+        //string SessionNumber { get; set; }
         public override string HostName
         {
             get
@@ -317,7 +321,7 @@ namespace AccesoDatosNet
             }
         }
 
-        public XElement xConn
+        public XElement XThingElement
         {
             get
             {
@@ -328,6 +332,19 @@ namespace AccesoDatosNet
             }
         }
 
+        public XEspackSocksMessage XMessage
+        {
+            get
+            {
+                var _x = new XEspackSocksMessage();
+                _x.SetActionDefinition("Database Connection");
+                var _d = new XElement(XThingElement);
+                _d.Name = "data";
+                _x.SetActionData(_d);
+                _x.SetSession(EspackSocksServer.SessionNumber);
+                return _x;
+            }
+        }
 
         public override void Close()
         {
@@ -339,7 +356,7 @@ namespace AccesoDatosNet
         {
             try
             {
-                XDocument _msgOut = EspackSocksServer.ConnectionServer.xSyncEncConversation(xConn.ToString());
+                XDocument _msgOut = EspackSocksServer.ConnectionServer.xSyncEncConversation(XMessage);
                 if (_msgOut.Element("result").Value != "OK")
                     throw new Exception(_msgOut.Element("result").Value);
             }
@@ -352,7 +369,7 @@ namespace AccesoDatosNet
 
 
 
-    public class SPXML : SPFrame
+    public class SPXML : SPFrame, XMLEspackDataThing
     {
         protected new cAccesoDatosXML mConn;
         //private string SPName {get;set;}
@@ -377,18 +394,30 @@ namespace AccesoDatosNet
             }
         }
 
-        public XElement xSP
+        public XElement XThingElement
         {
             get
             {
-                var _x = new XElement("procedurex");
-                _x.Add(Conn.xConn);
+                var _x = new XElement("procedure");
+                _x.Add(Conn.XThingElement);
                 _x.Add(Parameters.XParameterCollection);
                 _x.Add(new XElement("procedureName", SPName));
                 return _x;
             }
         }
-
+        public XEspackSocksMessage XMessage
+        {
+            get
+            {
+                var _x = new XEspackSocksMessage();
+                _x.SetActionDefinition("Stored Procedure");
+                var _d = new XElement(XThingElement);
+                _d.Name = "data";
+                _x.SetActionData(_d);
+                _x.SetSession(EspackSocksServer.SessionNumber);
+                return _x;
+            }
+        }
         public override CommandType CommandType
         {
             get
@@ -537,16 +566,18 @@ namespace AccesoDatosNet
         }
         public override void AssignValuesParameters()
         {
-            ControlParameters.Where(x => x.LinkedControl is IsValuable && (x.Parameter.Direction == ParameterDirection.InputOutput || x.Parameter.Direction == ParameterDirection.Output)).ToList().ForEach(p => ((IsValuable)p.LinkedControl).Value = p.Parameter.Value);
+            if (ControlParameters != null)
+                ControlParameters.Where(x => x.LinkedControl is IsValuable && (x.Parameter.Direction == ParameterDirection.InputOutput || x.Parameter.Direction == ParameterDirection.Output)).ToList().ForEach(p => ((IsValuable)p.LinkedControl).Value = p.Parameter.Value);
         }
         public override void Execute()
         {
             AssignParameterValues();
 
-            XDocument _msgOut = EspackSocksServer.ConnectionServer.xSyncEncConversation(xSP.ToString());
-            if (_msgOut.Element("result").Value != "OK")
-                throw new Exception(_msgOut.Element("result").Value);
+            XDocument _msgOut = EspackSocksServer.ConnectionServer.xSyncEncConversation(XMessage);
 
+            if (_msgOut.Element("result").Value.Substring(0,5) == "ERROR")
+                throw new Exception(_msgOut.Element("result").Value);
+            //to do: recover parameter values for output parameters
 
             AssignValuesParameters();
             try
@@ -578,5 +609,7 @@ namespace AccesoDatosNet
         }
 
     }
+
+
 
 }

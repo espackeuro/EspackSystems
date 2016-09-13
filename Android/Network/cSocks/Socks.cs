@@ -7,10 +7,87 @@ using System.Net;
 using System.Net.Sockets;
 using Encryption;
 using System.Xml.Linq;
+using System.Xml.Schema;
 
 namespace Socks
 {
     public enum SocksStatus { OFFLINE, TRYCONNECT, CONNECTED, ERROR}
+
+
+    
+
+    public class XEspackSocksMessage
+    {
+        //private XDocument _x;
+        private XElement ActionDefinition { get; set; }
+        private XElement ActionData { get; set; }
+        private XElement SessionNumber { get; set; }
+        public XDocument XMessage
+        {
+            get
+            {
+                if (ActionDefinition == null)
+                    throw new Exception("Action not defined");
+                if (ActionData == null)
+                    throw new Exception("Data not defined");
+                if (SessionNumber == null)
+                    throw new Exception("SessionNumber not defined");
+                var _root = new XDocument();
+                _root.Add(new XElement("message"));
+                _root.Root.Add(ActionDefinition);
+                _root.Root.Add(ActionData);
+                _root.Root.Add(SessionNumber);
+                return _root;
+            }
+        }
+        public void SetActionDefinition(string _action)
+        {
+            ActionDefinition = new XElement("ActionDefinition", _action);
+        }
+        public string Session
+        {
+            get
+            {
+                return SessionNumber == null ? null : SessionNumber.Value;
+            }
+        }
+        public string Action
+        {
+            get
+            {
+                return ActionDefinition == null ? null : ActionDefinition.Value;
+            }
+        }
+        public XElement Data
+        {
+            get
+            {
+                return ActionData;
+            }
+        }
+        public void SetActionData(XElement _data)
+        {
+            if (_data.Name!= "data")
+                throw new Exception("Root name of element should be 'data'");
+            ActionData = _data;
+        }
+        public void SetSession(string _sessionNumber)
+        {
+            SessionNumber = new XElement("SessionNumber", _sessionNumber);
+        }
+        public override string ToString()
+        {
+            return XMessage.ToString();
+        }
+        public XEspackSocksMessage(string _message)
+        {
+            XDocument _x = XDocument.Parse(_message);
+            ActionDefinition = new XElement(_x.Root.Element("ActionDefinition"));
+            ActionData = new XElement(_x.Root.Element("data"));
+            SessionNumber = new XElement(_x.Root.Element("SessionNumber"));
+        }
+        public XEspackSocksMessage() { }
+    }
 
     public static class EspackSocksServer
     {
@@ -29,6 +106,8 @@ namespace Socks
         {
             get
             {
+                if (_session == null)
+                    getSocksConnection();
                 return _session;
             }
         }
@@ -54,17 +133,21 @@ namespace Socks
             }
             //first phase, get the destination external IP to connect
             //create the xml message with the session information
-            var _msgIn = new XElement("StartSession");
-            _msgIn.Add(new XElement("Serial", Serial));
-            XDocument _msgOut = InitialServer.xSyncEncConversation(new XDocument(_msgIn));
-            var _result = _msgOut.Root.Element("Result");
-            if (_result == null || _result.Value.Substring(0, 2) != "OK")
+            var _message = new XEspackSocksMessage();
+            _message.SetActionDefinition("Start Session");
+            _message.SetActionData(new XElement("data",Serial));
+            _message.SetSession("");
+            XDocument _msgOut = InitialServer.xSyncEncConversation(_message);
+            var _result = _msgOut.Root;
+            if (_result == null || _result.Value.Substring(0, 5) == "ERROR")
             {
                 throw new Exception(_result.Value ?? "Error no result obtained");
             }
-            var _IP = _msgOut.Root.Element("ExternalIP").Value;
-            var _COD3 = _msgOut.Root.Element("COD3").Value;
-            _session = _msgOut.Root.Element("SessionNumber").Value;
+            var _parameters = _result.Element("parameters").Elements("parameter");
+            
+            string _IP = (from _par in _parameters where _par.Element("Name").Value.ToString() == "@ExternalIP" select _par.Element("Value").Value).First();
+            var _COD3 = (from _par in _parameters where _par.Element("Name").Value.ToString() == "@COD3" select _par.Element("Value").Value).First();
+            _session = (from _par in _parameters where _par.Element("Name").Value.ToString() == "@SessionNumber" select _par.Element("Value").Value).First();
             _connectionServer = new cSocks(_IP);
         }
     }
@@ -144,34 +227,35 @@ namespace Socks
             }
         }
 
-        public static string BuildSPXML(string DataBase, string ProcedureName, string Parameters, string User="", string Password="", string Session="")
-        {
-            return string.Format(@"<procedure>
-  <DB>{0}</DB>
-  <name>{1}</name>
-  <parameters>{2}</parameters>{3}{4}{5}
-</procedure>",DataBase,ProcedureName,Parameters, User !=""?@"
-  <user>"+User+ "</user>" : "", Password != "" ? @"
-  <password>" + Password + "</password>" : "", Session != "" ? @"
-  <session>" + Session + "</session>" : "");
-        }
+//        public static string BuildSPXML(string DataBase, string ProcedureName, string Parameters, string User="", string Password="", string Session="")
+//        {
+//            return string.Format(@"<procedure>
+//  <DB>{0}</DB>
+//  <name>{1}</name>
+//  <parameters>{2}</parameters>{3}{4}{5}
+//</procedure>",DataBase,ProcedureName,Parameters, User !=""?@"
+//  <user>"+User+ "</user>" : "", Password != "" ? @"
+//  <password>" + Password + "</password>" : "", Session != "" ? @"
+//  <session>" + Session + "</session>" : "");
+//        }
 
 
-        public string BuildQueryXML(string DataBase, string Query, string Parameters, string User = "", string Password = "", string Session = "")
-        {
-            return string.Format(@"<query>
-  <DB>{0}</DB>
-  <sqlQuery>{2}</sqlQuery>{3}
-  {4}
-  {5}
-</query>", DataBase, Query, Parameters, User != "" ? "<user>" + User + "</users>" : "", Password != "" ? "<password>" + Password + "</password>" : "", Session != "" ? "<session>" + Session + "</session>" : "");
-        }
+//        public string BuildQueryXML(string DataBase, string Query, string Parameters, string User = "", string Password = "", string Session = "")
+//        {
+//            return string.Format(@"<query>
+//  <DB>{0}</DB>
+//  <sqlQuery>{2}</sqlQuery>{3}
+//  {4}
+//  {5}
+//</query>", DataBase, Query, Parameters, User != "" ? "<user>" + User + "</users>" : "", Password != "" ? "<password>" + Password + "</password>" : "", Session != "" ? "<session>" + Session + "</session>" : "");
+//        }
 
         public string SyncEncConversation(string msgOut)
         {
             try
             {
-                return StringCipher.Decrypt(SyncConversation(StringCipher.Encrypt(msgOut)));
+                var _msgIn = SyncConversation(StringCipher.Encrypt(msgOut));
+                return StringCipher.Decrypt(_msgIn);
             } catch (Exception ex)
             {
                 throw ex;
@@ -227,9 +311,17 @@ namespace Socks
                     int bytesSent = sender.Send(msg);
 
                     // Receive the response from the remote device.
-                    int bytesRec = sender.Receive(bytes);
-
-                    var _result= Encoding.ASCII.GetString(bytes, 0, bytesRec);
+                    string _result = "";
+                    int bytesRec = 0;
+                    do
+                    {
+                        bytesRec = sender.Receive(bytes);
+                        _result += Encoding.ASCII.GetString(bytes, 0, bytesRec);
+                    } while (bytesRec > 0);
+                    
+                    
+                   
+                    
                     sender.Shutdown(SocketShutdown.Both);
                     sender.Close();
                     Status = SocksStatus.OFFLINE;
