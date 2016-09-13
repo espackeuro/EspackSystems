@@ -15,6 +15,7 @@ using EspackControls;
 using CommonTools;
 using System.Data.Common;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace AccesoDatosNet
 {
@@ -940,6 +941,38 @@ namespace AccesoDatosNet
             //return Result;
         }
 
+        public XDocument XParameters
+        {
+            get
+            {
+                var _x = new XElement("parameters");
+                Parameters.OfType<SqlParameter>().ToList().ForEach(p => {
+                    var _p = new XElement("parameter");
+                    _p.Add(new XElement("Name", p.ParameterName));
+                    _p.Add(new XElement("Direction", p.Direction));
+                    _p.Add(new XElement("Value", p.Value));
+                    _p.Add(new XElement("Type", p.SqlDbType));
+                    _x.Add(_p);
+                });
+                return new XDocument(_x);
+            }
+        }
+        public XDocument XOutParameters
+        {
+            get
+            {
+                var _x = new XElement("parameters");
+                Parameters.OfType<SqlParameter>().Where(o => o.Direction== ParameterDirection.InputOutput || o.Direction== ParameterDirection.Output).ToList().ForEach(p => {
+                    var _p = new XElement("parameter");
+                    _p.Add(new XElement("Name", p.ParameterName));
+                    _p.Add(new XElement("Direction", p.Direction));
+                    _p.Add(new XElement("Value", p.Value));
+                    _p.Add(new XElement("Type", p.SqlDbType));
+                    _x.Add(_p);
+                });
+                return new XDocument(_x);
+            }
+        }
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
 

@@ -438,7 +438,10 @@ namespace CommonTools
             Server = ServerName;
         }
 
-
+        public cServer(XElement pxServer)
+        {
+            xServer = pxServer;
+        }
         public cServer()
         {
             HostName = "";
