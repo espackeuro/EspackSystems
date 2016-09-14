@@ -16,6 +16,7 @@ using CommonTools;
 using System.Data.Common;
 using System.Xml;
 using System.Xml.Linq;
+using System.IO;
 
 namespace AccesoDatosNet
 {
@@ -462,6 +463,24 @@ namespace AccesoDatosNet
             set
             {
                 mDA.SelectCommand = value;
+            }
+        }
+
+        public XDocument XMLData
+        {
+            get
+            {
+                using (var _stream = new MemoryStream())
+                {
+                    mDS.Tables["Result"].WriteXml(_stream);
+                    _stream.Position = 0;
+                    XmlReaderSettings settings = new XmlReaderSettings();
+                    settings.ConformanceLevel = ConformanceLevel.Fragment;
+                    XmlReader reader = XmlReader.Create(_stream, settings);
+                    reader.MoveToContent();
+                    if (reader.IsEmptyElement) { reader.Read(); return null; }
+                    return XDocument.Load(reader);
+                }
             }
         }
 
