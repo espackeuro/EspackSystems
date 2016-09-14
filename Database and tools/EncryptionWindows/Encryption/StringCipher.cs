@@ -62,10 +62,14 @@ namespace Encryption
 
         public static string Decrypt(string plainText)
         {
-            return Decrypt(plainText, PASSPHRASE);
+            bool _comp;
+            return Decrypt(plainText, PASSPHRASE, out _comp);
         }
-
-        public static string Decrypt(string cipherText, string passPhrase)
+        public static string Decrypt(string plainText, out bool compression)
+        {
+            return Decrypt(plainText, PASSPHRASE, out compression);
+        }
+        public static string Decrypt(string cipherText, string passPhrase, out bool compression)
         {
             // Get the complete stream of bytes that represent:
             // [32 bytes of Salt] + [32 bytes of IV] + [n bytes of CipherText]
@@ -95,8 +99,8 @@ namespace Encryption
                                 var decryptedByteCount = cryptoStream.Read(plainTextBytes, 0, plainTextBytes.Length);
                                 memoryStream.Close();
                                 cryptoStream.Close();
-                                if (cComp.IsPossiblyGZippedBytes(plainTextBytes))
-
+                                compression = cComp.IsPossiblyGZippedBytes(plainTextBytes);
+                                if (compression)
                                     return cComp.Unzip(plainTextBytes);
                                 else
                                     return Encoding.UTF8.GetString(plainTextBytes, 0, decryptedByteCount);
