@@ -20,6 +20,8 @@ namespace Encryption
 
         public static string Encrypt(string plainText, bool compress=false)
         {
+            if (plainText.Length < 860)
+                compress = false;
             return Encrypt(plainText, PASSPHRASE, compress);
         }
 
