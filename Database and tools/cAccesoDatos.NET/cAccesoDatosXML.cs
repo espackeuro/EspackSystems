@@ -615,6 +615,170 @@ namespace AccesoDatosNet
     public class XMLRS : RSFrame, XMLEspackDataThing
     {
         public bool Compression { get; set; } = false;
+        protected DataSet mDS;
+        protected new XMLParameterCollection Parameters { get; set; }
+
+
+        public new int Index
+        {
+            get
+            {
+                return mIndex;
+            }
+            set
+            {
+                mIndex = value;
+            }
+        }
+
+        public int RecordCount
+        {
+            get
+            {
+                return mDS.Tables["Result"].Rows.Count;
+            }
+        }
+
+        public override object this[string Idx]
+        {
+            get
+            {
+                return mDS.Tables["Result"].Rows[Index][Idx];
+            }
+        }
+        public override object this[int Idx]
+        {
+            get
+            {
+                return mDS.Tables["Result"].Rows[Index][Idx];
+            }
+        }
+        public int FieldCount
+        {
+            get
+            {
+                return mDS.Tables["Result"].Columns.Count;
+            }
+        }
+
+        public List<string> Fields
+        {
+            get
+            {
+                return mDS.Tables["Result"].Columns.Cast<DataColumn>().Select(x => x.ColumnName).ToList();
+            }
+        }
+
+        public DataSet DS
+        {
+            get
+            {
+                return mDS;
+            }
+        }
+
+        public new List<DataRow> ToList()
+        {
+            return mDS.Tables["Result"].Rows.Cast<DataRow>().ToList();
+        }
+        public override object DataObject
+        {
+            get
+            {
+                if (mDS == null)
+                    Open();
+                return mDS.Tables["Result"];
+            }
+        }
+
+        public override void MoveNext()
+        {
+            mState = RSState.Fetching;
+            if (mIndex < RecordCount - 1)
+            {
+                mIndex++;
+                mBOF = false;
+            }
+            else
+            {
+                mEOF = true;
+            }
+            mState = RSState.Open;
+        }
+
+        public override void MovePrevious()
+        {
+            mState = RSState.Fetching;
+            if (mIndex > 0)
+            {
+                mIndex--;
+                mEOF = false;
+            }
+            else
+            {
+                mBOF = true;
+            }
+            mState = RSState.Open;
+        }
+        public override void MoveFirst()
+        {
+            mState = RSState.Fetching;
+            mIndex = 0;
+            mState = RSState.Open;
+        }
+        public override void MoveLast()
+        {
+            mState = RSState.Fetching;
+            mIndex = RecordCount - 1;
+            mState = RSState.Open;
+        }
+
+        public override void Move(int Idx)
+        {
+            mState = RSState.Fetching;
+            Index = Idx;
+            mState = RSState.Open;
+        }
+
+        public override void Close()
+        {
+            mDS = null;
+        }
+
+        public override List<Object> getList()
+        {
+            //var _list = new List<DbDataRecord>();
+            var rows = new string[RecordCount];
+            int i = 0;
+
+            foreach (DataRow dataRow in mDS.Tables["Result"].Rows)
+            {
+                rows[i] = string.Join(";", dataRow.ItemArray.Select(item => item.ToString()));
+                i++;
+            }
+            return rows.ToList<object>();
+        }
+
+        public override void AddControlParameter(string ParamName, object ParamControl)
+        {
+            {
+                XMLParameter lParam = new XMLParameter()
+                {
+                    ParameterName = ParamName
+                };
+                ControlParameters.Add(new ControlParameter()
+                {
+                    Parameter = lParam,
+                    LinkedControl = ParamControl
+                });
+                Parameters.Add(lParam);
+                if (AutoUpdate && ParamControl is IsValuable)
+                {
+                    ((IsValuable)ParamControl).TextChanged += RSFrame_TextChanged;
+                }
+            }
+        }
+
         private cAccesoDatosXML Conn
         {
             get
@@ -624,29 +788,6 @@ namespace AccesoDatosNet
             set
             {
                 mConn = value;
-            }
-        }
-        public override object this[int Idx]
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public override object this[string Idx]
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public override object DataObject
-        {
-            get
-            {
-                throw new NotImplementedException();
             }
         }
 
@@ -675,52 +816,16 @@ namespace AccesoDatosNet
             }
         }
 
-        public override void AddControlParameter(string ParamName, object ParamControl)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Close()
-        {
-            throw new NotImplementedException();
-        }
-
         public override void Execute()
         {
             XDocument _msgOut = EspackSocksServer.ConnectionServer.xSyncEncConversation(XMessage, Compression);
             if (_msgOut.Element("result").Value.Substring(0, 5) == "ERROR")
                 throw new Exception(_msgOut.Element("result").Value);
             //to do: recover parameter values for output parameters
-        }
+            mDS = new DataSet();
+            mDS.ReadXml(_msgOut.CreateReader());
 
-        public override List<object> getList()
-        {
-            throw new NotImplementedException();
-        }
 
-        public override void Move(int Idx)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void MoveFirst()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void MoveLast()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void MoveNext()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void MovePrevious()
-        {
-            throw new NotImplementedException();
         }
 
         public XMLRS()
