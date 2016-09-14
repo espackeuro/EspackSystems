@@ -156,7 +156,13 @@ public class AsynchronousSocketListener
                             {
                                 _msgOut = launchProcedure(_message.Data).ToString();
                             } catch { }
-                            
+                            break;
+                        case "Recordset":
+                            try
+                            {
+                                _msgOut = lauchRecordset(_message.Data).ToString();
+                            }
+                            catch { }
                             break;
                     }
                 }
@@ -174,6 +180,30 @@ public class AsynchronousSocketListener
                 handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
                 new AsyncCallback(ReadCallback), state);
             }
+        }
+    }
+
+    private static object lauchRecordset(XElement data)
+    {
+        var _xconn = data.Element("connection"); //get the connection data
+        string _dataBase = _xconn.Element("DataBase").Value.ToString(); //get the database
+        var _server = new cServer(_xconn.Element("server")); //create the server object from the connection data
+        string _sql = string.Format("select * from ({0}) b for XML PATH",data.Element("sql").Value.ToString()); //get the sql
+        using (var _conn = new cAccesoDatosNet(_server, _dataBase)) //create the normal connection
+
+        using (var _rs = new DynamicRS(_sql, _conn)) // create the normal recordset
+        {
+            try
+            {
+                _rs.Open(); //execute the recordset
+                XElement _msgOut = new XElement("result"); //create the msgout xml data
+                return _msgOut; // returns
+            }
+            catch (Exception ex)
+            {
+                return new XElement("result", "ERROR: " + ex.Message); //returns error
+            }
+
         }
     }
 

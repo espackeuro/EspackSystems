@@ -27,17 +27,24 @@ namespace TestADS
             gDatosx.User = "sa";
             gDatosx.Password = "5380";
             gDatosx.DataBase = "Sistemas";
+            gDatosx.Compression = true;
             gDatosx.Connect();
 
-            using (var _SP= new SPXML(gDatosx, "pLogonUser"))
+            using (var _RS = new XMLRS("select top 10 * from vusers", gDatosx))
             {
-                _SP.AddParameterValue("User", "restelles");
-                _SP.AddParameterValue("Password", "G8npi3rc");
-                _SP.AddParameterValue("Origin", "LOGON_CS");
-                _SP.Execute();
+                _RS.Compression = false;
+                _RS.Open();
             }
-            
-            
+            //using (var _SP = new SPXML(gDatosx, "pLogonUser"))
+            //{
+            //    _SP.Compression = true;
+            //    _SP.AddParameterValue("User", "restelles");
+            //    _SP.AddParameterValue("Password", "G8npi3rc");
+            //    _SP.AddParameterValue("Origin", "LOGON_CS");
+            //    _SP.Execute();
+            //}
+
+
         }
     }
 }

@@ -250,11 +250,11 @@ namespace Socks
 //</query>", DataBase, Query, Parameters, User != "" ? "<user>" + User + "</users>" : "", Password != "" ? "<password>" + Password + "</password>" : "", Session != "" ? "<session>" + Session + "</session>" : "");
 //        }
 
-        public string SyncEncConversation(string msgOut)
+        public string SyncEncConversation(string msgOut,bool compression=false)
         {
             try
             {
-                var _msgIn = SyncConversation(StringCipher.Encrypt(msgOut));
+                var _msgIn = SyncConversation(StringCipher.Encrypt(msgOut,compression));
                 return StringCipher.Decrypt(_msgIn);
             } catch (Exception ex)
             {
@@ -269,9 +269,9 @@ namespace Socks
             return (SyncEncConversation(msgOut.ToString()));
         }
 
-        public XDocument xSyncEncConversation(object msgOut)
+        public XDocument xSyncEncConversation(object msgOut,bool compression=false)
         {
-            return (XDocument.Parse(SyncEncConversation(msgOut.ToString())));
+            return (XDocument.Parse(SyncEncConversation(msgOut.ToString(), compression)));
         }
 
 

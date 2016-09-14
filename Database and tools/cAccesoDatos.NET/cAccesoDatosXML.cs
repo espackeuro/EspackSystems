@@ -270,11 +270,12 @@ namespace AccesoDatosNet
     {
         XElement XThingElement { get; }
         XEspackSocksMessage XMessage { get; }
+        bool Compression { get; set; }
     }
 
     public class cAccesoDatosXML : cAccesoDatos, IDisposable, XMLEspackDataThing
     {
-        
+        public bool Compression { get; set; } = false;
         String Origin { get; set; } = "LOGON";
         //string SessionNumber { get; set; }
         public override string HostName
@@ -356,7 +357,7 @@ namespace AccesoDatosNet
         {
             try
             {
-                XDocument _msgOut = EspackSocksServer.ConnectionServer.xSyncEncConversation(XMessage);
+                XDocument _msgOut = EspackSocksServer.ConnectionServer.xSyncEncConversation(XMessage, Compression);
                 if (_msgOut.Element("result").Value != "OK")
                     throw new Exception(_msgOut.Element("result").Value);
             }
@@ -371,6 +372,7 @@ namespace AccesoDatosNet
 
     public class SPXML : SPFrame, XMLEspackDataThing
     {
+        public bool Compression { get; set; } = false;
         protected new cAccesoDatosXML mConn;
         //private string SPName {get;set;}
         private XMLParameterCollection _parameters = new XMLParameterCollection();
@@ -573,7 +575,7 @@ namespace AccesoDatosNet
         {
             AssignParameterValues();
 
-            XDocument _msgOut = EspackSocksServer.ConnectionServer.xSyncEncConversation(XMessage);
+            XDocument _msgOut = EspackSocksServer.ConnectionServer.xSyncEncConversation(XMessage, Compression);
 
             if (_msgOut.Element("result").Value.Substring(0,5) == "ERROR")
                 throw new Exception(_msgOut.Element("result").Value);
@@ -607,9 +609,133 @@ namespace AccesoDatosNet
             //}
             //return Result;
         }
-
+    
     }
 
+    public class XMLRS : RSFrame, XMLEspackDataThing
+    {
+        public bool Compression { get; set; } = false;
+        private cAccesoDatosXML Conn
+        {
+            get
+            {
+                return (cAccesoDatosXML)mConn;
+            }
+            set
+            {
+                mConn = value;
+            }
+        }
+        public override object this[int Idx]
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
 
+        public override object this[string Idx]
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public override object DataObject
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public XEspackSocksMessage XMessage
+        {
+            get
+            {
+                var _x = new XEspackSocksMessage();
+                _x.SetActionDefinition("Recordset");
+                var _d = new XElement(XThingElement);
+                _d.Name = "data";
+                _x.SetActionData(_d);
+                _x.SetSession(EspackSocksServer.SessionNumber);
+                return _x;
+            }
+        }
+
+        public XElement XThingElement
+        {
+            get
+            {
+                var _x = new XElement("recordset");
+                _x.Add(Conn.XThingElement);
+                _x.Add(new XElement("sql", SQL));
+                return _x;
+            }
+        }
+
+        public override void AddControlParameter(string ParamName, object ParamControl)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Close()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Execute()
+        {
+            XDocument _msgOut = EspackSocksServer.ConnectionServer.xSyncEncConversation(XMessage, Compression);
+            if (_msgOut.Element("result").Value.Substring(0, 5) == "ERROR")
+                throw new Exception(_msgOut.Element("result").Value);
+            //to do: recover parameter values for output parameters
+        }
+
+        public override List<object> getList()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Move(int Idx)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void MoveFirst()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void MoveLast()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void MoveNext()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void MovePrevious()
+        {
+            throw new NotImplementedException();
+        }
+
+        public XMLRS()
+            : base()
+        {
+            //mDS = new DataSet();
+
+        }
+        public XMLRS(string Sql, cAccesoDatosXML Conn)
+            : base()
+        {
+            SQL = Sql;
+            mConn = Conn;
+            //mDS = new DataSet();
+        }
+    }
 
 }
