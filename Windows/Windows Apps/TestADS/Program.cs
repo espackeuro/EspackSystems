@@ -30,10 +30,20 @@ namespace TestADS
             gDatosx.Compression = true;
             gDatosx.Connect();
 
-            using (var _RS = new XMLRS("select top 10 * from vusers", gDatosx))
+            using (var _RS = new XMLRS("select top 10 * from itemsCab", gDatosx))
             {
-                _RS.Compression = false;
+                _RS.Compression = true;
+
                 _RS.Open();
+
+                _RS.MoveNext();
+
+                _RS.MoveLast();
+
+                _RS.MovePrevious();
+
+                _RS.MoveFirst();
+
             }
             //using (var _SP = new SPXML(gDatosx, "pLogonUser"))
             //{
