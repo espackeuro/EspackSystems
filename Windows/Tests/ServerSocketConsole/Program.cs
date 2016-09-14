@@ -128,7 +128,8 @@ public class AsynchronousSocketListener
             try
             {
                 encryptedContent = state.sb.ToString();
-                content = StringCipher.Decrypt(encryptedContent);
+                bool _isComp;
+                content = StringCipher.Decrypt(encryptedContent, out _isComp);
                 Console.WriteLine("-ENCRYPTED-------------------------------\n- Client -> Server: {0} bytes\n-----------------------------------------\n{1}",
                    content.Length, encryptedContent);
                 
@@ -164,7 +165,7 @@ public class AsynchronousSocketListener
                 // Return result value. Display it on the console.
                 Console.WriteLine("-DECRYPTED-------------------------------\n- Server -> Client: {0} bytes\n-----------------------------------------\n{1}",
                 _msgOut.Length, _msgOut);
-                Send(handler, StringCipher.Encrypt(_msgOut));
+                Send(handler, StringCipher.Encrypt(_msgOut, _isComp));
             } catch {
                 // Not all data received. Get more.
                 handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
