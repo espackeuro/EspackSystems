@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using Compression;
 
 namespace Encryption
 {
@@ -17,18 +18,18 @@ namespace Encryption
         private const int DerivationIterations = 1000;
         private const string PASSPHRASE = "31m7016a78";
 
-        public static string Encrypt(string plainText)
+        public static string Encrypt(string plainText, bool compress=false)
         {
-            return Encrypt(plainText, PASSPHRASE);
+            return Encrypt(plainText, PASSPHRASE, compress);
         }
 
-        public static string Encrypt(string plainText, string passPhrase)
+        public static string Encrypt(string plainText, string passPhrase, bool compress=false)
         {
             // Salt and IV is randomly generated each time, but is preprended to encrypted cipher text
             // so that the same Salt and IV values can be used when decrypting.  
             var saltStringBytes = Generate256BitsOfRandomEntropy();
             var ivStringBytes = Generate256BitsOfRandomEntropy();
-            var plainTextBytes = Encoding.UTF8.GetBytes(plainText);
+            byte[] plainTextBytes = compress ? cComp.Zip(plainText) : Encoding.UTF8.GetBytes(plainText);
             using (var password = new Rfc2898DeriveBytes(passPhrase, saltStringBytes, DerivationIterations))
             {
                 var keyBytes = password.GetBytes(Keysize / 8);
@@ -94,7 +95,11 @@ namespace Encryption
                                 var decryptedByteCount = cryptoStream.Read(plainTextBytes, 0, plainTextBytes.Length);
                                 memoryStream.Close();
                                 cryptoStream.Close();
-                                return Encoding.UTF8.GetString(plainTextBytes, 0, decryptedByteCount);
+                                if (cComp.IsPossiblyGZippedBytes(plainTextBytes))
+
+                                    return cComp.Unzip(plainTextBytes);
+                                else
+                                    return Encoding.UTF8.GetString(plainTextBytes, 0, decryptedByteCount);
                             }
                         }
                     }
