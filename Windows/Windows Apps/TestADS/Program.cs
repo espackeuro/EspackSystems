@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using AccesoDatosNet;
 using Socks;
+using Encryption;
+using Compression;
 
 namespace TestADS
 {
@@ -12,6 +14,14 @@ namespace TestADS
     {
         static void Main(string[] args)
         {
+            //string data = @"";
+            //var comp = StringCipher.Encrypt(data, true);
+            //var dcomp = StringCipher.Decrypt(comp);
+
+            //var encrypted = StringCipher.Encrypt(data, false);
+            //var comp2 = cComp.Zip(encrypted);
+
+
             cAccesoDatosXML gDatosx = new cAccesoDatosXML();
             gDatosx.Server = "DB01";
             gDatosx.User = "sa";
