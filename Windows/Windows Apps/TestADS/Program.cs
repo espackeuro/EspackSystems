@@ -14,12 +14,12 @@ namespace TestADS
     {
         static void Main(string[] args)
         {
-            //string data = @"";
-            //var comp = StringCipher.Encrypt(data, true);
-            //var dcomp = StringCipher.Decrypt(comp);
+            string data = "";
+            var comp = StringCipher.Encrypt(data, true);
+            var dcomp = StringCipher.Decrypt(comp);
 
-            //var encrypted = StringCipher.Encrypt(data, false);
-            //var comp2 = cComp.Zip(encrypted);
+            var encrypted = StringCipher.Encrypt(data, false);
+            var comp2 = cComp.Zip(encrypted);
 
 
             cAccesoDatosXML gDatosx = new cAccesoDatosXML();
