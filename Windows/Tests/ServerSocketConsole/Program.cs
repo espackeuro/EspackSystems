@@ -171,7 +171,7 @@ public class AsynchronousSocketListener
                 // Return result value. Display it on the console.
                 Console.WriteLine("-DECRYPTED-------------------------------\n- Server -> Client: {0} bytes\n-----------------------------------------\n{1}",
                 _msgOut.Length, _msgOut);
-                var _encMsgOut = StringCipher.Encrypt(_msgOut, _isComp);
+                var _encMsgOut = StringCipher.Encrypt(_msgOut, true);
                 Console.WriteLine("-ENCRYPTED-------------------------------\n- Server -> Client: {0} bytes\n-----------------------------------------\n{1}",
                 _encMsgOut.Length, _encMsgOut);
                 Send(handler, _encMsgOut);
@@ -183,12 +183,12 @@ public class AsynchronousSocketListener
         }
     }
 
-    private static object lauchRecordset(XElement data)
+    private static XElement lauchRecordset(XElement data)
     {
         var _xconn = data.Element("connection"); //get the connection data
         string _dataBase = _xconn.Element("DataBase").Value.ToString(); //get the database
         var _server = new cServer(_xconn.Element("server")); //create the server object from the connection data
-        string _sql = string.Format("select * from ({0}) b for XML PATH",data.Element("sql").Value.ToString()); //get the sql
+        string _sql = data.Element("sql").Value.ToString(); //get the sql
         using (var _conn = new cAccesoDatosNet(_server, _dataBase)) //create the normal connection
 
         using (var _rs = new DynamicRS(_sql, _conn)) // create the normal recordset
@@ -196,7 +196,8 @@ public class AsynchronousSocketListener
             try
             {
                 _rs.Open(); //execute the recordset
-                XElement _msgOut = new XElement("result"); //create the msgout xml data
+                var _msgOut = _rs.XMLData.Root; //create the msgout xml data
+                _msgOut.Name = "result";
                 return _msgOut; // returns
             }
             catch (Exception ex)
