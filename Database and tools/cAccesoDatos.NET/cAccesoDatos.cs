@@ -351,7 +351,7 @@ namespace AccesoDatosNet
             Execute();
             OnAfterExecution(e);
         }
-        public void Open(string Sql, cAccesoDatosNet Conn)
+        public void Open(string Sql, cAccesoDatos Conn)
         {
             SQL = Sql;
             mConn = Conn;

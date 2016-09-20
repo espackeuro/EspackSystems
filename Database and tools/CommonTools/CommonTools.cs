@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 //using System.Windows.Forms;
 //using System.Drawing;
 using System.Data;
-using System.DirectoryServices.AccountManagement;
+//using System.DirectoryServices.AccountManagement;
 using System.Text;
 using System.Linq;
 using System.Globalization;

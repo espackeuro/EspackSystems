@@ -51,6 +51,12 @@
     <Compile Include="..\cAccesoDatos.NET\cAccesDatosNet.cs">
       <Link>cAccesDatosNet.cs</Link>
     </Compile>
+    <Compile Include="..\cAccesoDatos.NET\cAccesoDatos.cs">
+      <Link>cAccesoDatos.cs</Link>
+    </Compile>
+    <Compile Include="..\cAccesoDatos.NET\cAccesoDatosXML.cs">
+      <Link>cAccesoDatosXML.cs</Link>
+    </Compile>
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -67,9 +73,17 @@
     </XamarinComponentReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Android\Network\cSocks\Socks.csproj">
+      <Project>{42cab531-7dcb-4a55-9572-e86597e96651}</Project>
+      <Name>Socks</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CommonToolsAndroid\CommonTools\CommonTools.csproj">
       <Project>{6168d25c-fdc9-4a47-a349-4f59dadac002}</Project>
       <Name>CommonTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EncryptionAndroid\Encryption\Encryption.csproj">
+      <Project>{44a86c5a-9221-4425-a960-64aeeb027cc8}</Project>
+      <Name>Encryption</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
