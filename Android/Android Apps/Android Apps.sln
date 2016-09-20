@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Socks", "..\Network\cSocks\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Encryption", "..\..\Database and tools\EncryptionAndroid\Encryption\Encryption.csproj", "{44A86C5A-9221-4425-A960-64AEEB027CC8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Compression", "..\..\Database and tools\CompressionAndroid\Compression\Compression.csproj", "{948BBF7E-C260-47A5-B038-D2A8E0F17259}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,10 @@ Global
 		{44A86C5A-9221-4425-A960-64AEEB027CC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44A86C5A-9221-4425-A960-64AEEB027CC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44A86C5A-9221-4425-A960-64AEEB027CC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{948BBF7E-C260-47A5-B038-D2A8E0F17259}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{948BBF7E-C260-47A5-B038-D2A8E0F17259}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{948BBF7E-C260-47A5-B038-D2A8E0F17259}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{948BBF7E-C260-47A5-B038-D2A8E0F17259}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -98,9 +104,10 @@ Global
 		{C05D6121-8E8F-43A9-B8A0-4906A28D550C} = {DD5ED550-A29E-485F-A18C-04FE8256767A}
 		{42CAB531-7DCB-4A55-9572-E86597E96651} = {3A654A15-9225-4336-8D89-227689080C5A}
 		{44A86C5A-9221-4425-A960-64AEEB027CC8} = {5802ACA1-E788-4592-BB10-63A26AA1A336}
+		{948BBF7E-C260-47A5-B038-D2A8E0F17259} = {5802ACA1-E788-4592-BB10-63A26AA1A336}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 11
+		SccNumberOfProjects = 12
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://espack.visualstudio.com/defaultcollection
 		SccLocalPath0 = .
@@ -124,25 +131,29 @@ Global
 		SccProjectTopLevelParentUniqueName5 = Android\u0020Apps.sln
 		SccProjectName5 = ../../EspackControls/EspackAndoidControls/PictureProgressView
 		SccLocalPath5 = ..\\..\\EspackControls\\EspackAndoidControls\\PictureProgressView
-		SccProjectUniqueName6 = ..\\..\\Database\u0020and\u0020tools\\CommonToolsAndroid\\CommonTools\\CommonTools.csproj
+		SccProjectUniqueName6 = ..\\..\\Database\u0020and\u0020tools\\cAccesoDatosAndroid\\cAccesoDatosNet.csproj
 		SccProjectTopLevelParentUniqueName6 = Android\u0020Apps.sln
-		SccProjectName6 = ../../Database\u0020and\u0020tools/CommonToolsAndroid/CommonTools
-		SccLocalPath6 = ..\\..\\Database\u0020and\u0020tools\\CommonToolsAndroid\\CommonTools
-		SccProjectUniqueName7 = ..\\..\\Database\u0020and\u0020tools\\cAccesoDatosAndroid\\cAccesoDatosNet.csproj
+		SccProjectName6 = ../../Database\u0020and\u0020tools/cAccesoDatosAndroid
+		SccLocalPath6 = ..\\..\\Database\u0020and\u0020tools\\cAccesoDatosAndroid
+		SccProjectUniqueName7 = ..\\RadioLogisticaDeliveries\\RadioLogisticaDeliveries.csproj
 		SccProjectTopLevelParentUniqueName7 = Android\u0020Apps.sln
-		SccProjectName7 = ../../Database\u0020and\u0020tools/cAccesoDatosAndroid
-		SccLocalPath7 = ..\\..\\Database\u0020and\u0020tools\\cAccesoDatosAndroid
-		SccProjectUniqueName8 = ..\\RadioLogisticaDeliveries\\RadioLogisticaDeliveries.csproj
+		SccProjectName7 = ../RadioLogisticaDeliveries
+		SccLocalPath7 = ..\\RadioLogisticaDeliveries
+		SccProjectUniqueName8 = ..\\Network\\cSocks\\Socks.csproj
 		SccProjectTopLevelParentUniqueName8 = Android\u0020Apps.sln
-		SccProjectName8 = ../RadioLogisticaDeliveries
-		SccLocalPath8 = ..\\RadioLogisticaDeliveries
-		SccProjectUniqueName9 = ..\\Network\\cSocks\\Socks.csproj
+		SccProjectName8 = ../Network/cSocks
+		SccLocalPath8 = ..\\Network\\cSocks
+		SccProjectUniqueName9 = ..\\..\\Database\u0020and\u0020tools\\CommonToolsAndroid\\CommonTools\\CommonTools.csproj
 		SccProjectTopLevelParentUniqueName9 = Android\u0020Apps.sln
-		SccProjectName9 = ../Network/cSocks
-		SccLocalPath9 = ..\\Network\\cSocks
-		SccProjectUniqueName10 = ..\\..\\Database\u0020and\u0020tools\\EncryptionAndroid\\Encryption\\Encryption.csproj
+		SccProjectName9 = ../../Database\u0020and\u0020tools/CommonToolsAndroid/CommonTools
+		SccLocalPath9 = ..\\..\\Database\u0020and\u0020tools\\CommonToolsAndroid\\CommonTools
+		SccProjectUniqueName10 = ..\\..\\Database\u0020and\u0020tools\\CompressionAndroid\\Compression\\Compression.csproj
 		SccProjectTopLevelParentUniqueName10 = Android\u0020Apps.sln
-		SccProjectName10 = ../../Database\u0020and\u0020tools/EncryptionAndroid/Encryption
-		SccLocalPath10 = ..\\..\\Database\u0020and\u0020tools\\EncryptionAndroid\\Encryption
+		SccProjectName10 = ../../Database\u0020and\u0020tools/CompressionAndroid/Compression
+		SccLocalPath10 = ..\\..\\Database\u0020and\u0020tools\\CompressionAndroid\\Compression
+		SccProjectUniqueName11 = ..\\..\\Database\u0020and\u0020tools\\EncryptionAndroid\\Encryption\\Encryption.csproj
+		SccProjectTopLevelParentUniqueName11 = Android\u0020Apps.sln
+		SccProjectName11 = ../../Database\u0020and\u0020tools/EncryptionAndroid/Encryption
+		SccLocalPath11 = ..\\..\\Database\u0020and\u0020tools\\EncryptionAndroid\\Encryption
 	EndGlobalSection
 EndGlobal

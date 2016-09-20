@@ -537,7 +537,12 @@ namespace AccesoDatosNet
             }
         }
 
-
+        public void Open(string Sql, cAccesoDatosNet Conn)
+        {
+            SQL = Sql;
+            mConn = Conn;
+            Open();
+        }
 
         public void Open(int pCurrentIndex, int pPageSize)
         {

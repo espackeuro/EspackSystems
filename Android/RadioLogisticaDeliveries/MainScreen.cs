@@ -70,7 +70,7 @@ namespace RadioLogisticaDeliveries
                 // This example uses port 11000 on the local computer.
                 //IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
                 IPAddress ipAddress;
-                IPAddress.TryParse("10.200.90.7", out ipAddress);
+                IPAddress.TryParse("10.200.90.3", out ipAddress);
                 IPEndPoint remoteEP = new IPEndPoint(ipAddress, 15000);
 
                 // Create a TCP/IP  socket.
