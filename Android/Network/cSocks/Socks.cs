@@ -91,7 +91,7 @@ namespace Socks
 
     public static class EspackSocksServer
     {
-        public const string MAINSERVERIP = "10.200.90.3";
+        public const string MAINSERVERIP = "10.200.100.137";
         public static cSocks InitialServer { get; set; }
         public static string Serial
         {

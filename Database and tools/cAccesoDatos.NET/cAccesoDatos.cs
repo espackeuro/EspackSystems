@@ -327,8 +327,11 @@ namespace AccesoDatosNet
         {
             get;
         }
-
-        public List<object> ToList()
+        public abstract List<DataRow> Rows
+        {
+            get;
+        }
+        public virtual List<DataRow> ToList()
         {
             return getList();
         }
@@ -410,7 +413,7 @@ namespace AccesoDatosNet
             ControlParameters.Where(x => !(x.LinkedControl is IsValuable)).ToList().ForEach(p => p.Parameter.Value = p.LinkedControl);
         }
 
-        public abstract List<object> getList();
+        public abstract List<DataRow> getList();
 
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
@@ -710,5 +713,22 @@ namespace AccesoDatosNet
         }
         #endregion
     }
+
+    public static class ObjectFactory
+    {
+        public static object createObject(string objectClass, string objectType, object param1 = null, object param2 = null)
+        {
+            switch (objectClass)
+            {
+                case "Conn": if (objectType == "Socks") return new cAccesoDatosXML(); else return new cAccesoDatosNet();
+                case "SP": if (objectType == "Socks") return new SPXML((cAccesoDatosXML)param1, (string)param2); else return new SP((cAccesoDatosNet)param1, (string)param2);
+                case "RS": if (objectType == "Socks") return new XMLRS((string)param1, (cAccesoDatosXML)param2); else return new DynamicRS((string)param1, (cAccesoDatosNet)param2);
+                default:
+                    return null;
+            }
+        }
+    }
+
+
 
 }

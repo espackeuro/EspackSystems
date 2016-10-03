@@ -109,7 +109,7 @@ namespace RadioFXC
         {
             get
             {
-                var lRS = new StaticRS();
+                var lRS = new DynamicRS();
                 lRS.Open("Select num=count(*) from Repairs where LoadNumber='" + LoadNumber + "' and service='"+Values.gService+"'", Values.gDatos);
                 return Convert.ToInt32(lRS["num"]);
                 lRS.Close();

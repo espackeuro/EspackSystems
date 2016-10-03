@@ -377,13 +377,22 @@ namespace AccesoDatosNet
         //private string SPName {get;set;}
         private XMLParameterCollection _parameters = new XMLParameterCollection();
 
-        public new XMLParameterCollection Parameters
+        //public new XMLParameterCollection Parameters
+        //{
+        //    get
+        //    {
+        //        return _parameters;
+        //    }
+        //}
+
+        public override DbParameterCollection Parameters
         {
             get
             {
                 return _parameters;
             }
         }
+
         public new cAccesoDatosXML Conn
         {
             get
@@ -402,7 +411,7 @@ namespace AccesoDatosNet
             {
                 var _x = new XElement("procedure");
                 _x.Add(Conn.XThingElement);
-                _x.Add(Parameters.XParameterCollection);
+                _x.Add(_parameters.XParameterCollection);
                 _x.Add(new XElement("procedureName", SPName));
                 return _x;
             }
@@ -453,6 +462,7 @@ namespace AccesoDatosNet
             SPName = pSPNAme;
             Conn = pConn;
         }
+        public SPXML(cAccesoDatos pConn, string pSPNAme = ""): this ((cAccesoDatosXML)pConn, pSPNAme) { }
 
         public override void AddParameterValue(string pParamName, object pValue, string DBFieldName = "")
         {
@@ -522,7 +532,7 @@ namespace AccesoDatosNet
             XMLParameter lParam;
             if (Parameters[pParamName] != null)
             {
-                lParam = Parameters[pParamName];
+                lParam = _parameters[pParamName];
             }
             else
             {
@@ -548,7 +558,7 @@ namespace AccesoDatosNet
             }
             if (Parameters[ParamName] != null)
             {
-                _param = Parameters[ParamName];
+                _param = _parameters[ParamName];
             }
             else
             {
@@ -580,17 +590,21 @@ namespace AccesoDatosNet
             if (_msgOut.Element("result").Value.Substring(0,5) == "ERROR")
                 throw new Exception(_msgOut.Element("result").Value);
             //to do: recover parameter values for output parameters
-
+            _msgOut.Root.Element("parameters").Elements("parameter").ToList().ForEach(p =>
+            {
+                AddParameterValue(p.Element("Name").Value, p.Element("Value").Value);
+            });
             AssignValuesParameters();
+            string _msg = "";
             try
             {
-                LastMsg = Parameters.OfType<XMLParameter>().ToList().First(x => x.ParameterName == "@msg").Value.ToString();
+                _msg = Parameters["@msg"].Value.ToString();
             }
             catch
             {
-                LastMsg = "";
+                _msg = "";
             }
-
+            LastMsg = _msg;
         }
 
         public override Dictionary<string, object> ReturnValues()
@@ -677,7 +691,7 @@ namespace AccesoDatosNet
             }
         }
 
-        public new List<DataRow> ToList()
+        public override List<DataRow> ToList()
         {
             return mDS.Tables["Result"].Rows.Cast<DataRow>().ToList();
         }
@@ -745,18 +759,10 @@ namespace AccesoDatosNet
             mDS = null;
         }
 
-        public override List<Object> getList()
+        public override List<DataRow> getList()
         {
             //var _list = new List<DbDataRecord>();
-            var rows = new string[RecordCount];
-            int i = 0;
-
-            foreach (DataRow dataRow in mDS.Tables["Result"].Rows)
-            {
-                rows[i] = string.Join(";", dataRow.ItemArray.Select(item => item.ToString()));
-                i++;
-            }
-            return rows.ToList<object>();
+            return mDS.Tables["Result"].Rows.OfType<DataRow>().ToList();
         }
 
         public override void AddControlParameter(string ParamName, object ParamControl)
@@ -816,6 +822,14 @@ namespace AccesoDatosNet
             }
         }
 
+        public override List<DataRow> Rows
+        {
+            get
+            {
+                return mDS.Tables["Result"].Rows.OfType<DataRow>().ToList();
+            }
+        }
+
         public override void Execute()
         {
             XDocument _msgOut = EspackSocksServer.ConnectionServer.xSyncEncConversation(XMessage, Compression);
@@ -827,6 +841,7 @@ namespace AccesoDatosNet
 
 
         }
+
 
         public XMLRS()
             : base()
