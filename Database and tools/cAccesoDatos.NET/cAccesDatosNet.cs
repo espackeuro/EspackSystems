@@ -102,7 +102,7 @@ namespace AccesoDatosNet
         {
             get
             {
-                StaticRS lRs = new StaticRS();
+                var lRs = new DynamicRS();
                 lRs.Open("Select Date=convert(varchar,Getdate(),120)", this);
                 if (!lRs.HasRows)
                 {
@@ -120,7 +120,7 @@ namespace AccesoDatosNet
         {
             get
             {
-                StaticRS lRs = new StaticRS();
+                var lRs = new DynamicRS();
                 lRs.Open("Select HostName=host_name()", this);
                 if (lRs.EOF)
                 {
@@ -259,6 +259,14 @@ namespace AccesoDatosNet
             }
         }
 
+        public override List<DataRow> Rows
+        {
+            get
+            {
+                return mDR.OfType<DataRow>().ToList();
+            }
+        }
+
         public StaticRS() 
             :base()
         {
@@ -331,18 +339,9 @@ namespace AccesoDatosNet
         }
 
 
-        public override List<object> getList() 
+        public override List<DataRow> getList() 
         {
-            var _list = new List<object>();
-            MoveFirst();
-            while (!EOF)
-            {
-                var _array = new Object[mDR.FieldCount];
-                mDR.GetValues(_array);
-                _list.Add(_array.ToList<object>());
-                MoveNext();
-            }
-            return _list;
+            return mDR.OfType<DataRow>().ToList();
         }
 
         public override void AddControlParameter(string ParamName, object ParamControl)
@@ -376,7 +375,7 @@ namespace AccesoDatosNet
         new public event EventHandler<EventArgs> BeforeExecution;
         protected new SqlParameterCollection _parameters;
 
-        public new SqlParameterCollection Parameters
+        public override DbParameterCollection Parameters
         {
             get
             {
@@ -484,7 +483,7 @@ namespace AccesoDatosNet
             }
         }
 
-        public new List<DataRow> ToList()
+        public override List<DataRow> ToList()
         {
             return mDS.Tables["Result"].Rows.Cast<DataRow>().ToList();
         }
@@ -495,6 +494,14 @@ namespace AccesoDatosNet
                 if (mDS == null)
                     Open();
                 return mDS.Tables["Result"];
+            }
+        }
+
+        public override List<DataRow> Rows
+        {
+            get
+            {
+                return mDS.Tables["Result"].Rows.OfType<DataRow>().ToList();
             }
         }
 
@@ -634,18 +641,10 @@ namespace AccesoDatosNet
             mDS = null;
             mDA = null;
         }
-        public override List<Object> getList()
+        public override List<DataRow> getList()
         {
             //var _list = new List<DbDataRecord>();
-            var rows = new string[RecordCount];
-            int i = 0;
-            
-            foreach (DataRow dataRow in mDS.Tables["Result"].Rows)
-            {
-                rows[i]= string.Join(";", dataRow.ItemArray.Select(item => item.ToString()));
-                i++;
-            }
-            return rows.ToList<object>();
+            return mDS.Tables["Result"].Rows.OfType<DataRow>().ToList();
         }
 
 
@@ -777,7 +776,10 @@ namespace AccesoDatosNet
                 mConn.Close();
             }
         }
-
+        public SP(cAccesoDatos pConn, string pSPName="")
+            : this((cAccesoDatosNet)pConn, pSPName)
+        {
+        }
         public override void AddParameterValue(string pParamName, object pValue, string DBFieldName="" )
         {
             try
