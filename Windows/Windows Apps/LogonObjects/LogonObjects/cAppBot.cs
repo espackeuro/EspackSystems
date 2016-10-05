@@ -279,7 +279,7 @@ namespace LogOnObjects
                   using (var client = new FtpClient())
                   {
                       client.ConnectTimeout = 60000;
-                      client.Host = ShareServer.IP.ToString();
+                      client.Host = ShareServer.HostName;
                       client.Credentials = new NetworkCredential(ShareServer.User, ShareServer.Password);
                       client.DataConnectionType = FtpDataConnectionType.AutoActive;
                       client.Connect();
@@ -298,7 +298,7 @@ namespace LogOnObjects
             using (var client = new FtpClient())
             {
                 client.ConnectTimeout = 60000;
-                client.Host = ShareServer.IP.ToString();
+                client.Host = ShareServer.HostName;
                 client.Credentials = new NetworkCredential(ShareServer.User, ShareServer.Password);
                 client.DataConnectionType = FtpDataConnectionType.AutoActive;
                 client.Connect();
@@ -336,7 +336,7 @@ namespace LogOnObjects
                             DateCreated = a.Modified,
                             IsDirectory = true,
                             Name = ".",
-                            BaseUri = new UriBuilder("ftp://" + ShareServer.IP.ToString() + "/APPS_CS/" + relativePath + "/" + a.Name).Uri
+                            BaseUri = new UriBuilder("ftp://" + ShareServer.HostName + "/APPS_CS/" + relativePath + "/" + a.Name).Uri
                         },
                         LocalPath = Values.LOCAL_PATH + relativePath + "/" + a.Name,
                         Status = LogonItemUpdateStatus.PENDING
@@ -364,7 +364,7 @@ namespace LogOnObjects
                                     DateCreated = a.Modified,
                                     IsDirectory = false,
                                     Name = a.Name,
-                                    BaseUri = new UriBuilder("ftp://" + ShareServer.IP.ToString() + "/APPS_CS/" + relativePath).Uri
+                                    BaseUri = new UriBuilder("ftp://" + ShareServer.HostName + "/APPS_CS/" + relativePath).Uri
                                 },
                                 LocalPath = Values.LOCAL_PATH + relativePath + "/" + a.Name,
                                 Status = LogonItemUpdateStatus.PENDING
@@ -385,7 +385,7 @@ namespace LogOnObjects
                                 DateCreated = a.Modified,
                                 IsDirectory = false,
                                 Name = a.Name,
-                                BaseUri = new UriBuilder("ftp://" + ShareServer.IP.ToString() + "/APPS_CS/" + relativePath).Uri
+                                BaseUri = new UriBuilder("ftp://" + ShareServer.HostName + "/APPS_CS/" + relativePath).Uri
                             },
                             LocalPath = Values.LOCAL_PATH + relativePath + "/" + a.Name,
                             Status = LogonItemUpdateStatus.PENDING
@@ -606,13 +606,13 @@ namespace LogOnObjects
                 }
                 ChangeStatus(AppBotStatus.UPDATED);
             }
-            if (DBServer.HostName != Values.gDatos.Server || DBServer.User != "procesos")
+            if (DBServer.HostName != Values.gDatos.Server && DBServer.User != "procesos")
             {
                 var _datos = new cAccesoDatosNet();
                 _datos.User = Values.gDatos.User;
                 _datos.Password = Values.gDatos.Password;
                 _datos.DataBase = Values.gDatos.DataBase;
-                _datos.Server = DBServer.IP.ToString();
+                _datos.Server = DBServer.HostName;
                 // check the password in the new server
                 var _SP = new SP(_datos, "pLogOnUser");
                 _SP.AddParameterValue("User", DBServer.User);
@@ -633,7 +633,7 @@ namespace LogOnObjects
             startInfo.UseShellExecute = false;
             startInfo.FileName = LocalPath;
             startInfo.WindowStyle = ProcessWindowStyle.Maximized;
-            startInfo.Arguments = "/srv=" + DBServer.IP.ToString() + " /db=" + DataBase + " /usr=" + DBServer.User + " /pwd=" + DBServer.Password + " /loc=OUT /app=" + Name;
+            startInfo.Arguments = "/srv=" + DBServer.HostName + " /db=" + DataBase + " /usr=" + DBServer.User + " /pwd=" + DBServer.Password + " /loc=OUT /app=" + Name;
 
             try
             {

@@ -29,16 +29,16 @@ namespace LogOnObjects
         public static void FillServers(int pZone)
         {
 
-            using (var _RS = new DynamicRS("select COD3,ServerDB,ServerDBIP,ServerShare,ServerShareIP,zone,UserShare,PasswordShare from general..sedes", Values.gDatos))
+            using (var _RS = new DynamicRS("select COD3,ServerDB,ServerShare,zone,UserShare,PasswordShare from general..sedes", Values.gDatos))
             {
                 _RS.Open();
                 while (!_RS.EOF)
                 {
-                    Values.DBServerList.Add(new cServer() { HostName = _RS["ServerDBIP"].ToString(), IP = IPAddress.Parse(_RS["ServerDBIP"].ToString()), COD3 = _RS["COD3"].ToString(), Type = ServerTypes.DATABASE, User = Values.User, Password = Values.Password });
+                    Values.DBServerList.Add(new cServer() { HostName = _RS["ServerDB"].ToString(), COD3 = _RS["COD3"].ToString(), Type = ServerTypes.DATABASE, User = Values.User, Password = Values.Password });
                     Values.ShareServerList.Add(new cServer()
                     {
                         HostName = _RS["ServerShare"].ToString(),
-                        IP = IPAddress.Parse(_RS["ServerShareIP"].ToString()),
+                        //IP = IPAddress.Parse(_RS["ServerShareIP"].ToString()),
                         COD3 = _RS["COD3"].ToString(),
                         Type = ServerTypes.DATABASE,
                         User = _RS["UserShare"].ToString(),
@@ -47,7 +47,7 @@ namespace LogOnObjects
                     if (Convert.ToInt16(_RS["zone"]) == pZone)
                     {
                         Values.COD3 = _RS["COD3"].ToString();
-                        Values.DBServerList.Add(new cServer() { HostName = _RS["ServerDB"].ToString(), IP = IPAddress.Parse(_RS["ServerDBIP"].ToString()), COD3 = "LOC", Type = ServerTypes.DATABASE, User = Values.User, Password = Values.Password });
+                        Values.DBServerList.Add(new cServer() { HostName = _RS["ServerDB"].ToString(), COD3 = "LOC", Type = ServerTypes.DATABASE, User = Values.User, Password = Values.Password });
                     }
 
                     _RS.MoveNext();

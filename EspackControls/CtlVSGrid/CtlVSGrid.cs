@@ -71,7 +71,7 @@ namespace VSGrid
         }
         public DA ParentDA { get; set; }
         public cAccesoDatosNet ParentConn { get; set; }
-        public StaticRS DependingRS { get; set; }
+        public DynamicRS DependingRS { get; set; }
 
         //Properties with SPs but in string format, we will use this when assigning a SP by its name
         public string sSPAdd
@@ -219,7 +219,7 @@ namespace VSGrid
                         mNavigationBar.Items.Add(new ToolStripButton()
                         {
                             Name = "btnFirst",
-                            Image =(System.Drawing.Image) Properties.Resources.first16
+                            Image =(System.Drawing.Image)Properties.Resources.first16
                         });
                         mNavigationBar.Items.Add(new ToolStripButton()
                         {

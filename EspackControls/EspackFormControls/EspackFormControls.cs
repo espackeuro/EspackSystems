@@ -22,7 +22,7 @@ namespace EspackFormControls
         string Caption { get; set; }
         DA ParentDA { get; set; }
         cAccesoDatosNet ParentConn { get; set; }
-        StaticRS DependingRS { get; set; }
+        DynamicRS DependingRS { get; set; }
         Point Location { get; set; }
         
         //List<StaticRS> ExternalControls;//list of possible external controls, the key is the parameter name and the object is the control
@@ -90,7 +90,7 @@ namespace EspackFormControls
         public EspackLabel CaptionLabel { get; set; }
         public cAccesoDatosNet ParentConn { get; set; }
         private EnumStatus mStatus;
-        private StaticRS mDependingRS;
+        private DynamicRS mDependingRS;
         //private Padding _margin;
         //private Size _size;
 
@@ -220,7 +220,7 @@ namespace EspackFormControls
         public object DefaultValue { get; set; }
         public Type DBFieldType { get; set; }
         public DA ParentDA { get; set; }
-        public StaticRS DependingRS
+        public DynamicRS DependingRS
         {
             get
             {
@@ -340,7 +340,7 @@ namespace EspackFormControls
         public EspackLabel CaptionLabel { get; set; }
         public cAccesoDatosNet ParentConn { get; set; }
         private EnumStatus mStatus;
-        private StaticRS mDependingRS;
+        private DynamicRS mDependingRS;
 
         public new bool Visible
         {
@@ -391,7 +391,7 @@ namespace EspackFormControls
         public object DefaultValue { get; set; }
         public Type DBFieldType { get; set; }
         public DA ParentDA { get; set; }
-        public StaticRS DependingRS
+        public DynamicRS DependingRS
         {
             get
             {
@@ -638,7 +638,7 @@ namespace EspackFormControls
         public EspackControlTypeEnum EspackControlType { get; set; }
         public EspackLabel CaptionLabel { get; set; }
         public cAccesoDatosNet ParentConn { get; set; }
-        public StaticRS DependingRS { get; set; }
+        public DynamicRS DependingRS { get; set; }
         private EnumStatus mStatus;
         private DateTime? _value;
         private bool _nullable;
@@ -921,7 +921,7 @@ namespace EspackFormControls
         public EspackControlTypeEnum EspackControlType { get; set; }
         private string theString { get; set; }
         public EnumStatus Status { get; set; }
-        public StaticRS DependingRS { get; set; }
+        public DynamicRS DependingRS { get; set; }
         public cAccesoDatosNet ParentConn { get; set; }
         public Point Location { get; set; }
         public object Value
@@ -979,7 +979,7 @@ namespace EspackFormControls
     {
         public EspackControlTypeEnum EspackControlType { get; set; }
         public EspackLabel CaptionLabel { get; set; }
-        public StaticRS DependingRS { get; set; }
+        public DynamicRS DependingRS { get; set; }
         public cAccesoDatosNet ParentConn { get; set; }
         private EnumStatus mStatus;
         private DynamicRS _RS;
@@ -1305,7 +1305,7 @@ namespace EspackFormControls
     {
         public EspackControlTypeEnum EspackControlType { get; set; }
         public EspackLabel CaptionLabel { get; set; }
-        public StaticRS DependingRS { get; set; }
+        public DynamicRS DependingRS { get; set; }
         public cAccesoDatosNet ParentConn { get; set; }
         private EnumStatus mStatus;
         private DynamicRS _RS;

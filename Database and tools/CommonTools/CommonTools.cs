@@ -380,7 +380,37 @@ namespace CommonTools
     // Class cServer -> there are two types: DATABASE and SHARE
     public class cServer
     {
-        public string HostName { get; set; }
+        private bool _resolve = false;
+        private string _hostName;
+        public string HostName
+        {
+            get
+            {
+                return _hostName;
+            }
+            set
+            {
+                _hostName = value;
+                if (_resolve)
+                {
+                    IPAddress _serverIP;
+                    if (!IPAddress.TryParse(value, out _serverIP))
+                    {
+
+                        try
+                        {
+                            var result = Dns.GetHostEntry(value);
+                            _hostName = result.HostName;
+                            IP = result.AddressList[0];
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception(string.Format("Error trying {0}: {1}", HostName, ex.Message));
+                        }
+                    }
+                }
+            }
+        }
         public IPAddress IP { get; set; }
         public ServerTypes Type { get; set; }
         public string COD3 { get; set; }
@@ -401,10 +431,7 @@ namespace CommonTools
             }
             set
             {
-                IPAddress _serverIP;
                 HostName = value.Element("HostName").Value;
-                if (IPAddress.TryParse(value.Element("IP").Value, out _serverIP))
-                    IP=_serverIP;
                 Type = (ServerTypes)Enum.Parse(typeof(ServerTypes), value.Element("Type").Value);
                 COD3 = value.Element("COD3").Value;
                 User = value.Element("User").Value;
@@ -420,7 +447,7 @@ namespace CommonTools
             set
             {
                 IPAddress _serverIP;
-                HostName = value;
+                _hostName = value;
                 if (!IPAddress.TryParse(value, out _serverIP))
                 {
 
