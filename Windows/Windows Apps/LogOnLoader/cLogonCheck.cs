@@ -29,14 +29,14 @@ namespace LogOnLoader
                 espackArgs.DataBase = "SISTEMAS";
                 espackArgs.User = "procesos";
                 espackArgs.Password = "*seso69*";
-
+                espackArgs.Server = espackArgs.Server ?? "VALDB.local"; 
                 // Init _zone var (200, 210, 220, etc...), _pathLogonHosts (the path for the logonHosts file) and the list _content (that will contain logonHosts contents)
                 //int _zone = 0;
                 string _pathLogonHosts;
                 _pathLogonHosts = Directory.GetCurrentDirectory() + "\\logonHosts";
                 List<string> _content = new List<string>();
 #if DEBUG
-                //_pathLogonHosts = "D:/APPS_CS/logon/logonHosts";
+                _pathLogonHosts = "C:/ESPACK_CS/logonHosts";
         
 #endif
                 // Get logonHosts file content       
