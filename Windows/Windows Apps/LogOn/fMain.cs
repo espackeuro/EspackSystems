@@ -69,6 +69,7 @@ namespace LogOn
         {
 
             InitializeComponent();
+            ServicePointManager.DnsRefreshTimeout = 0;
             this.Text=string.Format("LogOn Build {0} - ({1:yyyyMMdd})*" , Assembly.GetExecutingAssembly().GetName().Version.ToString(),CT.GetBuildDateTime(Assembly.GetExecutingAssembly()));
             // Customize the textbox controls 
             txtUser.Multiline = false;

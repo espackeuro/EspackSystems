@@ -8,6 +8,7 @@ using CommonToolsWin;
 using System.IO;
 using System.Windows.Forms;
 using LogOnObjects;
+using System.Net;
 
 namespace LogOnLoader
 {
@@ -19,21 +20,10 @@ namespace LogOnLoader
 
         public void LogonCheck()
         {
-            //System.Threading.Thread.Sleep(5000);
-            // Load the vars from the given args
-            espackArgs = CT.LoadVars(Args);
-
-            // If DB is not set in args, we assume any args are set
-            if (espackArgs.DataBase == null)
-            {
-                espackArgs.DataBase = "SISTEMAS";
-                espackArgs.User = "procesos";
-                espackArgs.Password = "*seso69*";
-                espackArgs.Server = espackArgs.Server ?? "VALDB.local"; 
-                // Init _zone var (200, 210, 220, etc...), _pathLogonHosts (the path for the logonHosts file) and the list _content (that will contain logonHosts contents)
-                //int _zone = 0;
                 string _pathLogonHosts;
-                _pathLogonHosts = Directory.GetCurrentDirectory() + "\\logonHosts";
+            ServicePointManager.DnsRefreshTimeout = 0;
+
+            _pathLogonHosts = Directory.GetCurrentDirectory() + "\\logonHosts";
                 List<string> _content = new List<string>();
 #if DEBUG
                 _pathLogonHosts = "C:/ESPACK_CS/logonHosts";
@@ -59,32 +49,27 @@ namespace LogOnLoader
                 // Put in _line the corresponding to the _zone (if (_zone==200) then _line="200|10.200.10.130|10.200.10.138|80.33.195.45|VAL")
                 string _line = _content.FirstOrDefault(p => p.Substring(0, 3) == _zone.ToString());
 
-                // DB Server is the 2nd element in _line
-                espackArgs.Server = _line.Split('|')[1];
-
-
-            }
-
-            // Set the values of gDatos from the given args or default settings 
-            Values.gDatos.DataBase = espackArgs.DataBase;
-            Values.gDatos.Server = espackArgs.Server;
-            Values.gDatos.User = espackArgs.User;
-            Values.gDatos.Password = espackArgs.Password;
-            Values.User = "procesos";
-            Values.Password = "*seso69*";
-            // Connect (or try)
-            try
+            // DB Server is the 2nd element in _line
+            var _serverDB = new cServer()
             {
-                Values.gDatos.Connect();
-            }
-            catch (Exception e)
+                HostName = _line.Split('|')[1],
+                COD3 = _line.Split('|')[4],
+                Type = ServerTypes.DATABASE,
+                User = "procesos",
+                Password = "*seso69*"
+            };
+               
+            var _serverShare = new cServer()
             {
-                throw new Exception("Error connecting database server: " + e.Message);
-            }
-            Values.User = espackArgs.User;
-            Values.Password= espackArgs.Password;
-            Values.FillServers(_zone);
-            Values.AppList.Add(new cAppBot("logon", "LOGON", "SISTEMAS", "logon.exe", "LOC", Values.DBServerList[Values.COD3], Values.ShareServerList[Values.COD3],"",true));
+                HostName = _line.Split('|')[2],
+                COD3 = _line.Split('|')[4],
+                Type = ServerTypes.DATABASE,
+                User = "logon",
+                Password = "*logon*"
+            };
+            Values.ShareServerList.Add(_serverShare);
+            Values.COD3 = _line.Split('|')[4];
+            Values.AppList.Add(new cAppBot("logon", "LOGON", "SISTEMAS", "logon.exe", "LOC", _serverDB, _serverShare ,"",true));
             Values.AppList[0].CheckUpdatedSync();
             if (Values.AppList.PendingApps.Count != 0)
             {

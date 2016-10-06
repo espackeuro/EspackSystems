@@ -13,10 +13,10 @@ namespace LogOnLoader
 {
     public partial class fMain : frmSplash
     {
-        private string[] Args { get; set; }
-        public fMain(string[] args) : base(null, "Checking Logon Updates.", true)
+        //private string[] Args { get; set; }
+        public fMain() : base(null, "Checking Logon Updates.", true)
         {
-            Args = args;
+            //Args = args;
             timer1.Interval = 1;
             //this.Activated += FMain_Activated;
         }
