@@ -15,11 +15,11 @@ namespace LogOnLoader
         /// 
         
         [STAThread]
-        static void Main(string[] args)
+        static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            fMain fMain = new fMain(args);
+            fMain fMain = new fMain();
             Application.Run(fMain);
         }
     }
