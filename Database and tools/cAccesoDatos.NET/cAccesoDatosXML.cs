@@ -199,7 +199,8 @@ namespace AccesoDatosNet
 
         public override IEnumerator GetEnumerator()
         {
-            throw new NotImplementedException();
+            return _paramList.GetEnumerator();
+            //throw new NotImplementedException();
         }
 
         public override int IndexOf(string parameterName)
@@ -349,7 +350,7 @@ namespace AccesoDatosNet
 
         public override void Close()
         {
-            throw new NotImplementedException();
+            // do nothing
         }
 
 
@@ -357,6 +358,7 @@ namespace AccesoDatosNet
         {
             try
             {
+                EspackSocksServer.Serial = DeviceSerial;
                 XDocument _msgOut = EspackSocksServer.ConnectionServer.xSyncEncConversation(XMessage, Compression);
                 if (_msgOut.Element("result").Value != "OK")
                     throw new Exception(_msgOut.Element("result").Value);
@@ -593,6 +595,7 @@ namespace AccesoDatosNet
             _msgOut.Root.Element("parameters").Elements("parameter").ToList().ForEach(p =>
             {
                 AddParameterValue(p.Element("Name").Value, p.Element("Value").Value);
+                Parameters[p.Element("Name").Value].Direction = (ParameterDirection)Enum.Parse(typeof(ParameterDirection), p.Element("Direction").Value.ToString());
             });
             AssignValuesParameters();
             string _msg = "";

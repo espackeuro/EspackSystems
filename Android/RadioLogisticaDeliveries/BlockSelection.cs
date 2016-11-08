@@ -44,7 +44,7 @@ namespace RadioLogisticaDeliveries
     public class ListServicesAdapter : BaseAdapter
     {
         private Context context;
-        private DynamicRS _RS = new DynamicRS("select distinct Block=planta from servicios_destinos sd inner join servicios s on s.codigo=sd.Servicio where s.cod3='LIV' and dbo.checkflag(s.flags,'TRUCKDEL')=1 order by planta", Values.gDatos);
+        private XMLRS _RS = new XMLRS("select distinct Block=planta from servicios_destinos sd inner join servicios s on s.codigo=sd.Servicio where s.cod3='LIV' and dbo.checkflag(s.flags,'TRUCKDEL')=1 order by planta", Values.gDatos);
 
         public ListServicesAdapter(Context context)
         {

@@ -91,13 +91,19 @@ namespace Socks
 
     public static class EspackSocksServer
     {
-        public const string MAINSERVERIP = "10.200.100.137";
+        public const string MAINSERVERIP = "10.200.90.3";
+        private static string _serial=null;
         public static cSocks InitialServer { get; set; }
         public static string Serial
         {
             get
             {
-                return Environment.MachineName;
+                _serial = _serial ?? Environment.MachineName;
+                return _serial;
+            }
+            set
+            {
+                _serial = value;
             }
         }
         //session number
@@ -107,7 +113,14 @@ namespace Socks
             get
             {
                 if (_session == null)
-                    getSocksConnection();
+                    try
+                    {
+                        getSocksConnection();
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("Error: " + ex.Message);
+                    }
                 return _session;
             }
         }
@@ -119,7 +132,13 @@ namespace Socks
             get
             {
                 if (_connectionServer == null)
-                    getSocksConnection();
+                    try
+                    {
+                        getSocksConnection();
+                    } catch (Exception ex)
+                    {
+                        throw new Exception("Error: " + ex.Message);
+                    }
                 return _connectionServer;
             }
         }

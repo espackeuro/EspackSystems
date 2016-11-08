@@ -124,6 +124,7 @@ namespace AccesoDatosNet
         public string Cod3 { get; set; }
         public byte[] context_info { get; set; }
         public cServer oServer { get; set; }
+        public string DeviceSerial { get; set; } = null;
 
         public abstract System.Data.ConnectionState State
         {
@@ -716,11 +717,17 @@ namespace AccesoDatosNet
 
     public static class ObjectFactory
     {
-        public static object createObject(string objectClass, string objectType, object param1 = null, object param2 = null)
+        public static object createObject(string objectClass, string objectType, object param1 = null, object param2 = null, string serial = null)
         {
+                            
             switch (objectClass)
             {
-                case "Conn": if (objectType == "Socks") return new cAccesoDatosXML(); else return new cAccesoDatosNet();
+
+                case "Conn":
+                    object _conn;
+                    if (objectType == "Socks") _conn = new cAccesoDatosXML(); else _conn = new cAccesoDatosNet();
+                    ((cAccesoDatos)_conn).DeviceSerial = serial;
+                    return _conn;
                 case "SP": if (objectType == "Socks") return new SPXML((cAccesoDatosXML)param1, (string)param2); else return new SP((cAccesoDatosNet)param1, (string)param2);
                 case "RS": if (objectType == "Socks") return new XMLRS((string)param1, (cAccesoDatosXML)param2); else return new DynamicRS((string)param1, (cAccesoDatosNet)param2);
                 default:
