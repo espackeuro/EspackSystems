@@ -13,7 +13,7 @@ namespace RadioLogisticaDeliveries
     
     static class Values
     {
-        public static cAccesoDatosNet gDatos = new cAccesoDatosNet();
+        public static cAccesoDatosXML gDatos = new cAccesoDatosXML();
         public static string gBlock;
     }
 
@@ -25,7 +25,7 @@ namespace RadioLogisticaDeliveries
         {
             base.OnCreate(bundle);
             var intent = new Intent(this, typeof(LogonScreenClass));
-            intent.PutExtra("Socks", true);
+            intent.PutExtra("ConnectionType", "Socks");
             StartActivityForResult(intent, 0);
         }
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
