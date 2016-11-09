@@ -363,9 +363,20 @@ namespace AccesoDatosNet
                 if (_msgOut.Element("result").Value != "OK")
                     throw new Exception(_msgOut.Element("result").Value);
             }
-            catch (Exception ex)
+            catch
             {
-                throw new Exception(ex.Message);
+                //second try
+                try
+                {
+                    EspackSocksServer.Serial = DeviceSerial;
+                    XDocument _msgOut = EspackSocksServer.ConnectionServer.xSyncEncConversation(XMessage, Compression);
+                    if (_msgOut.Element("result").Value != "OK")
+                        throw new Exception(_msgOut.Element("result").Value);
+                }
+                catch (Exception exc)
+                {
+                    throw new Exception(exc.Message);
+                }
             }
         }
     }

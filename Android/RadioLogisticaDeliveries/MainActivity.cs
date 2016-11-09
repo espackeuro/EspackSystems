@@ -50,8 +50,9 @@ namespace RadioLogisticaDeliveries
 
                     //
 
-                    var intent = new Intent(this, typeof(BlockSelection));
+                    var intent = new Intent(this, typeof(MainScreen));
                     StartActivityForResult(intent, 1);
+                    //SetContentView(Resource.Layout.mainLayout);
                 }
                 else
                 {

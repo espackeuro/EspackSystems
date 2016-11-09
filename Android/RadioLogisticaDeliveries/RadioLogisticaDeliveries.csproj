@@ -117,8 +117,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BlockSelection.cs" />
     <Compile Include="MainScreen.cs" />
+    <Compile Include="BlockSelection.cs" />
+    <Compile Include="headerFragment.cs" />
+    <Compile Include="MainScreen2.cs" />
     <Compile Include="Readings.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
@@ -130,44 +132,18 @@
     <None Include="packages.config" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
-    <AndroidResource Include="Resources\layout\Init.axml" />
-    <AndroidResource Include="Resources\layout\EnterUnit.axml">
-      <SubType>AndroidResource</SubType>
-    </AndroidResource>
-    <AndroidResource Include="Resources\layout\RepairManagement.axml" />
-    <AndroidResource Include="Resources\layout\ListFAB.axml">
-      <SubType>AndroidResource</SubType>
-    </AndroidResource>
-    <AndroidResource Include="Resources\layout\fragment_RepairPictures.axml">
-      <SubType>AndroidResource</SubType>
-    </AndroidResource>
-    <AndroidResource Include="Resources\layout\ListImageProgress.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-    <AndroidResource Include="Resources\layout\fragment_RepairParts.axml">
-      <SubType>AndroidResource</SubType>
-    </AndroidResource>
-    <AndroidResource Include="Resources\layout\EnterLoad.axml">
-      <SubType>AndroidResource</SubType>
-    </AndroidResource>
-    <AndroidResource Include="Resources\layout\fragmentAddRepais2Loads.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-    <AndroidResource Include="Resources\layout\fragment_LoadsCloseLoad.axml">
-      <SubType>AndroidResource</SubType>
-    </AndroidResource>
     <AndroidResource Include="Resources\layout\SimpleList.axml">
-      <SubType>AndroidResource</SubType>
+      <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\Deliveries.axml">
-      <SubType>AndroidResource</SubType>
+    <AndroidResource Include="Resources\layout\mainLayout.axml">
+      <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\test.axml">
-      <SubType>AndroidResource</SubType>
+    <AndroidResource Include="Resources\layout\sampleTableLayout.axml">
+      <SubType>Designer</SubType>
     </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\Main.axml" />
+    <AndroidResource Include="Resources\layout\headerFt.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml">
@@ -262,13 +238,6 @@
     <Content Include="Resources\ic_launcher.png" />
     <AndroidResource Include="Resources\values\colors.xml" />
     <AndroidResource Include="Resources\values\styles.xml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-    <AndroidResource Include="Resources\layout\about_view.xml" />
-    <AndroidResource Include="Resources\layout\fragment_recyclerview.xml" />
-    <AndroidResource Include="Resources\layout\fragment_scrollview.xml" />
-    <AndroidResource Include="Resources\layout\list_item.xml" />
-    <AndroidResource Include="Resources\layout\fragment_listview_fab.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
