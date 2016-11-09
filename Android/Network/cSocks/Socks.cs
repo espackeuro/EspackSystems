@@ -271,26 +271,49 @@ namespace Socks
 
         public string SyncEncConversation(string msgOut,bool compression=false)
         {
+            string _msgIn;
             try
             {
-                var _msgIn = SyncConversation(StringCipher.Encrypt(msgOut,compression));
-                return StringCipher.Decrypt(_msgIn);
-            } catch (Exception ex)
-            {
-                throw ex;
-                //return null;
+                _msgIn = SyncConversation(StringCipher.Encrypt(msgOut, compression));
             }
-            
+            catch (Exception ex)
+            {
+                throw new Exception(string.Format("Error sending message: {0}", ex.Message));
+            }
+            try
+            {
+                return StringCipher.Decrypt(_msgIn);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(string.Format("Error receiving answer: {0}", ex.Message));
+            }
         }
 
         public string SyncEncConversation(XDocument msgOut)
         {
-            return (SyncEncConversation(msgOut.ToString()));
+            try
+            {
+                return (SyncEncConversation(msgOut.ToString()));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(string.Format("Error: {0}", ex.Message));
+            }
+
         }
 
         public XDocument xSyncEncConversation(object msgOut,bool compression=false)
         {
-            return (XDocument.Parse(SyncEncConversation(msgOut.ToString(), compression)));
+            try
+            {
+                return (XDocument.Parse(SyncEncConversation(msgOut.ToString(), compression)));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(string.Format("Error: {0}", ex.Message));
+            }
+
         }
 
 
@@ -350,23 +373,22 @@ namespace Socks
                 {
                     Status = SocksStatus.ERROR;
                     _ErrorMsg= string.Format("ArgumentNullException : {0}", ane.Message);
-                    return "";
                     throw (ane);
+                    
                     //Console.WriteLine("ArgumentNullException : {0}", ane.ToString());
                 }
                 catch (SocketException se)
                 {
                     Status = SocksStatus.ERROR;
                     _ErrorMsg= string.Format("SocketException : {0}", se.Message);
-                    return "";
                     throw (se);
+                   
                     //Console.WriteLine("SocketException : {0}", se.ToString());
                 }
                 catch (Exception e)
                 {
                     Status = SocksStatus.ERROR;
                     _ErrorMsg = string.Format("Unexpected exception : {0}", e.Message);
-                    return "";
                     throw (e);
                     //Console.WriteLine("Unexpected exception : {0}", e.ToString());
                 }
