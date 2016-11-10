@@ -7,22 +7,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <EditText
-            android:id="@+id/txtNotesLoads"
-            android:singleLine="true"
+            android:id="@+id/orderNumber"
+            android:text=""
+            android:inputType="number"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
-            android:hint="Enter Notes for the Load" />
+            android:hint="Enter Order Number" />
     </android.support.design.widget.TextInputLayout>
     <Button
-        android:text="Enter"
-        android:id="@+id/btnEnter"
+        android:text="OK"
+        android:layout_span="3"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:text="Create a new Load."
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/msgText"
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:id="@+id/orderOkButton" />
 </LinearLayout>

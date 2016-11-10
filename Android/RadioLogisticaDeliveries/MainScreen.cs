@@ -15,15 +15,21 @@ namespace RadioLogisticaDeliveries
     [Activity(Label = "Radio LOGISTICA deliveries", WindowSoftInputMode = SoftInput.AdjustResize)]
     public class MainScreen : Activity
     {
+        public headerFragment hf { get; set; }
+        
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.mainLayout);
             // Create your application here
 
-            var hf = new headerFragment();
+            hf = new headerFragment();
             var ft = FragmentManager.BeginTransaction();
             ft.Replace(Resource.Id.headerFragment, hf);
+            //ft.Commit();
+
+            var of = new orderFragment();
+            ft.Replace(Resource.Id.dataInputFragment, of);
             ft.Commit();
         }
     }

@@ -121,7 +121,8 @@
     <Compile Include="BlockSelection.cs" />
     <Compile Include="headerFragment.cs" />
     <Compile Include="MainScreen2.cs" />
-    <Compile Include="Readings.cs" />
+    <Compile Include="orderFragment.cs" />
+    <Compile Include="database.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -142,6 +143,9 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\headerFt.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\enterOrderFt.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

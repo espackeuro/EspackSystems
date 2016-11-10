@@ -18,6 +18,26 @@ namespace RadioLogisticaDeliveries
         public string LabelRack { get; set; }
     }
 
+
+    public class Labels
+    {
+        [PrimaryKey, AutoIncrement]
+        public int idreg { get; set; }
+        public string Partnumber { get; set; }
+        public int qty { get; set; }
+        public int boxes { get; set; }
+        public string rack { get; set; }
+        public string mod { get; set; }
+    }
+
+    public class Referencias
+    {
+        [PrimaryKey]
+        public string partnumber { get; set; }
+    }
+
+
+
     public static class SQLiteDatabase
     {
         public static SQLiteConnection db; 
@@ -25,6 +45,7 @@ namespace RadioLogisticaDeliveries
         public static void CreateDatabase(string dbName)
         {
             dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), dbName+".db3");
+            File.Delete(dbPath);
             db = new SQLiteConnection(dbPath);
         }
 
