@@ -266,7 +266,7 @@ public class AsynchronousSocketListener
                     _sp.AddParameterValue(p.Element("parameterName").Value.ToString(), p.Element("parameterValue").Value.ToString());
                 }); //adds the parameters and the values to the sp from the parameter list
                 _sp.Execute(); //execute the sp
-                if (_sp.LastMsg != "OK")
+                if (_sp.LastMsg.Substring(0,2) != "OK")
                     throw new Exception(_sp.LastMsg); //error message
                 XElement _msgOut = new XElement("result"); //create the msgout xml data
                 _msgOut.Add(_sp.XOutParameters.Root); //adds the out parameters to the data

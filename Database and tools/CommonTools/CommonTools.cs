@@ -203,6 +203,16 @@ namespace CommonTools
             }
             return new DateTime();
         }
+        public static bool IsNumeric(this string s)
+        {
+            float output;
+            return float.TryParse(s, out output);
+        }
+
+        public static int ToInt(this object s)
+        {
+            return Convert.ToInt32(s.ToString());
+        }
 
         public static bool IsNumericType(this DbType o)
         {
