@@ -18,7 +18,7 @@ namespace RadioLogisticaDeliveries
         public string LabelRack { get; set; }
     }
 
-
+    //table Labels
     public class Labels
     {
         [PrimaryKey, AutoIncrement]
@@ -30,14 +30,34 @@ namespace RadioLogisticaDeliveries
         public string mod { get; set; }
     }
 
+
+    //table Referencias
     public class Referencias
     {
         [PrimaryKey]
         public string partnumber { get; set; }
     }
 
+    //table RacksBlocks
+    public class RacksBlocks
+    {
+        [PrimaryKey, AutoIncrement]
+        public int idreg { get; set; }
+        public string Block { get; set;  }
+        public string Rack { get; set; }
+    }
 
+    //table PartnumbersRacks
+    public class PartnumbersRacks
+    {
+        [PrimaryKey, AutoIncrement]
+        public int idreg { get; set; }
+        public string Rack { get; set; }
+        public string Partnumber { get; set; }
+        public int MinBoxes { get; set; }
+        public int MaxBoxes { get; set; }
 
+    }
     public static class SQLiteDatabase
     {
         public static SQLiteConnection db; 

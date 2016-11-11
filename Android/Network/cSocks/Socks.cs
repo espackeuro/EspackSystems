@@ -272,9 +272,19 @@ namespace Socks
         public string SyncEncConversation(string msgOut,bool compression=false)
         {
             string _msgIn;
+            string _encMsg;
             try
             {
-                _msgIn = SyncConversation(StringCipher.Encrypt(msgOut, compression));
+                _encMsg = StringCipher.Encrypt(msgOut, compression);
+                
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(string.Format("Error encrypting message: {0}", ex.Message));
+            }
+            try
+            {
+                _msgIn = SyncConversation(_encMsg);
             }
             catch (Exception ex)
             {

@@ -117,6 +117,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EnterDataFragment.cs" />
+    <Compile Include="infoFragment.cs" />
     <Compile Include="MainScreen.cs" />
     <Compile Include="BlockSelection.cs" />
     <Compile Include="headerFragment.cs" />
@@ -146,6 +148,12 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\enterOrderFt.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\infoFt.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\enterDataFt.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

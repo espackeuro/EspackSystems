@@ -16,6 +16,7 @@ namespace RadioLogisticaDeliveries
         public static cAccesoDatosXML gDatos = new cAccesoDatosXML();
         public static string gBlock;
         public static int gOrderNumber;
+        public static string gService;
     }
 
     [Activity(Label = "RadioLogisticaDeliveries", MainLauncher = true, Icon = "@drawable/icon")]
@@ -47,6 +48,8 @@ namespace RadioLogisticaDeliveries
                     SQLiteDatabase.db.CreateTable<Readings>();
                     SQLiteDatabase.db.CreateTable<Labels>();
                     SQLiteDatabase.db.CreateTable<Referencias>();
+                    SQLiteDatabase.db.CreateTable<RacksBlocks>();
+                    SQLiteDatabase.db.CreateTable<PartnumbersRacks>();
                     // to do what to do when readings exist
 
 
