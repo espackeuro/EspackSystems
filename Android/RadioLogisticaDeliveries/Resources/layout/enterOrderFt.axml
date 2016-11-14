@@ -10,14 +10,10 @@
             android:id="@+id/orderNumber"
             android:text=""
             android:inputType="number"
+            android:singleLine="true"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter Order Number" />
+            android:hint="Enter Order Number" 
+            />
     </android.support.design.widget.TextInputLayout>
-    <Button
-        android:text="OK"
-        android:layout_span="3"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/orderOkButton" />
 </LinearLayout>
