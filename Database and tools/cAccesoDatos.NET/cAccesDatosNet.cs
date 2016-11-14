@@ -950,7 +950,7 @@ namespace AccesoDatosNet
             }
 
         }
-        public Dictionary<string, object> ReturnValues()
+        public override Dictionary<string, object> ReturnValues()
         {
             return Parameters.OfType<SqlParameter>()
                 .Where(p => p.Direction == ParameterDirection.InputOutput || p.Direction == ParameterDirection.Output)

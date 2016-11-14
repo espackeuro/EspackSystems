@@ -20,7 +20,7 @@ namespace RadioLogisticaDeliveries
 {
     public class orderFragment : Fragment
     {
-        private Button buttonOk;
+        //private Button buttonOk;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -33,24 +33,51 @@ namespace RadioLogisticaDeliveries
             // Use this to return your custom view for this Fragment
             // return inflater.Inflate(Resource.Layout.YourFragment, container, false);
             var _root = inflater.Inflate(Resource.Layout.enterOrderFt, container, false);
-            buttonOk = _root.FindViewById<Button>(Resource.Id.orderOkButton);
-            buttonOk.Click += _buttonOk_Click;
+            //buttonOk = _root.FindViewById<Button>(Resource.Id.orderOkButton);
+            //buttonOk.Click += _buttonOk_Click;
             orderNumberET = _root.FindViewById<EditText>(Resource.Id.orderNumber);
 #if DEBUG
-            orderNumberET.Text = "724006915";
+            //orderNumberET.Text = "724006915";
 #endif
+           // orderNumberET.
+            //5orderNumberET.EditorAction += OrderNumberET_EditorAction;
+            orderNumberET.KeyPress += OrderNumberET_KeyPress;
             return _root;
         }
 
-        private async void _buttonOk_Click(object sender, EventArgs e)
+        private async void OrderNumberET_KeyPress(object sender, View.KeyEventArgs e)
+        {
+            if (e.Event.Action == KeyEventActions.Down && (e.KeyCode == Keycode.Enter || e.KeyCode == Keycode.Tab))
+            {
+                await ActionGo();
+            }
+            else
+            {
+                e.Handled = false;
+            }
+        }
+
+        private async void OrderNumberET_EditorAction(object sender, TextView.EditorActionEventArgs e)
+        {
+            if (e.ActionId == ImeAction.Go)
+            {
+                await ActionGo();
+            }
+            else
+            {
+                e.Handled = false;
+            }
+        }
+
+        private async Task ActionGo()
         {
             if (orderNumberET.Text == "" || !orderNumberET.Text.IsNumeric())
             {
-                Toast.MakeText(Activity, "Please enter one valid Order Number",ToastLength.Long).Show();
+                Toast.MakeText(Activity, "Please enter one valid Order Number", ToastLength.Long).Show();
                 orderNumberET.Text = "";
                 return;
             }
-            buttonOk.Enabled = false;
+            //buttonOk.Enabled = false;
             await ((MainScreen)Activity).iFt.pushInfo("Creating Session");
             var _sp = new SPXML(Values.gDatos, "pAddCabReadingSession");
             //_sp.AddParameterValue("Block", " ");
@@ -60,24 +87,24 @@ namespace RadioLogisticaDeliveries
             try
             {
                 _sp.Execute();
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 Toast.MakeText(Activity, ex.Message, ToastLength.Long).Show();
                 await ((MainScreen)Activity).iFt.pushInfo(ex.Message);
                 orderNumberET.Text = "";
-                buttonOk.Enabled = true;
+                //buttonOk.Enabled = true;
                 return;
             }
             await ((MainScreen)Activity).iFt.pushInfo("Done");
             ((MainScreen)Activity).hFt.Session.Text = _sp.LastMsg.Substring(3);
             Values.gBlock = _sp.ReturnValues()["@Block"].ToString();
             Values.gOrderNumber = orderNumberET.Text.ToInt();
-            Values.gService= _sp.ReturnValues()["@Service"].ToString();
+            Values.gService = _sp.ReturnValues()["@Service"].ToString();
 
             //update database data
             await getDataFromServer();
         }
-
 
         //method to get all the data from sql server
         private async Task getDataFromServer()
