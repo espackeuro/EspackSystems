@@ -15,26 +15,24 @@ namespace RadioLogisticaDeliveries
     [Activity(Label = "Radio LOGISTICA deliveries", WindowSoftInputMode = SoftInput.AdjustResize)]
     public class MainScreen : Activity
     {
-        public headerFragment hFt { get; set; }
-        public infoFragment iFt { get; set; }
-        
+       
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.mainLayout);
             // Create your application here
 
-            hFt = new headerFragment();
+            Values.hFt = new headerFragment();
             var ft = FragmentManager.BeginTransaction();
-            ft.Replace(Resource.Id.headerFragment, hFt);
+            ft.Replace(Resource.Id.headerFragment, Values.hFt);
             //ft.Commit();
 
             var oFt = new orderFragment();
             ft.Replace(Resource.Id.dataInputFragment, oFt);
 
 
-            iFt = new infoFragment();
-            ft.Replace(Resource.Id.InfoFragment, iFt);
+            Values.iFt = new infoFragment();
+            ft.Replace(Resource.Id.InfoFragment, Values.iFt);
             ft.Commit();
         }
 

@@ -126,6 +126,7 @@
     <Compile Include="2.2 -orderFragment.cs" />
     <Compile Include="database.cs" />
     <Compile Include="1 -MainActivity.cs" />
+    <Compile Include="readings.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SQLite.cs" />
