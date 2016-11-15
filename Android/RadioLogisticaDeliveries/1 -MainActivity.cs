@@ -17,6 +17,11 @@ namespace RadioLogisticaDeliveries
         public static string gBlock;
         public static int gOrderNumber;
         public static string gService;
+        public static string gCloseCode = "000";
+        public static dataReadingList gDRL = new dataReadingList();
+        public static string CurrentRack= "";
+        public static headerFragment hFt { get; set; }
+        public static infoFragment iFt { get; set; }
     }
 
     [Activity(Label = "RadioLogisticaDeliveries", MainLauncher = true, Icon = "@drawable/icon")]

@@ -15,6 +15,13 @@ using Android.Graphics;
 
 namespace RadioLogisticaDeliveries
 {
+    public class infoData
+    {
+        public string c0;
+        public string c1;
+        public string c2;
+        public string c3;
+    }
     public class infoFragment : Fragment
     {
         public override void OnCreate(Bundle savedInstanceState)
@@ -44,6 +51,10 @@ namespace RadioLogisticaDeliveries
             return _root;
         }
 
+        public Task pushInfo(infoData d)
+        {
+            return pushInfo(d.c0, d.c1, d.c2, d.c3);
+        }
         public Task pushInfo(string c0, string c1 = "", string c2 = "", string c3 = "")
         {
             return Task.Run(() => Activity.RunOnUiThread(() =>
@@ -53,11 +64,7 @@ namespace RadioLogisticaDeliveries
                     {
                         infoArray[i, j].Text = infoArray[i - 1, j].Text;
                     }
-                infoArray[0, 0].Text = c0;
-                infoArray[0, 1].Text = c1;
-                infoArray[0, 2].Text = c2;
-                infoArray[0, 3].Text = c3;
-
+                updateMainLine(c0, c1, c2, c3);
             }));
         }
         public Task Clear()
@@ -68,6 +75,20 @@ namespace RadioLogisticaDeliveries
                     for (int j = 0; j < 4; j++)
                         infoArray[i, j].Text = "";
             }));
+        }
+        public Task updateMainLine(string c0, string c1 = "", string c2 = "", string c3 = "")
+        {
+            return Task.Run(() => Activity.RunOnUiThread(() =>
+            {
+                infoArray[0, 0].Text = c0;
+                infoArray[0, 1].Text = c1;
+                infoArray[0, 2].Text = c2;
+                infoArray[0, 3].Text = c3;
+            }));
+        }
+        public Task updateMainLine(infoData d)
+        {
+            return updateMainLine(d.c0, d.c1, d.c2, d.c3);
         }
     }
     
