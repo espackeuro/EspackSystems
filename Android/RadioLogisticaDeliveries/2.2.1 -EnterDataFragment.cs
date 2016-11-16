@@ -12,6 +12,8 @@ using Android.Util;
 using Android.Views;
 using Android.Widget;
 using CommonTools;
+using System.Threading.Tasks;
+using DataWedge;
 
 namespace RadioLogisticaDeliveries
 {
@@ -25,7 +27,7 @@ namespace RadioLogisticaDeliveries
 
             // Create your fragment here
         }
-        private EditText elData { get; set; }
+        public EditText elData { get; private set; }
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             // Use this to return your custom view for this Fragment
@@ -33,11 +35,48 @@ namespace RadioLogisticaDeliveries
             MainScreen = (MainScreen)Activity;
             var _root = inflater.Inflate(Resource.Layout.enterDataFt, container, false);
             elData = _root.FindViewById<EditText>(Resource.Id.data);
+            elData.InputType = Android.Text.InputTypes.ClassNumber;
             elData.KeyPress += ElData_KeyPress;
+            elData.ClearFocus();
+
+            //scanner intent
+            var filter = new IntentFilter("com.espack.radiologisticadeliveries.SCAN");
+            filter.AddCategory(Intent.CategoryDefault);
+            var receiver = new ScanReceiver() { ed=elData};
+            Activity.RegisterReceiver(receiver, filter);
+
+
+            //end
             return _root;
         }
 
-        private void ElData_KeyPress(object sender, View.KeyEventArgs e)
+        public class ScanReceiver : BroadcastReceiver
+        {
+            public EditText ed { get; set; }
+            public async override void OnReceive(Context context, Intent intent)
+            {
+                if (ed.HasFocus)
+                {
+                    ((Activity)context).RunOnUiThread(() =>
+                    {
+                        ed.ClearFocus();
+                        ed.Text = "";
+                        ed.Enabled = false;
+                    });
+                }
+                string _scan = cDataWedge.HandleDecodeData(intent).Split('|')[0];
+                if (_scan == "")
+                {
+                    Toast.MakeText(context, "Please enter valid data", ToastLength.Long).Show();
+                    return;
+                }
+                await Values.gDRL.Add(_scan);
+                ((Activity)context).RunOnUiThread(() => ed.Enabled = true);
+            }
+        }
+
+
+        private async void ElData_KeyPress(object sender, View.KeyEventArgs e)
         {
             if (e.Event.Action == KeyEventActions.Down && (e.KeyCode == Keycode.Enter || e.KeyCode == Keycode.Tab))
             {
@@ -47,8 +86,9 @@ namespace RadioLogisticaDeliveries
                     Toast.MakeText(Activity, "Please enter valid data", ToastLength.Long).Show();
                     return;
                 }
-                Values.gDRL.Add(elData.Text);
-
+                await Values.gDRL.Add(elData.Text);
+                elData.Text = "";
+                elData.ClearFocus();
             }
             else
             {
@@ -60,7 +100,7 @@ namespace RadioLogisticaDeliveries
         {
             base.OnResume();
             await Values.iFt.Clear();
-            test();
+            await test();
 
         }
         public class RacksBlocksParts
@@ -73,9 +113,9 @@ namespace RadioLogisticaDeliveries
             public int MaxBoxes { get; set; }
 
         }
-        public void test()
+        public async Task test()
         {
-            var _query = SQLiteDatabase.db.Query<RacksBlocksParts>("Select * from RacksBlocks inner join PartnumbersRacks on RacksBlocks.Rack=PartnumbersRacks.Rack limit 6;");
+            var _query = await SQLiteDatabase.db.QueryAsync<RacksBlocksParts>("Select * from RacksBlocks inner join PartnumbersRacks on RacksBlocks.Rack=PartnumbersRacks.Rack limit 6;");
             _query.ForEach(r => Values.iFt.pushInfo(r.Block, r.Rack, r.Partnumber, string.Format("{0}/{1}", r.MinBoxes, r.MaxBoxes)));
         }
     }

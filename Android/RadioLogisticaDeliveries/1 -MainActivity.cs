@@ -50,11 +50,11 @@ namespace RadioLogisticaDeliveries
 
                     //create sqlite database
                     SQLiteDatabase.CreateDatabase("DELIVERIES");
-                    SQLiteDatabase.db.CreateTable<Readings>();
-                    SQLiteDatabase.db.CreateTable<Labels>();
-                    SQLiteDatabase.db.CreateTable<Referencias>();
-                    SQLiteDatabase.db.CreateTable<RacksBlocks>();
-                    SQLiteDatabase.db.CreateTable<PartnumbersRacks>();
+                    SQLiteDatabase.db.CreateTableAsync<Readings>();
+                    SQLiteDatabase.db.CreateTableAsync<Labels>();
+                    SQLiteDatabase.db.CreateTableAsync<Referencias>();
+                    SQLiteDatabase.db.CreateTableAsync<RacksBlocks>();
+                    SQLiteDatabase.db.CreateTableAsync<PartnumbersRacks>();
                     // to do what to do when readings exist
 
 
