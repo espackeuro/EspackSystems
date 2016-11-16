@@ -64,7 +64,10 @@ namespace RadioLogisticaDeliveries
                     {
                         infoArray[i, j].Text = infoArray[i - 1, j].Text;
                     }
-                updateMainLine(c0, c1, c2, c3);
+                infoArray[0, 0].Text = c0;
+                infoArray[0, 1].Text = c1;
+                infoArray[0, 2].Text = c2;
+                infoArray[0, 3].Text = c3;
             }));
         }
         public Task Clear()

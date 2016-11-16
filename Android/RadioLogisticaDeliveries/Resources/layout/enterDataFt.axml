@@ -9,8 +9,7 @@
         <EditText
             android:id="@+id/data"
             android:text=""
-            android:inputType="phone"
-            android:digits="0123456789abcdefghijklmnopqrstuvwxyz"
+            android:imeOptions="actionSend"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:hint="Enter Data" />

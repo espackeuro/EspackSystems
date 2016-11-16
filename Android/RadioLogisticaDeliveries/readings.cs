@@ -11,13 +11,14 @@ using Android.Views;
 using Android.Widget;
 using CommonTools;
 using System.Collections;
+using System.Threading.Tasks;
 
 namespace RadioLogisticaDeliveries
 {
 
     public class dataReadingList : IEnumerable
     {
-        private List<cData> _dataList;
+        private List<cData> _dataList= new List<cData>();
 
         public IEnumerator<cData> GetEnumerator()
         {
@@ -31,7 +32,7 @@ namespace RadioLogisticaDeliveries
         {
             _dataList.Add(d);
         }
-        public void Add(string reading)
+        public async Task Add(string reading)
         {
             cData _data;
             // CHECKING
@@ -49,27 +50,33 @@ namespace RadioLogisticaDeliveries
                 string _pn = _split[1];
                 string _lr = _split[2];
                 string _ls = _split.Length == 4 ? _split[3] : "";
+                dataReading _r;
+                bool newReading= false;
                 //SAME READING QTY+1
                 if (position > -1)
                 {
-                    dataReading _r = (dataReading)Current();
+                    _r = (dataReading)Current();
                     if (_r.Partnumber == _pn && _r.LabelRack == _lr && _r.LabelService == _ls)
                     {
                         _r.Qty++;
                     }
                     else
+                        newReading = true;
+                }
+                else
+                    newReading = true;
+                if (newReading)
+                {
+                    //NEW READING
+                    _data = new dataReading()
                     {
-                        //NEW READING
-                        _data = new dataReading()
-                        {
-                            Data = reading,
-                            Partnumber = _split[1],
-                            LabelRack = _split[2],
-                            LabelService = _split.Length == 4 ? _split[3] : ""
-                        };
-                        _dataList.Add(_data);
-                        position++;
-                    }
+                        Data = reading,
+                        Partnumber = _split[1],
+                        LabelRack = _split[2],
+                        LabelService = _split.Length == 4 ? _split[3] : ""
+                    };
+                    _dataList.Add(_data);
+                    position++;
                 }
             }
             else

@@ -58,15 +58,17 @@ namespace RadioLogisticaDeliveries
         public int MaxBoxes { get; set; }
 
     }
+
+
     public static class SQLiteDatabase
     {
-        public static SQLiteConnection db; 
+        public static SQLiteAsyncConnection db; 
         public static string dbPath { get; set; }
         public static void CreateDatabase(string dbName)
         {
             dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), dbName+".db3");
             File.Delete(dbPath);
-            db = new SQLiteConnection(dbPath);
+            db = new SQLiteAsyncConnection(dbPath);
         }
 
     }
