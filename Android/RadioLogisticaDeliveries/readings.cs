@@ -53,7 +53,7 @@ namespace RadioLogisticaDeliveries
                 dataReading _r;
                 bool newReading= false;
                 //SAME READING QTY+1
-                if (position > -1)
+                if (position > -1 && Current() is dataReading)
                 {
                     _r = (dataReading)Current();
                     if (_r.Partnumber == _pn && _r.LabelRack == _lr && _r.LabelService == _ls)
@@ -73,7 +73,8 @@ namespace RadioLogisticaDeliveries
                         Data = reading,
                         Partnumber = _split[1],
                         LabelRack = _split[2],
-                        LabelService = _split.Length == 4 ? _split[3] : ""
+                        LabelService = _split.Length == 4 ? _split[3] : "",
+                        Qty=1
                     };
                     _dataList.Add(_data);
                     position++;
@@ -91,7 +92,7 @@ namespace RadioLogisticaDeliveries
             //NEW READING QTY
             if (reading.IsNumeric())
             {
-                if (position > -1)
+                if (position > -1 && Current() is dataReading)
                 {
                     dataReading _r = (dataReading)Current();
                     _r.Qty = reading.ToInt();
@@ -103,7 +104,7 @@ namespace RadioLogisticaDeliveries
                 Values.CurrentRack = reading;
             }
 
-
+            await Current().PushInfo();
         }
         public int position { get; set; } = -1;
         public cData Current()
@@ -120,8 +121,8 @@ namespace RadioLogisticaDeliveries
         public string Data { get; set; }
         public dataStatus Status { get; set; }
         public virtual infoData Info { get; }
-        public void PushInfo() {
-            Values.iFt.pushInfo(Info);
+        public async Task PushInfo() {
+            await Values.iFt.pushInfo(Info);
         }
         public string Error { get; set; }
         public virtual void ToDB() { }

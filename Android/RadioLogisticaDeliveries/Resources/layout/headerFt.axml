@@ -1,59 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/Tabla"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:stretchColumns="1">
-    <TableRow
-        android:id="@+id/Row1"
+    android:orientation="horizontal"
+    android:padding="10dip">
+  <ImageView
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_weight="2"
+      android:scaleType="fitStart"
+      android:src="@drawable/Logo_Espack_Sistemas_vertical" />
+  <LinearLayout
+      android:orientation="vertical"
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_weight="5"
+      android:paddingLeft="10dp"
+      android:paddingTop="5dp">
+    <TextView
+        android:id="@+id/t1"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/UserCell"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5px"
-            android:text="User:"
-            android:textColor="#005500"
-            android:textSize="26sp" />
-        <TextView
-            android:id="@+id/SessionCell"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:padding="5px"
-            android:text="Session:"
-            android:textColor="#005500"
-            android:textSize="26sp" />
-    </TableRow>
-    <TableRow
-        android:id="@+id/SeparadorCabecera"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="t1"
+        android:textSize="13sp" />
+    <TextView
+        android:id="@+id/t2"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-        <FrameLayout
-            android:id="@+id/LineaCabecera"
-            android:layout_width="fill_parent"
-            android:layout_height="2px"
-            android:layout_span="6"
-            android:background="#FFFFFF" />
-    </TableRow>
-    <TableRow
-        android:id="@+id/Row2"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="t2"
+        android:textSize="13sp" />
+    <TextView
+        android:id="@+id/t3"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/Cell21"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Cell21"
-            android:textSize="20sp" />
-        <TextView
-            android:id="@+id/Cell22"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Cell22"
-            android:textSize="20sp" />
-    </TableRow>
-</TableLayout>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="t3"
+        android:textSize="13sp" />
+    <TextView
+        android:id="@+id/t4"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="t4"
+        android:textSize="13sp" />
+  </LinearLayout>
+</LinearLayout>

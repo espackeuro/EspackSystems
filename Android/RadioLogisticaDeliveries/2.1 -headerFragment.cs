@@ -15,8 +15,10 @@ namespace RadioLogisticaDeliveries
 {
     public class headerFragment : Fragment
     {
-        public TextView User { get; set; }
-        public TextView Session { get; set; }
+        public TextView t1 { get; set; }
+        public TextView t2 { get; set; }
+        public TextView t3 { get; set; }
+        public TextView t4 { get; set; }
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -29,10 +31,12 @@ namespace RadioLogisticaDeliveries
             // Use this to return your custom view for this Fragment
             // return inflater.Inflate(Resource.Layout.YourFragment, container, false);
             var _root = inflater.Inflate(Resource.Layout.headerFt, container, false);
-            User = _root.FindViewById<TextView>(Resource.Id.UserCell);
-            User.Text = string.Format("User: {0}", Values.gDatos.User);
-            Session = _root.FindViewById<TextView>(Resource.Id.SessionCell);
-            Session.Text = string.Format("Session: {0}", "");
+            t1 = _root.FindViewById<TextView>(Resource.Id.t1);
+            t1.Text = string.Format("User: {0}", Values.gDatos.User);
+            t2 = _root.FindViewById<TextView>(Resource.Id.t2);
+            t2.Text = string.Format("Session: {0}", "");
+            t3 = _root.FindViewById<TextView>(Resource.Id.t3);
+            t4 = _root.FindViewById<TextView>(Resource.Id.t4);
             return _root;
         }
 
