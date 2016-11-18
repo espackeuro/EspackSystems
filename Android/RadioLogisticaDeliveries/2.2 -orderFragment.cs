@@ -15,7 +15,7 @@ using CommonTools;
 using System.Threading;
 using System.Threading.Tasks;
 using Android.Views.InputMethods;
-//using Android.Media;
+using CommonAndroidTools;
 
 namespace RadioLogisticaDeliveries
 {
@@ -76,10 +76,9 @@ namespace RadioLogisticaDeliveries
         {
             if (orderNumberET.Text == "")
             {
-                /*
-                MediaPlayer _player= MediaPlayer.Create(Activity,Resource.Raw.Antares);
-                _player.Start();
-                */
+
+                cSounds.Error(Activity);
+                
                 Toast.MakeText(Activity, "Please enter one valid Order Number", ToastLength.Long).Show();
                 orderNumberET.Text = "";
                 return;

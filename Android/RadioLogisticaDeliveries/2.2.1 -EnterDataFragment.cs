@@ -11,7 +11,7 @@ using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
-using CommonTools;
+using CommonAndroidTools;
 using System.Threading.Tasks;
 using DataWedge;
 
@@ -74,10 +74,11 @@ namespace RadioLogisticaDeliveries
                 string _scan = cDataWedge.HandleDecodeData(intent).Split('|')[0];
                 if (_scan == "")
                 {
+                    cSounds.Error(context);
                     Toast.MakeText(context, "Please enter valid data", ToastLength.Long).Show();
                     return;
                 }
-                await Values.gDRL.Add(_scan);
+                await Values.gDRL.Add(_scan, context);
                 ((Activity)context).RunOnUiThread(() =>
                 {
                     ed.Enabled = true;
@@ -105,7 +106,7 @@ namespace RadioLogisticaDeliveries
                     return;
                 }
                 elData.Enabled = false;
-                await Values.gDRL.Add(elData.Text);
+                await Values.gDRL.Add(elData.Text, Activity);
                 elData.Text = "";
                 elData.ClearFocus();
                 elData.Enabled = true;

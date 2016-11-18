@@ -14,7 +14,6 @@ namespace AccesoDatosNet
 {
     public class XMLParameter : DbParameter
     {
-        private ParameterDirection _paramdir = new ParameterDirection();
 
         public XElement XParameter
         {

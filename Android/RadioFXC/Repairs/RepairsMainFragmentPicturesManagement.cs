@@ -590,7 +590,7 @@ namespace RadioFXC
                     ftpStream.Close();
                     response.Close();
                 }
-                catch (System.Exception ex)
+                catch 
                 {
                     //directory already exist I know that is weak but there is no way to check if a folder exist on ftp...
                 }
