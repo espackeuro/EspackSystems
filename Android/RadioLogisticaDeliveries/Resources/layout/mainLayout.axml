@@ -7,26 +7,26 @@
     android:minHeight="25px">
     <FrameLayout
         android:name="headerFragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        
         android:id="@+id/headerFragment" />
     <FrameLayout
         android:name=""
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
         android:layout_weight="3"
         android:id="@+id/dataInputFragment" />
     <FrameLayout
         android:name=""
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
         android:layout_weight="3"
         android:id="@+id/InfoFragment" />
     <FrameLayout
         android:name=""
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
         android:layout_weight="1"
         android:id="@+id/StatusFragment" />
 </LinearLayout>

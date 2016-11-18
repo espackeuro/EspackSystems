@@ -157,6 +157,7 @@
     <AndroidResource Include="Resources\layout\enterDataFt.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\raw\Antares.ogg" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml">
@@ -247,6 +248,7 @@
     <AndroidResource Include="Resources\drawable-xhdpi\ic_launcher.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\ic_launcher.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_launcher.png" />
+    <AndroidResource Include="Resources\drawable\Logo_Espack_Sistemas_vertical.png" />
     <Content Include="Resources\ic_add_white_24dp.png" />
     <Content Include="Resources\ic_launcher.png" />
     <AndroidResource Include="Resources\values\colors.xml" />

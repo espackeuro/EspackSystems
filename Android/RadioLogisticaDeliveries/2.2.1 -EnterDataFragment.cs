@@ -28,16 +28,26 @@ namespace RadioLogisticaDeliveries
             // Create your fragment here
         }
         public EditText elData { get; private set; }
+        //public RadioGroup rg { get; private set; }
+        public RadioButton radioChecking { get; private set; }
+        public RadioButton radioReading { get; private set; }
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             // Use this to return your custom view for this Fragment
             // return inflater.Inflate(Resource.Layout.YourFragment, container, false);
             MainScreen = (MainScreen)Activity;
             var _root = inflater.Inflate(Resource.Layout.enterDataFt, container, false);
+            //edittext to enter data
             elData = _root.FindViewById<EditText>(Resource.Id.data);
             elData.InputType = Android.Text.InputTypes.ClassNumber;
             elData.KeyPress += ElData_KeyPress;
             elData.ClearFocus();
+            //radioButtons to switch between reading and checking
+            //rg= _root.FindViewById<RadioGroup>(Resource.Id.radio)
+            radioChecking = _root.FindViewById<RadioButton>(Resource.Id.radioChecking);
+            radioReading = _root.FindViewById<RadioButton>(Resource.Id.radioReading);
+            radioChecking.Enabled = (Values.gOrderNumber != 0);
+            radioReading.Checked = true;
 
             //scanner intent
             var filter = new IntentFilter("com.espack.radiologisticadeliveries.SCAN");
@@ -55,15 +65,12 @@ namespace RadioLogisticaDeliveries
             public EditText ed { get; set; }
             public async override void OnReceive(Context context, Intent intent)
             {
-                if (ed.HasFocus)
+
+                ((Activity)context).RunOnUiThread(() =>
                 {
-                    ((Activity)context).RunOnUiThread(() =>
-                    {
-                        ed.ClearFocus();
-                        ed.Text = "";
-                        ed.Enabled = false;
-                    });
-                }
+                    ed.Enabled = false;
+                });
+
                 string _scan = cDataWedge.HandleDecodeData(intent).Split('|')[0];
                 if (_scan == "")
                 {
@@ -71,7 +78,12 @@ namespace RadioLogisticaDeliveries
                     return;
                 }
                 await Values.gDRL.Add(_scan);
-                ((Activity)context).RunOnUiThread(() => ed.Enabled = true);
+                ((Activity)context).RunOnUiThread(() =>
+                {
+                    ed.Enabled = true;
+                    ed.Text = "";
+                });
+                ed.Tag = "SCAN";
             }
         }
 
@@ -80,15 +92,23 @@ namespace RadioLogisticaDeliveries
         {
             if (e.Event.Action == KeyEventActions.Down && (e.KeyCode == Keycode.Enter || e.KeyCode == Keycode.Tab))
             {
+                //ignore intent from scanner
+                if (elData.Text== "" && elData.Tag.ToString()=="SCAN")
+                {
+                    elData.Tag = null;
+                    return;
+                }
                 //discriminator
                 if (elData.Text == "" )
                 {
                     Toast.MakeText(Activity, "Please enter valid data", ToastLength.Long).Show();
                     return;
                 }
+                elData.Enabled = false;
                 await Values.gDRL.Add(elData.Text);
                 elData.Text = "";
                 elData.ClearFocus();
+                elData.Enabled = true;
             }
             else
             {

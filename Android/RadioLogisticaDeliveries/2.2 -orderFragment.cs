@@ -15,6 +15,7 @@ using CommonTools;
 using System.Threading;
 using System.Threading.Tasks;
 using Android.Views.InputMethods;
+//using Android.Media;
 
 namespace RadioLogisticaDeliveries
 {
@@ -73,19 +74,34 @@ namespace RadioLogisticaDeliveries
 
         private async Task ActionGo()
         {
-            if (orderNumberET.Text == "" || !orderNumberET.Text.IsNumeric())
+            if (orderNumberET.Text == "")
             {
+                /*
+                MediaPlayer _player= MediaPlayer.Create(Activity,Resource.Raw.Antares);
+                _player.Start();
+                */
                 Toast.MakeText(Activity, "Please enter one valid Order Number", ToastLength.Long).Show();
                 orderNumberET.Text = "";
                 return;
             }
+            string _orderNumber;
+            string _blockCode;
+            if (orderNumberET.Text.IsNumeric() && orderNumberET.Text.Length>6)
+            {
+                _orderNumber = orderNumberET.Text;
+                _blockCode = "";
+            } else
+            {
+                _orderNumber = null;
+                _blockCode = orderNumberET.Text;
+            }
             //buttonOk.Enabled = false;
             await Values.iFt.pushInfo("Creating Session");
             var _sp = new SPXML(Values.gDatos, "pAddCabReadingSession");
-            //_sp.AddParameterValue("Block", " ");
+            _sp.AddParameterValue("Block", _blockCode);
             //_sp.AddParameterValue("Service", " ");
             _sp.AddParameterValue("User", Values.gDatos.User);
-            _sp.AddParameterValue("orderNumber", orderNumberET.Text);
+            _sp.AddParameterValue("orderNumber", _orderNumber);
             try
             {
                 _sp.Execute();
@@ -99,9 +115,16 @@ namespace RadioLogisticaDeliveries
                 return;
             }
             await Values.iFt.pushInfo("Done");
-            Values.hFt.Session.Text = _sp.LastMsg.Substring(3);
+            
+            Values.hFt.t2.Text = string.Format("Session: {0}", _sp.LastMsg.Substring(3)); 
             Values.gBlock = _sp.ReturnValues()["@Block"].ToString();
-            Values.gOrderNumber = orderNumberET.Text.ToInt();
+            Values.hFt.t3.Text = string.Format("Block: {0}", Values.gBlock);
+            if (_orderNumber!=null)
+            {
+                Values.gOrderNumber = orderNumberET.Text.ToInt();
+                Values.hFt.t4.Text = string.Format("Order: {0}", Values.gOrderNumber);
+            }
+
             Values.gService = _sp.ReturnValues()["@Service"].ToString();
 
             //update database data
@@ -114,15 +137,19 @@ namespace RadioLogisticaDeliveries
             //Dismiss Keybaord
             InputMethodManager imm = (InputMethodManager)Activity.GetSystemService(Context.InputMethodService);
             imm.HideSoftInputFromWindow(orderNumberET.WindowToken, 0);
-            await Values.iFt.pushInfo("Getting Label Data");
-            //data from labels for checkng
-            using (var _rs = new XMLRS(string.Format("select partnumber,qty,cajas,rack,Modulo from etiquetas where Numero_orden={0} and Tipo='PEQ'", Values.gOrderNumber), Values.gDatos))
+            if (Values.gOrderNumber!=0)
             {
-                _rs.Open();
-                _rs.Rows.ForEach(async r => await SQLiteDatabase.db.InsertAsync(new Labels { Partnumber = r["partnumber"].ToString(), qty = r["qty"].ToInt(), boxes = r["cajas"].ToInt(), rack = r["rack"].ToString(), mod = r["Modulo"].ToString() }));
-                
+                await Values.iFt.pushInfo("Getting Label Data");
+                //data from labels for checkng
+                using (var _rs = new XMLRS(string.Format("select partnumber,qty,cajas,rack,Modulo from etiquetas where Numero_orden={0} and Tipo='PEQ'", Values.gOrderNumber), Values.gDatos))
+                {
+                    _rs.Open();
+                    _rs.Rows.ForEach(async r => await SQLiteDatabase.db.InsertAsync(new Labels { Partnumber = r["partnumber"].ToString(), qty = r["qty"].ToInt(), boxes = r["cajas"].ToInt(), rack = r["rack"].ToString(), mod = r["Modulo"].ToString() }));
+
+                }
+                await Values.iFt.pushInfo("Done");
             }
-            await Values.iFt.pushInfo("Done");
+
             await Values.iFt.pushInfo("Getting References table");
             //data from referencias table
             using (var _rs = new XMLRS(string.Format("select partnumber from referencias where servicio='{0}'", Values.gService), Values.gDatos))

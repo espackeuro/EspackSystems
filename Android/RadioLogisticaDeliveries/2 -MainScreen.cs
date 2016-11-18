@@ -12,7 +12,7 @@ using Android.Widget;
 
 namespace RadioLogisticaDeliveries
 {
-    [Activity(Label = "Radio LOGISTICA deliveries", WindowSoftInputMode = SoftInput.AdjustResize)]
+    [Activity(Label = "Radio LOGISTICA deliveries", WindowSoftInputMode = SoftInput.AdjustPan)]
     public class MainScreen : Activity
     {
        
