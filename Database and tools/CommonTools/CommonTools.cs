@@ -161,8 +161,8 @@ namespace CommonTools
             return value == null ? "" : value;
         }
 
-
-
+#pragma warning disable 169
+#pragma warning disable 649
 
 
         struct _IMAGE_FILE_HEADER
@@ -176,8 +176,10 @@ namespace CommonTools
             public ushort Characteristics;
         };
 
+
         public static DateTime GetBuildDateTime(Assembly assembly)
         {
+            
             if (File.Exists(assembly.Location))
             {
                 var buffer = new byte[Math.Max(Marshal.SizeOf(typeof(_IMAGE_FILE_HEADER)), 4)];

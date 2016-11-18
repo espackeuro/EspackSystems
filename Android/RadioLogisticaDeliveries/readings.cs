@@ -1,17 +1,11 @@
-using System;
+
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using CommonTools;
 using System.Collections;
 using System.Threading.Tasks;
+using CommonAndroidTools;
+using Android.Content;
 
 namespace RadioLogisticaDeliveries
 {
@@ -32,7 +26,7 @@ namespace RadioLogisticaDeliveries
         {
             _dataList.Add(d);
         }
-        public async Task Add(string reading)
+        public async Task Add(string reading, Context context)
         {
             cData _data;
             // CHECKING
@@ -41,6 +35,9 @@ namespace RadioLogisticaDeliveries
                 _data = new dataChecking() { Data = reading, Serial = reading };
                 _dataList.Add(_data);
                 position++;
+                cSounds.Scan(context);
+                await Current().PushInfo();
+                return;
             }
             else
             // READING
@@ -59,6 +56,9 @@ namespace RadioLogisticaDeliveries
                     if (_r.Partnumber == _pn && _r.LabelRack == _lr && _r.LabelService == _ls)
                     {
                         _r.Qty++;
+                        cSounds.Scan(context);
+                        await Current().UpdateCurrent();
+                        return;
                     }
                     else
                         newReading = true;
@@ -78,6 +78,9 @@ namespace RadioLogisticaDeliveries
                     };
                     _dataList.Add(_data);
                     position++;
+                    cSounds.Scan(context);
+                    await Current().PushInfo();
+                    return;
                 }
             }
             else
@@ -87,6 +90,9 @@ namespace RadioLogisticaDeliveries
                 _data = new dataCloseSession() { Data = reading };
                 _dataList.Add(_data);
                 position++;
+                cSounds.EndOfProcess(context);
+                await Current().PushInfo();
+                return;
             }
             else
             //NEW READING QTY
@@ -97,14 +103,25 @@ namespace RadioLogisticaDeliveries
                     dataReading _r = (dataReading)Current();
                     _r.Qty = reading.ToInt();
                 }
+                cSounds.Scan(context);
+                await Current().UpdateCurrent();
+                return;
             }
             else
             //NEW RACK CODE
             {
+                var query = await SQLiteDatabase.db.Table<RacksBlocks>().Where(r => r.Rack == reading).ToListAsync();
+                if (query.Count()== 0)
+                {
+                    cSounds.Error(context);
+                    return;
+                }
+                cSounds.Scan(context);
                 Values.CurrentRack = reading;
+                return;
             }
 
-            await Current().PushInfo();
+            
         }
         public int position { get; set; } = -1;
         public cData Current()
@@ -123,6 +140,11 @@ namespace RadioLogisticaDeliveries
         public virtual infoData Info { get; }
         public async Task PushInfo() {
             await Values.iFt.pushInfo(Info);
+        }
+
+        public async Task UpdateCurrent()
+        {
+            await Values.iFt.updateMainLine(Info);
         }
         public string Error { get; set; }
         public virtual void ToDB() { }

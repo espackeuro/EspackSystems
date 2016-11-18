@@ -31,7 +31,7 @@ namespace AccesoDatosNet
 
     public class cAccesoDatosNet : cAccesoDatos, IDisposable
     {
-        public SqlConnection AdoCon { get; set; }
+        public new SqlConnection AdoCon { get; set; }
         public override System.Data.ConnectionState State
         {
             get
@@ -172,7 +172,7 @@ namespace AccesoDatosNet
 
 
         #region IDisposable Support
-        private bool disposedValue = false; // To detect redundant calls
+        private new bool disposedValue = false; // To detect redundant calls
 
         protected new virtual void Dispose(bool disposing)
         {
@@ -221,7 +221,7 @@ namespace AccesoDatosNet
         protected SqlDataReader mDR = null;
         //private cAccesoDatosNet mConn = null;
         //Events
-        public new event EventHandler<EventArgs> AfterExecution; //launched when the query is executed
+        //public new event EventHandler<EventArgs> AfterExecution; //launched when the query is executed
 //properties
 
         public SqlCommand Cmd { get; set; }
@@ -371,8 +371,8 @@ namespace AccesoDatosNet
         protected DataSet mDS;
         protected SqlDataAdapter mDA = new SqlDataAdapter();
         //Events
-        new public event EventHandler<EventArgs> AfterExecution; //launched when the query is executed     
-        new public event EventHandler<EventArgs> BeforeExecution;
+        //new public event EventHandler<EventArgs> AfterExecution; //launched when the query is executed     
+        //new public event EventHandler<EventArgs> BeforeExecution;
         protected new SqlParameterCollection _parameters;
 
         public override DbParameterCollection Parameters
@@ -677,7 +677,7 @@ namespace AccesoDatosNet
 
     public class SP:SPFrame
     {
-        private cAccesoDatosNet mConn;
+        private new cAccesoDatosNet mConn;
         
         //public List<ObjectParameter> ObjectParameters { get; set; }
         public new SqlCommand Cmd { get; set; }

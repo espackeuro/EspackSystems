@@ -28,6 +28,10 @@ namespace RadioLogisticaDeliveries
 		{
 			global::AccesoDatosNet.Resource.String.ApplicationName = global::RadioLogisticaDeliveries.Resource.String.ApplicationName;
 			global::AccesoDatosNet.Resource.String.Hello = global::RadioLogisticaDeliveries.Resource.String.Hello;
+			global::CommonAndroidTools.Resource.Raw.Antares = global::RadioLogisticaDeliveries.Resource.Raw.Antares;
+			global::CommonAndroidTools.Resource.Raw.decodeshort = global::RadioLogisticaDeliveries.Resource.Raw.decodeshort;
+			global::CommonAndroidTools.Resource.Raw.TaDa = global::RadioLogisticaDeliveries.Resource.Raw.TaDa;
+			global::CommonAndroidTools.Resource.Raw.Tejat = global::RadioLogisticaDeliveries.Resource.Raw.Tejat;
 			global::CommonAndroidTools.Resource.String.ApplicationName = global::RadioLogisticaDeliveries.Resource.String.ApplicationName;
 			global::CommonAndroidTools.Resource.String.Hello = global::RadioLogisticaDeliveries.Resource.String.Hello;
 			global::CommonTools.Resource.String.ApplicationName = global::RadioLogisticaDeliveries.Resource.String.ApplicationName;
@@ -958,6 +962,10 @@ namespace RadioLogisticaDeliveries
 			global::LogonScreen.Resource.Layout.select_dialog_multichoice_material = global::RadioLogisticaDeliveries.Resource.Layout.select_dialog_multichoice_material;
 			global::LogonScreen.Resource.Layout.select_dialog_singlechoice_material = global::RadioLogisticaDeliveries.Resource.Layout.select_dialog_singlechoice_material;
 			global::LogonScreen.Resource.Layout.support_simple_spinner_dropdown_item = global::RadioLogisticaDeliveries.Resource.Layout.support_simple_spinner_dropdown_item;
+			global::LogonScreen.Resource.Raw.Antares = global::RadioLogisticaDeliveries.Resource.Raw.Antares;
+			global::LogonScreen.Resource.Raw.decodeshort = global::RadioLogisticaDeliveries.Resource.Raw.decodeshort;
+			global::LogonScreen.Resource.Raw.TaDa = global::RadioLogisticaDeliveries.Resource.Raw.TaDa;
+			global::LogonScreen.Resource.Raw.Tejat = global::RadioLogisticaDeliveries.Resource.Raw.Tejat;
 			global::LogonScreen.Resource.String.ApplicationName = global::RadioLogisticaDeliveries.Resource.String.ApplicationName;
 			global::LogonScreen.Resource.String.Hello = global::RadioLogisticaDeliveries.Resource.String.Hello;
 			global::LogonScreen.Resource.String.abc_action_bar_home_description = global::RadioLogisticaDeliveries.Resource.String.abc_action_bar_home_description;
@@ -5298,6 +5306,15 @@ namespace RadioLogisticaDeliveries
 			
 			// aapt resource value: 0x7f060000
 			public const int Antares = 2131099648;
+			
+			// aapt resource value: 0x7f060001
+			public const int decodeshort = 2131099649;
+			
+			// aapt resource value: 0x7f060002
+			public const int TaDa = 2131099650;
+			
+			// aapt resource value: 0x7f060003
+			public const int Tejat = 2131099651;
 			
 			static Raw()
 			{
