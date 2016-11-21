@@ -26,7 +26,11 @@ namespace CommonAndroidTools
             MediaPlayer _player = MediaPlayer.Create(context, Resource.Raw.decodeshort);
             _player.Start();
         }
-
+        public static void Warning(Context context)
+        {
+            MediaPlayer _player = MediaPlayer.Create(context, Resource.Raw.Gallium);
+            _player.Start();
+        }
         public static void EndOfProcess(Context context)
         {
             MediaPlayer _player = MediaPlayer.Create(context, Resource.Raw.TaDa);

@@ -19,6 +19,7 @@ namespace RadioLogisticaDeliveries
         public TextView t2 { get; set; }
         public TextView t3 { get; set; }
         public TextView t4 { get; set; }
+        public TextView t5 { get; set; }
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -37,6 +38,7 @@ namespace RadioLogisticaDeliveries
             t2.Text = string.Format("Session: {0}", "");
             t3 = _root.FindViewById<TextView>(Resource.Id.t3);
             t4 = _root.FindViewById<TextView>(Resource.Id.t4);
+            t5 = _root.FindViewById<TextView>(Resource.Id.t5);
             return _root;
         }
 

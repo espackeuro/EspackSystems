@@ -61,6 +61,7 @@
     <AndroidResource Include="Resources\raw\decodeshort.ogg" />
     <AndroidResource Include="Resources\raw\TaDa.ogg" />
     <AndroidResource Include="Resources\raw\Tejat.ogg" />
+    <AndroidResource Include="Resources\raw\Gallium.ogg" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\Values\Strings.xml" />
