@@ -2936,10 +2936,13 @@ namespace LogonScreen
 			public static int decodeshort = 2131099649;
 			
 			// aapt resource value: 0x7f060002
-			public static int TaDa = 2131099650;
+			public static int Gallium = 2131099650;
 			
 			// aapt resource value: 0x7f060003
-			public static int Tejat = 2131099651;
+			public static int TaDa = 2131099651;
+			
+			// aapt resource value: 0x7f060004
+			public static int Tejat = 2131099652;
 			
 			static Raw()
 			{

@@ -13,13 +13,39 @@ namespace RadioLogisticaDeliveries
     
     static class Values
     {
+        private static string _rack = "";
+        public static string _block = "";
         public static cAccesoDatosXML gDatos = new cAccesoDatosXML();
-        public static string gBlock;
+        public static string gBlock
+        {
+            get
+            {
+                return _block;
+            }
+            set
+            {
+                _block = value;
+                Values.hFt.t3.Text = string.Format("Block: {0}", _block);
+            }
+        }
+        
+
         public static int gOrderNumber;
         public static string gService;
         public static string gCloseCode = "000";
         public static dataReadingList gDRL = new dataReadingList();
-        public static string CurrentRack= "";
+        public static string CurrentRack
+        {
+            get
+            {
+                return _rack;
+            }
+            set
+            {
+                _rack = value;
+                hFt.t5.Text = string.Format("Rack: {0}", _rack);
+            }
+        }
         public static headerFragment hFt { get; set; }
         public static infoFragment iFt { get; set; }
     }
@@ -55,6 +81,8 @@ namespace RadioLogisticaDeliveries
                     SQLiteDatabase.db.CreateTableAsync<Referencias>();
                     SQLiteDatabase.db.CreateTableAsync<RacksBlocks>();
                     SQLiteDatabase.db.CreateTableAsync<PartnumbersRacks>();
+                    SQLiteDatabase.db.CreateTableAsync<SerialTracking>();
+                    SQLiteDatabase.db.CreateTableAsync<ScannedData>();
                     // to do what to do when readings exist
 
 

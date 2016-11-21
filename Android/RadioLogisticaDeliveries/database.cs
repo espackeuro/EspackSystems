@@ -21,8 +21,8 @@ namespace RadioLogisticaDeliveries
     //table Labels
     public class Labels
     {
-        [PrimaryKey, AutoIncrement]
-        public int idreg { get; set; }
+        [PrimaryKey]
+        public string Serial { get; set; }
         public string Partnumber { get; set; }
         public int qty { get; set; }
         public int boxes { get; set; }
@@ -58,8 +58,27 @@ namespace RadioLogisticaDeliveries
         public int MaxBoxes { get; set; }
 
     }
+    public class SerialTracking
+    {
+        [PrimaryKey]
+        public string Serial { get; set; }
+    }
 
-
+    public class ScannedData
+    {
+        [PrimaryKey, AutoIncrement]
+        public int idreg { get; set; }
+        public string Action { get; set; }
+        public string Service { get; set; } = "";
+        public string Session { get; set; }
+        public string Rack { get; set; } = "";
+        public string Partnumber { get; set; } = "";
+        public int Qty { get; set; } = 0;
+        public string LabelRack { get; set; } = "";
+        public string Serial { get; set; } = "";
+        public bool Transmitted { get; set; } = false;
+        public string TransmissionResult { get; set; } = "";
+    }
     public static class SQLiteDatabase
     {
         public static SQLiteAsyncConnection db; 

@@ -78,7 +78,8 @@ namespace RadioLogisticaDeliveries
                     Toast.MakeText(context, "Please enter valid data", ToastLength.Long).Show();
                     return;
                 }
-                await Values.gDRL.Add(_scan, context);
+                Values.gDRL.Context = context;
+                await Values.gDRL.Add(_scan);
                 ((Activity)context).RunOnUiThread(() =>
                 {
                     ed.Enabled = true;
@@ -106,7 +107,8 @@ namespace RadioLogisticaDeliveries
                     return;
                 }
                 elData.Enabled = false;
-                await Values.gDRL.Add(elData.Text, Activity);
+                Values.gDRL.Context = Activity;
+                await Values.gDRL.Add(elData.Text);
                 elData.Text = "";
                 elData.ClearFocus();
                 elData.Enabled = true;

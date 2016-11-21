@@ -47,10 +47,13 @@ namespace CommonAndroidTools
 			public static int decodeshort = 2130837505;
 			
 			// aapt resource value: 0x7f020002
-			public static int TaDa = 2130837506;
+			public static int Gallium = 2130837506;
 			
 			// aapt resource value: 0x7f020003
-			public static int Tejat = 2130837507;
+			public static int TaDa = 2130837507;
+			
+			// aapt resource value: 0x7f020004
+			public static int Tejat = 2130837508;
 			
 			static Raw()
 			{

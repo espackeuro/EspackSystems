@@ -117,7 +117,7 @@ namespace RadioLogisticaDeliveries
             
             Values.hFt.t2.Text = string.Format("Session: {0}", _sp.LastMsg.Substring(3)); 
             Values.gBlock = _sp.ReturnValues()["@Block"].ToString();
-            Values.hFt.t3.Text = string.Format("Block: {0}", Values.gBlock);
+            
             if (_orderNumber!=null)
             {
                 Values.gOrderNumber = orderNumberET.Text.ToInt();
@@ -140,10 +140,10 @@ namespace RadioLogisticaDeliveries
             {
                 await Values.iFt.pushInfo("Getting Label Data");
                 //data from labels for checkng
-                using (var _rs = new XMLRS(string.Format("select partnumber,qty,cajas,rack,Modulo from etiquetas where Numero_orden={0} and Tipo='PEQ'", Values.gOrderNumber), Values.gDatos))
+                using (var _rs = new XMLRS(string.Format("select numero,partnumber,qty,cajas,rack,Modulo from etiquetas where Numero_orden={0} and Tipo='PEQ'", Values.gOrderNumber), Values.gDatos))
                 {
                     _rs.Open();
-                    _rs.Rows.ForEach(async r => await SQLiteDatabase.db.InsertAsync(new Labels { Partnumber = r["partnumber"].ToString(), qty = r["qty"].ToInt(), boxes = r["cajas"].ToInt(), rack = r["rack"].ToString(), mod = r["Modulo"].ToString() }));
+                    _rs.Rows.ForEach(async r => await SQLiteDatabase.db.InsertAsync(new Labels { Serial = r["numero"].ToString(), Partnumber = r["partnumber"].ToString(), qty = r["qty"].ToInt(), boxes = r["cajas"].ToInt(), rack = r["rack"].ToString(), mod = r["Modulo"].ToString() }));
 
                 }
                 await Values.iFt.pushInfo("Done");
