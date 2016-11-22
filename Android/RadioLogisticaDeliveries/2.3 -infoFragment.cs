@@ -31,15 +31,16 @@ namespace RadioLogisticaDeliveries
             // Create your fragment here
         }
 
-        public TextView[,] infoArray { get; set; } = new TextView[12, 4];
+        public TextView[,] infoArray { get; set; }
 
+        private int numLines;
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var _root = inflater.Inflate(Resource.Layout.infoFt, container, false);
             // Use this to return your custom view for this Fragment
             // return inflater.Inflate(Resource.Layout.YourFragment, container, false);
 
-            for (int i = 0; i < 12; i++)
+            for (int i = 0; i < numLines; i++)
                 for (int j = 0; j < 4; j++)
                 {
                     int resId = Resources.GetIdentifier(string.Format("c{0}{1}", i, j), "id", Activity.PackageName);
@@ -50,6 +51,12 @@ namespace RadioLogisticaDeliveries
 
             return _root;
         }
+        //max number of lines present in the xml is 12
+        public infoFragment(int MaxLines)
+        {
+            numLines = MaxLines;
+            infoArray  = new TextView[numLines, 4];
+        }
 
         public Task pushInfo(infoData d)
         {
@@ -59,7 +66,7 @@ namespace RadioLogisticaDeliveries
         {
             return Task.Run(() => Activity.RunOnUiThread(() =>
             {
-                for (int i = 11; i > 0; i--)
+                for (int i = numLines - 1; i > 0; i--)
                     for (int j = 0; j < 4; j++)
                     {
                         infoArray[i, j].Text = infoArray[i - 1, j].Text;
@@ -74,7 +81,7 @@ namespace RadioLogisticaDeliveries
         {
             return Task.Run(() => Activity.RunOnUiThread(() =>
             {
-                for (int i = 0; i < 6; i++)
+                for (int i = 0; i < numLines; i++)
                     for (int j = 0; j < 4; j++)
                         infoArray[i, j].Text = "";
             }));

@@ -48,6 +48,7 @@ namespace RadioLogisticaDeliveries
         }
         public static headerFragment hFt { get; set; }
         public static infoFragment iFt { get; set; }
+        public static infoFragment dFt { get; set; }
     }
 
     [Activity(Label = "RadioLogisticaDeliveries", MainLauncher = true, Icon = "@drawable/icon")]
@@ -75,14 +76,14 @@ namespace RadioLogisticaDeliveries
                     Values.gDatos.Password = LogonDetails.password;
 
                     //create sqlite database
-                    SQLiteDatabase.CreateDatabase("DELIVERIES");
-                    SQLiteDatabase.db.CreateTableAsync<Readings>();
-                    SQLiteDatabase.db.CreateTableAsync<Labels>();
-                    SQLiteDatabase.db.CreateTableAsync<Referencias>();
-                    SQLiteDatabase.db.CreateTableAsync<RacksBlocks>();
-                    SQLiteDatabase.db.CreateTableAsync<PartnumbersRacks>();
-                    SQLiteDatabase.db.CreateTableAsync<SerialTracking>();
-                    SQLiteDatabase.db.CreateTableAsync<ScannedData>();
+                    SQLidb.CreateDatabase("DELIVERIES");
+                    SQLidb.db.CreateTableAsync<Readings>();
+                    SQLidb.db.CreateTableAsync<Labels>();
+                    //SQLidb.db.CreateTableAsync<Referencias>();
+                    SQLidb.db.CreateTableAsync<RacksBlocks>();
+                    SQLidb.db.CreateTableAsync<PartnumbersRacks>();
+                    SQLidb.db.CreateTableAsync<SerialTracking>();
+                    SQLidb.db.CreateTableAsync<ScannedData>();
                     // to do what to do when readings exist
 
 

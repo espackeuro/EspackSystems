@@ -31,9 +31,13 @@ namespace RadioLogisticaDeliveries
             ft.Replace(Resource.Id.dataInputFragment, oFt);
 
 
-            Values.iFt = new infoFragment();
+            Values.iFt = new infoFragment(12);
             ft.Replace(Resource.Id.InfoFragment, Values.iFt);
+
+            Values.dFt = new infoFragment(5);
+            ft.Replace(Resource.Id.DebugFragment, Values.dFt);
             ft.Commit();
+
         }
 
         public void changeOrderToEnterDataFragments()
