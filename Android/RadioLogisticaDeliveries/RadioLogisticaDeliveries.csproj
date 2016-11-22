@@ -120,17 +120,21 @@
     <Compile Include="2.2.1 -EnterDataFragment.cs" />
     <Compile Include="2.3 -infoFragment.cs" />
     <Compile Include="2 -MainScreen.cs" />
-    <Compile Include="BlockSelection.cs" />
     <Compile Include="2.1 -headerFragment.cs" />
-    <Compile Include="MainScreen2.cs" />
     <Compile Include="2.2 -orderFragment.cs" />
-    <Compile Include="database.cs" />
+    <Compile Include="SQLite Database Classes\database.cs" />
     <Compile Include="1 -MainActivity.cs" />
-    <Compile Include="readings.cs" />
+    <Compile Include="Readings Classes\cData.cs" />
+    <Compile Include="Readings Classes\cData.dataChangeRack.cs" />
+    <Compile Include="Readings Classes\cData.dataChecking.cs" />
+    <Compile Include="Readings Classes\cData.dataCloseSession.cs" />
+    <Compile Include="Readings Classes\cData.dataReading.cs" />
+    <Compile Include="Readings Classes\dataReagingList.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SQLite.cs" />
-    <Compile Include="SQLiteAsync.cs" />
+    <Compile Include="SQLite Database Classes\EventSQLiteAsyncConnection.cs" />
+    <Compile Include="SQLite Database Classes\SQLite.cs" />
+    <Compile Include="SQLite Database Classes\SQLiteAsync.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
