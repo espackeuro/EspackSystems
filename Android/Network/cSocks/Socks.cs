@@ -91,7 +91,7 @@ namespace Socks
 
     public static class EspackSocksServer
     {
-        public const string MAINSERVERIP = "10.200.90.3";
+        //public const string MAINSERVERIP;
         private static string _serial=null;
         public static cSocks InitialServer { get; set; }
         public static string Serial
@@ -148,7 +148,7 @@ namespace Socks
         {
             if (InitialServer == null)
             {
-                InitialServer = new cSocks(MAINSERVERIP);
+                InitialServer = new cSocks("socks.espackeuro.com");
             }
             //first phase, get the destination external IP to connect
             //create the xml message with the session information
@@ -340,7 +340,7 @@ namespace Socks
                 //IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
                 //IPAddress ipAddress;
                 //IPAddress.TryParse("10.200.90.7", out ipAddress);
-                IPEndPoint remoteEP = new IPEndPoint(oServer.IP, 15000);
+                IPEndPoint remoteEP = new IPEndPoint(oServer.IP, 17011);
 
                 // Create a TCP/IP  socket.
                 Socket sender = new Socket(AddressFamily.InterNetwork,
