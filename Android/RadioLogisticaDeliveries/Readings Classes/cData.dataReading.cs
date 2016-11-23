@@ -115,9 +115,21 @@ namespace RadioLogisticaDeliveries
             return true;
 
         }
-        public override Task<bool> ToDB()
+        public override async Task<bool> ToDB()
         {
-            return base.ToDB();
+            try
+            {
+                await SQLidb.db.InsertAsync(new ScannedData() { Action = "ADD", Service = LabelService, Session = Values.gSession, Rack = Values.CurrentRack, Partnumber = Partnumber, Qty = Qty, LabelRack = LabelRack });
+            }
+            catch (Exception ex)
+            {
+                _errorMessage = ex.Message;
+                Status = dataStatus.ERROR;
+                return false;
+            }
+            Status = dataStatus.DATABASE;
+            return true;
         }
     }
+}
 }

@@ -114,8 +114,8 @@ namespace RadioLogisticaDeliveries
                 return;
             }
             await Values.iFt.pushInfo("Done");
-            
-            Values.hFt.t2.Text = string.Format("Session: {0}", _sp.LastMsg.Substring(3)); 
+            Values.gSession = _sp.LastMsg.Substring(3);
+            Values.hFt.t2.Text = string.Format("Session: {0}", Values.gSession); 
             Values.gBlock = _sp.ReturnValues()["@Block"].ToString();
             
             if (_orderNumber!=null)
