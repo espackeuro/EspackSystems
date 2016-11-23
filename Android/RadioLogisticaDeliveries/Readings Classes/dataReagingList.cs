@@ -40,11 +40,8 @@ namespace RadioLogisticaDeliveries
                 _data = new dataChecking() { Context = Context, Data = reading, Serial = reading };
                 if (await _data.doCheckings())
                 {
-                    if (await _data.ToDB())
-                    {
-                        _dataList.Add(_data);
-                        position++;
-                    }
+                    _dataList.Add(_data);
+                    position++;
                 }
                 await _data.PushInfo();
                 return;
@@ -126,6 +123,8 @@ namespace RadioLogisticaDeliveries
                 _data = new dataChangeRack() { Context = Context, Data = reading };
                 if (await _data.doCheckings())
                 {
+                    //after new rack code we insert all reading from previous rack
+                    _dataList.Where(r => r.Status == dataStatus.READ || r.Status == dataStatus.WARNING).ToList().ForEach(async r => await r.ToDB());
                     _dataList.Add(_data);
                     position++;
                 }

@@ -65,7 +65,7 @@ namespace RadioLogisticaDeliveries
         {
             try
             {
-                await SQLidb.db.InsertAsync(new ScannedData() { Action = "CHECK", Rack = Values.CurrentRack, Serial = Serial, Service = Values.gService });
+                await SQLidb.db.InsertAsync(new ScannedData() { Action = "CHECK", Rack = Values.CurrentRack, Serial = Serial, Service = Values.gService, Session=Values.gSession });
             }
             catch (Exception ex)
             {

@@ -7,6 +7,7 @@ using Android.Widget;
 using Android.OS;
 using AccesoDatosNet;
 using LogonScreen;
+using System.Collections.Generic;
 
 namespace RadioLogisticaDeliveries
 {
@@ -33,6 +34,7 @@ namespace RadioLogisticaDeliveries
         public static int gOrderNumber;
         public static string gService;
         public static string gCloseCode = "000";
+        public static string gSession;
         public static dataReadingList gDRL = new dataReadingList();
         public static string CurrentRack
         {
@@ -59,6 +61,8 @@ namespace RadioLogisticaDeliveries
         {
             base.OnCreate(bundle);
             var intent = new Intent(this, typeof(LogonScreenClass));
+            intent.SetAction(Intent.ActionMain);
+            intent.AddCategory(Intent.CategoryLauncher);
             intent.PutExtra("ConnectionType", "Socks");
             StartActivityForResult(intent, 0);
         }
