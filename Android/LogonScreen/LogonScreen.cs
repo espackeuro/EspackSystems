@@ -9,11 +9,7 @@ using AccesoDatosNet;
 using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using DataWedge;
-using System.Net;
-using Android.Telephony;
-using Socks;
-using System.Xml.Linq;
-using Encryption;
+using CommonAndroidTools;
 
 namespace LogonScreen
 {
@@ -21,55 +17,7 @@ namespace LogonScreen
     {
         public static string user { get; set; }
         public static string password { get; set; }
-        
-
-        public static String getDeviceID(Context p_context)
-        {
-            String m_deviceID = null;
-            TelephonyManager m_telephonyManager = null;
-            m_telephonyManager = (TelephonyManager)p_context.GetSystemService(Context.TelephonyService);
-            m_deviceID = m_telephonyManager.DeviceId;
-
-            if (m_deviceID == null || "00000000000000".Equals(m_deviceID))
-            {
-                m_deviceID = "AAAAAAA";
-            }
-
-            return m_deviceID;
-        }
-        public static string Serial
-        {
-            get
-            {
-                return Android.OS.Build.Serial;
-            }
-                
-        }
-        public static string getDeviceInfo(string p_seperator)
-        {
-            string m_data = "";
-            Java.Lang.StringBuilder m_builder = new Java.Lang.StringBuilder();
-            m_builder.Append("RELEASE " + Android.OS.Build.VERSION.Release + p_seperator);
-            m_builder.Append("DEVICE " + Android.OS.Build.Device + p_seperator);
-            m_builder.Append("MODEL " + Android.OS.Build.Model + p_seperator);
-            m_builder.Append("PRODUCT " + Android.OS.Build.Product + p_seperator);
-            m_builder.Append("BRAND " + Android.OS.Build.Brand + p_seperator);
-            m_builder.Append("DISPLAY " + Android.OS.Build.Display + p_seperator);
-            // TODO : Android.OS.Build.CPU_ABI is deprecated
-            m_builder.Append("CPU_ABI " + Android.OS.Build.CpuAbi + p_seperator);
-            // TODO : Android.OS.Build.CPU_ABI2 is deprecated
-            m_builder.Append("CPU_ABI2 " + Android.OS.Build.CpuAbi2 + p_seperator);
-            m_builder.Append("UNKNOWN " + Android.OS.Build.Unknown + p_seperator);
-            m_builder.Append("HARDWARE " + Android.OS.Build.Hardware + p_seperator);
-            m_builder.Append("ID " + Android.OS.Build.Id + p_seperator);
-            m_builder.Append("MANUFACTURER " + Android.OS.Build.Manufacturer + p_seperator);
-            m_builder.Append("SERIAL " + Android.OS.Build.Serial + p_seperator);
-            m_builder.Append("USER " + Android.OS.Build.User + p_seperator);
-            m_builder.Append("HOST " + Android.OS.Build.Host + p_seperator);
-            m_data = m_builder.ToString();
-            return m_data;
-        }
-}
+    }
 
     [Activity(Label = "Logon Screen")]
     public class LogonScreenClass : AppCompatActivity
@@ -78,11 +26,9 @@ namespace LogonScreen
         private EditText cPassword;
         private TextView cMsgText;
         private Button cLoginButton;
-        private cAccesoDatosNet gDatos = new cAccesoDatosNet();
-        private cSocks gSocks;
-        //private string typeofCaller;
-        private bool Socks;
-        private cSocks SocksServer;
+        private cAccesoDatos gDatos;
+        private string typeofCaller;
+        
         //Main method
         protected override void OnCreate(Bundle bundle)
         {
@@ -98,49 +44,12 @@ namespace LogonScreen
             cMsgText= FindViewById<TextView>(Resource.Id.msgText);
             //Button event
             cLoginButton.Click += CLoginButton_Click;
-            //typeofCaller = Intent.GetStringExtra("typeof") ;
-
+            typeofCaller = Intent.GetStringExtra("ConnectionType") ?? "Net";
+            gDatos = (cAccesoDatos)ObjectFactory.createObject("Conn", typeofCaller, serial: cDeviceInfo.Serial);
 #if DEBUG
             cUser.Text = "restelles";
             cPassword.Text = "1312";
 #endif
-
-            Socks = Intent.GetBooleanExtra("Socks", false);
-            if (Socks)
-            {
-                XDocument _msgOut;
-                string _result = "";
-#if DEBUG
-                gSocks = new cSocks("10.180.90.1");
-#else
-                gSocks = new cSocks("socks.espackeuro.com");
-#endif
-
-                try
-                {
-                    var _msg = gSocks.SyncEncConversation(gSocks.BuildSPXML("SISTEMAS", "pGetExternalIP", string.Format("@Serial='{0}'", LogonDetails.Serial)));
-                    _msgOut = XDocument.Parse(_msg);
-                    _result = _msgOut.Element("Result").Value;
-                } catch (Exception ex)
-                {
-                    cMsgText.Text = "ERROR: " + ex.Message;
-                    return;
-                }
-                gDatos.Server = _result.Substring(3);
-                gDatos.DataBase = "SISTEMAS";
-                gDatos.User = "SA";
-                gDatos.Password = "5380";
-                //SocksServer = Dns.GetHostEntry("socks.espackeuro.com").AddressList[0];
-            }
-            else
-            {
-                gDatos.DataBase = "SISTEMAS";
-                gDatos.Server = "10.200.10.138";
-                gDatos.User = "SA";
-                gDatos.Password = "5380";
-            }
-
-
         }
 
         //to cancel back button in Android
@@ -152,118 +61,79 @@ namespace LogonScreen
         {
             var _ad = new Android.App.AlertDialog.Builder(this)
                 .SetTitle("Alert")
-                .SetMessage(text);
+                .SetMessage(text)
+
+
+
+                ;
         }
 
         private void CLoginButton_Click(object sender, EventArgs e)
         {
-            if (cUser.Text == "" || cPassword.Text == "")
+            if (cUser.Text=="" || cPassword.Text=="")
             {
                 cMsgText.Text = "Please input correct User and Password";
-            }
-            else
+            } else
             {
+                
+                gDatos.DataBase = "SISTEMAS";
+                gDatos.Server = "main.db.logon";
+                gDatos.User = "SA";
+                gDatos.Password = "5380";
                 bool error = false;
-                if (Socks)
+                try
                 {
-                    XDocument _msgOut;
-                    try
+                    RunOnUiThread(() => { gDatos.Connect(); });
+                }
+                catch (Exception ex)
+                {
+                    var builder = new Android.Support.V7.App.AlertDialog.Builder(this);
+                    builder.SetTitle("ERROR");
+                    builder.SetIcon(Android.Resource.Drawable.IcDialogAlert);
+                    builder.SetMessage("Error: "+ex.Message);
+                    builder.SetNeutralButton("OK", delegate 
                     {
-                        var _msg = gSocks.SyncEncConversation(gSocks.BuildSPXML(gDatos.DataBase, "pLogonUser", "@Origin='RADIO LOGISTICA (VAL)'", cUser.Text, StringCipher.Encrypt(cPassword.Text)));
-                        _msgOut = XDocument.Parse(_msg);
-                    }
-                    catch (Exception ex)
+                        Intent intent = new Intent();
+                        intent.PutExtra("Result", "ERROR");
+                        SetResult(Result.Ok, intent);
+                        Finish();
+                    });
+                    RunOnUiThread(() => { builder.Create().Show(); });
+                    error = true;
+                }
+                if (!error)
+                {
+                    RSFrame _RS;
+                    _RS = (RSFrame)ObjectFactory.createObject("RS", typeofCaller, "select date=getdate()", gDatos);
+                    _RS.Open();
+                    gDatos.Close();
+                    SPFrame LogonSP;
+                    LogonSP = (SPFrame)ObjectFactory.createObject("SP", typeofCaller, gDatos, "pLogonUser");
+                    LogonSP.AddParameterValue("User", cUser.Text);
+                    LogonSP.AddParameterValue("Password", cPassword.Text);
+                    LogonSP.AddParameterValue("Origin", "RADIO LOGISTICA (VAL)");
+                    LogonSP.Execute();
+                    if (LogonSP.LastMsg.Substring(0, 2) != "OK")
                     {
-                        cMsgText.Text = "ERROR: " + ex.Message;
+                        cMsgText.Text = "ERROR: " + LogonSP.LastMsg;
                         cUser.Text = "";
                         cPassword.Text = "";
                         cUser.RequestFocus();
-                        return;
-                    }
-                    if (_msgOut.Element("Result").Value.Substring(0, 2) != "OK")
-                    {
-                        cMsgText.Text = "ERROR: " + _msgOut.Element("Result").Value;
-                        cUser.Text = "";
-                        cPassword.Text = "";
-                        cUser.RequestFocus();
-                        return;
+                        //gDatos.Close();
 
                     }
-                    LogonDetails.user = _msgOut.Root.Element("User").Value;
-                    LogonDetails.password = StringCipher.Decrypt(_msgOut.Root.Element("Password").Value);
-                }
-                else
-                {
-                    try
+                    else
                     {
-                        RunOnUiThread(() => { gDatos.Connect(); });
-                    }
-                    catch (Exception ex)
-                    {
-                        var builder = new Android.Support.V7.App.AlertDialog.Builder(this);
-                        builder.SetTitle("ERROR");
-                        builder.SetIcon(Android.Resource.Drawable.IcDialogAlert);
-                        builder.SetMessage("Error: " + ex.Message);
-                        builder.SetNeutralButton("OK", delegate
-                        {
-                            Intent inte = new Intent();
-                            inte.PutExtra("Result", "ERROR");
-                            SetResult(Result.Ok, inte);
-                            Finish();
-                        });
-                        RunOnUiThread(() => { builder.Create().Show(); });
-                        error = true;
-                    }
-                    if (!error)
-                    {
-                        StaticRS _RS = new StaticRS("select date=getdate()", gDatos);
-                        _RS.Open();
-                        gDatos.Close();
-                        SP LogonSP = new SP(gDatos, "pLogonUser");
-                        LogonSP.AddParameterValue("User", cUser.Text);
-                        LogonSP.AddParameterValue("Password", cPassword.Text);
-                        LogonSP.AddParameterValue("Origin", "RADIO LOGISTICA (VAL)");
-                        try
-                        {
-                            LogonSP.Execute();
-                        }
-                        catch (Exception ex)
-                        {
-                            cMsgText.Text = "ERROR: " + ex.Message;
-                            cUser.Text = "";
-                            cPassword.Text = "";
-                            cUser.RequestFocus();
-                            return;
-                        }
-                        if (LogonSP.LastMsg.Substring(0, 2) != "OK")
-                        {
-                            cMsgText.Text = "ERROR: " + LogonSP.LastMsg;
-                            cUser.Text = "";
-                            cPassword.Text = "";
-                            cUser.RequestFocus();
-                            //gDatos.Close();
-                            return;
-                        }
+                        //Toast.MakeText(this, "Logon OK!", ToastLength.Short).Show();
                         LogonDetails.user = LogonSP.ReturnValues()["@User"].ToString();
                         LogonDetails.password = LogonSP.ReturnValues()["@Password"].ToString();
+                        Intent intent = new Intent();
+                        intent.PutExtra("Result", "OK");
+                        SetResult(Result.Ok, intent);
+                        Finish();
                     }
-
-                    //Toast.MakeText(this, "Logon OK!", ToastLength.Short).Show();
-
-
                 }
-
-                Intent intent = new Intent();
-                intent.PutExtra("Result", "OK");
-                SetResult(Result.Ok, intent);
-                Finish();
             }
         }
-
-
-
     }
-
-
-
 }
