@@ -17,6 +17,7 @@ namespace LogonScreen
     {
         public static string user { get; set; }
         public static string password { get; set; }
+        public static string connectionServer { get; set; }
     }
 
     [Activity(Label = "Logon Screen")]
@@ -45,6 +46,7 @@ namespace LogonScreen
             //Button event
             cLoginButton.Click += CLoginButton_Click;
             typeofCaller = Intent.GetStringExtra("ConnectionType") ?? "Net";
+            LogonDetails.connectionServer = typeofCaller == "Net" ? "net.espackeuro.com" : "logon.espackeuro.com";
             gDatos = (cAccesoDatos)ObjectFactory.createObject("Conn", typeofCaller, serial: cDeviceInfo.Serial);
 #if DEBUG
             cUser.Text = "restelles";
@@ -77,7 +79,7 @@ namespace LogonScreen
             {
                 
                 gDatos.DataBase = "SISTEMAS";
-                gDatos.Server = "main.db.logon";
+                gDatos.Server = LogonDetails.connectionServer;
                 gDatos.User = "SA";
                 gDatos.Password = "5380";
                 bool error = false;
