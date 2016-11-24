@@ -127,7 +127,9 @@ namespace RadioLogisticaDeliveries
             Values.gService = _sp.ReturnValues()["@Service"].ToString();
 
             //update database data
+            await Values.sFt.ChangeProgressVisibility(true);
             await getDataFromServer();
+            await Values.sFt.ChangeProgressVisibility(false);
         }
 
         //method to get all the data from sql server
@@ -136,6 +138,7 @@ namespace RadioLogisticaDeliveries
             //Dismiss Keybaord
             InputMethodManager imm = (InputMethodManager)Activity.GetSystemService(Context.InputMethodService);
             imm.HideSoftInputFromWindow(orderNumberET.WindowToken, 0);
+            
             if (Values.gOrderNumber!=0)
             {
                 await Values.iFt.pushInfo("Getting Label Data");
@@ -173,7 +176,7 @@ namespace RadioLogisticaDeliveries
                 _rs.Open();
                 _rs.Rows.ForEach(async r => await SQLidb.db.InsertAsync(new PartnumbersRacks { Rack = r["Rack"].ToString(), Partnumber=r["Partnumber"].ToString(), MinBoxes=r["MinBoxes"].ToInt(), MaxBoxes=r["MaxBoxes"].ToInt() }));
             }
-
+            
             await Values.iFt.pushInfo("Done loading database data");
             ((MainScreen)Activity).changeOrderToEnterDataFragments();
         }

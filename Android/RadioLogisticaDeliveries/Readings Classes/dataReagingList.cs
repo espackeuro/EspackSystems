@@ -97,11 +97,15 @@ namespace RadioLogisticaDeliveries
             //CLOSE CODE
             if (reading == Values.gCloseCode)
             {
-                _data = new dataCloseSession() { Data = reading };
-                _dataList.Add(_data);
-                position++;
-                cSounds.EndOfProcess(Context);
-                await Current().PushInfo();
+                _data = new dataCloseSession() { Context = Context, Data = reading };
+                if (await _data.doCheckings())
+                {
+                    _dataList.Add(_data);
+                    //after close code we insert all reading from previous rack
+                    _dataList.Where(r => r.Status == dataStatus.READ || r.Status == dataStatus.WARNING).ToList().ForEach(async r => await r.ToDB());
+                    position++;
+                }
+                await _data.PushInfo();
                 return;
             }
             else

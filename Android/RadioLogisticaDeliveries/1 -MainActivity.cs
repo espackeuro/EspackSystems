@@ -51,6 +51,7 @@ namespace RadioLogisticaDeliveries
         public static headerFragment hFt { get; set; }
         public static infoFragment iFt { get; set; }
         public static infoFragment dFt { get; set; }
+        public static statusFragment sFt { get; set; }
     }
 
     [Activity(Label = "RadioLogisticaDeliveries", MainLauncher = true, Icon = "@drawable/icon")]
