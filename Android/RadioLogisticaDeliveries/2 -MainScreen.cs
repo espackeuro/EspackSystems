@@ -36,6 +36,9 @@ namespace RadioLogisticaDeliveries
 
             Values.dFt = new infoFragment(5);
             ft.Replace(Resource.Id.DebugFragment, Values.dFt);
+
+            Values.sFt = new statusFragment();
+            ft.Replace(Resource.Id.StatusFragment, Values.sFt);
             ft.Commit();
 
         }
