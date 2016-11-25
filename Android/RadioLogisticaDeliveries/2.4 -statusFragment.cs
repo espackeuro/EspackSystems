@@ -19,6 +19,7 @@ namespace RadioLogisticaDeliveries
     public class statusFragment : Fragment
     {
         public ProgressBar socksProgress { get; set; }
+        public TextView text1 { get; set; }
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -42,6 +43,7 @@ namespace RadioLogisticaDeliveries
             socksProgress.IndeterminateDrawable.SetColorFilter(Color.Red, PorterDuff.Mode.Multiply);
             //socksProgress.ProgressDrawable.SetColorFilter(Color.Red, PorterDuff.Mode.SrcIn);
             socksProgress.Visibility = ViewStates.Gone;
+            text1 = _root.FindViewById<TextView>(Resource.Id.test);
             return _root;
         }
     }

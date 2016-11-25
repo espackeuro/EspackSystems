@@ -41,6 +41,8 @@ namespace RadioLogisticaDeliveries
             ft.Replace(Resource.Id.StatusFragment, Values.sFt);
             ft.Commit();
 
+            Values.dtm = new DataTransferManager(this);
+
         }
 
         public void changeOrderToEnterDataFragments()
