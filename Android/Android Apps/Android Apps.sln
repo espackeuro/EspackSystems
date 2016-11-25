@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Encryption", "..\..\Databas
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Compression", "..\..\Database and tools\CompressionAndroid\Compression\Compression.csproj", "{948BBF7E-C260-47A5-B038-D2A8E0F17259}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkDetection", "NetworkDetection\NetworkDetection.csproj", "{C7587A97-8D82-4A8B-A472-89198666FD22}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -89,6 +91,10 @@ Global
 		{948BBF7E-C260-47A5-B038-D2A8E0F17259}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{948BBF7E-C260-47A5-B038-D2A8E0F17259}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{948BBF7E-C260-47A5-B038-D2A8E0F17259}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7587A97-8D82-4A8B-A472-89198666FD22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7587A97-8D82-4A8B-A472-89198666FD22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7587A97-8D82-4A8B-A472-89198666FD22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7587A97-8D82-4A8B-A472-89198666FD22}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -105,9 +111,10 @@ Global
 		{42CAB531-7DCB-4A55-9572-E86597E96651} = {3A654A15-9225-4336-8D89-227689080C5A}
 		{44A86C5A-9221-4425-A960-64AEEB027CC8} = {5802ACA1-E788-4592-BB10-63A26AA1A336}
 		{948BBF7E-C260-47A5-B038-D2A8E0F17259} = {5802ACA1-E788-4592-BB10-63A26AA1A336}
+		{C7587A97-8D82-4A8B-A472-89198666FD22} = {3A654A15-9225-4336-8D89-227689080C5A}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 12
+		SccNumberOfProjects = 13
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://espack.visualstudio.com/defaultcollection
 		SccLocalPath0 = .
@@ -155,5 +162,9 @@ Global
 		SccProjectTopLevelParentUniqueName11 = Android\u0020Apps.sln
 		SccProjectName11 = ../../Database\u0020and\u0020tools/EncryptionAndroid/Encryption
 		SccLocalPath11 = ..\\..\\Database\u0020and\u0020tools\\EncryptionAndroid\\Encryption
+		SccProjectUniqueName12 = NetworkDetection\\NetworkDetection.csproj
+		SccProjectTopLevelParentUniqueName12 = Android\u0020Apps.sln
+		SccProjectName12 = NetworkDetection
+		SccLocalPath12 = NetworkDetection
 	EndGlobalSection
 EndGlobal

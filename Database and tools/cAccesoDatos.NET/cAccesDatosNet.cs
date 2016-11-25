@@ -182,7 +182,7 @@ namespace AccesoDatosNet
                 {
                     AdoCon.Close();
                     AdoCon.Dispose();
-                    IP = null;
+                    //IP = null;
                     oServer = null;
                 }
 

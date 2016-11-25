@@ -83,6 +83,14 @@ namespace RadioLogisticaDeliveries
         public string Serial { get; set; } = "";
         public bool Transmitted { get; set; } = false;
         public string TransmissionResult { get; set; } = "";
+
+        public string ProcedureParameters
+        {
+            get
+            {
+                return string.Format("@action='{0}', @Service='{1}', @Session='{2}', @Rack='{3}', @Partnumber='{4}', @Qty={5}, @LabelRack='{6}', @Serial='{7}'",Action, Service, Session, Rack, Partnumber, Qty, LabelRack, Serial);
+            }
+        } 
         public infoData ToInfoData()
         {
             var result = new infoData();
@@ -105,6 +113,7 @@ namespace RadioLogisticaDeliveries
             }
             return result;
         }
+
     }
     #endregion
     public static class SQLidb

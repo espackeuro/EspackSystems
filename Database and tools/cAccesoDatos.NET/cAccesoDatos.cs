@@ -118,7 +118,7 @@ namespace AccesoDatosNet
             }
         }
         public bool Silent { get; set; }
-        public IPAddress IP { get; set; }
+        //public IPAddress IP { get; set; }
         public DateTime TimeTic { get; set; }
         public long TimeOut { get; set; }
         public string Cod3 { get; set; }
@@ -137,6 +137,7 @@ namespace AccesoDatosNet
             //AdoCon = new SqlConnection();
             //Provider = "SQLOLEDB";
             Silent = false;
+            /*
             IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
             var lIP = ipHostInfo.AddressList.FirstOrDefault(x => x.GetAddressBytes()[0] == 10);
             if (lIP == null)
@@ -149,7 +150,8 @@ namespace AccesoDatosNet
             //        break;
             //    }
             //}
-            IP = lIP;
+            //IP = lIP;
+            */
             if (oServer == null)
             {
                 oServer = new cServer() { Type = ServerTypes.DATABASE };
@@ -233,7 +235,7 @@ namespace AccesoDatosNet
             {
                 if (disposing)
                 {
-                    IP = null;
+                    //IP = null;
                     oServer = null;
                 }
 

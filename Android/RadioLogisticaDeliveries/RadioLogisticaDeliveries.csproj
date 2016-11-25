@@ -144,6 +144,7 @@
     <Compile Include="2.1 -headerFragment.cs" />
     <Compile Include="2.2 -orderFragment.cs" />
     <Compile Include="2.4 -statusFragment.cs" />
+    <Compile Include="DataTransferManager.cs" />
     <Compile Include="SQLite Database Classes\database.cs" />
     <Compile Include="1 -MainActivity.cs" />
     <Compile Include="Readings Classes\cData.cs" />
@@ -208,6 +209,10 @@
     <ProjectReference Include="..\..\Database and tools\CommonToolsAndroid\CommonTools\CommonTools.csproj">
       <Project>{6168d25c-fdc9-4a47-a349-4f59dadac002}</Project>
       <Name>CommonTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Android Apps\NetworkDetection\NetworkDetection.csproj">
+      <Project>{c7587a97-8d82-4a8b-a472-89198666fd22}</Project>
+      <Name>NetworkDetection</Name>
     </ProjectReference>
     <ProjectReference Include="..\BitmapHelpers\CommonAndroidTools.csproj">
       <Project>{fe45781b-38cb-44f0-9de7-08e15e0c53bd}</Project>
