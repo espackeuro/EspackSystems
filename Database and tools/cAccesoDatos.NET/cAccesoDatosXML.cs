@@ -9,6 +9,7 @@ using System.Xml.Linq;
 using CommonTools;
 using System.Net;
 using System.Collections;
+using System.Threading.Tasks;
 
 namespace AccesoDatosNet
 {
@@ -367,6 +368,7 @@ namespace AccesoDatosNet
                 //second try
                 try
                 {
+                    Task.Delay(1000);
                     EspackSocksServer.Serial = DeviceSerial;
                     XDocument _msgOut = EspackSocksServer.ConnectionServer.xSyncEncConversation(XMessage, Compression);
                     if (_msgOut.Element("result").Value != "OK")

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using CommonAndroidTools;
 using Android.Content;
 using System;
+using System.Threading;
 
 namespace RadioLogisticaDeliveries
 {
@@ -37,7 +38,7 @@ namespace RadioLogisticaDeliveries
             // CHECKING
             if (reading.IsNumeric() && reading.Length == 9) //checking
             {
-                _data = new dataChecking() { Context = Context, Data = reading, Serial = reading };
+                _data = new dataChecking() { Context = Context, Rack=Values.CurrentRack, Data = reading, Serial = reading };
                 if (await _data.doCheckings())
                 {
                     _dataList.Add(_data);
@@ -78,6 +79,7 @@ namespace RadioLogisticaDeliveries
                     _data = new dataReading()
                     {
                         Context = Context,
+                        Rack = Values.CurrentRack,
                         Data = reading,
                         Partnumber = _split[1],
                         LabelRack = _split[2],
@@ -102,8 +104,17 @@ namespace RadioLogisticaDeliveries
                 {
                     _dataList.Add(_data);
                     //after close code we insert all reading from previous rack
-                    _dataList.Where(r => r.Status == dataStatus.READ || r.Status == dataStatus.WARNING).ToList().ForEach(async r => await r.ToDB());
+                    _dataList.Where(r => r.Status == dataStatus.READ || r.Status == dataStatus.WARNING).ToList().ForEach(r => r.ToDB());
                     position++;
+                    //activate the transfer procedure
+                    try
+                    {
+                        await Values.dtm.Transfer();
+                    } catch (Exception ex)
+                    {
+                        await Values.dFt.pushInfo(ex.Message);
+                    }
+                    
                 }
                 await _data.PushInfo();
                 return;

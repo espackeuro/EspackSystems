@@ -6,6 +6,7 @@ namespace RadioLogisticaDeliveries
 {
     public class dataChecking : cData
     {
+        public string Rack { get; set; }
         public string Serial { get; set; }
         public override infoData Info
         {
@@ -65,15 +66,15 @@ namespace RadioLogisticaDeliveries
         {
             try
             {
-                await SQLidb.db.InsertAsync(new ScannedData() { Action = "CHECK", Rack = Values.CurrentRack, Serial = Serial, Service = Values.gService, Session=Values.gSession });
+                await SQLidb.db.InsertAsync(new ScannedData() { Action = "CHECK", Rack = Rack, Serial = Serial, Service = Values.gService, Session=Values.gSession, Transmitted=false });
             }
             catch (Exception ex)
             {
                 _errorMessage = ex.Message;
-                Status = dataStatus.ERROR;
+                _status = dataStatus.ERROR;
                 return false;
             }
-            Status = dataStatus.DATABASE;
+            _status = dataStatus.DATABASE;
             try
             {
                 await SQLidb.db.InsertAsync(new SerialTracking() { Serial = Data });
@@ -81,7 +82,7 @@ namespace RadioLogisticaDeliveries
             catch (Exception ex)
             {
                 _errorMessage = ex.Message;
-                Status = dataStatus.ERROR;
+                _status = dataStatus.ERROR;
                 return false;
             }
             return true;

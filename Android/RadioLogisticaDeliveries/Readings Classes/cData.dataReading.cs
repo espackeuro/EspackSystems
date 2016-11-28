@@ -7,6 +7,7 @@ namespace RadioLogisticaDeliveries
 {
     public class dataReading : cData
     {
+        public string Rack { get; set; }
         public string Partnumber { get; set; }
         public string LabelRack { get; set; }
         public string LabelService { get; set; }
@@ -119,15 +120,15 @@ namespace RadioLogisticaDeliveries
         {
             try
             {
-                await SQLidb.db.InsertAsync(new ScannedData() { Action = "ADD", Service = LabelService, Session = Values.gSession, Rack = Values.CurrentRack, Partnumber = Partnumber, Qty = Qty, LabelRack = LabelRack });
+                await SQLidb.db.InsertAsync(new ScannedData() { Action = "ADD", Service = LabelService, Session = Values.gSession, Rack = Rack, Partnumber = Partnumber, Qty = Qty, LabelRack = LabelRack, Transmitted=false });
             }
             catch (Exception ex)
             {
                 _errorMessage = ex.Message;
-                Status = dataStatus.ERROR;
+                _status = dataStatus.ERROR;
                 return false;
             }
-            Status = dataStatus.DATABASE;
+            _status = dataStatus.DATABASE;
             return true;
         }
     }
