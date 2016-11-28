@@ -20,7 +20,7 @@ namespace RadioLogisticaDeliveries
     {
         public NetworkStatusMonitor monitor { get; set; }
         public Context context { get; set; }
-        private bool transmitting = false; 
+        public bool Transmitting { get; private set; } = false;
         public DataTransferManager(Context _context)
         {
             context = _context;
@@ -34,43 +34,61 @@ namespace RadioLogisticaDeliveries
             Values.sFt.text1.Text = monitor.State.ToString();
         }
 
-        private async Task Transfer()
+        public async Task Transfer()
         {
-            transmitting = true;
-            var query = await SQLidb.db.Table<ScannedData>().Where(r => r.Transmitted == false).ToListAsync();
-            query.ForEach(async r => 
+            if (Transmitting)
+                return;
+            Transmitting = true;
+
+            while (true)
             {
-                Values.gDatos.DataBase = "PROCESOS";
-                using (SPXML _sp = new SPXML(Values.gDatos, "pLaunchProcess_ReadingSessionControl"))
+                var query = await SQLidb.db.Table<ScannedData>().Where(r => r.Transmitted == false).ToListAsync();
+                if (query.Count == 0)
+                    break;
+                query.ForEach(async r =>
                 {
-                    _sp.AddParameterValue("@DB", "LOGISTICA");
-                    _sp.AddParameterValue("@ProcedureName", "pReadingSessionControl");
-                    _sp.AddParameterValue("@Parameters", r.ProcedureParameters);
-                    _sp.AddParameterValue("@TableDB", "");
-                    _sp.AddParameterValue("@TableName", "");
-                    _sp.AddParameterValue("@TablePK", "");
-                    try
+                    if (monitor.State == NetworkState.ConnectedData || monitor.State == NetworkState.ConnectedWifi)
                     {
-                        _sp.Execute();
-                        if (_sp.LastMsg.Substring(0, 2) != "OK")
+
+                        Values.gDatos.DataBase = "PROCESOS";
+                        using (SPXML _sp = new SPXML(Values.gDatos, "pLaunchProcess_ReadingSessionControl"))
                         {
-                            transmitting = false;
-                            return;
-                        }
-                        else
-                        {
-                            r.Transmitted = true;
-                            await SQLidb.db.UpdateAsync(r);
+                            _sp.AddParameterValue("@DB", "LOGISTICA");
+                            _sp.AddParameterValue("@ProcedureName", "pReadingSessionControl_TEST");
+                            _sp.AddParameterValue("@Parameters", r.ProcedureParameters());
+                            _sp.AddParameterValue("@TableDB", "");
+                            _sp.AddParameterValue("@TableName", "");
+                            _sp.AddParameterValue("@TablePK", "");
+                            try
+                            {
+                                _sp.Execute();
+                                if (_sp.LastMsg.Substring(0, 2) != "OK")
+                                {
+                                    Transmitting = false;
+                                    return;
+                                }
+                                else
+                                {
+                                    r.Transmitted = true;
+                                    await SQLidb.db.UpdateAsync(r);
+                                }
+                            }
+                            catch
+                            {
+                                Transmitting = false;
+                                return;
+                            }
                         }
                     }
-                    catch
+                    else
                     {
-                        transmitting = false;
+                        Transmitting = false;
                         return;
                     }
-                }
-            });
-
+                    await Task.Delay(5000);
+                });
+            }
+            Transmitting = false;
         }
     }
 }

@@ -84,28 +84,30 @@ namespace RadioLogisticaDeliveries
         public bool Transmitted { get; set; } = false;
         public string TransmissionResult { get; set; } = "";
 
-        public string ProcedureParameters
+    }
+
+    
+    public static class ScannedDataControl
+    {
+        public static string ProcedureParameters(this ScannedData SD)
         {
-            get
-            {
-                return string.Format("@action='{0}', @Service='{1}', @Session='{2}', @Rack='{3}', @Partnumber='{4}', @Qty={5}, @LabelRack='{6}', @Serial='{7}'",Action, Service, Session, Rack, Partnumber, Qty, LabelRack, Serial);
-            }
-        } 
-        public infoData ToInfoData()
+            return string.Format("@action='{0}', @Service='{1}', @Session='{2}', @Rack='{3}', @Partnumber='{4}', @Qty={5}, @LabelRack='{6}', @Serial='{7}'", SD.Action, SD.Service, SD.Session, SD.Rack, SD.Partnumber, SD.Qty, SD.LabelRack, SD.Serial);
+        }
+        public static  infoData ToInfoData(this ScannedData SD)
         {
             var result = new infoData();
-            switch (Action)
+            switch (SD.Action)
             {
                 case "ADD":
                     result.c0 = string.Format("ADD");
-                    result.c1 = string.Format("PN:{0}",Partnumber);
-                    result.c2 = string.Format("R:{0}", LabelRack);
-                    result.c3 = string.Format("Q:{0}", Qty);
+                    result.c1 = string.Format("PN:{0}", SD.Partnumber);
+                    result.c2 = string.Format("R:{0}", SD.LabelRack);
+                    result.c3 = string.Format("Q:{0}", SD.Qty); 
                     break;
                 case "CHECK":
                     result.c0 = string.Format("CHECK");
-                    result.c1 = string.Format("SERIAL:{0}", Serial);
-                    result.c2 = string.Format("R:{0}", Rack);
+                    result.c1 = string.Format("SERIAL:{0}", SD.Serial);
+                    result.c2 = string.Format("R:{0}", SD.Rack);
                     break;
                 case "CLOSE":
                     result.c0 = string.Format("CLOSE");
@@ -113,8 +115,8 @@ namespace RadioLogisticaDeliveries
             }
             return result;
         }
-
     }
+    
     #endregion
     public static class SQLidb
     {

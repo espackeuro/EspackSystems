@@ -24,7 +24,7 @@ namespace RadioLogisticaDeliveries
 
         public override async Task<bool> doCheckings()
         {
-            Status = dataStatus.READ;
+            _status = dataStatus.READ;
             return true;
         }
 
@@ -37,10 +37,10 @@ namespace RadioLogisticaDeliveries
             catch (Exception ex)
             {
                 _errorMessage = ex.Message;
-                Status = dataStatus.ERROR;
+                _status = dataStatus.ERROR;
                 return false;
             }
-            Status = dataStatus.DATABASE;
+            _status = dataStatus.DATABASE;
             return true;
         }
     }
