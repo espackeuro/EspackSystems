@@ -46,8 +46,18 @@ namespace LogonScreen
             //Button event
             cLoginButton.Click += CLoginButton_Click;
             typeofCaller = Intent.GetStringExtra("ConnectionType") ?? "Net";
-            LogonDetails.connectionServer = typeofCaller == "Net" ? "net.espackeuro.com" : "logon.espackeuro.com";
-            gDatos = (cAccesoDatos)ObjectFactory.createObject("Conn", typeofCaller, serial: cDeviceInfo.Serial);
+            LogonDetails.connectionServer = "net.espackeuro.com";//typeofCaller == "Net" ? "net.espackeuro.com" : "logon.espackeuro.com";
+            switch (typeofCaller)
+            {
+                case "Net":
+                    gDatos = (cAccesoDatosNet)ObjectFactory.createObject("Conn", typeofCaller, serial: cDeviceInfo.Serial);
+                    break;
+                case "Socks":
+                    gDatos = (cAccesoDatosXML)ObjectFactory.createObject("Conn", typeofCaller, serial: cDeviceInfo.Serial);
+                    break;
+
+            };
+            
 #if DEBUG
             cUser.Text = "restelles";
             cPassword.Text = "1312";

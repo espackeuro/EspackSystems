@@ -1,31 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:minWidth="25px"
     android:minHeight="25px">
     <LinearLayout
-        android:layout_gravity="center"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        android:layout_weight="10">
         <TextView
-            android:id="@+id/test"
-            android:layout_width="match_parent"
+            android:id="@+id/readingsInfo"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="--"
+            android:layout_gravity="center"
+            android:gravity="center|center"
+            android:layout_weight="1"
+            android:text="--HHHHHHHHHHHHHHH"
+            android:textSize="10sp" />
+        <TextView
+            android:id="@+id/checkingsInfo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center|center"
+            android:layout_weight="1"
+            android:text="--HHHHHHHHHHHHHHH"
             android:textSize="10sp" />
     </LinearLayout>
-    <LinearLayout
-        android:layout_gravity="bottom"
+    <ProgressBar
+        style="@android:style/Widget.ProgressBar.Horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ProgressBar
-            style="@android:style/Widget.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-            android:id="@+id/socksProgress" />
-    </LinearLayout>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:indeterminate="true"
+        android:id="@+id/socksProgress" />
 </LinearLayout>

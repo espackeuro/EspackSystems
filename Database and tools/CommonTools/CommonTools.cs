@@ -392,7 +392,7 @@ namespace CommonTools
     // Class cServer -> there are two types: DATABASE and SHARE
     public class cServer
     {
-        private bool _resolve = false;
+        public bool Resolve { get; set; } = true;
         private string _hostName;
         public string HostName
         {
@@ -403,7 +403,7 @@ namespace CommonTools
             set
             {
                 _hostName = value;
-                if (_resolve)
+                if (Resolve)
                 {
                     IPAddress _serverIP;
                     if (!IPAddress.TryParse(value, out _serverIP))
@@ -460,22 +460,26 @@ namespace CommonTools
             {
                 IPAddress _serverIP;
                 _hostName = value;
-                if (!IPAddress.TryParse(value, out _serverIP))
+                if (Resolve)
                 {
+                    if (!IPAddress.TryParse(value, out _serverIP))
+                    {
 
-                    try
-                    {
-                        var result = Dns.GetHostEntry(value);
-                        HostName = result.HostName;
-                        IP = result.AddressList[0];
+                        try
+                        {
+                            var result = Dns.GetHostEntry(value);
+                            HostName = result.HostName;
+                            IP = result.AddressList[0];
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception(string.Format("Error trying {0}: {1}", HostName, ex.Message));
+                        }
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        throw new Exception(string.Format("Error trying {0}: {1}", HostName, ex.Message));
+                        IP = _serverIP;
                     }
-                } else
-                {
-                    IP = _serverIP;
                 }
             }
         }

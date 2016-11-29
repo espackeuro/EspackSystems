@@ -147,7 +147,7 @@ namespace RadioLogisticaDeliveries
                 {
                     _rs.Open();
                     _rs.Rows.ForEach(async r => await SQLidb.db.InsertAsync(new Labels { Serial = r["numero"].ToString(), Partnumber = r["partnumber"].ToString(), qty = r["qty"].ToInt(), boxes = r["cajas"].ToInt(), rack = r["rack"].ToString(), mod = r["Modulo"].ToString() }));
-
+                    Values.sFt.CheckQtyTotal= _rs.Rows.Count;
                 }
                 await Values.iFt.pushInfo("Done");
             }

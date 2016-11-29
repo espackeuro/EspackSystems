@@ -84,7 +84,7 @@ namespace RadioLogisticaDeliveries
                     await Values.iFt.pushInfo(Error);
                     return;
             }
-            await Values.iFt.pushInfo(Info);
+            await Values.iFt.pushInfo(this.Info);
         }
 
         public async Task UpdateCurrent()

@@ -43,6 +43,7 @@ namespace RadioLogisticaDeliveries
                 {
                     _dataList.Add(_data);
                     position++;
+                    Values.sFt.CheckQtyReceived++;
                 }
                 await _data.PushInfo();
                 return;
@@ -90,6 +91,7 @@ namespace RadioLogisticaDeliveries
                     {
                         _dataList.Add(_data);
                         position++;
+                        Values.sFt.CheckQtyReceived++;
                     }
                     await Current().PushInfo();
                     return;
@@ -142,6 +144,14 @@ namespace RadioLogisticaDeliveries
                     _dataList.Where(r => r.Status == dataStatus.READ || r.Status == dataStatus.WARNING).ToList().ForEach(async r => await r.ToDB());
                     _dataList.Add(_data);
                     position++;
+                    try
+                    {
+                        await Values.dtm.Transfer();
+                    }
+                    catch (Exception ex)
+                    {
+                        await Values.dFt.pushInfo(ex.Message);
+                    }
                 }
                 await _data.PushInfo();
                 return;
