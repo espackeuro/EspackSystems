@@ -305,7 +305,9 @@ namespace AccesoDatosNet
                     return ConnectionState.Closed;
             }
         }
-        public new string Server
+
+
+        public override string Server
         {
             get
             {
@@ -317,7 +319,7 @@ namespace AccesoDatosNet
             set
             {
                 if (oServer == null)
-                    oServer = new cServer(value);
+                    oServer = new cServer(value) { Resolve = false };
                 else
                     oServer.Server = value;
             }
@@ -380,6 +382,12 @@ namespace AccesoDatosNet
                 }
             }
         }
+
+        public cAccesoDatosXML() : base()
+        {
+            oServer.Resolve = false;
+        }
+
     }
 
 

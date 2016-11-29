@@ -94,24 +94,29 @@ namespace RadioLogisticaDeliveries
         {
             if (e.Event.Action == KeyEventActions.Down && (e.KeyCode == Keycode.Enter || e.KeyCode == Keycode.Tab))
             {
+                
                 //ignore intent from scanner
                 if (elData.Text== "" && elData.Tag.ToString()=="SCAN")
                 {
                     elData.Tag = null;
+                    e.Handled = true;
                     return;
                 }
                 //discriminator
                 if (elData.Text == "" )
                 {
                     Toast.MakeText(Activity, "Please enter valid data", ToastLength.Long).Show();
+                    e.Handled = true;
                     return;
                 }
                 elData.Enabled = false;
+
                 Values.gDRL.Context = Activity;
                 await Values.gDRL.Add(elData.Text);
                 elData.Text = "";
                 elData.ClearFocus();
                 elData.Enabled = true;
+                e.Handled = true;
             }
             else
             {

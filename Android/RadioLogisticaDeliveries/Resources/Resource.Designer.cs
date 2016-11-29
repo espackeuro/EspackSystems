@@ -5130,6 +5130,9 @@ namespace RadioLogisticaDeliveries
 			// aapt resource value: 0x7f080055
 			public const int checkbox = 2131230805;
 			
+			// aapt resource value: 0x7f080112
+			public const int checkingsInfo = 2131230994;
+			
 			// aapt resource value: 0x7f0800e7
 			public const int chronometer = 2131230951;
 			
@@ -5262,8 +5265,8 @@ namespace RadioLogisticaDeliveries
 			// aapt resource value: 0x7f080044
 			public const int list_item = 2131230788;
 			
-			// aapt resource value: 0x7f080113
-			public const int mainMenu = 2131230995;
+			// aapt resource value: 0x7f080114
+			public const int mainMenu = 2131230996;
 			
 			// aapt resource value: 0x7f0800e3
 			public const int media_actions = 2131230947;
@@ -5274,17 +5277,17 @@ namespace RadioLogisticaDeliveries
 			// aapt resource value: 0x7f08003a
 			public const int mini = 2131230778;
 			
+			// aapt resource value: 0x7f080118
+			public const int mnuclose = 2131231000;
+			
 			// aapt resource value: 0x7f080117
-			public const int mnuclose = 2131230999;
-			
-			// aapt resource value: 0x7f080116
-			public const int mnuloads = 2131230998;
-			
-			// aapt resource value: 0x7f080114
-			public const int mnumain = 2131230996;
+			public const int mnuloads = 2131230999;
 			
 			// aapt resource value: 0x7f080115
-			public const int mnurepair = 2131230997;
+			public const int mnumain = 2131230997;
+			
+			// aapt resource value: 0x7f080116
+			public const int mnurepair = 2131230998;
 			
 			// aapt resource value: 0x7f0800d2
 			public const int mr_art = 2131230930;
@@ -5403,6 +5406,9 @@ namespace RadioLogisticaDeliveries
 			// aapt resource value: 0x7f080078
 			public const int radioReading = 2131230840;
 			
+			// aapt resource value: 0x7f080111
+			public const int readingsInfo = 2131230993;
+			
 			// aapt resource value: 0x7f080031
 			public const int right = 2131230769;
 			
@@ -5478,8 +5484,8 @@ namespace RadioLogisticaDeliveries
 			// aapt resource value: 0x7f08002a
 			public const int snap = 2131230762;
 			
-			// aapt resource value: 0x7f080112
-			public const int socksProgress = 2131230994;
+			// aapt resource value: 0x7f080113
+			public const int socksProgress = 2131230995;
 			
 			// aapt resource value: 0x7f080048
 			public const int spacer = 2131230792;
@@ -5525,9 +5531,6 @@ namespace RadioLogisticaDeliveries
 			
 			// aapt resource value: 0x7f08000d
 			public const int tabMode = 2131230733;
-			
-			// aapt resource value: 0x7f080111
-			public const int test = 2131230993;
 			
 			// aapt resource value: 0x7f0800ea
 			public const int text = 2131230954;

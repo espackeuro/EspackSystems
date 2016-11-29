@@ -14,6 +14,7 @@ using NetworkDetection;
 using System.Threading.Tasks;
 using AccesoDatosNet;
 
+
 namespace RadioLogisticaDeliveries
 {
     public class DataTransferManager
@@ -31,7 +32,7 @@ namespace RadioLogisticaDeliveries
 
         private void Monitor_NetworkStatusChanged(object sender, EventArgs e)
         {
-            Values.sFt.text1.Text = monitor.State.ToString();
+            //Values.sFt.text1.Text = monitor.State.ToString();
         }
 
         public async Task Transfer()
@@ -45,14 +46,16 @@ namespace RadioLogisticaDeliveries
                 var query = await SQLidb.db.Table<ScannedData>().Where(r => r.Transmitted == false).ToListAsync();
                 if (query.Count == 0)
                     break;
-                query.ForEach(async r =>
+                query.ForEach(r =>
                 {
+                    //Thread.Sleep(5000);
                     if (monitor.State == NetworkState.ConnectedData || monitor.State == NetworkState.ConnectedWifi)
                     {
 
                         Values.gDatos.DataBase = "PROCESOS";
-                        using (SPXML _sp = new SPXML(Values.gDatos, "pLaunchProcess_ReadingSessionControl"))
+                        //using (SPXML _sp = new SPXML(Values.gDatos, "pLaunchProcess_ReadingSessionControl"))
                         {
+                            SPXML _sp = new SPXML(Values.gDatos, "pLaunchProcess_ReadingSessionControl");
                             _sp.AddParameterValue("@DB", "LOGISTICA");
                             _sp.AddParameterValue("@ProcedureName", "pReadingSessionControl_TEST");
                             _sp.AddParameterValue("@Parameters", r.ProcedureParameters());
@@ -70,12 +73,22 @@ namespace RadioLogisticaDeliveries
                                 else
                                 {
                                     r.Transmitted = true;
-                                    await SQLidb.db.UpdateAsync(r);
+                                    SQLidb.db.UpdateAsync(r);
+                                    switch (r.Action)
+                                    {
+                                        case "CHECK":
+                                            Values.sFt.CheckQtyTransmitted++;
+                                            break;
+                                        case "READ":
+                                            Values.sFt.ReadQtyTransmitted++;
+                                            break;
+                                    }
                                 }
                             }
-                            catch
+                            catch (Exception ex)
                             {
                                 Transmitting = false;
+                                Values.dFt.pushInfo(ex.Message);
                                 return;
                             }
                         }
@@ -85,10 +98,11 @@ namespace RadioLogisticaDeliveries
                         Transmitting = false;
                         return;
                     }
-                    await Task.Delay(5000);
+                    
                 });
             }
             Transmitting = false;
+            return;
         }
     }
 }

@@ -18,8 +18,92 @@ namespace RadioLogisticaDeliveries
 {
     public class statusFragment : Fragment
     {
+        private int _r, _rt, _cc, _cr, _ct;
         public ProgressBar socksProgress { get; set; }
-        public TextView text1 { get; set; }
+        public TextView readingsInfo { get; set; }
+        public TextView checkingsInfo { get; set; }
+        public int ReadQtyReceived
+        {
+            get
+            {
+                return _r;
+            }
+            set
+            {
+                _r = value;
+                updateInfo();
+            }
+        }
+        public int ReadQtyTransmitted
+        {
+            get
+            {
+                return _rt;
+            }
+            set
+            {
+                _rt = value;
+                updateInfo();
+            }
+        }
+        public int CheckQtyTotal
+        {
+            get
+            {
+                return _cc;
+            }
+            set
+            {
+                _cc = value;
+                updateInfo();
+            }
+        }
+        public int CheckQtyReceived
+        {
+            get
+            {
+                return _cr;
+            }
+            set
+            {
+                _cr = value;
+                updateInfo();
+            }
+        }
+        public int CheckQtyTransmitted
+        {
+            get
+            {
+                return _ct;
+            }
+            set
+            {
+                _ct = value;
+                updateInfo();
+            }
+        }
+        private void updateInfo()
+        {
+            Activity.RunOnUiThread(() =>
+            {
+                readingsInfo.Text = readingsInfoText;
+                checkingsInfo.Text = checkingsInfoText;
+            });
+        }
+        private string readingsInfoText
+        {
+            get
+            {
+                return string.Format("{0}/{1}", ReadQtyReceived, ReadQtyTransmitted);
+            }
+        }
+        private string checkingsInfoText
+        {
+            get
+            {
+                return string.Format("{0}/{1}/{2}", CheckQtyTotal, CheckQtyReceived, CheckQtyTransmitted);
+            }
+        }
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -43,7 +127,8 @@ namespace RadioLogisticaDeliveries
             socksProgress.IndeterminateDrawable.SetColorFilter(Color.Red, PorterDuff.Mode.Multiply);
             //socksProgress.ProgressDrawable.SetColorFilter(Color.Red, PorterDuff.Mode.SrcIn);
             socksProgress.Visibility = ViewStates.Gone;
-            text1 = _root.FindViewById<TextView>(Resource.Id.test);
+            readingsInfo = _root.FindViewById<TextView>(Resource.Id.readingsInfo);
+            checkingsInfo = _root.FindViewById<TextView>(Resource.Id.checkingsInfo);
             return _root;
         }
     }

@@ -39,7 +39,7 @@ namespace AccesoDatosNet
             }
         }
 
-        public string Server
+        public virtual string Server
         {
             get
             {
