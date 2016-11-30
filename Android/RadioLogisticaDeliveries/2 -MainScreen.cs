@@ -9,6 +9,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Socks;
 
 namespace RadioLogisticaDeliveries
 {
@@ -41,8 +42,27 @@ namespace RadioLogisticaDeliveries
             ft.Replace(Resource.Id.StatusFragment, Values.sFt);
             ft.Commit();
 
-            Values.dtm = new DataTransferManager(this);
+            //Values.dtm = new DataTransferManager();
+            //start the transmission service
+            this.StartService(new Intent(this, typeof(DataTransferManager)));
 
+            EspackSocksServer.ConnectionServer.StatusChange += ConnectionServer_StatusChange;
+        }
+
+        private void ConnectionServer_StatusChange(object sender, StatusChangeEventArgs e)
+        {
+            switch (e.NewStatus)
+            {
+                case SocksStatus.OFFLINE:
+                    Values.sFt.socksProgressStatus(ProgressStatusEnum.CONNECTED);
+                    break;
+                case SocksStatus.CONNECTED:
+                    Values.sFt.socksProgressStatus(ProgressStatusEnum.TRANSMITTING);
+                    break;
+                case SocksStatus.ERROR:
+                    Values.sFt.socksProgressStatus(ProgressStatusEnum.DISCONNECTED);
+                    break;
+            }
         }
 
         public void changeOrderToEnterDataFragments()
@@ -51,6 +71,16 @@ namespace RadioLogisticaDeliveries
             {
                 var edFt = new EnterDataFragment();
                 ft.Replace(Resource.Id.dataInputFragment, edFt);
+                ft.Commit();
+            }
+        }
+
+        public void changeEnterDataToOrderFragments()
+        {
+            using (var ft = FragmentManager.BeginTransaction())
+            {
+                var oFt = new orderFragment();
+                ft.Replace(Resource.Id.dataInputFragment, oFt);
                 ft.Commit();
             }
         }

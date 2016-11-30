@@ -91,7 +91,7 @@ namespace RadioLogisticaDeliveries
                     {
                         _dataList.Add(_data);
                         position++;
-                        Values.sFt.CheckQtyReceived++;
+                        Values.sFt.ReadQtyReceived++;
                     }
                     await Current().PushInfo();
                     return;
@@ -106,16 +106,16 @@ namespace RadioLogisticaDeliveries
                 {
                     _dataList.Add(_data);
                     //after close code we insert all reading from previous rack
-                    _dataList.Where(r => r.Status == dataStatus.READ || r.Status == dataStatus.WARNING).ToList().ForEach(r => r.ToDB());
+                    _dataList.Where(r => r.Status == dataStatus.READ || r.Status == dataStatus.WARNING).ToList().ForEach(async r => await r.ToDB());
                     position++;
                     //activate the transfer procedure
-                    try
-                    {
-                        await Values.dtm.Transfer();
-                    } catch (Exception ex)
-                    {
-                        await Values.dFt.pushInfo(ex.Message);
-                    }
+                    //try
+                    //{
+                    //    await Values.dtm.Transfer();
+                    //} catch (Exception ex)
+                    //{
+                    //    await Values.dFt.pushInfo(ex.Message);
+                    //}
                     
                 }
                 await _data.PushInfo();
@@ -144,14 +144,14 @@ namespace RadioLogisticaDeliveries
                     _dataList.Where(r => r.Status == dataStatus.READ || r.Status == dataStatus.WARNING).ToList().ForEach(async r => await r.ToDB());
                     _dataList.Add(_data);
                     position++;
-                    try
-                    {
-                        await Values.dtm.Transfer();
-                    }
-                    catch (Exception ex)
-                    {
-                        await Values.dFt.pushInfo(ex.Message);
-                    }
+                    //try
+                    //{
+                    //    await Values.dtm.Transfer();
+                    //}
+                    //catch (Exception ex)
+                    //{
+                    //    await Values.dFt.pushInfo(ex.Message);
+                    //}
                 }
                 await _data.PushInfo();
                 return;

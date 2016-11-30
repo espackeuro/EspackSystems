@@ -31,7 +31,7 @@ namespace RadioLogisticaDeliveries
 
         public override async Task<bool> doCheckings()
         {
-            var query = await SQLidb.db.Table<RacksBlocks>().Where(r => r.Rack == Data).ToListAsync();
+            var query = await Values.SQLidb.db.Table<RacksBlocks>().Where(r => r.Rack == Data).ToListAsync();
             if (query.Count() == 0)
             {
 

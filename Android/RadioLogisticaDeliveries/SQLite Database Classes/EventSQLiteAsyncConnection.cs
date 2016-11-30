@@ -17,6 +17,15 @@ namespace RadioLogisticaDeliveries
                 handler(this, e);
             }
         }
+        public event EventHandler<AfterUpdateEventArgs> AfterUpdate;
+        protected virtual void OnAfterUpdate(AfterUpdateEventArgs e)
+        {
+            EventHandler<AfterUpdateEventArgs> handler = AfterUpdate;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
         public EventSQLiteAsyncConnection(string path) : base(path)
         {
 
@@ -29,9 +38,20 @@ namespace RadioLogisticaDeliveries
             return result;
         }
 
+        public new async Task<int> UpdateAsync(object item)
+        {
+            int result = await base.UpdateAsync(item);
+            OnAfterUpdate(new AfterUpdateEventArgs() { ItemUpdated = item });
+            return result;
+        }
+
     }
     public class AfterInsertEventArgs : EventArgs
     {
         public object ItemInserted { get; set; }
+    }
+    public class AfterUpdateEventArgs : EventArgs
+    {
+        public object ItemUpdated { get; set; }
     }
 }

@@ -143,7 +143,7 @@ namespace RadioLogisticaDeliveries
         }
         public async Task test()
         {
-            var _query = await SQLidb.db.QueryAsync<RacksBlocksParts>("Select * from RacksBlocks inner join PartnumbersRacks on RacksBlocks.Rack=PartnumbersRacks.Rack limit 6;");
+            var _query = await Values.SQLidb.db.QueryAsync<RacksBlocksParts>("Select * from RacksBlocks inner join PartnumbersRacks on RacksBlocks.Rack=PartnumbersRacks.Rack limit 6;");
             _query.ForEach(r => Values.dFt.pushInfo(r.Block, r.Rack, r.Partnumber, string.Format("{0}/{1}", r.MinBoxes, r.MaxBoxes)));
         }
     }

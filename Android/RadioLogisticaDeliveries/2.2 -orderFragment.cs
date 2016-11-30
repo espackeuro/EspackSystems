@@ -129,7 +129,11 @@ namespace RadioLogisticaDeliveries
             //update database data
             await Values.sFt.ChangeProgressVisibility(true);
             await getDataFromServer();
+            Values.SQLidb.Complete = true;
             await Values.sFt.ChangeProgressVisibility(false);
+
+
+
         }
 
         //method to get all the data from sql server
@@ -146,7 +150,7 @@ namespace RadioLogisticaDeliveries
                 using (var _rs = new XMLRS(string.Format("select numero,partnumber,qty,cajas,rack,Modulo from etiquetas where Numero_orden={0} and Tipo='PEQ'", Values.gOrderNumber), Values.gDatos))
                 {
                     _rs.Open();
-                    _rs.Rows.ForEach(async r => await SQLidb.db.InsertAsync(new Labels { Serial = r["numero"].ToString(), Partnumber = r["partnumber"].ToString(), qty = r["qty"].ToInt(), boxes = r["cajas"].ToInt(), rack = r["rack"].ToString(), mod = r["Modulo"].ToString() }));
+                    _rs.Rows.ForEach(async r => await Values.SQLidb.db.InsertAsync(new Labels { Serial = r["numero"].ToString(), Partnumber = r["partnumber"].ToString(), qty = r["qty"].ToInt(), boxes = r["cajas"].ToInt(), rack = r["rack"].ToString(), mod = r["Modulo"].ToString() }));
                     Values.sFt.CheckQtyTotal= _rs.Rows.Count;
                 }
                 await Values.iFt.pushInfo("Done");
@@ -166,7 +170,7 @@ namespace RadioLogisticaDeliveries
             using (var _rs = new XMLRS(string.Format("select Block,Rack from RacksBlocks where service='{0}' and dbo.CheckFlag(flags,'OBS')=0", Values.gService), Values.gDatos))
             {
                 _rs.Open();
-                _rs.Rows.ForEach(async r => await SQLidb.db.InsertAsync(new RacksBlocks { Block = r["Block"].ToString(), Rack = r["Rack"].ToString() }));
+                _rs.Rows.ForEach(async r => await Values.SQLidb.db.InsertAsync(new RacksBlocks { Block = r["Block"].ToString(), Rack = r["Rack"].ToString() }));
             }
             await Values.iFt.pushInfo("Done");
             await Values.iFt.pushInfo("Getting PartnumberRacks table");
@@ -174,7 +178,7 @@ namespace RadioLogisticaDeliveries
             using (var _rs = new XMLRS(string.Format("Select p.Rack,Partnumber,MinBoxes,MaxBoxes,p.flags from PartnumbersRacks p inner join RacksBlocks r on r.Rack=p.Rack where p.service='{0}' and dbo.CheckFlag(r.flags,'OBS')=0", Values.gService), Values.gDatos))
             {
                 _rs.Open();
-                _rs.Rows.ForEach(async r => await SQLidb.db.InsertAsync(new PartnumbersRacks { Rack = r["Rack"].ToString(), Partnumber=r["Partnumber"].ToString(), MinBoxes=r["MinBoxes"].ToInt(), MaxBoxes=r["MaxBoxes"].ToInt() }));
+                _rs.Rows.ForEach(async r => await Values.SQLidb.db.InsertAsync(new PartnumbersRacks { Rack = r["Rack"].ToString(), Partnumber=r["Partnumber"].ToString(), MinBoxes=r["MinBoxes"].ToInt(), MaxBoxes=r["MaxBoxes"].ToInt() }));
             }
             
             await Values.iFt.pushInfo("Done loading database data");

@@ -83,6 +83,7 @@ namespace RadioLogisticaDeliveries
         public string Serial { get; set; } = "";
         public bool Transmitted { get; set; } = false;
         public string TransmissionResult { get; set; } = "";
+        public DateTime xfec { get; } = DateTime.Now;
 
     }
 
@@ -101,8 +102,9 @@ namespace RadioLogisticaDeliveries
                 case "ADD":
                     result.c0 = string.Format("ADD");
                     result.c1 = string.Format("PN:{0}", SD.Partnumber);
-                    result.c2 = string.Format("R:{0}", SD.LabelRack);
-                    result.c3 = string.Format("Q:{0}", SD.Qty); 
+                    //result.c2 = string.Format("R:{0}", SD.LabelRack);
+                    result.c2 = string.Format("Q:{0}", SD.Qty);
+                    result.c3 = SD.xfec.ToShortTimeString();
                     break;
                 case "CHECK":
                     result.c0 = string.Format("CHECK");
@@ -118,25 +120,56 @@ namespace RadioLogisticaDeliveries
     }
     
     #endregion
-    public static class SQLidb
+    public class SQLiteDatabase
     {
-        public static EventSQLiteAsyncConnection db; 
-        public static string dbPath { get; set; }
-        public static void CreateDatabase(string dbName)
+        public EventSQLiteAsyncConnection db;
+        public bool Complete { get; set; } = false;
+        public string DatabaseName { get; private set; }
+        public string dbPath
         {
-            dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), dbName+".db3");
-            File.Delete(dbPath);
+            get
+            {
+                return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), DatabaseName + ".db3");
+            }
+        }
+        public void CreateDatabase()
+        {
+            //dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), dbName+".db3");
             db = new EventSQLiteAsyncConnection(dbPath);
-            db.AfterInsert += Db_AfterInsert; 
-
+            db.AfterInsert += Db_AfterInsert;
+            db.AfterUpdate += Db_AfterUpdate;
 
         }
 
-        private static void Db_AfterInsert(object sender, AfterInsertEventArgs e)
+        private async void Db_AfterUpdate(object sender, AfterUpdateEventArgs e)
+        {
+            var _pending = (await Values.SQLidb.db.FindAsync<ScannedData>(r => r.Transmitted == false) != null);
+            if (_pending != pendingData)
+                pendingData = _pending;
+        }
+
+        public void DropDatabase()
+        {
+            db = null;
+            if (File.Exists(dbPath))
+                File.Delete(dbPath);
+            Complete = false;
+        }
+        private async void Db_AfterInsert(object sender, AfterInsertEventArgs e)
         {
             if (e.ItemInserted is ScannedData)
-                Values.dFt.pushInfo(((ScannedData)e.ItemInserted).ToInfoData());
+                await Values.dFt.pushInfo(((ScannedData)e.ItemInserted).ToInfoData());
+            var _pending = (await Values.SQLidb.db.FindAsync<ScannedData>(r => r.Transmitted == false) != null);
+            if (_pending != pendingData)
+                pendingData = _pending;
         }
+
+        public SQLiteDatabase(string _databaseName)
+        {
+            DatabaseName = _databaseName;
+        }
+        public bool pendingData { get; private set; }
+
     }
 
 }

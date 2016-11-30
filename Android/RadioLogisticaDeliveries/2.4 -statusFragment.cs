@@ -124,12 +124,39 @@ namespace RadioLogisticaDeliveries
             // return inflater.Inflate(Resource.Layout.YourFragment, container, false);
             var _root = inflater.Inflate(Resource.Layout.statusFragment, container, false);
             socksProgress = _root.FindViewById<ProgressBar>(Resource.Id.socksProgress);
-            socksProgress.IndeterminateDrawable.SetColorFilter(Color.Red, PorterDuff.Mode.Multiply);
+            socksProgress.IndeterminateDrawable.SetColorFilter(Color.Blue, PorterDuff.Mode.Multiply);
             //socksProgress.ProgressDrawable.SetColorFilter(Color.Red, PorterDuff.Mode.SrcIn);
             socksProgress.Visibility = ViewStates.Gone;
             readingsInfo = _root.FindViewById<TextView>(Resource.Id.readingsInfo);
             checkingsInfo = _root.FindViewById<TextView>(Resource.Id.checkingsInfo);
             return _root;
         }
+        public Task socksProgressStatus(ProgressStatusEnum _status)
+        {
+            return Task.Run(() => Activity.RunOnUiThread(() =>
+            {
+                switch (_status)
+                {
+                    case ProgressStatusEnum.DISCONNECTED:
+                        socksProgress.IndeterminateDrawable.SetColorFilter(Color.Red, PorterDuff.Mode.SrcIn);
+                        socksProgress.Visibility = ViewStates.Visible;
+                        break;
+                    case ProgressStatusEnum.CONNECTED:
+                        socksProgress.IndeterminateDrawable.SetColorFilter(Color.Blue, PorterDuff.Mode.Multiply);
+                        socksProgress.Visibility = ViewStates.Visible;
+                        break;
+                    case ProgressStatusEnum.TRANSMITTING:
+                        socksProgress.IndeterminateDrawable.SetColorFilter(Color.Green, PorterDuff.Mode.SrcIn);
+                        socksProgress.Visibility = ViewStates.Visible;
+                        break;
+                    case ProgressStatusEnum.GONE:
+                        socksProgress.Visibility = ViewStates.Gone;
+                        break;
+                }
+            }));
+        }
+
     }
+
+    public enum ProgressStatusEnum { DISCONNECTED, CONNECTED, TRANSMITTING, GONE}
 }
