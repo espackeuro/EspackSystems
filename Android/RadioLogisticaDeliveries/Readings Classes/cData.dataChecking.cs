@@ -31,7 +31,7 @@ namespace RadioLogisticaDeliveries
                 return false;
             }
             //check if already checked
-            var query = await SQLidb.db.Table<SerialTracking>().Where(r => r.Serial == Data).ToListAsync();
+            var query = await Values.SQLidb.db.Table<SerialTracking>().Where(r => r.Serial == Data).ToListAsync();
             if (query.Count() != 0)
             {
                 _errorMessage = "Serial already checked.";
@@ -42,7 +42,7 @@ namespace RadioLogisticaDeliveries
             query = null;
 
             //check if present and get serial data
-            var query2 = await SQLidb.db.Table<Labels>().Where(r => r.Serial == Data).ToListAsync();
+            var query2 = await Values.SQLidb.db.Table<Labels>().Where(r => r.Serial == Data).ToListAsync();
             if (query2.Count() == 0)
             {
                 _errorMessage = string.Format("Wrong serial {0}.", Serial);
@@ -66,7 +66,7 @@ namespace RadioLogisticaDeliveries
         {
             try
             {
-                await SQLidb.db.InsertAsync(new ScannedData() { Action = "CHECK", Rack = Rack, Serial = Serial, Service = Values.gService, Session=Values.gSession, Transmitted=false });
+                await Values.SQLidb.db.InsertAsync(new ScannedData() { Action = "CHECK", Rack = Rack, Serial = Serial, Service = Values.gService, Session=Values.gSession, Transmitted=false });
             }
             catch (Exception ex)
             {
@@ -77,7 +77,7 @@ namespace RadioLogisticaDeliveries
             _status = dataStatus.DATABASE;
             try
             {
-                await SQLidb.db.InsertAsync(new SerialTracking() { Serial = Data });
+                await Values.SQLidb.db.InsertAsync(new SerialTracking() { Serial = Data });
             }
             catch (Exception ex)
             {

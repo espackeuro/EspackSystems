@@ -8,6 +8,7 @@ using Android.OS;
 using AccesoDatosNet;
 using LogonScreen;
 using System.Collections.Generic;
+using Socks;
 
 namespace RadioLogisticaDeliveries
 {
@@ -54,6 +55,7 @@ namespace RadioLogisticaDeliveries
         public static statusFragment sFt { get; set; }
         public static DataTransferManager dtm { get; set; }
 
+        public static SQLiteDatabase SQLidb { get; set; } = new SQLiteDatabase("DELIVERIES");
 
     }
 
@@ -84,17 +86,18 @@ namespace RadioLogisticaDeliveries
                     Values.gDatos.Password = LogonDetails.password;
 
                     //create sqlite database
-                    SQLidb.CreateDatabase("DELIVERIES");
-                    SQLidb.db.CreateTableAsync<Readings>();
-                    SQLidb.db.CreateTableAsync<Labels>();
-                    //SQLidb.db.CreateTableAsync<Referencias>();
-                    SQLidb.db.CreateTableAsync<RacksBlocks>();
-                    SQLidb.db.CreateTableAsync<PartnumbersRacks>();
-                    SQLidb.db.CreateTableAsync<SerialTracking>();
-                    SQLidb.db.CreateTableAsync<ScannedData>();
+                    Values.SQLidb.DropDatabase();
+                    Values.SQLidb.CreateDatabase();
+                    Values.SQLidb.db.CreateTableAsync<Readings>();
+                    Values.SQLidb.db.CreateTableAsync<Labels>();
+                    //Values.SQLidb.db.CreateTableAsync<Referencias>();
+                    Values.SQLidb.db.CreateTableAsync<RacksBlocks>();
+                    Values.SQLidb.db.CreateTableAsync<PartnumbersRacks>();
+                    Values.SQLidb.db.CreateTableAsync<SerialTracking>();
+                    Values.SQLidb.db.CreateTableAsync<ScannedData>();
                     // to do what to do when readings exist
 
-
+                    
 
                     //
 

@@ -29,6 +29,7 @@ namespace RadioLogisticaDeliveries
 
         public async override Task<bool> doCheckings()
         {
+            Status = dataStatus.READ;
             //check if Rack is set
             if (Values.CurrentRack == "")
             {
@@ -37,7 +38,7 @@ namespace RadioLogisticaDeliveries
                 return false;
             }
             //check if present and get serial data
-            var query1 = await SQLidb.db.Table<PartnumbersRacks>().Where(r => r.Partnumber == Partnumber).ToListAsync();
+            var query1 = await Values.SQLidb.db.Table<PartnumbersRacks>().Where(r => r.Partnumber == Partnumber).ToListAsync();
             if (query1.Count == 0)
             {
                 _errorMessage = string.Format("Wrong partnumber {0}.", Partnumber);
@@ -64,7 +65,7 @@ namespace RadioLogisticaDeliveries
                 _warningMessage = string.Format("Label Rack is {0}.\n Copying to {1}.", LabelRack, Values.CurrentRack);
                 Status = dataStatus.WARNING;
                 //insert the new rack for the partnumber
-                await SQLidb.db.InsertAsync(new PartnumbersRacks()
+                await Values.SQLidb.db.InsertAsync(new PartnumbersRacks()
                 {
                     Rack = Values.CurrentRack,
                     Partnumber = Partnumber,
@@ -73,7 +74,7 @@ namespace RadioLogisticaDeliveries
                 });
             }
             //check block from RacksBlocks for current rack
-            var _readRack= await SQLidb.db.FindAsync<RacksBlocks>(r => r.Rack == Values.CurrentRack);
+            var _readRack= await Values.SQLidb.db.FindAsync<RacksBlocks>(r => r.Rack == Values.CurrentRack);
             if (_readRack==null)
             {
                 _errorMessage = string.Format("Wrong Rack {0}.", Values.CurrentRack);
@@ -89,11 +90,11 @@ namespace RadioLogisticaDeliveries
                 Status = dataStatus.WARNING;
                 //update the block
                 _readRack.Block = Values.gBlock;
-                await SQLidb.db.UpdateAsync(_readRack);
+                await Values.SQLidb.db.UpdateAsync(_readRack);
 
             }
             //check block from RacksBlocks for current labelrack
-            var _labelRack = await SQLidb.db.FindAsync<RacksBlocks>(r => r.Rack == LabelRack);
+            var _labelRack = await Values.SQLidb.db.FindAsync<RacksBlocks>(r => r.Rack == LabelRack);
             if (_labelRack == null)
             {
                 _errorMessage = string.Format("Wrong Rack {0}.", LabelRack);
@@ -113,6 +114,7 @@ namespace RadioLogisticaDeliveries
                 Status = dataStatus.WARNING;
                 Qty = _max;
             }
+            
             return true;
 
         }
@@ -120,7 +122,7 @@ namespace RadioLogisticaDeliveries
         {
             try
             {
-                await SQLidb.db.InsertAsync(new ScannedData() { Action = "ADD", Service = LabelService, Session = Values.gSession, Rack = Rack, Partnumber = Partnumber, Qty = Qty, LabelRack = LabelRack, Transmitted=false });
+                await Values.SQLidb.db.InsertAsync(new ScannedData() { Action = "ADD", Service = LabelService, Session = Values.gSession, Rack = Rack, Partnumber = Partnumber, Qty = Qty, LabelRack = LabelRack, Transmitted=false });
             }
             catch (Exception ex)
             {

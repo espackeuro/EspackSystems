@@ -32,7 +32,7 @@ namespace RadioLogisticaDeliveries
         {
             try
             {
-                await SQLidb.db.InsertAsync(new ScannedData() { Action = "CLOSE", Session = Values.gSession, Transmitted = false });
+                await Values.SQLidb.db.InsertAsync(new ScannedData() { Action = "CLOSE", Session = Values.gSession, Transmitted = false });
             }
             catch (Exception ex)
             {

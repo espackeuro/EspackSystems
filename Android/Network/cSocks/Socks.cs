@@ -169,6 +169,7 @@ namespace Socks
             _session = (from _par in _parameters where _par.Element("Name").Value.ToString() == "@SessionNumber" select _par.Element("Value").Value).First();
             _connectionServer = new cSocks(_IP);
         }
+
     }
 
     public class cSocks
@@ -235,7 +236,7 @@ namespace Socks
             Server = pServerName;
         }
 
-        public EventHandler<StatusChangeEventArgs> StatusChange;
+        public event EventHandler<StatusChangeEventArgs> StatusChange;
 
         protected virtual void OnStatusChange(StatusChangeEventArgs e)
         {

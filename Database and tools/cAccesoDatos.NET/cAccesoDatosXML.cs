@@ -646,7 +646,10 @@ namespace AccesoDatosNet
             //}
             //return Result;
         }
-    
+        protected override void Dispose(bool disposing)
+        {
+            //for future uses
+        }
     }
 
     public class XMLRS : RSFrame, XMLEspackDataThing

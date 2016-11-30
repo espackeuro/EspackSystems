@@ -17,8 +17,8 @@
             android:layout_gravity="center"
             android:gravity="center|center"
             android:layout_weight="1"
-            android:text="--HHHHHHHHHHHHHHH"
-            android:textSize="10sp" />
+            android:text="--"
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/checkingsInfo"
             android:layout_width="0dp"
@@ -26,8 +26,8 @@
             android:layout_gravity="center"
             android:gravity="center|center"
             android:layout_weight="1"
-            android:text="--HHHHHHHHHHHHHHH"
-            android:textSize="10sp" />
+            android:text="--"
+            android:textSize="16sp" />
     </LinearLayout>
     <ProgressBar
         style="@android:style/Widget.ProgressBar.Horizontal"
