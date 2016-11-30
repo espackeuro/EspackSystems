@@ -33,6 +33,7 @@ namespace Etiquetas_CS
         private int labelWidth;
         private int labelHeight;
         private bool clearing;
+        private bool NoDelim;
         
         public CtlVSGrid LabelsGrid
         {
@@ -223,6 +224,7 @@ namespace Etiquetas_CS
                 SQLPrintable = _RS["Campos_PRINT"].ToString();
                 labelHeight = Convert.ToInt32(_RS["Alto"]);
                 labelWidth = Convert.ToInt32(_RS["Ancho"]);
+                NoDelim = (_RS["NoDelim"].ToInt() == 1);
                 if (SQLGroup != "")
                 {
 
@@ -457,7 +459,10 @@ namespace Etiquetas_CS
             if (_printerType=="ZPL")
             {
                 _delimiterLabel = new ZPLLabel(labelHeight, labelWidth, 3, _printerResolution);
-                delimiterLabel.delim(_delimiterLabel, "START", SQLParameterString.Replace(" WHERE ",""));
+                if (!NoDelim)
+                {
+                    delimiterLabel.delim(_delimiterLabel, "START", SQLParameterString.Replace(" WHERE ", ""));
+                }
                 _label = new ZPLLabel(labelHeight,labelWidth,3, _printerResolution);
             } else
             {
@@ -469,8 +474,10 @@ namespace Etiquetas_CS
 
 
                 //print delimiter start
-                _printer.SendUTF8StringToPrinter(_delimiterLabel.ToString(), 1);
-
+                if (!NoDelim)
+                {
+                    _printer.SendUTF8StringToPrinter(_delimiterLabel.ToString(), 1);
+                }
                 using (var _RS = new DynamicRS(string.Format("Select * from Campos_CS where codigo='{0}'", txtCode.Text), Values.gDatos))
                 {
                     _RS.Open();
@@ -491,15 +498,21 @@ namespace Etiquetas_CS
                       if (SQLGroup != "" && _group != line.Cells[SQLGroup].Value.ToString())
                       {
                           _group = line.Cells[SQLGroup].Value.ToString();
-                          delimiterLabel.delim(_delimiterLabel, "GROUP", SQLGroup + "|" + _group);
-                          _printer.SendUTF8StringToPrinter(_delimiterLabel.ToString(), 1);
+                          if (!NoDelim)
+                          {
+                              delimiterLabel.delim(_delimiterLabel, "GROUP", SQLGroup + "|" + _group);
+                              _printer.SendUTF8StringToPrinter(_delimiterLabel.ToString(), 1);
+                          }
                       }
                       _printer.SendUTF8StringToPrinter(_label.ToString(_parameters, Convert.ToInt32(line.Cells["QTY"].Value)), 1);
                 //cRawPrinterHelper.SendUTF8StringToPrinter(_printerAddress, _label.ToString(_parameters), Convert.ToInt32("2"));
                 ChangeLineStatus(line);
                   });
-                delimiterLabel.delim(_delimiterLabel, "END", "***");
-                _printer.SendUTF8StringToPrinter(_delimiterLabel.ToString(), 1);
+                if (!NoDelim)
+                {
+                    delimiterLabel.delim(_delimiterLabel, "END", "***");
+                    _printer.SendUTF8StringToPrinter(_delimiterLabel.ToString(), 1);
+                }
                 SetFormEnabled(true);
             }
         }
