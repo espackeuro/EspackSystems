@@ -61,13 +61,17 @@
       <Project>{9148f7e6-31f6-4f96-b7dc-afea449998c7}</Project>
       <Name>CommonTools</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Database and tools\Compression\Compression\Compression.csproj">
+      <Project>{56e01207-2fdd-43e5-8f45-32b5cf34d8eb}</Project>
+      <Name>Compression</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Database and tools\EncryptionWindows\Encryption\Encryption.csproj">
       <Project>{b6ce04c5-9462-43c8-a039-f8ea3c5ace91}</Project>
       <Name>Encryption</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Network\Socks\Socks.csproj">
-      <Project>{89a2bec9-3beb-4635-a016-442c5d1d7d4f}</Project>
-      <Name>Socks</Name>
+    <ProjectReference Include="..\..\..\Database and tools\Messages\Messages.csproj">
+      <Project>{19c864e9-f42c-404c-ba54-548392dbaf43}</Project>
+      <Name>Messages</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

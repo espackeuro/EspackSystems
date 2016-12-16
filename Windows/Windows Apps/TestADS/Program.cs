@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AccesoDatosNet;
-using Socks;
 using Encryption;
 using Compression;
 
@@ -52,34 +51,34 @@ namespace TestADS
             //    _SP.AddParameterValue("User", "restelles");
             //    _SP.AddParameterValue("Password", "G8npi3rc");
             //    _SP.AddParameterValue("Origin", "LOGON_CS");
-            //    _SP.Execute();
+            //    _,SP.Execute();
             //}
 
             test1();
 
         }
 
-        static void test1()
+        static async Task test1()
         {
-            string _type = "Net";
+            string _type = "Socks";
             cAccesoDatos gDatos;
             gDatos =(cAccesoDatos)ObjectFactory.createObject("Conn", _type);
             gDatos.Server = "DB01";
             gDatos.DataBase = "Sistemas";
             gDatos.User = "sa";
             gDatos.Password = "5380";
-            gDatos.Connect();
+            await gDatos.Connect();
 
             SPFrame _sp;
             _sp = (SPFrame)ObjectFactory.createObject("SP",_type,gDatos, "pLogonUser");
             _sp.AddParameterValue("User", "restelles");
             _sp.AddParameterValue("Password", "G8npi3rc");
             _sp.AddParameterValue("Origin", "LOGON5");
-            _sp.Execute();
+            await _sp.Execute();
 
             RSFrame _rs;
-            _rs = (RSFrame)ObjectFactory.createObject("RS", _type, "Select top 10 * from users", gDatos);
-            _rs.Open();
+            _rs = (RSFrame)ObjectFactory.createObject("RS", _type, "Select top 10 * from ItemsCab", gDatos);
+            await _rs.Open();
             _rs.Rows.ForEach(r => Console.WriteLine(r["UserCode"]));
 
         }

@@ -269,16 +269,16 @@ namespace LogOnObjects
         }
 
         // CheckUpdated -> Returns true if all the files for this APP are updated.
-        public async Task<bool> CheckUpdated()
+        public Task<bool> CheckUpdated()
         {
             ChangeStatus(AppBotStatus.CHECKING);
-            return await Task.Run(() =>
+            return Task.Run(() =>
               {
                   
                   bool _clean = true;
                   using (var client = new FtpClient())
                   {
-                      client.ConnectTimeout = 60000;
+                      client.ConnectTimeout = 120000;
                       client.Host = ShareServer.HostName;
                       client.Credentials = new NetworkCredential(ShareServer.User, ShareServer.Password);
                       client.DataConnectionType = FtpDataConnectionType.AutoActive;
@@ -288,7 +288,7 @@ namespace LogOnObjects
                   if (!_clean)
                       ChangeStatus(AppBotStatus.PENDING_UPDATE);
                   return _clean;
-              }).ConfigureAwait(false);
+              });
 
         }
         public bool CheckUpdatedSync()
@@ -596,7 +596,8 @@ namespace LogOnObjects
             if (!Special)
             {
                 ChangeStatus(AppBotStatus.PENDING_UPDATE);
-                if (!await CheckUpdated().ConfigureAwait(false))
+                //if (!await CheckUpdated().ConfigureAwait(false))
+                if (!await CheckUpdated())
                 {
                     Application.DoEvents();
                     Values.ActiveThreads++;
