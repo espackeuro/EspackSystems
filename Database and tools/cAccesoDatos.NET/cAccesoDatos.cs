@@ -8,6 +8,7 @@ using System.Data.Common;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace AccesoDatosNet
 {
@@ -118,13 +119,13 @@ namespace AccesoDatosNet
             }
         }
         public bool Silent { get; set; }
-        //public IPAddress IP { get; set; }
+        public IPAddress IP { get; set; }
         public DateTime TimeTic { get; set; }
         public long TimeOut { get; set; }
         public string Cod3 { get; set; }
         public byte[] context_info { get; set; }
         public cServer oServer { get; set; }
-        public string DeviceSerial { get; set; } = null;
+        //public string DeviceSerial { get; set; } = null;
 
         public abstract System.Data.ConnectionState State
         {
@@ -206,11 +207,11 @@ namespace AccesoDatosNet
             get;
         }
 
-        public abstract void Connect();
+        public abstract Task Connect();
 
-        public void Open()
+        public async Task Open()
         {
-            Connect();
+            await Connect();
         }
 
         public abstract void Close();
@@ -348,20 +349,20 @@ namespace AccesoDatosNet
         public abstract void MoveLast();
         public abstract void MoveFirst();
         public abstract void Move(int Idx);
-        public abstract void Execute();
-        public void Open()
+        public abstract Task Execute();
+        public async Task Open()
         {
             AssignParameterValues();
             var e = new EventArgs();
             OnBeforeExecution(e);
-            Execute();
+            await Execute();
             OnAfterExecution(e);
         }
-        public void Open(string Sql, cAccesoDatos Conn)
+        public async Task Open(string Sql, cAccesoDatos Conn)
         {
             SQL = Sql;
             mConn = Conn;
-            Open();
+            await Open();
         }
 
         public abstract void Close();
@@ -637,7 +638,7 @@ namespace AccesoDatosNet
             ControlParameters.Where(x => x.LinkedControl is IsValuable && (x.Parameter.Direction == ParameterDirection.InputOutput || x.Parameter.Direction == ParameterDirection.Output)).ToList().ForEach(p => ((IsValuable)p.LinkedControl).Value = p.Parameter.Value);
         }
 
-        public virtual void Execute()
+        public virtual async Task Execute()
         {
             AssignParameterValues();
             if (Conn.State == ConnectionState.Open)
@@ -646,10 +647,10 @@ namespace AccesoDatosNet
             }
             else
             {
-                Conn.Open();
+                await Conn.Open();
                 try
                 {
-                    Cmd.ExecuteNonQuery();
+                    await Cmd.ExecuteNonQueryAsync();
                 }
                 catch
                 {
@@ -672,6 +673,8 @@ namespace AccesoDatosNet
             }
 
         }
+
+
         public virtual Dictionary<string, object> ReturnValues()
         {
             return Parameters.OfType<DbParameter>()
@@ -728,7 +731,7 @@ namespace AccesoDatosNet
                 case "Conn":
                     object _conn;
                     if (objectType == "Socks") _conn = new cAccesoDatosXML(); else _conn = new cAccesoDatosNet();
-                    ((cAccesoDatos)_conn).DeviceSerial = serial;
+                    EspackCommServer.Server.Serial = serial;
                     return _conn;
                 case "SP": if (objectType == "Socks") return new SPXML((cAccesoDatosXML)param1, (string)param2); else return new SP((cAccesoDatosNet)param1, (string)param2);
                 case "RS": if (objectType == "Socks") return new XMLRS((string)param1, (cAccesoDatosXML)param2); else return new DynamicRS((string)param1, (cAccesoDatosNet)param2);

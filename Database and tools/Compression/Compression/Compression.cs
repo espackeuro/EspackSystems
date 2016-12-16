@@ -40,6 +40,12 @@ namespace Compression
             }
         }
 
+        public static string Unzip(string str)
+        {
+            var bytes = Convert.FromBase64String(str);
+            return Unzip(bytes);
+        }
+
         public static string Unzip(byte[] bytes)
         {
             using (var msi = new MemoryStream(bytes))
@@ -55,8 +61,10 @@ namespace Compression
             }
         }
 
-        public static byte[] GZipHeaderBytes = { 0x1f, 0x8b, 8, 0, 0, 0, 0, 0, 4, 0 };
-        public static byte[] GZipLevel10HeaderBytes = { 0x1f, 0x8b, 8, 0, 0, 0, 0, 0, 2, 0 };
+        //public static byte[] GZipHeaderBytes = { 0x1f, 0x8b, 8, 0, 0, 0, 0, 0, 4, 0 };
+        //public static byte[] GZipLevel10HeaderBytes = { 0x1f, 0x8b, 8, 0, 0, 0, 0, 0, 2, 0 };
+        public static byte[] GZipHeaderBytes = { 0x1f, 0x8b, 8, 0, 0};
+        public static byte[] GZipLevel10HeaderBytes = { 0x1f, 0x8b, 8, 0, 0 };
 
         public static bool IsPossiblyGZippedBytes(this byte[] a)
         {
@@ -67,10 +75,20 @@ namespace Compression
                 return false;
             }
 
-            var header = a.SubArray(0, 10);
+            var header = a.SubArray(0, 5);
 
             return header.SequenceEqual(GZipHeaderBytes) || header.SequenceEqual(GZipLevel10HeaderBytes);
         }
-
+        public static bool IsPossiblyGZippedString(this string s)
+        {
+            try
+            {
+                var a = Convert.FromBase64String(s);
+                return IsPossiblyGZippedBytes(a);
+            } catch (Exception ex)
+            {
+                return false;
+            }
+        }
     }
 }

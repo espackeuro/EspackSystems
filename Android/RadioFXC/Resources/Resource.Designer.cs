@@ -26,8 +26,6 @@ namespace RadioFXC
 		
 		public static void UpdateIdValues()
 		{
-			global::AccesoDatosNet.Resource.String.ApplicationName = global::RadioFXC.Resource.String.ApplicationName;
-			global::AccesoDatosNet.Resource.String.Hello = global::RadioFXC.Resource.String.Hello;
 			global::CommonAndroidTools.Resource.Raw.Antares = global::RadioFXC.Resource.Raw.Antares;
 			global::CommonAndroidTools.Resource.Raw.decodeshort = global::RadioFXC.Resource.Raw.decodeshort;
 			global::CommonAndroidTools.Resource.Raw.Gallium = global::RadioFXC.Resource.Raw.Gallium;
@@ -35,8 +33,6 @@ namespace RadioFXC
 			global::CommonAndroidTools.Resource.Raw.Tejat = global::RadioFXC.Resource.Raw.Tejat;
 			global::CommonAndroidTools.Resource.String.ApplicationName = global::RadioFXC.Resource.String.ApplicationName;
 			global::CommonAndroidTools.Resource.String.Hello = global::RadioFXC.Resource.String.Hello;
-			global::CommonTools.Resource.String.ApplicationName = global::RadioFXC.Resource.String.ApplicationName;
-			global::CommonTools.Resource.String.Hello = global::RadioFXC.Resource.String.Hello;
 			global::DataWedge.Resource.String.ApplicationName = global::RadioFXC.Resource.String.ApplicationName;
 			global::DataWedge.Resource.String.Hello = global::RadioFXC.Resource.String.Hello;
 			global::LogonScreen.Resource.Animation.abc_fade_in = global::RadioFXC.Resource.Animation.abc_fade_in;

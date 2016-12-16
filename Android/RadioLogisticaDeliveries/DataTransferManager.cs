@@ -31,14 +31,14 @@ namespace RadioLogisticaDeliveries
         //    monitor.Start();
         //}
 
-        private void Monitor_NetworkStatusChanged(object sender, EventArgs e)
+        private async void Monitor_NetworkStatusChanged(object sender, EventArgs e)
         {
             if (monitor.State != NetworkState.ConnectedData && monitor.State != NetworkState.ConnectedWifi)
             {
-                Values.sFt.socksProgressStatus(ProgressStatusEnum.DISCONNECTED);
+                await Values.sFt.socksProgressStatus(ProgressStatusEnum.DISCONNECTED);
             } else
             {
-                Values.sFt.socksProgressStatus(ProgressStatusEnum.CONNECTED);
+                await Values.sFt.socksProgressStatus(ProgressStatusEnum.CONNECTED);
             }
         }
 
@@ -80,7 +80,7 @@ namespace RadioLogisticaDeliveries
                             _sp.AddParameterValue("@TablePK", "");
                             try
                             {
-                                _sp.Execute();
+                                await _sp.Execute();
                                 if (_sp.LastMsg.Substring(0, 2) != "OK")
                                 {
                                     Transmitting = false;

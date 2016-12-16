@@ -4,12 +4,14 @@ using System.Data;
 using System.Data.Common;
 using System.Linq;
 using System.Text;
-using Socks;
 using System.Xml.Linq;
 using CommonTools;
 using System.Net;
 using System.Collections;
 using System.Threading.Tasks;
+using Messages;
+using System.ComponentModel;
+using Sockets;
 
 namespace AccesoDatosNet
 {
@@ -270,13 +272,12 @@ namespace AccesoDatosNet
     public interface XMLEspackDataThing
     {
         XElement XThingElement { get; }
-        XEspackSocksMessage XMessage { get; }
-        bool Compression { get; set; }
+        XDataMessageRequest XMessage { get; }
     }
 
     public class cAccesoDatosXML : cAccesoDatos, IDisposable, XMLEspackDataThing
     {
-        public bool Compression { get; set; } = false;
+        public bool Compression { get; set; } = true;
         String Origin { get; set; } = "LOGON";
         //string SessionNumber { get; set; }
         public override string HostName
@@ -299,10 +300,7 @@ namespace AccesoDatosNet
         {
             get
             {
-                if (EspackSocksServer.ConnectionServer.Status == SocksStatus.CONNECTED)
-                    return ConnectionState.Open;
-                else
-                    return ConnectionState.Closed;
+                return ConnectionState.Closed;
             }
         }
 
@@ -336,16 +334,16 @@ namespace AccesoDatosNet
             }
         }
 
-        public XEspackSocksMessage XMessage
+        public XDataMessageRequest XMessage
         {
             get
             {
-                var _x = new XEspackSocksMessage();
+                var _x = new XDataMessageRequest();
                 _x.SetActionDefinition("Database Connection");
                 var _d = new XElement(XThingElement);
                 _d.Name = "data";
                 _x.SetActionData(_d);
-                _x.SetSession(EspackSocksServer.SessionNumber);
+                _x.SetSession(EspackCommServer.Server.SessionNumber);
                 return _x;
             }
         }
@@ -355,24 +353,22 @@ namespace AccesoDatosNet
             // do nothing
         }
 
-
-        public override void Connect()
+        public async override Task Connect()
         {
             try
             {
-                EspackSocksServer.Serial = DeviceSerial;
-                XDocument _msgOut = EspackSocksServer.ConnectionServer.xSyncEncConversation(XMessage, Compression);
+                //EspackCommServer.Serial = DeviceSerial;
+                XDocument _msgOut = await EspackCommServer.Server.Transmit(XMessage); 
                 if (_msgOut.Element("result").Value != "OK")
                     throw new Exception(_msgOut.Element("result").Value);
             }
-            catch
+            catch //(Exception ex)
             {
                 //second try
                 try
                 {
-                    Task.Delay(1000);
-                    EspackSocksServer.Serial = DeviceSerial;
-                    XDocument _msgOut = EspackSocksServer.ConnectionServer.xSyncEncConversation(XMessage, Compression);
+                    //EspackCommServer.Serial = DeviceSerial;
+                    XDocument _msgOut = await EspackCommServer.Server.Transmit(XMessage);
                     if (_msgOut.Element("result").Value != "OK")
                         throw new Exception(_msgOut.Element("result").Value);
                 }
@@ -438,16 +434,16 @@ namespace AccesoDatosNet
                 return _x;
             }
         }
-        public XEspackSocksMessage XMessage
+        public XDataMessageRequest XMessage
         {
             get
             {
-                var _x = new XEspackSocksMessage();
+                var _x = new XDataMessageRequest();
                 _x.SetActionDefinition("Stored Procedure");
                 var _d = new XElement(XThingElement);
                 _d.Name = "data";
                 _x.SetActionData(_d);
-                _x.SetSession(EspackSocksServer.SessionNumber);
+                _x.SetSession(EspackCommServer.Server.SessionNumber);
                 return _x;
             }
         }
@@ -603,11 +599,11 @@ namespace AccesoDatosNet
             if (ControlParameters != null)
                 ControlParameters.Where(x => x.LinkedControl is IsValuable && (x.Parameter.Direction == ParameterDirection.InputOutput || x.Parameter.Direction == ParameterDirection.Output)).ToList().ForEach(p => ((IsValuable)p.LinkedControl).Value = p.Parameter.Value);
         }
-        public override void Execute()
+        public override async Task Execute()
         {
             AssignParameterValues();
 
-            XDocument _msgOut = EspackSocksServer.ConnectionServer.xSyncEncConversation(XMessage, Compression);
+            XDocument _msgOut =await EspackCommServer.Server.Transmit(XMessage);
 
             if (_msgOut.Element("result").Value.Substring(0,5) == "ERROR")
                 throw new Exception(_msgOut.Element("result").Value);
@@ -629,7 +625,6 @@ namespace AccesoDatosNet
             }
             LastMsg = _msg;
         }
-
         public override Dictionary<string, object> ReturnValues()
         {
             return Parameters.OfType<XMLParameter>()
@@ -823,16 +818,16 @@ namespace AccesoDatosNet
             }
         }
 
-        public XEspackSocksMessage XMessage
+        public XDataMessageRequest XMessage
         {
             get
             {
-                var _x = new XEspackSocksMessage();
+                var _x = new XDataMessageRequest();
                 _x.SetActionDefinition("Recordset");
                 var _d = new XElement(XThingElement);
                 _d.Name = "data";
                 _x.SetActionData(_d);
-                _x.SetSession(EspackSocksServer.SessionNumber);
+                _x.SetSession(EspackCommServer.Server.SessionNumber);
                 return _x;
             }
         }
@@ -856,9 +851,9 @@ namespace AccesoDatosNet
             }
         }
 
-        public override void Execute()
+        public override async Task Execute()
         {
-            XDocument _msgOut = EspackSocksServer.ConnectionServer.xSyncEncConversation(XMessage, Compression);
+            XDocument _msgOut = await EspackCommServer.Server.Transmit(XMessage);
             if (_msgOut.Element("result").Value.Substring(0, 5) == "ERROR")
                 throw new Exception(_msgOut.Element("result").Value);
             //to do: recover parameter values for output parameters
@@ -884,4 +879,142 @@ namespace AccesoDatosNet
         }
     }
 
+    public static class EspackCommServer
+    {
+        public static CommServer Server { get; } = new CommServer();
+    }
+
+
+    public class CommServer : INotifyPropertyChanged
+    {
+        //public const string MAINSERVERIP;
+        private string _serial = null;
+        public string Serial
+        {
+            get
+            {
+                _serial = _serial ?? Environment.MachineName;
+                return _serial;
+            }
+            set
+            {
+                _serial = value;
+            }
+        }
+        //session number
+        private string _session=null;
+        public string SessionNumber
+        {
+            get
+            {
+                return _session;
+            }
+        }
+
+        public IPAddress IP { get; set; }
+        public int Port { get; set; }
+
+        public async Task getSocksConnection()
+        {
+            Status = CommStatus.TRYCONNECT;
+            _session = "";
+            var _r = Dns.GetHostEntry("socks.espackeuro.com");
+            IP = _r.AddressList[0];
+            Port = 17011;
+            //first phase, get the destination external IP to connect
+            //create the xml message with the session information
+            var _message = new XDataMessageRequest();
+            _message.SetActionDefinition("Start Session");
+            _message.SetActionData(new XElement("data", Serial));
+            _message.SetSession("");
+            XDocument _msgOut = await Transmit(_message);
+            var _result = _msgOut.Root;
+            if (_result == null || _result.Value.Substring(0, 5) == "ERROR")
+            {
+                throw new Exception(_result.Value ?? "Error no result obtained");
+            }
+            var _parameters = _result.Element("parameters").Elements("parameter");
+
+            string _sIP = (from _par in _parameters where _par.Element("Name").Value.ToString() == "@ExternalIP" select _par.Element("Value").Value).First();
+            var _COD3 = (from _par in _parameters where _par.Element("Name").Value.ToString() == "@COD3" select _par.Element("Value").Value).First();
+            _session = (from _par in _parameters where _par.Element("Name").Value.ToString() == "@SessionNumber" select _par.Element("Value").Value).First();
+            IP = IPAddress.Parse(_sIP);
+        }
+        public async Task<XDocument> Transmit(XDataMessageRequest x)
+        {
+            try
+            {
+                Status = CommStatus.CONNECTED;
+                if (_session == null)
+                    await getSocksConnection();
+                var msgOut = new Message();
+                var encryptedCompressedMsgOut = new EncryptMessageOutput(new CompressMessageOutput(msgOut)) { MsgIn = x.ToString() };
+                await encryptedCompressedMsgOut.process();
+                var Socket = new AsynchronousSocketClient() { ServerIP = IP, ServerPort = Port };
+                var _result = await Socket.AsyncConversation(encryptedCompressedMsgOut.MsgOut);
+                var msgIn = new Message();
+                var decryptedUncompressedMsgIn = new DecryptMessageInput(new DecompressMessageInput(msgIn)) { MsgIn = _result };
+                await decryptedUncompressedMsgIn.process();
+
+                //var m = new TransmitEntcryptedCompressedMessage() { ServerIP = IP, Port = Port };
+                //m.MsgIn = x.ToString();
+                //await m.process();
+                //var _res= XDocument.Parse(m.MsgOut);
+                var _res = XDocument.Parse(decryptedUncompressedMsgIn.MsgOut);
+                Status = CommStatus.OFFLINE;
+                return _res;
+            } catch (Exception e)
+            {
+
+                Console.WriteLine(e.Message);
+                Status = CommStatus.ERROR;
+                throw e;
+            }
+        }
+
+        public async Task<string> Transmit(string s)
+        {
+            var msgOut = new Message();
+            var encryptedCompressedMsgOut = new EncryptMessageOutput(new CompressMessageOutput(msgOut)) { MsgIn = s };
+            await encryptedCompressedMsgOut.process();
+            var Socket = new AsynchronousSocketClient() { ServerIP = IP, ServerPort = Port };
+            var _result = Socket.SyncConversation(encryptedCompressedMsgOut.MsgOut);
+            var msgIn = new Message();
+            var decryptedUncompressedMsgIn = new DecompressMessageInput(new DecryptMessageInput(msgIn)) { MsgIn = _result };
+            await decryptedUncompressedMsgIn.process();
+            return decryptedUncompressedMsgIn.MsgOut;
+        }
+
+        protected void OnPropertyChanged(PropertyChangedEventArgs e)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+                handler(this, e);
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged(string propertyName)
+        {
+            OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
+        }
+        private CommStatus oStatus = CommStatus.OFFLINE;
+
+        public CommStatus Status
+        {
+            get
+            {
+                return oStatus;
+            }
+            set
+            {
+                if (value != oStatus)
+                {
+                    oStatus = value;
+                    OnPropertyChanged("Status");
+                }
+
+            }
+        }
+    }
+
+    public enum CommStatus { OFFLINE, TRYCONNECT, CONNECTED, ERROR }
 }

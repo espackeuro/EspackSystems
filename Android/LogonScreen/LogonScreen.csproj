@@ -115,8 +115,8 @@
     <AndroidResource Include="Resources\Values\Strings.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Database and tools\cAccesoDatosAndroid\cAccesoDatosNet.csproj">
-      <Project>{9c95e323-c7e8-45b9-84bb-3ee165e28c3c}</Project>
+    <ProjectReference Include="..\..\Database and tools\cAccesoDatos.NET\cAccesoDatosNet.csproj">
+      <Project>{d3e453aa-39b7-480f-8917-6d7f5076c3ed}</Project>
       <Name>cAccesoDatosNet</Name>
     </ProjectReference>
     <ProjectReference Include="..\BitmapHelpers\CommonAndroidTools.csproj">
