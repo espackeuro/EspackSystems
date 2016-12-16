@@ -102,11 +102,8 @@ namespace RadioLogisticaDeliveries
             await Values.iFt.updateMainLine(Info);
         }
 
-        public virtual async Task<bool> doCheckings() { return false; }
-        public virtual async Task<bool> ToDB()
-        {
-            return false;
-        }
+        public virtual Task<bool> doCheckings() { return Task.FromResult(false); }
+        public virtual Task<bool> ToDB() { return Task.FromResult(false); }
         public virtual void Transmit() { }
 
     }

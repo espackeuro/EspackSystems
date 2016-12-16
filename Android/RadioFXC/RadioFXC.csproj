@@ -208,13 +208,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Database and tools\cAccesoDatosAndroid\cAccesoDatosNet.csproj">
-      <Project>{9c95e323-c7e8-45b9-84bb-3ee165e28c3c}</Project>
+    <ProjectReference Include="..\..\Database and tools\cAccesoDatos.NET\cAccesoDatosNet.csproj">
+      <Project>{d3e453aa-39b7-480f-8917-6d7f5076c3ed}</Project>
       <Name>cAccesoDatosNet</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Database and tools\CommonToolsAndroid\CommonTools\CommonTools.csproj">
-      <Project>{6168d25c-fdc9-4a47-a349-4f59dadac002}</Project>
-      <Name>CommonTools</Name>
     </ProjectReference>
     <ProjectReference Include="..\BitmapHelpers\CommonAndroidTools.csproj">
       <Project>{fe45781b-38cb-44f0-9de7-08e15e0c53bd}</Project>

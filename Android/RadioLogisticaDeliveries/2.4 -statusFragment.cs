@@ -133,20 +133,27 @@ namespace RadioLogisticaDeliveries
         }
         public Task socksProgressStatus(ProgressStatusEnum _status)
         {
-            return Task.Run(() => Activity.RunOnUiThread(() =>
+            return Task.Run(() => 
+            Activity.RunOnUiThread(() =>
             {
                 switch (_status)
                 {
                     case ProgressStatusEnum.DISCONNECTED:
+                        socksProgress.Visibility = ViewStates.Gone;
+                        socksProgress.IndeterminateDrawable.SetColorFilter(null);
                         socksProgress.IndeterminateDrawable.SetColorFilter(Color.Red, PorterDuff.Mode.SrcIn);
                         socksProgress.Visibility = ViewStates.Visible;
                         break;
                     case ProgressStatusEnum.CONNECTED:
-                        socksProgress.IndeterminateDrawable.SetColorFilter(Color.Blue, PorterDuff.Mode.Multiply);
+                        socksProgress.Visibility = ViewStates.Gone;
+                        socksProgress.IndeterminateDrawable.SetColorFilter(null);
+                        socksProgress.IndeterminateDrawable.SetColorFilter(Color.Green, PorterDuff.Mode.SrcIn);
                         socksProgress.Visibility = ViewStates.Visible;
                         break;
                     case ProgressStatusEnum.TRANSMITTING:
-                        socksProgress.IndeterminateDrawable.SetColorFilter(Color.Green, PorterDuff.Mode.SrcIn);
+                        socksProgress.Visibility = ViewStates.Gone;
+                        socksProgress.IndeterminateDrawable.SetColorFilter(null);
+                        socksProgress.IndeterminateDrawable.SetColorFilter(Color.Blue, PorterDuff.Mode.SrcIn);
                         socksProgress.Visibility = ViewStates.Visible;
                         break;
                     case ProgressStatusEnum.GONE:

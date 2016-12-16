@@ -8,7 +8,7 @@ using Android.OS;
 using AccesoDatosNet;
 using LogonScreen;
 using System.Collections.Generic;
-using Socks;
+
 
 namespace RadioLogisticaDeliveries
 {

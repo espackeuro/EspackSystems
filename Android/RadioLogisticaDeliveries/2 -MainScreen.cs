@@ -9,8 +9,8 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using Socks;
-
+using System.Threading.Tasks;
+using AccesoDatosNet;
 namespace RadioLogisticaDeliveries
 {
     [Activity(Label = "Radio LOGISTICA deliveries", WindowSoftInputMode = SoftInput.AdjustPan)]
@@ -46,24 +46,29 @@ namespace RadioLogisticaDeliveries
             //start the transmission service
             this.StartService(new Intent(this, typeof(DataTransferManager)));
 
-            EspackSocksServer.ConnectionServer.StatusChange += ConnectionServer_StatusChange;
+            EspackCommServer.Server.PropertyChanged += ConnectionServer_PropertyChanged; ;
         }
 
-        private void ConnectionServer_StatusChange(object sender, StatusChangeEventArgs e)
+        private async void ConnectionServer_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            switch (e.NewStatus)
+            if (e.PropertyName=="Status")
             {
-                case SocksStatus.OFFLINE:
-                    Values.sFt.socksProgressStatus(ProgressStatusEnum.CONNECTED);
-                    break;
-                case SocksStatus.CONNECTED:
-                    Values.sFt.socksProgressStatus(ProgressStatusEnum.TRANSMITTING);
-                    break;
-                case SocksStatus.ERROR:
-                    Values.sFt.socksProgressStatus(ProgressStatusEnum.DISCONNECTED);
-                    break;
+                switch (EspackCommServer.Server.Status)
+                {
+                    case CommStatus.OFFLINE:
+                        await Values.sFt.socksProgressStatus(ProgressStatusEnum.CONNECTED);
+                        break;
+                    case CommStatus.CONNECTED:
+                        await Values.sFt.socksProgressStatus(ProgressStatusEnum.TRANSMITTING);
+                        break;
+                    case CommStatus.ERROR:
+                        await Values.sFt.socksProgressStatus(ProgressStatusEnum.DISCONNECTED);
+                        break;
+                }
             }
         }
+
+
 
         public void changeOrderToEnterDataFragments()
         {

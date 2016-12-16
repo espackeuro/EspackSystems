@@ -26,8 +26,6 @@ namespace RadioLogisticaDeliveries
 		
 		public static void UpdateIdValues()
 		{
-			global::AccesoDatosNet.Resource.String.ApplicationName = global::RadioLogisticaDeliveries.Resource.String.ApplicationName;
-			global::AccesoDatosNet.Resource.String.Hello = global::RadioLogisticaDeliveries.Resource.String.Hello;
 			global::CommonAndroidTools.Resource.Raw.Antares = global::RadioLogisticaDeliveries.Resource.Raw.Antares;
 			global::CommonAndroidTools.Resource.Raw.decodeshort = global::RadioLogisticaDeliveries.Resource.Raw.decodeshort;
 			global::CommonAndroidTools.Resource.Raw.Gallium = global::RadioLogisticaDeliveries.Resource.Raw.Gallium;
@@ -35,8 +33,6 @@ namespace RadioLogisticaDeliveries
 			global::CommonAndroidTools.Resource.Raw.Tejat = global::RadioLogisticaDeliveries.Resource.Raw.Tejat;
 			global::CommonAndroidTools.Resource.String.ApplicationName = global::RadioLogisticaDeliveries.Resource.String.ApplicationName;
 			global::CommonAndroidTools.Resource.String.Hello = global::RadioLogisticaDeliveries.Resource.String.Hello;
-			global::CommonTools.Resource.String.ApplicationName = global::RadioLogisticaDeliveries.Resource.String.ApplicationName;
-			global::CommonTools.Resource.String.Hello = global::RadioLogisticaDeliveries.Resource.String.Hello;
 			global::DataWedge.Resource.String.ApplicationName = global::RadioLogisticaDeliveries.Resource.String.ApplicationName;
 			global::DataWedge.Resource.String.Hello = global::RadioLogisticaDeliveries.Resource.String.Hello;
 			global::LogonScreen.Resource.Animation.abc_fade_in = global::RadioLogisticaDeliveries.Resource.Animation.abc_fade_in;
@@ -2039,8 +2035,6 @@ namespace RadioLogisticaDeliveries
 			global::LogonScreen.Resource.Styleable.ViewStubCompat_android_layout = global::RadioLogisticaDeliveries.Resource.Styleable.ViewStubCompat_android_layout;
 			global::NetworkDetection.Resource.String.ApplicationName = global::RadioLogisticaDeliveries.Resource.String.ApplicationName;
 			global::NetworkDetection.Resource.String.Hello = global::RadioLogisticaDeliveries.Resource.String.Hello;
-			global::Socks.Resource.String.ApplicationName = global::RadioLogisticaDeliveries.Resource.String.ApplicationName;
-			global::Socks.Resource.String.Hello = global::RadioLogisticaDeliveries.Resource.String.Hello;
 		}
 		
 		public partial class Animation

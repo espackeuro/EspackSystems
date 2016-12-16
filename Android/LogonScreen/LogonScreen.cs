@@ -80,22 +80,30 @@ namespace LogonScreen
                 ;
         }
 
-        private void CLoginButton_Click(object sender, EventArgs e)
+        private async void CLoginButton_Click(object sender, EventArgs e)
         {
+
             if (cUser.Text=="" || cPassword.Text=="")
             {
                 cMsgText.Text = "Please input correct User and Password";
             } else
             {
-                
+                this.RunOnUiThread(() =>
+                {
+                    cLoginButton.Enabled = false;
+                    cUser.Enabled = false;
+                    cPassword.Enabled = false;
+                });
                 gDatos.DataBase = "SISTEMAS";
                 gDatos.Server = LogonDetails.connectionServer;
                 gDatos.User = "SA";
                 gDatos.Password = "5380";
                 bool error = false;
+                
                 try
                 {
-                    RunOnUiThread(() => { gDatos.Connect(); });
+                    await gDatos.Connect();
+                    //RunOnUiThread(async () => { });
                 }
                 catch (Exception ex)
                 {
@@ -117,14 +125,15 @@ namespace LogonScreen
                 {
                     RSFrame _RS;
                     _RS = (RSFrame)ObjectFactory.createObject("RS", typeofCaller, "select date=getdate()", gDatos);
-                    _RS.Open();
+                    await _RS.Open();
                     gDatos.Close();
                     SPFrame LogonSP;
                     LogonSP = (SPFrame)ObjectFactory.createObject("SP", typeofCaller, gDatos, "pLogonUser");
                     LogonSP.AddParameterValue("User", cUser.Text);
                     LogonSP.AddParameterValue("Password", cPassword.Text);
                     LogonSP.AddParameterValue("Origin", "RADIO LOGISTICA (VAL)");
-                    LogonSP.Execute();
+
+                    await LogonSP.Execute();
                     if (LogonSP.LastMsg.Substring(0, 2) != "OK")
                     {
                         cMsgText.Text = "ERROR: " + LogonSP.LastMsg;
@@ -145,6 +154,12 @@ namespace LogonScreen
                         Finish();
                     }
                 }
+                this.RunOnUiThread(() =>
+                {
+                    cLoginButton.Enabled = true;
+                    cUser.Enabled = true;
+                    cPassword.Enabled = true;
+                });
             }
         }
     }

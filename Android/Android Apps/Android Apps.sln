@@ -21,21 +21,27 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Controls", "Controls", "{CE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PictureProgressView", "..\..\EspackControls\EspackAndoidControls\PictureProgressView\PictureProgressView.csproj", "{18EDE257-F3E5-469D-AC02-72194014AD87}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonTools", "..\..\Database and tools\CommonToolsAndroid\CommonTools\CommonTools.csproj", "{6168D25C-FDC9-4A47-A349-4F59DADAC002}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cAccesoDatosNet", "..\..\Database and tools\cAccesoDatosAndroid\cAccesoDatosNet.csproj", "{9C95E323-C7E8-45B9-84BB-3EE165E28C3C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RadioLogisticaDeliveries", "..\RadioLogisticaDeliveries\RadioLogisticaDeliveries.csproj", "{C05D6121-8E8F-43A9-B8A0-4906A28D550C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Network", "Network", "{3A654A15-9225-4336-8D89-227689080C5A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Socks", "..\Network\cSocks\Socks.csproj", "{42CAB531-7DCB-4A55-9572-E86597E96651}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Encryption", "..\..\Database and tools\EncryptionAndroid\Encryption\Encryption.csproj", "{44A86C5A-9221-4425-A960-64AEEB027CC8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Compression", "..\..\Database and tools\CompressionAndroid\Compression\Compression.csproj", "{948BBF7E-C260-47A5-B038-D2A8E0F17259}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkDetection", "NetworkDetection\NetworkDetection.csproj", "{C7587A97-8D82-4A8B-A472-89198666FD22}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dawn.SocketAwaitable", "..\..\Network Libraries\SocksAwaitable\src\Dawn.SocketAwaitable\Dawn.SocketAwaitable.csproj", "{09C67697-1B3E-4E40-A972-C6768FFA006C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dawn.SocketAwaitable.Tests", "..\..\Network Libraries\SocksAwaitable\src\Dawn.SocketAwaitable.Tests\Dawn.SocketAwaitable.Tests.csproj", "{AA7C86EF-292B-4189-986F-9B0DC5C21825}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sockets", "..\..\Network Libraries\Sockets\Sockets\Sockets.csproj", "{C9E2F11A-FA37-4FD2-9433-CC64CDBC2CEF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messages", "..\..\Database and tools\Messages\Messages.csproj", "{19C864E9-F42C-404C-BA54-548392DBAF43}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cAccesoDatosNet", "..\..\Database and tools\cAccesoDatos.NET\cAccesoDatosNet.csproj", "{D3E453AA-39B7-480F-8917-6D7F5076C3ED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonTools", "..\..\Database and tools\CommonTools\CommonTools.csproj", "{9148F7E6-31F6-4F96-B7DC-AFEA449998C7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,24 +71,12 @@ Global
 		{18EDE257-F3E5-469D-AC02-72194014AD87}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18EDE257-F3E5-469D-AC02-72194014AD87}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{18EDE257-F3E5-469D-AC02-72194014AD87}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6168D25C-FDC9-4A47-A349-4F59DADAC002}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6168D25C-FDC9-4A47-A349-4F59DADAC002}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6168D25C-FDC9-4A47-A349-4F59DADAC002}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6168D25C-FDC9-4A47-A349-4F59DADAC002}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9C95E323-C7E8-45B9-84BB-3EE165E28C3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9C95E323-C7E8-45B9-84BB-3EE165E28C3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9C95E323-C7E8-45B9-84BB-3EE165E28C3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9C95E323-C7E8-45B9-84BB-3EE165E28C3C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C05D6121-8E8F-43A9-B8A0-4906A28D550C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C05D6121-8E8F-43A9-B8A0-4906A28D550C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C05D6121-8E8F-43A9-B8A0-4906A28D550C}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{C05D6121-8E8F-43A9-B8A0-4906A28D550C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C05D6121-8E8F-43A9-B8A0-4906A28D550C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C05D6121-8E8F-43A9-B8A0-4906A28D550C}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{42CAB531-7DCB-4A55-9572-E86597E96651}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{42CAB531-7DCB-4A55-9572-E86597E96651}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{42CAB531-7DCB-4A55-9572-E86597E96651}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{42CAB531-7DCB-4A55-9572-E86597E96651}.Release|Any CPU.Build.0 = Release|Any CPU
 		{44A86C5A-9221-4425-A960-64AEEB027CC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{44A86C5A-9221-4425-A960-64AEEB027CC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44A86C5A-9221-4425-A960-64AEEB027CC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -95,6 +89,30 @@ Global
 		{C7587A97-8D82-4A8B-A472-89198666FD22}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7587A97-8D82-4A8B-A472-89198666FD22}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7587A97-8D82-4A8B-A472-89198666FD22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09C67697-1B3E-4E40-A972-C6768FFA006C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09C67697-1B3E-4E40-A972-C6768FFA006C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09C67697-1B3E-4E40-A972-C6768FFA006C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09C67697-1B3E-4E40-A972-C6768FFA006C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA7C86EF-292B-4189-986F-9B0DC5C21825}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA7C86EF-292B-4189-986F-9B0DC5C21825}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA7C86EF-292B-4189-986F-9B0DC5C21825}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA7C86EF-292B-4189-986F-9B0DC5C21825}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9E2F11A-FA37-4FD2-9433-CC64CDBC2CEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9E2F11A-FA37-4FD2-9433-CC64CDBC2CEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9E2F11A-FA37-4FD2-9433-CC64CDBC2CEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9E2F11A-FA37-4FD2-9433-CC64CDBC2CEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19C864E9-F42C-404C-BA54-548392DBAF43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19C864E9-F42C-404C-BA54-548392DBAF43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19C864E9-F42C-404C-BA54-548392DBAF43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19C864E9-F42C-404C-BA54-548392DBAF43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3E453AA-39B7-480F-8917-6D7F5076C3ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3E453AA-39B7-480F-8917-6D7F5076C3ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3E453AA-39B7-480F-8917-6D7F5076C3ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3E453AA-39B7-480F-8917-6D7F5076C3ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9148F7E6-31F6-4F96-B7DC-AFEA449998C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9148F7E6-31F6-4F96-B7DC-AFEA449998C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9148F7E6-31F6-4F96-B7DC-AFEA449998C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9148F7E6-31F6-4F96-B7DC-AFEA449998C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -105,16 +123,19 @@ Global
 		{59692AC9-88FB-40FC-BB6C-E76AC5575758} = {5802ACA1-E788-4592-BB10-63A26AA1A336}
 		{FB3A88F4-03B5-450C-AB8A-D363BDBB8D64} = {DD5ED550-A29E-485F-A18C-04FE8256767A}
 		{18EDE257-F3E5-469D-AC02-72194014AD87} = {CE470E76-9506-485B-AB6F-0DDC05CD6F08}
-		{6168D25C-FDC9-4A47-A349-4F59DADAC002} = {5802ACA1-E788-4592-BB10-63A26AA1A336}
-		{9C95E323-C7E8-45B9-84BB-3EE165E28C3C} = {8388EEDE-523A-4541-BF5A-D71D220A366A}
 		{C05D6121-8E8F-43A9-B8A0-4906A28D550C} = {DD5ED550-A29E-485F-A18C-04FE8256767A}
-		{42CAB531-7DCB-4A55-9572-E86597E96651} = {3A654A15-9225-4336-8D89-227689080C5A}
 		{44A86C5A-9221-4425-A960-64AEEB027CC8} = {5802ACA1-E788-4592-BB10-63A26AA1A336}
 		{948BBF7E-C260-47A5-B038-D2A8E0F17259} = {5802ACA1-E788-4592-BB10-63A26AA1A336}
 		{C7587A97-8D82-4A8B-A472-89198666FD22} = {3A654A15-9225-4336-8D89-227689080C5A}
+		{09C67697-1B3E-4E40-A972-C6768FFA006C} = {3A654A15-9225-4336-8D89-227689080C5A}
+		{AA7C86EF-292B-4189-986F-9B0DC5C21825} = {3A654A15-9225-4336-8D89-227689080C5A}
+		{C9E2F11A-FA37-4FD2-9433-CC64CDBC2CEF} = {3A654A15-9225-4336-8D89-227689080C5A}
+		{19C864E9-F42C-404C-BA54-548392DBAF43} = {3A654A15-9225-4336-8D89-227689080C5A}
+		{D3E453AA-39B7-480F-8917-6D7F5076C3ED} = {8388EEDE-523A-4541-BF5A-D71D220A366A}
+		{9148F7E6-31F6-4F96-B7DC-AFEA449998C7} = {5802ACA1-E788-4592-BB10-63A26AA1A336}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 13
+		SccNumberOfProjects = 16
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://espack.visualstudio.com/defaultcollection
 		SccLocalPath0 = .
@@ -138,33 +159,45 @@ Global
 		SccProjectTopLevelParentUniqueName5 = Android\u0020Apps.sln
 		SccProjectName5 = ../../EspackControls/EspackAndoidControls/PictureProgressView
 		SccLocalPath5 = ..\\..\\EspackControls\\EspackAndoidControls\\PictureProgressView
-		SccProjectUniqueName6 = ..\\..\\Database\u0020and\u0020tools\\cAccesoDatosAndroid\\cAccesoDatosNet.csproj
+		SccProjectUniqueName6 = ..\\RadioLogisticaDeliveries\\RadioLogisticaDeliveries.csproj
 		SccProjectTopLevelParentUniqueName6 = Android\u0020Apps.sln
-		SccProjectName6 = ../../Database\u0020and\u0020tools/cAccesoDatosAndroid
-		SccLocalPath6 = ..\\..\\Database\u0020and\u0020tools\\cAccesoDatosAndroid
-		SccProjectUniqueName7 = ..\\RadioLogisticaDeliveries\\RadioLogisticaDeliveries.csproj
+		SccProjectName6 = ../RadioLogisticaDeliveries
+		SccLocalPath6 = ..\\RadioLogisticaDeliveries
+		SccProjectUniqueName7 = ..\\..\\Database\u0020and\u0020tools\\CompressionAndroid\\Compression\\Compression.csproj
 		SccProjectTopLevelParentUniqueName7 = Android\u0020Apps.sln
-		SccProjectName7 = ../RadioLogisticaDeliveries
-		SccLocalPath7 = ..\\RadioLogisticaDeliveries
-		SccProjectUniqueName8 = ..\\Network\\cSocks\\Socks.csproj
+		SccProjectName7 = ../../Database\u0020and\u0020tools/CompressionAndroid/Compression
+		SccLocalPath7 = ..\\..\\Database\u0020and\u0020tools\\CompressionAndroid\\Compression
+		SccProjectUniqueName8 = ..\\..\\Database\u0020and\u0020tools\\EncryptionAndroid\\Encryption\\Encryption.csproj
 		SccProjectTopLevelParentUniqueName8 = Android\u0020Apps.sln
-		SccProjectName8 = ../Network/cSocks
-		SccLocalPath8 = ..\\Network\\cSocks
-		SccProjectUniqueName9 = ..\\..\\Database\u0020and\u0020tools\\CommonToolsAndroid\\CommonTools\\CommonTools.csproj
+		SccProjectName8 = ../../Database\u0020and\u0020tools/EncryptionAndroid/Encryption
+		SccLocalPath8 = ..\\..\\Database\u0020and\u0020tools\\EncryptionAndroid\\Encryption
+		SccProjectUniqueName9 = NetworkDetection\\NetworkDetection.csproj
 		SccProjectTopLevelParentUniqueName9 = Android\u0020Apps.sln
-		SccProjectName9 = ../../Database\u0020and\u0020tools/CommonToolsAndroid/CommonTools
-		SccLocalPath9 = ..\\..\\Database\u0020and\u0020tools\\CommonToolsAndroid\\CommonTools
-		SccProjectUniqueName10 = ..\\..\\Database\u0020and\u0020tools\\CompressionAndroid\\Compression\\Compression.csproj
+		SccProjectName9 = NetworkDetection
+		SccLocalPath9 = NetworkDetection
+		SccProjectUniqueName10 = ..\\..\\Network\u0020Libraries\\SocksAwaitable\\src\\Dawn.SocketAwaitable\\Dawn.SocketAwaitable.csproj
 		SccProjectTopLevelParentUniqueName10 = Android\u0020Apps.sln
-		SccProjectName10 = ../../Database\u0020and\u0020tools/CompressionAndroid/Compression
-		SccLocalPath10 = ..\\..\\Database\u0020and\u0020tools\\CompressionAndroid\\Compression
-		SccProjectUniqueName11 = ..\\..\\Database\u0020and\u0020tools\\EncryptionAndroid\\Encryption\\Encryption.csproj
+		SccProjectName10 = ../../Network\u0020Libraries/SocksAwaitable/src/Dawn.SocketAwaitable
+		SccLocalPath10 = ..\\..\\Network\u0020Libraries\\SocksAwaitable\\src\\Dawn.SocketAwaitable
+		SccProjectUniqueName11 = ..\\..\\Network\u0020Libraries\\SocksAwaitable\\src\\Dawn.SocketAwaitable.Tests\\Dawn.SocketAwaitable.Tests.csproj
 		SccProjectTopLevelParentUniqueName11 = Android\u0020Apps.sln
-		SccProjectName11 = ../../Database\u0020and\u0020tools/EncryptionAndroid/Encryption
-		SccLocalPath11 = ..\\..\\Database\u0020and\u0020tools\\EncryptionAndroid\\Encryption
-		SccProjectUniqueName12 = NetworkDetection\\NetworkDetection.csproj
+		SccProjectName11 = ../../Network\u0020Libraries/SocksAwaitable/src/Dawn.SocketAwaitable.Tests
+		SccLocalPath11 = ..\\..\\Network\u0020Libraries\\SocksAwaitable\\src\\Dawn.SocketAwaitable.Tests
+		SccProjectUniqueName12 = ..\\..\\Network\u0020Libraries\\Sockets\\Sockets\\Sockets.csproj
 		SccProjectTopLevelParentUniqueName12 = Android\u0020Apps.sln
-		SccProjectName12 = NetworkDetection
-		SccLocalPath12 = NetworkDetection
+		SccProjectName12 = ../../Network\u0020Libraries/Sockets/Sockets
+		SccLocalPath12 = ..\\..\\Network\u0020Libraries\\Sockets\\Sockets
+		SccProjectUniqueName13 = ..\\..\\Database\u0020and\u0020tools\\Messages\\Messages.csproj
+		SccProjectTopLevelParentUniqueName13 = Android\u0020Apps.sln
+		SccProjectName13 = ../../Database\u0020and\u0020tools/Messages
+		SccLocalPath13 = ..\\..\\Database\u0020and\u0020tools\\Messages
+		SccProjectUniqueName14 = ..\\..\\Database\u0020and\u0020tools\\cAccesoDatos.NET\\cAccesoDatosNet.csproj
+		SccProjectTopLevelParentUniqueName14 = Android\u0020Apps.sln
+		SccProjectName14 = ../../Database\u0020and\u0020tools/cAccesoDatos.NET
+		SccLocalPath14 = ..\\..\\Database\u0020and\u0020tools\\cAccesoDatos.NET
+		SccProjectUniqueName15 = ..\\..\\Database\u0020and\u0020tools\\CommonTools\\CommonTools.csproj
+		SccProjectTopLevelParentUniqueName15 = Android\u0020Apps.sln
+		SccProjectName15 = ../../Database\u0020and\u0020tools/CommonTools
+		SccLocalPath15 = ..\\..\\Database\u0020and\u0020tools\\CommonTools
 	EndGlobalSection
 EndGlobal

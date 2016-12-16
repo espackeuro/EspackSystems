@@ -18,20 +18,18 @@ namespace Encryption
         private const int DerivationIterations = 1000;
         private const string PASSPHRASE = "31m7016a78";
 
-        public static string Encrypt(string plainText, bool compress=false)
+        public static string Encrypt(string plainText)
         {
-            if (plainText.Length < 860)
-                compress = false;
-            return Encrypt(plainText, PASSPHRASE, compress);
+            return Encrypt(plainText, PASSPHRASE);
         }
 
-        public static string Encrypt(string plainText, string passPhrase, bool compress=false)
+        public static string Encrypt(string plainText, string passPhrase)
         {
             // Salt and IV is randomly generated each time, but is preprended to encrypted cipher text
             // so that the same Salt and IV values can be used when decrypting.  
             var saltStringBytes = Generate256BitsOfRandomEntropy();
             var ivStringBytes = Generate256BitsOfRandomEntropy();
-            byte[] plainTextBytes = compress ? cComp.Zip(plainText) : Encoding.UTF8.GetBytes(plainText);
+            byte[] plainTextBytes =/* compress ? cComp.Zip(plainText) : */Encoding.UTF8.GetBytes(plainText);
             using (var password = new Rfc2898DeriveBytes(passPhrase, saltStringBytes, DerivationIterations))
             {
                 var keyBytes = password.GetBytes(Keysize / 8);
@@ -64,14 +62,9 @@ namespace Encryption
 
         public static string Decrypt(string plainText)
         {
-            bool _comp;
-            return Decrypt(plainText, PASSPHRASE, out _comp);
+            return Decrypt(plainText, PASSPHRASE);
         }
-        public static string Decrypt(string plainText, out bool compression)
-        {
-            return Decrypt(plainText, PASSPHRASE, out compression);
-        }
-        public static string Decrypt(string cipherText, string passPhrase, out bool compression)
+        public static string Decrypt(string cipherText, string passPhrase)
         {
             // Get the complete stream of bytes that represent:
             // [32 bytes of Salt] + [32 bytes of IV] + [n bytes of CipherText]
@@ -101,11 +94,8 @@ namespace Encryption
                                 var decryptedByteCount = cryptoStream.Read(plainTextBytes, 0, plainTextBytes.Length);
                                 memoryStream.Close();
                                 cryptoStream.Close();
-                                compression = cComp.IsPossiblyGZippedBytes(plainTextBytes);
-                                if (compression)
-                                    return cComp.Unzip(plainTextBytes);
-                                else
-                                    return Encoding.UTF8.GetString(plainTextBytes, 0, decryptedByteCount);
+                                var _result = Encoding.UTF8.GetString(plainTextBytes, 0, decryptedByteCount);
+                                return _result;
                             }
                         }
                     }

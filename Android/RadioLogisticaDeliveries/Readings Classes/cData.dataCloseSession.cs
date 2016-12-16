@@ -22,10 +22,10 @@ namespace RadioLogisticaDeliveries
             }
         }
 
-        public override async Task<bool> doCheckings()
+        public override Task<bool> doCheckings()
         {
             _status = dataStatus.READ;
-            return true;
+            return Task.FromResult(true);
         }
 
         public override async Task<bool> ToDB()

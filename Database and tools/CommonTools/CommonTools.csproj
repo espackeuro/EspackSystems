@@ -7,9 +7,9 @@
     <ProjectGuid>{9148F7E6-31F6-4F96-B7DC-AFEA449998C7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ComunVisor</RootNamespace>
-    <AssemblyName>ComunVisor</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <RootNamespace>CommonTools</RootNamespace>
+    <AssemblyName>CommonTools</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <SccProjectName>SAK</SccProjectName>
