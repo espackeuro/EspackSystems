@@ -66,14 +66,6 @@
       <Project>{b6ce04c5-9462-43c8-a039-f8ea3c5ace91}</Project>
       <Name>Encryption</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Network\Socks\Socks.csproj">
-      <Project>{89a2bec9-3beb-4635-a016-442c5d1d7d4f}</Project>
-      <Name>Socks</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Network\Socks\SocksData\SocksData.csproj">
-      <Project>{ee92e147-47c5-4a6b-9665-52153c02ac36}</Project>
-      <Name>SocksData</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
