@@ -58,13 +58,13 @@
     <AndroidResource Include="Resources\Values\Strings.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Database and tools\CommonToolsAndroid\CommonTools\CommonTools.csproj">
-      <Project>{6168d25c-fdc9-4a47-a349-4f59dadac002}</Project>
-      <Name>CommonTools</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\Database and tools\EncryptionAndroid\Encryption\Encryption.csproj">
       <Project>{44a86c5a-9221-4425-a960-64aeeb027cc8}</Project>
       <Name>Encryption</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Network Libraries\SocksAwaitable\src\Dawn.SocketAwaitable\Dawn.SocketAwaitable.csproj">
+      <Project>{09c67697-1b3e-4e40-a972-c6768ffa006c}</Project>
+      <Name>Dawn.SocketAwaitable</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
