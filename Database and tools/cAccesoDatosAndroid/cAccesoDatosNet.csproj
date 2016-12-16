@@ -85,6 +85,10 @@
       <Project>{44a86c5a-9221-4425-a960-64aeeb027cc8}</Project>
       <Name>Encryption</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Messages\Messages.csproj">
+      <Project>{19c864e9-f42c-404c-ba54-548392dbaf43}</Project>
+      <Name>Messages</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
