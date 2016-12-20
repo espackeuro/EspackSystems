@@ -190,7 +190,7 @@ namespace Messages
             }
             catch (Exception ex)
             {
-                xmlMsgOut = new XDocument(new XElement("result", "Error: " + ex.Message));
+                xmlMsgOut = new XDocument(new XElement("result", "ERROR: " + ex.Message));
             }
 
             MsgOut = xmlMsgOut.ToString();
@@ -229,7 +229,7 @@ namespace Messages
                 }
                 catch (Exception ex)
                 {
-                    xmlMsgOut = new XDocument(new XElement("result", "Error: " + ex.Message));
+                    xmlMsgOut = new XDocument(new XElement("result", "ERROR: " + ex.Message));
                 }
             }
             MsgOut = xmlMsgOut.ToString();

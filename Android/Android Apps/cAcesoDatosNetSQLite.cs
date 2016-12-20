@@ -4,36 +4,138 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
-using System.Data.SqlClient;
-using System.Data.SqlTypes;
+//using System.Data.SqlClient;
+//using System.Data.SqlTypes;
 using System.Net;
-using System.Net.Sockets;
 /*
 using System.Windows.Forms;
 using EspackControls;
 */
 using CommonTools;
 using System.Data.Common;
-using System.Xml;
-using System.Xml.Linq;
-using System.IO;
-using System.Threading.Tasks;
 
 namespace AccesoDatosNet
 {
 
-
+    public class ControlParameter
+    {
+        public Object LinkedControl;
+        public SqlParameter Parameter;
+    }
     public class ObjectParameter
     {
         public object Container;
         public SqlParameter Parameter;
     }
-    
-
-    public class cAccesoDatosNet : cAccesoDatos, IDisposable
+    public class cAccesoDatosNet : ICloneable, IDisposable
     {
-        public new SqlConnection AdoCon { get; set; }
-        public override System.Data.ConnectionState State
+        public SqlConnection AdoCon { get; set; }
+        public string Path { get; set; }
+        public string AppName { get; set; }
+        public string ServerIP
+        {
+            get
+            {
+                return oServer.IP.ToString();
+            }
+            set
+            {
+                if (oServer != null)
+                {
+                    IPAddress _serverIP;
+                    if (IPAddress.TryParse(value, out _serverIP))
+                        oServer.IP = _serverIP;
+                }
+            }
+        }
+
+        public string Server
+        {
+            get
+            {
+                if (oServer != null)
+                    return oServer.HostName;
+                else
+                    return null;
+            }
+            set
+            {
+                if (oServer != null)
+                {
+                    IPAddress _serverIP;
+                    string _hostName = "";
+
+                    if (!IPAddress.TryParse(value, out _serverIP))
+                    {
+                        _hostName = value;
+                        try
+                        {
+                            var result = Dns.GetHostEntry(value);
+                            _hostName = result.HostName;
+                            _serverIP = result.AddressList[0];
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception(string.Format("Error trying {0}: {1}", _hostName, ex.Message));
+                        }
+                    }
+                    else
+                    {
+                        _hostName = value;
+                        //try
+                        //{
+                        //    var result = Dns.GetHostEntry(_serverIP);
+                        //    _hostName = result.HostName;
+                        //} catch (Exception ex)
+                        //{
+                        //    _hostName = value;
+                        //}
+                    }
+                    oServer.HostName = _hostName;
+                    oServer.IP = _serverIP;
+                }
+            }
+        }
+        public string Printer { get; set; }
+        public string DataBase { get; set; }
+        public string User
+        {
+            get
+            {
+                if (oServer != null)
+                    return oServer.User;
+                else return null;
+            }
+            set
+            {
+                if (oServer != null)
+                    oServer.User = value;
+            }
+        }
+
+        public string Password
+        {
+            get
+            {
+                if (oServer != null)
+                    return oServer.Password;
+                else return null;
+            }
+            set
+            {
+                if (oServer != null)
+                    oServer.Password = value;
+            }
+        }
+        public bool Silent { get; set; }
+        public IPAddress IP { get; set; }
+        public DateTime TimeTic { get; set; }
+        public long TimeOut { get; set; }
+        public string Cod3 { get; set; }
+        public byte[] context_info { get; set; }
+        public cServer oServer { get; set; }
+
+        public System.Data.ConnectionState State
         {
             get
             {
@@ -52,20 +154,32 @@ namespace AccesoDatosNet
                 AdoCon.ConnectionString = value;
             }
         }
-           
+
 
         //constructores
-        public cAccesoDatosNet():
-            base()
+        public cAccesoDatosNet()
         {
             AdoCon = new SqlConnection();
-            oServer.Resolve = true;
+            //Provider = "SQLOLEDB";
+            Silent = false;
             IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
             var lIP = ipHostInfo.AddressList.FirstOrDefault(x => x.GetAddressBytes()[0] == 10);
             if (lIP == null)
                 lIP = ipHostInfo.AddressList.First(x => x.GetAddressBytes()[0] == 192);
+            //foreach (IPAddress lIP in ipHostInfo.AddressList)
+            //{
+            //    if (lIP.AddressFamily.ToString() == "InterNetwork" && ((lIP.GetAddressBytes()[0] == 192 && lIP.GetAddressBytes()[1] == 168) || lIP.GetAddressBytes()[0] == 10))
+            //    { //IPV4
+            //        IP = lIP;
+            //        break;
+            //    }
+            //}
             IP = lIP;
-            
+            if (oServer == null)
+            {
+                oServer = new cServer() { Type = ServerTypes.DATABASE };
+            }
+
         }
 
         public cAccesoDatosNet(string pServer, string pDataBase, string pUser, string pPassword)
@@ -74,6 +188,7 @@ namespace AccesoDatosNet
             //Server = pServer;
             //User = pUser;
             //Password = pPassword;
+
             Server = pServer;
             User = pUser;
             Password = pPassword;
@@ -88,8 +203,8 @@ namespace AccesoDatosNet
             DataBase = pDataBase;
         }
         public cAccesoDatosNet(cAccesoDatosNet parent)
-            :this()
         {
+            AdoCon = new SqlConnection();
             Server = parent.Server;
             DataBase = parent.DataBase;
             User = parent.User;
@@ -97,8 +212,8 @@ namespace AccesoDatosNet
             //AdoCon.ConnectionString = parent.ConnectionString;
         }
         public cAccesoDatosNet(EspackParamArray pParams)
-            : this()
         {
+            AdoCon = new SqlConnection();
             Server = pParams.Server;
             DataBase = pParams.DataBase;
             User = pParams.User;
@@ -106,10 +221,12 @@ namespace AccesoDatosNet
             Cod3 = pParams.Cod3;
             AppName = pParams.AppName;
         }
-        public override async Task<DateTime> ServerDate()
+        public DateTime ServerDate
         {
-                var lRs = new DynamicRS();
-                await lRs.Open("Select Date=convert(varchar,Getdate(),120)", this);
+            get
+            {
+                StaticRS lRs = new StaticRS();
+                lRs.Open("Select Date=convert(varchar,Getdate(),120)", this);
                 if (!lRs.HasRows)
                 {
                     throw new Exception("Server not available");
@@ -120,11 +237,14 @@ namespace AccesoDatosNet
                 string[] lTime = lDateTot[1].Split(':');
                 DateTime lRes = new DateTime(Convert.ToInt32(lDate[0]), Convert.ToInt32(lDate[1]), Convert.ToInt32(lDate[2]), Convert.ToInt32(lTime[0]), Convert.ToInt32(lTime[1]), Convert.ToInt32(lTime[2]));
                 return lRes;
+            }
         }
-        public async override Task<string> HostName()
+        public string HostName
         {
-                var lRs = new DynamicRS();
-                await lRs.Open("Select HostName=host_name()", this);
+            get
+            {
+                StaticRS lRs = new StaticRS();
+                lRs.Open("Select HostName=host_name()", this);
                 if (lRs.EOF)
                 {
                     throw new Exception("Server not available");
@@ -132,15 +252,16 @@ namespace AccesoDatosNet
                 string lRes = lRs[0].ToString();
                 lRs.Close();
                 return lRes;
+            }
         }
 
-        public async override Task Connect()
+        public void Connect()
         {
             try
             {
                 if (AdoCon.State == ConnectionState.Open)
                     Close();
-                AdoCon.ConnectionString = "Server=" + Server.Replace(".local", "") + ";Initial Catalog=" + DataBase + ";User Id=" + User + ";Password=" + Password + ";MultipleActiveResultSets=True;Connection Lifetime=3;Max Pool Size=3";
+                AdoCon.ConnectionString = "Server=" + Server.Replace(".local", "") + ";Initial Catalog=" + DataBase + ";User Id=" + User + ";Password=" + Password + ";MultipleActiveResultSets=True;";
                 AdoCon.Open();
                 if (context_info != null)
                 {
@@ -153,31 +274,37 @@ namespace AccesoDatosNet
                     param.Size = 127;
                     param.Value = context_info;
                     cmd.Parameters.Add(param);
-                    await cmd.ExecuteNonQueryAsync();
+                    cmd.ExecuteNonQuery();
                 }
             }
             catch
             {
                 throw;
             }
-
         }
-
-        public override void Close()
+        public void Open()
+        {
+            Connect();
+        }
+        public void Close()
         {
             AdoCon.Close();
         }
 
-        public new cAccesoDatosNet Clone()
+        public cAccesoDatosNet Clone()
         {
             return (cAccesoDatosNet)this.MemberwiseClone();
         }
 
+        object ICloneable.Clone()
+        {
+            return Clone();
+        }
 
         #region IDisposable Support
-        private new bool disposedValue = false; // To detect redundant calls
+        private bool disposedValue = false; // To detect redundant calls
 
-        protected new virtual void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
             if (!disposedValue)
             {
@@ -185,7 +312,7 @@ namespace AccesoDatosNet
                 {
                     AdoCon.Close();
                     AdoCon.Dispose();
-                    //IP = null;
+                    IP = null;
                     oServer = null;
                 }
 
@@ -215,20 +342,218 @@ namespace AccesoDatosNet
 
     }
 
-
-    
-
-    public class StaticRS :RSFrame
+    public enum RSState
     {
-        protected new cAccesoDatosNet mConn = null;
+        Closed = 0,
+        Open = 1,
+        Connecting = 2,
+        Executing = 4,
+        Fetching = 8
+    }
+
+    public abstract class RSFrame : IDisposable
+    {
+        //private SqlDataReader mDR = null;
+        //private SqlCommand mCmd = null;
+        protected cAccesoDatosNet mConn = null;
+        protected bool mEOF;
+        protected bool mBOF;
+        protected RSState mState;
+        protected int mIndex = 0;
+        //events
+        //Events
+        public event EventHandler<EventArgs> AfterExecution; //launched when the query is executed
+        public event EventHandler<EventArgs> BeforeExecution;
+        //properties
+        public string SQL { get; set; }
+        public int Index
+        {
+            get
+            {
+                return mIndex;
+            }
+        }
+        public bool EOF
+        {
+            get
+            {
+                return mEOF;
+            }
+        }
+        public bool BOF
+        {
+            get
+            {
+                return mBOF;
+            }
+        }
+        public RSState State
+        {
+            get
+            {
+                return mState;
+            }
+        }
+        public abstract object this[string Idx]
+        {
+            get;
+        }
+        public abstract object this[int Idx]
+        {
+            get;
+        }
+        public abstract object DataObject
+        {
+            get;
+        }
+
+        public List<object> ToList()
+        {
+            return getList();
+        }
+
+        public bool HasRows { get; set; }
+        public bool AutoUpdate { get; set; }
+        public abstract SqlCommand Cmd { get; set; }
+
+        public abstract void MoveNext();
+        public abstract void MovePrevious();
+        public abstract void MoveLast();
+        public abstract void MoveFirst();
+        public abstract void Move(int Idx);
+        public abstract void Execute();
+        public void Open()
+        {
+            AssignParameterValues();
+            var e = new EventArgs();
+            OnBeforeExecution(e);
+            Execute();
+            OnAfterExecution(e);
+        }
+        public void Open(string Sql, cAccesoDatosNet Conn)
+        {
+            SQL = Sql;
+            mConn = Conn;
+            Open();
+        }
+
+        public abstract void Close();
+
+        public SqlParameterCollection Parameters
+        {
+            get
+            {
+                return Cmd.Parameters;
+            }
+        }
+        public List<ControlParameter> ControlParameters { set; get; }
+
+
+
+        public RSFrame()
+        {
+            ControlParameters = new List<ControlParameter>();
+            AutoUpdate = false;
+        }
+
+        protected virtual void OnAfterExecution(EventArgs e)
+        {
+            EventHandler<EventArgs> handler = AfterExecution;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+
+        }
+
+        protected virtual void OnBeforeExecution(EventArgs e)
+        {
+            EventHandler<EventArgs> handler = BeforeExecution;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+
+        }
+
+        public void AddControlParameter(string ParamName, Object ParamControl)
+        {
+            SqlParameter lParam = new SqlParameter()
+            {
+                ParameterName = ParamName
+            };
+            ControlParameters.Add(new ControlParameter()
+            {
+                Parameter = lParam,
+                LinkedControl = ParamControl
+            });
+            Parameters.Add(lParam);
+            if (AutoUpdate && ParamControl is IsValuable)
+            {
+                ((IsValuable)ParamControl).TextChanged += RSFrame_TextChanged;
+            }
+        }
+        void RSFrame_TextChanged(object sender, EventArgs e)
+        {
+            Open();
+        }
+
+        public void AssignParameterValues()
+        {
+            ControlParameters.Where(x => x.LinkedControl is IsValuable).ToList().ForEach(p => p.Parameter.Value = ((IsValuable)p.LinkedControl).Value);
+            ControlParameters.Where(x => !(x.LinkedControl is IsValuable)).ToList().ForEach(p => p.Parameter.Value = p.LinkedControl);
+        }
+
+        public abstract List<object> getList();
+
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: dispose managed state (managed objects).
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // TODO: set large fields to null.
+
+                disposedValue = true;
+            }
+        }
+
+        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+        // ~RSFrame() {
+        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+        //   Dispose(false);
+        // }
+
+        // This code added to correctly implement the disposable pattern.
+        public void Dispose()
+        {
+            Close();
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+            // TODO: uncomment the following line if the finalizer is overridden above.
+            // GC.SuppressFinalize(this);
+        }
+        #endregion
+    }
+
+
+    public class StaticRS : RSFrame
+    {
         protected SqlDataReader mDR = null;
         //private cAccesoDatosNet mConn = null;
         //Events
-        //public new event EventHandler<EventArgs> AfterExecution; //launched when the query is executed
-//properties
+        public new event EventHandler<EventArgs> AfterExecution; //launched when the query is executed
+                                                                 //properties
 
-        public SqlCommand Cmd { get; set; }
-         
+        public override SqlCommand Cmd { get; set; }
+
         public override object this[string Idx]
         {
             get
@@ -262,19 +587,11 @@ namespace AccesoDatosNet
             }
         }
 
-        public override List<DataRow> Rows
+        public StaticRS()
+            : base()
         {
-            get
-            {
-                return mDR.OfType<DataRow>().ToList();
-            }
-        }
-
-        public StaticRS() 
-            :base()
-        {
-            mDR=null;
-            Cmd=new SqlCommand();
+            mDR = null;
+            Cmd = new SqlCommand();
             mState = RSState.Closed;
 
         }
@@ -282,21 +599,21 @@ namespace AccesoDatosNet
         public StaticRS(string Sql, cAccesoDatosNet Conn)
             : base()
         {
-            SQL = Sql; 
+            SQL = Sql;
             mConn = Conn;
             mState = RSState.Closed;
         }
-        public override async Task Execute()
+        public override void Execute()
         {
             ConnectionState prevState = mConn.State;
             if (prevState != ConnectionState.Open)
             {
-                await mConn.Open();
+                mConn.Open();
             }
             Cmd = new SqlCommand(SQL, mConn.AdoCon);
             mState = RSState.Executing;
-            mDR = await Cmd.ExecuteReaderAsync();
-            mEOF = !await mDR.ReadAsync();
+            mDR = Cmd.ExecuteReader();
+            mEOF = !mDR.Read();
             mState = RSState.Open;
             if (prevState != ConnectionState.Open)
             {
@@ -320,7 +637,8 @@ namespace AccesoDatosNet
 
         public override void MovePrevious() { }
         public override void MoveLast() { }
-        public override void MoveFirst() {
+        public override void MoveFirst()
+        {
             mDR = null;
             Open();
         }
@@ -335,57 +653,36 @@ namespace AccesoDatosNet
         }
         ~StaticRS()
         {
-            if (mDR!= null)
+            if (mDR != null)
                 mDR.Close();
             mDR = null;
             Cmd = null;
         }
 
 
-        public override List<DataRow> getList() 
+        public override List<object> getList()
         {
-            return mDR.OfType<DataRow>().ToList();
+            var _list = new List<object>();
+            MoveFirst();
+            while (!EOF)
+            {
+                var _array = new Object[mDR.FieldCount];
+                mDR.GetValues(_array);
+                _list.Add(_array.ToList<object>());
+                MoveNext();
+            }
+            return _list;
         }
 
-        public override void AddControlParameter(string ParamName, object ParamControl)
-        {
-            {
-                SqlParameter lParam = new SqlParameter()
-                {
-                    ParameterName = ParamName
-                };
-                ControlParameters.Add(new ControlParameter()
-                {
-                    Parameter = lParam,
-                    LinkedControl = ParamControl
-                });
-                Parameters.Add(lParam);
-                if (AutoUpdate && ParamControl is IsValuable)
-                {
-                    ((IsValuable)ParamControl).TextChanged += RSFrame_TextChanged;
-                }
-            }
-        }
     }
 
     public class DynamicRS : RSFrame
     {
-        protected new cAccesoDatosNet mConn = null;
         protected DataSet mDS;
         protected SqlDataAdapter mDA = new SqlDataAdapter();
         //Events
-        //new public event EventHandler<EventArgs> AfterExecution; //launched when the query is executed     
-        //new public event EventHandler<EventArgs> BeforeExecution;
-        protected new SqlParameterCollection _parameters;
-
-        public override DbParameterCollection Parameters
-        {
-            get
-            {
-                return Cmd.Parameters;
-            }
-        }
-
+        new public event EventHandler<EventArgs> AfterExecution; //launched when the query is executed     
+        new public event EventHandler<EventArgs> BeforeExecution;
         //private cAccesoDatosNet mConn;
         public new int Index
         {
@@ -456,7 +753,7 @@ namespace AccesoDatosNet
             }
         }
 
-        public SqlCommand Cmd
+        public override SqlCommand Cmd
         {
             get
             {
@@ -468,34 +765,7 @@ namespace AccesoDatosNet
             }
         }
 
-        public XDocument XMLData
-        {
-            get
-            {
-                using (var _stream = new MemoryStream())
-                {
-                    mDS.Tables["Result"].WriteXml(_stream);
-                    _stream.Position = 0;
-                    XmlReaderSettings settings = new XmlReaderSettings();
-                    settings.ConformanceLevel = ConformanceLevel.Fragment;
-                    settings.CheckCharacters = false;
-                    XmlReader reader = XmlReader.Create(_stream, settings);
-                    reader.MoveToContent();
-                    if (reader.IsEmptyElement) { reader.Read(); return null; }
-                    try
-                    {
-                        var _res = XDocument.Load(reader);
-                        return _res;
-                    } catch (Exception ex)
-                    {
-                        throw ex;
-                    }
-                    
-                }
-            }
-        }
-
-        public override List<DataRow> ToList()
+        public new List<DataRow> ToList()
         {
             return mDS.Tables["Result"].Rows.Cast<DataRow>().ToList();
         }
@@ -509,44 +779,36 @@ namespace AccesoDatosNet
             }
         }
 
-        public override List<DataRow> Rows
-        {
-            get
-            {
-                return mDS.Tables["Result"].Rows.OfType<DataRow>().ToList();
-            }
-        }
-
         public DynamicRS()
             : base()
         {
             //mDS = new DataSet();
-            
+
         }
         public DynamicRS(string Sql, cAccesoDatosNet Conn)
             : base()
         {
-            SQL = Sql; 
+            SQL = Sql;
             mConn = Conn;
             //mDS = new DataSet();
             mDA.SelectCommand = new SqlCommand(SQL, mConn.AdoCon);
-            
+
         }
-        
-        public override async Task Execute()
+
+        public override void Execute()
         {
             ConnectionState prevState = mConn.State;
             if (prevState != ConnectionState.Open)
             {
-                await mConn.Open();
+                mConn.Open();
             }
-            if (mDA.SelectCommand== null)
+            if (mDA.SelectCommand == null)
             {
                 mDA.SelectCommand = new SqlCommand(SQL, mConn.AdoCon);
             }
             mDS = new DataSet();
             mState = RSState.Executing;
-            await Task.Run(()=> mDA.Fill(mDS, "Result"));
+            mDA.Fill(mDS, "Result");
             Index = 0;
             mState = RSState.Open;
             mEOF = (RecordCount == 0);
@@ -556,14 +818,9 @@ namespace AccesoDatosNet
             }
         }
 
-        public async Task Open(string Sql, cAccesoDatosNet Conn)
-        {
-            SQL = Sql;
-            mConn = Conn;
-            await Open();
-        }
 
-        public async Task Open(int pCurrentIndex, int pPageSize)
+
+        public void Open(int pCurrentIndex, int pPageSize)
         {
             AssignParameterValues();
             var e = new EventArgs();
@@ -572,11 +829,11 @@ namespace AccesoDatosNet
             ConnectionState prevState = mConn.State;
             if (prevState != ConnectionState.Open)
             {
-                await mConn.Open();
+                mConn.Open();
             }
             mDS = new DataSet();
             mState = RSState.Executing;
-            await Task.Run(() => mDA.Fill(mDS, pCurrentIndex, pPageSize, "Result"));
+            mDA.Fill(mDS, pCurrentIndex, pPageSize, "Result");
             Index = 0;
             mState = RSState.Open;
             if (prevState != ConnectionState.Open)
@@ -588,7 +845,8 @@ namespace AccesoDatosNet
 
 
 
-        public override void MoveNext(){
+        public override void MoveNext()
+        {
             mState = RSState.Fetching;
             if (mIndex < RecordCount - 1)
             {
@@ -653,55 +911,38 @@ namespace AccesoDatosNet
             mDS = null;
             mDA = null;
         }
-        public override List<DataRow> getList()
+        public override List<Object> getList()
         {
             //var _list = new List<DbDataRecord>();
-            return mDS.Tables["Result"].Rows.OfType<DataRow>().ToList();
-        }
+            var rows = new string[RecordCount];
+            int i = 0;
 
-
-        public string GetXml()
-        {
-            return mDS.GetXml();
-        }
-
-        public override void AddControlParameter(string ParamName, object ParamControl)
-        {
+            foreach (DataRow dataRow in mDS.Tables["Result"].Rows)
             {
-                SqlParameter lParam = new SqlParameter()
-                {
-                    ParameterName = ParamName
-                };
-                ControlParameters.Add(new ControlParameter()
-                {
-                    Parameter = lParam,
-                    LinkedControl = ParamControl
-                });
-                Parameters.Add(lParam);
-                if (AutoUpdate && ParamControl is IsValuable)
-                {
-                    ((IsValuable)ParamControl).TextChanged += RSFrame_TextChanged;
-                }
+                rows[i] = string.Join(";", dataRow.ItemArray.Select(item => item.ToString()));
+                i++;
             }
+            return rows.ToList<object>();
         }
     }
 
-
-    public class SP:SPFrame
+    public class SP : IDisposable
     {
-        private new cAccesoDatosNet mConn;
-        
-        //public List<ObjectParameter> ObjectParameters { get; set; }
-        public new SqlCommand Cmd { get; set; }
+        private cAccesoDatosNet mConn;
 
-        public new SqlParameterCollection Parameters
+        public List<ControlParameter> ControlParameters { set; get; }
+        public List<SqlParameter> OutputParameters { get; set; }
+        //public List<ObjectParameter> ObjectParameters { get; set; }
+        public SqlCommand Cmd { get; set; }
+
+        public SqlParameterCollection Parameters
         {
-            get 
+            get
             {
                 return Cmd.Parameters;
             }
         }
-        public new SqlConnection Connection
+        public SqlConnection Connection
         {
             get
             {
@@ -713,7 +954,7 @@ namespace AccesoDatosNet
             }
         }
 
-        public new cAccesoDatosNet Conn
+        public cAccesoDatosNet Conn
         {
             get
             {
@@ -725,7 +966,7 @@ namespace AccesoDatosNet
                 Cmd.Connection = mConn.AdoCon;
             }
         }
-        public override CommandType CommandType
+        public CommandType CommandType
         {
             get
             {
@@ -736,7 +977,7 @@ namespace AccesoDatosNet
                 Cmd.CommandType = value;
             }
         }
-        public new string CommandText
+        public string CommandText
         {
             get
             {
@@ -747,8 +988,7 @@ namespace AccesoDatosNet
                 Cmd.CommandText = value;
             }
         }
-
-        public override bool MsgOut
+        public bool MsgOut
         {
             get
             {
@@ -762,13 +1002,17 @@ namespace AccesoDatosNet
                 }
             }
         }
+        public string SPName { get; set; }
+        public string LastMsg { get; set; }
+
         public SP(cAccesoDatosNet pConn, string pSPName = "")
         {
             Cmd = new SqlCommand();
             ControlParameters = new List<ControlParameter>();
+            OutputParameters = new List<SqlParameter>();
             //ObjectParameters = new List<ObjectParameter>();
             SPName = pSPName;
-            Conn = (cAccesoDatosNet)pConn;
+            Conn = pConn;
             Connection = Conn.AdoCon;
             CommandType = System.Data.CommandType.StoredProcedure;
             CommandText = pSPName;
@@ -788,11 +1032,8 @@ namespace AccesoDatosNet
                 mConn.Close();
             }
         }
-        public SP(cAccesoDatos pConn, string pSPName="")
-            : this((cAccesoDatosNet)pConn, pSPName)
-        {
-        }
-        public override void AddParameterValue(string pParamName, object pValue, string DBFieldName="" )
+
+        public void AddParameterValue(string pParamName, object pValue, string DBFieldName = "")
         {
             try
             {
@@ -803,7 +1044,7 @@ namespace AccesoDatosNet
                 DateTime res;
                 if (Parameters[pParamName].SqlDbType.IsNumericType())
                 {
-                    if (pValue != null && pValue.ToString()=="")
+                    if (pValue != null && pValue.ToString() == "")
                     {
                         pValue = null;
                     }
@@ -850,7 +1091,7 @@ namespace AccesoDatosNet
 
         }
 
-        public override void AddControlParameter(string pParamName, object ParamControl)
+        public void AddControlParameter(string pParamName, object ParamControl)
         {
             if (pParamName.Substring(0, 1) != "@")
             {
@@ -875,27 +1116,30 @@ namespace AccesoDatosNet
                 Parameter = lParam,
                 LinkedControl = ParamControl
             });
-            
+
         }
-        //public override void AssignOutputParameter(string ParamName, DbParameter pParam)
-        //{
-        //    if (Parameters[ParamName] != null)
-        //    {
-        //        pParam = Parameters[ParamName];
-        //    }
-        //    else
-        //    {
-        //        pParam = new SqlParameter()
-        //        {
-        //            ParameterName = ParamName
-        //        };
-        //        Parameters.Add(pParam);
-        //    }
+        public void AssignOutputParameter(string ParamName, SqlParameter pParam)
+        {
+            if (Parameters[ParamName] != null)
+            {
+                pParam = Parameters[ParamName];
+            }
+            else
+            {
+                pParam = new SqlParameter()
+                {
+                    ParameterName = ParamName
+                };
+                Parameters.Add(pParam);
+            }
 
-        //    OutputParameters.Add(pParam);
-        //}
-
-        public void AssignOutputParameterContainer(string ParamName, out SqlParameter ParamOut, object Value=null)
+            OutputParameters.Add(pParam);
+        }
+        public void AssignParameterValues()
+        {
+            ControlParameters.Where(x => x.LinkedControl is IsValuable).ToList().ForEach(p => AddParameterValue(p.Parameter.ParameterName, ((IsValuable)p.LinkedControl).Value));
+        }
+        public void AssignOutputParameterContainer(string ParamName, out SqlParameter ParamOut, object Value = null)
         {
             SqlParameter _param;
             if (ParamName.Substring(0, 1) != "@")
@@ -914,32 +1158,33 @@ namespace AccesoDatosNet
                 };
                 Parameters.Add(_param);
             }
-            if (Value!= null)
+            if (Value != null)
             {
                 AddParameterValue(ParamName, Value);
             }
+            OutputParameters.Add(_param);
             ParamOut = _param;
             //ObjectParameters.Add(new ObjectParameter() {Container=Container, Parameter=_param });
-            
+
         }
-        public override void AssignValuesParameters()
+        public void AssignValuesParameters()
         {
-            ControlParameters.Where(x => x.LinkedControl is IsValuable && (x.Parameter.Direction == ParameterDirection.InputOutput || x.Parameter.Direction == ParameterDirection.Output)).ToList().ForEach(p => ((IsValuable)p.LinkedControl).Value= p.Parameter.Value);
+            ControlParameters.Where(x => x.LinkedControl is IsValuable && (x.Parameter.Direction == ParameterDirection.InputOutput || x.Parameter.Direction == ParameterDirection.Output)).ToList().ForEach(p => AddParameterValue(p.Parameter.ParameterName, ((IsValuable)p.LinkedControl).Value));
         }
 
-        public override async Task Execute()
+        public void Execute()
         {
             AssignParameterValues();
             if (Conn.State == ConnectionState.Open)
             {
-                await Cmd.ExecuteNonQueryAsync();
+                Cmd.ExecuteNonQuery();
             }
             else
             {
-                await Conn.Open();
+                Conn.Open();
                 try
                 {
-                    await Cmd.ExecuteNonQueryAsync();
+                    Cmd.ExecuteNonQuery();
                 }
                 catch
                 {
@@ -949,7 +1194,7 @@ namespace AccesoDatosNet
                 {
                     Conn.Close();
                 }
-                
+
             }
             AssignValuesParameters();
             try
@@ -962,7 +1207,7 @@ namespace AccesoDatosNet
             }
 
         }
-        public override Dictionary<string, object> ReturnValues()
+        public Dictionary<string, object> ReturnValues()
         {
             return Parameters.OfType<SqlParameter>()
                 .Where(p => p.Direction == ParameterDirection.InputOutput || p.Direction == ParameterDirection.Output)
@@ -979,42 +1224,10 @@ namespace AccesoDatosNet
             //return Result;
         }
 
-        public XDocument XParameters
-        {
-            get
-            {
-                var _x = new XElement("parameters");
-                Parameters.OfType<SqlParameter>().ToList().ForEach(p => {
-                    var _p = new XElement("parameter");
-                    _p.Add(new XElement("Name", p.ParameterName));
-                    _p.Add(new XElement("Direction", p.Direction));
-                    _p.Add(new XElement("Value", p.Value));
-                    _p.Add(new XElement("Type", p.SqlDbType));
-                    _x.Add(_p);
-                });
-                return new XDocument(_x);
-            }
-        }
-        public XDocument XOutParameters
-        {
-            get
-            {
-                var _x = new XElement("parameters");
-                Parameters.OfType<SqlParameter>().Where(o => o.Direction== ParameterDirection.InputOutput || o.Direction== ParameterDirection.Output).ToList().ForEach(p => {
-                    var _p = new XElement("parameter");
-                    _p.Add(new XElement("Name", p.ParameterName));
-                    _p.Add(new XElement("Direction", p.Direction));
-                    _p.Add(new XElement("Value", p.Value));
-                    _p.Add(new XElement("Type", p.SqlDbType));
-                    _x.Add(_p);
-                });
-                return new XDocument(_x);
-            }
-        }
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
 
-        protected override void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
             if (!disposedValue)
             {
@@ -1023,6 +1236,8 @@ namespace AccesoDatosNet
                     Cmd.Dispose();
                     ControlParameters.Clear();
                     ControlParameters = null;
+                    OutputParameters.Clear();
+                    OutputParameters = null;
                 }
 
                 // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
@@ -1032,6 +1247,10 @@ namespace AccesoDatosNet
             }
         }
 
+        void IDisposable.Dispose()
+        {
+            Dispose(true);
+        }
         #endregion
     }
 
@@ -1046,7 +1265,7 @@ namespace AccesoDatosNet
         protected SP mInsertCommand;
         protected SP mUpdateCommand;
         protected SP mDeleteCommand;
-        public cAccesoDatosNet Conn { get;set; }
+        public cAccesoDatosNet Conn { get; set; }
 
 
         public virtual DynamicRS SelectRS
@@ -1055,9 +1274,9 @@ namespace AccesoDatosNet
             {
                 return mSelectRS;
             }
-            set 
+            set
             {
-                mSelectRS=value;
+                mSelectRS = value;
                 mDA.SelectCommand = value.Cmd;
             }
         }
@@ -1164,21 +1383,21 @@ namespace AccesoDatosNet
         {
             get
             {
-                return (SqlParameterCollection)SelectRS.Parameters;
+                return SelectRS.Parameters;
             }
         }
-        
+
         public DataColumnCollection Schema
         {
             get
             {
-                if (mSelectRS.DS == null || mSelectRS.DS.Tables["Table"]==null) 
+                if (mSelectRS.DS == null || mSelectRS.DS.Tables["Table"] == null)
                 {
                     try
                     {
                         FillSchema();
                     }
-                    catch 
+                    catch
                     {
                         return null;
                     }
@@ -1190,17 +1409,17 @@ namespace AccesoDatosNet
 
         public void Update()
         {
-            mDA.Update(SelectRS.DS,"Result");
+            mDA.Update(SelectRS.DS, "Result");
         }
 
-        public async Task Open()
+        public void Open()
         {
-            await SelectRS.Open();
+            SelectRS.Open();
         }
 
-        public async Task Open(int pCurrentIndex, int pPageSize)
+        public void Open(int pCurrentIndex, int pPageSize)
         {
-            await SelectRS.Open(pCurrentIndex, pPageSize);
+            SelectRS.Open(pCurrentIndex, pPageSize);
         }
 
         public void FillSchema()
@@ -1237,10 +1456,4 @@ namespace AccesoDatosNet
             }
         }
     }
-
-
-
-
-
-
 }

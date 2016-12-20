@@ -27,7 +27,7 @@ namespace RadioLogisticaDeliveries
 
             // Create your fragment here
         }
-        public EditText elData { get; private set; }
+        public static EditText elData { get; private set; }
         //public RadioGroup rg { get; private set; }
         public RadioButton radioChecking { get; private set; }
         public RadioButton radioReading { get; private set; }
@@ -50,9 +50,9 @@ namespace RadioLogisticaDeliveries
             radioReading.Checked = true;
 
             //scanner intent
-            var filter = new IntentFilter("com.espack.radiologisticadeliveries.SCAN");
+            var filter = new IntentFilter("com.espack.SCAN");
             filter.AddCategory(Intent.CategoryDefault);
-            var receiver = new ScanReceiver() { ed=elData};
+            var receiver = new ScanReceiver();
             Activity.RegisterReceiver(receiver, filter);
 
 
@@ -62,13 +62,12 @@ namespace RadioLogisticaDeliveries
 
         public class ScanReceiver : BroadcastReceiver
         {
-            public EditText ed { get; set; }
             public async override void OnReceive(Context context, Intent intent)
             {
 
                 ((Activity)context).RunOnUiThread(() =>
                 {
-                    ed.Enabled = false;
+                    EnterDataFragment.elData.Enabled = false;
                 });
 
                 string _scan = cDataWedge.HandleDecodeData(intent).Split('|')[0];
@@ -82,10 +81,10 @@ namespace RadioLogisticaDeliveries
                 await Values.gDRL.Add(_scan);
                 ((Activity)context).RunOnUiThread(() =>
                 {
-                    ed.Enabled = true;
-                    ed.Text = "";
+                    EnterDataFragment.elData.Enabled = true;
+                    EnterDataFragment.elData.Text = "";
                 });
-                ed.Tag = "SCAN";
+                EnterDataFragment.elData.Tag = "SCAN";
             }
         }
 
@@ -128,8 +127,6 @@ namespace RadioLogisticaDeliveries
         {
             base.OnResume();
             await Values.iFt.Clear();
-            await test();
-
         }
         public class RacksBlocksParts
         {
@@ -140,11 +137,6 @@ namespace RadioLogisticaDeliveries
             public int MinBoxes { get; set; }
             public int MaxBoxes { get; set; }
 
-        }
-        public async Task test()
-        {
-            var _query = await Values.SQLidb.db.QueryAsync<RacksBlocksParts>("Select * from RacksBlocks inner join PartnumbersRacks on RacksBlocks.Rack=PartnumbersRacks.Rack limit 6;");
-            _query.ForEach(r => Values.dFt.pushInfo(r.Block, r.Rack, r.Partnumber, string.Format("{0}/{1}", r.MinBoxes, r.MaxBoxes)));
         }
     }
 

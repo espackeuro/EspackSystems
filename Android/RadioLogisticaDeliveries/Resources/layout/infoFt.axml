@@ -26,28 +26,28 @@
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/c01"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/c02"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/c03"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
     </TableRow>
     <TableRow
         android:id="@+id/Row1"
@@ -59,28 +59,28 @@
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/c11"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/c12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/c13"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
     </TableRow>
     <TableRow
         android:id="@+id/Row2"
@@ -92,28 +92,28 @@
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/c21"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/c22"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/c23"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
     </TableRow>
     <TableRow
         android:id="@+id/Row3"
@@ -125,28 +125,28 @@
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/c31"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/c32"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/c33"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
     </TableRow>
     <TableRow
         android:id="@+id/Row4"
@@ -158,28 +158,28 @@
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/c41"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/c42"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/c43"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
     </TableRow>
     <TableRow
         android:id="@+id/Row5"
@@ -191,28 +191,28 @@
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/c51"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/c52"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/c53"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
     </TableRow>
     <TableRow
         android:id="@+id/Row6"
@@ -224,28 +224,28 @@
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/c61"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/c62"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/c63"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
     </TableRow>
     <TableRow
         android:id="@+id/Row7"
@@ -257,28 +257,28 @@
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/c71"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/c72"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/c73"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
     </TableRow>
     <TableRow
         android:id="@+id/Row8"
@@ -290,28 +290,28 @@
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/c81"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/c82"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/c83"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
     </TableRow>
     <TableRow
         android:id="@+id/Row9"
@@ -323,28 +323,28 @@
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/c91"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/c92"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/c93"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
     </TableRow>
     <TableRow
         android:id="@+id/Row10"
@@ -356,28 +356,28 @@
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/c101"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/c102"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/c103"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
     </TableRow>
     <TableRow
         android:id="@+id/Row11"
@@ -389,27 +389,27 @@
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/c111"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/c112"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/c113"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text=""
-            android:textSize="10sp" />
+            android:textSize="16sp" />
     </TableRow>
 </TableLayout>

@@ -25,14 +25,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="Reading"
- />
+            android:text="Reading" />
         <RadioButton
             android:id="@+id/radioChecking"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="Checking"
- />
+            android:text="Checking" />
     </RadioGroup>
 </LinearLayout>
