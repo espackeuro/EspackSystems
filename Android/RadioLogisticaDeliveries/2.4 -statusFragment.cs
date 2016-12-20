@@ -131,7 +131,7 @@ namespace RadioLogisticaDeliveries
             checkingsInfo = _root.FindViewById<TextView>(Resource.Id.checkingsInfo);
             return _root;
         }
-        public Task socksProgressStatus(ProgressStatusEnum _status)
+        public Task commProgressStatus(ProgressStatusEnum _status)
         {
             return Task.Run(() => 
             Activity.RunOnUiThread(() =>

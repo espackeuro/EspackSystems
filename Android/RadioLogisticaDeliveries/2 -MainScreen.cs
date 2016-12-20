@@ -56,13 +56,13 @@ namespace RadioLogisticaDeliveries
                 switch (EspackCommServer.Server.Status)
                 {
                     case CommStatus.OFFLINE:
-                        await Values.sFt.socksProgressStatus(ProgressStatusEnum.CONNECTED);
+                        await Values.sFt.commProgressStatus(ProgressStatusEnum.CONNECTED);
                         break;
                     case CommStatus.CONNECTED:
-                        await Values.sFt.socksProgressStatus(ProgressStatusEnum.TRANSMITTING);
+                        await Values.sFt.commProgressStatus(ProgressStatusEnum.TRANSMITTING);
                         break;
                     case CommStatus.ERROR:
-                        await Values.sFt.socksProgressStatus(ProgressStatusEnum.DISCONNECTED);
+                        await Values.sFt.commProgressStatus(ProgressStatusEnum.DISCONNECTED);
                         break;
                 }
             }

@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Messages;
 using System.ComponentModel;
 using Sockets;
+using System.Threading;
 
 namespace AccesoDatosNet
 {
@@ -280,20 +281,33 @@ namespace AccesoDatosNet
         public bool Compression { get; set; } = true;
         String Origin { get; set; } = "LOGON";
         //string SessionNumber { get; set; }
-        public override string HostName
+        public override async Task<string> HostName()
         {
-            get
+            var lRs = new XMLRS();
+            await lRs.Open("Select HostName=host_name()", this);
+            if (lRs.EOF)
             {
-                throw new NotImplementedException();
+                throw new Exception("Server not available");
             }
+            string lRes = lRs[0].ToString();
+            lRs.Close();
+            return lRes;
         }
 
-        public override DateTime ServerDate
+        public override async Task<DateTime> ServerDate()
         {
-            get
+            var lRs = new XMLRS();
+            await lRs.Open("Select Date=convert(varchar,Getdate(),120)", this);
+            if (!lRs.HasRows)
             {
-                throw new NotImplementedException();
+                throw new Exception("Server not available");
             }
+            string[] lDateTot = lRs[0].ToString().Split(' ');
+            lRs.Close();
+            string[] lDate = lDateTot[0].Split('-');
+            string[] lTime = lDateTot[1].Split(':');
+            DateTime lRes = new DateTime(Convert.ToInt32(lDate[0]), Convert.ToInt32(lDate[1]), Convert.ToInt32(lDate[2]), Convert.ToInt32(lTime[0]), Convert.ToInt32(lTime[1]), Convert.ToInt32(lTime[2]));
+            return lRes;
         }
 
         public override ConnectionState State
@@ -955,7 +969,7 @@ namespace AccesoDatosNet
                 var msgIn = new Message();
                 var decryptedUncompressedMsgIn = new DecryptMessageInput(new DecompressMessageInput(msgIn)) { MsgIn = _result };
                 await decryptedUncompressedMsgIn.process();
-
+                //Thread.Sleep(2000);
                 //var m = new TransmitEntcryptedCompressedMessage() { ServerIP = IP, Port = Port };
                 //m.MsgIn = x.ToString();
                 //await m.process();

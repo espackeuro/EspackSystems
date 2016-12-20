@@ -132,26 +132,27 @@ namespace LogonScreen
                     LogonSP.AddParameterValue("User", cUser.Text);
                     LogonSP.AddParameterValue("Password", cPassword.Text);
                     LogonSP.AddParameterValue("Origin", "RADIO LOGISTICA (VAL)");
-
-                    await LogonSP.Execute();
-                    if (LogonSP.LastMsg.Substring(0, 2) != "OK")
+                    try
                     {
-                        cMsgText.Text = "ERROR: " + LogonSP.LastMsg;
+                        await LogonSP.Execute();
+                        if (LogonSP.LastMsg.Substring(0, 2) != "OK")
+                            throw new Exception(LogonSP.LastMsg);
+                        else
+                        {
+                            Toast.MakeText(this, "Logon OK!", ToastLength.Short).Show();
+                            LogonDetails.user = LogonSP.ReturnValues()["@User"].ToString();
+                            LogonDetails.password = LogonSP.ReturnValues()["@Password"].ToString();
+                            Intent intent = new Intent();
+                            intent.PutExtra("Result", "OK");
+                            SetResult(Result.Ok, intent);
+                            Finish();
+                        }
+                    } catch (Exception ex)
+                    {
+                        cMsgText.Text = ex.Message;
                         cUser.Text = "";
                         cPassword.Text = "";
                         cUser.RequestFocus();
-                        //gDatos.Close();
-
-                    }
-                    else
-                    {
-                        //Toast.MakeText(this, "Logon OK!", ToastLength.Short).Show();
-                        LogonDetails.user = LogonSP.ReturnValues()["@User"].ToString();
-                        LogonDetails.password = LogonSP.ReturnValues()["@Password"].ToString();
-                        Intent intent = new Intent();
-                        intent.PutExtra("Result", "OK");
-                        SetResult(Result.Ok, intent);
-                        Finish();
                     }
                 }
                 this.RunOnUiThread(() =>

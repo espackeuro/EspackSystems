@@ -11,7 +11,8 @@
             android:text=""
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:hint="Username" />
+            android:hint="Username" 
+            android:textSize="20sp"/>
     </android.support.design.widget.TextInputLayout>
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
@@ -24,7 +25,8 @@
             android:inputType="numberPassword"
             android:singleLine="true"
             android:text=""
-            android:hint="Password" />
+            android:hint="Password"
+            android:textSize="20sp"/>
     </android.support.design.widget.TextInputLayout>
     <Button
         android:text="Login"

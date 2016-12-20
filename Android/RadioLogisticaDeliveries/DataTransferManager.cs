@@ -35,10 +35,10 @@ namespace RadioLogisticaDeliveries
         {
             if (monitor.State != NetworkState.ConnectedData && monitor.State != NetworkState.ConnectedWifi)
             {
-                await Values.sFt.socksProgressStatus(ProgressStatusEnum.DISCONNECTED);
+                await Values.sFt.commProgressStatus(ProgressStatusEnum.DISCONNECTED);
             } else
             {
-                await Values.sFt.socksProgressStatus(ProgressStatusEnum.CONNECTED);
+                await Values.sFt.commProgressStatus(ProgressStatusEnum.CONNECTED);
             }
         }
 

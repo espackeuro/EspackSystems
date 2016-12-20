@@ -198,14 +198,8 @@ namespace AccesoDatosNet
             Cod3 = pParams.Cod3;
             AppName = pParams.AppName;
         }
-        public abstract DateTime ServerDate
-        {
-            get;
-        }
-        public abstract string HostName
-        {
-            get;
-        }
+        public abstract Task<DateTime> ServerDate();
+        public abstract Task<string> HostName();
 
         public abstract Task Connect();
 

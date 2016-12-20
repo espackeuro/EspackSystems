@@ -9,6 +9,7 @@
         android:name="headerFragment"
         android:layout_width="fill_parent"
         android:layout_height="100dp"
+        android:layout_weight="0.8"
         android:id="@+id/headerFragment" />
     <FrameLayout
         android:name=""
