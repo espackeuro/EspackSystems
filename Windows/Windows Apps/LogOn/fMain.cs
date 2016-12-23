@@ -67,131 +67,159 @@ namespace LogOn
         // Main
         public fMain(string[] args)
         {
-
-            InitializeComponent();
-            ServicePointManager.DnsRefreshTimeout = 0;
-            this.Text=string.Format("LogOn Build {0} - ({1:yyyyMMdd})*" , Assembly.GetExecutingAssembly().GetName().Version.ToString(),CT.GetBuildDateTime(Assembly.GetExecutingAssembly()));
-            // Customize the textbox controls 
-            txtUser.Multiline = false;
-            txtPassword.Multiline = false;
-            txtNewPassword.Multiline = false;
-            txtNewPasswordConfirm.Multiline = false;
-            txtNewPIN.Multiline = false;
-            txtNewPINConfirm.Multiline = false;
-            //timer control
-            _time = 0;
-            _timer = new System.Timers.Timer() { Interval = 1000, Enabled = false };
-            _timer.Elapsed += _timer_Elapsed;
-
-            // Add the toolbar and set the panels texts
-            AddDefaultStatusStrip();
-
-            LogOnChangeStatus(LogOnStatus.INIT);
-
-#if DEBUG
-            chkDebug.Checked = true;
-            txtUser.Text = "dvalles";
-            txtPassword.Text = "*Kru0DMar*";
-#endif
-
             // Load the vars from the given args
             var espackArgs = CT.LoadVars(args);
             var _IP = Values.gDatos.IP.GetAddressBytes();
-            if (_IP[0] == 10)
-                _zone = _IP[1];
-            else
-                _zone = _IP[2];
-            // If DB is not set in args, we assume any args are set
-            if (espackArgs.DataBase == null)
+            try
             {
-                espackArgs.DataBase = "SISTEMAS";
-                espackArgs.User = "procesos";
-                espackArgs.Password = "*seso69*";
+                InitializeComponent();
+                ServicePointManager.DnsRefreshTimeout = 0;
+                this.Text = string.Format("LogOn Build {0} - ({1:yyyyMMdd})*", Assembly.GetExecutingAssembly().GetName().Version.ToString(), CT.GetBuildDateTime(Assembly.GetExecutingAssembly()));
+                // Customize the textbox controls 
+                txtUser.Multiline = false;
+                txtPassword.Multiline = false;
+                txtNewPassword.Multiline = false;
+                txtNewPasswordConfirm.Multiline = false;
+                txtNewPIN.Multiline = false;
+                txtNewPINConfirm.Multiline = false;
+                //timer control
+                _time = 0;
+                _timer = new System.Timers.Timer() { Interval = 1000, Enabled = false };
+                _timer.Elapsed += _timer_Elapsed;
 
-                // Init _zone var (200, 210, 220, etc...), _pathLogonHosts (the path for the logonHosts file) and the list _content (that will contain logonHosts contents)
-                //int _zone = 0;
-                string _pathLogonHosts;
-                List<string> _content = new List<string>();
+                // Add the toolbar and set the panels texts
+                AddDefaultStatusStrip();
 
-                // Programmer rest (just for DEBUG time)
+                LogOnChangeStatus(LogOnStatus.INIT);
+
 #if DEBUG
-                _pathLogonHosts = "c:\\espack\\logonHosts";
+                chkDebug.Checked = true;
+                txtUser.Text = "dvalles";
+                txtPassword.Text = "*Kru0DMar*";
+#endif
+
+
+                if (_IP[0] == 10)
+                    _zone = _IP[1];
+                else
+                    _zone = _IP[2];
+            } catch (Exception ex)
+            {
+                
+                throw new Exception(string.Format("Error 1 {0}", ex.Message));
+            }
+            try
+            {
+                // If DB is not set in args, we assume any args are set
+                if (espackArgs.DataBase == null)
+                {
+                    espackArgs.DataBase = "SISTEMAS";
+                    espackArgs.User = "procesos";
+                    espackArgs.Password = "*seso69*";
+
+                    // Init _zone var (200, 210, 220, etc...), _pathLogonHosts (the path for the logonHosts file) and the list _content (that will contain logonHosts contents)
+                    //int _zone = 0;
+                    string _pathLogonHosts;
+                    List<string> _content = new List<string>();
+
+                    // Programmer rest (just for DEBUG time)
+#if DEBUG
+                    _pathLogonHosts = "c:\\espack\\logonHosts";
 #else
             _pathLogonHosts = "logonHosts";
 #endif
-                _pathLogonHosts = Values.LOCAL_PATH +"logon/logonHosts";
+                    _pathLogonHosts = Values.LOCAL_PATH + "logon/logonHosts";
 
 
-                // Get logonHosts file content       
-                if (File.Exists(_pathLogonHosts))
-                {
-                    _content = File.ReadAllLines(_pathLogonHosts).ToList<string>();
+                    // Get logonHosts file content       
+                    if (File.Exists(_pathLogonHosts))
+                    {
+                        _content = File.ReadAllLines(_pathLogonHosts).ToList<string>();
+                    }
+                    else
+                    {
+                        throw new Exception("Can not find connection details");
+                    }
+
+                    // Put in _line the corresponding to the _zone (if (_zone==200) then _line="200|10.200.10.130|10.200.10.138|80.33.195.45|VAL")
+                    string _line = _content.FirstOrDefault(p => p.Substring(0, 3) == _zone.ToString());
+
+                    // DB Server is the 2nd element in _line
+                    espackArgs.Server = _line.Split('|')[1];
+
                 }
-                else
-                {
-                    throw new Exception("Can not find connection details");
-                }
-
-                // Put in _line the corresponding to the _zone (if (_zone==200) then _line="200|10.200.10.130|10.200.10.138|80.33.195.45|VAL")
-                string _line = _content.FirstOrDefault(p => p.Substring(0, 3) == _zone.ToString());
-
-                // DB Server is the 2nd element in _line
-                espackArgs.Server = _line.Split('|')[1];
-
             }
-
-            // Set the values of gDatos from the given args or default settings 
-            Values.gDatos.DataBase = espackArgs.DataBase;
-            Values.gDatos.Server = espackArgs.Server;
-            Values.gDatos.User = espackArgs.User;
-            Values.gDatos.Password = espackArgs.Password;
-
-            // Connect (or try)
+            catch (Exception ex)
+            {
+                throw new Exception(string.Format("Error 2 {0}", ex.Message));
+            }
+            string[] FilesToUpdate = new string[] { "logonHosts", "logonloader.exe", "logonloader.exe.config" };
             try
             {
-                Values.gDatos.Connect();
-                Values.gDatos.Close();
-            }
-            catch (Exception e)
-            {
-                throw new Exception("Error connecting database server: " + e.Message);
-            }
+                // Set the values of gDatos from the given args or default settings 
+                Values.gDatos.DataBase = espackArgs.DataBase;
+                Values.gDatos.Server = espackArgs.Server;
+                Values.gDatos.User = espackArgs.User;
+                Values.gDatos.Password = espackArgs.Password;
 
-            Values.FillServers(_zone);
-            Panel1.Text = "You are connected to "+Values.gDatos.oServer.HostName.Replace(".local","")+"!";
-            Panel2.Text = "My IP: " + Values.gDatos.IP.ToString();
-            Panel3.Text = "DB Server IP: " + espackArgs.Server;
-            Panel4.Text = "Share Server IP: " + Values.ShareServerList[Values.COD3].HostName;
-            string[] FilesToUpdate = new string[] { "logonHosts", "logonloader.exe", "logonloader.exe.config" };
-            FilesToUpdate = FilesToUpdate.Concat(System.IO.Directory.GetFiles("lib").Select(x => x.Replace("\\","/")).Where(x => Path.GetExtension(x)==".dll")).ToArray();
-            if (!Directory.Exists(Values.LOCAL_PATH + "/lib"))
-                Directory.CreateDirectory(Values.LOCAL_PATH + "/lib");
-            // Check LogOnLoader update
-//#if !DEBUG
-            FilesToUpdate.ToList().ForEach(x =>
-            {
-                x = x.Replace("\\", "/");
-                if (File.Exists(Values.LOCAL_PATH + x))
+                // Connect (or try)
+                try
                 {
-                    if (File.GetLastWriteTime(Values.LOCAL_PATH + x) != File.GetLastWriteTime(Values.LOCAL_PATH + "logon/"+x))
+                    Values.gDatos.Connect();
+                    Values.gDatos.Close();
+                }
+                catch (Exception e)
+                {
+                    throw new Exception("Error connecting database server: " + e.Message);
+                }
+
+                Values.FillServers(_zone);
+                Panel1.Text = "You are connected to " + Values.gDatos.oServer.HostName.Replace(".local", "") + "!";
+                Panel2.Text = "My IP: " + Values.gDatos.IP.ToString();
+                Panel3.Text = "DB Server IP: " + espackArgs.Server;
+                Panel4.Text = "Share Server IP: " + Values.ShareServerList[Values.COD3].HostName;
+                
+                FilesToUpdate = FilesToUpdate.Concat(System.IO.Directory.GetFiles("lib").Select(x => x.Replace("\\", "/")).Where(x => Path.GetExtension(x) == ".dll")).ToArray();
+                if (!Directory.Exists(Values.LOCAL_PATH + "/lib"))
+                    Directory.CreateDirectory(Values.LOCAL_PATH + "/lib");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(string.Format("Error 3 {0}", ex.Message));
+            }
+            try
+            {
+                // Check LogOnLoader update
+                //#if !DEBUG
+                FilesToUpdate.ToList().ForEach(x =>
+                {
+                    x = x.Replace("\\", "/");
+                    if (File.Exists(Values.LOCAL_PATH + x))
                     {
-                        File.Delete(Values.LOCAL_PATH + x);
-                        File.Copy(Values.LOCAL_PATH + "logon/"+x, Values.LOCAL_PATH + x);
+                        if (File.GetLastWriteTime(Values.LOCAL_PATH + x) != File.GetLastWriteTime(Values.LOCAL_PATH + "logon/" + x))
+                        {
+                            File.Delete(Values.LOCAL_PATH + x);
+                            File.Copy(Values.LOCAL_PATH + "logon/" + x, Values.LOCAL_PATH + x);
+                        }
                     }
-                }
-                else
-                {
-                    if (File.Exists(Values.LOCAL_PATH + "logon/" + x))
-                        File.Copy(Values.LOCAL_PATH + "logon/" + x, Values.LOCAL_PATH + x);
-                }
-            });
+                    else
+                    {
+                        if (File.Exists(Values.LOCAL_PATH + "logon/" + x))
+                            File.Copy(Values.LOCAL_PATH + "logon/" + x, Values.LOCAL_PATH + x);
+                    }
+                });
 
 
 
 
-//#endif
-            KeyDown += restartTimer;
-            MouseClick += restartTimer;
+                //#endif
+                KeyDown += restartTimer;
+                MouseClick += restartTimer;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(string.Format("Error 3 {0}", ex.Message));
+            }
         }
 
 
@@ -471,18 +499,18 @@ namespace LogOn
             }
         }
 
-        private async Task CheckUpdatableApps()
+        private Task CheckUpdatableApps()
         {
             var task = Task.Run(() =>
             Values.AppList.ToList().ForEach(async x =>
             {
-                if (await x.CheckUpdated().ConfigureAwait(false))
-                //if (await x.CheckUpdate())
+                //if (await x.CheckUpdated().ConfigureAwait(false))
+                if (await x.CheckUpdated())
                     x.ChangeStatus(AppBotStatus.UPDATED);
 
             }));
-            
-            await task.ConfigureAwait(false);
+            return task;
+            //await task.ConfigureAwait(false);
         }
         private async void btnOk_Click(object sender, EventArgs e)
         {
@@ -540,11 +568,11 @@ namespace LogOn
                 DrawListApps();
                 await CheckUpdatableApps().ConfigureAwait(false);
 
-
-                while (Values.AppList.CheckingApps.Count != 0)
-                {
-                    System.Threading.Thread.Sleep(500);
-                }
+                SpinWait.SpinUntil(() => Values.AppList.CheckingApps.Count == 0);
+                //while (Values.AppList.CheckingApps.Count != 0)
+                //{
+                //    System.Threading.Thread.Sleep(500);
+                //}
 
                 if (Values.AppList.PendingApps.Count != 0)
                 {

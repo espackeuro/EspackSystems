@@ -158,46 +158,41 @@ namespace CTLMantenimientoNet
 
         //public List<VSGrid.CtlVSGrid> VSGrids;
 
-        private int mRsPosition;
-        public int RSPosition
+        //private int mRsPosition;
+        public int RSPosition { get; private set; } = -1;
+        public async Task setRSPosition(int position)
         {
-            get
+            if (position == -1)
             {
-                return mRsPosition;
+                RSPosition = position;
+                return;
             }
-            set
+            try
             {
-                if (value == -1)
+                if (mDA.SelectRS.DS != null)
                 {
-                    mRsPosition = value;
-                    return;
-                }
-                try
-                {
-                    if (mDA.SelectRS.DS != null)
+                    if (position <= mDA.SelectRS.RecordCount)
                     {
-                        if (value <= mDA.SelectRS.RecordCount)
-                        {
-                            mDA.SelectRS.Move(value);
-                            ShowRSValues();
-                            mRsPosition = value;
-                        }
-                        else
-                        {
-                            throw new Exception("Wrong position value :(.");
-                        }
-
+                        await mDA.SelectRS.Move(position);
+                        await ShowRSValues();
+                        RSPosition = position;
                     }
                     else
                     {
-                        throw new Exception("Search is empty :(.");
+                        throw new Exception("Wrong position value :(.");
                     }
+
                 }
-                catch (Exception e)
+                else
                 {
-                    throw new Exception("Error: " + e.Message);
+                    throw new Exception("Search is empty :(.");
                 }
             }
+            catch (Exception e)
+            {
+                throw new Exception("Error: " + e.Message);
+            }
+
         }
         //Query property, it constructs the SQL Query using the Items and the DBTable properties
 
@@ -438,37 +433,38 @@ namespace CTLMantenimientoNet
         {
             this.Parent.KeyDown += Parent_KeyDown;
         }
-
-        void Parent_KeyDown(object sender, KeyEventArgs e)
+        //eventhandler
+        private async void Parent_KeyDown(object sender, KeyEventArgs e)
         {
             switch (e.KeyCode)
             {
                 case Keys.F8:
                     if (btnSearch.Enabled)
                     {
-                        Button_Click("btnSearch");
-                        Button_Click("btnOk");
+                        await Button_Click("btnSearch");
+                        await Button_Click("btnOk");
                     }
                     break;
                 case Keys.F2:
                     if (btnOk.Enabled)
                     {
-                        Button_Click("btnOk");
+                        await Button_Click("btnOk");
                     }
                     break;
                 case Keys.F7:
                     if (btnUpp.Enabled)
                     {
-                        Button_Click("btnUpp");
+                        await Button_Click("btnUpp");
                     }
                     break;
                 case Keys.F10:
                     if (btnAdd.Enabled)
                     {
-                        Button_Click("btnAdd");
+                        await Button_Click("btnAdd");
                     }
                     break;
-                case Keys.Escape: Button_Click("btnCancel");
+                case Keys.Escape:
+                    await Button_Click("btnCancel");
                     break;
             }
         }
@@ -577,43 +573,91 @@ namespace CTLMantenimientoNet
             StatusBarProgress.Visible = false;
         }
         //ShowRSValues shows the actual values of actual record of mDA.SelectRS  
-        public void ShowRSValues()
+        delegate Task ShowRSValuesDelegate();
+        delegate Task ClearValuesDelegate(bool PK = false);
+        //public async Task ShowRSValues()
+        //{
+        //    foreach (EspackControl lItem in CTLMItems)
+        //    {
+        //        await lItem.UpdateEspackControl();
+        //    }
+        //}
+        public async Task ShowRSValues()
         {
-            foreach (EspackControl lItem in CTLMItems)
+            try
             {
-                lItem.UpdateEspackControl();
+                foreach (EspackControl lItem in CTLMItems)
+                {
+                    if (lItem is Control)
+                    {
+                        if (((Control)lItem).InvokeRequired)
+                        {
+                            ShowRSValuesDelegate a = new ShowRSValuesDelegate(ShowRSValues);
+                            this.Invoke(a);
+                        }
+                        else
+                        {
+                            await lItem.UpdateEspackControl();
+                        }
+                    }
+                    else
+                    {
+                        await lItem.UpdateEspackControl();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
-
         //ClearValues Cleans the form and fills it with the default values 
-        public void ClearValues(bool PK = false)
+        public async Task ClearValues(bool PK = false)
         {
             foreach (EspackControl lItem in ItemsFormControl)
             {
                 if (!(lItem.PK && PK))
-                    lItem.ClearEspackControl();
+                {
+                    if (lItem is Control)
+                    {
+                        if (((Control)lItem).InvokeRequired)
+                        {
+                            ClearValuesDelegate a = new ClearValuesDelegate(ClearValues);
+                            this.Invoke(a, new object[] { PK });
+                        }
+                        else
+                        {
+                            lItem.ClearEspackControl();
+                        }
+                    }
+                    else
+                    {
+                        lItem.ClearEspackControl();
+                    }
+                }
+                    
             }
             if (MsgStatusInfoLabel != null) MsgStatusInfoLabel.Text = "";
-            mRsPosition = 0;
+            await setRSPosition(0);
         }
 
         //What happens when you click OK
-        private void Click_OK(string pButtonName= "btnOk")
+        private async Task Click_OK(string pButtonName= "btnOk")
         {
             switch (Status)
             {
                 case EnumStatus.SEARCH:
                     {
-                        mDA.SelectRS.Open();
+                        await mDA.SelectRS.Open();
                         if (mDA.SelectRS.EOF)
                         {
                             MessageBox.Show("No data found.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             AfterButtonClick(this, new CTLMEventArgs(pButtonName));
                             Status = EnumStatus.SEARCH;
-                            ClearValues();
+                            await ClearValues();
                             return;
                         }
-                        ShowRSValues();
+                        await ShowRSValues();
                         AfterButtonClick(this, new CTLMEventArgs(pButtonName));
                         Status = EnumStatus.NAVIGATE;
                         if (MsgStatusInfoLabel != null) MsgStatusInfoLabel.Text = mDA.SelectRS.RecordCount.ToString() + " Records returned by search.";
@@ -623,7 +667,7 @@ namespace CTLMantenimientoNet
                     {
                         if (mDA.Conn.State == ConnectionState.Open)
                             mDA.Conn.Close();
-                        mDA.InsertCommand.Execute();
+                        await mDA.InsertCommand.Execute();
                         if (mDA.InsertCommand.LastMsg.Substring(0, 2) != "OK")
                         {
                             MessageBox.Show("ERROR:" + mDA.InsertCommand.LastMsg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -633,7 +677,7 @@ namespace CTLMantenimientoNet
                         AfterButtonClick(this, new CTLMEventArgs(pButtonName));
                         if (Clear)
                         {
-                            ClearValues();
+                            await ClearValues();
                         }
                         else
                         {
@@ -645,9 +689,9 @@ namespace CTLMantenimientoNet
                         if (MsgStatusInfoLabel != null) MsgStatusInfoLabel.Text = "Record added successfully :D!";
                         if (ReQuery)
                         {
-                            ClearValues(true);
+                            await ClearValues(true);
                             Status = EnumStatus.SEARCH;
-                            Click_OK(pButtonName); ;
+                            await Click_OK(pButtonName); ;
                         }
 
                         if (VsGrids.Count != 0)
@@ -663,7 +707,7 @@ namespace CTLMantenimientoNet
                     {
                         if (mDA.Conn.State == ConnectionState.Open)
                             mDA.Conn.Close();
-                        mDA.UpdateCommand.Execute();
+                        await mDA.UpdateCommand.Execute();
                         if (mDA.UpdateCommand.LastMsg.Substring(0, 2) != "OK")
                         {
                             MessageBox.Show("ERROR:" + mDA.UpdateCommand.LastMsg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -673,13 +717,13 @@ namespace CTLMantenimientoNet
                         AfterButtonClick(this, new CTLMEventArgs(pButtonName));
                         if (Clear)
                         {
-                            ClearValues();
+                            await ClearValues();
                         }
                         if (ReQuery)
                         {
-                            ClearValues(true);
+                            await ClearValues(true);
                             Status = EnumStatus.SEARCH;
-                            Click_OK(pButtonName); ;
+                            await Click_OK(pButtonName); ;
                         }
                         Status = EnumStatus.SEARCH;
                         if (MsgStatusInfoLabel != null) MsgStatusInfoLabel.Text = "Record updated successfully ;D!";
@@ -689,14 +733,14 @@ namespace CTLMantenimientoNet
                     {
                         if (mDA.Conn.State == ConnectionState.Open)
                             mDA.Conn.Close();
-                        mDA.DeleteCommand.Execute();
+                        await mDA.DeleteCommand.Execute();
                         if (mDA.DeleteCommand.LastMsg.Substring(0, 2) != "OK")
                         {
                             MessageBox.Show("ERROR:" + mDA.DeleteCommand.LastMsg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             StatusMsg("ERROR:" + mDA.DeleteCommand.LastMsg);
                             return;
                         }
-                        ClearValues();
+                        await ClearValues();
                         AfterButtonClick(this, new CTLMEventArgs(pButtonName));
                         Status = EnumStatus.SEARCH;
                         if (MsgStatusInfoLabel != null) MsgStatusInfoLabel.Text = "Record deleted successfully X(!";
@@ -713,7 +757,7 @@ namespace CTLMantenimientoNet
             }
         }
 
-        private void Button_Click(string pButtonName) //lauched when clicked any button
+        private async Task Button_Click(string pButtonName) //lauched when clicked any button
         {
             try
             {
@@ -734,7 +778,7 @@ namespace CTLMantenimientoNet
                         if (MessageBox.Show("This will delete the actual record. Are you sure?", "WARNING", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning) == DialogResult.Yes)
                         {
                             Status = EnumStatus.DELETE;
-                            Click_OK(pButtonName);
+                            await Click_OK(pButtonName);
                         }
                         break;
                     case "btnSearch":
@@ -742,66 +786,66 @@ namespace CTLMantenimientoNet
                         Status = EnumStatus.SEARCH;
                         break;
                     case "btnCancel":
-                        ClearValues();
+                        await ClearValues();
                         AfterButtonClick(this, new CTLMEventArgs(pButtonName));
                         Status = EnumStatus.SEARCH;
                         break;
                     case "btnOk":
-                        Click_OK(pButtonName);
+                        await Click_OK(pButtonName);
                         break;
                     case "btnNext":
                         if (mDA.SelectRS.State == RSState.Open)
                         {
-                            mDA.SelectRS.MoveNext();
-                            mRsPosition++;
+                            await mDA.SelectRS.MoveNext();
+                            await setRSPosition(RSPosition++);
                             if (mDA.SelectRS.EOF)
                             {
                                 MessageBox.Show("Actual record is the last one.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 return;
                             }
-                            ShowRSValues();
+                            await ShowRSValues();
                         }
                         AfterButtonClick(this, new CTLMEventArgs(pButtonName));
                         break;
                     case "btnPrev":
                         if (mDA.SelectRS.State == RSState.Open)
                         {
-                            mDA.SelectRS.MovePrevious();
-                            mRsPosition--;
+                            await mDA.SelectRS.MovePrevious();
+                            await setRSPosition(RSPosition--);
                             if (mDA.SelectRS.BOF)
                             {
                                 MessageBox.Show("Actual record is the first one.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 return;
                             }
-                            ShowRSValues();
+                            await ShowRSValues();
                         }
                         AfterButtonClick(this, new CTLMEventArgs(pButtonName));
                         break;
                     case "btnFirst":
                         if (mDA.SelectRS.State == RSState.Open)
                         {
-                            mDA.SelectRS.MoveFirst();
-                            mRsPosition = 1;
+                            await mDA.SelectRS.MoveFirst();
+                            await setRSPosition(1);
                             if (mDA.SelectRS.BOF)
                             {
                                 MessageBox.Show("Actual record is the first one.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 return;
                             }
-                            ShowRSValues();
+                            await ShowRSValues();
                         }
                         AfterButtonClick(this, new CTLMEventArgs(pButtonName));
                         break;
                     case "btnLast":
                         if (mDA.SelectRS.State == RSState.Open)
                         {
-                            mDA.SelectRS.MoveLast();
-                            mRsPosition = mDA.SelectRS.RecordCount;
+                            await mDA.SelectRS.MoveLast();
+                            await setRSPosition(mDA.SelectRS.RecordCount);
                             if (mDA.SelectRS.EOF)
                             {
                                 MessageBox.Show("Actual record is the last one.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 return;
                             }
-                            ShowRSValues();
+                            await ShowRSValues();
                         }
                         AfterButtonClick(this, new CTLMEventArgs(pButtonName));
                         break;
@@ -814,10 +858,10 @@ namespace CTLMantenimientoNet
             }
         }
 
-
-        private void CTLM_Click(object sender, ToolStripItemClickedEventArgs e)  //the Click Event
+        //eventhandler 
+        private async void CTLM_Click(object sender, ToolStripItemClickedEventArgs e)  //the Click Event
         {
-            Button_Click(e.ClickedItem.Name);
+            await Button_Click(e.ClickedItem.Name);
         }
 
     }

@@ -313,6 +313,7 @@ namespace AccesoDatosNet
                 return mState;
             }
         }
+        public abstract int RecordCount { get; }
         public abstract object this[string Idx]
         {
             get;
@@ -338,12 +339,58 @@ namespace AccesoDatosNet
         public bool AutoUpdate { get; set; }
         //public abstract SqlCommand Cmd { get; set; }
 
-        public abstract void MoveNext();
-        public abstract void MovePrevious();
-        public abstract void MoveLast();
-        public abstract void MoveFirst();
-        public abstract void Move(int Idx);
-        public abstract Task Execute();
+        public virtual Task MoveNext()
+        {
+            mState = RSState.Fetching;
+            if (mIndex < RecordCount - 1)
+            {
+                mIndex++;
+                mBOF = false;
+            }
+            else
+            {
+                mEOF = true;
+            }
+            mState = RSState.Open;
+            return Task.FromResult(0);
+        }
+        public virtual Task MovePrevious()
+        {
+            mState = RSState.Fetching;
+            if (mIndex > 0)
+            {
+                mIndex--;
+                mEOF = false;
+            }
+            else
+            {
+                mBOF = true;
+            }
+            mState = RSState.Open;
+            return Task.FromResult(0);
+        }
+        public virtual Task MoveFirst()
+        {
+            mState = RSState.Fetching;
+            mIndex = 0;
+            mState = RSState.Open;
+            return Task.FromResult(0);
+        }
+        public virtual Task MoveLast()
+        {
+            mState = RSState.Fetching;
+            mIndex = RecordCount - 1;
+            mState = RSState.Open;
+            return Task.FromResult(0);
+        }
+        public virtual Task Move(int Idx)
+        {
+            mState = RSState.Fetching;
+            mIndex = Idx;
+            mState = RSState.Open;
+            return Task.FromResult(0);
+        }
+        public virtual Task Execute() { return Task.FromResult(0); }
         public async Task Open()
         {
             AssignParameterValues();
@@ -400,9 +447,9 @@ namespace AccesoDatosNet
 
         public abstract void AddControlParameter(string ParamName, Object ParamControl);
 
-        protected void RSFrame_TextChanged(object sender, EventArgs e)
+        protected async void RSFrame_TextChanged(object sender, EventArgs e)
         {
-            Open();
+            await Open();
         }
 
         public void AssignParameterValues()

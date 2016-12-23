@@ -185,7 +185,7 @@
             this.CTLM.Location = new System.Drawing.Point(13, 13);
             this.CTLM.MsgStatusInfoLabel = null;
             this.CTLM.Name = "CTLM";
-            this.CTLM.RSPosition = -1;
+            
             this.CTLM.Size = new System.Drawing.Size(290, 29);
             this.CTLM.sSPAdd = "";
             this.CTLM.sSPDel = "";

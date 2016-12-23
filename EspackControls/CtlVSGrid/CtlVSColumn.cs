@@ -12,6 +12,7 @@ using AccesoDatosNet;
 using CommonTools;
 using EspackControls;
 using EspackFormControls;
+using System.Threading.Tasks;
 
 namespace VSGrid
 {
@@ -27,7 +28,7 @@ namespace VSGrid
         string SPAddParamName { get; set; }
         string SPUppParamName { get; set; }
         string SPDelParamName { get; set; }
-        string Query { get; set; }
+        string Query { get; }
         int Width { get; set; }
         string Alignment { get; set; }
         bool Sortable { get; set; }
@@ -45,7 +46,8 @@ namespace VSGrid
         bool IsNumeric { get; }
         AggregateOperations Aggregate { get; set; }
         float AggregateValue { get; }
-        void ReQuery();
+        Task ReQuery();
+        Task SetQuery(string query);
         //object Value { get; set; }
     }
 
@@ -83,7 +85,7 @@ namespace VSGrid
         public object DefaultValue { get; set; }
         public Type DBFieldType { get; set; }
         public Point Location { get; set; }
-        public void UpdateEspackControl() { }
+        public Task UpdateEspackControl() { return Task.FromResult(0); }
         public void ClearEspackControl() { }
         // end non unsed stuff
         public AutoCompleteMode AutoCompleteMode { get; set; }
@@ -156,7 +158,7 @@ namespace VSGrid
         public string SPAddParamName { get; set; }
         public string SPUppParamName { get; set; }
         public string SPDelParamName { get; set; }
-        public string Query { get; set; }
+        public string Query { get; private set; }
         //public int     Width { get; set; }
         public string Alignment { get; set; }
         public bool Sortable { get; set; }
@@ -164,18 +166,18 @@ namespace VSGrid
         public List<CtlVSColumn> ChangedCols { get; set; }
         public EspackFormControl LinkedControl { get; set; }
 
-        public void ReQuery()
+        public async Task ReQuery()
         {
             if (aQuery != "" && Conn != null)
             {
                 AutoCompleteCustomSource = new AutoCompleteStringCollection();
                 using (DynamicRS _RS = new DynamicRS(aQuery, Conn))
                 {
-                    _RS.Open();
+                    await _RS.Open();
                     while (!_RS.EOF)
                     {
                         AutoCompleteCustomSource.Add(_RS[0].ToString());
-                        _RS.MoveNext();
+                        await _RS.MoveNext();
                     }
                 }
             }
@@ -211,6 +213,12 @@ namespace VSGrid
             that.LinkedControl = this.LinkedControl;
             that.Width = this.Width;
             return that;
+        }
+
+        public async Task SetQuery(string query)
+        {
+            Query = query;
+            await ReQuery();
         }
 
         public object Value
@@ -344,7 +352,7 @@ namespace VSGrid
     public class CtlVSComboColumn : DataGridViewComboBoxColumn, CtlVSColumn
     {
         private bool lLocked;
-        private string _query;
+        //private string _query;
         public EspackControlTypeEnum EspackControlType { get; set; }
         // non used stuff, must be declared to accomplisht with EspackFormControl interface
         //public EspackLabel CaptionLabel { get; set; }
@@ -381,7 +389,7 @@ namespace VSGrid
         public object DefaultValue { get; set; }
         public Type DBFieldType { get; set; }
         public Point Location { get; set; }
-        public void UpdateEspackControl() { }
+        public Task UpdateEspackControl() { return Task.FromResult(0); }
         public void ClearEspackControl() { }
         // end non unsed stuff
 
@@ -434,29 +442,26 @@ namespace VSGrid
                     return null;
             }
         }
-        public string Query
+        public string Query { get; private set; }
+
+        public async Task SetQuery(string query)
         {
-            get
-            {
-                return _query;
-            }
-            set
-            {
-                _query = value;
-                ReQuery();
-            }
+            Query = query;
+            await ReQuery();
         }
+
         //public int Width { get; set; }
         public string Alignment { get; set; }
         public bool Sortable { get; set; }
         public string RowColor { get; set; }
         public List<CtlVSColumn> ChangedCols { get; set; }
         public EspackFormControl LinkedControl { get; set; }
-        public void ReQuery()
+        public async Task ReQuery()
         {
-            if (_query != "" && Conn != null)
+            if (Query != "" && Conn != null)
             {
-                var _RS = new DynamicRS(_query, Conn);
+                var _RS = new DynamicRS(Query, Conn);
+                await _RS.Open();
                 DataSource = _RS.DataObject;
                 DisplayMember = _RS.Fields[0];
                 ValueMember = DisplayMember;

@@ -279,7 +279,7 @@
             this.CTLM.MsgStatusLabel = null;
             this.CTLM.Name = "CTLM";
             this.CTLM.ReQuery = false;
-            this.CTLM.RSPosition = -1;
+            
             this.CTLM.Size = new System.Drawing.Size(290, 29);
             this.CTLM.sSPAdd = "";
             this.CTLM.sSPDel = "";
@@ -318,7 +318,6 @@
             this.ProfileCode.Order = 0;
             this.ProfileCode.Parent = null;
             this.ProfileCode.PK = false;
-            this.ProfileCode.Query = null;
             this.ProfileCode.ReadOnly = true;
             this.ProfileCode.RowColor = null;
             this.ProfileCode.Search = false;
@@ -360,7 +359,6 @@
             this.Service.Order = 0;
             this.Service.Parent = null;
             this.Service.PK = false;
-            this.Service.Query = null;
             this.Service.ReadOnly = true;
             this.Service.RowColor = null;
             this.Service.Search = false;
@@ -401,7 +399,6 @@
             this.DefaultFlags.Order = 0;
             this.DefaultFlags.Parent = null;
             this.DefaultFlags.PK = false;
-            this.DefaultFlags.Query = null;
             this.DefaultFlags.ReadOnly = true;
             this.DefaultFlags.RowColor = null;
             this.DefaultFlags.Search = false;
