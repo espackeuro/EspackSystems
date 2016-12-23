@@ -110,7 +110,7 @@ namespace Sistemas
         {
         }
 
-        private void btnMaster_Click(object sender, EventArgs e)
+        private async void btnMaster_Click(object sender, EventArgs e)
         {
             for (var i = 1; i < Application.OpenForms.Count; i++)
             {
@@ -120,7 +120,7 @@ namespace Sistemas
             {
                 string lPwd = "";
 #if DEBUG
-                lPwd = "*hwLD8e*";
+                lPwd = "Y?D6d#b@";
 #endif
                 CTWin.InputBox("", "Enter Master Password", ref lPwd, true);
                 if (lPwd != "")
@@ -132,7 +132,7 @@ namespace Sistemas
                     lSP.AddParameterValue("password", lPwd);
                     lSP.AddParameterValue("Code", "MASTERPASSWORD");
                     lSP.AddParameterValue("vbpassword", null);
-                    lSP.Execute();
+                    await lSP.Execute();
                     if (lSP.LastMsg != "OK")
                     {
                         MessageBox.Show(lSP.LastMsg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);

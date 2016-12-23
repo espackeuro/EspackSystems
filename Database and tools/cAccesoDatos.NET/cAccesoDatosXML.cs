@@ -680,7 +680,7 @@ namespace AccesoDatosNet
             }
         }
 
-        public int RecordCount
+        public override int RecordCount
         {
             get
             {
@@ -738,55 +738,6 @@ namespace AccesoDatosNet
                     Open();
                 return mDS.Tables["Result"];
             }
-        }
-
-        public override void MoveNext()
-        {
-            mState = RSState.Fetching;
-            if (mIndex < RecordCount - 1)
-            {
-                mIndex++;
-                mBOF = false;
-            }
-            else
-            {
-                mEOF = true;
-            }
-            mState = RSState.Open;
-        }
-
-        public override void MovePrevious()
-        {
-            mState = RSState.Fetching;
-            if (mIndex > 0)
-            {
-                mIndex--;
-                mEOF = false;
-            }
-            else
-            {
-                mBOF = true;
-            }
-            mState = RSState.Open;
-        }
-        public override void MoveFirst()
-        {
-            mState = RSState.Fetching;
-            mIndex = 0;
-            mState = RSState.Open;
-        }
-        public override void MoveLast()
-        {
-            mState = RSState.Fetching;
-            mIndex = RecordCount - 1;
-            mState = RSState.Open;
-        }
-
-        public override void Move(int Idx)
-        {
-            mState = RSState.Fetching;
-            Index = Idx;
-            mState = RSState.Open;
         }
 
         public override void Close()

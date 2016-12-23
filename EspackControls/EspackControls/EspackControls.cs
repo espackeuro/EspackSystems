@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Globalization;
 using System.Drawing;
 using CommonTools;
+using System.Threading.Tasks;
 
 namespace EspackControls
 {
@@ -30,7 +31,7 @@ namespace EspackControls
         bool Search { get; set; }
         object DefaultValue { get; set; }
         Type DBFieldType { get; set; }
-        void UpdateEspackControl();
+        Task UpdateEspackControl();
         void ClearEspackControl();
     }
 

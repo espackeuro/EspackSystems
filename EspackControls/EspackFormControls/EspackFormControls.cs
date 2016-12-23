@@ -11,6 +11,7 @@ using CommonTools;
 using AccesoDatosNet;
 using System.Data;
 using System.ComponentModel;
+using System.Threading.Tasks;
 
 namespace EspackFormControls
 {
@@ -312,12 +313,13 @@ namespace EspackFormControls
             base.OnMove(e);
         }
 
-        public void UpdateEspackControl()
+        public Task UpdateEspackControl()
         {
             if ((EspackControlType & EspackControlTypeEnum.CTLM) == EspackControlTypeEnum.CTLM)
             {
                 Text = ParentDA.SelectRS[DBField.ToString()].ToString();
             }
+            return Task.FromResult(0);
         }
 
         //public void OnTextChanged(EventArgs e)
@@ -480,12 +482,13 @@ namespace EspackFormControls
             base.OnMove(e);
         }
 
-        public void UpdateEspackControl()
+        public Task UpdateEspackControl()
         {
             if ((EspackControlType & EspackControlTypeEnum.CTLM) == EspackControlTypeEnum.CTLM)
             {
                 Text = ParentDA.SelectRS[DBField.ToString()].ToString();
             }
+            return Task.FromResult(0);
         }
 
         //public void OnTextChanged(EventArgs e)
@@ -803,17 +806,19 @@ namespace EspackFormControls
             }
         }
 
-        public void UpdateEspackControl()
+        public Task UpdateEspackControl()
         {
             if (ParentDA.SelectRS[DBField.ToString()] is DBNull)
             {
                 Value = null;
-            } else
+            }
+            else
             {
                 //Text = ParentDA.SelectRS[DBField.ToString()].ToString();
                 Value = ParentDA.SelectRS[DBField.ToString()];
                 CustomFormat = _customFormat;
             }
+            return Task.FromResult(0);
         }
         public void ClearEspackControl()
         {
@@ -948,9 +953,10 @@ namespace EspackFormControls
 
         public event EventHandler TextChanged;
 
-        public void UpdateEspackControl()
+        public Task UpdateEspackControl()
         {
             theString = ParentDA.SelectRS[DBField.ToString()].ToString();
+            return Task.FromResult(0);
         }
         public void ClearEspackControl()
         {
@@ -1107,12 +1113,13 @@ namespace EspackFormControls
             CaptionLabel = null;
         }
 
-        public void Source(string pSQL, cAccesoDatosNet pConn)
+        public async Task Source(string pSQL, cAccesoDatosNet pConn)
         {
             noChange = true;
             _SQL = pSQL;
             _SQL = pSQL;
             _RS = new DynamicRS(_SQL, pConn);
+            await _RS.Open();
             DataSource = _RS.DataObject;
             DisplayMember = _RS.Fields[1];
             if (_RS.FieldCount > 1)
@@ -1125,9 +1132,9 @@ namespace EspackFormControls
         //    while (!_RS)
         //}
 
-        public void Source(string pSql)
+        public async Task Source(string pSql)
         {
-            Source(pSql, ParentConn);
+            await Source(pSql, ParentConn);
         }
         protected override void OnItemCheck(ItemCheckEventArgs e)
         {
@@ -1173,7 +1180,7 @@ namespace EspackFormControls
         //}
 
 
-        public void UpdateEspackControl()
+        public Task UpdateEspackControl()
         {
             var _old = Value;
             noChange = true;
@@ -1187,19 +1194,20 @@ namespace EspackFormControls
                 {
                     var r = ((DataRowView)Items[i]).Row;
                     var _l = r[ValueMember].ToString();
-                    if (_l==item)
+                    if (_l == item)
                     {
                         SetItemChecked(i, true);
                         break;
                     }
                 }
             }
-            if (Value!=_old)
+            if (Value != _old)
             {
                 EventArgs _ev = new EventArgs();
-                Changed(this,_ev);
+                Changed(this, _ev);
             }
             noChange = false;
+            return Task.FromResult(0);
         }
 
         public string keyItem(int _index)
@@ -1489,11 +1497,12 @@ namespace EspackFormControls
             EspackTheme.changeControlFormat(this);
         }
 
-        public void Source(string pSQL, cAccesoDatosNet pConn)
+        public async Task Source(string pSQL, cAccesoDatosNet pConn)
         {
             
             _SQL = pSQL;
             _RS = new DynamicRS(_SQL, pConn);
+            await _RS.Open();
             DataSource = _RS.DataObject;
             DisplayMember = _RS.Fields[0];
             if (_RS.FieldCount > 1)
@@ -1503,18 +1512,19 @@ namespace EspackFormControls
             //Value = "";
         }
 
-        public void Source(string pSql)
+        public async Task Source(string pSql)
         {
-            Source(pSql, ParentConn);
+            await Source(pSql, ParentConn);
         }
-        public void Source(string pSql, EspackTextBox pTB)
+        public async Task Source(string pSql, EspackTextBox pTB)
         {
-            Source(pSql, ParentConn);
+            await Source(pSql, ParentConn);
             TBDescription = pTB;
         }
-        public void UpdateEspackControl()
+        public Task UpdateEspackControl()
         {
             Text = ParentDA.SelectRS[DBField.ToString()].ToString();
+            return Task.FromResult(0);
         }
         public void ClearEspackControl()
         {
