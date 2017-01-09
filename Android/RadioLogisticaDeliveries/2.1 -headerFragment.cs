@@ -41,6 +41,13 @@ namespace RadioLogisticaDeliveries
             t5 = _root.FindViewById<TextView>(Resource.Id.t5);
             return _root;
         }
-
+        public void Clear()
+        {
+            t1.Text = string.Format("User: {0}", Values.gDatos.User);
+            t2.Text = string.Format("Session: {0}", "");
+            t3.Text = "";
+            t4.Text = "";
+            t5.Text = "";
+        }
     }
 }

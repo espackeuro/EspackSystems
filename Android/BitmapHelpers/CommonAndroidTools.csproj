@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AlertDialogHelper.cs" />
     <Compile Include="BitmapHelpers.cs" />
     <Compile Include="cDeviceInfo.cs" />
     <Compile Include="cSounds.cs" />

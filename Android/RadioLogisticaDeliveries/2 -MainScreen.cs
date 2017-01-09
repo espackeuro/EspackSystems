@@ -44,7 +44,7 @@ namespace RadioLogisticaDeliveries
 
             //Values.dtm = new DataTransferManager();
             //start the transmission service
-            this.StartService(new Intent(this, typeof(DataTransferManager)));
+
 
             EspackCommServer.Server.PropertyChanged += ConnectionServer_PropertyChanged; ;
         }
@@ -89,6 +89,8 @@ namespace RadioLogisticaDeliveries
                 ft.Commit();
             }
         }
-
+        public override void OnBackPressed()
+        {
+        }
     }
 }

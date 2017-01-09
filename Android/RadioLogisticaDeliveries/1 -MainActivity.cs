@@ -8,7 +8,8 @@ using Android.OS;
 using AccesoDatosNet;
 using LogonScreen;
 using System.Collections.Generic;
-
+using System.IO;
+using System.Threading.Tasks;
 
 namespace RadioLogisticaDeliveries
 {
@@ -54,9 +55,31 @@ namespace RadioLogisticaDeliveries
         public static infoFragment dFt { get; set; }
         public static statusFragment sFt { get; set; }
         public static DataTransferManager dtm { get; set; }
+        public static Intent elIntent { get; set; }
+        public static SQLiteDatabase SQLidb { get; set; }
 
-        public static SQLiteDatabase SQLidb { get; set; } = new SQLiteDatabase("DELIVERIES");
+        public async static Task CreateDatabase()
+        {
+            Values.SQLidb.CreateDatabase();
+            await Values.SQLidb.db.CreateTableAsync<Readings>();
+            await Values.SQLidb.db.CreateTableAsync<Labels>();
+            //Values.SQLidb.db.CreateTableAsync<Referencias>();
+            await Values.SQLidb.db.CreateTableAsync<RacksBlocks>();
+            await Values.SQLidb.db.CreateTableAsync<PartnumbersRacks>();
+            await Values.SQLidb.db.CreateTableAsync<SerialTracking>();
+            await Values.SQLidb.db.CreateTableAsync<ScannedData>();
+            // to do what to do when readings exist
+        }
+        public async static Task EmptyDatabase()
+        {
+            await Values.SQLidb.db.ExecuteAsync("Delete from Readings ");
+            await Values.SQLidb.db.ExecuteAsync("Delete from Labels ");
+            await Values.SQLidb.db.ExecuteAsync("Delete from RacksBlocks ");
+            await Values.SQLidb.db.ExecuteAsync("Delete from PartnumbersRacks ");
+            await Values.SQLidb.db.ExecuteAsync("Delete from SerialTracking ");
+            await Values.SQLidb.db.ExecuteAsync("Delete from ScannedData ");
 
+        }
     }
 
     [Activity(Label = "RadioLogisticaDeliveries", MainLauncher = true, Icon = "@drawable/icon")]
@@ -72,7 +95,7 @@ namespace RadioLogisticaDeliveries
             intent.PutExtra("ConnectionType", "Socks");
             StartActivityForResult(intent, 0);
         }
-        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+        protected override async void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
             base.OnActivityResult(requestCode, resultCode, data);
             if (resultCode == Result.Ok && requestCode == 0)
@@ -86,17 +109,16 @@ namespace RadioLogisticaDeliveries
                     Values.gDatos.Password = LogonDetails.password;
 
                     //create sqlite database
-                    Values.SQLidb.DropDatabase();
-                    Values.SQLidb.CreateDatabase();
-                    Values.SQLidb.db.CreateTableAsync<Readings>();
-                    Values.SQLidb.db.CreateTableAsync<Labels>();
-                    //Values.SQLidb.db.CreateTableAsync<Referencias>();
-                    Values.SQLidb.db.CreateTableAsync<RacksBlocks>();
-                    Values.SQLidb.db.CreateTableAsync<PartnumbersRacks>();
-                    Values.SQLidb.db.CreateTableAsync<SerialTracking>();
-                    Values.SQLidb.db.CreateTableAsync<ScannedData>();
-                    // to do what to do when readings exist
+                    Values.SQLidb = new SQLiteDatabase("DELIVERIES");
+                    if (Values.SQLidb.Exists)
+                    {
+                        Values.SQLidb.DropDatabase();
 
+                    }
+
+                    
+
+                    await Values.CreateDatabase();
                     
 
                     //
@@ -114,6 +136,9 @@ namespace RadioLogisticaDeliveries
             {
                 Finish();
             }
+        }
+        public override void OnBackPressed()
+        {
         }
     }
 }

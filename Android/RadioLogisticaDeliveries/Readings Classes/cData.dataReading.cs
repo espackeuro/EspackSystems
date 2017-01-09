@@ -104,7 +104,7 @@ namespace RadioLogisticaDeliveries
             //check block match
             if (_labelRack.Block!=_block)
             {
-                _warningMessage = string.Format("Label rack block {0} and current block do not match", _labelRack.Block);
+                _warningMessage = string.Format("Label rack block {0} mismatch.", _labelRack.Block);
                 Status = dataStatus.WARNING;
             }
             //qty checks 

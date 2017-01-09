@@ -47,41 +47,30 @@ namespace RadioLogisticaDeliveries
         }
         public Context Context { get; set; } = null;
         public virtual infoData Info { get; }
-        public virtual infoData Error
+        public virtual string Error
         {
             get
             {
-                return new infoData()
-                {
-                    c0 = "Error:",
-                    c1 = _errorMessage,
-                    c2 = "",
-                    c3 = ""
-                };
+                return string.Format("Error: {0}", _errorMessage);
             }
         }
-        public virtual infoData Warning
+        public virtual string Warning
         {
             get
             {
-                return new infoData()
-                {
-                    c0 = "Warning:",
-                    c1 = _warningMessage,
-                    c2 = "",
-                    c3 = ""
-                };
+                return string.Format("Warning: {0}", _warningMessage);
             }
         }
         public async Task PushInfo()
         {
+            Values.iFt.SetMessage("");
             switch (Status)
             {
                 case dataStatus.WARNING:
-                    await Values.iFt.pushInfo(Warning);
+                    Values.iFt.SetMessage(Warning);
                     break;
                 case dataStatus.ERROR:
-                    await Values.iFt.pushInfo(Error);
+                    Values.iFt.SetMessage(Error);
                     return;
             }
             await Values.iFt.pushInfo(this.Info);
@@ -89,14 +78,15 @@ namespace RadioLogisticaDeliveries
 
         public async Task UpdateCurrent()
         {
+            Values.iFt.SetMessage("");
             switch (Status)
             {
                 case dataStatus.WARNING:
-                    await Values.iFt.pushInfo(Warning);
+                    Values.iFt.SetMessage(Warning);
                     await Values.iFt.pushInfo(Info);
                     break;
                 case dataStatus.ERROR:
-                    await Values.iFt.pushInfo(Error);
+                    Values.iFt.SetMessage(Error);
                     return;
             }
             await Values.iFt.updateMainLine(Info);

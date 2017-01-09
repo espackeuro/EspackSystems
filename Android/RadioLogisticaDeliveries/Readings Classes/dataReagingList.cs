@@ -8,6 +8,8 @@ using CommonAndroidTools;
 using Android.Content;
 using System;
 using System.Threading;
+using Android.App;
+using Android.Widget;
 
 namespace RadioLogisticaDeliveries
 {
@@ -38,12 +40,12 @@ namespace RadioLogisticaDeliveries
             // CHECKING
             if (reading.IsNumeric() && reading.Length == 9) //checking
             {
-                _data = new dataChecking() { Context = Context, Rack=Values.CurrentRack, Data = reading, Serial = reading };
+                _data = new dataChecking() { Context = Context, Rack = Values.CurrentRack, Data = reading, Serial = reading };
                 if (await _data.doCheckings())
                 {
                     _dataList.Add(_data);
                     position++;
-                    Values.sFt.CheckQtyReceived++;
+                    //Values.sFt.CheckQtyReceived++;
                 }
                 await _data.PushInfo();
                 return;
@@ -91,7 +93,7 @@ namespace RadioLogisticaDeliveries
                     {
                         _dataList.Add(_data);
                         position++;
-                        Values.sFt.ReadQtyReceived++;
+                        //Values.sFt.ReadQtyReceived++;
                     }
                     await Current().PushInfo();
                     return;
@@ -101,25 +103,57 @@ namespace RadioLogisticaDeliveries
             //CLOSE CODE
             if (reading == Values.gCloseCode)
             {
+                //set alert for executing the task
+                bool dialogResult = await AlertDialogHelper.ShowAsync(Context, "Confirm Close Session", "This will close current session. Are you sure?", "Close Session", "Cancel");
+
+                if (!dialogResult)
+                {
+                    Toast.MakeText(Context, "Cancelled!", ToastLength.Short).Show();
+                    return;
+                }
                 _data = new dataCloseSession() { Context = Context, Data = reading };
                 if (await _data.doCheckings())
                 {
                     _dataList.Add(_data);
                     //after close code we insert all reading from previous rack
                     _dataList.Where(r => r.Status == dataStatus.READ || r.Status == dataStatus.WARNING).ToList().ForEach(async r => await r.ToDB());
-                    position++;
-                    //activate the transfer procedure
-                    //try
+                    Values.sFt.UpdateInfo();
+                    await Values.iFt.pushInfo("Waiting for the pending data to be transmitted");
+                    while (true)
+                    {
+                        //SpinWait.SpinUntil(() => Values.SQLidb.pendingData && (monitor.State == NetworkState.ConnectedData || monitor.State == NetworkState.ConnectedWifi));
+                        await Task.Delay(1000);
+                        if (Values.SQLidb.db.Table<ScannedData>().Where(r => r.Transmitted == false).CountAsync().Result==0)//(Values.sFt.ReadQtyReceived == Values.sFt.ReadQtyTransmitted && Values.sFt.CheckQtyReceived == Values.sFt.CheckQtyTransmitted)
+                        {
+                            break;
+                        }
+                    }
+                    //remove the database and recreate it.
+                    //((Activity)Context).RunOnUiThread(() =>
                     //{
-                    //    await Values.dtm.Transfer();
-                    //} catch (Exception ex)
-                    //{
-                    //    await Values.dFt.pushInfo(ex.Message);
-                    //}
-                    
+                    //    DataTransferManager.Active = false;
+                    //    Values.SQLidb.DropDatabase();
+                    //    try
+                    //    {
+                    //        Context.DeleteDatabase("DELIVERIES");
+                    //    }
+                    //    catch (Exception ex)
+                    //    {
+                    //        Console.Write(ex.Message);
+                    //    }
+                    //    Values.SQLidb = new SQLiteDatabase("DELIVERIES");
+                    //    Values.CreateDatabase();
+                    //});
+                    await Values.EmptyDatabase();
+                        //clear info, debug and status fragments
+                    Values.iFt.Clear();
+                    Values.dFt.Clear();
+                    Values.sFt.Clear();
+                    Values.hFt.Clear();
+                    //change to enter order fragment
+                    ((MainScreen)Context).changeEnterDataToOrderFragments();
+                    return;
                 }
-                await _data.PushInfo();
-                return;
             }
             else
             //NEW READING QTY
@@ -129,6 +163,11 @@ namespace RadioLogisticaDeliveries
                 {
                     dataReading _r = (dataReading)Current();
                     _r.Qty = reading.ToInt();
+                    await _r.doCheckings();
+                } else
+                {
+                    cSounds.Error(Context);
+                    return;
                 }
                 cSounds.Scan(Context);
                 await Current().UpdateCurrent();
@@ -143,6 +182,7 @@ namespace RadioLogisticaDeliveries
                     //after new rack code we insert all reading from previous rack
                     _dataList.Where(r => r.Status == dataStatus.READ || r.Status == dataStatus.WARNING).ToList().ForEach(async r => await r.ToDB());
                     _dataList.Add(_data);
+                    Values.sFt.UpdateInfo();
                     position++;
                     //try
                     //{

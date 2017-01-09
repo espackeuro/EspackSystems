@@ -54,7 +54,7 @@ namespace RadioLogisticaDeliveries
             var _LabelRack = query2[0].rack;
             if (_LabelRack != Values.CurrentRack)
             {
-                _errorMessage = String.Format("Rack mismatch\nSerial {0} should go to {1}", Serial, _LabelRack);
+                _errorMessage = String.Format("Rack mismatch\n  {0} => {1}", Serial, _LabelRack);
                 Status = dataStatus.ERROR;
                 return false;
             }

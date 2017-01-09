@@ -25,7 +25,8 @@ namespace RadioLogisticaDeliveries
     //table Labels
     public class Labels
     {
-        [PrimaryKey]
+        [PrimaryKey, AutoIncrement]
+        public int idreg { get; set; }
         public string Serial { get; set; }
         public string Partnumber { get; set; }
         public int qty { get; set; }
@@ -64,7 +65,8 @@ namespace RadioLogisticaDeliveries
     }
     public class SerialTracking
     {
-        [PrimaryKey]
+        [PrimaryKey, AutoIncrement]
+        public int idreg { get; set; }
         public string Serial { get; set; }
     } 
     
@@ -125,6 +127,13 @@ namespace RadioLogisticaDeliveries
         public EventSQLiteAsyncConnection db;
         public bool Complete { get; set; } = false;
         public string DatabaseName { get; private set; }
+        public bool Exists
+        {
+            get
+            {
+                return File.Exists(dbPath);
+            }
+        }
         public string dbPath
         {
             get

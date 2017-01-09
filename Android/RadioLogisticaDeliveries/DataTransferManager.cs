@@ -18,7 +18,7 @@ using System.Threading;
 namespace RadioLogisticaDeliveries
 {
     [Service]
-    public class DataTransferManager:Service
+    public class DataTransferManager : Service
     {
         public NetworkStatusMonitor monitor { get; set; }
         //public Context Context { get; set; }
@@ -30,7 +30,7 @@ namespace RadioLogisticaDeliveries
         //    monitor.NetworkStatusChanged += Monitor_NetworkStatusChanged;
         //    monitor.Start();
         //}
-
+        public static bool Active { get; set; } = false;
         private async void Monitor_NetworkStatusChanged(object sender, EventArgs e)
         {
             if (monitor.State != NetworkState.ConnectedData && monitor.State != NetworkState.ConnectedWifi)
@@ -46,7 +46,7 @@ namespace RadioLogisticaDeliveries
         {
             while (true)
             {
-                //SpinWait.SpinUntil(() => Values.SQLidb.pendingData && (monitor.State == NetworkState.ConnectedData || monitor.State == NetworkState.ConnectedWifi));
+                SpinWait.SpinUntil(() => Active);
                 Thread.Sleep(5000);
                 await Transfer();
             }
@@ -59,63 +59,71 @@ namespace RadioLogisticaDeliveries
             Transmitting = true;
             while (true)
             {
-                var query = await Values.SQLidb.db.Table<ScannedData>().Where(r => r.Transmitted == false).ToListAsync();
-                if (query.Count == 0)
-                    break;
-                query.ForEach(async r =>
+                try
                 {
-                    Thread.Sleep(500);
-                    if (monitor.State == NetworkState.ConnectedData || monitor.State == NetworkState.ConnectedWifi)
+                    var query = await Values.SQLidb.db.Table<ScannedData>().Where(r => r.Transmitted == false).ToListAsync();
+                    if (query.Count == 0)
+                        break;
+                    query.ForEach(async r =>
                     {
-                        //Values.sFt.socksProgress.Visibility = ViewStates.Visible;
-                        Values.gDatos.DataBase = "PROCESOS";
-                        using (SPXML _sp = new SPXML(Values.gDatos, "pLaunchProcess_ReadingSessionControl"))
+                        //Thread.Sleep(500);
+                        if (monitor.State == NetworkState.ConnectedData || monitor.State == NetworkState.ConnectedWifi)
                         {
-                            //SPXML _sp = new SPXML(Values.gDatos, "pLaunchProcess_ReadingSessionControl");
-                            _sp.AddParameterValue("@DB", "LOGISTICA");
-                            _sp.AddParameterValue("@ProcedureName", "pReadingSessionControl_TEST");
-                            _sp.AddParameterValue("@Parameters", r.ProcedureParameters());
-                            _sp.AddParameterValue("@TableDB", "");
-                            _sp.AddParameterValue("@TableName", "");
-                            _sp.AddParameterValue("@TablePK", "");
-                            try
+                            //Values.sFt.socksProgress.Visibility = ViewStates.Visible;
+                            Values.gDatos.DataBase = "PROCESOS";
+                            using (SPXML _sp = new SPXML(Values.gDatos, "pLaunchProcess_ReadingSessionControl"))
                             {
-                                await _sp.Execute();
-                                if (_sp.LastMsg.Substring(0, 2) != "OK")
+                                //SPXML _sp = new SPXML(Values.gDatos, "pLaunchProcess_ReadingSessionControl");
+                                _sp.AddParameterValue("@DB", "LOGISTICA");
+                                _sp.AddParameterValue("@ProcedureName", "pReadingSessionControl_TEST");
+                                _sp.AddParameterValue("@Parameters", r.ProcedureParameters());
+                                _sp.AddParameterValue("@TableDB", "");
+                                _sp.AddParameterValue("@TableName", "");
+                                _sp.AddParameterValue("@TablePK", "");
+                                try
                                 {
-                                    Transmitting = false;
-                                    return;
-                                }
-                                else
-                                {
-                                    r.Transmitted = true;
-                                    await Values.SQLidb.db.UpdateAsync(r);
-                                    switch (r.Action)
+                                    await _sp.Execute();
+                                    if (_sp.LastMsg.Substring(0, 2) != "OK")
                                     {
-                                        case "CHECK":
-                                            Values.sFt.CheckQtyTransmitted++;
-                                            break;
-                                        case "ADD":
-                                            Values.sFt.ReadQtyTransmitted++;
-                                            break;
+                                        Transmitting = false;
+                                        return;
+                                    }
+                                    else
+                                    {
+                                        r.Transmitted = true;
+                                        await Values.SQLidb.db.UpdateAsync(r);
+                                        Values.sFt.UpdateInfo();
+                                        //switch (r.Action)
+                                        //{
+                                        //    case "CHECK":
+                                        //        Values.sFt.CheckQtyTransmitted++;
+                                        //        break;
+                                        //    case "ADD":
+                                        //        Values.sFt.ReadQtyTransmitted++;
+                                        //        break;
+                                        //}
                                     }
                                 }
-                            }
-                            catch (Exception ex)
-                            {
-                                Transmitting = false;
-                                await Values.dFt.pushInfo(ex.Message);
-                                return;
+                                catch (Exception ex)
+                                {
+                                    Transmitting = false;
+                                    await Values.dFt.pushInfo(ex.Message);
+                                    return;
+                                }
                             }
                         }
-                    }
-                    else
-                    {
-                        Transmitting = false;
-                        return;
-                    }
-                    
-                });
+                        else
+                        {
+                            Transmitting = false;
+                            return;
+                        }
+
+                    });
+                } catch
+                {
+                    Transmitting = false;
+                    return;
+                }
             }
             Transmitting = false;
             return;
@@ -133,5 +141,6 @@ namespace RadioLogisticaDeliveries
             new Task(async () => await DoWork()).Start();
             return StartCommandResult.Sticky;
         }
+
     }
 }
