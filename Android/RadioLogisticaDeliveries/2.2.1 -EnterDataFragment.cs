@@ -31,6 +31,7 @@ namespace RadioLogisticaDeliveries
         //public RadioGroup rg { get; private set; }
         public RadioButton radioChecking { get; private set; }
         public RadioButton radioReading { get; private set; }
+        private ScanReceiver receiver;
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             // Use this to return your custom view for this Fragment
@@ -39,7 +40,8 @@ namespace RadioLogisticaDeliveries
             var _root = inflater.Inflate(Resource.Layout.enterDataFt, container, false);
             //edittext to enter data
             elData = _root.FindViewById<EditText>(Resource.Id.data);
-            elData.InputType = Android.Text.InputTypes.ClassNumber;
+            //elData.InputType = Android.Text.InputTypes.ClassNumber;
+            //elData.char
             elData.KeyPress += ElData_KeyPress;
             elData.ClearFocus();
             //radioButtons to switch between reading and checking
@@ -52,12 +54,18 @@ namespace RadioLogisticaDeliveries
             //scanner intent
             var filter = new IntentFilter("com.espack.SCAN");
             filter.AddCategory(Intent.CategoryDefault);
-            var receiver = new ScanReceiver();
+            receiver = new ScanReceiver();
             Activity.RegisterReceiver(receiver, filter);
 
 
             //end
             return _root;
+        }
+
+        public override void OnDestroyView()
+        {
+            base.OnDestroyView();
+            Activity.UnregisterReceiver(receiver);
         }
 
         public class ScanReceiver : BroadcastReceiver
@@ -123,10 +131,10 @@ namespace RadioLogisticaDeliveries
             }
         }
 
-        public async override void OnResume()
+        public override void OnResume()
         {
             base.OnResume();
-            await Values.iFt.Clear();
+            Values.iFt.Clear();
         }
         public class RacksBlocksParts
         {

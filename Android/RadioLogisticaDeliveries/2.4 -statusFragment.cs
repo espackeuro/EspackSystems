@@ -18,7 +18,6 @@ namespace RadioLogisticaDeliveries
 {
     public class statusFragment : Fragment
     {
-        private int _r, _rt, _cc, _cr, _ct;
         public ProgressBar socksProgress { get; set; }
         public TextView readingsInfo { get; set; }
         public TextView checkingsInfo { get; set; }
@@ -26,68 +25,47 @@ namespace RadioLogisticaDeliveries
         {
             get
             {
-                return _r;
-            }
-            set
-            {
-                _r = value;
-                updateInfo();
+                return Values.SQLidb.db.Table<ScannedData>().Where(r => r.Action == "ADD").CountAsync().Result;
             }
         }
         public int ReadQtyTransmitted
         {
             get
             {
-                return _rt;
-            }
-            set
-            {
-                _rt = value;
-                updateInfo();
+                return Values.SQLidb.db.Table<ScannedData>().Where(r => r.Transmitted == true && r.Action=="ADD").CountAsync().Result;
+                
             }
         }
-        public int CheckQtyTotal
-        {
-            get
-            {
-                return _cc;
-            }
-            set
-            {
-                _cc = value;
-                updateInfo();
-            }
-        }
+        public int CheckQtyTotal { get; set; }
+
         public int CheckQtyReceived
         {
             get
             {
-                return _cr;
-            }
-            set
-            {
-                _cr = value;
-                updateInfo();
+                return Values.SQLidb.db.Table<ScannedData>().Where(r => r.Action == "CHECK").CountAsync().Result;
             }
         }
         public int CheckQtyTransmitted
         {
             get
             {
-                return _ct;
-            }
-            set
-            {
-                _ct = value;
-                updateInfo();
+                return Values.SQLidb.db.Table<ScannedData>().Where(r => r.Transmitted == true && r.Action == "CHECK").CountAsync().Result;
             }
         }
-        private void updateInfo()
+        public void UpdateInfo()
         {
             Activity.RunOnUiThread(() =>
             {
                 readingsInfo.Text = readingsInfoText;
                 checkingsInfo.Text = checkingsInfoText;
+            });
+        }
+        public void Clear()
+        {
+            Activity.RunOnUiThread(() =>
+            {
+                readingsInfo.Text = "";
+                checkingsInfo.Text = "";
             });
         }
         private string readingsInfoText

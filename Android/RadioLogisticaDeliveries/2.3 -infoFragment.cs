@@ -32,7 +32,7 @@ namespace RadioLogisticaDeliveries
         }
 
         public TextView[,] infoArray { get; set; }
-
+        public TextView infoMessage { get; set; }
         private int numLines;
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
@@ -48,7 +48,7 @@ namespace RadioLogisticaDeliveries
                     infoArray[i, j].SetTextColor(Color.White);
                     infoArray[i, j].Typeface = Typeface.Monospace;
                 }
-
+            infoMessage = _root.FindViewById<TextView>(Resource.Id.message);
             return _root;
         }
         //max number of lines present in the xml is 12
@@ -57,7 +57,13 @@ namespace RadioLogisticaDeliveries
             numLines = MaxLines;
             infoArray  = new TextView[numLines, 4];
         }
-
+        public void SetMessage(string message)
+        {
+            Activity.RunOnUiThread(() =>
+            {
+                infoMessage.Text = message;
+            });
+        }
         public Task pushInfo(infoData d)
         {
             return pushInfo(d.c0, d.c1, d.c2, d.c3);
@@ -77,14 +83,15 @@ namespace RadioLogisticaDeliveries
                 infoArray[0, 3].Text = c3;
             }));
         }
-        public Task Clear()
+        public void Clear()
         {
-            return Task.Run(() => Activity.RunOnUiThread(() =>
+            Activity.RunOnUiThread(() =>
             {
+                infoMessage.Text = "";
                 for (int i = 0; i < numLines; i++)
                     for (int j = 0; j < 4; j++)
                         infoArray[i, j].Text = "";
-            }));
+            });
         }
         public Task updateMainLine(string c0, string c1 = "", string c2 = "", string c3 = "")
         {

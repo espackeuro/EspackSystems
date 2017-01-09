@@ -34,13 +34,11 @@ namespace RadioLogisticaDeliveries
             // Use this to return your custom view for this Fragment
             // return inflater.Inflate(Resource.Layout.YourFragment, container, false);
             var _root = inflater.Inflate(Resource.Layout.enterOrderFt, container, false);
-            //buttonOk = _root.FindViewById<Button>(Resource.Id.orderOkButton);
-            //buttonOk.Click += _buttonOk_Click;
             orderNumberET = _root.FindViewById<EditText>(Resource.Id.orderNumber);
 #if DEBUG
-            orderNumberET.Text = "726008607";
+// orderNumberET.Text = "726008607";
 #endif
-           // orderNumberET.
+            // orderNumberET.
             //5orderNumberET.EditorAction += OrderNumberET_EditorAction;
             orderNumberET.KeyPress += OrderNumberET_KeyPress;
             return _root;
@@ -59,18 +57,6 @@ namespace RadioLogisticaDeliveries
                 e.Handled = false;
             }
         }
-
-        //private async void OrderNumberET_EditorAction(object sender, TextView.EditorActionEventArgs e)
-        //{
-        //    if (e.ActionId == ImeAction.Go)
-        //    {
-        //        await ActionGo();
-        //    }
-        //    else
-        //    {
-        //        e.Handled = false;
-        //    }
-        //}
 
         private async Task ActionGo()
         {
@@ -95,6 +81,7 @@ namespace RadioLogisticaDeliveries
                 _blockCode = orderNumberET.Text;
             }
             //buttonOk.Enabled = false;
+            Values.gDatos.DataBase = "LOGISTICA";
             await Values.iFt.pushInfo("Creating Session");
             var _sp = new SPXML(Values.gDatos, "pAddCabReadingSession");
             _sp.AddParameterValue("Block", _blockCode);
@@ -152,18 +139,10 @@ namespace RadioLogisticaDeliveries
                     await _rs.Open();
                     _rs.Rows.ForEach(async r => await Values.SQLidb.db.InsertAsync(new Labels { Serial = r["numero"].ToString(), Partnumber = r["partnumber"].ToString(), qty = r["qty"].ToInt(), boxes = r["cajas"].ToInt(), rack = r["rack"].ToString(), mod = r["Modulo"].ToString() }));
                     Values.sFt.CheckQtyTotal= _rs.Rows.Count;
+                    Values.sFt.UpdateInfo();
                 }
                 await Values.iFt.pushInfo("Done");
             }
-
-            //await Values.iFt.pushInfo("Getting References table");
-            ////data from referencias table
-            //using (var _rs = new XMLRS(string.Format("select partnumber from referencias where servicio='{0}'", Values.gService), Values.gDatos))
-            //{
-            //    _rs.Open();
-            //    _rs.Rows.ForEach(async r => await SQLiteDatabase.db.InsertAsync(new Referencias { partnumber = r["partnumber"].ToString() }));
-            //}
-            //await Values.iFt.pushInfo("Done");
 
             await Values.iFt.pushInfo("Getting RacksBlocks table");
             //data from RacksBlocks table
@@ -182,6 +161,9 @@ namespace RadioLogisticaDeliveries
             }
             
             await Values.iFt.pushInfo("Done loading database data");
+            Values.elIntent = new Intent(Activity, typeof(DataTransferManager));
+            Activity.StartService(Values.elIntent);
+            DataTransferManager.Active = true;
             ((MainScreen)Activity).changeOrderToEnterDataFragments();
         }
 
