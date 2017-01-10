@@ -63,32 +63,34 @@ namespace RadioLogisticaDeliveries
         }
         public async Task PushInfo()
         {
-            Values.iFt.SetMessage("");
             switch (Status)
             {
                 case dataStatus.WARNING:
-                    Values.iFt.SetMessage(Warning);
-                    break;
+                    await Values.iFt.SetMessage(Warning);
+                    await Values.iFt.pushInfo(this.Info);
+                    return;
                 case dataStatus.ERROR:
-                    Values.iFt.SetMessage(Error);
+                    await Values.iFt.SetMessage(Error);
                     return;
             }
+            await Values.iFt.SetMessage("");
             await Values.iFt.pushInfo(this.Info);
         }
 
         public async Task UpdateCurrent()
         {
-            Values.iFt.SetMessage("");
             switch (Status)
             {
                 case dataStatus.WARNING:
-                    Values.iFt.SetMessage(Warning);
+                    await Values.iFt.SetMessage(Warning);
                     await Values.iFt.pushInfo(Info);
-                    break;
+                    await Values.iFt.updateMainLine(Info);
+                    return;
                 case dataStatus.ERROR:
-                    Values.iFt.SetMessage(Error);
+                    await Values.iFt.SetMessage(Error);
                     return;
             }
+            await Values.iFt.SetMessage("");
             await Values.iFt.updateMainLine(Info);
         }
 

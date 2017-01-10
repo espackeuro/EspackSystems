@@ -61,11 +61,15 @@ namespace RadioLogisticaDeliveries
             {
                 try
                 {
-                    var query = await Values.SQLidb.db.Table<ScannedData>().Where(r => r.Transmitted == false).ToListAsync();
+                    var query = await Values.SQLidb.db.Table<ScannedData>().Where(r => r.Transmitted == false).ToListAsync().ConfigureAwait(true);
                     if (query.Count == 0)
                         break;
-                    query.ForEach(async r =>
+                    foreach (var r in query)
                     {
+                        //show the list in the debug fragment
+                        //var q = await Values.SQLidb.db.Table<ScannedData>().Where(z => z.Transmitted == false).ToListAsync();
+                        //Values.dFt.Clear();
+                        //q.ForEach(async z => await Values.dFt.pushInfo(z.Action, z.LabelRack+z.Serial, z.Partnumber, z.Qty.ToString()));
                         //Thread.Sleep(500);
                         if (monitor.State == NetworkState.ConnectedData || monitor.State == NetworkState.ConnectedWifi)
                         {
@@ -107,7 +111,7 @@ namespace RadioLogisticaDeliveries
                                 catch (Exception ex)
                                 {
                                     Transmitting = false;
-                                    await Values.dFt.pushInfo(ex.Message);
+                                    await Values.dFt.SetMessage(ex.Message);
                                     return;
                                 }
                             }
@@ -118,13 +122,15 @@ namespace RadioLogisticaDeliveries
                             return;
                         }
 
-                    });
-                } catch
+                    }
+                }
+                catch
                 {
                     Transmitting = false;
                     return;
                 }
             }
+            await Values.dFt.SetMessage("");
             Transmitting = false;
             return;
         }
