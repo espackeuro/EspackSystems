@@ -116,9 +116,10 @@ namespace RadioLogisticaDeliveries
                 {
                     _dataList.Add(_data);
                     //after close code we insert all reading from previous rack
+                    await Values.dFt.SetMessage("Waiting for the pending data to be transmitted");
                     _dataList.Where(r => r.Status == dataStatus.READ || r.Status == dataStatus.WARNING).ToList().ForEach(async r => await r.ToDB());
                     Values.sFt.UpdateInfo();
-                    await Values.iFt.pushInfo("Waiting for the pending data to be transmitted");
+                    //await Values.iFt.pushInfo("Waiting for the pending data to be transmitted");
                     while (true)
                     {
                         //SpinWait.SpinUntil(() => Values.SQLidb.pendingData && (monitor.State == NetworkState.ConnectedData || monitor.State == NetworkState.ConnectedWifi));
@@ -180,6 +181,7 @@ namespace RadioLogisticaDeliveries
                 if (await _data.doCheckings())
                 {
                     //after new rack code we insert all reading from previous rack
+                    await Values.dFt.SetMessage(string.Format("Transmitting Rack {0}",Values.CurrentRack));
                     _dataList.Where(r => r.Status == dataStatus.READ || r.Status == dataStatus.WARNING).ToList().ForEach(async r => await r.ToDB());
                     _dataList.Add(_data);
                     Values.sFt.UpdateInfo();
