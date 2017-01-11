@@ -1187,20 +1187,29 @@ namespace EspackFormControls
             ClearSelected();
             if (ParentDA != null)
                 Text = ParentDA.SelectRS[DBField.ToString()].ToString();
-            for (var i = 0; i < Items.Count; i++)
+            var _textList = Text.Split('|');
+            Items.OfType<DataRowView>().Where(i => _textList.Contains(i[ValueMember].ToString())).ToList().ForEach(c =>
             {
-                SetItemChecked(i, false);
-                foreach (var item in Text.Split('|'))
-                {
-                    var r = ((DataRowView)Items[i]).Row;
-                    var _l = r[ValueMember].ToString();
-                    if (_l == item)
-                    {
-                        SetItemChecked(i, true);
-                        break;
-                    }
-                }
-            }
+                SetItemChecked(Items.IndexOf(c), true);
+            });
+            Items.OfType<DataRowView>().Where(i => !_textList.Contains(i[ValueMember].ToString())).ToList().ForEach(c =>
+            {
+                SetItemChecked(Items.IndexOf(c), false);
+            });
+            //for (var i = 0; i < Items.Count; i++)
+            //{
+            //    SetItemChecked(i, false);
+            //    foreach (var item in Text.Split('|'))
+            //    {
+            //        var r = ((DataRowView)Items[i]).Row;
+            //        var _l = r[ValueMember].ToString();
+            //        if (_l == item)
+            //        {
+            //            SetItemChecked(i, true);
+            //            break;
+            //        }
+            //    }
+            //}
             if (Value != _old)
             {
                 EventArgs _ev = new EventArgs();
@@ -1528,11 +1537,12 @@ namespace EspackFormControls
         }
         public void ClearEspackControl()
         {
-            base.SelectedItem =null ;
+            
             if (TBDescription!= null)
             {
                 TBDescription.Text = "";
             }
+            base.SelectedItem = null;
         }
 
         protected override void OnParentChanged(EventArgs e)
