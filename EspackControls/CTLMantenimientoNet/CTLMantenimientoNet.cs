@@ -612,33 +612,37 @@ namespace CTLMantenimientoNet
             }
         }
         //ClearValues Cleans the form and fills it with the default values 
-        public async Task ClearValues(bool PK = false)
+        public void ClearValues(bool PK = false)
         {
-            foreach (EspackControl lItem in ItemsFormControl)
+            //foreach (EspackControl lItem in ItemsFormControl)
+            //{
+            //    if (!(lItem.PK && PK))
+            //    {
+            //        if (lItem is Control)
+            //        {
+            //            if (((Control)lItem).InvokeRequired)
+            //            {
+            //                //ClearValuesDelegate a = new ClearValuesDelegate(ClearValues);
+            //                //this.Invoke(a, new object[] { PK });
+            //            }
+            //            else
+            //            {
+            //                lItem.ClearEspackControl();
+            //            }
+            //        }
+            //        else
+            //        {
+            //            lItem.ClearEspackControl();
+            //        }
+            //    }
+
+            //}
+            ItemsFormControl.ForEach(i =>
             {
-                if (!(lItem.PK && PK))
-                {
-                    if (lItem is Control)
-                    {
-                        if (((Control)lItem).InvokeRequired)
-                        {
-                            ClearValuesDelegate a = new ClearValuesDelegate(ClearValues);
-                            this.Invoke(a, new object[] { PK });
-                        }
-                        else
-                        {
-                            lItem.ClearEspackControl();
-                        }
-                    }
-                    else
-                    {
-                        lItem.ClearEspackControl();
-                    }
-                }
-                    
-            }
+                i.ClearEspackControl();
+            });
             if (MsgStatusInfoLabel != null) MsgStatusInfoLabel.Text = "";
-            await setRSPosition(0);
+            setRSPosition(0);
         }
 
         //What happens when you click OK
@@ -654,7 +658,7 @@ namespace CTLMantenimientoNet
                             MessageBox.Show("No data found.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             AfterButtonClick(this, new CTLMEventArgs(pButtonName));
                             Status = EnumStatus.SEARCH;
-                            await ClearValues();
+                            ClearValues();
                             return;
                         }
                         await ShowRSValues();
@@ -677,7 +681,7 @@ namespace CTLMantenimientoNet
                         AfterButtonClick(this, new CTLMEventArgs(pButtonName));
                         if (Clear)
                         {
-                            await ClearValues();
+                            ClearValues();
                         }
                         else
                         {
@@ -689,7 +693,7 @@ namespace CTLMantenimientoNet
                         if (MsgStatusInfoLabel != null) MsgStatusInfoLabel.Text = "Record added successfully :D!";
                         if (ReQuery)
                         {
-                            await ClearValues(true);
+                            ClearValues(true);
                             Status = EnumStatus.SEARCH;
                             await Click_OK(pButtonName); ;
                         }
@@ -717,11 +721,11 @@ namespace CTLMantenimientoNet
                         AfterButtonClick(this, new CTLMEventArgs(pButtonName));
                         if (Clear)
                         {
-                            await ClearValues();
+                            ClearValues();
                         }
                         if (ReQuery)
                         {
-                            await ClearValues(true);
+                            ClearValues(true);
                             Status = EnumStatus.SEARCH;
                             await Click_OK(pButtonName); ;
                         }
@@ -740,7 +744,7 @@ namespace CTLMantenimientoNet
                             StatusMsg("ERROR:" + mDA.DeleteCommand.LastMsg);
                             return;
                         }
-                        await ClearValues();
+                        ClearValues();
                         AfterButtonClick(this, new CTLMEventArgs(pButtonName));
                         Status = EnumStatus.SEARCH;
                         if (MsgStatusInfoLabel != null) MsgStatusInfoLabel.Text = "Record deleted successfully X(!";
@@ -786,7 +790,7 @@ namespace CTLMantenimientoNet
                         Status = EnumStatus.SEARCH;
                         break;
                     case "btnCancel":
-                        await ClearValues();
+                        ClearValues();
                         AfterButtonClick(this, new CTLMEventArgs(pButtonName));
                         Status = EnumStatus.SEARCH;
                         break;
