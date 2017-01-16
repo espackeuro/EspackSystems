@@ -27,16 +27,16 @@ namespace Simplistica
             AcceptButton = btnPrint;
         }
 
-        private async void CboService_SelectedIndexChanged(object sender, EventArgs e)
+        private void CboService_SelectedIndexChanged(object sender, EventArgs e)
         {
             using (var _rs = new DynamicRS(string.Format("Select cmp_integer from REPAIRS..datosEmpresa where codigo='{0}_UNIT_QTY'", cboService.Value), Values.gDatos))
             {
-                await _rs.Open();
+                _rs.Open();
                 txtQtyLabel.Text = _rs.EOF ? "1" : _rs["cmp_integer"].ToString();
             }
         }
 
-        private async void btnPrint_Click(object sender, EventArgs e)
+        private void btnPrint_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show(string.Format("This will print {0} unit labels. Are you sure?",txtQty.Text), "SIMPLISTICA", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) == DialogResult.Yes)
             {
@@ -49,14 +49,14 @@ namespace Simplistica
                     _sp.AddParameterValue("@Serv", "");
                     _sp.AddParameterValue("@Codigo", cboService.Value + "_UNIT_ETIQ");
                     _sp.AddParameterValue("@Incremento", Convert.ToInt32(txtQty.Value));
-                    await _sp.Execute();
+                    _sp.Execute();
                     _labelInit = Convert.ToInt32(_sp.ReturnValues()["@Contador"]);
                 }
                 string _printerAddress = "";
                 int _printerResolution = 0;
                 using (var _RS = new DynamicRS(string.Format("select descripcion,cmp_varchar,cmp_integer from ETIQUETAS..datosEmpresa where codigo='{0}'", Values.LabelPrinterAddress), Values.gDatos))
                 {
-                    await _RS.Open();
+                    _RS.Open();
                     _printerAddress = _RS["cmp_varchar"].ToString();
                     _printerResolution = Convert.ToInt32(_RS["cmp_integer"]);
                     //_printerType = _RS["descripcion"].ToString().Split('|')[0];

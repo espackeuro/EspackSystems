@@ -621,7 +621,7 @@ namespace LogOnObjects
                 _SP.AddParameterValue("Origin", "LOGON_CS");
                 try
                 {
-                    await _SP.Execute();
+                    _SP.Execute();
                 }
                 catch (Exception ex)
                 {

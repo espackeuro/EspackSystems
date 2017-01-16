@@ -554,7 +554,7 @@ namespace VSGrid
 
             
         //eventhandler
-        private async void mNavigationBar_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        private void mNavigationBar_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
             switch (e.ClickedItem.Name)
             {
@@ -562,23 +562,23 @@ namespace VSGrid
                     if (Page < NumPages)
                     {
                         Page++;
-                        await Navigate();
+                        Navigate();
                     }
                     break;
                 case "btnPrev":
                     if (Page > 1)
                     {
                         Page--;
-                        await Navigate();
+                        Navigate();
                     }
                     break;
                 case "btnFirst":
                     Page = 1;
-                    await Navigate();
+                    Navigate();
                     break;
                 case "btnLast":
                     Page = NumPages;
-                    await Navigate();
+                    Navigate();
                     break;
             }
             mNavigationBar.Items["Counter"].Text = Page.ToString() + "/"+NumPages.ToString();
@@ -586,7 +586,7 @@ namespace VSGrid
         }
 
         //evenhandler
-        private async void CtlVSGrid_KeyDown(object sender, KeyEventArgs e)
+        private void CtlVSGrid_KeyDown(object sender, KeyEventArgs e)
         {
             SP lCommand;
             string lMsg = "";
@@ -639,7 +639,7 @@ namespace VSGrid
                                 lMsg = "Line updated OK";
                             }
                         }
-                        await lCommand.Execute();
+                        lCommand.Execute();
                         if (lCommand.LastMsg.Substring(0, 2) != "OK")
                         {
                             MessageBox.Show("ERROR:" + lCommand.LastMsg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -649,7 +649,7 @@ namespace VSGrid
                                 RowEditedBool = false;
                                 var x = CurrentCell.ColumnIndex;
                                 var y = CurrentCell.RowIndex;
-                                await UpdateEspackControl();
+                                UpdateEspackControl();
                                 CurrentCell = Rows[y].Cells[x];
                             }
 
@@ -657,7 +657,7 @@ namespace VSGrid
                         }
                         StatusMsg(lMsg);
                         RowEditedBool = false;
-                        await UpdateEspackControl();
+                        UpdateEspackControl();
                         if (EspackControlParent != null && !lCommand.Equals(mDA.DeleteCommand))
                         {
                             EspackControlParent.Status = mPreviousParentStatus;
@@ -726,7 +726,7 @@ namespace VSGrid
             this.Refresh();
         }
 
-        public async Task AddColumn(string pName, string pDBFieldName = "", string pSPAdd = "", string pSPUpp = "", string pSPDel = "", bool pSortable = false,
+        public void AddColumn(string pName, string pDBFieldName = "", string pSPAdd = "", string pSPUpp = "", string pSPDel = "", bool pSortable = false,
             bool pIsFlag=false, bool pLocked=false, string pQuery = "", int pWidth = 0, string pAlignment = "",  string pAttr="",AutoCompleteMode aMode=AutoCompleteMode.None,AutoCompleteSource aSource=AutoCompleteSource.None,string aQuery="", bool pPrint=false)
         {
             if (pQuery=="")
@@ -760,7 +760,7 @@ namespace VSGrid
                     Print = pPrint
                
                 };
-                await _Col.SetQuery(pQuery);
+                _Col.SetQuery(pQuery);
                 Columns.Add(_Col);
             } else
             {
@@ -795,12 +795,12 @@ namespace VSGrid
                     AutoCompleteQuery = aQuery,
                     Print = pPrint
                 };
-                await _Col.SetQuery(pQuery);
+                _Col.SetQuery(pQuery);
                 Columns.Add(_Col);
             }
         }
 
-        public async Task AddColumn(string pName, EspackFormControl pLinkedControl, string pSPAdd = "", string pSPUpp = "", string pSPDel = "", AutoCompleteMode aMode = AutoCompleteMode.None, AutoCompleteSource aSource = AutoCompleteSource.None, string aQuery="", bool pPrint=false)
+        public void AddColumn(string pName, EspackFormControl pLinkedControl, string pSPAdd = "", string pSPUpp = "", string pSPDel = "", AutoCompleteMode aMode = AutoCompleteMode.None, AutoCompleteSource aSource = AutoCompleteSource.None, string aQuery="", bool pPrint=false)
         {
             var _Col = new CtlVSTextBoxColumn()
             {
@@ -831,7 +831,7 @@ namespace VSGrid
                 AutoCompleteQuery = aQuery,
                 Print = pPrint
             };
-            await _Col.SetQuery("");
+            _Col.SetQuery("");
             Columns.Add(_Col);
         }
 
@@ -844,7 +844,7 @@ namespace VSGrid
         //    VSPrimaryKey.Add(pDBParameter,pPK);
         //    mDA.AddParameter(pDBParameter,pPK);
         //}
-        public async Task UpdateEspackControl()
+        public void UpdateEspackControl()
         {
             string lSql;
             int mNumRecords=0;
@@ -854,14 +854,14 @@ namespace VSGrid
             DataSource = null;
             if (Paginate)
             {
-                await mDA.Open((Page - 1) * mPageSize, mPageSize);
+                mDA.Open((Page - 1) * mPageSize, mPageSize);
                 lSql = "SELECT NumRecords=count(*) FROM " + CtlQuery.Tablename.DBItemName + " WHERE " + CtlQuery.WhereString;
                 DynamicRS lRS = (DynamicRS)new DynamicRS(lSql,Conn);
                 foreach (CtlVSColumn lColumn in ColumnsExternalKeys)
                 {
                     lRS.AddControlParameter(lColumn.Name,lColumn.LinkedControl);
                 }
-                await lRS.Open();
+                lRS.Open();
                 mNumRecords = Convert.ToInt32(lRS["NumRecords"]);
                 NumPages = mNumRecords / mPageSize + ((mNumRecords % mPageSize) == 0 ? 0 : 1);
                 mNavigationBar.Enabled = NumPages>1;
@@ -869,16 +869,16 @@ namespace VSGrid
             }
             else
             {
-                await mDA.Open();
+                mDA.Open();
             }
             DataSource = mDA.Table;
             Refresh();
             Status = mStatus;
         }
 
-        public async Task Navigate()
+        public void Navigate()
         {
-            await mDA.Open((Page - 1) * mPageSize, mPageSize);
+            mDA.Open((Page - 1) * mPageSize, mPageSize);
             this.DataSource = mDA.Table;
             this.Refresh();
         }

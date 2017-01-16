@@ -22,6 +22,7 @@ namespace EspackControls
         EspackControlTypeEnum EspackControlType { get; set; }
         EnumStatus Status { get; set; }
         new object Value { get; set; }
+        string Name { get; set; }
         string DBField { get; set; }
         bool Add { get; set; }
         bool Upp { get; set; }
@@ -31,7 +32,7 @@ namespace EspackControls
         bool Search { get; set; }
         object DefaultValue { get; set; }
         Type DBFieldType { get; set; }
-        Task UpdateEspackControl();
+        void UpdateEspackControl();
         void ClearEspackControl();
     }
 
