@@ -281,10 +281,10 @@ namespace AccesoDatosNet
         public bool Compression { get; set; } = true;
         String Origin { get; set; } = "LOGON";
         //string SessionNumber { get; set; }
-        public override async Task<string> HostName()
+        public override string HostName()
         {
             var lRs = new XMLRS();
-            await lRs.Open("Select HostName=host_name()", this);
+            lRs.Open("Select HostName=host_name()", this);
             if (lRs.EOF)
             {
                 throw new Exception("Server not available");
@@ -293,11 +293,22 @@ namespace AccesoDatosNet
             lRs.Close();
             return lRes;
         }
-
-        public override async Task<DateTime> ServerDate()
+        public override async Task<string> HostNameAsync()
         {
             var lRs = new XMLRS();
-            await lRs.Open("Select Date=convert(varchar,Getdate(),120)", this);
+            await lRs.OpenAsync("Select HostName=host_name()", this);
+            if (lRs.EOF)
+            {
+                throw new Exception("Server not available");
+            }
+            string lRes = lRs[0].ToString();
+            lRs.Close();
+            return lRes;
+        }
+        public override DateTime ServerDate()
+        {
+            var lRs = new XMLRS();
+            lRs.Open("Select Date=convert(varchar,Getdate(),120)", this);
             if (!lRs.HasRows)
             {
                 throw new Exception("Server not available");
@@ -309,7 +320,21 @@ namespace AccesoDatosNet
             DateTime lRes = new DateTime(Convert.ToInt32(lDate[0]), Convert.ToInt32(lDate[1]), Convert.ToInt32(lDate[2]), Convert.ToInt32(lTime[0]), Convert.ToInt32(lTime[1]), Convert.ToInt32(lTime[2]));
             return lRes;
         }
-
+        public override async Task<DateTime> ServerDateAsync()
+        {
+            var lRs = new XMLRS();
+            await lRs.OpenAsync("Select Date=convert(varchar,Getdate(),120)", this);
+            if (!lRs.HasRows)
+            {
+                throw new Exception("Server not available");
+            }
+            string[] lDateTot = lRs[0].ToString().Split(' ');
+            lRs.Close();
+            string[] lDate = lDateTot[0].Split('-');
+            string[] lTime = lDateTot[1].Split(':');
+            DateTime lRes = new DateTime(Convert.ToInt32(lDate[0]), Convert.ToInt32(lDate[1]), Convert.ToInt32(lDate[2]), Convert.ToInt32(lTime[0]), Convert.ToInt32(lTime[1]), Convert.ToInt32(lTime[2]));
+            return lRes;
+        }
         public override ConnectionState State
         {
             get
@@ -367,12 +392,38 @@ namespace AccesoDatosNet
             // do nothing
         }
 
-        public async override Task Connect()
+        public override void Connect()
         {
             try
             {
                 //EspackCommServer.Serial = DeviceSerial;
-                XDocument _msgOut = await EspackCommServer.Server.Transmit(XMessage); 
+                XDocument _msgOut = Task.Run(() => EspackCommServer.Server.Transmit(XMessage)).Result; 
+                if (_msgOut.Element("result").Value != "OK")
+                    throw new Exception(_msgOut.Element("result").Value);
+            }
+            catch //(Exception ex)
+            {
+                //second try
+                try
+                {
+                    //EspackCommServer.Serial = DeviceSerial;
+                    XDocument _msgOut = Task.Run(() => EspackCommServer.Server.Transmit(XMessage)).Result;
+                    if (_msgOut.Element("result").Value != "OK")
+                        throw new Exception(_msgOut.Element("result").Value);
+                }
+                catch (Exception exc)
+                {
+                    throw new Exception(exc.Message);
+                }
+            }
+        }
+
+        public async override Task ConnectAsync()
+        {
+            try
+            {
+                //EspackCommServer.Serial = DeviceSerial;
+                XDocument _msgOut = await EspackCommServer.Server.Transmit(XMessage);
                 if (_msgOut.Element("result").Value != "OK")
                     throw new Exception(_msgOut.Element("result").Value);
             }
@@ -392,7 +443,6 @@ namespace AccesoDatosNet
                 }
             }
         }
-
         public cAccesoDatosXML() : base()
         {
             oServer.Resolve = false;
@@ -613,13 +663,39 @@ namespace AccesoDatosNet
             if (ControlParameters != null)
                 ControlParameters.Where(x => x.LinkedControl is IsValuable && (x.Parameter.Direction == ParameterDirection.InputOutput || x.Parameter.Direction == ParameterDirection.Output)).ToList().ForEach(p => ((IsValuable)p.LinkedControl).Value = p.Parameter.Value);
         }
-        public override async Task Execute()
+        public override void Execute()
         {
             AssignParameterValues();
 
-            XDocument _msgOut =await EspackCommServer.Server.Transmit(XMessage);
+            XDocument _msgOut =Task.Run(()=> EspackCommServer.Server.Transmit(XMessage)).Result;
 
             if (_msgOut.Element("result").Value.Substring(0,5) == "ERROR")
+                throw new Exception(_msgOut.Element("result").Value);
+            //to do: recover parameter values for output parameters
+            _msgOut.Root.Element("parameters").Elements("parameter").ToList().ForEach(p =>
+            {
+                AddParameterValue(p.Element("Name").Value, p.Element("Value").Value);
+                Parameters[p.Element("Name").Value].Direction = (ParameterDirection)Enum.Parse(typeof(ParameterDirection), p.Element("Direction").Value.ToString());
+            });
+            AssignValuesParameters();
+            string _msg = "";
+            try
+            {
+                _msg = Parameters["@msg"].Value.ToString();
+            }
+            catch
+            {
+                _msg = "";
+            }
+            LastMsg = _msg;
+        }
+        public override async Task ExecuteAsync()
+        {
+            AssignParameterValues();
+
+            XDocument _msgOut = await EspackCommServer.Server.Transmit(XMessage);
+
+            if (_msgOut.Element("result").Value.Substring(0, 5) == "ERROR")
                 throw new Exception(_msgOut.Element("result").Value);
             //to do: recover parameter values for output parameters
             _msgOut.Root.Element("parameters").Elements("parameter").ToList().ForEach(p =>
@@ -667,19 +743,6 @@ namespace AccesoDatosNet
         protected DataSet mDS;
         protected new XMLParameterCollection Parameters { get; set; }
 
-
-        public new int Index
-        {
-            get
-            {
-                return mIndex;
-            }
-            set
-            {
-                mIndex = value;
-            }
-        }
-
         public override int RecordCount
         {
             get
@@ -702,7 +765,7 @@ namespace AccesoDatosNet
                 return mDS.Tables["Result"].Rows[Index][Idx];
             }
         }
-        public int FieldCount
+        public override int FieldCount
         {
             get
             {
@@ -710,7 +773,7 @@ namespace AccesoDatosNet
             }
         }
 
-        public List<string> Fields
+        public override List<string> Fields
         {
             get
             {
@@ -816,7 +879,19 @@ namespace AccesoDatosNet
             }
         }
 
-        public override async Task Execute()
+        public override void Execute()
+        {
+            XDocument _msgOut = Task.Run(() => EspackCommServer.Server.Transmit(XMessage)).Result;
+            if (_msgOut.Element("result").Value.Substring(0, 5) == "ERROR")
+                throw new Exception(_msgOut.Element("result").Value);
+            //to do: recover parameter values for output parameters
+            mDS = new DataSet();
+            mDS.ReadXml(_msgOut.CreateReader());
+
+
+        }
+
+        public override async Task ExecuteAsync()
         {
             XDocument _msgOut = await EspackCommServer.Server.Transmit(XMessage);
             if (_msgOut.Element("result").Value.Substring(0, 5) == "ERROR")
@@ -827,8 +902,6 @@ namespace AccesoDatosNet
 
 
         }
-
-
         public XMLRS()
             : base()
         {

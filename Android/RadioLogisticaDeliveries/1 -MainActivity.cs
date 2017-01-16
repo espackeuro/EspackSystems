@@ -10,6 +10,9 @@ using LogonScreen;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Java.Util.Zip;
+using Android.Content.PM;
+using Android.Icu.Text;
 
 namespace RadioLogisticaDeliveries
 {
@@ -32,6 +35,7 @@ namespace RadioLogisticaDeliveries
             }
         }
         
+        public static string Version { get; set; }
 
         public static int gOrderNumber;
         public static string gService;
@@ -89,10 +93,23 @@ namespace RadioLogisticaDeliveries
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
+            //version control
+            Context context = this.ApplicationContext;
+            Values.Version = context.PackageManager.GetPackageInfo(context.PackageName, 0).VersionName;
+            ApplicationInfo ai = PackageManager.GetApplicationInfo(context.PackageName, 0);
+            ZipFile zf = new ZipFile(ai.SourceDir);
+            ZipEntry ze = zf.GetEntry("classes.dex");
+            long time = ze.Time;
+            System.DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+            dtDateTime = dtDateTime.AddSeconds(Math.Round(time / 1000D)).ToLocalTime();
+            zf.Close();
+            Values.Version = string.Format("{0}.{1}", Values.Version, dtDateTime.ToString("yyyyMMdd.Hmmss"));
             var intent = new Intent(this, typeof(LogonScreenClass));
             intent.SetAction(Intent.ActionMain);
             intent.AddCategory(Intent.CategoryLauncher);
             intent.PutExtra("ConnectionType", "Socks");
+            intent.PutExtra("Version", Values.Version);
+            intent.PutExtra("PackageName", "Radio Deliveries");
             StartActivityForResult(intent, 0);
         }
         protected override async void OnActivityResult(int requestCode, Result resultCode, Intent data)

@@ -198,14 +198,21 @@ namespace AccesoDatosNet
             Cod3 = pParams.Cod3;
             AppName = pParams.AppName;
         }
-        public abstract Task<DateTime> ServerDate();
-        public abstract Task<string> HostName();
+        public abstract DateTime ServerDate();
+        public abstract Task<DateTime> ServerDateAsync();
+        public abstract string HostName();
+        public abstract Task<string> HostNameAsync();
 
-        public abstract Task Connect();
+        public abstract void Connect();
+        public abstract Task ConnectAsync();
 
-        public async Task Open()
+        public void Open()
         {
-            await Connect();
+            Connect();
+        }
+        public async Task OpenAsync()
+        {
+            await ConnectAsync();
         }
 
         public abstract void Close();
@@ -274,10 +281,7 @@ namespace AccesoDatosNet
         //private SqlDataReader mDR = null;
         //private SqlCommand mCmd = null;
         protected cAccesoDatos mConn = null;
-        protected bool mEOF;
-        protected bool mBOF;
         protected RSState mState;
-        protected int mIndex = 0;
         protected DbParameterCollection _parameters;
         //events
         //Events
@@ -285,27 +289,11 @@ namespace AccesoDatosNet
         public event EventHandler<EventArgs> BeforeExecution;
         //properties
         public string SQL { get; set; }
-        public int Index
-        {
-            get
-            {
-                return mIndex;
-            }
-        }
-        public bool EOF
-        {
-            get
-            {
-                return mEOF;
-            }
-        }
-        public bool BOF
-        {
-            get
-            {
-                return mBOF;
-            }
-        }
+        public int Index { get; protected set; } = 0;
+
+        public bool EOF { get; protected set; } = false;
+
+        public bool BOF { get; protected set; } = false;
         public RSState State
         {
             get
@@ -314,6 +302,9 @@ namespace AccesoDatosNet
             }
         }
         public abstract int RecordCount { get; }
+        public abstract int FieldCount { get; }
+
+        public abstract List<string> Fields { get; }
         public abstract object this[string Idx]
         {
             get;
@@ -339,73 +330,80 @@ namespace AccesoDatosNet
         public bool AutoUpdate { get; set; }
         //public abstract SqlCommand Cmd { get; set; }
 
-        public virtual Task MoveNext()
+        public virtual void MoveNext(bool silent = true)
         {
-            mState = RSState.Fetching;
-            if (mIndex < RecordCount - 1)
+            Move(Index + 1, silent);
+        }
+        public virtual void MovePrevious(bool silent = true)
+        {
+            Move(Index - 1, silent);
+        }
+        public virtual void MoveFirst(bool silent = true)
+        {
+            Move(0, silent);
+        }
+        public virtual void MoveLast(bool silent = true)
+        {
+            Move(RecordCount - 1, silent);
+        }
+        public virtual void Move(int Idx, bool silent = true)
+        {
+            if (RecordCount == 0)
             {
-                mIndex++;
-                mBOF = false;
+                EOF = true;
+                BOF = true;
+                return;
             }
-            else
+            if (Idx < 0)
             {
-                mEOF = true;
+                Index = 0;
+                EOF = false;
+                BOF = true;
+                if (!silent) throw new Exception("Current record is the first one.");
             }
-            mState = RSState.Open;
-            return Task.FromResult(0);
-        }
-        public virtual Task MovePrevious()
-        {
-            mState = RSState.Fetching;
-            if (mIndex > 0)
+            if (Idx > RecordCount - 1)
             {
-                mIndex--;
-                mEOF = false;
+                Index = RecordCount - 1;
+                EOF = true;
+                BOF = false;
+                if (!silent) throw new Exception("Current record is the last one.");
             }
-            else
-            {
-                mBOF = true;
-            }
-            mState = RSState.Open;
-            return Task.FromResult(0);
-        }
-        public virtual Task MoveFirst()
-        {
+
             mState = RSState.Fetching;
-            mIndex = 0;
+            Index = Idx;
             mState = RSState.Open;
-            return Task.FromResult(0);
         }
-        public virtual Task MoveLast()
-        {
-            mState = RSState.Fetching;
-            mIndex = RecordCount - 1;
-            mState = RSState.Open;
-            return Task.FromResult(0);
-        }
-        public virtual Task Move(int Idx)
-        {
-            mState = RSState.Fetching;
-            mIndex = Idx;
-            mState = RSState.Open;
-            return Task.FromResult(0);
-        }
-        public virtual Task Execute() { return Task.FromResult(0); }
-        public async Task Open()
+        public virtual Task ExecuteAsync() { return Task.FromResult(0); }
+        public virtual void Execute() { }
+        public void Open()
         {
             AssignParameterValues();
             var e = new EventArgs();
             OnBeforeExecution(e);
-            await Execute();
+            Execute();
             OnAfterExecution(e);
         }
-        public async Task Open(string Sql, cAccesoDatos Conn)
+        public async Task OpenAsync()
+        {
+            AssignParameterValues();
+            var e = new EventArgs();
+            OnBeforeExecution(e);
+            await ExecuteAsync();
+            OnAfterExecution(e);
+        }
+
+        public void Open(string Sql, cAccesoDatos Conn)
         {
             SQL = Sql;
             mConn = Conn;
-            await Open();
+            Open();
         }
-
+        public async Task OpenAsync(string Sql, cAccesoDatos Conn)
+        {
+            SQL = Sql;
+            mConn = Conn;
+            await OpenAsync();
+        }
         public abstract void Close();
 
         public virtual DbParameterCollection Parameters
@@ -447,9 +445,9 @@ namespace AccesoDatosNet
 
         public abstract void AddControlParameter(string ParamName, Object ParamControl);
 
-        protected async void RSFrame_TextChanged(object sender, EventArgs e)
+        protected void RSFrame_TextChanged(object sender, EventArgs e)
         {
-            await Open();
+            Open();
         }
 
         public void AssignParameterValues()
@@ -678,8 +676,7 @@ namespace AccesoDatosNet
         {
             ControlParameters.Where(x => x.LinkedControl is IsValuable && (x.Parameter.Direction == ParameterDirection.InputOutput || x.Parameter.Direction == ParameterDirection.Output)).ToList().ForEach(p => ((IsValuable)p.LinkedControl).Value = p.Parameter.Value);
         }
-
-        public virtual async Task Execute()
+        public virtual void Execute()
         {
             AssignParameterValues();
             if (Conn.State == ConnectionState.Open)
@@ -688,7 +685,41 @@ namespace AccesoDatosNet
             }
             else
             {
-                await Conn.Open();
+                Conn.Open();
+                try
+                {
+                    Cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+                    throw;
+                }
+                finally
+                {
+                    Conn.Close();
+                }
+
+            }
+            AssignValuesParameters();
+            try
+            {
+                LastMsg = Parameters.OfType<DbParameter>().ToList().First(x => x.ParameterName == "@msg").Value.ToString();
+            }
+            catch
+            {
+                LastMsg = "";
+            }
+        }
+        public virtual async Task ExecuteAsync()
+        {
+            AssignParameterValues();
+            if (Conn.State == ConnectionState.Open)
+            {
+                await Cmd.ExecuteNonQueryAsync();
+            }
+            else
+            {
+                await Conn.OpenAsync();
                 try
                 {
                     await Cmd.ExecuteNonQueryAsync();

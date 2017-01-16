@@ -2583,8 +2583,8 @@ namespace LogonScreen
 			// aapt resource value: 0x7f0d0076
 			public static int User = 2131558518;
 			
-			// aapt resource value: 0x7f0d0093
-			public static int action0 = 2131558547;
+			// aapt resource value: 0x7f0d0094
+			public static int action0 = 2131558548;
 			
 			// aapt resource value: 0x7f0d005d
 			public static int action_bar = 2131558493;
@@ -2610,8 +2610,8 @@ namespace LogonScreen
 			// aapt resource value: 0x7f0d005e
 			public static int action_context_bar = 2131558494;
 			
-			// aapt resource value: 0x7f0d0097
-			public static int action_divider = 2131558551;
+			// aapt resource value: 0x7f0d0098
+			public static int action_divider = 2131558552;
 			
 			// aapt resource value: 0x7f0d0002
 			public static int action_menu_divider = 2131558402;
@@ -2655,8 +2655,8 @@ namespace LogonScreen
 			// aapt resource value: 0x7f0d0046
 			public static int buttonPanel = 2131558470;
 			
-			// aapt resource value: 0x7f0d0094
-			public static int cancel_action = 2131558548;
+			// aapt resource value: 0x7f0d0095
+			public static int cancel_action = 2131558549;
 			
 			// aapt resource value: 0x7f0d002b
 			public static int center = 2131558443;
@@ -2670,8 +2670,8 @@ namespace LogonScreen
 			// aapt resource value: 0x7f0d0054
 			public static int checkbox = 2131558484;
 			
-			// aapt resource value: 0x7f0d009a
-			public static int chronometer = 2131558554;
+			// aapt resource value: 0x7f0d009b
+			public static int chronometer = 2131558555;
 			
 			// aapt resource value: 0x7f0d0034
 			public static int clip_horizontal = 2131558452;
@@ -2721,8 +2721,8 @@ namespace LogonScreen
 			// aapt resource value: 0x7f0d001c
 			public static int end = 2131558428;
 			
-			// aapt resource value: 0x7f0d009f
-			public static int end_padder = 2131558559;
+			// aapt resource value: 0x7f0d00a0
+			public static int end_padder = 2131558560;
 			
 			// aapt resource value: 0x7f0d0025
 			public static int enterAlways = 2131558437;
@@ -2766,17 +2766,17 @@ namespace LogonScreen
 			// aapt resource value: 0x7f0d0041
 			public static int image = 2131558465;
 			
-			// aapt resource value: 0x7f0d009e
-			public static int info = 2131558558;
+			// aapt resource value: 0x7f0d009f
+			public static int info = 2131558559;
 			
 			// aapt resource value: 0x7f0d002f
 			public static int left = 2131558447;
 			
-			// aapt resource value: 0x7f0d0098
-			public static int line1 = 2131558552;
+			// aapt resource value: 0x7f0d0099
+			public static int line1 = 2131558553;
 			
-			// aapt resource value: 0x7f0d009c
-			public static int line3 = 2131558556;
+			// aapt resource value: 0x7f0d009d
+			public static int line3 = 2131558557;
 			
 			// aapt resource value: 0x7f0d000a
 			public static int listMode = 2131558410;
@@ -2784,8 +2784,8 @@ namespace LogonScreen
 			// aapt resource value: 0x7f0d0043
 			public static int list_item = 2131558467;
 			
-			// aapt resource value: 0x7f0d0096
-			public static int media_actions = 2131558550;
+			// aapt resource value: 0x7f0d0097
+			public static int media_actions = 2131558551;
 			
 			// aapt resource value: 0x7f0d001d
 			public static int middle = 2131558429;
@@ -2793,77 +2793,80 @@ namespace LogonScreen
 			// aapt resource value: 0x7f0d0039
 			public static int mini = 2131558457;
 			
-			// aapt resource value: 0x7f0d0085
-			public static int mr_art = 2131558533;
-			
-			// aapt resource value: 0x7f0d007a
-			public static int mr_chooser_list = 2131558522;
-			
-			// aapt resource value: 0x7f0d007d
-			public static int mr_chooser_route_desc = 2131558525;
+			// aapt resource value: 0x7f0d0086
+			public static int mr_art = 2131558534;
 			
 			// aapt resource value: 0x7f0d007b
-			public static int mr_chooser_route_icon = 2131558523;
-			
-			// aapt resource value: 0x7f0d007c
-			public static int mr_chooser_route_name = 2131558524;
-			
-			// aapt resource value: 0x7f0d0082
-			public static int mr_close = 2131558530;
-			
-			// aapt resource value: 0x7f0d0088
-			public static int mr_control_divider = 2131558536;
-			
-			// aapt resource value: 0x7f0d008e
-			public static int mr_control_play_pause = 2131558542;
-			
-			// aapt resource value: 0x7f0d0091
-			public static int mr_control_subtitle = 2131558545;
-			
-			// aapt resource value: 0x7f0d0090
-			public static int mr_control_title = 2131558544;
-			
-			// aapt resource value: 0x7f0d008f
-			public static int mr_control_title_container = 2131558543;
-			
-			// aapt resource value: 0x7f0d0083
-			public static int mr_custom_control = 2131558531;
-			
-			// aapt resource value: 0x7f0d0084
-			public static int mr_default_control = 2131558532;
-			
-			// aapt resource value: 0x7f0d007f
-			public static int mr_dialog_area = 2131558527;
+			public static int mr_chooser_list = 2131558523;
 			
 			// aapt resource value: 0x7f0d007e
-			public static int mr_expandable_area = 2131558526;
+			public static int mr_chooser_route_desc = 2131558526;
 			
-			// aapt resource value: 0x7f0d0092
-			public static int mr_group_expand_collapse = 2131558546;
+			// aapt resource value: 0x7f0d007c
+			public static int mr_chooser_route_icon = 2131558524;
 			
-			// aapt resource value: 0x7f0d0086
-			public static int mr_media_main_control = 2131558534;
+			// aapt resource value: 0x7f0d007d
+			public static int mr_chooser_route_name = 2131558525;
 			
-			// aapt resource value: 0x7f0d0081
-			public static int mr_name = 2131558529;
-			
-			// aapt resource value: 0x7f0d0087
-			public static int mr_playback_control = 2131558535;
-			
-			// aapt resource value: 0x7f0d0080
-			public static int mr_title_bar = 2131558528;
+			// aapt resource value: 0x7f0d0083
+			public static int mr_close = 2131558531;
 			
 			// aapt resource value: 0x7f0d0089
-			public static int mr_volume_control = 2131558537;
+			public static int mr_control_divider = 2131558537;
+			
+			// aapt resource value: 0x7f0d008f
+			public static int mr_control_play_pause = 2131558543;
+			
+			// aapt resource value: 0x7f0d0092
+			public static int mr_control_subtitle = 2131558546;
+			
+			// aapt resource value: 0x7f0d0091
+			public static int mr_control_title = 2131558545;
+			
+			// aapt resource value: 0x7f0d0090
+			public static int mr_control_title_container = 2131558544;
+			
+			// aapt resource value: 0x7f0d0084
+			public static int mr_custom_control = 2131558532;
+			
+			// aapt resource value: 0x7f0d0085
+			public static int mr_default_control = 2131558533;
+			
+			// aapt resource value: 0x7f0d0080
+			public static int mr_dialog_area = 2131558528;
+			
+			// aapt resource value: 0x7f0d007f
+			public static int mr_expandable_area = 2131558527;
+			
+			// aapt resource value: 0x7f0d0093
+			public static int mr_group_expand_collapse = 2131558547;
+			
+			// aapt resource value: 0x7f0d0087
+			public static int mr_media_main_control = 2131558535;
+			
+			// aapt resource value: 0x7f0d0082
+			public static int mr_name = 2131558530;
+			
+			// aapt resource value: 0x7f0d0088
+			public static int mr_playback_control = 2131558536;
+			
+			// aapt resource value: 0x7f0d0081
+			public static int mr_title_bar = 2131558529;
 			
 			// aapt resource value: 0x7f0d008a
-			public static int mr_volume_group_list = 2131558538;
+			public static int mr_volume_control = 2131558538;
 			
-			// aapt resource value: 0x7f0d008c
-			public static int mr_volume_item_icon = 2131558540;
+			// aapt resource value: 0x7f0d008b
+			public static int mr_volume_group_list = 2131558539;
 			
 			// aapt resource value: 0x7f0d008d
-			public static int mr_volume_slider = 2131558541;
+			public static int mr_volume_item_icon = 2131558541;
+			
+			// aapt resource value: 0x7f0d008e
+			public static int mr_volume_slider = 2131558542;
+			
+			// aapt resource value: 0x7f0d007a
+			public static int msgPkgInfo = 2131558522;
 			
 			// aapt resource value: 0x7f0d0079
 			public static int msgText = 2131558521;
@@ -2994,8 +2997,8 @@ namespace LogonScreen
 			// aapt resource value: 0x7f0d0031
 			public static int start = 2131558449;
 			
-			// aapt resource value: 0x7f0d0095
-			public static int status_bar_latest_event_content = 2131558549;
+			// aapt resource value: 0x7f0d0096
+			public static int status_bar_latest_event_content = 2131558550;
 			
 			// aapt resource value: 0x7f0d0057
 			public static int submenuarrow = 2131558487;
@@ -3006,11 +3009,11 @@ namespace LogonScreen
 			// aapt resource value: 0x7f0d000c
 			public static int tabMode = 2131558412;
 			
-			// aapt resource value: 0x7f0d009d
-			public static int text = 2131558557;
+			// aapt resource value: 0x7f0d009e
+			public static int text = 2131558558;
 			
-			// aapt resource value: 0x7f0d009b
-			public static int text2 = 2131558555;
+			// aapt resource value: 0x7f0d009c
+			public static int text2 = 2131558556;
 			
 			// aapt resource value: 0x7f0d004f
 			public static int textSpacerNoButtons = 2131558479;
@@ -3018,8 +3021,8 @@ namespace LogonScreen
 			// aapt resource value: 0x7f0d0075
 			public static int text_input_password_toggle = 2131558517;
 			
-			// aapt resource value: 0x7f0d0099
-			public static int time = 2131558553;
+			// aapt resource value: 0x7f0d009a
+			public static int time = 2131558554;
 			
 			// aapt resource value: 0x7f0d0045
 			public static int title = 2131558469;
@@ -3045,8 +3048,8 @@ namespace LogonScreen
 			// aapt resource value: 0x7f0d0009
 			public static int view_offset_helper = 2131558409;
 			
-			// aapt resource value: 0x7f0d008b
-			public static int volume_item_container = 2131558539;
+			// aapt resource value: 0x7f0d008c
+			public static int volume_item_container = 2131558540;
 			
 			// aapt resource value: 0x7f0d0022
 			public static int withText = 2131558434;
