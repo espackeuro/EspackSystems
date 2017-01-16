@@ -186,7 +186,7 @@ namespace LogonScreen
             var _local = string.Format("{0}/{1}.apk", Android.OS.Environment.ExternalStorageDirectory.Path, packageName);
             try
             {
-                var stream = await _c.Download(String.Format("{0}/{1}.apk", _c.BasePath, packageName));
+                var stream = await _c.Download(String.Format("{0}/{1}.apk",_c.BasePath,packageName));
                 using (FileStream fs = File.OpenWrite(_local))
                     await stream.CopyToAsync(fs);
 

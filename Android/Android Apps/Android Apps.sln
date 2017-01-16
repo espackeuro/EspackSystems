@@ -43,8 +43,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cAccesoDatosNet", "..\..\Da
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonTools", "..\..\Database and tools\CommonTools\CommonTools.csproj", "{9148F7E6-31F6-4F96-B7DC-AFEA449998C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Owncloud", "..\..\Network Libraries\Owncloud\Owncloud.csproj", "{0F193F80-9610-4020-8974-9AAA02BD1CA8}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebDavClient", "WebDavClient\WebDavClient.csproj", "{AA6B5C81-BE21-4837-85BC-288BA4C90648}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test", "..\..\Network Libraries\test\test.csproj", "{85C3CF9F-E76C-4BF6-B2EF-1CF434903DB1}"
@@ -119,10 +117,6 @@ Global
 		{9148F7E6-31F6-4F96-B7DC-AFEA449998C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9148F7E6-31F6-4F96-B7DC-AFEA449998C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9148F7E6-31F6-4F96-B7DC-AFEA449998C7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0F193F80-9610-4020-8974-9AAA02BD1CA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0F193F80-9610-4020-8974-9AAA02BD1CA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0F193F80-9610-4020-8974-9AAA02BD1CA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0F193F80-9610-4020-8974-9AAA02BD1CA8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AA6B5C81-BE21-4837-85BC-288BA4C90648}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AA6B5C81-BE21-4837-85BC-288BA4C90648}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA6B5C81-BE21-4837-85BC-288BA4C90648}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -151,12 +145,11 @@ Global
 		{19C864E9-F42C-404C-BA54-548392DBAF43} = {3A654A15-9225-4336-8D89-227689080C5A}
 		{D3E453AA-39B7-480F-8917-6D7F5076C3ED} = {8388EEDE-523A-4541-BF5A-D71D220A366A}
 		{9148F7E6-31F6-4F96-B7DC-AFEA449998C7} = {5802ACA1-E788-4592-BB10-63A26AA1A336}
-		{0F193F80-9610-4020-8974-9AAA02BD1CA8} = {3A654A15-9225-4336-8D89-227689080C5A}
 		{AA6B5C81-BE21-4837-85BC-288BA4C90648} = {3A654A15-9225-4336-8D89-227689080C5A}
 		{85C3CF9F-E76C-4BF6-B2EF-1CF434903DB1} = {3A654A15-9225-4336-8D89-227689080C5A}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 19
+		SccNumberOfProjects = 18
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://espack.visualstudio.com/defaultcollection
 		SccLocalPath0 = .
@@ -220,17 +213,13 @@ Global
 		SccProjectTopLevelParentUniqueName15 = Android\u0020Apps.sln
 		SccProjectName15 = ../../Database\u0020and\u0020tools/CommonTools
 		SccLocalPath15 = ..\\..\\Database\u0020and\u0020tools\\CommonTools
-		SccProjectUniqueName16 = ..\\..\\Network\u0020Libraries\\Owncloud\\Owncloud.csproj
+		SccProjectUniqueName16 = WebDavClient\\WebDavClient.csproj
 		SccProjectTopLevelParentUniqueName16 = Android\u0020Apps.sln
-		SccProjectName16 = ../../Network\u0020Libraries/Owncloud
-		SccLocalPath16 = ..\\..\\Network\u0020Libraries\\Owncloud
-		SccProjectUniqueName17 = WebDavClient\\WebDavClient.csproj
+		SccProjectName16 = WebDavClient
+		SccLocalPath16 = WebDavClient
+		SccProjectUniqueName17 = ..\\..\\Network\u0020Libraries\\test\\test.csproj
 		SccProjectTopLevelParentUniqueName17 = Android\u0020Apps.sln
-		SccProjectName17 = WebDavClient
-		SccLocalPath17 = WebDavClient
-		SccProjectUniqueName18 = ..\\..\\Network\u0020Libraries\\test\\test.csproj
-		SccProjectTopLevelParentUniqueName18 = Android\u0020Apps.sln
-		SccProjectName18 = ../../Network\u0020Libraries/test
-		SccLocalPath18 = ..\\..\\Network\u0020Libraries\\test
+		SccProjectName17 = ../../Network\u0020Libraries/test
+		SccLocalPath17 = ..\\..\\Network\u0020Libraries\\test
 	EndGlobalSection
 EndGlobal
