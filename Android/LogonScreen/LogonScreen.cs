@@ -1,16 +1,14 @@
 using System;
 using Android.App;
 using Android.Content;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
 using Android.OS;
 using AccesoDatosNet;
 using Android.Support.V7.App;
-using Android.Support.V7.Widget;
-using DataWedge;
 using CommonAndroidTools;
-
+using System.Net;
+using System.Threading.Tasks;
+using System.IO;
 namespace LogonScreen
 {
     public static class LogonDetails
@@ -26,10 +24,12 @@ namespace LogonScreen
         private EditText cUser;
         private EditText cPassword;
         private TextView cMsgText;
+        private TextView cPackageInfoText;
         private Button cLoginButton;
         private cAccesoDatos gDatos;
         private string typeofCaller;
-        
+        private string version;
+        private string packageName;
         //Main method
         protected override void OnCreate(Bundle bundle)
         {
@@ -43,9 +43,14 @@ namespace LogonScreen
             cPassword = FindViewById<EditText>(Resource.Id.Password);
             //cPassword.Text = "5380";
             cMsgText= FindViewById<TextView>(Resource.Id.msgText);
+            cPackageInfoText = FindViewById<TextView>(Resource.Id.msgPkgInfo);
             //Button event
             cLoginButton.Click += CLoginButton_Click;
             typeofCaller = Intent.GetStringExtra("ConnectionType") ?? "Net";
+            version = Intent.GetStringExtra("Version");
+            packageName = Intent.GetStringExtra("PackageName");
+            cPackageInfoText.Text = string.Format("{0} Version {1}", packageName, version);
+
             LogonDetails.connectionServer = "net.espackeuro.com";//typeofCaller == "Net" ? "net.espackeuro.com" : "logon.espackeuro.com";
             switch (typeofCaller)
             {
@@ -102,7 +107,7 @@ namespace LogonScreen
                 
                 try
                 {
-                    await gDatos.Connect();
+                    await gDatos.ConnectAsync();
                     //RunOnUiThread(async () => { });
                 }
                 catch (Exception ex)
@@ -125,16 +130,16 @@ namespace LogonScreen
                 {
                     RSFrame _RS;
                     _RS = (RSFrame)ObjectFactory.createObject("RS", typeofCaller, "select date=getdate()", gDatos);
-                    await _RS.Open();
+                    await _RS.OpenAsync();
                     gDatos.Close();
                     SPFrame LogonSP;
                     LogonSP = (SPFrame)ObjectFactory.createObject("SP", typeofCaller, gDatos, "pLogonUser");
                     LogonSP.AddParameterValue("User", cUser.Text);
                     LogonSP.AddParameterValue("Password", cPassword.Text);
-                    LogonSP.AddParameterValue("Origin", "RADIO LOGISTICA (VAL)");
+                    LogonSP.AddParameterValue("Origin", "RADIO DELIVERIES");
                     try
                     {
-                        await LogonSP.Execute();
+                        await LogonSP.ExecuteAsync();
                         if (LogonSP.LastMsg.Substring(0, 2) != "OK")
                             throw new Exception(LogonSP.LastMsg);
                         else
@@ -142,6 +147,14 @@ namespace LogonScreen
                             Toast.MakeText(this, "Logon OK!", ToastLength.Short).Show();
                             LogonDetails.user = LogonSP.ReturnValues()["@User"].ToString();
                             LogonDetails.password = LogonSP.ReturnValues()["@Password"].ToString();
+                            var _version= LogonSP.ReturnValues()["@Version"].ToString();
+                            var _packageName = LogonSP.ReturnValues()["@PackageName"].ToString();
+                            if (_version!=version)
+                            {
+                                bool dialogResult = await AlertDialogHelper.ShowAsync(this, "New version found", "Do you want to update your current program?", "Yes", "No");
+                                if (dialogResult)
+                                    await UpdatePackage(_packageName);
+                            }
                             Intent intent = new Intent();
                             intent.PutExtra("Result", "OK");
                             SetResult(Result.Ok, intent);
@@ -163,5 +176,36 @@ namespace LogonScreen
                 });
             }
         }
+
+        private async Task UpdatePackage(string packageName)
+        {
+            var credentials = new NetworkCredential("logon", "*logon*");
+            var _c = new WebDAVClient.Client(credentials);
+            _c.Server = @"https://nextcloud.espackeuro.com";
+            _c.BasePath = @"/remote.php/dav/files/logon/Android/APK/";
+            var _local = string.Format("{0}/{1}.apk", Android.OS.Environment.ExternalStorageDirectory.Path, packageName);
+            try
+            {
+                var stream = await _c.Download(String.Format("{0}/{1}.apk", _c.BasePath, packageName));
+                using (FileStream fs = File.OpenWrite(_local))
+                    await stream.CopyToAsync(fs);
+
+                //var items = await _c.List();
+                //foreach (var item in items)
+                //{
+                //    var stream = await _c.Download(item.Href);
+                //    using (FileStream fs = File.OpenWrite(string.Format(string.Format("{0}/{1}", Android.OS.Environment.ExternalStorageDirectory.Path, item.DisplayName))))
+                //        await stream.CopyToAsync(fs);
+                //}
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            var intent = new Intent(Intent.ActionView);
+            intent.SetDataAndType(Android.Net.Uri.FromFile(new Java.IO.File(_local)), "application/vnd.android.package-archive");
+            intent.SetFlags(ActivityFlags.NewTask);
+            StartActivity(intent);
+            }
     }
 }

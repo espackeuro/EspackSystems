@@ -122,7 +122,7 @@ namespace Messages
             {
                 try
                 {
-                    await _rs.Open(); //execute the recordset
+                    await _rs.OpenAsync(); //execute the recordset
                     xmlMsgOut = _rs.XMLData; //create the msgout xml data
                     xmlMsgOut.Root.Name = "result";
                 }
@@ -153,7 +153,7 @@ namespace Messages
                 _sessionProc.AddParameterValue("Serial", _serial);
                 try
                 {
-                    await _sessionProc.Execute();
+                    await _sessionProc.ExecuteAsync();
                     if (_sessionProc.LastMsg != "OK")
                         throw new Exception(_sessionProc.LastMsg);
                     xmlMsgOut = new XDocument();
@@ -185,7 +185,7 @@ namespace Messages
             var _conn = new cAccesoDatosNet(_server, xmlMsgIn.Data.Element("DataBase").Value);
             try
             {
-                await _conn.Connect();
+                await _conn.ConnectAsync();
                 xmlMsgOut = new XDocument(new XElement("result", "OK"));
             }
             catch (Exception ex)
@@ -220,7 +220,7 @@ namespace Messages
                     {
                         _sp.AddParameterValue(p.Element("parameterName").Value.ToString(), p.Element("parameterValue").Value.ToString());
                     }); //adds the parameters and the values to the sp from the parameter list
-                    await _sp.Execute(); //execute the sp
+                    await _sp.ExecuteAsync(); //execute the sp
                     if (_sp.LastMsg.Substring(0, 2) != "OK")
                         throw new Exception(_sp.LastMsg); //error message
                     XElement _msgOut = new XElement("result"); //create the msgout xml data

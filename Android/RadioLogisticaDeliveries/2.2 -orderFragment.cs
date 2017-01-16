@@ -90,7 +90,7 @@ namespace RadioLogisticaDeliveries
             _sp.AddParameterValue("orderNumber", _orderNumber);
             try
             {
-                await _sp.Execute();
+                await _sp.ExecuteAsync();
             }
             catch (Exception ex)
             {
@@ -136,7 +136,7 @@ namespace RadioLogisticaDeliveries
                 //data from labels for checkng
                 using (var _rs = new XMLRS(string.Format("select numero,partnumber,qty,cajas,rack,Modulo from etiquetas where Numero_orden={0} and Tipo='PEQ'", Values.gOrderNumber), Values.gDatos))
                 {
-                    await _rs.Open();
+                    await _rs.OpenAsync();
                     _rs.Rows.ForEach(async r => await Values.SQLidb.db.InsertAsync(new Labels { Serial = r["numero"].ToString(), Partnumber = r["partnumber"].ToString(), qty = r["qty"].ToInt(), boxes = r["cajas"].ToInt(), rack = r["rack"].ToString(), mod = r["Modulo"].ToString() }));
                     Values.sFt.CheckQtyTotal= _rs.Rows.Count;
                     Values.sFt.UpdateInfo();
@@ -148,7 +148,7 @@ namespace RadioLogisticaDeliveries
             //data from RacksBlocks table
             using (var _rs = new XMLRS(string.Format("select Block,Rack from RacksBlocks where service='{0}' and dbo.CheckFlag(flags,'OBS')=0", Values.gService), Values.gDatos))
             {
-                await _rs.Open();
+                await _rs.OpenAsync();
                 _rs.Rows.ForEach(async r => await Values.SQLidb.db.InsertAsync(new RacksBlocks { Block = r["Block"].ToString(), Rack = r["Rack"].ToString() }));
             }
             await Values.iFt.pushInfo("Done");
@@ -156,7 +156,7 @@ namespace RadioLogisticaDeliveries
             //data from RacksBlocks table
             using (var _rs = new XMLRS(string.Format("Select p.Rack,Partnumber,MinBoxes,MaxBoxes,p.flags from PartnumbersRacks p inner join RacksBlocks r on r.Rack=p.Rack where p.service='{0}' and dbo.CheckFlag(r.flags,'OBS')=0", Values.gService), Values.gDatos))
             {
-                await _rs.Open();
+                await _rs.OpenAsync();
                 _rs.Rows.ForEach(async r => await Values.SQLidb.db.InsertAsync(new PartnumbersRacks { Rack = r["Rack"].ToString(), Partnumber=r["Partnumber"].ToString(), MinBoxes=r["MinBoxes"].ToInt(), MaxBoxes=r["MaxBoxes"].ToInt() }));
             }
             

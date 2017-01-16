@@ -86,7 +86,7 @@ namespace RadioLogisticaDeliveries
                                 _sp.AddParameterValue("@TablePK", "");
                                 try
                                 {
-                                    await _sp.Execute();
+                                    await _sp.ExecuteAsync();
                                     if (_sp.LastMsg.Substring(0, 2) != "OK")
                                     {
                                         Transmitting = false;

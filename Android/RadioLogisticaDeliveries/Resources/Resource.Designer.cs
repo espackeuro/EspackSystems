@@ -955,6 +955,7 @@ namespace RadioLogisticaDeliveries
 			global::LogonScreen.Resource.Id.mr_volume_group_list = global::RadioLogisticaDeliveries.Resource.Id.mr_volume_group_list;
 			global::LogonScreen.Resource.Id.mr_volume_item_icon = global::RadioLogisticaDeliveries.Resource.Id.mr_volume_item_icon;
 			global::LogonScreen.Resource.Id.mr_volume_slider = global::RadioLogisticaDeliveries.Resource.Id.mr_volume_slider;
+			global::LogonScreen.Resource.Id.msgPkgInfo = global::RadioLogisticaDeliveries.Resource.Id.msgPkgInfo;
 			global::LogonScreen.Resource.Id.msgText = global::RadioLogisticaDeliveries.Resource.Id.msgText;
 			global::LogonScreen.Resource.Id.multiply = global::RadioLogisticaDeliveries.Resource.Id.multiply;
 			global::LogonScreen.Resource.Id.navigation_header_container = global::RadioLogisticaDeliveries.Resource.Id.navigation_header_container;
@@ -4731,110 +4732,110 @@ namespace RadioLogisticaDeliveries
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f0800f9
-			public const int Anio1 = 2131230969;
-			
-			// aapt resource value: 0x7f0800fd
-			public const int Anio2 = 2131230973;
-			
-			// aapt resource value: 0x7f080101
-			public const int Anio3 = 2131230977;
-			
-			// aapt resource value: 0x7f080107
-			public const int Anio4 = 2131230983;
-			
-			// aapt resource value: 0x7f080105
-			public const int Bronce3 = 2131230981;
-			
-			// aapt resource value: 0x7f08010b
-			public const int Bronce4 = 2131230987;
-			
-			// aapt resource value: 0x7f080112
-			public const int BronceTotal = 2131230994;
-			
-			// aapt resource value: 0x7f0800f0
-			public const int Cabecera = 2131230960;
-			
-			// aapt resource value: 0x7f0800f1
-			public const int ColumnaAnio = 2131230961;
-			
-			// aapt resource value: 0x7f0800f5
-			public const int ColumnaBronce = 2131230965;
-			
-			// aapt resource value: 0x7f0800f2
-			public const int ColumnaCiudad = 2131230962;
-			
-			// aapt resource value: 0x7f0800f3
-			public const int ColumnaOro = 2131230963;
-			
-			// aapt resource value: 0x7f0800f4
-			public const int ColumnaPlata = 2131230964;
-			
 			// aapt resource value: 0x7f0800fa
-			public const int Cuidad1 = 2131230970;
+			public const int Anio1 = 2131230970;
 			
 			// aapt resource value: 0x7f0800fe
-			public const int Cuidad2 = 2131230974;
+			public const int Anio2 = 2131230974;
 			
 			// aapt resource value: 0x7f080102
-			public const int Cuidad3 = 2131230978;
+			public const int Anio3 = 2131230978;
 			
 			// aapt resource value: 0x7f080108
-			public const int Cuidad4 = 2131230984;
-			
-			// aapt resource value: 0x7f0800c8
-			public const int DebugFragment = 2131230920;
-			
-			// aapt resource value: 0x7f0800f8
-			public const int Fila1 = 2131230968;
-			
-			// aapt resource value: 0x7f0800fc
-			public const int Fila2 = 2131230972;
-			
-			// aapt resource value: 0x7f080100
-			public const int Fila3 = 2131230976;
+			public const int Anio4 = 2131230984;
 			
 			// aapt resource value: 0x7f080106
-			public const int Fila4 = 2131230982;
+			public const int Bronce3 = 2131230982;
 			
-			// aapt resource value: 0x7f0800c7
-			public const int InfoFragment = 2131230919;
+			// aapt resource value: 0x7f08010c
+			public const int Bronce4 = 2131230988;
 			
-			// aapt resource value: 0x7f0800f7
-			public const int LineaCabecera = 2131230967;
+			// aapt resource value: 0x7f080113
+			public const int BronceTotal = 2131230995;
 			
-			// aapt resource value: 0x7f08010d
-			public const int LineaTotales = 2131230989;
+			// aapt resource value: 0x7f0800f1
+			public const int Cabecera = 2131230961;
+			
+			// aapt resource value: 0x7f0800f2
+			public const int ColumnaAnio = 2131230962;
+			
+			// aapt resource value: 0x7f0800f6
+			public const int ColumnaBronce = 2131230966;
+			
+			// aapt resource value: 0x7f0800f3
+			public const int ColumnaCiudad = 2131230963;
+			
+			// aapt resource value: 0x7f0800f4
+			public const int ColumnaOro = 2131230964;
+			
+			// aapt resource value: 0x7f0800f5
+			public const int ColumnaPlata = 2131230965;
+			
+			// aapt resource value: 0x7f0800fb
+			public const int Cuidad1 = 2131230971;
+			
+			// aapt resource value: 0x7f0800ff
+			public const int Cuidad2 = 2131230975;
+			
+			// aapt resource value: 0x7f080103
+			public const int Cuidad3 = 2131230979;
+			
+			// aapt resource value: 0x7f080109
+			public const int Cuidad4 = 2131230985;
+			
+			// aapt resource value: 0x7f0800c9
+			public const int DebugFragment = 2131230921;
+			
+			// aapt resource value: 0x7f0800f9
+			public const int Fila1 = 2131230969;
+			
+			// aapt resource value: 0x7f0800fd
+			public const int Fila2 = 2131230973;
+			
+			// aapt resource value: 0x7f080101
+			public const int Fila3 = 2131230977;
+			
+			// aapt resource value: 0x7f080107
+			public const int Fila4 = 2131230983;
+			
+			// aapt resource value: 0x7f0800c8
+			public const int InfoFragment = 2131230920;
+			
+			// aapt resource value: 0x7f0800f8
+			public const int LineaCabecera = 2131230968;
+			
+			// aapt resource value: 0x7f08010e
+			public const int LineaTotales = 2131230990;
 			
 			// aapt resource value: 0x7f0800c3
 			public const int Login = 2131230915;
 			
-			// aapt resource value: 0x7f0800fb
-			public const int Oro1 = 2131230971;
+			// aapt resource value: 0x7f0800fc
+			public const int Oro1 = 2131230972;
 			
-			// aapt resource value: 0x7f080103
-			public const int Oro3 = 2131230979;
+			// aapt resource value: 0x7f080104
+			public const int Oro3 = 2131230980;
 			
-			// aapt resource value: 0x7f080109
-			public const int Oro4 = 2131230985;
+			// aapt resource value: 0x7f08010a
+			public const int Oro4 = 2131230986;
 			
-			// aapt resource value: 0x7f080110
-			public const int OroTotal = 2131230992;
+			// aapt resource value: 0x7f080111
+			public const int OroTotal = 2131230993;
 			
 			// aapt resource value: 0x7f0800c2
 			public const int Password = 2131230914;
 			
-			// aapt resource value: 0x7f0800ff
-			public const int Plata2 = 2131230975;
+			// aapt resource value: 0x7f080100
+			public const int Plata2 = 2131230976;
 			
-			// aapt resource value: 0x7f080104
-			public const int Plata3 = 2131230980;
+			// aapt resource value: 0x7f080105
+			public const int Plata3 = 2131230981;
 			
-			// aapt resource value: 0x7f08010a
-			public const int Plata4 = 2131230986;
+			// aapt resource value: 0x7f08010b
+			public const int Plata4 = 2131230987;
 			
-			// aapt resource value: 0x7f080111
-			public const int PlataTotal = 2131230993;
+			// aapt resource value: 0x7f080112
+			public const int PlataTotal = 2131230994;
 			
 			// aapt resource value: 0x7f080085
 			public const int Row0 = 2131230853;
@@ -4875,29 +4876,29 @@ namespace RadioLogisticaDeliveries
 			// aapt resource value: 0x7f080082
 			public const int RowMessage = 2131230850;
 			
-			// aapt resource value: 0x7f0800f6
-			public const int SeparadorCabecera = 2131230966;
+			// aapt resource value: 0x7f0800f7
+			public const int SeparadorCabecera = 2131230967;
 			
-			// aapt resource value: 0x7f08010c
-			public const int SeparadorTotales = 2131230988;
+			// aapt resource value: 0x7f08010d
+			public const int SeparadorTotales = 2131230989;
 			
-			// aapt resource value: 0x7f0800c9
-			public const int StatusFragment = 2131230921;
+			// aapt resource value: 0x7f0800ca
+			public const int StatusFragment = 2131230922;
 			
 			// aapt resource value: 0x7f080080
 			public const int Tabla = 2131230848;
 			
-			// aapt resource value: 0x7f08010f
-			public const int TextoTotal = 2131230991;
+			// aapt resource value: 0x7f080110
+			public const int TextoTotal = 2131230992;
 			
-			// aapt resource value: 0x7f08010e
-			public const int Totales = 2131230990;
+			// aapt resource value: 0x7f08010f
+			public const int Totales = 2131230991;
 			
 			// aapt resource value: 0x7f0800c1
 			public const int User = 2131230913;
 			
-			// aapt resource value: 0x7f0800e3
-			public const int action0 = 2131230947;
+			// aapt resource value: 0x7f0800e4
+			public const int action0 = 2131230948;
 			
 			// aapt resource value: 0x7f08005e
 			public const int action_bar = 2131230814;
@@ -4923,8 +4924,8 @@ namespace RadioLogisticaDeliveries
 			// aapt resource value: 0x7f08005f
 			public const int action_context_bar = 2131230815;
 			
-			// aapt resource value: 0x7f0800e7
-			public const int action_divider = 2131230951;
+			// aapt resource value: 0x7f0800e8
+			public const int action_divider = 2131230952;
 			
 			// aapt resource value: 0x7f080003
 			public const int action_menu_divider = 2131230723;
@@ -5112,8 +5113,8 @@ namespace RadioLogisticaDeliveries
 			// aapt resource value: 0x7f0800b6
 			public const int c93 = 2131230902;
 			
-			// aapt resource value: 0x7f0800e4
-			public const int cancel_action = 2131230948;
+			// aapt resource value: 0x7f0800e5
+			public const int cancel_action = 2131230949;
 			
 			// aapt resource value: 0x7f08002c
 			public const int center = 2131230764;
@@ -5127,11 +5128,11 @@ namespace RadioLogisticaDeliveries
 			// aapt resource value: 0x7f080055
 			public const int checkbox = 2131230805;
 			
-			// aapt resource value: 0x7f080115
-			public const int checkingsInfo = 2131230997;
+			// aapt resource value: 0x7f080116
+			public const int checkingsInfo = 2131230998;
 			
-			// aapt resource value: 0x7f0800ea
-			public const int chronometer = 2131230954;
+			// aapt resource value: 0x7f0800eb
+			public const int chronometer = 2131230955;
 			
 			// aapt resource value: 0x7f080035
 			public const int clip_horizontal = 2131230773;
@@ -5154,8 +5155,8 @@ namespace RadioLogisticaDeliveries
 			// aapt resource value: 0x7f080077
 			public const int data = 2131230839;
 			
-			// aapt resource value: 0x7f0800c6
-			public const int dataInputFragment = 2131230918;
+			// aapt resource value: 0x7f0800c7
+			public const int dataInputFragment = 2131230919;
 			
 			// aapt resource value: 0x7f08005c
 			public const int decor_content_parent = 2131230812;
@@ -5187,8 +5188,8 @@ namespace RadioLogisticaDeliveries
 			// aapt resource value: 0x7f08001d
 			public const int end = 2131230749;
 			
-			// aapt resource value: 0x7f0800ef
-			public const int end_padder = 2131230959;
+			// aapt resource value: 0x7f0800f0
+			public const int end_padder = 2131230960;
 			
 			// aapt resource value: 0x7f080026
 			public const int enterAlways = 2131230758;
@@ -5217,8 +5218,8 @@ namespace RadioLogisticaDeliveries
 			// aapt resource value: 0x7f08003b
 			public const int @fixed = 2131230779;
 			
-			// aapt resource value: 0x7f0800c5
-			public const int headerFragment = 2131230917;
+			// aapt resource value: 0x7f0800c6
+			public const int headerFragment = 2131230918;
 			
 			// aapt resource value: 0x7f080005
 			public const int home = 2131230725;
@@ -5235,8 +5236,8 @@ namespace RadioLogisticaDeliveries
 			// aapt resource value: 0x7f080042
 			public const int image = 2131230786;
 			
-			// aapt resource value: 0x7f0800ee
-			public const int info = 2131230958;
+			// aapt resource value: 0x7f0800ef
+			public const int info = 2131230959;
 			
 			// aapt resource value: 0x7f080000
 			public const int item_touch_helper_previous_elevation = 2131230720;
@@ -5244,11 +5245,11 @@ namespace RadioLogisticaDeliveries
 			// aapt resource value: 0x7f080030
 			public const int left = 2131230768;
 			
-			// aapt resource value: 0x7f0800e8
-			public const int line1 = 2131230952;
+			// aapt resource value: 0x7f0800e9
+			public const int line1 = 2131230953;
 			
-			// aapt resource value: 0x7f0800ec
-			public const int line3 = 2131230956;
+			// aapt resource value: 0x7f0800ed
+			public const int line3 = 2131230957;
 			
 			// aapt resource value: 0x7f080084
 			public const int linedown = 2131230852;
@@ -5256,8 +5257,8 @@ namespace RadioLogisticaDeliveries
 			// aapt resource value: 0x7f080081
 			public const int lineup = 2131230849;
 			
-			// aapt resource value: 0x7f080113
-			public const int list = 2131230995;
+			// aapt resource value: 0x7f080114
+			public const int list = 2131230996;
 			
 			// aapt resource value: 0x7f08000b
 			public const int listMode = 2131230731;
@@ -5265,11 +5266,11 @@ namespace RadioLogisticaDeliveries
 			// aapt resource value: 0x7f080044
 			public const int list_item = 2131230788;
 			
-			// aapt resource value: 0x7f080117
-			public const int mainMenu = 2131230999;
+			// aapt resource value: 0x7f080118
+			public const int mainMenu = 2131231000;
 			
-			// aapt resource value: 0x7f0800e6
-			public const int media_actions = 2131230950;
+			// aapt resource value: 0x7f0800e7
+			public const int media_actions = 2131230951;
 			
 			// aapt resource value: 0x7f080083
 			public const int message = 2131230851;
@@ -5280,89 +5281,92 @@ namespace RadioLogisticaDeliveries
 			// aapt resource value: 0x7f08003a
 			public const int mini = 2131230778;
 			
+			// aapt resource value: 0x7f08011c
+			public const int mnuclose = 2131231004;
+			
 			// aapt resource value: 0x7f08011b
-			public const int mnuclose = 2131231003;
-			
-			// aapt resource value: 0x7f08011a
-			public const int mnuloads = 2131231002;
-			
-			// aapt resource value: 0x7f080118
-			public const int mnumain = 2131231000;
+			public const int mnuloads = 2131231003;
 			
 			// aapt resource value: 0x7f080119
-			public const int mnurepair = 2131231001;
+			public const int mnumain = 2131231001;
 			
-			// aapt resource value: 0x7f0800d5
-			public const int mr_art = 2131230933;
-			
-			// aapt resource value: 0x7f0800ca
-			public const int mr_chooser_list = 2131230922;
-			
-			// aapt resource value: 0x7f0800cd
-			public const int mr_chooser_route_desc = 2131230925;
-			
-			// aapt resource value: 0x7f0800cb
-			public const int mr_chooser_route_icon = 2131230923;
-			
-			// aapt resource value: 0x7f0800cc
-			public const int mr_chooser_route_name = 2131230924;
-			
-			// aapt resource value: 0x7f0800d2
-			public const int mr_close = 2131230930;
-			
-			// aapt resource value: 0x7f0800d8
-			public const int mr_control_divider = 2131230936;
-			
-			// aapt resource value: 0x7f0800de
-			public const int mr_control_play_pause = 2131230942;
-			
-			// aapt resource value: 0x7f0800e1
-			public const int mr_control_subtitle = 2131230945;
-			
-			// aapt resource value: 0x7f0800e0
-			public const int mr_control_title = 2131230944;
-			
-			// aapt resource value: 0x7f0800df
-			public const int mr_control_title_container = 2131230943;
-			
-			// aapt resource value: 0x7f0800d3
-			public const int mr_custom_control = 2131230931;
-			
-			// aapt resource value: 0x7f0800d4
-			public const int mr_default_control = 2131230932;
-			
-			// aapt resource value: 0x7f0800cf
-			public const int mr_dialog_area = 2131230927;
-			
-			// aapt resource value: 0x7f0800ce
-			public const int mr_expandable_area = 2131230926;
-			
-			// aapt resource value: 0x7f0800e2
-			public const int mr_group_expand_collapse = 2131230946;
+			// aapt resource value: 0x7f08011a
+			public const int mnurepair = 2131231002;
 			
 			// aapt resource value: 0x7f0800d6
-			public const int mr_media_main_control = 2131230934;
+			public const int mr_art = 2131230934;
 			
-			// aapt resource value: 0x7f0800d1
-			public const int mr_name = 2131230929;
+			// aapt resource value: 0x7f0800cb
+			public const int mr_chooser_list = 2131230923;
 			
-			// aapt resource value: 0x7f0800d7
-			public const int mr_playback_control = 2131230935;
+			// aapt resource value: 0x7f0800ce
+			public const int mr_chooser_route_desc = 2131230926;
 			
-			// aapt resource value: 0x7f0800d0
-			public const int mr_title_bar = 2131230928;
+			// aapt resource value: 0x7f0800cc
+			public const int mr_chooser_route_icon = 2131230924;
+			
+			// aapt resource value: 0x7f0800cd
+			public const int mr_chooser_route_name = 2131230925;
+			
+			// aapt resource value: 0x7f0800d3
+			public const int mr_close = 2131230931;
 			
 			// aapt resource value: 0x7f0800d9
-			public const int mr_volume_control = 2131230937;
+			public const int mr_control_divider = 2131230937;
+			
+			// aapt resource value: 0x7f0800df
+			public const int mr_control_play_pause = 2131230943;
+			
+			// aapt resource value: 0x7f0800e2
+			public const int mr_control_subtitle = 2131230946;
+			
+			// aapt resource value: 0x7f0800e1
+			public const int mr_control_title = 2131230945;
+			
+			// aapt resource value: 0x7f0800e0
+			public const int mr_control_title_container = 2131230944;
+			
+			// aapt resource value: 0x7f0800d4
+			public const int mr_custom_control = 2131230932;
+			
+			// aapt resource value: 0x7f0800d5
+			public const int mr_default_control = 2131230933;
+			
+			// aapt resource value: 0x7f0800d0
+			public const int mr_dialog_area = 2131230928;
+			
+			// aapt resource value: 0x7f0800cf
+			public const int mr_expandable_area = 2131230927;
+			
+			// aapt resource value: 0x7f0800e3
+			public const int mr_group_expand_collapse = 2131230947;
+			
+			// aapt resource value: 0x7f0800d7
+			public const int mr_media_main_control = 2131230935;
+			
+			// aapt resource value: 0x7f0800d2
+			public const int mr_name = 2131230930;
+			
+			// aapt resource value: 0x7f0800d8
+			public const int mr_playback_control = 2131230936;
+			
+			// aapt resource value: 0x7f0800d1
+			public const int mr_title_bar = 2131230929;
 			
 			// aapt resource value: 0x7f0800da
-			public const int mr_volume_group_list = 2131230938;
+			public const int mr_volume_control = 2131230938;
 			
-			// aapt resource value: 0x7f0800dc
-			public const int mr_volume_item_icon = 2131230940;
+			// aapt resource value: 0x7f0800db
+			public const int mr_volume_group_list = 2131230939;
 			
 			// aapt resource value: 0x7f0800dd
-			public const int mr_volume_slider = 2131230941;
+			public const int mr_volume_item_icon = 2131230941;
+			
+			// aapt resource value: 0x7f0800de
+			public const int mr_volume_slider = 2131230942;
+			
+			// aapt resource value: 0x7f0800c5
+			public const int msgPkgInfo = 2131230917;
 			
 			// aapt resource value: 0x7f0800c4
 			public const int msgText = 2131230916;
@@ -5409,8 +5413,8 @@ namespace RadioLogisticaDeliveries
 			// aapt resource value: 0x7f080078
 			public const int radioReading = 2131230840;
 			
-			// aapt resource value: 0x7f080114
-			public const int readingsInfo = 2131230996;
+			// aapt resource value: 0x7f080115
+			public const int readingsInfo = 2131230997;
 			
 			// aapt resource value: 0x7f080031
 			public const int right = 2131230769;
@@ -5487,8 +5491,8 @@ namespace RadioLogisticaDeliveries
 			// aapt resource value: 0x7f08002a
 			public const int snap = 2131230762;
 			
-			// aapt resource value: 0x7f080116
-			public const int socksProgress = 2131230998;
+			// aapt resource value: 0x7f080117
+			public const int socksProgress = 2131230999;
 			
 			// aapt resource value: 0x7f080048
 			public const int spacer = 2131230792;
@@ -5508,8 +5512,8 @@ namespace RadioLogisticaDeliveries
 			// aapt resource value: 0x7f080032
 			public const int start = 2131230770;
 			
-			// aapt resource value: 0x7f0800e5
-			public const int status_bar_latest_event_content = 2131230949;
+			// aapt resource value: 0x7f0800e6
+			public const int status_bar_latest_event_content = 2131230950;
 			
 			// aapt resource value: 0x7f080058
 			public const int submenuarrow = 2131230808;
@@ -5535,11 +5539,11 @@ namespace RadioLogisticaDeliveries
 			// aapt resource value: 0x7f08000d
 			public const int tabMode = 2131230733;
 			
-			// aapt resource value: 0x7f0800ed
-			public const int text = 2131230957;
+			// aapt resource value: 0x7f0800ee
+			public const int text = 2131230958;
 			
-			// aapt resource value: 0x7f0800eb
-			public const int text2 = 2131230955;
+			// aapt resource value: 0x7f0800ec
+			public const int text2 = 2131230956;
 			
 			// aapt resource value: 0x7f080050
 			public const int textSpacerNoButtons = 2131230800;
@@ -5547,8 +5551,8 @@ namespace RadioLogisticaDeliveries
 			// aapt resource value: 0x7f080076
 			public const int text_input_password_toggle = 2131230838;
 			
-			// aapt resource value: 0x7f0800e9
-			public const int time = 2131230953;
+			// aapt resource value: 0x7f0800ea
+			public const int time = 2131230954;
 			
 			// aapt resource value: 0x7f080046
 			public const int title = 2131230790;
@@ -5574,8 +5578,8 @@ namespace RadioLogisticaDeliveries
 			// aapt resource value: 0x7f08000a
 			public const int view_offset_helper = 2131230730;
 			
-			// aapt resource value: 0x7f0800db
-			public const int volume_item_container = 2131230939;
+			// aapt resource value: 0x7f0800dc
+			public const int volume_item_container = 2131230940;
 			
 			// aapt resource value: 0x7f080023
 			public const int withText = 2131230755;

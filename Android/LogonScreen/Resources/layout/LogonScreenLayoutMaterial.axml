@@ -3,6 +3,12 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
+    <TextView
+        android:text="PACKAGE INFO HERE."
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/msgPkgInfo"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -11,8 +17,8 @@
             android:text=""
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:hint="Username" 
-            android:textSize="20sp"/>
+            android:hint="Username"
+            android:textSize="20sp" />
     </android.support.design.widget.TextInputLayout>
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
@@ -26,7 +32,7 @@
             android:singleLine="true"
             android:text=""
             android:hint="Password"
-            android:textSize="20sp"/>
+            android:textSize="20sp" />
     </android.support.design.widget.TextInputLayout>
     <Button
         android:text="Login"
