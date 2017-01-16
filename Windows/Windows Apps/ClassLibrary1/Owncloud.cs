@@ -120,25 +120,33 @@ namespace Owncloud
                     throw e;
                 }
                 client.DefaultRequestHeaders.Authorization = CredentialsHeader;
-                if (Method == HttpMethod.Post || Method == HttpMethod.Put)
+                try
                 {
-                    var content = new FormUrlEncodedContent(Parameters);
-                    switch (Method.ToString())
+                    if (Method == HttpMethod.Post || Method == HttpMethod.Put)
                     {
-                        case "POST":
-                            response = await client.PostAsync(OCServerValues.serverURL(Instruction), content);
-                            break;
-                        case "PUT":
-                            response = await client.PutAsync(OCServerValues.serverURL(Instruction), content);
-                            break;
+                        var content = new FormUrlEncodedContent(Parameters);
+                        switch (Method.ToString())
+                        {
+                            case "POST":
+                                response = await client.PostAsync(OCServerValues.serverURL(Instruction), content);
+                                break;
+                            case "PUT":
+                                response = await client.PutAsync(OCServerValues.serverURL(Instruction), content);
+                                break;
+                        }
                     }
-                } else if (Method== HttpMethod.Get)
+                    else if (Method == HttpMethod.Get)
+                    {
+                        response = await client.GetAsync(OCServerValues.serverURL(Instruction) + "?" + ParametersGet.ToString());
+                    }
+                    else
+                    {
+                        var e = new Exception("Method not supported");
+                        throw e;
+                    }
+                } catch (Exception ex)
                 {
-                    response = await client.GetAsync(OCServerValues.serverURL(Instruction)+"?"+ParametersGet.ToString());
-                } else
-                {
-                    var e = new Exception("Method not supported");
-                    throw e;
+                    Console.WriteLine(ex.Message);
                 }
                 responseString = await response.Content.ReadAsStringAsync();
                 responseX = XDocument.Parse(responseString);

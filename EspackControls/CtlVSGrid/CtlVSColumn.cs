@@ -46,8 +46,8 @@ namespace VSGrid
         bool IsNumeric { get; }
         AggregateOperations Aggregate { get; set; }
         float AggregateValue { get; }
-        Task ReQuery();
-        Task SetQuery(string query);
+        void ReQuery();
+        void SetQuery(string query);
         //object Value { get; set; }
     }
 
@@ -85,7 +85,7 @@ namespace VSGrid
         public object DefaultValue { get; set; }
         public Type DBFieldType { get; set; }
         public Point Location { get; set; }
-        public Task UpdateEspackControl() { return Task.FromResult(0); }
+        public void UpdateEspackControl() { }
         public void ClearEspackControl() { }
         // end non unsed stuff
         public AutoCompleteMode AutoCompleteMode { get; set; }
@@ -166,18 +166,19 @@ namespace VSGrid
         public List<CtlVSColumn> ChangedCols { get; set; }
         public EspackFormControl LinkedControl { get; set; }
 
-        public async Task ReQuery()
+        public void ReQuery()
         {
             if (aQuery != "" && Conn != null)
             {
                 AutoCompleteCustomSource = new AutoCompleteStringCollection();
                 using (DynamicRS _RS = new DynamicRS(aQuery, Conn))
                 {
-                    await _RS.Open();
+                    _RS.Open();
                     while (!_RS.EOF)
                     {
                         AutoCompleteCustomSource.Add(_RS[0].ToString());
-                        await _RS.MoveNext();
+                        if (!_RS.EOF)
+                            _RS.MoveNext();
                     }
                 }
             }
@@ -215,10 +216,10 @@ namespace VSGrid
             return that;
         }
 
-        public async Task SetQuery(string query)
+        public void SetQuery(string query)
         {
             Query = query;
-            await ReQuery();
+            ReQuery();
         }
 
         public object Value
@@ -389,7 +390,7 @@ namespace VSGrid
         public object DefaultValue { get; set; }
         public Type DBFieldType { get; set; }
         public Point Location { get; set; }
-        public Task UpdateEspackControl() { return Task.FromResult(0); }
+        public void UpdateEspackControl() { }
         public void ClearEspackControl() { }
         // end non unsed stuff
 
@@ -444,10 +445,10 @@ namespace VSGrid
         }
         public string Query { get; private set; }
 
-        public async Task SetQuery(string query)
+        public void SetQuery(string query)
         {
             Query = query;
-            await ReQuery();
+            ReQuery();
         }
 
         //public int Width { get; set; }
@@ -456,12 +457,12 @@ namespace VSGrid
         public string RowColor { get; set; }
         public List<CtlVSColumn> ChangedCols { get; set; }
         public EspackFormControl LinkedControl { get; set; }
-        public async Task ReQuery()
+        public void ReQuery()
         {
             if (Query != "" && Conn != null)
             {
                 var _RS = new DynamicRS(Query, Conn);
-                await _RS.Open();
+                _RS.Open();
                 DataSource = _RS.DataObject;
                 DisplayMember = _RS.Fields[0];
                 ValueMember = DisplayMember;

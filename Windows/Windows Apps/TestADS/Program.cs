@@ -67,18 +67,18 @@ namespace TestADS
             gDatos.DataBase = "Sistemas";
             gDatos.User = "sa";
             gDatos.Password = "5380";
-            await gDatos.Connect();
+            await gDatos.ConnectAsync();
 
             SPFrame _sp;
             _sp = (SPFrame)ObjectFactory.createObject("SP",_type,gDatos, "pLogonUser");
             _sp.AddParameterValue("User", "restelles");
             _sp.AddParameterValue("Password", "G8npi3rc");
             _sp.AddParameterValue("Origin", "LOGON5");
-            await _sp.Execute();
+            await _sp.ExecuteAsync();
 
             RSFrame _rs;
             _rs = (RSFrame)ObjectFactory.createObject("RS", _type, "Select top 10 * from ItemsCab", gDatos);
-            await _rs.Open();
+            await _rs.OpenAsync();
             _rs.Rows.ForEach(r => Console.WriteLine(r["UserCode"]));
 
         }

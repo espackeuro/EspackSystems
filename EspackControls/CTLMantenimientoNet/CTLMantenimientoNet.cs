@@ -29,6 +29,23 @@ namespace CTLMantenimientoNet
         //Events
         public event EventHandler<CTLMEventArgs> BeforeButtonClick; //launched when one of the buttons is pressed but before the action
         public event EventHandler<CTLMEventArgs> AfterButtonClick; //lauched after the action when one of the buttons is pressed
+        protected virtual void OnBeforeButtonClick(CTLMEventArgs e)
+        {
+            EventHandler<CTLMEventArgs> handler = BeforeButtonClick;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
+
+        protected virtual void OnAfterButtonClick(CTLMEventArgs e)
+        {
+            EventHandler<CTLMEventArgs> handler = AfterButtonClick;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
 
         //Properties
         public cAccesoDatosNet Conn //the connection object
@@ -155,44 +172,22 @@ namespace CTLMantenimientoNet
             }
         }
 
+        public int RSPosition
+        {
+            get
+            {
+                return mDA.SelectRS.DS != null ? mDA.SelectRS.Index : 0;
+            }
+        }
 
         //public List<VSGrid.CtlVSGrid> VSGrids;
 
         //private int mRsPosition;
-        public int RSPosition { get; private set; } = -1;
-        public async Task setRSPosition(int position)
+        //public int RSPosition { get; private set; } = -1;
+        public void setRSPosition(int position)
         {
-            if (position == -1)
-            {
-                RSPosition = position;
-                return;
-            }
-            try
-            {
-                if (mDA.SelectRS.DS != null)
-                {
-                    if (position <= mDA.SelectRS.RecordCount)
-                    {
-                        await mDA.SelectRS.Move(position);
-                        await ShowRSValues();
-                        RSPosition = position;
-                    }
-                    else
-                    {
-                        throw new Exception("Wrong position value :(.");
-                    }
-
-                }
-                else
-                {
-                    throw new Exception("Search is empty :(.");
-                }
-            }
-            catch (Exception e)
-            {
-                throw new Exception("Error: " + e.Message);
-            }
-
+            mDA.SelectRS.Move(position, false);
+            ShowRSValues();
         }
         //Query property, it constructs the SQL Query using the Items and the DBTable properties
 
@@ -258,112 +253,10 @@ namespace CTLMantenimientoNet
         //Status property, it enables or disables the buttons for each status
 
 
+
         public EnumStatus Status
         {
-            set
-            {
-                mStatus = value;
-                switch (value)
-                {
-                    case EnumStatus.ADDNEW:
-                        {
-                            btnAdd.Enabled = false;
-                            btnUpp.Enabled = false;
-                            btnDel.Enabled = false;
-                            btnSearch.Enabled = false;
-                            btnFirst.Enabled = false;
-                            btnPrev.Enabled = false;
-                            btnNext.Enabled = false;
-                            btnLast.Enabled = false;
-                            btnCancel.Enabled = true;
-                            btnOk.Enabled = true;
-                            break;
-                        }
-                    case EnumStatus.EDIT:
-                        {
-                            btnAdd.Enabled = false;
-                            btnUpp.Enabled = false;
-                            btnDel.Enabled = false;
-                            btnSearch.Enabled = true;
-                            btnFirst.Enabled = false;
-                            btnPrev.Enabled = false;
-                            btnNext.Enabled = false;
-                            btnLast.Enabled = false;
-                            btnCancel.Enabled = true;
-                            btnOk.Enabled = true;
-                            break;
-                        }
-                    case EnumStatus.DELETE:
-                        {
-                            btnAdd.Enabled = false;
-                            btnUpp.Enabled = false;
-                            btnDel.Enabled = false;
-                            btnSearch.Enabled = true;
-                            btnFirst.Enabled = false;
-                            btnPrev.Enabled = false;
-                            btnNext.Enabled = false;
-                            btnLast.Enabled = false;
-                            btnCancel.Enabled = true;
-                            btnOk.Enabled = true;
-                            break;
-                        }
-                    case EnumStatus.SEARCH:
-                        {
-                            btnAdd.Enabled = true;
-                            btnUpp.Enabled = false;
-                            btnDel.Enabled = false;
-                            btnSearch.Enabled = true;
-                            btnFirst.Enabled = false;
-                            btnPrev.Enabled = false;
-                            btnNext.Enabled = false;
-                            btnLast.Enabled = false;
-                            btnCancel.Enabled = true;
-                            btnOk.Enabled = true;
-                            break;
-                        }
-                    case EnumStatus.NAVIGATE:
-                        {
-                            btnAdd.Enabled = false;
-                            btnUpp.Enabled = true;
-                            btnDel.Enabled = true;
-                            btnSearch.Enabled = true;
-                            btnFirst.Enabled = true;
-                            btnPrev.Enabled = true;
-                            btnNext.Enabled = true;
-                            btnLast.Enabled = true;
-                            btnCancel.Enabled = true;
-                            btnOk.Enabled = true;
-                            break;
-                        }
-                    case EnumStatus.ADDGRIDLINE:
-                    case EnumStatus.EDITGRIDLINE:
-                        {
-                            btnAdd.Enabled = false;
-                            btnUpp.Enabled = false;
-                            btnDel.Enabled = false;
-                            btnSearch.Enabled = false;
-                            btnFirst.Enabled = false;
-                            btnPrev.Enabled = false;
-                            btnNext.Enabled = false;
-                            btnLast.Enabled = false;
-                            btnCancel.Enabled = true;
-                            btnOk.Enabled = false;
-                            break;
-                        }
 
-                }
-                foreach (EspackControl lItem in ItemsFormControl)
-                {
-                    lItem.Status = value;
-                }
-                if (CTLStatusBar != null)
-                {
-                    if (MsgStatusLabel!=null)
-                    {
-                        MsgStatusLabel.Text = value.ToString();
-                    }
-                }
-            }
             get
             {
                 return mStatus;
@@ -390,12 +283,112 @@ namespace CTLMantenimientoNet
             this.ItemClicked += CTLM_Click; // new System.EventHandler(CTLM_Click);
             this.AfterButtonClick += DefaultEventButtonClick;
             this.BeforeButtonClick += DefaultEventButtonClick;
-            Status = EnumStatus.SEARCH;
+            SetStatus(EnumStatus.SEARCH);
             mDA = new DA();
-            RSPosition = -1;
-            
         }
 
+        public void SetStatus(EnumStatus value)
+        {
+            mStatus = value;
+            switch (value)
+            {
+                case EnumStatus.ADDNEW:
+                    {
+                        btnAdd.Enabled = false;
+                        btnUpp.Enabled = false;
+                        btnDel.Enabled = false;
+                        btnSearch.Enabled = false;
+                        btnFirst.Enabled = false;
+                        btnPrev.Enabled = false;
+                        btnNext.Enabled = false;
+                        btnLast.Enabled = false;
+                        btnCancel.Enabled = true;
+                        btnOk.Enabled = true;
+                        break;
+                    }
+                case EnumStatus.EDIT:
+                    {
+                        btnAdd.Enabled = false;
+                        btnUpp.Enabled = false;
+                        btnDel.Enabled = false;
+                        btnSearch.Enabled = true;
+                        btnFirst.Enabled = false;
+                        btnPrev.Enabled = false;
+                        btnNext.Enabled = false;
+                        btnLast.Enabled = false;
+                        btnCancel.Enabled = true;
+                        btnOk.Enabled = true;
+                        break;
+                    }
+                case EnumStatus.DELETE:
+                    {
+                        btnAdd.Enabled = false;
+                        btnUpp.Enabled = false;
+                        btnDel.Enabled = false;
+                        btnSearch.Enabled = true;
+                        btnFirst.Enabled = false;
+                        btnPrev.Enabled = false;
+                        btnNext.Enabled = false;
+                        btnLast.Enabled = false;
+                        btnCancel.Enabled = true;
+                        btnOk.Enabled = true;
+                        break;
+                    }
+                case EnumStatus.SEARCH:
+                    {
+                        btnAdd.Enabled = true;
+                        btnUpp.Enabled = false;
+                        btnDel.Enabled = false;
+                        btnSearch.Enabled = true;
+                        btnFirst.Enabled = false;
+                        btnPrev.Enabled = false;
+                        btnNext.Enabled = false;
+                        btnLast.Enabled = false;
+                        btnCancel.Enabled = true;
+                        btnOk.Enabled = true;
+                        break;
+                    }
+                case EnumStatus.NAVIGATE:
+                    {
+                        btnAdd.Enabled = false;
+                        btnUpp.Enabled = true;
+                        btnDel.Enabled = true;
+                        btnSearch.Enabled = true;
+                        btnFirst.Enabled = true;
+                        btnPrev.Enabled = true;
+                        btnNext.Enabled = true;
+                        btnLast.Enabled = true;
+                        btnCancel.Enabled = true;
+                        btnOk.Enabled = true;
+                        break;
+                    }
+                case EnumStatus.ADDGRIDLINE:
+                case EnumStatus.EDITGRIDLINE:
+                    {
+                        btnAdd.Enabled = false;
+                        btnUpp.Enabled = false;
+                        btnDel.Enabled = false;
+                        btnSearch.Enabled = false;
+                        btnFirst.Enabled = false;
+                        btnPrev.Enabled = false;
+                        btnNext.Enabled = false;
+                        btnLast.Enabled = false;
+                        btnCancel.Enabled = true;
+                        btnOk.Enabled = false;
+                        break;
+                    }
+
+            }
+            ItemsFormControl.ForEach(i => i.Status = value);
+            if (CTLStatusBar != null)
+            {
+                if (MsgStatusLabel != null)
+                {
+                    MsgStatusLabel.Text = value.ToString();
+                }
+            }
+        }
+        
 
         //Methods
 
@@ -434,37 +427,37 @@ namespace CTLMantenimientoNet
             this.Parent.KeyDown += Parent_KeyDown;
         }
         //eventhandler
-        private async void Parent_KeyDown(object sender, KeyEventArgs e)
+        private void Parent_KeyDown(object sender, KeyEventArgs e)
         {
             switch (e.KeyCode)
             {
                 case Keys.F8:
                     if (btnSearch.Enabled)
                     {
-                        await Button_Click("btnSearch");
-                        await Button_Click("btnOk");
+                        Button_Click("btnSearch");
+                        Button_Click("btnOk");
                     }
                     break;
                 case Keys.F2:
                     if (btnOk.Enabled)
                     {
-                        await Button_Click("btnOk");
+                        Button_Click("btnOk");
                     }
                     break;
                 case Keys.F7:
                     if (btnUpp.Enabled)
                     {
-                        await Button_Click("btnUpp");
+                        Button_Click("btnUpp");
                     }
                     break;
                 case Keys.F10:
                     if (btnAdd.Enabled)
                     {
-                        await Button_Click("btnAdd");
+                        Button_Click("btnAdd");
                     }
                     break;
                 case Keys.Escape:
-                    await Button_Click("btnCancel");
+                    Button_Click("btnCancel");
                     break;
             }
         }
@@ -582,88 +575,83 @@ namespace CTLMantenimientoNet
         //        await lItem.UpdateEspackControl();
         //    }
         //}
-        public async Task ShowRSValues()
-        {
-            try
-            {
-                foreach (EspackControl lItem in CTLMItems)
-                {
-                    if (lItem is Control)
-                    {
-                        if (((Control)lItem).InvokeRequired)
-                        {
-                            ShowRSValuesDelegate a = new ShowRSValuesDelegate(ShowRSValues);
-                            this.Invoke(a);
-                        }
-                        else
-                        {
-                            await lItem.UpdateEspackControl();
-                        }
-                    }
-                    else
-                    {
-                        await lItem.UpdateEspackControl();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //public async Task ShowRSValues()
+        //{
+        //    try
+        //    {
+        //        foreach (EspackControl lItem in CTLMItems)
+        //        {
+        //            if (lItem is Control)
+        //            {
+        //                if (((Control)lItem).InvokeRequired)
+        //                {
+        //                    ShowRSValuesDelegate a = new ShowRSValuesDelegate(ShowRSValues);
+        //                    this.Invoke(a);
+        //                }
+        //                else
+        //                {
+        //                    await lItem.UpdateEspackControl();
+        //                }
+        //            }
+        //            else
+        //            {
+        //                await lItem.UpdateEspackControl();
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
         //ClearValues Cleans the form and fills it with the default values 
+        public void ShowRSValues()
+        {
+            foreach (EspackControl lItem in CTLMItems)
+                try
+                {
+                    lItem.UpdateEspackControl();
+                } catch (Exception ex)
+                {
+                    MessageBox.Show(string.Format("ERROR in Item {0}: {1}", lItem.Name ,ex.Message), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+        }
         public void ClearValues(bool PK = false)
         {
-            //foreach (EspackControl lItem in ItemsFormControl)
-            //{
-            //    if (!(lItem.PK && PK))
-            //    {
-            //        if (lItem is Control)
-            //        {
-            //            if (((Control)lItem).InvokeRequired)
-            //            {
-            //                //ClearValuesDelegate a = new ClearValuesDelegate(ClearValues);
-            //                //this.Invoke(a, new object[] { PK });
-            //            }
-            //            else
-            //            {
-            //                lItem.ClearEspackControl();
-            //            }
-            //        }
-            //        else
-            //        {
-            //            lItem.ClearEspackControl();
-            //        }
-            //    }
-
-            //}
-            ItemsFormControl.ForEach(i =>
-            {
-                i.ClearEspackControl();
-            });
+            //setRSPosition(0);
+            if (PK)
+                CTLMItems.Where(r => r.PK==false).ToList().ForEach(i => i.ClearEspackControl());
+            else
+                CTLMItems.ForEach(i => i.ClearEspackControl());
             if (MsgStatusInfoLabel != null) MsgStatusInfoLabel.Text = "";
-            setRSPosition(0);
+            
         }
 
         //What happens when you click OK
-        private async Task Click_OK(string pButtonName= "btnOk")
+        private void Click_OK(string pButtonName = "btnOk")
         {
             switch (Status)
             {
                 case EnumStatus.SEARCH:
                     {
-                        await mDA.SelectRS.Open();
+                        mDA.SelectRS.Open();
                         if (mDA.SelectRS.EOF)
                         {
                             MessageBox.Show("No data found.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            AfterButtonClick(this, new CTLMEventArgs(pButtonName));
-                            Status = EnumStatus.SEARCH;
+                            OnAfterButtonClick(new CTLMEventArgs(pButtonName));
+                            SetStatus(EnumStatus.SEARCH);
                             ClearValues();
                             return;
                         }
-                        await ShowRSValues();
-                        AfterButtonClick(this, new CTLMEventArgs(pButtonName));
-                        Status = EnumStatus.NAVIGATE;
+                        try
+                        {
+                            ShowRSValues();
+                        } catch (Exception ex)
+                        {
+                            Console.Write(ex.Message);
+                        }
+                        OnAfterButtonClick(new CTLMEventArgs(pButtonName));
+                        SetStatus(EnumStatus.NAVIGATE);
                         if (MsgStatusInfoLabel != null) MsgStatusInfoLabel.Text = mDA.SelectRS.RecordCount.ToString() + " Records returned by search.";
                         break;
                     }
@@ -671,14 +659,14 @@ namespace CTLMantenimientoNet
                     {
                         if (mDA.Conn.State == ConnectionState.Open)
                             mDA.Conn.Close();
-                        await mDA.InsertCommand.Execute();
+                        mDA.InsertCommand.Execute();
                         if (mDA.InsertCommand.LastMsg.Substring(0, 2) != "OK")
                         {
                             MessageBox.Show("ERROR:" + mDA.InsertCommand.LastMsg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             if (MsgStatusInfoLabel != null) MsgStatusInfoLabel.Text = "ERROR:" + mDA.InsertCommand.LastMsg;
                             return;
                         }
-                        AfterButtonClick(this, new CTLMEventArgs(pButtonName));
+                        OnAfterButtonClick(new CTLMEventArgs(pButtonName));
                         if (Clear)
                         {
                             ClearValues();
@@ -694,31 +682,31 @@ namespace CTLMantenimientoNet
                         if (ReQuery)
                         {
                             ClearValues(true);
-                            Status = EnumStatus.SEARCH;
-                            await Click_OK(pButtonName); ;
+                            SetStatus(EnumStatus.SEARCH);
+                            Click_OK(pButtonName); ;
                         }
 
                         if (VsGrids.Count != 0)
                         {
-                            Status = EnumStatus.EDIT;
+                            SetStatus(EnumStatus.EDIT);
                             ((Control)VsGrids[0]).Focus();
                         }
                         else
-                            Status = EnumStatus.SEARCH;
+                            SetStatus(EnumStatus.SEARCH);
                         break;
                     }
                 case EnumStatus.EDIT:
                     {
                         if (mDA.Conn.State == ConnectionState.Open)
                             mDA.Conn.Close();
-                        await mDA.UpdateCommand.Execute();
+                        mDA.UpdateCommand.Execute();
                         if (mDA.UpdateCommand.LastMsg.Substring(0, 2) != "OK")
                         {
                             MessageBox.Show("ERROR:" + mDA.UpdateCommand.LastMsg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             if (MsgStatusInfoLabel != null) MsgStatusInfoLabel.Text = "ERROR:" + mDA.UpdateCommand.LastMsg;
                             return;
                         }
-                        AfterButtonClick(this, new CTLMEventArgs(pButtonName));
+                        OnAfterButtonClick(new CTLMEventArgs(pButtonName));
                         if (Clear)
                         {
                             ClearValues();
@@ -726,10 +714,10 @@ namespace CTLMantenimientoNet
                         if (ReQuery)
                         {
                             ClearValues(true);
-                            Status = EnumStatus.SEARCH;
-                            await Click_OK(pButtonName); ;
+                            SetStatus(EnumStatus.SEARCH);
+                            Click_OK(pButtonName); ;
                         }
-                        Status = EnumStatus.SEARCH;
+                        SetStatus(EnumStatus.SEARCH);
                         if (MsgStatusInfoLabel != null) MsgStatusInfoLabel.Text = "Record updated successfully ;D!";
                         break;
                     }
@@ -737,7 +725,7 @@ namespace CTLMantenimientoNet
                     {
                         if (mDA.Conn.State == ConnectionState.Open)
                             mDA.Conn.Close();
-                        await mDA.DeleteCommand.Execute();
+                        mDA.DeleteCommand.Execute();
                         if (mDA.DeleteCommand.LastMsg.Substring(0, 2) != "OK")
                         {
                             MessageBox.Show("ERROR:" + mDA.DeleteCommand.LastMsg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -745,8 +733,9 @@ namespace CTLMantenimientoNet
                             return;
                         }
                         ClearValues();
-                        AfterButtonClick(this, new CTLMEventArgs(pButtonName));
-                        Status = EnumStatus.SEARCH;
+                        OnAfterButtonClick(new CTLMEventArgs(pButtonName));
+
+                        SetStatus(EnumStatus.SEARCH);
                         if (MsgStatusInfoLabel != null) MsgStatusInfoLabel.Text = "Record deleted successfully X(!";
                         break;
                     }
@@ -761,97 +750,100 @@ namespace CTLMantenimientoNet
             }
         }
 
-        private async Task Button_Click(string pButtonName) //lauched when clicked any button
+        private void Button_Click(string pButtonName) //lauched when clicked any button
         {
             try
             {
                 CTLMEventArgs lCTLMEventArgs = new CTLMEventArgs(pButtonName);
-                BeforeButtonClick(this, lCTLMEventArgs); //launched BeforeButtonClick Event
+                OnBeforeButtonClick(lCTLMEventArgs); //launched BeforeButtonClick Event
                 if (lCTLMEventArgs.Cancel) { return; }
                 switch (pButtonName)
                 {
-                    case "btnAdd": 
-                        AfterButtonClick(this, new CTLMEventArgs(pButtonName)); //Launched AfterButtonClick Event
-                        Status = EnumStatus.ADDNEW;
+                    case "btnAdd":
+                        OnAfterButtonClick(new CTLMEventArgs(pButtonName)); //Launched AfterButtonClick Event
+                        SetStatus( EnumStatus.ADDNEW);
                         break;
-                    case "btnUpp": 
-                        AfterButtonClick(this, new CTLMEventArgs(pButtonName)); //Launched AfterButtonClick Event
-                        Status = EnumStatus.EDIT;
+                    case "btnUpp":
+                        OnAfterButtonClick(new CTLMEventArgs(pButtonName)); //Launched AfterButtonClick Event
+                        SetStatus( EnumStatus.EDIT);
                         break;
                     case "btnDel":
                         if (MessageBox.Show("This will delete the actual record. Are you sure?", "WARNING", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning) == DialogResult.Yes)
                         {
-                            Status = EnumStatus.DELETE;
-                            await Click_OK(pButtonName);
+                            SetStatus( EnumStatus.DELETE);
+                            Click_OK(pButtonName);
                         }
                         break;
                     case "btnSearch":
-                        AfterButtonClick(this, new CTLMEventArgs(pButtonName));
-                        Status = EnumStatus.SEARCH;
+                        OnAfterButtonClick(new CTLMEventArgs(pButtonName));
+                        SetStatus( EnumStatus.SEARCH);
                         break;
                     case "btnCancel":
                         ClearValues();
-                        AfterButtonClick(this, new CTLMEventArgs(pButtonName));
-                        Status = EnumStatus.SEARCH;
+                        OnAfterButtonClick(new CTLMEventArgs(pButtonName));
+                        SetStatus( EnumStatus.SEARCH);
                         break;
                     case "btnOk":
-                        await Click_OK(pButtonName);
+                        Click_OK(pButtonName);
                         break;
                     case "btnNext":
                         if (mDA.SelectRS.State == RSState.Open)
                         {
-                            await mDA.SelectRS.MoveNext();
-                            await setRSPosition(RSPosition++);
-                            if (mDA.SelectRS.EOF)
+                            try
                             {
-                                MessageBox.Show("Actual record is the last one.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                setRSPosition(RSPosition + 1);
+                            } catch (Exception ex)
+                            {
+                                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 return;
                             }
-                            await ShowRSValues();
                         }
-                        AfterButtonClick(this, new CTLMEventArgs(pButtonName));
+                        OnAfterButtonClick(new CTLMEventArgs(pButtonName));
                         break;
                     case "btnPrev":
                         if (mDA.SelectRS.State == RSState.Open)
                         {
-                            await mDA.SelectRS.MovePrevious();
-                            await setRSPosition(RSPosition--);
-                            if (mDA.SelectRS.BOF)
+                            try
                             {
-                                MessageBox.Show("Actual record is the first one.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                setRSPosition(RSPosition - 1);
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 return;
                             }
-                            await ShowRSValues();
                         }
-                        AfterButtonClick(this, new CTLMEventArgs(pButtonName));
+                        OnAfterButtonClick(new CTLMEventArgs(pButtonName));
                         break;
                     case "btnFirst":
                         if (mDA.SelectRS.State == RSState.Open)
                         {
-                            await mDA.SelectRS.MoveFirst();
-                            await setRSPosition(1);
-                            if (mDA.SelectRS.BOF)
+                            try
                             {
-                                MessageBox.Show("Actual record is the first one.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                setRSPosition(0);
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 return;
                             }
-                            await ShowRSValues();
                         }
-                        AfterButtonClick(this, new CTLMEventArgs(pButtonName));
+                        OnAfterButtonClick(new CTLMEventArgs(pButtonName));
                         break;
                     case "btnLast":
                         if (mDA.SelectRS.State == RSState.Open)
                         {
-                            await mDA.SelectRS.MoveLast();
-                            await setRSPosition(mDA.SelectRS.RecordCount);
-                            if (mDA.SelectRS.EOF)
+                            try
                             {
-                                MessageBox.Show("Actual record is the last one.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                setRSPosition(mDA.SelectRS.RecordCount - 1);
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 return;
                             }
-                            await ShowRSValues();
                         }
-                        AfterButtonClick(this, new CTLMEventArgs(pButtonName));
+                        OnAfterButtonClick(new CTLMEventArgs(pButtonName));
                         break;
                 }
                 
@@ -863,9 +855,9 @@ namespace CTLMantenimientoNet
         }
 
         //eventhandler 
-        private async void CTLM_Click(object sender, ToolStripItemClickedEventArgs e)  //the Click Event
+        private void CTLM_Click(object sender, ToolStripItemClickedEventArgs e)  //the Click Event
         {
-            await Button_Click(e.ClickedItem.Name);
+            Button_Click(e.ClickedItem.Name);
         }
 
     }

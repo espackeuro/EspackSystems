@@ -283,13 +283,13 @@
       <Project>{70432336-f038-4ef1-af04-012ae8e6c009}</Project>
       <Name>EspackFormControls</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Network Libraries\Owncloud\Owncloud.csproj">
+      <Project>{0f193f80-9610-4020-8974-9aaa02bd1ca8}</Project>
+      <Name>Owncloud</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Network Libraries\Renci.SshNet\Renci.SshNet.csproj">
       <Project>{2f5f8c90-0bd1-424f-997c-7bc6280919d1}</Project>
       <Name>Renci.SshNet</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Windows Apps\ClassLibrary1\Owncloud.csproj">
-      <Project>{0f193f80-9610-4020-8974-9aaa02bd1ca8}</Project>
-      <Name>Owncloud</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

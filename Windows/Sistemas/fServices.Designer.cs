@@ -63,7 +63,7 @@
             this.CTLM.sSPAdd = "";
             this.CTLM.sSPDel = "";
             this.CTLM.sSPUpp = "";
-            this.CTLM.Status = CommonTools.EnumStatus.SEARCH;
+
             this.CTLM.TabIndex = 0;
             this.CTLM.Text = "CTLM";
             // 

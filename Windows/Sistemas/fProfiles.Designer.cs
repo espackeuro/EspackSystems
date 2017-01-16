@@ -284,7 +284,7 @@
             this.CTLM.sSPAdd = "";
             this.CTLM.sSPDel = "";
             this.CTLM.sSPUpp = "";
-            this.CTLM.Status = CommonTools.EnumStatus.SEARCH;
+
             this.CTLM.TabIndex = 1;
             this.CTLM.Text = "CTLM";
             // 

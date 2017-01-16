@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CommonToolsWin;
+using System.Reflection;
 
 namespace Sistemas
 {
@@ -29,6 +30,7 @@ namespace Sistemas
             Values.gDatos.Server = espackArgs.Server;
             Values.gDatos.User = espackArgs.User;
             Values.gDatos.Password = espackArgs.Password;
+            this.Text = string.Format("Sistemas Build {0} - ({1:yyyyMMdd})*", Assembly.GetExecutingAssembly().GetName().Version.ToString(), CT.GetBuildDateTime(Assembly.GetExecutingAssembly()));
             try
             {
                 Values.gDatos.Connect();
@@ -110,7 +112,7 @@ namespace Sistemas
         {
         }
 
-        private async void btnMaster_Click(object sender, EventArgs e)
+        private void btnMaster_Click(object sender, EventArgs e)
         {
             for (var i = 1; i < Application.OpenForms.Count; i++)
             {
@@ -132,7 +134,7 @@ namespace Sistemas
                     lSP.AddParameterValue("password", lPwd);
                     lSP.AddParameterValue("Code", "MASTERPASSWORD");
                     lSP.AddParameterValue("vbpassword", null);
-                    await lSP.Execute();
+                    lSP.Execute();
                     if (lSP.LastMsg != "OK")
                     {
                         MessageBox.Show(lSP.LastMsg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
