@@ -147,7 +147,12 @@ namespace LogonScreen
                             Toast.MakeText(this, "Logon OK!", ToastLength.Short).Show();
                             LogonDetails.user = LogonSP.ReturnValues()["@User"].ToString();
                             LogonDetails.password = LogonSP.ReturnValues()["@Password"].ToString();
+
                             var _version= LogonSP.ReturnValues()["@Version"].ToString();
+                            var _versionArray = _version.Split('.');
+                            _version = string.Format("{0}.{1}", _versionArray[0], _versionArray[1]);
+                            var versionArray = version.Split('.');
+                            version = string.Format("{0}.{1}", versionArray[0], versionArray[1]);
                             var _packageName = LogonSP.ReturnValues()["@PackageName"].ToString();
                             if (_version!=version)
                             {
@@ -155,6 +160,7 @@ namespace LogonScreen
                                 if (dialogResult)
                                     await UpdatePackage(_packageName);
                             }
+
                             Intent intent = new Intent();
                             intent.PutExtra("Result", "OK");
                             SetResult(Result.Ok, intent);
