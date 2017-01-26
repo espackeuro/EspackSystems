@@ -89,7 +89,7 @@ namespace LogOnLoader
             }
             this.Message = "LogOn updated. Launching.";
             System.Threading.Thread.Sleep(250);
-            await Values.AppList[0].LaunchApp();
+            await Values.AppList[0].LaunchApp(true);
             //
         }
 
