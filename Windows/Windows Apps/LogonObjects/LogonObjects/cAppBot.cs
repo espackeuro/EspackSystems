@@ -252,7 +252,7 @@ namespace LogOnObjects
         private async void PctApp_Click(object sender, EventArgs e)
         {
             if (!Special)
-                await LaunchApp().ConfigureAwait(false);
+                await LaunchApp(true).ConfigureAwait(false);
         }
 
         // Overwrite resize event 
@@ -589,9 +589,9 @@ namespace LogOnObjects
         //    return _clean;
         //}
 
-        public async Task LaunchApp()
+        public async Task LaunchApp(bool temp = false)
         {
-            
+
 
             if (!Special)
             {
@@ -629,10 +629,32 @@ namespace LogOnObjects
                     return;
                 }
             }
+            string _tempPath = string.Format("{0}\\{1}", Path.GetTempPath(), this.Code);
+            if (temp)
+            {
+                //copy to temp folder
+
+                DirectoryInfo _dir = new DirectoryInfo(_tempPath);
+                if (_dir.Exists)
+                    try
+                    {
+                        _dir.Delete(true);
+                    }
+                    catch (IOException ex)
+                    {
+                        MessageBox.Show(ex.Message + "\nIt looks like the application is already open.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                var _odir = new DirectoryInfo(Values.LOCAL_PATH + Code + "/");
+                _odir.DirectoryCopy(_tempPath);
+                _tempPath = string.Format("{0}\\{1}", _tempPath, ExeName);
+            }
+            else
+                _tempPath = LocalPath;
             // Use ProcessStartInfo class
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.UseShellExecute = false;
-            startInfo.FileName = LocalPath;
+            startInfo.FileName = _tempPath;
             startInfo.WindowStyle = ProcessWindowStyle.Maximized;
             startInfo.Arguments = "/srv=" + DBServer.HostName + " /db=" + DataBase + " /usr=" + DBServer.User + " /pwd=" + DBServer.Password + " /loc=OUT /app=" + Name;
 
