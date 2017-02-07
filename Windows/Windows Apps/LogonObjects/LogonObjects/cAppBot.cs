@@ -640,7 +640,7 @@ namespace LogOnObjects
                     {
                         _dir.Delete(true);
                     }
-                    catch (IOException ex)
+                    catch (Exception ex)
                     {
                         MessageBox.Show(ex.Message + "\nIt looks like the application is already open.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;

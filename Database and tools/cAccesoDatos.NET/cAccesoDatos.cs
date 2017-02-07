@@ -368,7 +368,8 @@ namespace AccesoDatosNet
                 BOF = false;
                 if (!silent) throw new Exception("Current record is the last one.");
             }
-
+            if (Idx < RecordCount)
+                EOF = false;
             mState = RSState.Fetching;
             Index = Idx;
             mState = RSState.Open;

@@ -990,7 +990,21 @@ namespace EspackFormControls
         }
     }
 
+    public class ChangeEventArgs : EventArgs
+    {
+        public string CurrentValue { get; set; }
+        public List<int> Index { get; set; }
+        public string NewValue { get; set; }
 
+    }
+    public class AfterItemCheckEventArgs : ItemCheckEventArgs
+    {
+        public AfterItemCheckEventArgs(int Index, CheckState CurrentValue, CheckState NewValue) : base(Index, CurrentValue, NewValue) { }
+
+        public string ListCurrentValue { get; set; }
+        public string ListNewValue { get; set; }
+
+    }
     public class EspackCheckedListBox : CheckedListBox, EspackFormControl
     {
         public EspackControlTypeEnum EspackControlType { get; set; }
@@ -1001,8 +1015,11 @@ namespace EspackFormControls
         private DynamicRS _RS;
         private string _SQL;
         private bool noChange = false;
-        public event EventHandler<EventArgs> Changed;
-        public event EventHandler AfterItemCheck;
+
+
+
+        public event EventHandler<ChangeEventArgs> Changed;
+        public event EventHandler<AfterItemCheckEventArgs> AfterItemCheck;
 
         public new bool Visible
         {
@@ -1108,15 +1125,19 @@ namespace EspackFormControls
             base.Margin = _m;
             EspackTheme.changeControlFormat(this);
             Changed += DefaultEventChanged;
-            AfterItemCheck += delegate
-             {
-                 if (noChange == false)
-                 {
-                     EventArgs _ev = new EventArgs();
-                     Changed(this, _ev);
-                 }
-             };
+            AfterItemCheck += EspackCheckedListBox_AfterItemCheck;
         }
+
+        private void EspackCheckedListBox_AfterItemCheck(object sender, AfterItemCheckEventArgs e)
+        {
+            if (e.ListNewValue != e.ListCurrentValue)
+            {
+                var _ev = new ChangeEventArgs() { CurrentValue = e.ListCurrentValue, NewValue =e.ListNewValue };
+                Changed(this, _ev);
+            }
+
+        }
+
         ~EspackCheckedListBox()
         {
             CaptionLabel.Dispose();
@@ -1149,30 +1170,36 @@ namespace EspackFormControls
         }
         protected override void OnItemCheck(ItemCheckEventArgs e)
         {
+            if (noChange)
+                return;
+            noChange = true;
+            var _old = Value;
+            //noChange = true;
             base.OnItemCheck(e);
-
-            EventHandler handler = AfterItemCheck;
+            var handler = AfterItemCheck;
             if (handler != null)
             {
                 Delegate[] invocationList = AfterItemCheck.GetInvocationList();
                 foreach (var receiver in invocationList)
                 {
-                    AfterItemCheck -= (EventHandler)receiver;
+                    AfterItemCheck -= (EventHandler<AfterItemCheckEventArgs>)receiver;
                 }
 
                 SetItemCheckState(e.Index, e.NewValue);
 
                 foreach (var receiver in invocationList)
                 {
-                    AfterItemCheck += (EventHandler)receiver;
+                    AfterItemCheck += (EventHandler<AfterItemCheckEventArgs>)receiver;
                 }
             }
-            OnAfterItemCheck(EventArgs.Empty);
+            var ex = new AfterItemCheckEventArgs(e.Index, e.CurrentValue, e.NewValue) { ListCurrentValue = _old.ToString(), ListNewValue = Value.ToString() };
+            OnAfterItemCheck(ex);
+            noChange = false;
         }
 
-        public void OnAfterItemCheck(EventArgs e)
+        public void OnAfterItemCheck(AfterItemCheckEventArgs e)
         {
-            EventHandler handler = AfterItemCheck;
+            var handler = AfterItemCheck;
             if (handler != null)
                 handler(this, e);
         }
@@ -1221,9 +1248,9 @@ namespace EspackFormControls
             //        }
             //    }
             //}
-            if (Value != _old)
+            if (Value.ToString() != _old.ToString())
             {
-                EventArgs _ev = new EventArgs();
+                var _ev = new ChangeEventArgs() {CurrentValue=_old.ToString(), NewValue=Value.ToString() };
                 Changed(this, _ev);
             }
             noChange = false;
@@ -1282,15 +1309,20 @@ namespace EspackFormControls
 
         public void ClearEspackControl()
         {
+            var _old = Value;
             noChange = true;
             Items.Cast<DataRowView>().ToList().ForEach(x => SetItemChecked(Items.IndexOf(x), false));
             //for (var i = 0; i < Items.Count; i++)
             //{
             //    SetItemChecked(i, false);
             //}
+            
+            if (Value.ToString() != _old.ToString())
+            {
+                var _ev = new ChangeEventArgs() { CurrentValue = _old.ToString(), NewValue = Value.ToString() };
+                Changed(this, _ev);
+            }
             noChange = false;
-            EventArgs _ev = new EventArgs();
-            Changed(this, _ev);
         }
         public List<string> CheckedValues
         {

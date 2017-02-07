@@ -9,6 +9,7 @@ using CommonAndroidTools;
 using System.Net;
 using System.Threading.Tasks;
 using System.IO;
+
 namespace LogonScreen
 {
     public static class LogonDetails
@@ -136,7 +137,11 @@ namespace LogonScreen
                     LogonSP = (SPFrame)ObjectFactory.createObject("SP", typeofCaller, gDatos, "pLogonUser");
                     LogonSP.AddParameterValue("User", cUser.Text);
                     LogonSP.AddParameterValue("Password", cPassword.Text);
-                    LogonSP.AddParameterValue("Origin", "RADIO DELIVERIES");
+                    LogonSP.AddParameterValue("Origin", packageName.ToUpper());
+                    string _version = "123456";
+                    string _packageName = "123456789";
+                    LogonSP.AddParameterValue("Version", _version);
+                    LogonSP.AddParameterValue("PackageName", _packageName);
                     try
                     {
                         await LogonSP.ExecuteAsync();
@@ -148,12 +153,12 @@ namespace LogonScreen
                             LogonDetails.user = LogonSP.ReturnValues()["@User"].ToString();
                             LogonDetails.password = LogonSP.ReturnValues()["@Password"].ToString();
 
-                            var _version= LogonSP.ReturnValues()["@Version"].ToString();
+                            _version= LogonSP.ReturnValues()["@Version"].ToString();
                             var _versionArray = _version.Split('.');
                             _version = string.Format("{0}.{1}", _versionArray[0], _versionArray[1]);
                             var versionArray = version.Split('.');
                             version = string.Format("{0}.{1}", versionArray[0], versionArray[1]);
-                            var _packageName = LogonSP.ReturnValues()["@PackageName"].ToString();
+                            _packageName = LogonSP.ReturnValues()["@PackageName"].ToString();
                             if (_version!=version)
                             {
                                 bool dialogResult = await AlertDialogHelper.ShowAsync(this, "New version found", "Do you want to update your current program?", "Yes", "No");
@@ -171,6 +176,10 @@ namespace LogonScreen
                         cMsgText.Text = ex.Message;
                         cUser.Text = "";
                         cPassword.Text = "";
+#if DEBUG
+                        cUser.Text = "restelles";
+                        cPassword.Text = "1312";
+#endif
                         cUser.RequestFocus();
                     }
                 }
@@ -214,4 +223,5 @@ namespace LogonScreen
             StartActivity(intent);
             }
     }
+
 }

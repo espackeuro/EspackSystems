@@ -11,6 +11,7 @@ using System.Net.Http.Headers;
 using Owncloud;
 using System.Threading.Tasks;
 using System.Linq;
+using EspackFormControls;
 
 namespace Sistemas
 {
@@ -46,19 +47,13 @@ namespace Sistemas
             CTLM.AddItem(txtEmail, "emailAddress", false, false, false, 0, false, true);
             CTLM.AddItem(txtQuota, "EmailQuota", false, true, false, 0, false, false);
             CTLM.AddItem(lstFlags, "Flags", true, true, false, 0, false, true);
-            CTLM.AddItem(lstEmailAliases, "Aliases",true,true,false,0,false,true,pSPAddParamName: "alias", pSPUppParamName: "alias");
+            CTLM.AddItem(lstEmailAliases, "Aliases",true,true,false,0,false,false,pSPAddParamName: "alias", pSPUppParamName: "alias");
             CTLM.AddDefaultStatusStrip();
             CTLM.DBTable = "vUsers";
             CTLM.ReQuery = true;
             cboCOD3.Source("select n.COD3,g.Descripcion from NetworkSedes n inner join general..sedes g on g.cod3=n.COD3 order by n.Cod3", txtDesCod3);
             listCOD3.Source("select n.COD3,g.Descripcion from NetworkSedes n inner join general..sedes g on g.cod3=n.COD3 order by n.Cod3");
-            listCOD3.Changed += delegate
-            {
-
-                //var _alias = lstEmailAliases.Value;
-                lstEmailAliases.Source("select Address,a2=Address from mail..aliasCAB a where exists( select 0 from dbo.Split(a.COD3,'|') where valor in (select valor from dbo.Split('" + listCOD3.Value + "','|')))");
-                //lstEmailAliases.Value = _alias;
-            };
+            listCOD3.Changed += ListCOD3_Changed;
             cboDomain.Source("Select domain from domain where domain<>'ALL' order by domain");
             cboZone.Source("Select Code from Zones order by Code");
             lstFlags.Source("Select codigo,DescFlagEng from flags where Tabla='Users'");
@@ -77,10 +72,29 @@ namespace Sistemas
                 {
                     MessageBox.Show("Cannot remove Main COD3 from COD3 list", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     e.NewValue = CheckState.Checked;
+                    return;
                 }
+                if (CTLM.Status == EnumStatus.EDIT)
+                    lstEmailAliases.UpdateEspackControl();
             };
             txtSurname1.Validating += TxtSurname1_Validating;
+
             //this.FormClosed += FUsers_FormClosed;
+        }
+
+        private void ListCOD3_Changed(object sender, ChangeEventArgs e)
+        {
+            if (e.NewValue != "")
+            {
+                //var _old = listCOD3.Value;
+                lstEmailAliases.Source("select Address,a2=Address from mail..aliasCAB a where exists( select 0 from dbo.Split(a.COD3,'|') where valor in (select valor from dbo.Split('" + listCOD3.Value + "','|'))) order by address");
+                //listCOD3.Value = _old;
+                lstEmailAliases.UpdateEspackControl();
+            }
+                
+            else
+                lstEmailAliases.Source("Select 0,0 where 0=1");
+            //lstEmailAliases.Value = _alias;
         }
 
         protected override void OnFormClosed(FormClosedEventArgs e)
