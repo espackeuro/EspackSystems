@@ -1,4 +1,4 @@
-﻿//using System;
+﻿using System;
 //using Android.App;
 //using Android.Content;
 //using Android.Runtime;
@@ -12,6 +12,8 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using DataWedge;
+using Android.Content.PM;
+using Java.Util.Zip;
 
 namespace RadioFXC
 {
@@ -24,6 +26,7 @@ namespace RadioFXC
         public static string gFTPDir;
         public static string gFTPPassword;
         public static string gService;
+        public static string Version { get; set; }
     }
 
     [Activity(Label = "*Radio REPAIRS", MainLauncher = true, Icon = "@drawable/ic_launcher")]
@@ -33,7 +36,23 @@ namespace RadioFXC
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
+            //version control
+            Context context = this.ApplicationContext;
+            Values.Version = context.PackageManager.GetPackageInfo(context.PackageName, 0).VersionName;
+            ApplicationInfo ai = PackageManager.GetApplicationInfo(context.PackageName, 0);
+            ZipFile zf = new ZipFile(ai.SourceDir);
+            ZipEntry ze = zf.GetEntry("classes.dex");
+            long time = ze.Time;
+            System.DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+            dtDateTime = dtDateTime.AddSeconds(Math.Round(time / 1000D)).ToLocalTime();
+            zf.Close();
+            Values.Version = string.Format("{0}.{1}", Values.Version, dtDateTime.ToString("yyyyMMdd.Hmmss"));
             var intent = new Intent(this, typeof(LogonScreenClass));
+            intent.SetAction(Intent.ActionMain);
+            intent.AddCategory(Intent.CategoryLauncher);
+            intent.PutExtra("ConnectionType", "Net");
+            intent.PutExtra("Version", Values.Version);
+            intent.PutExtra("PackageName", "Radio repairs");
             StartActivityForResult(intent, 0);
         }
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
@@ -45,7 +64,7 @@ namespace RadioFXC
                 if (Result == "OK")
                 {
                     Values.gDatos.DataBase = "REPAIRS";
-                    Values.gDatos.Server = "10.200.10.138";
+                    Values.gDatos.Server = "net.espackeuro.com";
                     Values.gDatos.User = LogonDetails.user;
                     Values.gDatos.Password = LogonDetails.password;
 
@@ -58,8 +77,8 @@ namespace RadioFXC
                     Values.gFTPPassword = RS["Datos"].ToString().Split('|')[4]; ;//"*logon*";
 
                     // gDatos for LOGISTICA
-                    Values.gDatosLOG.DataBase = "LOGTEST";
-                    Values.gDatosLOG.Server = "10.200.10.138";
+                    Values.gDatosLOG.DataBase = "LOGISTICA";
+                    Values.gDatosLOG.Server = "net.espackeuro.com";
                     Values.gDatosLOG.User = LogonDetails.user;
                     Values.gDatosLOG.Password = LogonDetails.password;
 
