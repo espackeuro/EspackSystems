@@ -86,7 +86,7 @@ namespace DataWedge
             if (source.Equals("msr", StringComparison.InvariantCultureIgnoreCase))
             {
                 // construct the beginning of our output string
-                outmsg = outmsg = data + "|MSR||" + data_len.ToString();
+                outmsg = outmsg = string.Format("{0}|MSR||{1}", data , data_len);
             }
             return outmsg;
             //// let's get our edit box view

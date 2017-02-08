@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AccesoDatosNet;
 using Encryption;
 using Compression;
+using System.Text.RegularExpressions;
 
 namespace TestADS
 {
@@ -53,8 +54,12 @@ namespace TestADS
             //    _SP.AddParameterValue("Origin", "LOGON_CS");
             //    _,SP.Execute();
             //}
+            string _scanAll = "R GRAZ|07/02/2017|724008707|VCE15|303639641|KLT3215|U00045|L538|1000|W700530S300|STRAP 3-80X4.6 PLA|||Scanner|QRCODE|101";
+            string _pattern = @"(.*)\|(Scanner|MSR)\|(.*)\|(\d+)";
+            string _scan = Regex.Match(_scanAll, _pattern).ToString();
 
-            test1();
+
+              //  test1();
 
         }
 

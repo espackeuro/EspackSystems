@@ -14,6 +14,7 @@ using Android.Widget;
 using CommonAndroidTools;
 using System.Threading.Tasks;
 using DataWedge;
+using System.Text.RegularExpressions;
 
 namespace RadioLogisticaDeliveries
 {
@@ -49,8 +50,9 @@ namespace RadioLogisticaDeliveries
             radioChecking = _root.FindViewById<RadioButton>(Resource.Id.radioChecking);
             radioReading = _root.FindViewById<RadioButton>(Resource.Id.radioReading);
             radioChecking.Enabled = (Values.gOrderNumber != 0);
-            radioReading.Checked = true;
-
+            radioReading.Checked = Values.WorkMode==WorkModes.READING;
+            radioChecking.Checked = Values.WorkMode == WorkModes.CHECKING;
+            radioReading.CheckedChange += RadioReading_CheckedChange;
             //scanner intent
             var filter = new IntentFilter("com.espack.SCAN");
             filter.AddCategory(Intent.CategoryDefault);
@@ -60,6 +62,11 @@ namespace RadioLogisticaDeliveries
 
             //end
             return _root;
+        }
+
+        private void RadioReading_CheckedChange(object sender, CompoundButton.CheckedChangeEventArgs e)
+        {
+            Values.WorkMode = e.IsChecked ? WorkModes.READING : WorkModes.CHECKING;
         }
 
         public override void OnDestroyView()
@@ -78,7 +85,12 @@ namespace RadioLogisticaDeliveries
                     EnterDataFragment.elData.Enabled = false;
                 });
 
-                string _scan = cDataWedge.HandleDecodeData(intent).Split('|')[0];
+                string _scanAll = cDataWedge.HandleDecodeData(intent);
+                string _pattern = @"(.*)\|(Scanner|MSR)\|(.*)\|(\d+)";
+                var _matches = Regex.Match(_scanAll, _pattern);
+                string _scan = _matches.Groups[1].ToString();
+                if (_matches.Groups[3].ToString() == "QRCODE")
+                    _scan = "QRCODE" + _scan;
                 if (_scan == "")
                 {
                     cSounds.Error(context);
