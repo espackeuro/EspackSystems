@@ -16,7 +16,7 @@ using Android.Icu.Text;
 
 namespace RadioLogisticaDeliveries
 {
-    
+    public enum WorkModes { READING, CHECKING }
     static class Values
     {
         private static string _rack = "";
@@ -84,6 +84,7 @@ namespace RadioLogisticaDeliveries
             await Values.SQLidb.db.ExecuteAsync("Delete from ScannedData ");
 
         }
+        public static WorkModes WorkMode { get; set; }
     }
 
     [Activity(Label = "RadioLogisticaDeliveries", MainLauncher = true, Icon = "@drawable/icon")]
@@ -111,6 +112,7 @@ namespace RadioLogisticaDeliveries
             intent.PutExtra("Version", Values.Version);
             intent.PutExtra("PackageName", "Radio Deliveries");
             StartActivityForResult(intent, 0);
+            Values.WorkMode = WorkModes.READING;
         }
         protected override async void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
