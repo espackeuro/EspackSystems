@@ -9,6 +9,18 @@ namespace RadioLogisticaDeliveries
 
 
     #region Tables
+    [Table("Settings")]
+    public class Settings
+    {
+        public string User { get; set; }
+        public string Password { get; set; }
+        public string Session { get; set; }
+        public string Block { get; set; }
+        public int Order { get; set; }
+        public string Service { get; set; }
+    }
+
+
     [Table("Readings")]
     public class Readings
     {

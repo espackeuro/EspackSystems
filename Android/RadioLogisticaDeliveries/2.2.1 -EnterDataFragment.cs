@@ -89,8 +89,6 @@ namespace RadioLogisticaDeliveries
                 string _pattern = @"(.*)\|(Scanner|MSR)\|(.*)\|(\d+)";
                 var _matches = Regex.Match(_scanAll, _pattern);
                 string _scan = _matches.Groups[1].ToString();
-                if (_matches.Groups[3].ToString() == "QRCODE")
-                    _scan = "QRCODE" + _scan;
                 if (_scan == "")
                 {
                     cSounds.Error(context);
