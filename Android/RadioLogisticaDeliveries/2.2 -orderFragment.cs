@@ -62,12 +62,26 @@ namespace RadioLogisticaDeliveries
         {
             if (orderNumberET.Text == "")
             {
-
                 cSounds.Error(Activity);
-                
                 Toast.MakeText(Activity, "Please enter one valid Order Number", ToastLength.Long).Show();
                 orderNumberET.Text = "";
                 return;
+            }
+            if (orderNumberET.Text.Substring(0, 2) == "@@" && orderNumberET.Text.Substring(orderNumberET.Text.Length - 2, 2) == "##") //QRCODE
+            {
+                var _recordList = orderNumberET.Text.Split('|');
+                try
+                {
+                    orderNumberET.Text = _recordList[3];
+                }
+                catch
+                {
+                    Toast.MakeText(Activity, "Wrong reading.", ToastLength.Long).Show();
+                    await Values.iFt.pushInfo("Wrong reading.");
+                    orderNumberET.Text = "";
+                    return;
+                }
+
             }
             string _orderNumber;
             string _blockCode;
@@ -115,6 +129,9 @@ namespace RadioLogisticaDeliveries
 
             //update database data
             //await Values.sFt.ChangeProgressVisibility(true);
+            var _settings = new Settings { User = Values.gDatos.User, Password = Values.gDatos.Password, Block = Values.gBlock, Order = Values.gOrderNumber, Session = Values.gSession, Service = Values.gService };
+            await Values.SQLidb.db.ExecuteAsync("DELETE FROM Settings");
+            await Values.SQLidb.db.InsertAsync(_settings);
             await getDataFromServer();
             Values.SQLidb.Complete = true;
             //await Values.sFt.ChangeProgressVisibility(false);

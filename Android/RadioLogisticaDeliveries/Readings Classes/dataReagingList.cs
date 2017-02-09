@@ -37,9 +37,33 @@ namespace RadioLogisticaDeliveries
                 throw new Exception("Context not set");
             }
             cData _data;
-            // CHECKING
-            if (reading.IsNumeric() && reading.Length == 9) //checking
+            //QRCODE
+            if (reading.Length>2 && reading.Substring(0, 2) == "@@" && reading.Substring(reading.Length - 2, 2) == "##") //QRCODE
             {
+                var _readingFields = reading.Split('|');
+                if (Values.WorkMode == WorkModes.READING)
+                {
+                    //"QRCODE|R GRAZ|07/02/2017|724008707|VCE15|303639641|KLT3215|U00045|L538|1000|W700530S300|STRAP 3-80X4.6 PLA||"
+                    reading = string.Format("%{0}%{1}%{2}",_readingFields[11],_readingFields[4],_readingFields[12]);
+                } else
+                {
+                    reading = _readingFields[5];
+                }
+            }
+
+
+
+            // CHECKING
+            if ((reading.IsNumeric() && reading.Length == 9) || (reading.Substring(0,1)=="S" && reading.Substring(1,9).IsNumeric())) //checking
+            {
+                if (reading.Substring(0, 1) == "S" && reading.Substring(1, 9).IsNumeric())
+                    reading = reading.Substring(1, 9);
+                if (Values.WorkMode == WorkModes.READING)
+                {
+                    cSounds.Error(Context);
+                    await AlertDialogHelper.ShowAsync(Context, "ERROR", "Current mode is READING, cannot process this data.", "OK", "");
+                    return;
+                }
                 _data = new dataChecking() { Context = Context, Rack = Values.CurrentRack, Data = reading, Serial = reading };
                 if (await _data.doCheckings())
                 {
@@ -54,6 +78,12 @@ namespace RadioLogisticaDeliveries
             // READING
             if (reading.Substring(0, 1) == "%") //reading
             {
+                if (Values.WorkMode== WorkModes.CHECKING)
+                {
+                    cSounds.Error(Context);
+                    await AlertDialogHelper.ShowAsync(Context, "ERROR", "Current mode is CHECKING, cannot process this data.", "OK", "");
+                    return;
+                }
                 var _split = reading.Split('%');
                 string _pn = _split[1];
                 string _lr = _split[2];
@@ -95,7 +125,7 @@ namespace RadioLogisticaDeliveries
                         position++;
                         //Values.sFt.ReadQtyReceived++;
                     }
-                    await Current().PushInfo();
+                    await _data.PushInfo();
                     return;
                 }
             }

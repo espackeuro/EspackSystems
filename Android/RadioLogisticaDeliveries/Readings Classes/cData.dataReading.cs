@@ -38,7 +38,7 @@ namespace RadioLogisticaDeliveries
                 return false;
             }
             //check if present and get serial data
-            var query1 = await Values.SQLidb.db.Table<PartnumbersRacks>().Where(r => r.Partnumber == Partnumber).ToListAsync();
+            var query1 = await Values.SQLidb.db.Table<PartnumbersRacks>().Where(r => r.Partnumber == Partnumber && r.Rack == Values.CurrentRack).ToListAsync();
             if (query1.Count == 0)
             {
                 _errorMessage = string.Format("Wrong partnumber {0}.", Partnumber);

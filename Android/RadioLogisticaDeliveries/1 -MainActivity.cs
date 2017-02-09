@@ -72,6 +72,7 @@ namespace RadioLogisticaDeliveries
             await Values.SQLidb.db.CreateTableAsync<PartnumbersRacks>();
             await Values.SQLidb.db.CreateTableAsync<SerialTracking>();
             await Values.SQLidb.db.CreateTableAsync<ScannedData>();
+            await Values.SQLidb.db.CreateTableAsync<Settings>();
             // to do what to do when readings exist
         }
         public async static Task EmptyDatabase()
@@ -82,6 +83,7 @@ namespace RadioLogisticaDeliveries
             await Values.SQLidb.db.ExecuteAsync("Delete from PartnumbersRacks ");
             await Values.SQLidb.db.ExecuteAsync("Delete from SerialTracking ");
             await Values.SQLidb.db.ExecuteAsync("Delete from ScannedData ");
+            await Values.SQLidb.db.ExecuteAsync("Delete from Settings ");
 
         }
         public static WorkModes WorkMode { get; set; }
@@ -131,7 +133,8 @@ namespace RadioLogisticaDeliveries
                     Values.SQLidb = new SQLiteDatabase("DELIVERIES");
                     if (Values.SQLidb.Exists)
                     {
-                        Values.SQLidb.DropDatabase();
+                        Values.SQLidb.CreateDatabase();
+                        Settings _settings = await Values.SQLidb.db.Table<Settings>().FirstAsync();
 
                     }
 

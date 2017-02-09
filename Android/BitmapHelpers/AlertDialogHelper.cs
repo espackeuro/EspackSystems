@@ -46,14 +46,16 @@ namespace CommonAndroidTools
         private async Task<bool> ShowAsync()
         {
             this.waitHandle = new ManualResetEvent(false);
-            new AlertDialog.Builder(this.context)
+            var ad = new AlertDialog.Builder(this.context)
                 .SetTitle(this.title)
                 .SetMessage(this.message)
                 .SetPositiveButton(this.positiveButtonCaption, OnPositiveClick)
-                .SetNegativeButton(this.negativeButtonCaption, OnNegativeClick)
-                .SetOnDismissListener(this)
-                .Show();
-
+                //
+                .SetOnDismissListener(this);
+                //.Show();
+            if (negativeButtonCaption != "")
+                ad.SetNegativeButton(this.negativeButtonCaption, OnNegativeClick);
+            ad.Show();
             Task<bool> dialogTask = new Task<bool>(() =>
             {
                 this.waitHandle.WaitOne();
