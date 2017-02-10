@@ -97,7 +97,7 @@ namespace RadioLogisticaDeliveries
         public string Serial { get; set; } = "";
         public bool Transmitted { get; set; } = false;
         public string TransmissionResult { get; set; } = "";
-        public DateTime xfec { get; } = DateTime.Now;
+        public DateTime xfec { get; set; } = DateTime.Now;
 
     }
 
@@ -179,7 +179,11 @@ namespace RadioLogisticaDeliveries
         private async void Db_AfterInsert(object sender, AfterInsertEventArgs e)
         {
             if (e.ItemInserted is ScannedData)
+            {
+                //((ScannedData)e.ItemInserted).xfec = DateTime.Now;
+                //await Values.SQLidb.db.UpdateAsync((ScannedData)e.ItemInserted);
                 await Values.dFt.pushInfo(((ScannedData)e.ItemInserted).ToInfoData());
+            }
             var _pending = (await Values.SQLidb.db.FindAsync<ScannedData>(r => r.Transmitted == false) != null);
             if (_pending != pendingData)
                 pendingData = _pending;

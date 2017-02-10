@@ -17,19 +17,33 @@ namespace RadioLogisticaDeliveries
     public class MainScreen : Activity
     {
        
-        protected override void OnCreate(Bundle savedInstanceState)
+        protected async override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.mainLayout);
             // Create your application here
+
+            string _mainScreenMode = Intent.GetStringExtra("MainScreenMode");
+
 
             Values.hFt = new headerFragment();
             var ft = FragmentManager.BeginTransaction();
             ft.Replace(Resource.Id.headerFragment, Values.hFt);
             //ft.Commit();
 
-            var oFt = new orderFragment();
-            ft.Replace(Resource.Id.dataInputFragment, oFt);
+            if (_mainScreenMode=="NEW")
+            {
+                var oFt = new orderFragment();
+                ft.Replace(Resource.Id.dataInputFragment, oFt);
+            } else
+            {
+                var edFt = new EnterDataFragment();
+                ft.Replace(Resource.Id.dataInputFragment, edFt);
+                Values.elIntent = new Intent(this, typeof(DataTransferManager));
+                StartService(Values.elIntent);
+                DataTransferManager.Active = true;
+            }
+
 
 
             Values.iFt = new infoFragment(8);
