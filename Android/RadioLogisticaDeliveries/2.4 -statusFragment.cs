@@ -36,7 +36,13 @@ namespace RadioLogisticaDeliveries
                 
             }
         }
-        public int CheckQtyTotal { get; set; }
+        public int CheckQtyTotal
+        {
+            get
+            {
+                return Values.SQLidb.db.Table<Labels>().CountAsync().Result;
+            }
+        }
 
         public int CheckQtyReceived
         {
@@ -107,6 +113,7 @@ namespace RadioLogisticaDeliveries
             socksProgress.Visibility = ViewStates.Gone;
             readingsInfo = _root.FindViewById<TextView>(Resource.Id.readingsInfo);
             checkingsInfo = _root.FindViewById<TextView>(Resource.Id.checkingsInfo);
+            UpdateInfo();
             return _root;
         }
         public Task commProgressStatus(ProgressStatusEnum _status)

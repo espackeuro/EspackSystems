@@ -35,9 +35,17 @@ namespace RadioLogisticaDeliveries
             t1 = _root.FindViewById<TextView>(Resource.Id.t1);
             t1.Text = string.Format("User: {0}", Values.gDatos.User);
             t2 = _root.FindViewById<TextView>(Resource.Id.t2);
-            t2.Text = string.Format("Session: {0}", "");
+            t2.Text = string.Format("Session: {0}", Values.gSession);
             t3 = _root.FindViewById<TextView>(Resource.Id.t3);
+            if (Values.gBlock !="")
+            {
+                Values.hFt.t3.Text = string.Format("Block: {0}", Values.gBlock);
+            }
             t4 = _root.FindViewById<TextView>(Resource.Id.t4);
+            if (Values.gOrderNumber != 0)
+            {
+                Values.hFt.t4.Text = string.Format("Order: {0}", Values.gOrderNumber);
+            }
             t5 = _root.FindViewById<TextView>(Resource.Id.t5);
             return _root;
         }

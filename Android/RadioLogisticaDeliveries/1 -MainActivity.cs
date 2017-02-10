@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using Java.Util.Zip;
 using Android.Content.PM;
 using Android.Icu.Text;
+using CommonAndroidTools;
 
 namespace RadioLogisticaDeliveries
 {
@@ -78,12 +79,19 @@ namespace RadioLogisticaDeliveries
         public async static Task EmptyDatabase()
         {
             await Values.SQLidb.db.ExecuteAsync("Delete from Readings ");
+            await Values.SQLidb.db.DropTableAsync<Readings>();
             await Values.SQLidb.db.ExecuteAsync("Delete from Labels ");
+            await Values.SQLidb.db.DropTableAsync<Labels>();
             await Values.SQLidb.db.ExecuteAsync("Delete from RacksBlocks ");
+            await Values.SQLidb.db.DropTableAsync<RacksBlocks>();
             await Values.SQLidb.db.ExecuteAsync("Delete from PartnumbersRacks ");
+            await Values.SQLidb.db.DropTableAsync<PartnumbersRacks>();
             await Values.SQLidb.db.ExecuteAsync("Delete from SerialTracking ");
+            await Values.SQLidb.db.DropTableAsync<SerialTracking>();
             await Values.SQLidb.db.ExecuteAsync("Delete from ScannedData ");
+            await Values.SQLidb.db.DropTableAsync<ScannedData>();
             await Values.SQLidb.db.ExecuteAsync("Delete from Settings ");
+            await Values.SQLidb.db.DropTableAsync<Settings>();
 
         }
         public static WorkModes WorkMode { get; set; }
@@ -128,24 +136,60 @@ namespace RadioLogisticaDeliveries
                     Values.gDatos.Server = "10.200.10.138";
                     Values.gDatos.User = LogonDetails.user;
                     Values.gDatos.Password = LogonDetails.password;
-
+                    string _mainScreenMode = "NEW";
                     //create sqlite database
                     Values.SQLidb = new SQLiteDatabase("DELIVERIES");
-                    if (Values.SQLidb.Exists)
+                    if (Values.SQLidb.Exists) //check if database exists
                     {
-                        Values.SQLidb.CreateDatabase();
-                        Settings _settings = await Values.SQLidb.db.Table<Settings>().FirstAsync();
-
+                        Values.SQLidb.CreateDatabase(); //link the file to the sqlite database
+                        await Values.CreateDatabase(); //create tables if not exist
+                        Settings _settings = await Values.SQLidb.db.Table<Settings>().FirstOrDefaultAsync(); //get settings of persistent data
+                        if (_settings != null && _settings.User == Values.gDatos.User && _settings.Password == Values.gDatos.Password) //if not empty and user and password matches the logon ones
+                        {
+                            //var _lastXfec = from r in Values.SQLidb.db.Table<ScannedData>().ToListAsync().Result orderby r.xfec descending select xfec;
+                            try
+                            {
+                                var _lastRecord = await Values.SQLidb.db.QueryAsync<ScannedData>("Select * from ScannedData order by idreg desc limit 1");
+                                //ScannedData _lastRecord = await Values.SQLidb.db.Table<ScannedData>().FirstOrDefaultAsync(); //get the last record time added, nullable datetime type
+                                if (_lastRecord.Count !=0 && (DateTime.Now - _lastRecord[0].xfec).Minutes < 60) //if time less than one hour
+                                {
+                                    bool _a1, _a2 = false;
+                                    _a1 = await AlertDialogHelper.ShowAsync(this, "Warning", "There are incomplete session data in the device, do you want to continue last session or erase and start a new one?", "ERASE", "CONTINUE SESSION");
+                                    if (_a1) //ERASE
+                                    {
+                                        _a2 = await AlertDialogHelper.ShowAsync(this, "Warning", "This will erase all pending content present in the device, are you sure?", "ERASE", "CONTINUE SESSION");
+                                    }
+                                    if (!_a1 || !_a2)
+                                    {
+                                        Values.gSession = _settings.Session;
+                                        Values._block = _settings.Block;
+                                        Values.gOrderNumber = _settings.Order;
+                                        Values.gService = _settings.Service;
+                                        _mainScreenMode = "CONTINUE";
+                                    } else
+                                    {
+                                        await Values.EmptyDatabase();
+                                        await Values.CreateDatabase();
+                                    }
+                                }
+                            } catch(Exception ex) {
+                                Console.WriteLine(ex.Message);
+                            }
+                        }
+                        else
+                        {
+                            await Values.EmptyDatabase();
+                            await Values.CreateDatabase();
+                        }
                     }
-
-                    
-
-                    await Values.CreateDatabase();
-                    
-
+                    else
+                    {
+                        await Values.CreateDatabase();
+                    }
                     //
 
                     var intent = new Intent(this, typeof(MainScreen));
+                    intent.PutExtra("MainScreenMode", _mainScreenMode);
                     StartActivityForResult(intent, 1);
                     //SetContentView(Resource.Layout.mainLayout);
                 }
