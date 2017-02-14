@@ -16,6 +16,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Android.Views.InputMethods;
 using CommonAndroidTools;
+using Scanner;
 
 namespace RadioLogisticaDeliveries
 {
@@ -41,7 +42,51 @@ namespace RadioLogisticaDeliveries
             // orderNumberET.
             //5orderNumberET.EditorAction += OrderNumberET_EditorAction;
             orderNumberET.KeyPress += OrderNumberET_KeyPress;
+
+            //scanner intent
+
+            sScanner.RegisterScannerActivity(Activity);
+            sScanner.AfterReceive += Scanner_AfterReceive;
+            sScanner.BeforeReceive += Scanner_BeforeReceive;
+
             return _root;
+        }
+
+        private void Scanner_BeforeReceive(object sender, EventArgs e)
+        {
+            ((Activity)sender).RunOnUiThread(() =>
+            {
+                orderNumberET.Enabled = false;
+            });
+
+        }
+
+        private async void Scanner_AfterReceive(object sender, ReceiveEventArgs e)
+        {
+            var _scan = e.ReceivedData;
+            if (_scan.Substring(0, 2) == "@@" && _scan.Substring(_scan.Length - 2, 2) == "##") //QRCODE
+            {
+                var _recordList = _scan.Split('|');
+                try
+                {
+                    _scan = _recordList[3];
+                }
+                catch
+                {
+                    Toast.MakeText(Activity, "Wrong reading.", ToastLength.Long).Show();
+                    await Values.iFt.pushInfo("Wrong reading.");
+                    return;
+                }
+
+            }
+            orderNumberET.Text = _scan;
+            await ActionGo();
+            ((Activity)sender).RunOnUiThread(() =>
+            {
+                orderNumberET.Enabled = true;
+                orderNumberET.Text = "";
+            });
+            orderNumberET.Tag = "SCAN";
         }
 
         private async void OrderNumberET_KeyPress(object sender, View.KeyEventArgs e)
@@ -67,22 +112,7 @@ namespace RadioLogisticaDeliveries
                 orderNumberET.Text = "";
                 return;
             }
-            if (orderNumberET.Text.Substring(0, 2) == "@@" && orderNumberET.Text.Substring(orderNumberET.Text.Length - 2, 2) == "##") //QRCODE
-            {
-                var _recordList = orderNumberET.Text.Split('|');
-                try
-                {
-                    orderNumberET.Text = _recordList[3];
-                }
-                catch
-                {
-                    Toast.MakeText(Activity, "Wrong reading.", ToastLength.Long).Show();
-                    await Values.iFt.pushInfo("Wrong reading.");
-                    orderNumberET.Text = "";
-                    return;
-                }
 
-            }
             string _orderNumber;
             string _blockCode;
             if (orderNumberET.Text.IsNumeric() && orderNumberET.Text.Length>6)

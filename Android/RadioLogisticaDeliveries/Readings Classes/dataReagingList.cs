@@ -64,6 +64,13 @@ namespace RadioLogisticaDeliveries
                     await AlertDialogHelper.ShowAsync(Context, "ERROR", "Current mode is READING, cannot process this data.", "OK", "");
                     return;
                 }
+                //check if serial is in list
+                if (_dataList.OfType<dataChecking>().FirstOrDefault(r => r.Serial== reading) != null)
+                    {
+                    cSounds.Error(Context);
+                    await Values.iFt.SetMessage(string.Format("Error: Serial {0} already checked.", reading ));
+                    return;
+                }
                 _data = new dataChecking() { Context = Context, Rack = Values.CurrentRack, Data = reading, Serial = reading };
                 if (await _data.doCheckings())
                 {
@@ -176,13 +183,22 @@ namespace RadioLogisticaDeliveries
                     //    Values.CreateDatabase();
                     //});
                     await Values.EmptyDatabase();
-                        //clear info, debug and status fragments
+                    //clear info, debug and status fragments
                     Values.iFt.Clear();
                     Values.dFt.Clear();
                     Values.sFt.Clear();
                     Values.hFt.Clear();
+                    Values.gDatos.User = "";
+                    Values.gDatos.Password = "";
+                    Values.gSession = "";
+                    Values.gService = "";
+                    Values.gOrderNumber = 0;
+                    Values.gBlock = "";
                     //change to enter order fragment
-                    ((MainScreen)Context).changeEnterDataToOrderFragments();
+
+                    var intent = new Intent(Context, typeof(MainActivity));
+                    ((MainScreen)Context).StartActivityForResult(intent, 1);
+                    //Context.Dispose();
                     return;
                 }
             }

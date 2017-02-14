@@ -13,6 +13,8 @@ using System.Threading.Tasks;
 using AccesoDatosNet;
 namespace RadioLogisticaDeliveries
 {
+    public struct QueryResult { public string Rack; public int count; }
+
     [Activity(Label = "Radio LOGISTICA deliveries", WindowSoftInputMode = SoftInput.AdjustPan)]
     public class MainScreen : Activity
     {
@@ -55,7 +57,15 @@ namespace RadioLogisticaDeliveries
             Values.sFt = new statusFragment();
             ft.Replace(Resource.Id.StatusFragment, Values.sFt);
             ft.Commit();
+            if (_mainScreenMode!="NEW")
+            {
 
+                var _query = from p in await Values.SQLidb.db.Table<ScannedData>().ToListAsync() group p by p.Rack into grp select new {Rack = grp.Key, qty =grp.Count(), id = grp.Min(x => x.idreg) } ;
+                _query.OrderBy(r => r.id).ToList().ForEach(async x => await Values.iFt.pushInfo(x.Rack, x.qty.ToString()));
+                await Values.iFt.pushInfo("Racks previously read");
+                //var _query = await Values.SQLidb.db.QueryAsync<QueryResult>("Select 'test', 10 ");//Rack, count(*) from ScannedData group by Rack order by idreg desc limit 3");
+
+            }
             //Values.dtm = new DataTransferManager();
             //start the transmission service
 

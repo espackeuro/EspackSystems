@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Android.Content;
 
-namespace DataWedge
+namespace Scanner
 {
     public static class cDataWedge
     {

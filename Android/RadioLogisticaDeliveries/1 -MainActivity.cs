@@ -15,6 +15,7 @@ using Android.Content.PM;
 using Android.Icu.Text;
 using CommonAndroidTools;
 
+
 namespace RadioLogisticaDeliveries
 {
     public enum WorkModes { READING, CHECKING }
@@ -95,7 +96,10 @@ namespace RadioLogisticaDeliveries
 
         }
         public static WorkModes WorkMode { get; set; }
+
     }
+
+    
 
     [Activity(Label = "RadioLogisticaDeliveries", MainLauncher = true, Icon = "@drawable/icon")]
     public class MainActivity : Activity
@@ -123,6 +127,7 @@ namespace RadioLogisticaDeliveries
             intent.PutExtra("PackageName", "Radio Deliveries");
             StartActivityForResult(intent, 0);
             Values.WorkMode = WorkModes.READING;
+
         }
         protected override async void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
@@ -133,7 +138,7 @@ namespace RadioLogisticaDeliveries
                 if (Result == "OK")
                 {
                     Values.gDatos.DataBase = "LOGISTICA";
-                    Values.gDatos.Server = "10.200.10.138";
+                    Values.gDatos.Server = "net.espackeuro.com";
                     Values.gDatos.User = LogonDetails.user;
                     Values.gDatos.Password = LogonDetails.password;
                     string _mainScreenMode = "NEW";
