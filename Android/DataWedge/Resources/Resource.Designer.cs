@@ -9,9 +9,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Android.Runtime.ResourceDesignerAttribute("DataWedge.Resource", IsApplication=false)]
+[assembly: global::Android.Runtime.ResourceDesignerAttribute("Scanner.Resource", IsApplication=false)]
 
-namespace DataWedge
+namespace Scanner
 {
 	
 	
@@ -37,14 +37,42 @@ namespace DataWedge
 			}
 		}
 		
+		public partial class Raw
+		{
+			
+			// aapt resource value: 0x7f020000
+			public static int Antares = 2130837504;
+			
+			// aapt resource value: 0x7f020001
+			public static int decodeshort = 2130837505;
+			
+			// aapt resource value: 0x7f020002
+			public static int Gallium = 2130837506;
+			
+			// aapt resource value: 0x7f020003
+			public static int TaDa = 2130837507;
+			
+			// aapt resource value: 0x7f020004
+			public static int Tejat = 2130837508;
+			
+			static Raw()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Raw()
+			{
+			}
+		}
+		
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f020001
-			public static int ApplicationName = 2130837505;
+			// aapt resource value: 0x7f030001
+			public static int ApplicationName = 2130903041;
 			
-			// aapt resource value: 0x7f020000
-			public static int Hello = 2130837504;
+			// aapt resource value: 0x7f030000
+			public static int Hello = 2130903040;
 			
 			static String()
 			{

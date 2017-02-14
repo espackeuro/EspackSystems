@@ -13,8 +13,8 @@ using Android.Views;
 using Android.Widget;
 using CommonAndroidTools;
 using System.Threading.Tasks;
-using DataWedge;
-using System.Text.RegularExpressions;
+using Scanner;
+
 
 namespace RadioLogisticaDeliveries
 {
@@ -32,7 +32,7 @@ namespace RadioLogisticaDeliveries
         //public RadioGroup rg { get; private set; }
         public RadioButton radioChecking { get; private set; }
         public RadioButton radioReading { get; private set; }
-        private ScanReceiver receiver;
+        
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             // Use this to return your custom view for this Fragment
@@ -54,14 +54,34 @@ namespace RadioLogisticaDeliveries
             radioChecking.Checked = Values.WorkMode == WorkModes.CHECKING;
             radioReading.CheckedChange += RadioReading_CheckedChange;
             //scanner intent
-            var filter = new IntentFilter("com.espack.SCAN");
-            filter.AddCategory(Intent.CategoryDefault);
-            receiver = new ScanReceiver();
-            Activity.RegisterReceiver(receiver, filter);
-
+            
+            sScanner.RegisterScannerActivity(Activity);
+            sScanner.AfterReceive += Scanner_AfterReceive;
+            sScanner.BeforeReceive += Scanner_BeforeReceive;
 
             //end
             return _root;
+        }
+
+        private void Scanner_BeforeReceive(object sender, EventArgs e)
+        {
+            ((Activity)sender).RunOnUiThread(() =>
+            {
+                elData.Enabled = false;
+            });
+
+        }
+
+        private async void Scanner_AfterReceive(object sender, ReceiveEventArgs e)
+        {
+            Values.gDRL.Context = (Activity)sender;
+            await Values.gDRL.Add(e.ReceivedData);
+            ((Activity)sender).RunOnUiThread(() =>
+            {
+                EnterDataFragment.elData.Enabled = true;
+                EnterDataFragment.elData.Text = "";
+            });
+            EnterDataFragment.elData.Tag = "SCAN";
         }
 
         private void RadioReading_CheckedChange(object sender, CompoundButton.CheckedChangeEventArgs e)
@@ -72,72 +92,60 @@ namespace RadioLogisticaDeliveries
         public override void OnDestroyView()
         {
             base.OnDestroyView();
-            Activity.UnregisterReceiver(receiver);
+            //Activity.UnregisterReceiver(receiver);
         }
 
-        public class ScanReceiver : BroadcastReceiver
-        {
-            public async override void OnReceive(Context context, Intent intent)
-            {
-
-                ((Activity)context).RunOnUiThread(() =>
-                {
-                    EnterDataFragment.elData.Enabled = false;
-                });
-
-                string _scanAll = cDataWedge.HandleDecodeData(intent);
-                string _pattern = @"(.*)\|(Scanner|MSR)\|(.*)\|(\d+)";
-                var _matches = Regex.Match(_scanAll, _pattern);
-                string _scan = _matches.Groups[1].ToString();
-                if (_scan == "")
-                {
-                    cSounds.Error(context);
-                    Toast.MakeText(context, "Please enter valid data", ToastLength.Long).Show();
-                    return;
-                }
-                Values.gDRL.Context = context;
-                await Values.gDRL.Add(_scan);
-                ((Activity)context).RunOnUiThread(() =>
-                {
-                    EnterDataFragment.elData.Enabled = true;
-                    EnterDataFragment.elData.Text = "";
-                });
-                EnterDataFragment.elData.Tag = "SCAN";
-            }
-        }
+        
 
 
         private async void ElData_KeyPress(object sender, View.KeyEventArgs e)
         {
-            if (e.Event.Action == KeyEventActions.Down && (e.KeyCode == Keycode.Enter || e.KeyCode == Keycode.Tab))
+            try
             {
-                
-                //ignore intent from scanner
-                if (elData.Text== "" && elData.Tag.ToString()=="SCAN")
+                if (sScanner.IsBusy)
                 {
-                    elData.Tag = null;
                     e.Handled = true;
                     return;
                 }
-                //discriminator
-                if (elData.Text == "" )
+                sScanner.IsBusy = true;
+                if (e.Event.Action == KeyEventActions.Down && (e.KeyCode == Keycode.Enter || e.KeyCode == Keycode.Tab))
                 {
-                    Toast.MakeText(Activity, "Please enter valid data", ToastLength.Long).Show();
-                    e.Handled = true;
-                    return;
-                }
-                elData.Enabled = false;
 
-                Values.gDRL.Context = Activity;
-                await Values.gDRL.Add(elData.Text);
-                elData.Text = "";
-                elData.ClearFocus();
-                elData.Enabled = true;
-                e.Handled = true;
-            }
-            else
+                    //ignore intent from scanner
+                    if (elData.Text == "" && elData.Tag.ToString() == "SCAN")
+                    {
+                        elData.Tag = null;
+                        e.Handled = true;
+                        sScanner.IsBusy = false;
+                        return;
+                    }
+                    //discriminator
+                    if (elData.Text == "")
+                    {
+                        Toast.MakeText(Activity, "Please enter valid data", ToastLength.Long).Show();
+                        e.Handled = true;
+                        sScanner.IsBusy = false;
+                        return;
+                    }
+                    elData.Enabled = false;
+
+                    Values.gDRL.Context = Activity;
+                    await Values.gDRL.Add(elData.Text);
+                    elData.Text = "";
+                    elData.ClearFocus();
+                    elData.Enabled = true;
+                    sScanner.IsBusy = false;
+                    e.Handled = true;
+                }
+                else
+                {
+                    e.Handled = false;
+                    sScanner.IsBusy = false;
+                }
+            } catch
             {
-                e.Handled = false;
+                e.Handled = true;
+                sScanner.IsBusy = false;
             }
         }
 

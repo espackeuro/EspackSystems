@@ -79,7 +79,7 @@ namespace RadioLogisticaDeliveries
                             {
                                 //SPXML _sp = new SPXML(Values.gDatos, "pLaunchProcess_ReadingSessionControl");
                                 _sp.AddParameterValue("@DB", "LOGISTICA");
-                                _sp.AddParameterValue("@ProcedureName", "pReadingSessionControl_TEST");
+                                _sp.AddParameterValue("@ProcedureName", "pReadingSessionControl");
                                 _sp.AddParameterValue("@Parameters", r.ProcedureParameters());
                                 _sp.AddParameterValue("@TableDB", "");
                                 _sp.AddParameterValue("@TableName", "");
