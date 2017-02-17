@@ -11,7 +11,7 @@ using LogonScreen;
 using Android.App;
 using Android.Content;
 using Android.OS;
-using DataWedge;
+using Scanner;
 using Android.Content.PM;
 using Java.Util.Zip;
 

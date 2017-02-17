@@ -54,26 +54,20 @@ namespace RadioLogisticaDeliveries
             radioChecking.Checked = Values.WorkMode == WorkModes.CHECKING;
             radioReading.CheckedChange += RadioReading_CheckedChange;
             //scanner intent
-            
-            sScanner.RegisterScannerActivity(Activity);
-            sScanner.AfterReceive += Scanner_AfterReceive;
-            sScanner.BeforeReceive += Scanner_BeforeReceive;
 
+            sScanner.RegisterScannerActivity(Activity, _root, true, Silent: true);
+            sScanner.AfterReceive += Scanner_AfterReceive;
+            elData.RequestFocus();
             //end
             return _root;
         }
 
-        private void Scanner_BeforeReceive(object sender, EventArgs e)
+        private async void Scanner_AfterReceive(object sender, ReceiveEventArgs e)
         {
             ((Activity)sender).RunOnUiThread(() =>
             {
                 elData.Enabled = false;
             });
-
-        }
-
-        private async void Scanner_AfterReceive(object sender, ReceiveEventArgs e)
-        {
             Values.gDRL.Context = (Activity)sender;
             await Values.gDRL.Add(e.ReceivedData);
             ((Activity)sender).RunOnUiThread(() =>
@@ -87,12 +81,13 @@ namespace RadioLogisticaDeliveries
         private void RadioReading_CheckedChange(object sender, CompoundButton.CheckedChangeEventArgs e)
         {
             Values.WorkMode = e.IsChecked ? WorkModes.READING : WorkModes.CHECKING;
+            elData.RequestFocus();
         }
 
         public override void OnDestroyView()
         {
             base.OnDestroyView();
-            //Activity.UnregisterReceiver(receiver);
+            sScanner.UnregisterScannerActivity();
         }
 
         

@@ -5,6 +5,7 @@ using Android.Views;
 using Android.Widget;
 using AccesoDatosNet;
 using Android.Graphics;
+using Scanner;
 
 namespace RadioFXC
 {
@@ -42,46 +43,59 @@ namespace RadioFXC
             cDataBox.RequestFocus();
             cList.ItemLongClick += cList_ItemLongClick;
             cList.SetSelection(0);
+            //scanner
+            sScanner.RegisterScannerActivity(Activity, root, true, pAddPartsRepairs);
+            cDataBox.RequestFocus();
             return root;
+            // Create your application here
+        }
+        public override void OnDestroyView()
+        {
+            base.OnDestroyView();
+            sScanner.UnregisterScannerActivity();
         }
 
         private void CDataBox_KeyPress(object sender, View.KeyEventArgs e)
         {
             if (e.Event.Action == KeyEventActions.Down && (e.KeyCode == Keycode.Enter || e.KeyCode== Keycode.Tab))
             {
-                var _SP = new SP(Values.gDatos, "pAddPartsRepairs");
-                try
-                {
-                    _SP.AddParameterValue("RepairCode", cRepairCode);
-                    _SP.AddParameterValue("UnitNumber", cUnitNumber);
-                    _SP.AddParameterValue("Reading", cDataBox.Text);
-                    _SP.Execute();
-                }
-                catch (Exception ex)
-                {
-                    Toast.MakeText(Activity, "Error: "+ex.Message, ToastLength.Long).Show();
-                    cDataBox.Text = "";
-                    cDataBox.RequestFocus();
-                    e.Handled = true;
-                    return;
-                }
-                if (_SP.LastMsg!="OK")
-                {
-                    Toast.MakeText(Activity, "Error: " + _SP.LastMsg, ToastLength.Long).Show();
-                    cDataBox.Text = "";
-                    cDataBox.RequestFocus();
-                    e.Handled = true;
-                    return;
-                }
-                cListAdapter.NotifyDataSetChanged();
-                cList.InvalidateViews();
-                cDataBox.Text = "";
-                cDataBox.RequestFocus();
-                e.Handled = true;
+                e.Handled = pAddPartsRepairs(cDataBox.Text); 
                 return;
             }
             e.Handled = false;
         }
+
+        private bool pAddPartsRepairs(string Data)
+        {
+            var _SP = new SP(Values.gDatos, "pAddPartsRepairs");
+            try
+            {
+                _SP.AddParameterValue("RepairCode", cRepairCode);
+                _SP.AddParameterValue("UnitNumber", cUnitNumber);
+                _SP.AddParameterValue("Reading", Data);
+                _SP.Execute();
+            }
+            catch (Exception ex)
+            {
+                Toast.MakeText(Activity, "Error: " + ex.Message, ToastLength.Long).Show();
+                cDataBox.Text = "";
+                cDataBox.RequestFocus();
+                return false;
+            }
+            if (_SP.LastMsg != "OK")
+            {
+                Toast.MakeText(Activity, "Error: " + _SP.LastMsg, ToastLength.Long).Show();
+                cDataBox.Text = "";
+                cDataBox.RequestFocus();
+                return false;
+            }
+            cListAdapter.NotifyDataSetChanged();
+            cList.InvalidateViews();
+            cDataBox.Text = "";
+            cDataBox.RequestFocus();
+            return true;
+        }
+
         private void cList_ItemLongClick(object sender, AdapterView.ItemLongClickEventArgs e)
         {
             var builder = new Android.Support.V7.App.AlertDialog.Builder(Activity);

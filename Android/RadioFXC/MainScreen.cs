@@ -6,7 +6,7 @@ using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
 using ActionBar = Android.Support.V7.App.ActionBar;
-using DataWedge;
+using Scanner;
 using AccesoDatosNet;
 
 namespace RadioFXC
