@@ -10,7 +10,10 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using AccesoDatosNet;
-using Android.Support.V4.App;
+using Scanner;
+using CommonAndroidTools;
+
+
 namespace RadioFXC
 {
     public class FragmentEnterUnit : Android.Support.V4.App.Fragment
@@ -33,9 +36,19 @@ namespace RadioFXC
             cButtonEnter = root.FindViewById<Button>(Resource.Id.btnEnter);
             cMsgText = root.FindViewById<TextView>(Resource.Id.msgText);
             cButtonEnter.Click += CButtonEnter_Click;
+            //scanner intent
+
+            sScanner.RegisterScannerActivity(Activity, root, true);
+            cUnitNumber.RequestFocus();
             return root;
             // Create your application here
         }
+        public override void OnDestroyView()
+        {
+            base.OnDestroyView();
+            sScanner.UnregisterScannerActivity();
+        }
+
         private void CButtonEnter_Click(object sender, EventArgs e)
         {
             SP pAddRepairs = new SP(Values.gDatos, "pAddRepairs");

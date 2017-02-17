@@ -8,7 +8,9 @@ using AccesoDatosNet;
 using System.Runtime;
 using System.Linq.Expressions;
 using Android.App;
-using DataWedge;
+using Scanner;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace RadioFXC
 {
@@ -68,12 +70,12 @@ namespace RadioFXC
                     var _SP = new SP(Values.gDatos, "pLaunchProcess_RepairsAdd2Load");
                     _SP.AddParameterValue("@DB", "REPAIRS");
                     _SP.AddParameterValue("@ProcedureName", "pAddCadenaRepais2Loads");
-                    _SP.AddParameterValue("@Parameters", "@LoadNumber='"+Loads.LoadNumber+"',@cadena='" +_cadena+ "'");
+                    _SP.AddParameterValue("@Parameters", "@LoadNumber='" + Loads.LoadNumber + "',@cadena='" + _cadena + "'");
                     //_SP.AddParameterValue("@TableDB", "REPAIRS");
                     //_SP.AddParameterValue("@TableName", "Repairs");
                     //_SP.AddParameterValue("@TablePK", "");
                     _SP.Execute();
-                    if (_SP.LastMsg.Substring(0,2) != "OK")
+                    if (_SP.LastMsg.Substring(0, 2) != "OK")
                     {
                         throw (new Exception(_SP.LastMsg));
                     }
@@ -91,43 +93,70 @@ namespace RadioFXC
                 }
                 catch (Exception ex)
                 {
-                    Activity.RunOnUiThread (()=> Toast.MakeText(Activity, "ERROR: " + ex.Message, ToastLength.Long).Show());
+                    Activity.RunOnUiThread(() => Toast.MakeText(Activity, "ERROR: " + ex.Message, ToastLength.Long).Show());
                     button.Enabled = true;
                     //progress.Visibility = ViewStates.Invisible;
                 }
             };
-            var filter = new IntentFilter("com.espack.radiofxc.SCAN");
-            filter.AddCategory(Intent.CategoryDefault);
-            var receiver = new ScanReceiver();
-            receiver.list = list;
-            Activity.RegisterReceiver(receiver, filter);
+            //var filter = new IntentFilter("com.espack.radiofxc.SCAN");
+            //filter.AddCategory(Intent.CategoryDefault);
+            //var receiver = new ScanReceiver();
+            //receiver.list = list;
+            //Activity.RegisterReceiver(receiver, filter);
             list.SetSelection(0);
             //list.ItemSelected += List_ItemSelected;
+
+            //scanner
+            sScanner.RegisterScannerActivity(Activity);
+            sScanner.AfterReceive += SScanner_AfterReceive;
             return root;
         }
 
+        private void SScanner_AfterReceive(object sender, ReceiveEventArgs e)
+        {
+            var l = ((ListRepairs2LoadAdapter)list.Adapter).ListElements;
+            var _index = l.FindIndex(p => p.UnitNumber == e.ReceivedData);
+            if (_index != -1)
+            {
+                Activity.RunOnUiThread(() => list.SetItemChecked(_index, true));
+                list.SmoothScrollToPosition(_index);
+            }
+            //for (var i = 0; i < list.Count - 1; i++)
+            //{
+            //    if (list.GetItemAtPosition(i).ToString().Split('|')[1] == cDataWedge.HandleDecodeData(intent).Split('|')[0])
+            //    {
+            //        list.SetItemChecked(i, true);
+            //        break;
+            //    }
+            //}
+        }
+        public override void OnDestroyView()
+        {
+            base.OnDestroyView();
+            sScanner.UnregisterScannerActivity();
+        }
         private void List_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
             throw new NotImplementedException();
         }
 
-        public class ScanReceiver : BroadcastReceiver
-        {
-            public ListView list { get; set; }
+        //public class ScanReceiver : BroadcastReceiver
+        //{
+        //    public ListView list { get; set; }
 
-            public override void OnReceive(Context context, Intent intent)
-            {
-                //Toast.MakeText(Application.Context, cDataWedge.HandleDecodeData(intent).Split('|')[0], ToastLength.Long).Show();
-                for (var i=0; i<list.Count-1;i++)
-                {
-                    if (list.GetItemAtPosition(i).ToString().Split('|')[1] == cDataWedge.HandleDecodeData(intent).Split('|')[0])
-                    {
-                        list.SetItemChecked(i,true);
-                        break;
-                    }
-                }
-            }
-        }
+        //    public override void OnReceive(Context context, Intent intent)
+        //    {
+        //        //Toast.MakeText(Application.Context, cDataWedge.HandleDecodeData(intent).Split('|')[0], ToastLength.Long).Show();
+        //        for (var i=0; i<list.Count-1;i++)
+        //        {
+        //            if (list.GetItemAtPosition(i).ToString().Split('|')[1] == cDataWedge.HandleDecodeData(intent).Split('|')[0])
+        //            {
+        //                list.SetItemChecked(i,true);
+        //                break;
+        //            }
+        //        }
+        //    }
+        //}
 
         public void OnScrollDown()
         {
@@ -150,55 +179,80 @@ namespace RadioFXC
         }
     }
 
-    
+    public struct Repair 
+    {
+        public string UnitNumber { get; set; }
+        public string RepairCode { get; set; }
+        public string Flags { get; set; }
+    }
 
     public class ListRepairs2LoadAdapter : BaseAdapter
     {
         private Context context;
-        private DynamicRS _RS = new DynamicRS("Select RepairCode,UnitNumber from Repairs r where dbo.checkFlag(flags,'INI')=1 and service='"+Values.gService+ "' and exists (select 0 from PartsRepairs where RepairCode=r.RepairCode) order by UnitNumber", Values.gDatos);
+        //private DynamicRS recordset; //= new DynamicRS(query, Values.gDatos);
         public ListView list { get; set; }
         public TextView LoadLabel { get; set; }
-
+        public List<Repair> ListElements { get; private set; }
+        private string query = "Select RepairCode,UnitNumber,Flags from Repairs r where (dbo.checkFlag(flags,'INI')=1 or  dbo.checkFlag(flags,'PENDING')=1 or dbo.checkFlag(flags,'ERR')=1) and service='" + Values.gService + "' and exists (select 0 from PartsRepairs where RepairCode=r.RepairCode) order by xfec";
         public ListRepairs2LoadAdapter(Context context)
         {
             this.context = context;
-            _RS.Open();
+            using (var recordset = new DynamicRS(query, Values.gDatos))
+            {
+                recordset.Open();
+                ListElements = recordset.ToList().Select(r => new Repair() { UnitNumber = r["UnitNumber"].ToString().Trim(), RepairCode = r["RepairCode"].ToString().Trim(), Flags = r["Flags"].ToString().Trim() }).ToList(); //(from r in _RS.ToList() select r["RepairCode"] + "|" + r["UnitNumber"]).ToList<string>();
+                recordset.Close();
+            }
         }
 
         public override void NotifyDataSetChanged()
         {
             base.NotifyDataSetChanged();
-            _RS = null;
-            _RS = new DynamicRS();
-            _RS.Open("Select RepairCode,UnitNumber from Repairs r where dbo.checkFlag(flags,'INI')=1 and service='" + Values.gService + "' and exists (select 0 from PartsRepairs where RepairCode=r.RepairCode) order by xfec", Values.gDatos);
+            using (var recordset = new DynamicRS(query, Values.gDatos))
+            {
+                recordset.Open();
+                ListElements = recordset.ToList().Select(r => new Repair() { UnitNumber = r["UnitNumber"].ToString().Trim(), RepairCode = r["RepairCode"].ToString().Trim(), Flags = r["Flags"].ToString().Trim() }).ToList(); //(from r in _RS.ToList() select r["RepairCode"] + "|" + r["UnitNumber"]).ToList<string>();
+                recordset.Close();
+            }
         }
 
         public override int Count
         {
-            get { return _RS.RecordCount; }
+            get { return ListElements.Count; }
         }
 
         public override Java.Lang.Object GetItem(int position)
         {
-            _RS.Move(position);
-            return _RS["RepairCode"] + "|" + _RS["UnitNumber"];
+            //_RS.Move(position);
+            return Format(ListElements[position]); //_RS["RepairCode"] + "|" + _RS["UnitNumber"];
         }
-
+        protected string Format(Repair r)
+        {
+            return string.Format("{0}|{1}", r.RepairCode, r.UnitNumber);
+        }
         public override long GetItemId(int position)
         {
             return position;
         }
 
         public override Android.Views.View GetView(int position, Android.Views.View convertView, ViewGroup parent)
-        {
+        { 
             if (convertView == null)
             {
                 convertView = LayoutInflater.From(context).Inflate(Android.Resource.Layout.SimpleListItemActivated2, parent, false);
                 //convertView.Click += ConvertView_Click;
             }
-            convertView.FindViewById<TextView>(Android.Resource.Id.Text1).Text = "UNIT: " + GetItem(position).ToString().Split('|')[1];
-            convertView.FindViewById<TextView>(Android.Resource.Id.Text2).Text = "REPAIR CODE: " + GetItem(position).ToString().Split('|')[0];
-            
+            convertView.FindViewById<TextView>(Android.Resource.Id.Text1).Text = "UNIT: " +ListElements[position].UnitNumber;
+            convertView.FindViewById<TextView>(Android.Resource.Id.Text2).Text = "REPAIR CODE: " + ListElements[position].RepairCode;
+            if (ListElements[position].Flags.IndexOf("ERR") != -1)
+                convertView.SetBackgroundResource(Resource.Drawable.cellErrorDrawable);
+            //convertView.SetBackgroundColor(Android.Graphics.Color.Red);
+            else if (ListElements[position].Flags.IndexOf("PENDING") != -1)
+                convertView.SetBackgroundResource(Resource.Drawable.cellPendingrDrawable);
+            else if (list.IsItemChecked(position))
+                convertView.SetBackgroundResource(Resource.Drawable.cellNormalDrawable);
+            //else
+            //    convertView.SetBackgroundColor(Android.Graphics.Color.Transparent);
             return convertView;
         }
 

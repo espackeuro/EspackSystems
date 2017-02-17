@@ -44,14 +44,24 @@ namespace RadioLogisticaDeliveries
             orderNumberET.KeyPress += OrderNumberET_KeyPress;
 
             //scanner intent
-
-            sScanner.RegisterScannerActivity(Activity);
-            sScanner.AfterReceive += Scanner_AfterReceive;
-            sScanner.BeforeReceive += Scanner_BeforeReceive;
-
+            sScanner.RegisterScannerActivity(Activity, _root, true);
+            sScanner.AfterReceive += SScanner_AfterReceive;
+            orderNumberET.RequestFocus();
             return _root;
         }
 
+        //private async void SScanner_AfterReceive(object sender, ReceiveEventArgs e)
+        //{
+        //    var _res=await ActionGo(e.ReceivedData);
+        //    if (!_res)
+        //        orderNumberET.Text = "";
+        //}
+
+        public override void OnDestroyView()
+        {
+            base.OnDestroyView();
+            sScanner.UnregisterScannerActivity();
+        }
         private void Scanner_BeforeReceive(object sender, EventArgs e)
         {
             ((Activity)sender).RunOnUiThread(() =>
@@ -61,7 +71,7 @@ namespace RadioLogisticaDeliveries
 
         }
 
-        private async void Scanner_AfterReceive(object sender, ReceiveEventArgs e)
+        private async void SScanner_AfterReceive(object sender, ReceiveEventArgs e)
         {
             var _scan = e.ReceivedData;
             if (_scan.Substring(0, 2) == "@@" && _scan.Substring(_scan.Length - 2, 2) == "##") //QRCODE
@@ -80,13 +90,14 @@ namespace RadioLogisticaDeliveries
 
             }
             orderNumberET.Text = _scan;
-            await ActionGo();
+            var _res = await ActionGo(_scan);
             ((Activity)sender).RunOnUiThread(() =>
             {
                 orderNumberET.Enabled = true;
                 orderNumberET.Text = "";
             });
-            orderNumberET.Tag = "SCAN";
+            if (_res)
+                orderNumberET.Tag = "SCAN";
         }
 
         private async void OrderNumberET_KeyPress(object sender, View.KeyEventArgs e)
@@ -94,7 +105,7 @@ namespace RadioLogisticaDeliveries
             if (e.Event.Action == KeyEventActions.Down && (e.KeyCode == Keycode.Enter || e.KeyCode == Keycode.Tab))
             {
                 orderNumberET.Enabled = false;
-                await ActionGo();
+                await ActionGo(orderNumberET.Text);
                 orderNumberET.Enabled = true;
             }
             else
@@ -103,26 +114,26 @@ namespace RadioLogisticaDeliveries
             }
         }
 
-        private async Task ActionGo()
+        private async Task<bool> ActionGo(string data)
         {
-            if (orderNumberET.Text == "")
+            if (data == "")
             {
                 cSounds.Error(Activity);
                 Toast.MakeText(Activity, "Please enter one valid Order Number", ToastLength.Long).Show();
-                orderNumberET.Text = "";
-                return;
+                data = "";
+                return false;
             }
 
             string _orderNumber;
             string _blockCode;
-            if (orderNumberET.Text.IsNumeric() && orderNumberET.Text.Length>6)
+            if (data.IsNumeric() && data.Length>6)
             {
-                _orderNumber = orderNumberET.Text;
+                _orderNumber = data;
                 _blockCode = "";
             } else
             {
                 _orderNumber = null;
-                _blockCode = orderNumberET.Text;
+                _blockCode = data;
             }
             //buttonOk.Enabled = false;
             Values.gDatos.DataBase = "LOGISTICA";
@@ -140,9 +151,9 @@ namespace RadioLogisticaDeliveries
             {
                 Toast.MakeText(Activity, ex.Message, ToastLength.Long).Show();
                 await Values.iFt.pushInfo(ex.Message);
-                orderNumberET.Text = "";
+                data = "";
                 //buttonOk.Enabled = true;
-                return;
+                return false;
             }
             await Values.iFt.pushInfo("Done");
             Values.gSession = _sp.LastMsg.Substring(3);
@@ -151,7 +162,7 @@ namespace RadioLogisticaDeliveries
             
             if (_orderNumber!=null)
             {
-                Values.gOrderNumber = orderNumberET.Text.ToInt();
+                Values.gOrderNumber = data.ToInt();
                 Values.hFt.t4.Text = string.Format("Order: {0}", Values.gOrderNumber);
             }
 
@@ -165,7 +176,7 @@ namespace RadioLogisticaDeliveries
             await getDataFromServer();
             Values.SQLidb.Complete = true;
             //await Values.sFt.ChangeProgressVisibility(false);
-
+            return true;
 
 
         }

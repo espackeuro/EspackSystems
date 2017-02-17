@@ -122,7 +122,7 @@ namespace RadioLogisticaDeliveries
         {
             try
             {
-                await Values.SQLidb.db.InsertAsync(new ScannedData() { Action = "ADD", Service = LabelService, Session = Values.gSession, Rack = Rack, Partnumber = Partnumber, Qty = Qty, LabelRack = LabelRack, Transmitted=false });
+                await Values.SQLidb.db.InsertAsync(new ScannedData() { Action = "ADD", Service = LabelService== "" ? Values.gService : LabelService, Session = Values.gSession, Rack = Rack, Partnumber = Partnumber, Qty = Qty, LabelRack = LabelRack, Transmitted=false });
             }
             catch (Exception ex)
             {
