@@ -14,10 +14,12 @@ using Android.OS;
 using Scanner;
 using Android.Content.PM;
 using Java.Util.Zip;
+using I18N.Common;
+using I18N.West;
 
 namespace RadioFXC
 {
-    static class Values
+    public static class Values
     {
         public static cAccesoDatosNet gDatos = new cAccesoDatosNet();
         public static cAccesoDatosNet gDatosLOG = new cAccesoDatosNet();
@@ -26,7 +28,7 @@ namespace RadioFXC
         public static string gFTPDir;
         public static string gFTPPassword;
         public static string gService;
-        public static string Version { get; set; }
+        public static string Version;
     }
 
     [Activity(Label = "*Radio REPAIRS", MainLauncher = true, Icon = "@drawable/ic_launcher")]
@@ -35,6 +37,8 @@ namespace RadioFXC
         
         protected override void OnCreate(Bundle bundle)
         {
+           
+            var a = CP1252.GetEncoding("utf-32");
             base.OnCreate(bundle);
             //version control
             Context context = this.ApplicationContext;
@@ -69,12 +73,16 @@ namespace RadioFXC
                     Values.gDatos.Password = LogonDetails.password;
 
 
-                    var RS = new DynamicRS("Select Datos=CMP_Varchar from datosEmpresa where codigo='FTP_DATA'",Values.gDatos);
-                    RS.Open();
-                    Values.gFTPServer = RS["Datos"].ToString().Split('|')[1]; //"10.201.10.1";
-                    Values.gFTPDir = RS["Datos"].ToString().Split('|')[2]; ;//"/FTP/";
-                    Values.gFTPUser = RS["Datos"].ToString().Split('|')[3];//"logon";
-                    Values.gFTPPassword = RS["Datos"].ToString().Split('|')[4]; ;//"*logon*";
+                    //var RS = new DynamicRS("Select Datos=CMP_Varchar from datosEmpresa where codigo='FTP_DATA'",Values.gDatos);
+                    //RS.Open();
+                    //Values.gFTPServer = RS["Datos"].ToString().Split('|')[1]; //"10.201.10.1";
+                    //Values.gFTPDir = RS["Datos"].ToString().Split('|')[2]; ;//"/FTP/";
+                    //Values.gFTPUser = RS["Datos"].ToString().Split('|')[3];//"logon";
+                    //Values.gFTPPassword = RS["Datos"].ToString().Split('|')[4]; ;//"*logon*";
+                    Values.gFTPServer = "ftprepairs.espackeuro.com";
+                    Values.gFTPDir= "/FTP/";
+                    Values.gFTPUser = "logon";
+                    Values.gFTPPassword = "*logon*";
 
                     // gDatos for LOGISTICA
                     Values.gDatosLOG.DataBase = "LOGISTICA";

@@ -46,20 +46,7 @@ namespace RadioFXC
         public FragmentPicturesManagement() 
             : base()
         {
-            cImageFileList = new ListImageFile();
-            cUnitNumber = UnitRepair.cUnitNumber;
-            cRepairCode = UnitRepair.cRepairCode;
-            cCount = 0;
-            cRSOld.Open("Select FileName,FilePath,Thumbnail,len=len(Thumbnail),IdPicture from PicturesRepairs where RepairCode='" + cRepairCode+"' and UnitNumber='"+cUnitNumber+"' order by xfec", Values.gDatos );
-            while (!cRSOld.EOF)
-            {
-                Bitmap _bm = BitmapFactory.DecodeByteArray((byte[])cRSOld["Thumbnail"], 0, Convert.ToInt32(cRSOld["len"]));
-                ImageFile elFile = new ImageFile(cRSOld["FileName"].ToString(), _bm);
-                elFile.IdPicture = cRSOld["IdPicture"].ToString();
-                cImageFileList.Add(elFile);
-                cRSOld.MoveNext();
-            }
-            cRSOld.Close();
+
         }
         public int cWidthThumbnail
         {
@@ -68,8 +55,29 @@ namespace RadioFXC
                 return (Math.Min(Resources.DisplayMetrics.WidthPixels, Resources.DisplayMetrics.HeightPixels) - 100) / 3;
             }
         }
+        public override async void OnCreate(Bundle savedInstanceState)
+        {
+            base.OnCreate(savedInstanceState);
+            //constructor stuff
+            cImageFileList = new ListImageFile();
+            cUnitNumber = UnitRepair.cUnitNumber;
+            cRepairCode = UnitRepair.cRepairCode;
+            cCount = 0;
+            cRSOld.Open("Select FileName,FilePath,Thumbnail,len=len(Thumbnail),IdPicture from PicturesRepairs where RepairCode='" + cRepairCode + "' and UnitNumber='" + cUnitNumber + "' order by xfec", Values.gDatos);
+            while (!cRSOld.EOF)
+            {
+                Bitmap _bm = BitmapFactory.DecodeByteArray((byte[])cRSOld["Thumbnail"], 0, Convert.ToInt32(cRSOld["len"]));
+                ImageFile elFile = new ImageFile(cRSOld["FileName"].ToString(), _bm);
+                elFile.IdPicture = cRSOld["IdPicture"].ToString();
+                await cImageFileList.Add(elFile);
+                cRSOld.MoveNext();
+            }
+            cRSOld.Close();
+            //
+        }
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
+
             var root = inflater.Inflate(Resource.Layout.fragment_RepairPictures, container, false);
             root.FindViewById<TextView>(Resource.Id.lblUnitNumber).Text = cUnitNumber;
             root.FindViewById<TextView>(Resource.Id.lblRepairNumber).Text = cRepairCode;
