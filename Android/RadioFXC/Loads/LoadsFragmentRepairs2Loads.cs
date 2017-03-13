@@ -30,7 +30,6 @@ namespace RadioFXC
             list = root.FindViewById<Android.Widget.ListView>(Android.Resource.Id.List);
             //var progress = root.FindViewById<ProgressBar>(Resource.Id.progressBar1);
             //progress.Visibility = ViewStates.Invisible;
-
             var adapter = new ListRepairs2LoadAdapter(Activity);
             list.Adapter = adapter;
             adapter.list = list;
@@ -48,16 +47,8 @@ namespace RadioFXC
                 try
                 {
                     button.Enabled = false;
-                    var checkedItemsPositions = list.CheckedItemPositions;
                     var _cadena = "|";
-                    for (var i = 0; i < checkedItemsPositions.Size(); i++)
-                    {
-                        if (checkedItemsPositions.ValueAt(i) == true)
-                        {
-                            //Toast.MakeText(Activity, "Selected " + list.GetItemAtPosition(checkedItemsPositions.KeyAt(i)).ToString().Split('|')[0], ToastLength.Short).Show();
-                            _cadena += list.GetItemAtPosition(checkedItemsPositions.KeyAt(i)).ToString().Split('|')[0] + '|';
-                        }
-                    }
+                    adapter.ListElements.Where(e => e.Selected).ToList().ForEach(f => _cadena += f.RepairCode + '|');
                     //var _SP = new SP(Values.gDatos, "pAddCadenaRepais2Loads");
                     //_SP.AddParameterValue("LoadNumber", Loads.LoadNumber);
                     //_SP.AddParameterValue("cadena", _cadena);
@@ -86,9 +77,9 @@ namespace RadioFXC
                     Values.gDatos.DataBase = "REPAIRS";
                     //progress.Visibility = ViewStates.Invisible;
                     Activity.RunOnUiThread(() => Toast.MakeText(Activity, "Process OK!!", ToastLength.Long).Show());
-                    list.CheckedItemPositions.Clear();
                     adapter.NotifyDataSetChanged();
                     list.InvalidateViews();
+                    list.SetSelection(0);
                     button.Enabled = true;
                 }
                 catch (Exception ex)
@@ -104,13 +95,12 @@ namespace RadioFXC
             //receiver.list = list;
             //Activity.RegisterReceiver(receiver, filter);
             list.SetSelection(0);
-            //list.ItemSelected += List_ItemSelected;
-
             //scanner
             sScanner.RegisterScannerActivity(Activity);
             sScanner.AfterReceive += SScanner_AfterReceive;
             return root;
         }
+
 
         private void SScanner_AfterReceive(object sender, ReceiveEventArgs e)
         {
@@ -118,8 +108,9 @@ namespace RadioFXC
             var _index = l.FindIndex(p => p.UnitNumber == e.ReceivedData);
             if (_index != -1)
             {
-                Activity.RunOnUiThread(() => list.SetItemChecked(_index, true));
-                list.SmoothScrollToPosition(_index);
+                l[_index].SetSelected(!l[_index].Selected);
+                list.InvalidateViews();
+                list.SetSelection(_index);
             }
             //for (var i = 0; i < list.Count - 1; i++)
             //{
@@ -135,9 +126,15 @@ namespace RadioFXC
             base.OnDestroyView();
             sScanner.UnregisterScannerActivity();
         }
-        private void List_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
+        private void List_ItemSelected(object sender, AdapterView.ItemClickEventArgs e)
         {
-            throw new NotImplementedException();
+            //e.View.Selected = !e.View.Selected;
+            if (e.View.Selected)
+                e.View.SetBackgroundResource(Resource.Drawable.cellSelectedDrawable);
+            else
+                e.View.SetBackgroundResource(Resource.Drawable.cellNormalDrawable);
+            ((ListRepairs2LoadAdapter)list.Adapter).NotifyDataSetChanged();
+            list.InvalidateViews();
         }
 
         //public class ScanReceiver : BroadcastReceiver
@@ -179,11 +176,20 @@ namespace RadioFXC
         }
     }
 
-    public struct Repair 
+    public class Repair 
     {
         public string UnitNumber { get; set; }
         public string RepairCode { get; set; }
         public string Flags { get; set; }
+        public bool Selected { get; private set; } = false;
+        public void SetSelected(bool Status)
+        {
+            if (Flags.IndexOf("PENDING") != -1 || Flags.IndexOf("ERR") != -1)
+                Selected = false;
+            else
+                Selected = Status;
+        }
+        //public int position { get; set; }
     }
 
     public class ListRepairs2LoadAdapter : BaseAdapter
@@ -240,42 +246,59 @@ namespace RadioFXC
             if (convertView == null)
             {
                 convertView = LayoutInflater.From(context).Inflate(Android.Resource.Layout.SimpleListItemActivated2, parent, false);
+                convertView.Click += ConvertView_Click;
                 //convertView.Click += ConvertView_Click;
             }
             convertView.FindViewById<TextView>(Android.Resource.Id.Text1).Text = "UNIT: " +ListElements[position].UnitNumber;
             convertView.FindViewById<TextView>(Android.Resource.Id.Text2).Text = "REPAIR CODE: " + ListElements[position].RepairCode;
+
+            convertView.Tag = position;
+            Colorize(convertView);
+            return convertView;
+        }
+
+        private void Colorize(View convertView)
+        {
+            var position =Convert.ToInt32(convertView.Tag);
             if (ListElements[position].Flags.IndexOf("ERR") != -1)
+            {
                 convertView.SetBackgroundResource(Resource.Drawable.cellErrorDrawable);
+            }
             //convertView.SetBackgroundColor(Android.Graphics.Color.Red);
             else if (ListElements[position].Flags.IndexOf("PENDING") != -1)
-                convertView.SetBackgroundResource(Resource.Drawable.cellPendingrDrawable);
-            else if (list.IsItemChecked(position))
+            {
+                convertView.SetBackgroundResource(Resource.Drawable.cellPendingDrawable);
+            }
+            else if (ListElements[position].Selected)
+                convertView.SetBackgroundResource(Resource.Drawable.cellSelectedDrawable);
+            else
                 convertView.SetBackgroundResource(Resource.Drawable.cellNormalDrawable);
-            //else
-            //    convertView.SetBackgroundColor(Android.Graphics.Color.Transparent);
-            return convertView;
         }
 
         private void ConvertView_Click(object sender, EventArgs e)
 
         {
-            var positions = list.CheckedItemPositions;
-            int counter = 0;
-            if (positions != null)
-            {
-                int length = positions.Size();
-                for (int i = 0; i < length; i++)
-                {
-                    if (positions.ValueAt(i) == true)
-                    {
-                        counter++;
-                    }
-                }
-                LoadLabel.Text = Loads.Label;
-            }
+            //((View)sender).Selected = !((View)sender).Selected;
+            var position = Convert.ToInt32(((View)sender).Tag);
+            ListElements[position].SetSelected(!ListElements[position].Selected);
+            //list.SetItemChecked(position, !list.CheckedItemPositions.ValueAt(position));
+            Colorize((View)sender);
             
+            //var positions = list.CheckedItemPositions;
+            //int counter = 0;
+            //if (positions != null)
+            //{
+            //    int length = positions.Size();
+            //    for (int i = 0; i < length; i++)
+            //    {
+            //        if (positions.ValueAt(i) == true)
+            //        {
+            //            counter++;
+            //        }
+            //    }
+            //    LoadLabel.Text = Loads.Label;
         }
-
-    }
+            
+   }
 
 }
