@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sistemas", "..\Sistemas\Sistemas.csproj", "{DFF98615-73BD-4E97-B388-A139E206B174}"
 EndProject
@@ -78,6 +78,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Owncloud", "..\..\Network Libraries\Owncloud\Owncloud.csproj", "{0F193F80-9610-4020-8974-9AAA02BD1CA8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebDav", "TestWebDav\TestWebDav.csproj", "{C63B096D-9899-4F79-A235-5CFE4655080B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerShellTests", "PowerShellTests\PowerShellTests.csproj", "{FB776F7E-3506-4CF3-9960-45161B0234FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ADControl", "PowerShell\ADControl.csproj", "{B4C5FC29-42A5-410E-A09D-BF68F2519BBC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -213,6 +217,14 @@ Global
 		{C63B096D-9899-4F79-A235-5CFE4655080B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C63B096D-9899-4F79-A235-5CFE4655080B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C63B096D-9899-4F79-A235-5CFE4655080B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB776F7E-3506-4CF3-9960-45161B0234FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB776F7E-3506-4CF3-9960-45161B0234FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB776F7E-3506-4CF3-9960-45161B0234FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB776F7E-3506-4CF3-9960-45161B0234FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4C5FC29-42A5-410E-A09D-BF68F2519BBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4C5FC29-42A5-410E-A09D-BF68F2519BBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4C5FC29-42A5-410E-A09D-BF68F2519BBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4C5FC29-42A5-410E-A09D-BF68F2519BBC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -250,11 +262,13 @@ Global
 		{848E6BF3-BBE2-414E-A303-FB689BFB9AE0} = {85D16BFF-F5DA-4CE8-85D0-78D26D7C6E2A}
 		{0F193F80-9610-4020-8974-9AAA02BD1CA8} = {AD5A54CB-AD85-45E0-B075-83BD4834C36D}
 		{C63B096D-9899-4F79-A235-5CFE4655080B} = {85D16BFF-F5DA-4CE8-85D0-78D26D7C6E2A}
+		{FB776F7E-3506-4CF3-9960-45161B0234FD} = {85D16BFF-F5DA-4CE8-85D0-78D26D7C6E2A}
+		{B4C5FC29-42A5-410E-A09D-BF68F2519BBC} = {AD5A54CB-AD85-45E0-B075-83BD4834C36D}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 33
+		SccNumberOfProjects = 35
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://espack.visualstudio.com/defaultcollection
+		SccTeamFoundationServer = https://espack.visualstudio.com/
 		SccLocalPath0 = .
 		SccProjectUniqueName1 = ..\\Sistemas\\Sistemas.csproj
 		SccProjectTopLevelParentUniqueName1 = Windows\u0020Apps.sln
@@ -384,5 +398,13 @@ Global
 		SccProjectTopLevelParentUniqueName32 = Windows\u0020Apps.sln
 		SccProjectName32 = TestWebDav
 		SccLocalPath32 = TestWebDav
+		SccProjectUniqueName33 = PowerShellTests\\PowerShellTests.csproj
+		SccProjectTopLevelParentUniqueName33 = Windows\u0020Apps.sln
+		SccProjectName33 = PowerShellTests
+		SccLocalPath33 = PowerShellTests
+		SccProjectUniqueName34 = PowerShell\\ADControl.csproj
+		SccProjectTopLevelParentUniqueName34 = Windows\u0020Apps.sln
+		SccProjectName34 = PowerShell
+		SccLocalPath34 = PowerShell
 	EndGlobalSection
 EndGlobal
