@@ -13,6 +13,7 @@ using System.Linq;
 using System.Globalization;
 using System.Net;
 using System.Xml.Linq;
+using System.Security;
 //using ADODB;
 namespace CommonTools
 {
@@ -348,6 +349,20 @@ namespace CommonTools
             return String.Join("",
                  s.Normalize(NormalizationForm.FormD)
                 .Where(c => char.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark));
+        }
+
+        public static SecureString ToSecureString(this string source)
+        {
+
+            if (string.IsNullOrWhiteSpace(source))
+                return null;
+            else
+            {
+                SecureString result = new SecureString();
+                foreach (char c in source.ToCharArray())
+                    result.AppendChar(c);
+                return result;
+            }
         }
 
         public static string PadCenter(this string pString, int totalWidth,char paddingChar)
