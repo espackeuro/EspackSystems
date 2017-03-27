@@ -364,7 +364,22 @@ namespace CommonTools
                 return result;
             }
         }
+        public static string ToUnsecureString(this SecureString securePassword)
+        {
+            if (securePassword == null)
+                throw new ArgumentNullException("securePassword");
 
+            IntPtr unmanagedString = IntPtr.Zero;
+            try
+            {
+                unmanagedString = Marshal.SecureStringToGlobalAllocUnicode(securePassword);
+                return Marshal.PtrToStringUni(unmanagedString);
+            }
+            finally
+            {
+                Marshal.ZeroFreeGlobalAllocUnicode(unmanagedString);
+            }
+        }
         public static string PadCenter(this string pString, int totalWidth,char paddingChar)
         {
             pString = "**********************" + pString + "*******************************";
@@ -572,6 +587,12 @@ namespace CommonTools
         {
             ServerList.Add(pServer);
         }
+    }
+
+    public struct EspackCredentials
+    {
+        public string User { get; set; }
+        public SecureString Password { get; set; }
     }
 
     public interface IsValuable
