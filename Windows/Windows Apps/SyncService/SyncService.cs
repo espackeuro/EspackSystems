@@ -1,0 +1,148 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Diagnostics;
+using System.Linq;
+using System.ServiceProcess;
+using System.Text;
+using System.Threading.Tasks;
+using System.Runtime.InteropServices;
+using CommonTools;
+using AccesoDatosNet;
+
+namespace SyncService
+{
+    
+    public partial class SyncServiceClass : ServiceBase
+    {
+        public SyncServiceClass(string[] args)
+        {
+            InitializeComponent();
+        }
+
+        private List<ISyncedService> SyncedServices = new List<ISyncedService>();
+        //private bool IsRunning = false;
+        private System.Timers.Timer timer;
+
+        protected override void OnStart(string[] args)
+        {
+            // Update the service state to Start Pending.  
+            ServiceStatus serviceStatus = new ServiceStatus();
+            serviceStatus.dwCurrentState = ServiceState.SERVICE_START_PENDING;
+            serviceStatus.dwWaitHint = 100000;
+            SetServiceStatus(this.ServiceHandle, ref serviceStatus);
+            //Services definition
+
+            Values.Servers.ToList().ForEach(pair => 
+            {
+                switch (pair.Key)
+                {
+                    case "NEXTCLOUD":
+                        var NCService = new NextCloudService()
+                        {
+                            ServiceCredentials = new EspackCredentials()
+                            {
+                                User = "system",
+                                Password = "*seso69*".ToSecureString()
+                            },
+                            ServerName = pair.Value
+                        };
+                        SyncedServices.Add(NCService);
+                        EventLog.WriteEntry(string.Format("Added {0} Service to server {1}", pair.Key, pair.Value));
+                        break;
+                    case "DOMAIN":
+                        EventLog.WriteEntry(string.Format("Added {0} Service to server {1}", pair.Key, pair.Value));
+                        break;
+                }
+
+            });
+
+
+            // Timer creation
+            EventLog.WriteEntry("Service Espack Sync Started.");
+            // Set up a timer to trigger every minute.  
+            timer = new System.Timers.Timer();
+            timer.Interval = 6000; // 60 seconds  
+            timer.Elapsed += Timer_Elapsed;
+            timer.Start();
+
+
+            // Update the service state to Running.  
+            serviceStatus.dwCurrentState = ServiceState.SERVICE_RUNNING;
+            SetServiceStatus(this.ServiceHandle, ref serviceStatus);
+        }
+
+        private async void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            timer.Stop();
+            using (var _RS= new DynamicRS("select UserCode, Name, Surname1,Password, MainCOD3, emailAddress, flags  from vUsers where dbo.CheckFlag(flags,'CHANGED')=1", Values.gDatos))
+            {
+                await _RS.OpenAsync();
+                _RS.ToList().ForEach(r =>
+                {
+                    var flags = r["flags"].ToString().Split('|');
+                    SyncedServices.ForEach(async s =>
+                    {
+                        if (flags.Contains(s.ServiceName))
+                        {
+                            try
+                            {
+                                await s.Interact(r["UserCode"].ToString(), r["Name"].ToString(), r["Surname1"].ToString(), r["Password"].ToString(), r["MainCOD3"].ToString(), r["emailAddress"].ToString(), r["flags"].ToString());
+                                EventLog.WriteEntry(string.Format("User {0} from {1} Modified correctly in service {2}", r["UserCode"].ToString(), r["MainCOD3"].ToString(), s.ServiceName));
+                            } catch (Exception ex)
+                            {
+                                EventLog.WriteEntry(string.Format("User {0} from {1} was not modified correctly in service {2}. \nError message was {3}", r["UserCode"].ToString(), r["MainCOD3"].ToString(), s.ServiceName, ex.Message), EventLogEntryType.Error);
+                            }
+                        }
+                    });
+                });
+            }
+            timer.Start();
+        }
+
+        internal void TestStartupAndStop(string[] args)
+        {
+            this.OnStart(args);
+            Console.ReadLine();
+            this.OnStop();
+        }
+        protected override void OnStop()
+        {
+            EventLog.WriteEntry("Service Espack Sync Stopped.");
+        }
+
+        protected override void OnContinue()
+        {
+            EventLog.WriteEntry("In OnContinue.");
+        }
+
+        [DllImport("advapi32.dll", SetLastError = true)]
+        private static extern bool SetServiceStatus(IntPtr handle, ref ServiceStatus serviceStatus);
+    }
+
+
+
+    public enum ServiceState
+    {
+        SERVICE_STOPPED = 0x00000001,
+        SERVICE_START_PENDING = 0x00000002,
+        SERVICE_STOP_PENDING = 0x00000003,
+        SERVICE_RUNNING = 0x00000004,
+        SERVICE_CONTINUE_PENDING = 0x00000005,
+        SERVICE_PAUSE_PENDING = 0x00000006,
+        SERVICE_PAUSED = 0x00000007,
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ServiceStatus
+    {
+        public long dwServiceType;
+        public ServiceState dwCurrentState;
+        public long dwControlsAccepted;
+        public long dwWin32ExitCode;
+        public long dwServiceSpecificExitCode;
+        public long dwCheckPoint;
+        public long dwWaitHint;
+    };
+}

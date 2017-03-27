@@ -641,16 +641,16 @@ namespace LogOn
                     _RS.Open();
                     _master = _RS["master"].ToString();
                 }
-                bool _result= await OCCommands.CheckUser(txtUser.Text, _master);
+                bool _result= await OCCommands.CheckUser(txtUser.Text);
                 PanelName.Text = (_result ? "Owncloud user found" : "Owncoud user not found");
                 if (!_result)
                 {
-                    _result = await OCCommands.AddUser(txtUser.Text, txtNewPassword.Text, Values.FullName, Values.COD3, _master);
+                    _result = await OCCommands.AddUser(txtUser.Text, txtNewPassword.Text, Values.FullName, Values.COD3);
                     PanelName.Text = (_result ? "Owncloud user created correctly" : "ERROR creating Owncloud user!!!");
                 }
                 else
                 {
-                    _result = await OCCommands.UppUser(txtUser.Text, txtNewPassword.Text, Values.FullName, "", _master);
+                    _result = await OCCommands.UppUser(txtUser.Text, txtNewPassword.Text, Values.FullName, "");
                     PanelName.Text = (_result ? "Owncloud user updated correctly" : "ERROR updating Owncloud user!!!");
                 }
             }

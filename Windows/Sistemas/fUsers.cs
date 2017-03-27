@@ -159,7 +159,8 @@ namespace Sistemas
                         //var t = Task.Run(() => OCCommands.CheckUser(txtUserCode.Text, Values.gMasterPassword));
                         //t.Wait();
                         //bool result = t.Result;
-                        bool result = await OCCommands.CheckUser(txtUserCode.Text, Values.gMasterPassword);
+                        OCCommands.Credentials = new EspackCredentials() { User = "system", Password = "*seso69*".ToSecureString() };
+                        bool result = await OCCommands.CheckUser(txtUserCode.Text);
 
                         //bool result = await OCCommands.CheckUser(txtUserCode.Text, Values.gMasterPassword);
                         CTLM.StatusMsg( result ? "Owncloud user found" : "Owncoud user not found");
@@ -169,7 +170,7 @@ namespace Sistemas
                             //var t2 = Task.Run(() => OCCommands.AddUser(txtUserCode.Text, txtPWD.Text, txtName.Text + " " + txtSurname1.Text + " " + txtSurname2.Text, _zonas, Values.gMasterPassword));
                             //t2.Wait();
                             //bool res2 = t2.Result;
-                            bool res2 = await OCCommands.AddUser(txtUserCode.Text, txtPWD.Text, txtName.Text + " " + txtSurname1.Text + " " + txtSurname2.Text, _zonas, Values.gMasterPassword);
+                            bool res2 = await OCCommands.AddUser(txtUserCode.Text, txtPWD.Text, txtName.Text + " " + txtSurname1.Text + " " + txtSurname2.Text, _zonas);
                             CTLM.StatusMsg(res2 ? "Owncloud user created correctly" : "ERROR creating Owncloud user!!!");
                         } else
                         {
@@ -177,7 +178,7 @@ namespace Sistemas
                             //var t2 = Task.Run(() => OCCommands.UppUser(txtUserCode.Text, txtPWD.Text, txtName.Text + " " + txtSurname1.Text + " " + txtSurname2.Text, _zonas, Values.gMasterPassword));
                             //t2.Wait();
                             //bool res2 = t2.Result;
-                            bool res2 = await OCCommands.UppUser(txtUserCode.Text, txtPWD.Text, txtName.Text + " " + txtSurname1.Text + " " + txtSurname2.Text, _zonas, Values.gMasterPassword);
+                            bool res2 = await OCCommands.UppUser(txtUserCode.Text, txtPWD.Text, txtName.Text + " " + txtSurname1.Text + " " + txtSurname2.Text, _zonas);
                             CTLM.StatusMsg(res2 ? "Owncloud user updated correctly" : "ERROR updating Owncloud user!!!");
                         }
                         
