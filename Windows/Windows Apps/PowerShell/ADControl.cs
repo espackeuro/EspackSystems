@@ -11,7 +11,7 @@ using CommonTools;
 
 namespace WindowsPSControl
 {
-    public class EspackConnection
+    public class EspackDomainConnection
     {
         public string ServerName { get; set; }
         public string UserName { get; set; }
@@ -22,6 +22,7 @@ namespace WindowsPSControl
             {
                 return new PSCredential(UserName, Password.ToSecureString());
             }
+
         }
         public WSManConnectionInfo WSMan
         {
@@ -35,9 +36,9 @@ namespace WindowsPSControl
 
     public class PowerShellCommand
     {
-        public EspackConnection EC { get; set; }
+        public EspackDomainConnection EC { get; set; }
         public string Command { get; set; }
-        public System.Collections.ObjectModel.Collection<PSObject> Results { get; private set; }
+        public PSDataCollection<PSObject> Results { get; private set; }
         public string SResults
         {
             get
@@ -47,7 +48,7 @@ namespace WindowsPSControl
                 return _res;
             }
         }
-        public bool Invoke()
+        public async Task<bool> InvokeAsync()
         {
             try
             {
@@ -57,42 +58,61 @@ namespace WindowsPSControl
                     runspace.Open();
                     powershell.Runspace = runspace;
                     powershell.AddScript(Command);
-                    Results = powershell.Invoke();
+
+                    Results = await Task.Factory.FromAsync(powershell.BeginInvoke(), pResult => powershell.EndInvoke(pResult));
+
+                        //var task = powershell.BeginInvoke();
+                        //Results = powershell.EndInvoke(task);
                     return true;
+
                 }
             }
             catch (Exception ex)
             {
-                return false;
+                //return false;
                 throw ex;
             }
         }
     }
     public static class ADControl 
     {
-        public static EspackConnection EC { get; set; }
+        public static EspackDomainConnection EC { get; set; } = new EspackDomainConnection();
         public static string Results { get; set; }
-        public static bool CreateUser(string Name, string Surname, string UserCode, string Password)
+        public static async Task<bool> CreateUser(string Name, string Surname, string UserCode, string Password)
         {
             var command = new PowerShellCommand()
             {
                 EC = EC,
-                Command = string.Format("New-ADUser -Name '{0} {1}' -GivenName {0} -Surname {1} -SamAccountName {2} -UserPrincipalName {2}@systems.espackeuro.com -AccountPassword (ConvertTo-SecureString -AsPlainText '{3}' -Force) -PassThru | Enable-ADAccount", Name, Surname, UserCode, Password)
+                Command = string.Format("New-ADUser -Name '{0} {1}' -GivenName {0} -Surname {1} -SamAccountName {2} -UserPrincipalName {2}@systems.espackeuro.com -PasswordNeverExpires:$True -AccountPassword (ConvertTo-SecureString -AsPlainText '{3}' -Force) -PassThru | Enable-ADAccount;", Name, Surname, UserCode, Password)
             };
-            var _res = command.Invoke();
+            var _res = await command.InvokeAsync();
             Results = command.SResults;
             return _res;
         }
 
-
-        public static bool CheckUser(string UserCode)
+        public static async Task<bool> UpdateUser(string Name, string Surname, string UserCode, string Password)
+        {
+            var command = new PowerShellCommand()
+            {
+                EC = EC,
+                Command = string.Format(@"
+Get-ADUser -Identity '{0}' | Rename-ADObject -NewName '{1} {2}' ;
+Get-ADUser -Identity '{0}' | Set-ADUser -DisplayName '{1} {2}' -GivenName '{1}' -Surname '{2}' -PasswordNeverExpires:$True;
+Get-ADUser -Identity '{0}' | Set-ADAccountPassword -Reset -NewPassword (ConvertTo-SecureString -AsPlainText '{3}' –Force);
+", UserCode, Name, Surname, Password)
+            };
+            var _res = await command.InvokeAsync();
+            Results = command.SResults;
+            return _res;
+        }
+        public static async Task<bool> CheckUser(string UserCode)
         {
             var command = new PowerShellCommand()
             {
                 EC = EC,
                 Command = "Get-ADUser -Filter {sAMAccountName -eq '"+UserCode+"'}"
             };
-            var _res = command.Invoke();
+            var _res = await command.InvokeAsync();
             Results = command.SResults;
             return Results != "";
         }

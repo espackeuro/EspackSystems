@@ -31,14 +31,23 @@ namespace PowerShellTests
             //    results.Where(o => o != null).ToList().ForEach(output => Console.WriteLine(output.ToString()));
             //}
             //Assume we’re done
-            ADControl.EC = new EspackConnection()
+            ADControl.EC = new EspackDomainConnection()
             {
                 ServerName = "Sauron",
                 UserName = "SYSTEMS\\Administrador",
                 Password = "Y?D6d#b@"
             };
-            var _res = ADControl.CheckUser("patato");
 
+            Task.Run(()=>doChecks()).Wait();
+            
         }
+
+
+        static async Task doChecks()
+        {
+            var _res = await ADControl.CheckUser("jgallego");
+            _res = await ADControl.UpdateUser("Juana", "Gallego", "jgallego", "wales136");
+        }
+
     }
 }

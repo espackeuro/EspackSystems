@@ -77,15 +77,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleSocksTEst", "SimpleSo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Owncloud", "..\..\Network Libraries\Owncloud\Owncloud.csproj", "{0F193F80-9610-4020-8974-9AAA02BD1CA8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebDav", "TestWebDav\TestWebDav.csproj", "{C63B096D-9899-4F79-A235-5CFE4655080B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerShellTests", "PowerShellTests\PowerShellTests.csproj", "{FB776F7E-3506-4CF3-9960-45161B0234FD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ADControl", "PowerShell\ADControl.csproj", "{B4C5FC29-42A5-410E-A09D-BF68F2519BBC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceTest", "ServiceTest\ServiceTest.csproj", "{1C4D165E-8152-4E80-BC19-54D8907B2556}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Setup", "Setup", "{6E23A6F8-08CB-475E-A5D4-593153D1C683}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyncService", "SyncService\SyncService.csproj", "{EB3D2F13-ECC5-418B-B09B-086447DFC60A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EspackSyncService", "EspackSyncService\EspackSyncService.csproj", "{60BD1BE4-E044-4EF7-BAC7-047FA0A4826F}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "EspackSyncServiceSetup", "EspackSyncServiceSetup\EspackSyncServiceSetup.vdproj", "{22FFCD75-2DED-45C4-A8E6-EC5C2F1C7ADC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -217,10 +217,6 @@ Global
 		{0F193F80-9610-4020-8974-9AAA02BD1CA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F193F80-9610-4020-8974-9AAA02BD1CA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F193F80-9610-4020-8974-9AAA02BD1CA8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C63B096D-9899-4F79-A235-5CFE4655080B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C63B096D-9899-4F79-A235-5CFE4655080B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C63B096D-9899-4F79-A235-5CFE4655080B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C63B096D-9899-4F79-A235-5CFE4655080B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FB776F7E-3506-4CF3-9960-45161B0234FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FB776F7E-3506-4CF3-9960-45161B0234FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB776F7E-3506-4CF3-9960-45161B0234FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -229,14 +225,13 @@ Global
 		{B4C5FC29-42A5-410E-A09D-BF68F2519BBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4C5FC29-42A5-410E-A09D-BF68F2519BBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4C5FC29-42A5-410E-A09D-BF68F2519BBC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1C4D165E-8152-4E80-BC19-54D8907B2556}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1C4D165E-8152-4E80-BC19-54D8907B2556}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1C4D165E-8152-4E80-BC19-54D8907B2556}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1C4D165E-8152-4E80-BC19-54D8907B2556}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EB3D2F13-ECC5-418B-B09B-086447DFC60A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EB3D2F13-ECC5-418B-B09B-086447DFC60A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EB3D2F13-ECC5-418B-B09B-086447DFC60A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EB3D2F13-ECC5-418B-B09B-086447DFC60A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60BD1BE4-E044-4EF7-BAC7-047FA0A4826F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60BD1BE4-E044-4EF7-BAC7-047FA0A4826F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60BD1BE4-E044-4EF7-BAC7-047FA0A4826F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60BD1BE4-E044-4EF7-BAC7-047FA0A4826F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22FFCD75-2DED-45C4-A8E6-EC5C2F1C7ADC}.Debug|Any CPU.ActiveCfg = Debug
+		{22FFCD75-2DED-45C4-A8E6-EC5C2F1C7ADC}.Debug|Any CPU.Build.0 = Debug
+		{22FFCD75-2DED-45C4-A8E6-EC5C2F1C7ADC}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -273,14 +268,13 @@ Global
 		{88DB6370-4C8E-4361-9B63-330646A745C1} = {AD5A54CB-AD85-45E0-B075-83BD4834C36D}
 		{848E6BF3-BBE2-414E-A303-FB689BFB9AE0} = {85D16BFF-F5DA-4CE8-85D0-78D26D7C6E2A}
 		{0F193F80-9610-4020-8974-9AAA02BD1CA8} = {AD5A54CB-AD85-45E0-B075-83BD4834C36D}
-		{C63B096D-9899-4F79-A235-5CFE4655080B} = {85D16BFF-F5DA-4CE8-85D0-78D26D7C6E2A}
 		{FB776F7E-3506-4CF3-9960-45161B0234FD} = {85D16BFF-F5DA-4CE8-85D0-78D26D7C6E2A}
 		{B4C5FC29-42A5-410E-A09D-BF68F2519BBC} = {AD5A54CB-AD85-45E0-B075-83BD4834C36D}
-		{1C4D165E-8152-4E80-BC19-54D8907B2556} = {85D16BFF-F5DA-4CE8-85D0-78D26D7C6E2A}
-		{EB3D2F13-ECC5-418B-B09B-086447DFC60A} = {1D17A21A-95D8-436A-8A3A-38AE2EF835CA}
+		{60BD1BE4-E044-4EF7-BAC7-047FA0A4826F} = {1D17A21A-95D8-436A-8A3A-38AE2EF835CA}
+		{22FFCD75-2DED-45C4-A8E6-EC5C2F1C7ADC} = {6E23A6F8-08CB-475E-A5D4-593153D1C683}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 37
+		SccNumberOfProjects = 36
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://espack.visualstudio.com/
 		SccLocalPath0 = .
@@ -408,25 +402,21 @@ Global
 		SccProjectTopLevelParentUniqueName31 = Windows\u0020Apps.sln
 		SccProjectName31 = ../../Network\u0020Libraries/Owncloud
 		SccLocalPath31 = ..\\..\\Network\u0020Libraries\\Owncloud
-		SccProjectUniqueName32 = TestWebDav\\TestWebDav.csproj
+		SccProjectUniqueName32 = PowerShellTests\\PowerShellTests.csproj
 		SccProjectTopLevelParentUniqueName32 = Windows\u0020Apps.sln
-		SccProjectName32 = TestWebDav
-		SccLocalPath32 = TestWebDav
-		SccProjectUniqueName33 = PowerShellTests\\PowerShellTests.csproj
+		SccProjectName32 = PowerShellTests
+		SccLocalPath32 = PowerShellTests
+		SccProjectUniqueName33 = PowerShell\\ADControl.csproj
 		SccProjectTopLevelParentUniqueName33 = Windows\u0020Apps.sln
-		SccProjectName33 = PowerShellTests
-		SccLocalPath33 = PowerShellTests
-		SccProjectUniqueName34 = PowerShell\\ADControl.csproj
+		SccProjectName33 = PowerShell
+		SccLocalPath33 = PowerShell
+		SccProjectUniqueName34 = EspackSyncService\\EspackSyncService.csproj
 		SccProjectTopLevelParentUniqueName34 = Windows\u0020Apps.sln
-		SccProjectName34 = PowerShell
-		SccLocalPath34 = PowerShell
-		SccProjectUniqueName35 = ServiceTest\\ServiceTest.csproj
+		SccProjectName34 = EspackSyncService
+		SccLocalPath34 = EspackSyncService
+		SccProjectUniqueName35 = EspackSyncServiceSetup\\EspackSyncServiceSetup.vdproj
 		SccProjectTopLevelParentUniqueName35 = Windows\u0020Apps.sln
-		SccProjectName35 = ServiceTest
-		SccLocalPath35 = ServiceTest
-		SccProjectUniqueName36 = SyncService\\SyncService.csproj
-		SccProjectTopLevelParentUniqueName36 = Windows\u0020Apps.sln
-		SccProjectName36 = SyncService
-		SccLocalPath36 = SyncService
+		SccProjectName35 = EspackSyncServiceSetup
+		SccLocalPath35 = EspackSyncServiceSetup
 	EndGlobalSection
 EndGlobal
