@@ -61,37 +61,37 @@ namespace RadioLogisticaDeliveries
                 return string.Format("Warning: {0}", _warningMessage);
             }
         }
-        public async Task PushInfo()
+        public void PushInfo()
         {
             switch (Status)
             {
                 case dataStatus.WARNING:
-                    await Values.iFt.SetMessage(Warning);
-                    await Values.iFt.pushInfo(this.Info);
+                    Values.iFt.SetMessage(Warning);
+                    Values.iFt.pushInfo(this.Info);
                     return;
                 case dataStatus.ERROR:
-                    await Values.iFt.SetMessage(Error);
+                    Values.iFt.SetMessage(Error);
                     return;
             }
-            await Values.iFt.SetMessage("");
-            await Values.iFt.pushInfo(this.Info);
+            Values.iFt.SetMessage("");
+            Values.iFt.pushInfo(this.Info);
         }
 
-        public async Task UpdateCurrent()
+        public void UpdateCurrent()
         {
             switch (Status)
             {
                 case dataStatus.WARNING:
-                    await Values.iFt.SetMessage(Warning);
-                    await Values.iFt.pushInfo(Info);
-                    await Values.iFt.updateMainLine(Info);
+                    Values.iFt.SetMessage(Warning);
+                    Values.iFt.pushInfo(Info);
+                    Values.iFt.updateMainLine(Info);
                     return;
                 case dataStatus.ERROR:
-                    await Values.iFt.SetMessage(Error);
+                    Values.iFt.SetMessage(Error);
                     return;
             }
-            await Values.iFt.SetMessage("");
-            await Values.iFt.updateMainLine(Info);
+            Values.iFt.SetMessage("");
+            Values.iFt.updateMainLine(Info);
         }
 
         public virtual Task<bool> doCheckings() { return Task.FromResult(false); }

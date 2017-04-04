@@ -11,6 +11,8 @@ using Android.Views;
 using Android.Widget;
 using System.Threading.Tasks;
 using AccesoDatosNet;
+using Android.Util;
+
 namespace RadioLogisticaDeliveries
 {
     public struct QueryResult { public string Rack; public int count; }
@@ -19,7 +21,7 @@ namespace RadioLogisticaDeliveries
     public class MainScreen : Activity
     {
        
-        protected async override void OnCreate(Bundle savedInstanceState)
+        protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.mainLayout);
@@ -57,22 +59,27 @@ namespace RadioLogisticaDeliveries
             Values.sFt = new statusFragment();
             ft.Replace(Resource.Id.StatusFragment, Values.sFt);
             ft.Commit();
-            if (_mainScreenMode!="NEW")
-            {
 
-                var _query = from p in await Values.SQLidb.db.Table<ScannedData>().ToListAsync() group p by p.Rack into grp select new {Rack = grp.Key, qty =grp.Count(), id = grp.Min(x => x.idreg) } ;
-                _query.OrderBy(r => r.id).ToList().ForEach(async x => await Values.iFt.pushInfo(x.Rack, x.qty.ToString()));
-                await Values.iFt.pushInfo("Racks previously read");
-                //var _query = await Values.SQLidb.db.QueryAsync<QueryResult>("Select 'test', 10 ");//Rack, count(*) from ScannedData group by Rack order by idreg desc limit 3");
-
-            }
             //Values.dtm = new DataTransferManager();
             //start the transmission service
 
 
             EspackCommServer.Server.PropertyChanged += ConnectionServer_PropertyChanged; ;
         }
+        //public override View OnCreateView(string name, Context context, IAttributeSet attrs)
+        //{
+        //    //info when recovering
+        //    if (_mainScreenMode != "NEW")
+        //    {
 
+        //        var _query = from p in Values.SQLidb.db.Table<ScannedData>().ToListAsync().Result group p by p.Rack into grp select new { Rack = grp.Key, qty = grp.Count(), id = grp.Min(x => x.idreg) };
+        //        foreach (var x in _query.OrderBy(r => r.id))
+        //            Values.iFt.pushInfo(x.Rack, x.qty.ToString());
+        //        Values.iFt.pushInfo("Racks previously read");
+        //    }
+        //    return base.OnCreateView(name, context, attrs);
+
+        //}
         private async void ConnectionServer_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName=="Status")

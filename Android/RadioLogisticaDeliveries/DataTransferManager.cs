@@ -61,7 +61,7 @@ namespace RadioLogisticaDeliveries
             {
                 try
                 {
-                    var query = await Values.SQLidb.db.Table<ScannedData>().Where(r => r.Transmitted == false).ToListAsync().ConfigureAwait(true);
+                    var query = await Values.SQLidb.db.Table<ScannedData>().Where(r => r.Transmitted == false).ToListAsync();
                     if (query.Count == 0)
                         break;
                     foreach (var r in query)
@@ -111,7 +111,7 @@ namespace RadioLogisticaDeliveries
                                 catch (Exception ex)
                                 {
                                     Transmitting = false;
-                                    await Values.dFt.SetMessage(ex.Message);
+                                    Values.dFt.SetMessage(ex.Message);
                                     return;
                                 }
                             }
@@ -130,7 +130,7 @@ namespace RadioLogisticaDeliveries
                     return;
                 }
             }
-            await Values.dFt.SetMessage("");
+            //Values.dFt.SetMessage("");
             Transmitting = false;
             return;
         }

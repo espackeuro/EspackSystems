@@ -30,12 +30,16 @@ namespace RadioLogisticaDeliveries
         {
             _dataList.Add(d);
         }
+
+        public bool Processing { get; set; } = false;
+
         public async Task Add(string reading)
         {
             if (Context == null)
             {
                 throw new Exception("Context not set");
             }
+            Processing = true;
             cData _data;
             //QRCODE
             if (reading.Length>2 && reading.Substring(0, 2) == "@@" && reading.Substring(reading.Length - 2, 2) == "##") //QRCODE
@@ -62,13 +66,15 @@ namespace RadioLogisticaDeliveries
                 {
                     cSounds.Error(Context);
                     await AlertDialogHelper.ShowAsync(Context, "ERROR", "Current mode is READING, cannot process this data.", "OK", "");
+                    Processing = false;
                     return;
                 }
                 //check if serial is in list
                 if (_dataList.OfType<dataChecking>().FirstOrDefault(r => r.Serial== reading) != null)
                     {
                     cSounds.Error(Context);
-                    await Values.iFt.SetMessage(string.Format("Error: Serial {0} already checked.", reading ));
+                    Values.iFt.SetMessage(string.Format("Error: Serial {0} already checked.", reading ));
+                    Processing = false;
                     return;
                 }
                 _data = new dataChecking() { Context = Context, Rack = Values.CurrentRack, Data = reading, Serial = reading };
@@ -78,7 +84,8 @@ namespace RadioLogisticaDeliveries
                     position++;
                     //Values.sFt.CheckQtyReceived++;
                 }
-                await _data.PushInfo();
+                _data.PushInfo();
+                Processing = false;
                 return;
             }
             else
@@ -89,6 +96,7 @@ namespace RadioLogisticaDeliveries
                 {
                     cSounds.Error(Context);
                     await AlertDialogHelper.ShowAsync(Context, "ERROR", "Current mode is CHECKING, cannot process this data.", "OK", "");
+                    Processing = false;
                     return;
                 }
                 var _split = reading.Split('%');
@@ -105,7 +113,8 @@ namespace RadioLogisticaDeliveries
                     {
                         _r.Qty++;
                         await _r.doCheckings();
-                        await Current().UpdateCurrent();
+                        Current().UpdateCurrent();
+                        Processing = false;
                         return;
                     }
                     else
@@ -116,6 +125,20 @@ namespace RadioLogisticaDeliveries
                 if (newReading)
                 {
                     //NEW READING
+                    //get previous reading in the rack with the same data
+                    var itemToRemove = _dataList.SingleOrDefault(r => r is dataReading && ((dataReading)r).Partnumber == _pn && ((dataReading)r).LabelRack == _lr && ((dataReading)r).LabelService == _ls && (((dataReading)r).Status == dataStatus.READ || ((dataReading)r).Status == dataStatus.WARNING));
+                    //var _query = from r in _dataList
+                    //             where r is dataReading && ((dataReading)r).Partnumber == _pn && ((dataReading)r).LabelRack == _lr && ((dataReading)r).LabelService == _ls && (((dataReading)r).Status == dataStatus.READ || ((dataReading)r).Status == dataStatus.WARNING)
+                    //             select r;
+                    //foreach (var d in _query)
+                    //_dataList.Remove(d);
+                    if (itemToRemove != null)
+                    {
+                        _dataList.Remove(itemToRemove);
+                        position--;
+                    }
+
+                    //_dataList.OfType<dataReading>().Select(r) => r.Partnumber=_pn && r.)
                     _data = new dataReading()
                     {
                         Context = Context,
@@ -132,7 +155,8 @@ namespace RadioLogisticaDeliveries
                         position++;
                         //Values.sFt.ReadQtyReceived++;
                     }
-                    await _data.PushInfo();
+                    _data.PushInfo();
+                    Processing = false;
                     return;
                 }
             }
@@ -145,7 +169,11 @@ namespace RadioLogisticaDeliveries
 
                 if (!dialogResult)
                 {
-                    Toast.MakeText(Context, "Cancelled!", ToastLength.Short).Show();
+                    ((Activity)Context).RunOnUiThread(() =>
+                    {
+                        Toast.MakeText(Context, "Cancelled!", ToastLength.Short).Show();
+                    });
+                    Processing = false;
                     return;
                 }
                 _data = new dataCloseSession() { Context = Context, Data = reading };
@@ -153,8 +181,11 @@ namespace RadioLogisticaDeliveries
                 {
                     _dataList.Add(_data);
                     //after close code we insert all reading from previous rack
-                    await Values.dFt.SetMessage("Waiting for the pending data to be transmitted");
-                    _dataList.Where(r => r.Status == dataStatus.READ || r.Status == dataStatus.WARNING).ToList().ForEach(async r => await r.ToDB());
+                    Values.dFt.SetMessage("Waiting for the pending data to be transmitted");
+                    foreach (var r in _dataList.Where(r => r.Status == dataStatus.READ || r.Status == dataStatus.WARNING))
+                    {
+                        await r.ToDB();
+                    }
                     Values.sFt.UpdateInfo();
                     //await Values.iFt.pushInfo("Waiting for the pending data to be transmitted");
                     while (true)
@@ -166,22 +197,7 @@ namespace RadioLogisticaDeliveries
                             break;
                         }
                     }
-                    //remove the database and recreate it.
-                    //((Activity)Context).RunOnUiThread(() =>
-                    //{
-                    //    DataTransferManager.Active = false;
-                    //    Values.SQLidb.DropDatabase();
-                    //    try
-                    //    {
-                    //        Context.DeleteDatabase("DELIVERIES");
-                    //    }
-                    //    catch (Exception ex)
-                    //    {
-                    //        Console.Write(ex.Message);
-                    //    }
-                    //    Values.SQLidb = new SQLiteDatabase("DELIVERIES");
-                    //    Values.CreateDatabase();
-                    //});
+
                     await Values.EmptyDatabase();
                     //clear info, debug and status fragments
                     Values.iFt.Clear();
@@ -194,11 +210,13 @@ namespace RadioLogisticaDeliveries
                     Values.gService = "";
                     Values.gOrderNumber = 0;
                     Values.gBlock = "";
+                    _dataList.Clear();
                     //change to enter order fragment
 
                     var intent = new Intent(Context, typeof(MainActivity));
                     ((MainScreen)Context).StartActivityForResult(intent, 1);
                     //Context.Dispose();
+                    Processing = false;
                     return;
                 }
             }
@@ -214,21 +232,39 @@ namespace RadioLogisticaDeliveries
                 } else
                 {
                     cSounds.Error(Context);
+                    Processing = false;
                     return;
                 }
                 cSounds.Scan(Context);
-                await Current().UpdateCurrent();
+                Current().UpdateCurrent();
+                Processing = false;
                 return;
             }
             else
             //NEW RACK CODE
             {
+                if (reading==Values.CurrentRack)
+                {
+                    ((Activity)Context).RunOnUiThread(() =>
+                    {
+                        Toast.MakeText(Context, "Scanned Rack is the current one.", ToastLength.Short).Show();
+                        cSounds.Error(Context);
+                    });
+                    Processing = false;
+                    return;
+                }
                 _data = new dataChangeRack() { Context = Context, Data = reading };
                 if (await _data.doCheckings())
                 {
                     //after new rack code we insert all reading from previous rack
-                    await Values.dFt.SetMessage(string.Format("Transmitting Rack {0}",Values.CurrentRack));
-                    _dataList.Where(r => r.Status == dataStatus.READ || r.Status == dataStatus.WARNING).ToList().ForEach(async r => await r.ToDB());
+                    if (_dataList.Count != 0)
+                    {
+                        Values.dFt.SetMessage(string.Format("Transmitting Rack {0}", Values.CurrentRack));
+                        foreach (var r in _dataList.Where(r => r.Status == dataStatus.READ || r.Status == dataStatus.WARNING))
+                        {
+                            await r.ToDB();
+                        }
+                    }
                     _dataList.Add(_data);
                     Values.sFt.UpdateInfo();
                     position++;
@@ -241,7 +277,8 @@ namespace RadioLogisticaDeliveries
                     //    await Values.dFt.pushInfo(ex.Message);
                     //}
                 }
-                await _data.PushInfo();
+                _data.PushInfo();
+                Processing = false;
                 return;
             }
 

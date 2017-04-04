@@ -84,7 +84,7 @@ namespace RadioLogisticaDeliveries
                 catch
                 {
                     Toast.MakeText(Activity, "Wrong reading.", ToastLength.Long).Show();
-                    await Values.iFt.pushInfo("Wrong reading.");
+                    Values.iFt.pushInfo("Wrong reading.");
                     return;
                 }
 
@@ -137,7 +137,7 @@ namespace RadioLogisticaDeliveries
             }
             //buttonOk.Enabled = false;
             Values.gDatos.DataBase = "LOGISTICA";
-            await Values.iFt.pushInfo("Creating Session");
+            Values.iFt.pushInfo("Creating Session");
             var _sp = new SPXML(Values.gDatos, "pAddCabReadingSession");
             _sp.AddParameterValue("Block", _blockCode);
             //_sp.AddParameterValue("Service", " ");
@@ -150,12 +150,12 @@ namespace RadioLogisticaDeliveries
             catch (Exception ex)
             {
                 Toast.MakeText(Activity, ex.Message, ToastLength.Long).Show();
-                await Values.iFt.pushInfo(ex.Message);
+                Values.iFt.pushInfo(ex.Message);
                 data = "";
                 //buttonOk.Enabled = true;
                 return false;
             }
-            await Values.iFt.pushInfo("Done");
+            Values.iFt.pushInfo("Done");
             Values.gSession = _sp.LastMsg.Substring(3);
             Values.hFt.t2.Text = string.Format("Session: {0}", Values.gSession); 
             Values.gBlock = _sp.ReturnValues()["@Block"].ToString();
@@ -187,38 +187,67 @@ namespace RadioLogisticaDeliveries
             //Dismiss Keybaord
             InputMethodManager imm = (InputMethodManager)Activity.GetSystemService(Context.InputMethodService);
             imm.HideSoftInputFromWindow(orderNumberET.WindowToken, 0);
-            
+            int _progress = 0;
             if (Values.gOrderNumber!=0)
             {
-                await Values.iFt.pushInfo("Getting Label Data");
+                Values.iFt.pushInfo("Getting Label Data");
                 //data from labels for checkng
                 using (var _rs = new XMLRS(string.Format("select numero,partnumber,qty,cajas,rack,Modulo from etiquetas where Numero_orden={0} and Tipo='PEQ'", Values.gOrderNumber), Values.gDatos))
                 {
                     await _rs.OpenAsync();
-                    _rs.Rows.ForEach(async r => await Values.SQLidb.db.InsertAsync(new Labels { Serial = r["numero"].ToString(), Partnumber = r["partnumber"].ToString(), qty = r["qty"].ToInt(), boxes = r["cajas"].ToInt(), rack = r["rack"].ToString(), mod = r["Modulo"].ToString() }));
+                    Values.sFt.socksProgress.Indeterminate = false;
+                    Values.sFt.socksProgress.Max = _rs.RecordCount / 5;
+                    Values.sFt.socksProgress.Progress = 0;
+                    foreach (var r in _rs.Rows)
+                    {
+                        await Values.SQLidb.db.InsertAsync(new Labels { Serial = r["numero"].ToString(), Partnumber = r["partnumber"].ToString(), qty = r["qty"].ToInt(), boxes = r["cajas"].ToInt(), rack = r["rack"].ToString(), mod = r["Modulo"].ToString() });
+                        _progress++;
+                        if (_progress % 5 == 0 )
+                            Values.sFt.socksProgress.Progress++;
+                    }
+                    Values.sFt.socksProgress.Indeterminate = true;
                     //Values.sFt.CheckQtyTotal= _rs.Rows.Count;
                     //Values.sFt.UpdateInfo();
                 }
-                await Values.iFt.pushInfo("Done");
+                Values.iFt.pushInfo("Done");
             }
 
-            await Values.iFt.pushInfo("Getting RacksBlocks table");
+            Values.iFt.pushInfo("Getting RacksBlocks table");
             //data from RacksBlocks table
             using (var _rs = new XMLRS(string.Format("select Block,Rack from RacksBlocks where service='{0}' and dbo.CheckFlag(flags,'OBS')=0", Values.gService), Values.gDatos))
             {
                 await _rs.OpenAsync();
-                _rs.Rows.ForEach(async r => await Values.SQLidb.db.InsertAsync(new RacksBlocks { Block = r["Block"].ToString(), Rack = r["Rack"].ToString() }));
+                Values.sFt.socksProgress.Indeterminate = false;
+                Values.sFt.socksProgress.Max = _rs.RecordCount / 5;
+                Values.sFt.socksProgress.Progress = 0;
+                foreach (var r in _rs.Rows)
+                {
+                    await Values.SQLidb.db.InsertAsync(new RacksBlocks { Block = r["Block"].ToString(), Rack = r["Rack"].ToString() });
+                    _progress++;
+                    if (_progress % 5 == 0)
+                        Values.sFt.socksProgress.Progress++;
+                }
             }
-            await Values.iFt.pushInfo("Done");
-            await Values.iFt.pushInfo("Getting PartnumberRacks table");
+            Values.sFt.socksProgress.Indeterminate = true;
+            Values.iFt.pushInfo("Done");
+            Values.iFt.pushInfo("Getting PartnumberRacks table");
             //data from RacksBlocks table
             using (var _rs = new XMLRS(string.Format("Select p.Rack,Partnumber,MinBoxes,MaxBoxes,p.flags from PartnumbersRacks p inner join RacksBlocks r on r.Rack=p.Rack where p.service='{0}' and dbo.CheckFlag(r.flags,'OBS')=0", Values.gService), Values.gDatos))
             {
                 await _rs.OpenAsync();
-                _rs.Rows.ForEach(async r => await Values.SQLidb.db.InsertAsync(new PartnumbersRacks { Rack = r["Rack"].ToString(), Partnumber=r["Partnumber"].ToString(), MinBoxes=r["MinBoxes"].ToInt(), MaxBoxes=r["MaxBoxes"].ToInt() }));
+                Values.sFt.socksProgress.Indeterminate = false;
+                Values.sFt.socksProgress.Max = _rs.RecordCount / 5;
+                Values.sFt.socksProgress.Progress = 0;
+                foreach (var r in _rs.Rows)
+                {
+                    await Values.SQLidb.db.InsertAsync(new PartnumbersRacks { Rack = r["Rack"].ToString(), Partnumber = r["Partnumber"].ToString(), MinBoxes = r["MinBoxes"].ToInt(), MaxBoxes = r["MaxBoxes"].ToInt() });
+                    _progress++;
+                    if (_progress % 5 == 0)
+                        Values.sFt.socksProgress.Progress++;
+                }
             }
-            
-            await Values.iFt.pushInfo("Done loading database data");
+            Values.sFt.socksProgress.Indeterminate = true;
+            Values.iFt.pushInfo("Done loading database data");
             Values.elIntent = new Intent(Activity, typeof(DataTransferManager));
             Activity.StartService(Values.elIntent);
             DataTransferManager.Active = true;
