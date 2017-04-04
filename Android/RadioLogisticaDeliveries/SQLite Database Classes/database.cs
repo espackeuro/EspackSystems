@@ -176,15 +176,15 @@ namespace RadioLogisticaDeliveries
                 File.Delete(dbPath);
             Complete = false;
         }
-        private async void Db_AfterInsert(object sender, AfterInsertEventArgs e)
+        private void Db_AfterInsert(object sender, AfterInsertEventArgs e)
         {
             if (e.ItemInserted is ScannedData)
             {
                 //((ScannedData)e.ItemInserted).xfec = DateTime.Now;
                 //await Values.SQLidb.db.UpdateAsync((ScannedData)e.ItemInserted);
-                await Values.dFt.pushInfo(((ScannedData)e.ItemInserted).ToInfoData());
+                Values.dFt.pushInfo(((ScannedData)e.ItemInserted).ToInfoData());
             }
-            var _pending = (await Values.SQLidb.db.FindAsync<ScannedData>(r => r.Transmitted == false) != null);
+            var _pending = (Values.SQLidb.db.FindAsync<ScannedData>(r => r.Transmitted == false) != null);
             if (_pending != pendingData)
                 pendingData = _pending;
         }

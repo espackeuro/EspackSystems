@@ -38,7 +38,8 @@ namespace RadioLogisticaDeliveries
                 Status = dataStatus.ERROR;
                 return false;
             }
-            Values.CurrentRack = Data;
+            
+            Values.SetCurrentRack(Data);
             Status = dataStatus.READ;
             return true;
         }

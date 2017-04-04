@@ -21,7 +21,6 @@ namespace RadioLogisticaDeliveries
     public class EnterDataFragment : Fragment
     {
         MainScreen MainScreen;
-        
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -59,23 +58,53 @@ namespace RadioLogisticaDeliveries
             sScanner.AfterReceive += Scanner_AfterReceive;
             elData.RequestFocus();
             //end
+
+            //var _query = await Values.SQLidb.db.QueryAsync<QueryResult>("Select 'test', 10 ");//Rack, count(*) from ScannedData group by Rack order by idreg desc limit 3");
+
+
+
             return _root;
         }
 
-        private async void Scanner_AfterReceive(object sender, ReceiveEventArgs e)
+
+        private void Scanner_AfterReceive(object sender, ReceiveEventArgs e)
         {
+            if (Values.gDRL.Processing)
+                return;
             ((Activity)sender).RunOnUiThread(() =>
             {
                 elData.Enabled = false;
+                elData.Tag = "SCAN";
             });
             Values.gDRL.Context = (Activity)sender;
-            await Values.gDRL.Add(e.ReceivedData);
-            ((Activity)sender).RunOnUiThread(() =>
+            DataTransferManager.Active = false;
+            try
             {
-                EnterDataFragment.elData.Enabled = true;
-                EnterDataFragment.elData.Text = "";
-            });
-            EnterDataFragment.elData.Tag = "SCAN";
+                Task.Run(async () => {
+                    
+                    await Values.gDRL.Add(e.ReceivedData);
+                    Values.gDRL.Processing = false;
+                    DataTransferManager.Active = true;
+                    ((Activity)sender).RunOnUiThread(() =>
+                    {
+                        elData.Enabled = true;
+                        elData.Text = "";
+                    });
+                    
+                });
+
+                //await Values.gDRL.Add(e.ReceivedData);
+            }
+            catch (Exception ex)
+            {
+                Values.gDRL.Processing = false;
+                ((Activity)sender).RunOnUiThread(() =>
+                {
+                    Toast.MakeText(Activity, "Error reading scan." + ex.Message, ToastLength.Long).Show();
+                });
+            }
+            
+
         }
 
         private void RadioReading_CheckedChange(object sender, CompoundButton.CheckedChangeEventArgs e)
@@ -161,6 +190,9 @@ namespace RadioLogisticaDeliveries
         }
     }
 
-
+    public class DataAddedEventArgs : EventArgs
+    {
+        public string ReceivedData { get; set; }
+    }
 
 }

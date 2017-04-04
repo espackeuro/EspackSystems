@@ -58,21 +58,20 @@ namespace RadioLogisticaDeliveries
             numLines = MaxLines;
             infoArray  = new TextView[numLines, 4];
         }
-        public Task SetMessage(string message)
+        public void SetMessage(string message)
         {
-            return Task.Run(() =>
             Activity.RunOnUiThread(() =>
             {
                 infoMessage.Text = message;
-            }));
+            });
         }
-        public Task pushInfo(infoData d)
+        public void pushInfo(infoData d)
         {
-            return pushInfo(d.c0, d.c1, d.c2, d.c3);
+            pushInfo(d.c0, d.c1, d.c2, d.c3);
         }
-        public Task pushInfo(string c0, string c1 = "", string c2 = "", string c3 = "")
+        public void pushInfo(Activity context, string c0, string c1 = "", string c2 = "", string c3 = "")
         {
-            return Task.Run(() => Activity.RunOnUiThread(() =>
+            context.RunOnUiThread(() =>
             {
                 for (int i = numLines - 1; i > 0; i--)
                     for (int j = 0; j < 4; j++)
@@ -83,7 +82,22 @@ namespace RadioLogisticaDeliveries
                 infoArray[0, 1].Text = c1;
                 infoArray[0, 2].Text = c2;
                 infoArray[0, 3].Text = c3;
-            }));
+            });
+        }
+        public void pushInfo(string c0, string c1 = "", string c2 = "", string c3 = "")
+        {
+            Activity.RunOnUiThread(() =>
+            {
+                for (int i = numLines - 1; i > 0; i--)
+                    for (int j = 0; j < 4; j++)
+                    {
+                        infoArray[i, j].Text = infoArray[i - 1, j].Text;
+                    }
+                infoArray[0, 0].Text = c0;
+                infoArray[0, 1].Text = c1;
+                infoArray[0, 2].Text = c2;
+                infoArray[0, 3].Text = c3;
+            });
         }
         public void Clear()
         {
@@ -95,19 +109,19 @@ namespace RadioLogisticaDeliveries
                         infoArray[i, j].Text = "";
             });
         }
-        public Task updateMainLine(string c0, string c1 = "", string c2 = "", string c3 = "")
+        public void updateMainLine(string c0, string c1 = "", string c2 = "", string c3 = "")
         {
-            return Task.Run(() => Activity.RunOnUiThread(() =>
+            Activity.RunOnUiThread(() =>
             {
                 infoArray[0, 0].Text = c0;
                 infoArray[0, 1].Text = c1;
                 infoArray[0, 2].Text = c2;
                 infoArray[0, 3].Text = c3;
-            }));
+            });
         }
-        public Task updateMainLine(infoData d)
+        public void updateMainLine(infoData d)
         {
-            return updateMainLine(d.c0, d.c1, d.c2, d.c3);
+            updateMainLine(d.c0, d.c1, d.c2, d.c3);
         }
     }
     

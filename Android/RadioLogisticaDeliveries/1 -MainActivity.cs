@@ -50,11 +50,14 @@ namespace RadioLogisticaDeliveries
             {
                 return _rack;
             }
-            set
+        }
+        public static void SetCurrentRack(string Rack)
+        {
+            hFt.Activity.RunOnUiThread(() =>
             {
-                _rack = value;
+                _rack = Rack;
                 hFt.t5.Text = string.Format("Rack: {0}", _rack);
-            }
+            });
         }
         public static headerFragment hFt { get; set; }
         public static infoFragment iFt { get; set; }
@@ -66,33 +69,33 @@ namespace RadioLogisticaDeliveries
 
         public async static Task CreateDatabase()
         {
-            Values.SQLidb.CreateDatabase();
-            await Values.SQLidb.db.CreateTableAsync<Readings>();
-            await Values.SQLidb.db.CreateTableAsync<Labels>();
+            SQLidb.CreateDatabase();
+            await SQLidb.db.CreateTableAsync<Readings>();
+            await SQLidb.db.CreateTableAsync<Labels>();
             //Values.SQLidb.db.CreateTableAsync<Referencias>();
-            await Values.SQLidb.db.CreateTableAsync<RacksBlocks>();
-            await Values.SQLidb.db.CreateTableAsync<PartnumbersRacks>();
-            await Values.SQLidb.db.CreateTableAsync<SerialTracking>();
-            await Values.SQLidb.db.CreateTableAsync<ScannedData>();
-            await Values.SQLidb.db.CreateTableAsync<Settings>();
+            await SQLidb.db.CreateTableAsync<RacksBlocks>();
+            await SQLidb.db.CreateTableAsync<PartnumbersRacks>();
+            await SQLidb.db.CreateTableAsync<SerialTracking>();
+            await SQLidb.db.CreateTableAsync<ScannedData>();
+            await SQLidb.db.CreateTableAsync<Settings>();
             // to do what to do when readings exist
         }
         public async static Task EmptyDatabase()
         {
-            await Values.SQLidb.db.ExecuteAsync("Delete from Readings ");
-            await Values.SQLidb.db.DropTableAsync<Readings>();
-            await Values.SQLidb.db.ExecuteAsync("Delete from Labels ");
-            await Values.SQLidb.db.DropTableAsync<Labels>();
-            await Values.SQLidb.db.ExecuteAsync("Delete from RacksBlocks ");
-            await Values.SQLidb.db.DropTableAsync<RacksBlocks>();
-            await Values.SQLidb.db.ExecuteAsync("Delete from PartnumbersRacks ");
-            await Values.SQLidb.db.DropTableAsync<PartnumbersRacks>();
-            await Values.SQLidb.db.ExecuteAsync("Delete from SerialTracking ");
-            await Values.SQLidb.db.DropTableAsync<SerialTracking>();
-            await Values.SQLidb.db.ExecuteAsync("Delete from ScannedData ");
-            await Values.SQLidb.db.DropTableAsync<ScannedData>();
-            await Values.SQLidb.db.ExecuteAsync("Delete from Settings ");
-            await Values.SQLidb.db.DropTableAsync<Settings>();
+            await SQLidb.db.ExecuteAsync("Delete from Readings ");
+            await SQLidb.db.DropTableAsync<Readings>();
+            await SQLidb.db.ExecuteAsync("Delete from Labels ");
+            await SQLidb.db.DropTableAsync<Labels>();
+            await SQLidb.db.ExecuteAsync("Delete from RacksBlocks ");
+            await SQLidb.db.DropTableAsync<RacksBlocks>();
+            await SQLidb.db.ExecuteAsync("Delete from PartnumbersRacks ");
+            await SQLidb.db.DropTableAsync<PartnumbersRacks>();
+            await SQLidb.db.ExecuteAsync("Delete from SerialTracking ");
+            await SQLidb.db.DropTableAsync<SerialTracking>();
+            await SQLidb.db.ExecuteAsync("Delete from ScannedData ");
+            await SQLidb.db.DropTableAsync<ScannedData>();
+            await SQLidb.db.ExecuteAsync("Delete from Settings ");
+            await SQLidb.db.DropTableAsync<Settings>();
 
         }
         public static WorkModes WorkMode { get; set; }
@@ -146,7 +149,7 @@ namespace RadioLogisticaDeliveries
                     Values.SQLidb = new SQLiteDatabase("DELIVERIES");
                     if (Values.SQLidb.Exists) //check if database exists
                     {
-                        Values.SQLidb.CreateDatabase(); //link the file to the sqlite database
+                        //Values.SQLidb.CreateDatabase(); //link the file to the sqlite database
                         await Values.CreateDatabase(); //create tables if not exist
                         Settings _settings = await Values.SQLidb.db.Table<Settings>().FirstOrDefaultAsync(); //get settings of persistent data
                         if (_settings != null && _settings.User == Values.gDatos.User && _settings.Password == Values.gDatos.Password) //if not empty and user and password matches the logon ones
@@ -176,6 +179,11 @@ namespace RadioLogisticaDeliveries
                                         await Values.EmptyDatabase();
                                         await Values.CreateDatabase();
                                     }
+                                }
+                                else
+                                {
+                                    await Values.EmptyDatabase();
+                                    await Values.CreateDatabase();
                                 }
                             } catch(Exception ex) {
                                 Console.WriteLine(ex.Message);
