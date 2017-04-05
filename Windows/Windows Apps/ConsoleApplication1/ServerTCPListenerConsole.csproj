@@ -67,6 +67,10 @@
       <Project>{19c864e9-f42c-404c-ba54-548392dbaf43}</Project>
       <Name>Messages</Name>
     </ProjectReference>
+    <ProjectReference Include="..\cAccesoDatos\cAccesoDatos.csproj">
+      <Project>{5DA9CB0B-9007-40F1-8086-1B0303D8271F}</Project>
+      <Name>cAccesoDatos</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

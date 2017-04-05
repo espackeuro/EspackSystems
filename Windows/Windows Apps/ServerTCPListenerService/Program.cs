@@ -4,22 +4,21 @@ using System.Linq;
 using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
-using CommonTools;
 using AccesoDatosNet;
 
-
-namespace SyncService
+namespace ServerTCPListenerService
 {
     public static class Values
     {
         public static cAccesoDatosNet gDatos = new cAccesoDatosNet()
         {
             User = "procesos",
-            Password ="*seso69*",
-            DataBase ="SISTEMAS"
+            Password = "*seso69*",
+            DataBase = "SISTEMAS",
+            Server = "net.espackeuro.com"
         };
-        public static byte[] MasterPassword = Encoding.Unicode.GetBytes("Y?D6d#b@");
-        public static Dictionary<string, string> Servers = new Dictionary<string, string>();
+        public static int ServerPort { get; } = 17011;
+        public static int ControlPort { get; } = 17012;
     }
     static class Program
     {
@@ -27,16 +26,9 @@ namespace SyncService
 
         static void Main(string[] args)
         {
-            args.ToList().ForEach(server =>
-            {
-                var tupla = server.Split('=');
-                Values.Servers.Add(tupla[0], tupla[1]);
-            });
-            Values.gDatos.Server = Values.Servers["DATABASE"];
-            Values.gDatos.context_info = Values.MasterPassword;
             if (Environment.UserInteractive)
             {
-                SyncServiceClass service1 = new SyncServiceClass(args);
+                ServerTCPListenerService service1 = new ServerTCPListenerService(args);
                 service1.TestStartupAndStop(args);
             }
             else
@@ -48,10 +40,11 @@ namespace SyncService
                 ServiceBase[] ServicesToRun;
                 ServicesToRun = new ServiceBase[]
                 {
-                new SyncServiceClass(args)
+                new ServerTCPListenerService(args)
                 };
                 ServiceBase.Run(ServicesToRun);
             }
         }
     }
 }
+

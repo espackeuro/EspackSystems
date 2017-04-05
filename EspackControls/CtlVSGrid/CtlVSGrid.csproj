@@ -68,6 +68,10 @@
       <Project>{9148f7e6-31f6-4f96-b7dc-afea449998c7}</Project>
       <Name>CommonTools</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Windows\Windows Apps\cAccesoDatos\cAccesoDatos.csproj">
+      <Project>{5da9cb0b-9007-40f1-8086-1b0303d8271f}</Project>
+      <Name>cAccesoDatos</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DiverseControls\DiverseControls\DiverseControls.csproj">
       <Project>{005bd28a-42c7-4785-9eb1-bd6f2b7564c3}</Project>
       <Name>DiverseControls</Name>

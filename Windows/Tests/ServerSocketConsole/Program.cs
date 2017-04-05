@@ -216,7 +216,7 @@
                     await mec.process();
                     Console.WriteLine(mec.Debug);
                     
-                    var x=ADatabaseMessage.Parse(mec.MsgOut);
+                    var x=SXMessage.Parse(mec.MsgOut);
 
                     var xec= new EncryptMessageOutput(new CompressMessageOutput(x));
                     xec.MsgIn = mec.MsgOut;

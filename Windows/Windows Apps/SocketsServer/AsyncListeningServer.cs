@@ -9,31 +9,33 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using CommonTools;
-using AccesoDatosNet;
-using System.Reflection;
 
-namespace AsyncEchoServer
+namespace SocketsServer
 {
-    public class AsyncEchoServer
+    public class AsyncListeningServer
     {
-        private int _listeningPort;
-        public AsyncEchoServer(int port)
+        private int ServerPort;
+        private int ControlPort;
+        public AsyncListeningServer(int serverPort, int controlPort)
         {
-            _listeningPort = port;
+            ServerPort = serverPort;
+            ControlPort = controlPort;
         }
-        ///<summary>
-        /// Start listening for connection
-        /// </summary>
-        public async void Start()
+        public AsyncListeningServer(int serverPort)
+        {
+            ServerPort = serverPort;
+            ControlPort = 0;
+        }
+
+        public async Task StartServer(int port)
         {
             IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
             IPAddress ipAddress = ipHostInfo.AddressList.FirstOrDefault(x => x.GetAddressBytes()[0] == 10);
-            IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 17011);
-            TcpListener listener = new TcpListener(ipAddress, _listeningPort);
+            IPEndPoint localEndPoint = new IPEndPoint(ipAddress, port);
+            TcpListener listener = new TcpListener(ipAddress, port);
             listener.Start();
             LogMessage("Server is running");
-            LogMessage("Listening on port " + _listeningPort);
+            LogMessage("Listening on port " + port);
 
             while (true)
             {
@@ -51,6 +53,14 @@ namespace AsyncEchoServer
             }
 
         }
+
+        public void Start()
+        {
+            Task.Run(() => StartServer(ServerPort));
+            if (ControlPort != 0)
+                Task.Run(() => StartServer(ControlPort));
+        }
+
         ///<summary>
         /// Process Individual client
         /// </summary>
@@ -75,7 +85,7 @@ namespace AsyncEchoServer
                             break;
                         }
                         LogMessage("RECEIVED:" + dataFromServer);
-                        
+
 
                         var m = new genericXMessage();
                         var mec = new DecryptMessageInput(new DecompressMessageInput(m));
@@ -89,7 +99,7 @@ namespace AsyncEchoServer
                         xec.MsgIn = mec.MsgOut;
                         await xec.process();
                         Console.WriteLine(xec.Debug);
-                        LogMessage("SENT:"+xec.MsgOut);
+                        LogMessage("SENT:" + xec.MsgOut);
                         await writer.WriteLineAsync(xec.MsgOut);
                         //await writer.WriteLineAsync(dataFromServer.ToUpper());
                         //LogMessage("SENT:" + dataFromServer.ToUpper());
@@ -114,28 +124,8 @@ namespace AsyncEchoServer
             System.Console.WriteLine("[{0}] - Thread-{1}- {2}",
                     callername, Thread.CurrentThread.ManagedThreadId, message);
         }
-    }
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            var espackArgs = CT.LoadVars(args);
-            Values.ProjectName = Assembly.GetCallingAssembly().GetName().Name;
-            Values.gDatos.DataBase = espackArgs.DataBase;
-            Values.gDatos.Server = espackArgs.Server;
-            Values.gDatos.User = espackArgs.User;
-            Values.gDatos.Password = espackArgs.Password;
-            InitialConnection.gDatos = Values.gDatos;
-            AsyncEchoServer async = new AsyncEchoServer(17011);
-            async.Start();
-            Console.ReadLine();
-        }
-    }
-    public static class Values
-    {
-        public static cAccesoDatosNet gDatos = new cAccesoDatosNet();
-        public static string LabelPrinterAddress = "";
-        public static string COD3 = "";
-        public static string ProjectName = "";
+
+
+
     }
 }

@@ -108,6 +108,10 @@
       <Project>{9148f7e6-31f6-4f96-b7dc-afea449998c7}</Project>
       <Name>CommonTools</Name>
     </ProjectReference>
+    <ProjectReference Include="..\cAccesoDatos\cAccesoDatos.csproj">
+      <Project>{5da9cb0b-9007-40f1-8086-1b0303d8271f}</Project>
+      <Name>cAccesoDatos</Name>
+    </ProjectReference>
     <ProjectReference Include="..\cFTP\cFTP.csproj">
       <Project>{04d920d4-f298-4006-9c6a-da56130e8bdb}</Project>
       <Name>cFTP</Name>

@@ -9,7 +9,7 @@ namespace Messages
     using CommonTools;
     using System.Threading.Tasks;
     using System.Text;
-    using Sockets;
+    using SocketsClient;
     using System.Net;
 
     public enum DecoratorType { PRE, POST }

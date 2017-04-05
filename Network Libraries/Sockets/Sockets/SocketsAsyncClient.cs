@@ -9,7 +9,7 @@ using System.IO;
 using Dawn.Net.Sockets;
 using System.Linq;
 
-namespace Sockets
+namespace SocketsClient
 {
 
 

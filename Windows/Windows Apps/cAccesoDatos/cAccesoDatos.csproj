@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{19C864E9-F42C-404C-BA54-548392DBAF43}</ProjectGuid>
+    <ProjectGuid>{5DA9CB0B-9007-40F1-8086-1B0303D8271F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Messages</RootNamespace>
-    <AssemblyName>Messages</AssemblyName>
+    <RootNamespace>AccesoDatos</RootNamespace>
+    <AssemblyName>AccesoDatos</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
@@ -45,43 +45,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SXMessage.cs" />
-    <Compile Include="Messages.cs" />
+    <Compile Include="cAccesoDatos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="XDataMessageRequest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Network Libraries\Sockets\Sockets\SocketsClient.csproj">
-      <Project>{c9e2f11a-fa37-4fd2-9433-cc64cdbc2cef}</Project>
-      <Name>SocketsClient</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Windows\Windows Apps\cAccesoDatos\cAccesoDatos.csproj">
-      <Project>{5da9cb0b-9007-40f1-8086-1b0303d8271f}</Project>
-      <Name>cAccesoDatos</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\cAccesoDatos.NET\cAccesoDatosNet.csproj">
-      <Project>{d3e453aa-39b7-480f-8917-6d7f5076c3ed}</Project>
-      <Name>cAccesoDatosNet</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CommonTools\CommonTools.csproj">
+    <ProjectReference Include="..\..\..\Database and tools\CommonTools\CommonTools.csproj">
       <Project>{9148f7e6-31f6-4f96-b7dc-afea449998c7}</Project>
       <Name>CommonTools</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Compression\Compression\Compression.csproj">
-      <Project>{56e01207-2fdd-43e5-8f45-32b5cf34d8eb}</Project>
-      <Name>Compression</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EncryptionWindows\Encryption\Encryption.csproj">
-      <Project>{b6ce04c5-9462-43c8-a039-f8ea3c5ace91}</Project>
-      <Name>Encryption</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

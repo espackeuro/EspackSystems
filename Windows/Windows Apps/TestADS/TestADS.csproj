@@ -66,6 +66,14 @@
       <Project>{b6ce04c5-9462-43c8-a039-f8ea3c5ace91}</Project>
       <Name>Encryption</Name>
     </ProjectReference>
+    <ProjectReference Include="..\cAccesoDatos\cAccesoDatos.csproj">
+      <Project>{5da9cb0b-9007-40f1-8086-1b0303d8271f}</Project>
+      <Name>cAccesoDatos</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ObjectFactory\ObjectFactory.csproj">
+      <Project>{d02927ad-1fa5-4a61-9a49-942574ab9fa9}</Project>
+      <Name>ObjectFactory</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
