@@ -18,6 +18,7 @@ using System.Xml;
 using System.Xml.Linq;
 using System.IO;
 using System.Threading.Tasks;
+using AccesoDatos;
 
 namespace AccesoDatosNet
 {

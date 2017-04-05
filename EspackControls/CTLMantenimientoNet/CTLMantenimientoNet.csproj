@@ -70,6 +70,10 @@
       <Project>{9148f7e6-31f6-4f96-b7dc-afea449998c7}</Project>
       <Name>CommonTools</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Windows\Windows Apps\cAccesoDatos\cAccesoDatos.csproj">
+      <Project>{5da9cb0b-9007-40f1-8086-1b0303d8271f}</Project>
+      <Name>cAccesoDatos</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CtlVSGrid\CtlVSGrid.csproj">
       <Project>{6e156f1f-61f2-402b-a942-356427642a52}</Project>
       <Name>CtlVSGrid</Name>

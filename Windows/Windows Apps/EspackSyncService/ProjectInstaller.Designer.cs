@@ -41,6 +41,7 @@
             // 
             this.serviceInstaller1.DisplayName = "Espack Sync Service";
             this.serviceInstaller1.ServiceName = "ESS";
+            this.serviceInstaller1.AfterInstall += new System.Configuration.Install.InstallEventHandler(this.serviceInstaller1_AfterInstall);
             // 
             // ProjectInstaller
             // 

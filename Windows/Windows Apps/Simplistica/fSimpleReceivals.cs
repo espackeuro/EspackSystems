@@ -45,7 +45,7 @@ namespace Simplistica
             CTLM.AddItem("01/01/2001 00:00", "fecha_doc_proveedor", true, true, false, 0, false, false);
 
             //fields
-            cboServicio.Source("Select Codigo,Nombre from Servicios where dbo.CheckFlag(flags,'SIMPLE')=1 order by codigo", txtDesServicio);
+            cboServicio.Source("Select Codigo,Nombre from Servicios where dbo.CheckFlag(flags,'SIMPLE')=1 and cod3='" + Values.COD3 + "' order by codigo", txtDesServicio);
             cboServicio.SelectedValueChanged += CboServicio_SelectedValueChanged;
             lstFlags.Source("Select codigo,DescFlagEng from flags where Tabla='Cab_Recepcion'");
 

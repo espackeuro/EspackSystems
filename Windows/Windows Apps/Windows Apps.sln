@@ -69,7 +69,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wcfTest", "wcfTest\wcfTest.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messages", "..\..\Database and tools\Messages\Messages.csproj", "{19C864E9-F42C-404C-BA54-548392DBAF43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sockets", "..\..\Network Libraries\Sockets\Sockets\Sockets.csproj", "{C9E2F11A-FA37-4FD2-9433-CC64CDBC2CEF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketsClient", "..\..\Network Libraries\Sockets\Sockets\SocketsClient.csproj", "{C9E2F11A-FA37-4FD2-9433-CC64CDBC2CEF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerTCPListenerConsole", "ConsoleApplication1\ServerTCPListenerConsole.csproj", "{88DB6370-4C8E-4361-9B63-330646A745C1}"
 EndProject
@@ -86,6 +86,20 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EspackSyncService", "EspackSyncService\EspackSyncService.csproj", "{60BD1BE4-E044-4EF7-BAC7-047FA0A4826F}"
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "EspackSyncServiceSetup", "EspackSyncServiceSetup\EspackSyncServiceSetup.vdproj", "{22FFCD75-2DED-45C4-A8E6-EC5C2F1C7ADC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerTCPListenerService", "ServerTCPListenerService\ServerTCPListenerService.csproj", "{B1D3C9DF-ECAF-4EDE-9506-9A9531CC62D0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleControlTest", "ConsoleControlTest\ConsoleControlTest.csproj", "{C5FE58C5-7745-4AB5-AC8A-75968B442A27}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cAccesoDatos", "cAccesoDatos\cAccesoDatos.csproj", "{5DA9CB0B-9007-40F1-8086-1B0303D8271F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cAccesoDatosXML", "cAccesoDatosXML\cAccesoDatosXML.csproj", "{C0468156-744D-44F9-9E1F-879A237806B5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectFactory", "ObjectFactory\ObjectFactory.csproj", "{D02927AD-1FA5-4A61-9A49-942574AB9FA9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sockets Libraries", "Sockets Libraries", "{EA694419-962B-436D-839B-86FB3E1F6E26}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketsServer", "SocketsServer\SocketsServer.csproj", "{BC9B78D2-77AC-459C-8F42-99AAFE4242F9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -232,6 +246,30 @@ Global
 		{22FFCD75-2DED-45C4-A8E6-EC5C2F1C7ADC}.Debug|Any CPU.ActiveCfg = Debug
 		{22FFCD75-2DED-45C4-A8E6-EC5C2F1C7ADC}.Debug|Any CPU.Build.0 = Debug
 		{22FFCD75-2DED-45C4-A8E6-EC5C2F1C7ADC}.Release|Any CPU.ActiveCfg = Release
+		{B1D3C9DF-ECAF-4EDE-9506-9A9531CC62D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1D3C9DF-ECAF-4EDE-9506-9A9531CC62D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1D3C9DF-ECAF-4EDE-9506-9A9531CC62D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1D3C9DF-ECAF-4EDE-9506-9A9531CC62D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5FE58C5-7745-4AB5-AC8A-75968B442A27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5FE58C5-7745-4AB5-AC8A-75968B442A27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5FE58C5-7745-4AB5-AC8A-75968B442A27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5FE58C5-7745-4AB5-AC8A-75968B442A27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DA9CB0B-9007-40F1-8086-1B0303D8271F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DA9CB0B-9007-40F1-8086-1B0303D8271F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DA9CB0B-9007-40F1-8086-1B0303D8271F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DA9CB0B-9007-40F1-8086-1B0303D8271F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0468156-744D-44F9-9E1F-879A237806B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0468156-744D-44F9-9E1F-879A237806B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0468156-744D-44F9-9E1F-879A237806B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0468156-744D-44F9-9E1F-879A237806B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D02927AD-1FA5-4A61-9A49-942574AB9FA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D02927AD-1FA5-4A61-9A49-942574AB9FA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D02927AD-1FA5-4A61-9A49-942574AB9FA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D02927AD-1FA5-4A61-9A49-942574AB9FA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC9B78D2-77AC-459C-8F42-99AAFE4242F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC9B78D2-77AC-459C-8F42-99AAFE4242F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC9B78D2-77AC-459C-8F42-99AAFE4242F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC9B78D2-77AC-459C-8F42-99AAFE4242F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -264,17 +302,24 @@ Global
 		{09C67697-1B3E-4E40-A972-C6768FFA006C} = {AD5A54CB-AD85-45E0-B075-83BD4834C36D}
 		{BAD5496E-437B-4B26-98E3-ED786E4341FB} = {85D16BFF-F5DA-4CE8-85D0-78D26D7C6E2A}
 		{19C864E9-F42C-404C-BA54-548392DBAF43} = {9A5F1334-96A2-4343-B6B5-94245973DB55}
-		{C9E2F11A-FA37-4FD2-9433-CC64CDBC2CEF} = {AD5A54CB-AD85-45E0-B075-83BD4834C36D}
-		{88DB6370-4C8E-4361-9B63-330646A745C1} = {AD5A54CB-AD85-45E0-B075-83BD4834C36D}
+		{C9E2F11A-FA37-4FD2-9433-CC64CDBC2CEF} = {EA694419-962B-436D-839B-86FB3E1F6E26}
+		{88DB6370-4C8E-4361-9B63-330646A745C1} = {EA694419-962B-436D-839B-86FB3E1F6E26}
 		{848E6BF3-BBE2-414E-A303-FB689BFB9AE0} = {85D16BFF-F5DA-4CE8-85D0-78D26D7C6E2A}
 		{0F193F80-9610-4020-8974-9AAA02BD1CA8} = {AD5A54CB-AD85-45E0-B075-83BD4834C36D}
 		{FB776F7E-3506-4CF3-9960-45161B0234FD} = {85D16BFF-F5DA-4CE8-85D0-78D26D7C6E2A}
 		{B4C5FC29-42A5-410E-A09D-BF68F2519BBC} = {AD5A54CB-AD85-45E0-B075-83BD4834C36D}
 		{60BD1BE4-E044-4EF7-BAC7-047FA0A4826F} = {1D17A21A-95D8-436A-8A3A-38AE2EF835CA}
 		{22FFCD75-2DED-45C4-A8E6-EC5C2F1C7ADC} = {6E23A6F8-08CB-475E-A5D4-593153D1C683}
+		{B1D3C9DF-ECAF-4EDE-9506-9A9531CC62D0} = {EA694419-962B-436D-839B-86FB3E1F6E26}
+		{C5FE58C5-7745-4AB5-AC8A-75968B442A27} = {85D16BFF-F5DA-4CE8-85D0-78D26D7C6E2A}
+		{5DA9CB0B-9007-40F1-8086-1B0303D8271F} = {7B07F3AD-8948-42F3-9A6F-0297636FBF0C}
+		{C0468156-744D-44F9-9E1F-879A237806B5} = {7B07F3AD-8948-42F3-9A6F-0297636FBF0C}
+		{D02927AD-1FA5-4A61-9A49-942574AB9FA9} = {7B07F3AD-8948-42F3-9A6F-0297636FBF0C}
+		{EA694419-962B-436D-839B-86FB3E1F6E26} = {AD5A54CB-AD85-45E0-B075-83BD4834C36D}
+		{BC9B78D2-77AC-459C-8F42-99AAFE4242F9} = {EA694419-962B-436D-839B-86FB3E1F6E26}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 36
+		SccNumberOfProjects = 42
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://espack.visualstudio.com/
 		SccLocalPath0 = .
@@ -382,41 +427,65 @@ Global
 		SccProjectTopLevelParentUniqueName26 = Windows\u0020Apps.sln
 		SccProjectName26 = ../../Database\u0020and\u0020tools/Messages
 		SccLocalPath26 = ..\\..\\Database\u0020and\u0020tools\\Messages
-		SccProjectUniqueName27 = ..\\..\\Network\u0020Libraries\\Sockets\\Sockets\\Sockets.csproj
+		SccProjectUniqueName27 = ConsoleApplication1\\ServerTCPListenerConsole.csproj
 		SccProjectTopLevelParentUniqueName27 = Windows\u0020Apps.sln
-		SccProjectName27 = ../../Network\u0020Libraries/Sockets/Sockets
-		SccLocalPath27 = ..\\..\\Network\u0020Libraries\\Sockets\\Sockets
-		SccProjectUniqueName28 = ConsoleApplication1\\ServerTCPListenerConsole.csproj
+		SccProjectName27 = ConsoleApplication1
+		SccLocalPath27 = ConsoleApplication1
+		SccProjectUniqueName28 = SimpleSocksTEst\\SimpleSocksTEst.csproj
 		SccProjectTopLevelParentUniqueName28 = Windows\u0020Apps.sln
-		SccProjectName28 = ConsoleApplication1
-		SccLocalPath28 = ConsoleApplication1
-		SccProjectUniqueName29 = SimpleSocksTEst\\SimpleSocksTEst.csproj
+		SccProjectName28 = SimpleSocksTEst
+		SccLocalPath28 = SimpleSocksTEst
+		SccProjectUniqueName29 = Etiquetas_CS\\Etiquetas_CS.csproj
 		SccProjectTopLevelParentUniqueName29 = Windows\u0020Apps.sln
-		SccProjectName29 = SimpleSocksTEst
-		SccLocalPath29 = SimpleSocksTEst
-		SccProjectUniqueName30 = Etiquetas_CS\\Etiquetas_CS.csproj
+		SccProjectName29 = Etiquetas_CS
+		SccLocalPath29 = Etiquetas_CS
+		SccProjectUniqueName30 = ..\\..\\Network\u0020Libraries\\Owncloud\\Owncloud.csproj
 		SccProjectTopLevelParentUniqueName30 = Windows\u0020Apps.sln
-		SccProjectName30 = Etiquetas_CS
-		SccLocalPath30 = Etiquetas_CS
-		SccProjectUniqueName31 = ..\\..\\Network\u0020Libraries\\Owncloud\\Owncloud.csproj
+		SccProjectName30 = ../../Network\u0020Libraries/Owncloud
+		SccLocalPath30 = ..\\..\\Network\u0020Libraries\\Owncloud
+		SccProjectUniqueName31 = PowerShellTests\\PowerShellTests.csproj
 		SccProjectTopLevelParentUniqueName31 = Windows\u0020Apps.sln
-		SccProjectName31 = ../../Network\u0020Libraries/Owncloud
-		SccLocalPath31 = ..\\..\\Network\u0020Libraries\\Owncloud
-		SccProjectUniqueName32 = PowerShellTests\\PowerShellTests.csproj
+		SccProjectName31 = PowerShellTests
+		SccLocalPath31 = PowerShellTests
+		SccProjectUniqueName32 = PowerShell\\ADControl.csproj
 		SccProjectTopLevelParentUniqueName32 = Windows\u0020Apps.sln
-		SccProjectName32 = PowerShellTests
-		SccLocalPath32 = PowerShellTests
-		SccProjectUniqueName33 = PowerShell\\ADControl.csproj
+		SccProjectName32 = PowerShell
+		SccLocalPath32 = PowerShell
+		SccProjectUniqueName33 = EspackSyncService\\EspackSyncService.csproj
 		SccProjectTopLevelParentUniqueName33 = Windows\u0020Apps.sln
-		SccProjectName33 = PowerShell
-		SccLocalPath33 = PowerShell
-		SccProjectUniqueName34 = EspackSyncService\\EspackSyncService.csproj
+		SccProjectName33 = EspackSyncService
+		SccLocalPath33 = EspackSyncService
+		SccProjectUniqueName34 = EspackSyncServiceSetup\\EspackSyncServiceSetup.vdproj
 		SccProjectTopLevelParentUniqueName34 = Windows\u0020Apps.sln
-		SccProjectName34 = EspackSyncService
-		SccLocalPath34 = EspackSyncService
-		SccProjectUniqueName35 = EspackSyncServiceSetup\\EspackSyncServiceSetup.vdproj
+		SccProjectName34 = EspackSyncServiceSetup
+		SccLocalPath34 = EspackSyncServiceSetup
+		SccProjectUniqueName35 = ServerTCPListenerService\\ServerTCPListenerService.csproj
 		SccProjectTopLevelParentUniqueName35 = Windows\u0020Apps.sln
-		SccProjectName35 = EspackSyncServiceSetup
-		SccLocalPath35 = EspackSyncServiceSetup
+		SccProjectName35 = ServerTCPListenerService
+		SccLocalPath35 = ServerTCPListenerService
+		SccProjectUniqueName36 = ConsoleControlTest\\ConsoleControlTest.csproj
+		SccProjectTopLevelParentUniqueName36 = Windows\u0020Apps.sln
+		SccProjectName36 = ConsoleControlTest
+		SccLocalPath36 = ConsoleControlTest
+		SccProjectUniqueName37 = cAccesoDatos\\cAccesoDatos.csproj
+		SccProjectTopLevelParentUniqueName37 = Windows\u0020Apps.sln
+		SccProjectName37 = cAccesoDatos
+		SccLocalPath37 = cAccesoDatos
+		SccProjectUniqueName38 = cAccesoDatosXML\\cAccesoDatosXML.csproj
+		SccProjectTopLevelParentUniqueName38 = Windows\u0020Apps.sln
+		SccProjectName38 = cAccesoDatosXML
+		SccLocalPath38 = cAccesoDatosXML
+		SccProjectUniqueName39 = ObjectFactory\\ObjectFactory.csproj
+		SccProjectTopLevelParentUniqueName39 = Windows\u0020Apps.sln
+		SccProjectName39 = ObjectFactory
+		SccLocalPath39 = ObjectFactory
+		SccProjectUniqueName40 = SocketsServer\\SocketsServer.csproj
+		SccProjectTopLevelParentUniqueName40 = Windows\u0020Apps.sln
+		SccProjectName40 = SocketsServer
+		SccLocalPath40 = SocketsServer
+		SccProjectUniqueName41 = ..\\..\\Network\u0020Libraries\\Sockets\\Sockets\\SocketsClient.csproj
+		SccProjectTopLevelParentUniqueName41 = Windows\u0020Apps.sln
+		SccProjectName41 = ../../Network\u0020Libraries/Sockets/Sockets
+		SccLocalPath41 = ..\\..\\Network\u0020Libraries\\Sockets\\Sockets
 	EndGlobalSection
 EndGlobal

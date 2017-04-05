@@ -72,7 +72,7 @@ namespace EspackSyncService
             EventLog.WriteEntry("Service Espack Sync Started.");
             // Set up a timer to trigger every minute.  
             timer = new System.Timers.Timer();
-            timer.Interval = 60000; // 60 seconds  
+            timer.Interval = 6000; // 60 seconds  
             timer.Elapsed += Timer_Elapsed;
             timer.Start();
             //await Synchronize();
@@ -87,8 +87,16 @@ namespace EspackSyncService
         {
             using (var _RS = new DynamicRS("select UserCode, Name, Surname1,Password,Zone, MainCOD3, emailAddress, flags  from vUsers where dbo.CheckFlag(flags,'CHANGED')=1", Values.gDatos))
             {
-                await _RS.OpenAsync();
-                _RS.Open();
+                try
+                {
+                    await _RS.OpenAsync();
+                    //_RS.Open();
+                } catch (Exception ex)
+                {
+                    EventLog.WriteEntry(string.Format("Error accesing database: {0}", ex.Message), EventLogEntryType.Error);
+                    return;
+                }
+
                 foreach (var r in _RS.ToList())
                 //_RS.ToList().ForEach(async r =>
                 {

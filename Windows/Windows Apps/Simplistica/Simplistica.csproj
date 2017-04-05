@@ -176,6 +176,10 @@
       <Project>{70432336-f038-4ef1-af04-012ae8e6c009}</Project>
       <Name>EspackFormControls</Name>
     </ProjectReference>
+    <ProjectReference Include="..\cAccesoDatos\cAccesoDatos.csproj">
+      <Project>{5da9cb0b-9007-40f1-8086-1b0303d8271f}</Project>
+      <Name>cAccesoDatos</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="simplistica.ico" />

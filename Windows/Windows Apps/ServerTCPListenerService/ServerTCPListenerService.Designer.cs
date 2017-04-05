@@ -1,6 +1,6 @@
-﻿namespace SyncService
+﻿namespace ServerTCPListenerService
 {
-    partial class SyncServiceClass
+    partial class ServerTCPListenerService
     {
         /// <summary> 
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            this.ServiceName = "ESS";
+            this.ServiceName = "ESTCPL";
         }
 
         #endregion
