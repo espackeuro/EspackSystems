@@ -33,7 +33,7 @@ namespace CommonAndroidTools
         {
             get
             {
-                return "16221522505390";//Android.OS.Build.Serial;
+                return Android.OS.Build.Serial;
             }
 
         }

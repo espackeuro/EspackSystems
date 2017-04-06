@@ -67,12 +67,12 @@
       <Project>{9148f7e6-31f6-4f96-b7dc-afea449998c7}</Project>
       <Name>CommonTools</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Compression\Compression\Compression.csproj">
-      <Project>{56e01207-2fdd-43e5-8f45-32b5cf34d8eb}</Project>
+    <ProjectReference Include="..\CompressionAndroid\Compression\Compression.csproj">
+      <Project>{948bbf7e-c260-47a5-b038-d2a8e0f17259}</Project>
       <Name>Compression</Name>
     </ProjectReference>
-    <ProjectReference Include="..\EncryptionWindows\Encryption\Encryption.csproj">
-      <Project>{b6ce04c5-9462-43c8-a039-f8ea3c5ace91}</Project>
+    <ProjectReference Include="..\EncryptionAndroid\Encryption\Encryption.csproj">
+      <Project>{44a86c5a-9221-4425-a960-64aeeb027cc8}</Project>
       <Name>Encryption</Name>
     </ProjectReference>
   </ItemGroup>

@@ -9,6 +9,9 @@ using CommonAndroidTools;
 using System.Net;
 using System.Threading.Tasks;
 using System.IO;
+using AccesoDatos;
+using AccesoDatosXML;
+using ObjectFactory;
 
 namespace LogonScreen
 {
@@ -56,10 +59,10 @@ namespace LogonScreen
             switch (typeofCaller)
             {
                 case "Net":
-                    gDatos = (cAccesoDatosNet)ObjectFactory.createObject("Conn", typeofCaller, serial: cDeviceInfo.Serial);
+                    gDatos = (cAccesoDatosNet)CObjectFactory.CreateObject("Conn", typeofCaller, serial: cDeviceInfo.Serial);
                     break;
                 case "Socks":
-                    gDatos = (cAccesoDatosXML)ObjectFactory.createObject("Conn", typeofCaller, serial: cDeviceInfo.Serial);
+                    gDatos = (cAccesoDatosXML)CObjectFactory.CreateObject("Conn", typeofCaller, serial: cDeviceInfo.Serial);
                     break;
 
             };
@@ -130,11 +133,11 @@ namespace LogonScreen
                 if (!error)
                 {
                     RSFrame _RS;
-                    _RS = (RSFrame)ObjectFactory.createObject("RS", typeofCaller, "select date=getdate()", gDatos);
+                    _RS = (RSFrame)CObjectFactory.CreateObject("RS", typeofCaller, "select date=getdate()", gDatos);
                     await _RS.OpenAsync();
                     gDatos.Close();
                     SPFrame LogonSP;
-                    LogonSP = (SPFrame)ObjectFactory.createObject("SP", typeofCaller, gDatos, "pLogonUser");
+                    LogonSP = (SPFrame)CObjectFactory.CreateObject("SP", typeofCaller, gDatos, "pLogonUser");
                     LogonSP.AddParameterValue("User", cUser.Text);
                     LogonSP.AddParameterValue("Password", cPassword.Text);
                     LogonSP.AddParameterValue("Origin", packageName.ToUpper());

@@ -55,7 +55,7 @@ namespace CommonAndroidTools
                 //.Show();
             if (negativeButtonCaption != "")
                 ad.SetNegativeButton(this.negativeButtonCaption, OnNegativeClick);
-            ad.Show();
+            ((Activity)context).RunOnUiThread(() => ad.Show());
             Task<bool> dialogTask = new Task<bool>(() =>
             {
                 this.waitHandle.WaitOne();

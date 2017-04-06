@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonAndroidTools", "..\BitmapHelpers\CommonAndroidTools.csproj", "{FE45781B-38CB-44F0-9DE7-08E15E0C53BD}"
 EndProject
@@ -35,8 +35,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dawn.SocketAwaitable", "..\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dawn.SocketAwaitable.Tests", "..\..\Network Libraries\SocksAwaitable\src\Dawn.SocketAwaitable.Tests\Dawn.SocketAwaitable.Tests.csproj", "{AA7C86EF-292B-4189-986F-9B0DC5C21825}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sockets", "..\..\Network Libraries\Sockets\Sockets\Sockets.csproj", "{C9E2F11A-FA37-4FD2-9433-CC64CDBC2CEF}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messages", "..\..\Database and tools\Messages\Messages.csproj", "{19C864E9-F42C-404C-BA54-548392DBAF43}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cAccesoDatosNet", "..\..\Database and tools\cAccesoDatos.NET\cAccesoDatosNet.csproj", "{D3E453AA-39B7-480F-8917-6D7F5076C3ED}"
@@ -46,6 +44,18 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebDavClient", "WebDavClient\WebDavClient.csproj", "{AA6B5C81-BE21-4837-85BC-288BA4C90648}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test", "..\..\Network Libraries\test\test.csproj", "{85C3CF9F-E76C-4BF6-B2EF-1CF434903DB1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cAccesoDatos", "..\..\Windows\Windows Apps\cAccesoDatos\cAccesoDatos.csproj", "{5DA9CB0B-9007-40F1-8086-1B0303D8271F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cAccesoDatosXML", "..\..\Windows\Windows Apps\cAccesoDatosXML\cAccesoDatosXML.csproj", "{C0468156-744D-44F9-9E1F-879A237806B5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectFactory", "..\..\Windows\Windows Apps\ObjectFactory\ObjectFactory.csproj", "{D02927AD-1FA5-4A61-9A49-942574AB9FA9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sockets", "Sockets", "{A8B13BE6-C706-4DD4-AB0F-9BE3DACB3E67}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketsServer", "..\..\Windows\Windows Apps\SocketsServer\SocketsServer.csproj", "{BC9B78D2-77AC-459C-8F42-99AAFE4242F9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketsClient", "..\..\Network Libraries\Sockets\Sockets\SocketsClient.csproj", "{C9E2F11A-FA37-4FD2-9433-CC64CDBC2CEF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -101,10 +111,6 @@ Global
 		{AA7C86EF-292B-4189-986F-9B0DC5C21825}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA7C86EF-292B-4189-986F-9B0DC5C21825}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA7C86EF-292B-4189-986F-9B0DC5C21825}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C9E2F11A-FA37-4FD2-9433-CC64CDBC2CEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C9E2F11A-FA37-4FD2-9433-CC64CDBC2CEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C9E2F11A-FA37-4FD2-9433-CC64CDBC2CEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C9E2F11A-FA37-4FD2-9433-CC64CDBC2CEF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{19C864E9-F42C-404C-BA54-548392DBAF43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{19C864E9-F42C-404C-BA54-548392DBAF43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19C864E9-F42C-404C-BA54-548392DBAF43}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -125,6 +131,26 @@ Global
 		{85C3CF9F-E76C-4BF6-B2EF-1CF434903DB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{85C3CF9F-E76C-4BF6-B2EF-1CF434903DB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{85C3CF9F-E76C-4BF6-B2EF-1CF434903DB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DA9CB0B-9007-40F1-8086-1B0303D8271F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DA9CB0B-9007-40F1-8086-1B0303D8271F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DA9CB0B-9007-40F1-8086-1B0303D8271F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DA9CB0B-9007-40F1-8086-1B0303D8271F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0468156-744D-44F9-9E1F-879A237806B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0468156-744D-44F9-9E1F-879A237806B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0468156-744D-44F9-9E1F-879A237806B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0468156-744D-44F9-9E1F-879A237806B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D02927AD-1FA5-4A61-9A49-942574AB9FA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D02927AD-1FA5-4A61-9A49-942574AB9FA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D02927AD-1FA5-4A61-9A49-942574AB9FA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D02927AD-1FA5-4A61-9A49-942574AB9FA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC9B78D2-77AC-459C-8F42-99AAFE4242F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC9B78D2-77AC-459C-8F42-99AAFE4242F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC9B78D2-77AC-459C-8F42-99AAFE4242F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC9B78D2-77AC-459C-8F42-99AAFE4242F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9E2F11A-FA37-4FD2-9433-CC64CDBC2CEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9E2F11A-FA37-4FD2-9433-CC64CDBC2CEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9E2F11A-FA37-4FD2-9433-CC64CDBC2CEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9E2F11A-FA37-4FD2-9433-CC64CDBC2CEF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -141,17 +167,22 @@ Global
 		{C7587A97-8D82-4A8B-A472-89198666FD22} = {3A654A15-9225-4336-8D89-227689080C5A}
 		{09C67697-1B3E-4E40-A972-C6768FFA006C} = {3A654A15-9225-4336-8D89-227689080C5A}
 		{AA7C86EF-292B-4189-986F-9B0DC5C21825} = {3A654A15-9225-4336-8D89-227689080C5A}
-		{C9E2F11A-FA37-4FD2-9433-CC64CDBC2CEF} = {3A654A15-9225-4336-8D89-227689080C5A}
 		{19C864E9-F42C-404C-BA54-548392DBAF43} = {3A654A15-9225-4336-8D89-227689080C5A}
 		{D3E453AA-39B7-480F-8917-6D7F5076C3ED} = {8388EEDE-523A-4541-BF5A-D71D220A366A}
 		{9148F7E6-31F6-4F96-B7DC-AFEA449998C7} = {5802ACA1-E788-4592-BB10-63A26AA1A336}
 		{AA6B5C81-BE21-4837-85BC-288BA4C90648} = {3A654A15-9225-4336-8D89-227689080C5A}
 		{85C3CF9F-E76C-4BF6-B2EF-1CF434903DB1} = {3A654A15-9225-4336-8D89-227689080C5A}
+		{5DA9CB0B-9007-40F1-8086-1B0303D8271F} = {8388EEDE-523A-4541-BF5A-D71D220A366A}
+		{C0468156-744D-44F9-9E1F-879A237806B5} = {8388EEDE-523A-4541-BF5A-D71D220A366A}
+		{D02927AD-1FA5-4A61-9A49-942574AB9FA9} = {8388EEDE-523A-4541-BF5A-D71D220A366A}
+		{A8B13BE6-C706-4DD4-AB0F-9BE3DACB3E67} = {3A654A15-9225-4336-8D89-227689080C5A}
+		{BC9B78D2-77AC-459C-8F42-99AAFE4242F9} = {A8B13BE6-C706-4DD4-AB0F-9BE3DACB3E67}
+		{C9E2F11A-FA37-4FD2-9433-CC64CDBC2CEF} = {A8B13BE6-C706-4DD4-AB0F-9BE3DACB3E67}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 18
+		SccNumberOfProjects = 22
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://espack.visualstudio.com/defaultcollection
+		SccTeamFoundationServer = https://espack.visualstudio.com/
 		SccLocalPath0 = .
 		SccProjectUniqueName1 = ..\\BitmapHelpers\\CommonAndroidTools.csproj
 		SccProjectTopLevelParentUniqueName1 = Android\u0020Apps.sln
@@ -193,33 +224,49 @@ Global
 		SccProjectTopLevelParentUniqueName10 = Android\u0020Apps.sln
 		SccProjectName10 = ../../Network\u0020Libraries/SocksAwaitable/src/Dawn.SocketAwaitable.Tests
 		SccLocalPath10 = ..\\..\\Network\u0020Libraries\\SocksAwaitable\\src\\Dawn.SocketAwaitable.Tests
-		SccProjectUniqueName11 = ..\\..\\Network\u0020Libraries\\Sockets\\Sockets\\Sockets.csproj
+		SccProjectUniqueName11 = ..\\..\\Database\u0020and\u0020tools\\Messages\\Messages.csproj
 		SccProjectTopLevelParentUniqueName11 = Android\u0020Apps.sln
-		SccProjectName11 = ../../Network\u0020Libraries/Sockets/Sockets
-		SccLocalPath11 = ..\\..\\Network\u0020Libraries\\Sockets\\Sockets
-		SccProjectUniqueName12 = ..\\..\\Database\u0020and\u0020tools\\Messages\\Messages.csproj
+		SccProjectName11 = ../../Database\u0020and\u0020tools/Messages
+		SccLocalPath11 = ..\\..\\Database\u0020and\u0020tools\\Messages
+		SccProjectUniqueName12 = ..\\..\\Database\u0020and\u0020tools\\cAccesoDatos.NET\\cAccesoDatosNet.csproj
 		SccProjectTopLevelParentUniqueName12 = Android\u0020Apps.sln
-		SccProjectName12 = ../../Database\u0020and\u0020tools/Messages
-		SccLocalPath12 = ..\\..\\Database\u0020and\u0020tools\\Messages
-		SccProjectUniqueName13 = ..\\..\\Database\u0020and\u0020tools\\cAccesoDatos.NET\\cAccesoDatosNet.csproj
+		SccProjectName12 = ../../Database\u0020and\u0020tools/cAccesoDatos.NET
+		SccLocalPath12 = ..\\..\\Database\u0020and\u0020tools\\cAccesoDatos.NET
+		SccProjectUniqueName13 = ..\\..\\Database\u0020and\u0020tools\\CommonTools\\CommonTools.csproj
 		SccProjectTopLevelParentUniqueName13 = Android\u0020Apps.sln
-		SccProjectName13 = ../../Database\u0020and\u0020tools/cAccesoDatos.NET
-		SccLocalPath13 = ..\\..\\Database\u0020and\u0020tools\\cAccesoDatos.NET
-		SccProjectUniqueName14 = ..\\..\\Database\u0020and\u0020tools\\CommonTools\\CommonTools.csproj
+		SccProjectName13 = ../../Database\u0020and\u0020tools/CommonTools
+		SccLocalPath13 = ..\\..\\Database\u0020and\u0020tools\\CommonTools
+		SccProjectUniqueName14 = WebDavClient\\WebDavClient.csproj
 		SccProjectTopLevelParentUniqueName14 = Android\u0020Apps.sln
-		SccProjectName14 = ../../Database\u0020and\u0020tools/CommonTools
-		SccLocalPath14 = ..\\..\\Database\u0020and\u0020tools\\CommonTools
-		SccProjectUniqueName15 = WebDavClient\\WebDavClient.csproj
+		SccProjectName14 = WebDavClient
+		SccLocalPath14 = WebDavClient
+		SccProjectUniqueName15 = ..\\..\\Network\u0020Libraries\\test\\test.csproj
 		SccProjectTopLevelParentUniqueName15 = Android\u0020Apps.sln
-		SccProjectName15 = WebDavClient
-		SccLocalPath15 = WebDavClient
-		SccProjectUniqueName16 = ..\\..\\Network\u0020Libraries\\test\\test.csproj
+		SccProjectName15 = ../../Network\u0020Libraries/test
+		SccLocalPath15 = ..\\..\\Network\u0020Libraries\\test
+		SccProjectUniqueName16 = ..\\DataWedge\\Scanner.csproj
 		SccProjectTopLevelParentUniqueName16 = Android\u0020Apps.sln
-		SccProjectName16 = ../../Network\u0020Libraries/test
-		SccLocalPath16 = ..\\..\\Network\u0020Libraries\\test
-		SccProjectUniqueName17 = ..\\DataWedge\\Scanner.csproj
+		SccProjectName16 = ../DataWedge
+		SccLocalPath16 = ..\\DataWedge
+		SccProjectUniqueName17 = ..\\..\\Windows\\Windows\u0020Apps\\cAccesoDatos\\cAccesoDatos.csproj
 		SccProjectTopLevelParentUniqueName17 = Android\u0020Apps.sln
-		SccProjectName17 = ../DataWedge
-		SccLocalPath17 = ..\\DataWedge
+		SccProjectName17 = ../../Windows/Windows\u0020Apps/cAccesoDatos
+		SccLocalPath17 = ..\\..\\Windows\\Windows\u0020Apps\\cAccesoDatos
+		SccProjectUniqueName18 = ..\\..\\Windows\\Windows\u0020Apps\\cAccesoDatosXML\\cAccesoDatosXML.csproj
+		SccProjectTopLevelParentUniqueName18 = Android\u0020Apps.sln
+		SccProjectName18 = ../../Windows/Windows\u0020Apps/cAccesoDatosXML
+		SccLocalPath18 = ..\\..\\Windows\\Windows\u0020Apps\\cAccesoDatosXML
+		SccProjectUniqueName19 = ..\\..\\Windows\\Windows\u0020Apps\\ObjectFactory\\ObjectFactory.csproj
+		SccProjectTopLevelParentUniqueName19 = Android\u0020Apps.sln
+		SccProjectName19 = ../../Windows/Windows\u0020Apps/ObjectFactory
+		SccLocalPath19 = ..\\..\\Windows\\Windows\u0020Apps\\ObjectFactory
+		SccProjectUniqueName20 = ..\\..\\Windows\\Windows\u0020Apps\\SocketsServer\\SocketsServer.csproj
+		SccProjectTopLevelParentUniqueName20 = Android\u0020Apps.sln
+		SccProjectName20 = ../../Windows/Windows\u0020Apps/SocketsServer
+		SccLocalPath20 = ..\\..\\Windows\\Windows\u0020Apps\\SocketsServer
+		SccProjectUniqueName21 = ..\\..\\Network\u0020Libraries\\Sockets\\Sockets\\SocketsClient.csproj
+		SccProjectTopLevelParentUniqueName21 = Android\u0020Apps.sln
+		SccProjectName21 = ../../Network\u0020Libraries/Sockets/Sockets
+		SccLocalPath21 = ..\\..\\Network\u0020Libraries\\Sockets\\Sockets
 	EndGlobalSection
 EndGlobal
