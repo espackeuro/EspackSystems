@@ -15,7 +15,7 @@
     <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
-    <TargetFrameworkVersion>v7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v7.0</TargetFrameworkVersion>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <SccProjectName>SAK</SccProjectName>
@@ -111,7 +111,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Resources\AboutResources.txt" />
     <AndroidResource Include="Resources\layout\LogonScreenLayout.axml">
@@ -128,18 +127,6 @@
     <ProjectReference Include="..\..\Database and tools\cAccesoDatos.NET\cAccesoDatosNet.csproj">
       <Project>{d3e453aa-39b7-480f-8917-6d7f5076c3ed}</Project>
       <Name>cAccesoDatosNet</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Windows\Windows Apps\cAccesoDatosXML\cAccesoDatosXML.csproj">
-      <Project>{c0468156-744d-44f9-9e1f-879a237806b5}</Project>
-      <Name>cAccesoDatosXML</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Windows\Windows Apps\cAccesoDatos\cAccesoDatos.csproj">
-      <Project>{5DA9CB0B-9007-40F1-8086-1B0303D8271F}</Project>
-      <Name>cAccesoDatos</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Windows\Windows Apps\ObjectFactory\ObjectFactory.csproj">
-      <Project>{d02927ad-1fa5-4a61-9a49-942574ab9fa9}</Project>
-      <Name>ObjectFactory</Name>
     </ProjectReference>
     <ProjectReference Include="..\Android Apps\WebDavClient\WebDavClient.csproj">
       <Project>{aa6b5c81-be21-4837-85bc-288ba4c90648}</Project>

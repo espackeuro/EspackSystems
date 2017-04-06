@@ -10,36 +10,40 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.Media;
+using System.Threading.Tasks;
 
 namespace CommonAndroidTools
 {
     public static class cSounds
     {
-        public static void Error(Context context)
+        public static Task Error(Context context)
         {
-            MediaPlayer _player = MediaPlayer.Create(context, Resource.Raw.Antares);
-            _player.Start();
+            return Play(context, Resource.Raw.Antares);
         }
 
-        public static void Scan(Context context)
+        public static Task Scan(Context context)
         {
-            MediaPlayer _player = MediaPlayer.Create(context, Resource.Raw.decodeshort);
-            _player.Start();
+            return Play(context, Resource.Raw.decodeshort);
         }
-        public static void Warning(Context context)
+        public static Task Warning(Context context)
         {
-            MediaPlayer _player = MediaPlayer.Create(context, Resource.Raw.Gallium);
-            _player.Start();
+            return Play(context, Resource.Raw.Gallium);
         }
-        public static void EndOfProcess(Context context)
+        public static Task EndOfProcess(Context context)
         {
-            MediaPlayer _player = MediaPlayer.Create(context, Resource.Raw.TaDa);
-            _player.Start();
+            return Play(context, Resource.Raw.TaDa);
         }
-        public static void Correct(Context context)
+        public static Task Correct(Context context)
         {
-            MediaPlayer _player = MediaPlayer.Create(context, Resource.Raw.Tejat);
-            _player.Start();
+            return Play(context, Resource.Raw.Tejat);
+        }
+        private static Task Play(Context context, int Resource)
+        {
+            return Task.Run(() =>
+            {
+                MediaPlayer _player = MediaPlayer.Create(context, Resource);
+                _player.Start();
+            });
         }
     }
 }

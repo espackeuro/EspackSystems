@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AccesoDatosNet;
+﻿using AccesoDatosNet;
 using AccesoDatosXML;
 
 namespace ObjectFactory
 {
-    public static class ObjectFactory
+    public static class CObjectFactory
     {
-        public static object createObject(string objectClass, string objectType, object param1 = null, object param2 = null, string serial = null)
+        public static object CreateObject(string objectClass, string objectType, object param1 = null, object param2 = null, string serial = null)
         {
 
             switch (objectClass)

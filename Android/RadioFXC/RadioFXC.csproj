@@ -211,6 +211,10 @@
       <Project>{d3e453aa-39b7-480f-8917-6d7f5076c3ed}</Project>
       <Name>cAccesoDatosNet</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Windows\Windows Apps\cAccesoDatos\cAccesoDatos.csproj">
+      <Project>{5da9cb0b-9007-40f1-8086-1b0303d8271f}</Project>
+      <Name>cAccesoDatos</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BitmapHelpers\CommonAndroidTools.csproj">
       <Project>{fe45781b-38cb-44f0-9de7-08e15e0c53bd}</Project>
       <Name>CommonAndroidTools</Name>
