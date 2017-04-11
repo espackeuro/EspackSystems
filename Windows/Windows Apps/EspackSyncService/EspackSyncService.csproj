@@ -85,6 +85,10 @@
       <Project>{0f193f80-9610-4020-8974-9aaa02bd1ca8}</Project>
       <Name>Owncloud</Name>
     </ProjectReference>
+    <ProjectReference Include="..\cAccesoDatos\cAccesoDatos.csproj">
+      <Project>{5da9cb0b-9007-40f1-8086-1b0303d8271f}</Project>
+      <Name>cAccesoDatos</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PowerShell\ADControl.csproj">
       <Project>{b4c5fc29-42a5-410e-a09d-bf68f2519bbc}</Project>
       <Name>ADControl</Name>

@@ -20,6 +20,7 @@ namespace EspackSyncService
         };
         public static byte[] MasterPassword = Encoding.Unicode.GetBytes("Y?D6d#b@");
         public static Dictionary<string, string> Servers = new Dictionary<string, string>();
+        public static int PollingTime { get; set; } = 60;
     }
     static class Program
     {
@@ -27,6 +28,10 @@ namespace EspackSyncService
 
         static void Main(string[] args)
         {
+            if (args.Count() == 0)
+                args = new string[] { "NEXTCLOUD = nextcloud.espackeuro.com", "DOMAIN = sauron.systems.espackeuro.com", "DATABASE = DB01.local" };
+
+
             args.ToList().ForEach(server =>
             {
                 var tupla = server.Split('=');
