@@ -72,7 +72,7 @@ namespace EspackSyncService
             EventLog.WriteEntry("Service Espack Sync Started.");
             // Set up a timer to trigger every minute.  
             timer = new System.Timers.Timer();
-            timer.Interval = 6000; // 60 seconds  
+            timer.Interval = Values.PollingTime * 1000;
             timer.Elapsed += Timer_Elapsed;
             timer.Start();
             //await Synchronize();
