@@ -621,9 +621,13 @@ namespace CTLMantenimientoNet
         {
             //setRSPosition(0);
             if (PK)
-                CTLMItems.Where(r => r.PK==false).ToList().ForEach(i => i.ClearEspackControl());
+                CTLMItems.Where(r => r.PK==false).ToList().ForEach(i => {
+                    i.ClearEspackControl();
+                    });
             else
-                CTLMItems.ForEach(i => i.ClearEspackControl());
+                CTLMItems.ForEach(i => {
+                    i.ClearEspackControl();
+                });
             if (MsgStatusInfoLabel != null) MsgStatusInfoLabel.Text = "";
             
         }

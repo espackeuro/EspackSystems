@@ -66,6 +66,10 @@
       <Project>{b6ce04c5-9462-43c8-a039-f8ea3c5ace91}</Project>
       <Name>Encryption</Name>
     </ProjectReference>
+    <ProjectReference Include="..\cAccesoDatosXML\cAccesoDatosXML.csproj">
+      <Project>{c0468156-744d-44f9-9e1f-879a237806b5}</Project>
+      <Name>cAccesoDatosXML</Name>
+    </ProjectReference>
     <ProjectReference Include="..\cAccesoDatos\cAccesoDatos.csproj">
       <Project>{5da9cb0b-9007-40f1-8086-1b0303d8271f}</Project>
       <Name>cAccesoDatos</Name>

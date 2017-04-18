@@ -946,7 +946,7 @@ namespace EspackFormControls
         public int Order { get; set; }
         public bool PK { get; set; }
         public bool Search { get; set; }
-        public object DefaultValue { get; set; }
+        public object DefaultValue { get; set; } = "";
         public Type DBFieldType { get; set; }
 
         public event EventHandler TextChanged;
@@ -957,7 +957,10 @@ namespace EspackFormControls
         }
         public void ClearEspackControl()
         {
-            theString = DefaultValue != null ? "" : DefaultValue.ToString();
+            if (DefaultValue != null)
+                theString = DefaultValue.ToString();
+            else
+                theString = "";
         }
         public EspackLabel CaptionLabel { get; set; }
         public DA ParentDA { get; set; }
