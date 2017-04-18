@@ -18,6 +18,7 @@ namespace Simplistica
 {
     public partial class fSimpleReceivals : Form
     {
+        protected string[] ServiceFlags;
         public fSimpleReceivals()
         {
             InitializeComponent();
@@ -27,7 +28,7 @@ namespace Simplistica
             CTLM.sSPAdd = "PAdd_Cab_Recepcion";
             CTLM.sSPUpp = "PUpp_Cab_Recepcion";
             CTLM.sSPDel = "PDel_Cab_Recepcion";
-            CTLM.DBTable = "(Select c.* from Cab_Recepcion c inner join Servicios s on s.codigo=c.servicio where s.cod3='"+Values.COD3+"' and dbo.CheckFlag(s.flags,'SIMPLE')=1) a";
+            CTLM.DBTable = "(Select c.* from Cab_Recepcion c inner join Servicios s on s.codigo=c.servicio where s.cod3='" + Values.COD3 + "' and dbo.CheckFlag(s.flags,'SIMPLE')=1) a";
 
             //Header
             CTLM.AddItem(txtEntrada, "Entrada", false, true, true, 1, true, true);
@@ -61,31 +62,54 @@ namespace Simplistica
             //VS Details
             VS.AddColumn("Entrada", txtEntrada, "@entrada", "", "@entrada");
             VS.AddColumn("Linea", "linea", "", "", "@linea");
-            VS.AddColumn("PartNumber", "partnumber", "@partnumber", pSortable: true, pWidth: 90, aMode: AutoCompleteMode.SuggestAppend, aSource: AutoCompleteSource.CustomSource, aQuery: string.Format("select partnumber from referencias where servicio='{0}'",cboServicio.Value));
+            VS.AddColumn("PartNumber", "partnumber", "@partnumber", pSortable: true, pWidth: 90, aMode: AutoCompleteMode.SuggestAppend, aSource: AutoCompleteSource.CustomSource, aQuery: string.Format("select partnumber from referencias where servicio='{0}'", cboServicio.Value));
             VS.AddColumn("Descripcion", "descripcion", "@descripcion", pSortable: true, pWidth: 200);
             VS.AddColumn("Qty", "Qty", "@qty", pWidth: 90);
             VS.CellEndEdit += VS_CellEndEdit; //VS_CellValidating; ; ;
-            
+
             //Various
             CTLM.AddDefaultStatusStrip();
             CTLM.AddItem(VS);
             CTLM.Start();
+            CTLM.AfterButtonClick += CTLM_AfterButtonClick;
+            toolStrip.Enabled = false;
+        }
+
+        private void CTLM_AfterButtonClick(object sender, CTLMantenimientoNet.CTLMEventArgs e)
+        {
+            btnACheck.Enabled = lstFlags["PALETAGS"] == false && lstFlags["RECEIVED"] == true && ServiceFlags.Contains("AUTOCHECK");
+            btnReceived.Enabled = lstFlags["RECEIVED"] == false && txtEntrada.ToString() != "";
+            btnLabelCMs.Enabled = !ServiceFlags.Contains("AUTOCHECK");
         }
 
         private void CboServicio_SelectedValueChanged(object sender, EventArgs e)
         {
-            ((CtlVSColumn)VS.Columns["PartNumber"]).AutoCompleteQuery = string.Format("select partnumber from referencias where servicio='{0}'", cboServicio.Value);
-            ((CtlVSColumn)VS.Columns["PartNumber"]).ReQuery();
+            if (cboServicio.Value.ToString() != "")
+                using (var _RS = new StaticRS(string.Format("Select flags from servicios where codigo='{0}'", cboServicio.Value), Values.gDatos))
+                {
+                    _RS.Open();
+                    if (_RS.RecordCount != 0)
+                    {
+                        toolStrip.Enabled = true;
+                        ServiceFlags = _RS["flags"].ToString().Split('|');
+                        btnLabelCMs.Enabled = !ServiceFlags.Contains("AUTOCHECK");
+                        btnACheck.Enabled = ServiceFlags.Contains("AUTOCHECK");
+                        ((CtlVSColumn)VS.Columns["PartNumber"]).AutoCompleteQuery = string.Format("select partnumber from referencias where servicio='{0}'", cboServicio.Value);
+                        ((CtlVSColumn)VS.Columns["PartNumber"]).ReQuery();
+                    }
+                }
+            else
+                toolStrip.Enabled = false;
         }
 
         private void VS_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             if (e.ColumnIndex == 2)
             {
-                using (var _rs = new DynamicRS(string.Format("Select Descripcion from Referencias where partnumber='{0}' and Servicio='{1}'", VS[e.ColumnIndex, e.RowIndex].Value, cboServicio.Value), Values.gDatos))
+                using (var _rs = new StaticRS(string.Format("Select Descripcion from Referencias where partnumber='{0}' and Servicio='{1}'", VS[e.ColumnIndex, e.RowIndex].Value, cboServicio.Value), Values.gDatos))
                 {
                     _rs.Open();
-                    if (_rs.RecordCount==0)
+                    if (_rs.RecordCount == 0)
                     {
                         CTWin.MsgError("Wrong partnumber");
                         VS[e.ColumnIndex, e.RowIndex].Value = "";
@@ -105,7 +129,7 @@ namespace Simplistica
         #region CM GENERATION
         private void btnLabelCMs_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("This will generate and print all CMs. Are you sure?","SIMPLISTICA",MessageBoxButtons.YesNoCancel,MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("This will generate and print all CMs. Are you sure?", "SIMPLISTICA", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
 
                 //printer preparation
@@ -137,8 +161,8 @@ namespace Simplistica
                     //we will check line by line
                     VS.ToList().Where(r => r.Cells[0].Value.ToString() != "").ToList().ForEach(r =>
                       {
-                    //first we generate the cms
-                    try
+                          //first we generate the cms
+                          try
                           {
                               generateCM(Convert.ToInt32(txtEntrada.Value), Convert.ToInt32(r.Cells[1].Value));
                           }
@@ -147,11 +171,11 @@ namespace Simplistica
                               CTWin.MsgError(ex.Message);
                               CTLM.StatusMsg(ex.Message);
                           }
-                    //delimiter
-                    delimiterLabel.delim(_delimiterLabel, "LINE", r.Cells[1].Value.ToString());
+                          //delimiter
+                          delimiterLabel.delim(_delimiterLabel, "LINE", r.Cells[1].Value.ToString());
                           _printer.SendUTF8StringToPrinter(_delimiterLabel.ToString(), 1);
-                    // then we print the labels 
-                    using (var _rs = new DynamicRS(string.Format("Select cp.CM,cp.Entrada,cp.Linea,cp.Partnumber,cp.QTY,cp.xfec,c.Doc_Proveedor from CMS_PALETAGS cp inner join cab_Recepcion c on c.entrada=cp.entrada where cp.Entrada='{0}' and Linea='{1}'", Convert.ToInt32(txtEntrada.Value), Convert.ToInt32(r.Cells[1].Value)), Values.gDatos))
+                          // then we print the labels 
+                          using (var _rs = new DynamicRS(string.Format("Select cp.CM,cp.Entrada,cp.Linea,cp.Partnumber,cp.QTY,cp.xfec,c.Doc_Proveedor from CMS_PALETAGS cp inner join cab_Recepcion c on c.entrada=cp.entrada where cp.Entrada='{0}' and Linea='{1}'", Convert.ToInt32(txtEntrada.Value), Convert.ToInt32(r.Cells[1].Value)), Values.gDatos))
                           {
                               _rs.Open();
                               _rs.ToList().ForEach(row =>
@@ -219,7 +243,8 @@ namespace Simplistica
                 try
                 {
                     _sp.Execute();
-                } catch(Exception ex)
+                }
+                catch (Exception ex)
                 {
                     CTWin.MsgError(ex.Message);
                     return;
@@ -229,7 +254,34 @@ namespace Simplistica
                     CTWin.MsgError(_sp.LastMsg);
                     return;
                 }
-                lstFlags["RECEIVED"]=true;
+                lstFlags["RECEIVED"] = true;
+            }
+        }
+
+        private void btnACheck_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("This will check and if possible store all the received parts. Are you sure?", "SIMPLISTICA", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                using (var _sp = new SP(Values.gDatos, "pProcessSimpleReceival"))
+                {
+                    _sp.AddParameterValue("@Recepcion", txtEntrada.Value.ToString());
+                    try
+                    {
+                        _sp.Execute();
+                    }
+                    catch (Exception ex)
+                    {
+                        CTWin.MsgError(ex.Message);
+                        return;
+                    }
+                    if (_sp.LastMsg.Substring(0, 2) != "OK")
+                    {
+                        CTWin.MsgError(_sp.LastMsg);
+                        return;
+                    }
+                    //lstFlags["RECEIVED"] = true;
+                }
+                CTLM.StatusMsg("Process completed.");
             }
         }
     }

@@ -281,27 +281,16 @@ namespace AccesoDatosNet
     {
         protected new cAccesoDatosNet mConn = null;
         protected SqlDataReader mDR = null;
+        protected List<DataRow> Result = null;
         //private cAccesoDatosNet mConn = null;
         //Events
         //public new event EventHandler<EventArgs> AfterExecution; //launched when the query is executed
 //properties
 
         public SqlCommand Cmd { get; set; }
-         
-        public override object this[string Idx]
-        {
-            get
-            {
-                return mDR[Idx];
-            }
-        }
-        public override object this[int Idx]
-        {
-            get
-            {
-                return mDR[Idx];
-            }
-        }
+
+        public override object this[string Idx] => RecordCount!=0? Result[Index].Field<string>(Idx):null;
+        public override object this[int Idx] => Result[Idx];
 
         public new bool HasRows
         {
@@ -323,7 +312,7 @@ namespace AccesoDatosNet
         {
             get
             {
-                return mDR.OfType<DataRow>().ToList();
+                return Result;
             }
         }
 
@@ -331,7 +320,7 @@ namespace AccesoDatosNet
         {
             get
             {
-                throw new NotImplementedException();
+                return Result.Count;
             }
         }
 
@@ -339,7 +328,7 @@ namespace AccesoDatosNet
         {
             get
             {
-                return mDR.FieldCount;
+                return Result[0].Table.Columns.Count;
             }
         }
 
@@ -379,7 +368,12 @@ namespace AccesoDatosNet
             try
             {
                 mDR = Cmd.ExecuteReader();
-                EOF = ! mDR.Read();
+                //EOF = ! mDR.Read();
+                var _dt = new DataTable();
+                _dt.Load(mDR);
+                Result = _dt.AsEnumerable().ToList();
+                EOF = Result.Count() == 0;
+                Index = 0;
             } catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
@@ -405,7 +399,11 @@ namespace AccesoDatosNet
             try
             {
                 mDR = await Cmd.ExecuteReaderAsync();
-                EOF = !await mDR.ReadAsync();
+                var _dt = new DataTable();
+                await Task.Run(() => _dt.Load(mDR));
+                Result = _dt.AsEnumerable().ToList();
+                EOF = Result.Count() == 0;
+                Index = 0;
             }
             catch (Exception ex)
             {
@@ -422,26 +420,20 @@ namespace AccesoDatosNet
         }
         public async Task MoveNextAsync()
         {
-            mState = RSState.Fetching;
-            if (await mDR.ReadAsync())
-            {
-                EOF = false;
-            } else
-                EOF = true;
-            mState = RSState.Open;
+            await Task.Run(() => MoveNext());
         }
 
-        public override void MoveNext(bool silent=true)
-        {
-            mState = RSState.Fetching;
-            if (mDR.Read())
-            {
-                EOF = false;
-            }
-            else
-                EOF = true;
-            mState = RSState.Open;
-        }
+        //public override void MoveNext(bool silent=true)
+        //{
+        //    mState = RSState.Fetching;
+        //    if (mDR.Read())
+        //    {
+        //        EOF = false;
+        //    }
+        //    else
+        //        EOF = true;
+        //    mState = RSState.Open;
+        //}
         //public override void Move(int Idx) { }
 
         public override void Close()
@@ -449,6 +441,7 @@ namespace AccesoDatosNet
             mDR.Close();
             mDR = null;
             Cmd = null;
+            Result = null;
             mState = RSState.Closed;
         }
         ~StaticRS()
@@ -457,12 +450,13 @@ namespace AccesoDatosNet
                 mDR.Close();
             mDR = null;
             Cmd = null;
+            Result = null;
         }
 
 
         public override List<DataRow> getList() 
         {
-            return mDR.OfType<DataRow>().ToList();
+            return Result;
         }
 
         public override void AddControlParameter(string ParamName, object ParamControl)

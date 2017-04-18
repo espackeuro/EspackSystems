@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(fSimpleReceivals));
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.btnReceived = new System.Windows.Forms.ToolStripButton();
             this.btnLabelCMs = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -42,22 +42,24 @@
             this.txtFecha = new EspackFormControls.EspackDateTimePicker();
             this.txtEntrada = new EspackFormControls.EspackTextBox();
             this.CTLM = new CTLMantenimientoNet.CTLMantenimientoNet();
-            this.toolStrip1.SuspendLayout();
+            this.btnACheck = new System.Windows.Forms.ToolStripButton();
+            this.toolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.VS)).BeginInit();
             this.SuspendLayout();
             // 
-            // toolStrip1
+            // toolStrip
             // 
-            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStrip.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnReceived,
             this.btnLabelCMs,
-            this.toolStripSeparator1});
-            this.toolStrip1.Location = new System.Drawing.Point(393, 13);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(142, 25);
-            this.toolStrip1.TabIndex = 30;
-            this.toolStrip1.Text = "toolStrip1";
+            this.toolStripSeparator1,
+            this.btnACheck});
+            this.toolStrip.Location = new System.Drawing.Point(327, 17);
+            this.toolStrip.Name = "toolStrip";
+            this.toolStrip.Size = new System.Drawing.Size(230, 25);
+            this.toolStrip.TabIndex = 30;
+            this.toolStrip.Text = "toolStrip1";
             // 
             // btnReceived
             // 
@@ -286,6 +288,7 @@
             this.txtFecha.Location = new System.Drawing.Point(388, 113);
             this.txtFecha.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtFecha.Name = "txtFecha";
+            this.txtFecha.Nullable = false;
             this.txtFecha.Order = 0;
             this.txtFecha.ParentConn = null;
             this.txtFecha.ParentDA = null;
@@ -337,7 +340,6 @@
             this.CTLM.MsgStatusLabel = null;
             this.CTLM.Name = "CTLM";
             this.CTLM.ReQuery = false;
-            
             this.CTLM.Size = new System.Drawing.Size(290, 29);
             this.CTLM.sSPAdd = "";
             this.CTLM.sSPDel = "";
@@ -346,13 +348,23 @@
             this.CTLM.TabIndex = 0;
             this.CTLM.Text = "ctlMantenimientoNet1";
             // 
+            // btnACheck
+            // 
+            this.btnACheck.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnACheck.Image = ((System.Drawing.Image)(resources.GetObject("btnACheck.Image")));
+            this.btnACheck.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnACheck.Name = "btnACheck";
+            this.btnACheck.Size = new System.Drawing.Size(57, 22);
+            this.btnACheck.Text = "A-Check";
+            this.btnACheck.Click += new System.EventHandler(this.btnACheck_Click);
+            // 
             // fSimpleReceivals
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(575, 650);
             this.Controls.Add(this.lstFlags);
-            this.Controls.Add(this.toolStrip1);
+            this.Controls.Add(this.toolStrip);
             this.Controls.Add(this.VS);
             this.Controls.Add(this.txtDesServicio);
             this.Controls.Add(this.cboServicio);
@@ -364,8 +376,8 @@
             this.Name = "fSimpleReceivals";
             this.ShowIcon = false;
             this.Text = "Receivals";
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
+            this.toolStrip.ResumeLayout(false);
+            this.toolStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.VS)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -382,10 +394,11 @@
         private EspackFormControls.EspackComboBox cboServicio;
         private EspackFormControls.EspackTextBox txtDesServicio;
         private VSGrid.CtlVSGrid VS;
-        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStrip toolStrip;
         private System.Windows.Forms.ToolStripButton btnLabelCMs;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton btnReceived;
         private EspackFormControls.EspackCheckedListBox lstFlags;
+        private System.Windows.Forms.ToolStripButton btnACheck;
     }
 }
