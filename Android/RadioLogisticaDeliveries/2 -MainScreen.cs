@@ -12,6 +12,7 @@ using Android.Widget;
 using System.Threading.Tasks;
 using AccesoDatosNet;
 using Android.Util;
+using AccesoDatosXML;
 
 namespace RadioLogisticaDeliveries
 {

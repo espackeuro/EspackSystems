@@ -289,7 +289,7 @@ namespace AccesoDatosNet
 
         public SqlCommand Cmd { get; set; }
 
-        public override object this[string Idx] => RecordCount!=0? Result[Index].Field<string>(Idx):null;
+        public override object this[string Idx] => RecordCount!=0? Result[Index][Idx]:null; //Field<string>(Idx):null;
         public override object this[int Idx] => Result[Idx];
 
         public new bool HasRows
@@ -371,7 +371,7 @@ namespace AccesoDatosNet
                 //EOF = ! mDR.Read();
                 var _dt = new DataTable();
                 _dt.Load(mDR);
-                Result = _dt.AsEnumerable().ToList();
+                Result = _dt.Rows.OfType<DataRow>().ToList();
                 EOF = Result.Count() == 0;
                 Index = 0;
             } catch (Exception ex)
@@ -401,7 +401,7 @@ namespace AccesoDatosNet
                 mDR = await Cmd.ExecuteReaderAsync();
                 var _dt = new DataTable();
                 await Task.Run(() => _dt.Load(mDR));
-                Result = _dt.AsEnumerable().ToList();
+                Result = _dt.Rows.OfType<DataRow>().ToList();
                 EOF = Result.Count() == 0;
                 Index = 0;
             }

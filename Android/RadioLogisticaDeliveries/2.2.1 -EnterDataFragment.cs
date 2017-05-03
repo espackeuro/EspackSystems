@@ -98,6 +98,7 @@ namespace RadioLogisticaDeliveries
             catch (Exception ex)
             {
                 Values.gDRL.Processing = false;
+                DataTransferManager.Active = true;
                 ((Activity)sender).RunOnUiThread(() =>
                 {
                     Toast.MakeText(Activity, "Error reading scan." + ex.Message, ToastLength.Long).Show();

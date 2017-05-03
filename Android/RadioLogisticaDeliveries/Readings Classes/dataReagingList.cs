@@ -211,6 +211,8 @@ namespace RadioLogisticaDeliveries
                     Values.gOrderNumber = 0;
                     Values.gBlock = "";
                     _dataList.Clear();
+                    position = -1;
+                    Values.SetCurrentRack("");
                     //change to enter order fragment
 
                     var intent = new Intent(Context, typeof(MainActivity));

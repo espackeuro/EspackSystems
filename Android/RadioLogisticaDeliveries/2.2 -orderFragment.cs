@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using Android.Views.InputMethods;
 using CommonAndroidTools;
 using Scanner;
+using AccesoDatosXML;
 
 namespace RadioLogisticaDeliveries
 {
@@ -42,7 +43,7 @@ namespace RadioLogisticaDeliveries
             // orderNumberET.
             //5orderNumberET.EditorAction += OrderNumberET_EditorAction;
             orderNumberET.KeyPress += OrderNumberET_KeyPress;
-
+            orderNumberET.InputType = Android.Text.InputTypes.TextFlagCapCharacters;
             //scanner intent
             sScanner.RegisterScannerActivity(Activity, _root, true);
             sScanner.AfterReceive += SScanner_AfterReceive;
