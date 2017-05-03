@@ -217,6 +217,14 @@
       <Project>{9148f7e6-31f6-4f96-b7dc-afea449998c7}</Project>
       <Name>CommonTools</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Windows\Windows Apps\cAccesoDatosXML\cAccesoDatosXML.csproj">
+      <Project>{c0468156-744d-44f9-9e1f-879a237806b5}</Project>
+      <Name>cAccesoDatosXML</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Windows\Windows Apps\cAccesoDatos\cAccesoDatos.csproj">
+      <Project>{5da9cb0b-9007-40f1-8086-1b0303d8271f}</Project>
+      <Name>cAccesoDatos</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Android Apps\NetworkDetection\NetworkDetection.csproj">
       <Project>{c7587a97-8d82-4a8b-a472-89198666fd22}</Project>
       <Name>NetworkDetection</Name>

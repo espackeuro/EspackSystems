@@ -14,6 +14,7 @@ using NetworkDetection;
 using System.Threading.Tasks;
 using AccesoDatosNet;
 using System.Threading;
+using AccesoDatosXML;
 
 namespace RadioLogisticaDeliveries
 {
