@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.IO;
 using CommonTools;
 using FTP;
-using System.Net.FtpClient;
+//using FluentFTP;
 using System.Net;
 using System.Windows.Forms;
 using CommonToolsWin;
@@ -88,12 +88,15 @@ namespace LogOnObjects
                 cUpdateListItem _item;
                 try
                 {
-                    _item = pList.OrderBy(x => x.Parent.Code).First(x => x.Status == LogonItemUpdateStatus.PENDING);
-                    _item.Thread = pThread;
-                    _item.Status = LogonItemUpdateStatus.UPDATING;
-                    if (debug != null)
+                    _item = pList.OrderBy(x => x.Parent.Code).FirstOrDefault(x => x.Status == LogonItemUpdateStatus.PENDING);
+                    if (_item != null)
                     {
-                        AppendDebugText(string.Format("Thread {0} Updating {1}\n", NumThread, _item.LocalPath));
+                        _item.Thread = pThread;
+                        _item.Status = LogonItemUpdateStatus.UPDATING;
+                        if (debug != null)
+                        {
+                            AppendDebugText(string.Format("Thread {0} Updating {1}\n", NumThread, _item.LocalPath));
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -208,15 +211,18 @@ namespace LogOnObjects
                 try
                 {
                     _item = stealOne(this, Values.UpdateList);
-                    using (var ftp = new cFTP(Values.ShareServerList[Values.COD3], ""))
+                    if (_item != null)
                     {
-                        ftp.DownloadItem(_item.Item, _item.LocalPath);
-                    }
-                    _item.Status = LogonItemUpdateStatus.UPDATED;
-                    _item.Parent.ChangeProgress(_item.Parent.ProgressValue + 1);
-                    if (_item.Parent.UpdatedItems.Count == _item.Parent.Items.Count())
-                    {
-                        _item.Parent.ChangeStatus(AppBotStatus.UPDATED);
+                        using (var ftp = new cFTP(Values.ShareServerList[Values.COD3], ""))
+                        {
+                            ftp.DownloadItem(_item.Item, _item.LocalPath);
+                        }
+                        _item.Status = LogonItemUpdateStatus.UPDATED;
+                        _item.Parent.ChangeProgress(_item.Parent.ProgressValue + 1);
+                        if (_item.Parent.UpdatedItems.Count == _item.Parent.Items.Count())
+                        {
+                            _item.Parent.SetStatus(AppBotStatus.UPDATED);
+                        }
                     }
                 }
                 catch (WebException ex)
@@ -225,14 +231,14 @@ namespace LogOnObjects
                     if (null != _item)
                     {
                         _item.Status = LogonItemUpdateStatus.ERROR;
-                        _item.Parent.ChangeStatus(AppBotStatus.ERROR);
+                        _item.Parent.SetStatus(AppBotStatus.ERROR);
                     }
 
 
                 }
                 catch (InvalidOperationException ex)
                 {
-                    CTWin.MsgError(ex.InnerException.Message);
+                    CTWin.MsgError(ex.InnerException.Message ?? ex.Message);
                     if (debug != null)
                     {
                         AppendDebugText(string.Format("Thread {0} Done.\n", NumThread));
@@ -245,7 +251,7 @@ namespace LogOnObjects
                 }
                 catch (Exception ex)
                 {
-                    CTWin.MsgError(ex.InnerException.Message);
+                    CTWin.MsgError(ex.InnerException.Message ?? ex.Message);
                     if (debug != null)
                     {
                         AppendDebugText(string.Format("Thread {0} Waiting {1}\n",NumThread,ex.Message));

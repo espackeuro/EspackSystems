@@ -60,13 +60,13 @@
     <Reference Include="CTLMantenimientoNet">
       <HintPath>..\..\..\EspackControls\CTLMantenimientoNet\obj\Debug\CTLMantenimientoNet.dll</HintPath>
     </Reference>
+    <Reference Include="FluentFTP, Version=16.5.0.0, Culture=neutral, PublicKeyToken=f4af092b1d8df44f, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentFTP.16.5.0\lib\net45\FluentFTP.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Net.FtpClient, Version=1.0.5824.34026, Culture=neutral, PublicKeyToken=fa4be07daa57c2b7, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Net.FtpClient.1.0.5824.34026\lib\net40\System.Net.FtpClient.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -141,10 +141,6 @@
     <ProjectReference Include="..\..\..\EspackControls\EspackFormControls\EspackFormControls.csproj">
       <Project>{70432336-f038-4ef1-af04-012ae8e6c009}</Project>
       <Name>EspackFormControls</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Network Libraries\Owncloud\Owncloud.csproj">
-      <Project>{0f193f80-9610-4020-8974-9aaa02bd1ca8}</Project>
-      <Name>Owncloud</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Network Libraries\Renci.SshNet\Renci.SshNet.csproj">
       <Project>{2f5f8c90-0bd1-424f-997c-7bc6280919d1}</Project>

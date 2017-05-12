@@ -10,9 +10,10 @@ using System.Collections;
 using System.IO;
 using FTP;
 using CommonTools;
-using System.Net.FtpClient;
+using FluentFTP;
 using System.Diagnostics;
 using LogonObjects.Properties;
+using System.Threading;
 
 namespace LogOnObjects
 {
@@ -32,7 +33,7 @@ namespace LogOnObjects
         public Button pctApp { get; set; }
         public ProgressBar prgApp { get; set; }
         public Label lblDescriptionApp { get; set; }
-        private AppBotStatus _status;
+        //private AppBotStatus _status;
         public Bitmap AppIcon { get; set; }
         public string LocalPath { get; set; }
         public bool Special { get; set; }
@@ -56,7 +57,7 @@ namespace LogOnObjects
                 handler(this, e);
         }
         // For the calls from different threads
-        delegate void ChangeStatusCallback(AppBotStatus pStatus);
+        delegate void ShowStatusCallback();
         delegate void ChangeProgressCallback(int Value);
         // List of PENDING TO UPDATE items
         public List<cUpdateListItem> PendingItems
@@ -113,67 +114,78 @@ namespace LogOnObjects
         }
         
         // Status property: Sets the status value and changes the appearance of some related controls
-        public AppBotStatus Status
+        public AppBotStatus Status { get; set; }
+        public void SetStatus(AppBotStatus status)
         {
-            get
-            {
-                return _status;
-            }
-            set
-            {
-                // Log it to the debugBox.
-                if (Values.debugBox != null)
-                {
-                    Values.debugBox.AppendText(string.Format("App {0} status: {1}\n", Code, value));
-                }
-                switch (value)
-                {
-                    // When INIT/UPDATED -> Button enabled, ProgressBar not visible.
-                    case AppBotStatus.INIT:
-                    case AppBotStatus.UPDATED:
-                        if (Special)
-                            AppIcon = Resources.Engineering_48;
-                        else
-                            try
-                            {
-                                // First try to get the App icon from the exe file.
-                                AppIcon = Icon.ExtractAssociatedIcon(LocalPath).ToBitmap();
-                            }
-                            catch
-                            {
-                                // If not possible, we use the default App icon.
-                                AppIcon = Resources.Prototype_96;
-                            }
-                        pctApp.Image = AppIcon;
-                        pctApp.Enabled = true;
-                        prgApp.Visible = false;
-                        break;
-                    // When CHECKING -> Button disabled, ProgressBar not visible.
-                    case AppBotStatus.CHECKING:
-                        pctApp.Enabled = false;
-                        prgApp.Visible = false;
-                        break;
-                    // When PENDING_UPDATE -> Button disabled, ProgressBar visible and running.
-                    case AppBotStatus.PENDING_UPDATE:
-                        prgApp.Style = ProgressBarStyle.Continuous;
-                        prgApp.Minimum = 0;
-                        prgApp.Maximum = PendingItems.Count;
-                        //prgApp.MarqueeAnimationSpeed = 50;
-                        prgApp.Visible = true;
-                        pctApp.Enabled = false;
-
-                        break;
-                    case AppBotStatus.ERROR:
-                        pctApp.Image = Resources.Forbid;
-                        pctApp.Enabled = false;
-                        prgApp.Visible = false;
-                        break;
-                }
-                _status = value;
-            }
+            Status = status;
+            ShowStatus();
         }
+        public void ShowStatus()
+        {
+            try
+            {
+                if (this.prgApp.InvokeRequired)
+                {
+                    ShowStatusCallback a = new ShowStatusCallback(ShowStatus);
+                    this.Invoke(a);
+                }
+                else
+                {
+                    if (Values.debugBox != null)
+                    {
+                        Values.debugBox.AppendText(string.Format("App {0} status: {1}\n", Code, Status));
+                    }
+                    switch (Status)
+                    {
+                        // When INIT/UPDATED -> Button enabled, ProgressBar not visible.
+                        case AppBotStatus.INIT:
+                        case AppBotStatus.UPDATED:
+                            if (Special)
+                                AppIcon = Resources.Engineering_48;
+                            else
+                                try
+                                {
+                                    // First try to get the App icon from the exe file.
+                                    AppIcon = Icon.ExtractAssociatedIcon(LocalPath).ToBitmap();
+                                }
+                                catch
+                                {
+                                    // If not possible, we use the default App icon.
+                                    AppIcon = Resources.Prototype_96;
+                                }
+                            pctApp.Image = AppIcon;
+                            pctApp.Enabled = Status == AppBotStatus.UPDATED;
+                            prgApp.Visible = false;
+                            break;
+                        // When CHECKING -> Button disabled, ProgressBar not visible.
+                        case AppBotStatus.CHECKING:
+                            pctApp.Enabled = false;
+                            prgApp.Visible = false;
+                            break;
+                        // When PENDING_UPDATE -> Button disabled, ProgressBar visible and running.
+                        case AppBotStatus.PENDING_UPDATE:
+                            prgApp.Style = ProgressBarStyle.Continuous;
+                            prgApp.Minimum = 0;
+                            prgApp.Maximum = PendingItems.Count;
+                            //prgApp.MarqueeAnimationSpeed = 50;
+                            prgApp.Visible = true;
+                            pctApp.Enabled = false;
 
+                            break;
+                        case AppBotStatus.ERROR:
+                            pctApp.Image = Resources.Forbid;
+                            pctApp.Enabled = false;
+                            prgApp.Visible = false;
+                            break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
+        }
 
         // Some "constants" for the appearance of this control.
         public static int GROUP_HEIGHT = 125;
@@ -208,7 +220,7 @@ namespace LogOnObjects
             Name = pName;
             
             // Set Initial Status.
-            ChangeStatus(AppBotStatus.INIT);
+            SetStatus(AppBotStatus.INIT);
         }
 
         // Constructor (without args) -> Creates the Button, the ProgressBar, the Label and a GroupBox that will contain them. 
@@ -269,46 +281,56 @@ namespace LogOnObjects
         }
 
         // CheckUpdated -> Returns true if all the files for this APP are updated.
-        public Task<bool> CheckUpdated()
+        public async Task<bool> CheckUpdated()
         {
-            ChangeStatus(AppBotStatus.CHECKING);
-            return Task.Run(() =>
-              {
-                  
-                  bool _clean = true;
-                  using (var client = new FtpClient())
-                  {
-                      client.ConnectTimeout = 120000;
-                      client.Host = ShareServer.HostName;
-                      client.Credentials = new NetworkCredential(ShareServer.User, ShareServer.Password);
-                      client.DataConnectionType = FtpDataConnectionType.AutoActive;
-                      client.Connect();
-                      _clean = readDirFTP(client, "/APPS_CS/", Code.ToLower());
-                  }
-                  if (!_clean)
-                      ChangeStatus(AppBotStatus.PENDING_UPDATE);
-                  return _clean;
-              });
-
-        }
-        public bool CheckUpdatedSync()
-        {
-            ChangeStatus(AppBotStatus.CHECKING);
+            //ShowStatus(AppBotStatus.CHECKING);
             bool _clean = true;
             using (var client = new FtpClient())
             {
-                client.ConnectTimeout = 60000;
+                client.ConnectTimeout = 120000;
                 client.Host = ShareServer.HostName;
                 client.Credentials = new NetworkCredential(ShareServer.User, ShareServer.Password);
                 client.DataConnectionType = FtpDataConnectionType.AutoActive;
-                client.Connect();
-                _clean = readDirFTP(client, "/APPS_CS/", Code.ToLower());
+                try
+                {
+                    await Task.Delay(500);
+                    await client.ConnectAsync();
+                } catch
+                {
+                    await Task.Delay(500);
+                    try
+                    {
+                        await client.ConnectAsync();
+                    }
+                    catch
+                    {
+                        await Task.Delay(500);
+                        await client.ConnectAsync();
+                    }
+                }
+                _clean = await readDirFTP(client, "/APPS_CS/", Code.ToLower());
             }
-            if (!_clean)
-                ChangeStatus(AppBotStatus.PENDING_UPDATE);
             return _clean;
         }
-        private bool readDirFTP(FtpClient client, string basePath, string relativePath, bool _checkFiles=true)
+        //public bool CheckUpdatedSync()
+        //{
+        //    ShowStatus(AppBotStatus.CHECKING);
+        //    bool _clean = true;
+        //    using (var client = new FtpClient())
+        //    {
+        //        client.ConnectTimeout = 60000;
+        //        client.Host = ShareServer.HostName;
+        //        client.Credentials = new NetworkCredential(ShareServer.User, ShareServer.Password);
+        //        client.DataConnectionType = FtpDataConnectionType.AutoActive;
+        //        client.Connect();
+        //        _clean = readDirFTP(client, "/APPS_CS/", Code.ToLower());
+        //    }
+        //    if (!_clean)
+        //        ShowStatus(AppBotStatus.PENDING_UPDATE);
+        //    return _clean;
+        //}
+
+        private async Task<bool> readDirFTP(FtpClient client, string basePath, string relativePath, bool _checkFiles=true)
         {
             bool _clean = true;
             //client.ChangeDirectory(basePath + relativePath);
@@ -317,10 +339,9 @@ namespace LogOnObjects
 
 
 
-            var list = client.GetListing(_path);
+            var list = await client.GetListingAsync(_path);
 
-
-            list.Where(x => x.Type == FtpFileSystemObjectType.Directory).ToList().ForEach(a => 
+            foreach (var a in list.Where(x => x.Type == FtpFileSystemObjectType.Directory))
             {
                 bool _condition = !Directory.Exists(Values.LOCAL_PATH + relativePath + "/" + a.Name);
                 if (_condition == false)
@@ -342,19 +363,19 @@ namespace LogOnObjects
                         Status = LogonItemUpdateStatus.PENDING
                     });
                 }
-                _clean = readDirFTP(client, basePath, relativePath + "/" + a.Name, _condition) && _clean;
-            });
+                _clean = await readDirFTP(client, basePath, relativePath + "/" + a.Name, _condition) && _clean;
+            };
 
             if (_checkFiles)
             {
-                list.Where(x => x.Type == FtpFileSystemObjectType.File).ToList().ForEach(a =>
+                foreach (var a in list.Where(x => x.Type == FtpFileSystemObjectType.File))
                 {
                     if (File.Exists(Values.LOCAL_PATH + relativePath + "/" + a.Name))
                     {
                         if (File.GetLastWriteTime(Values.LOCAL_PATH + relativePath + "/" + a.Name) != a.Modified)
                         {
                             //if (Status != AppBotStatus.PENDING_UPDATE)
-                            //    ChangeStatus(AppBotStatus.PENDING_UPDATE);
+                            //    ShowStatus(AppBotStatus.PENDING_UPDATE);
                             Values.UpdateList.Add(new cUpdateListItem()
                             {
                                 Parent = this,
@@ -374,8 +395,6 @@ namespace LogOnObjects
                     }
                     else
                     {
-                        if (Status != AppBotStatus.PENDING_UPDATE)
-                            ChangeStatus(AppBotStatus.PENDING_UPDATE);
                         Values.UpdateList.Add(new cUpdateListItem()
                         {
                             Parent = this,
@@ -393,7 +412,7 @@ namespace LogOnObjects
                         _clean = false;
                     }
 
-                });
+                }
             }
             return _clean;
         }
@@ -427,8 +446,6 @@ namespace LogOnObjects
                 {
                     if (File.GetLastWriteTime(Values.LOCAL_PATH + relativePath + "/" + a.Name) != a.DateCreated)
                     {
-                        if (Status != AppBotStatus.PENDING_UPDATE)
-                            ChangeStatus(AppBotStatus.PENDING_UPDATE);
                         Values.UpdateList.Add(new cUpdateListItem()
                         {
                             Parent = this,
@@ -442,8 +459,6 @@ namespace LogOnObjects
                 }
                 else
                 {
-                    if (Status != AppBotStatus.PENDING_UPDATE)
-                        ChangeStatus(AppBotStatus.PENDING_UPDATE);
                     Values.UpdateList.Add(new cUpdateListItem()
                     {
                         Parent = this,
@@ -461,26 +476,7 @@ namespace LogOnObjects
         }
 
 
-        public void ChangeStatus(AppBotStatus pStatus)
-        {
 
-            try
-            {
-                if (this.prgApp.InvokeRequired)
-                {
-                    ChangeStatusCallback a = new ChangeStatusCallback(ChangeStatus);
-                    this.Invoke(a, new object[] { pStatus });
-                }
-                else
-                {
-                    Status = pStatus;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
 
         public void ChangeProgress(int Value)
         {
@@ -545,7 +541,7 @@ namespace LogOnObjects
         //                if (File.GetCreationTime(Values.LOCAL_PATH + relativePath + "/" + item.Name) != item.Attributes.LastWriteTime)
         //                {
         //                    if (Status != AppBotStatus.PENDING_UPDATE)
-        //                        ChangeStatus(AppBotStatus.PENDING_UPDATE);
+        //                        ShowStatus(AppBotStatus.PENDING_UPDATE);
         //                    Values.UpdateList.Add(new cUpdateListItem()
         //                    {
         //                        Parent = this,
@@ -566,7 +562,7 @@ namespace LogOnObjects
         //            else
         //            {
         //                if (Status != AppBotStatus.PENDING_UPDATE)
-        //                    ChangeStatus(AppBotStatus.PENDING_UPDATE);
+        //                    ShowStatus(AppBotStatus.PENDING_UPDATE);
         //                Values.UpdateList.Add(new cUpdateListItem()
         //                {
         //                    Parent = this,
@@ -589,13 +585,13 @@ namespace LogOnObjects
         //    return _clean;
         //}
 
-        public async Task LaunchApp(bool temp = false)
+        public async Task LaunchApp(bool temp = false, bool update = true)
         {
 
 
-            if (!Special)
+            if (!Special && update)
             {
-                ChangeStatus(AppBotStatus.PENDING_UPDATE);
+                SetStatus(AppBotStatus.PENDING_UPDATE);
                 //if (!await CheckUpdated().ConfigureAwait(false))
                 if (!await CheckUpdated())
                 {
@@ -605,7 +601,7 @@ namespace LogOnObjects
                     // launch task not async
                     _thread.Process();
                 }
-                ChangeStatus(AppBotStatus.UPDATED);
+                SetStatus(AppBotStatus.UPDATED);
             }
             if (DBServer.HostName != Values.gDatos.Server && DBServer.User != "procesos")
             {

@@ -13,17 +13,25 @@ namespace LogOnLoader
 {
     public partial class fMain : frmSplash
     {
+        public static async Task<fMain> GetForm()
+        {
+            fMain elForm = new fMain();
+            await elForm.LogonCheck();
+            return elForm;
+        }
         //private string[] Args { get; set; }
-        public fMain() : base(null, "Checking Logon Updates.", true)
+        public fMain() : base(null, "Checking Logon Updates.", false)
         {
             //Args = args;
+
             timer1.Interval = 1;
+            //LogonCheck().Wait();
             //this.Activated += FMain_Activated;
         }
-        protected override void OnClosing(CancelEventArgs e)
+        public async Task InitializeAsync()
         {
-            LogonCheck();
-            base.OnClosing(e);
+            await LogonCheck();
+            TimerEnabled(true);
         }
         //private void FMain_Activated(object sender, EventArgs e)
         //{

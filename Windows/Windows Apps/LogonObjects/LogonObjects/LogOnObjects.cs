@@ -26,7 +26,7 @@ namespace LogOnObjects
         public static DebugTextbox debugBox;
         public static List<string> userFlags;
         public static string FullName;
-        public static void FillServers(int pZone)
+        public static void FillServers(string pCOD3)
         {
 
             using (var _RS = new DynamicRS("select COD3,ServerDB,ServerShare,zone,UserShare,PasswordShare from general..sedes", Values.gDatos))
@@ -44,15 +44,14 @@ namespace LogOnObjects
                         User = _RS["UserShare"].ToString(),
                         Password = _RS["PasswordShare"].ToString()
                     });
-                    if (Convert.ToInt16(_RS["zone"]) == pZone)
+                    if (_RS["COD3"].ToString() == pCOD3)
                     {
                         Values.COD3 = _RS["COD3"].ToString();
                         Values.DBServerList.Add(new cServer() { HostName = _RS["ServerDB"].ToString(), COD3 = "LOC", Type = ServerTypes.DATABASE, User = Values.User, Password = Values.Password });
                     }
-
                     _RS.MoveNext();
                 }
-                Values.DBServerList.Add(new cServer() { HostName = "DB01", IP = Dns.GetHostEntry("DB01").AddressList[0], COD3 = "OUT", Type = ServerTypes.DATABASE, User = Values.User, Password = Values.Password });
+                
             }
         }
 
