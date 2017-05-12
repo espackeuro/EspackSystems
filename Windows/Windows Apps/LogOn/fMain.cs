@@ -16,7 +16,6 @@ using System.Net;
 using System.Threading;
 using System.Data.SqlClient;
 using System.Text.RegularExpressions;
-using Owncloud;
 using LogOnObjects;
 using System.Reflection;
 using DiverseControls;
@@ -40,13 +39,15 @@ namespace LogOn
         public ToolStripStatusLabel PanelTime;
         private System.Timers.Timer _timer;
         private int _time;
-        private int _zone = 0;
+        private bool _update;
+
         public List<cUpdaterThread> UpdatingThreads = new List<cUpdaterThread>();
-        public const int NUMTHREADS = 1;
+        public const int NUMTHREADS = 4;
         public const int MAXTIMER = 300;
         delegate void gbDebugCallBack(Control c);
         delegate void LogOnChangeStatusCallBack(LogOnStatus l);
         delegate void ClearListAppsCallBack();
+        delegate void DrawListAppsCallback();
 
         private LogOnStatus previousStatus { get; set; }
 
@@ -64,12 +65,36 @@ namespace LogOn
             }
         }
 
-        // Main
-        public fMain(string[] args)
+        private bool isEspackIP(ref string COD3)
         {
-            // Load the vars from the given args
-            var espackArgs = CT.LoadVars(args);
+            //#if DEBUG
+            //            COD3 = "OUT";
+            //            return false;
+            //#else
+            int _zone;
             var _IP = Values.gDatos.IP.GetAddressBytes();
+            if (_IP[0] == 10)
+                _zone = _IP[1];
+            else
+                _zone = _IP[2];
+            using (var _RS = new StaticRS(string.Format("Select COD3 from GENERAL..Sedes where zone='{0}'", _zone), Values.gDatos))
+            {
+                _RS.Open();
+                if (_RS.RecordCount == 0)
+                {
+                    COD3 = "OUT";
+                    return false;
+                }
+                COD3 = _RS["COD3"].ToString();
+            }
+            return true;
+//#endif
+        } 
+        // Main
+        public fMain()
+        {
+            // MessageBox.Show("Pollo1", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+           
             try
             {
                 InitializeComponent();
@@ -97,89 +122,82 @@ namespace LogOn
                 txtUser.Text = "dvalles";
                 txtPassword.Text = "*Kru0DMar*";
 #endif
+                // MessageBox.Show("Pollo2", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
 
-                if (_IP[0] == 10)
-                    _zone = _IP[1];
-                else
-                    _zone = _IP[2];
             } catch (Exception ex)
             {
                 
                 throw new Exception(string.Format("Error 1 {0}", ex.Message));
             }
+
+
+            string _dbserver = "";
+            string _shareserver = "";
+            string _cod3 = "";
+
             try
             {
-                // If DB is not set in args, we assume any args are set
-                if (espackArgs.DataBase == null)
+                try
                 {
-                    espackArgs.DataBase = "SISTEMAS";
-                    espackArgs.User = "procesos";
-                    espackArgs.Password = "*seso69*";
-
-                    // Init _zone var (200, 210, 220, etc...), _pathLogonHosts (the path for the logonHosts file) and the list _content (that will contain logonHosts contents)
-                    //int _zone = 0;
-                    string _pathLogonHosts;
-                    List<string> _content = new List<string>();
-
-                    // Programmer rest (just for DEBUG time)
-#if DEBUG
-                    _pathLogonHosts = "c:\\espack\\logonHosts";
-#else
-            _pathLogonHosts = "logonHosts";
-#endif
-                    _pathLogonHosts = Values.LOCAL_PATH + "logon/logonHosts";
-
-
-                    // Get logonHosts file content       
-                    if (File.Exists(_pathLogonHosts))
-                    {
-                        _content = File.ReadAllLines(_pathLogonHosts).ToList<string>();
-                    }
-                    else
-                    {
-                        throw new Exception("Can not find connection details");
-                    }
-
-                    // Put in _line the corresponding to the _zone (if (_zone==200) then _line="200|10.200.10.130|10.200.10.138|80.33.195.45|VAL")
-                    string _line = _content.FirstOrDefault(p => p.Substring(0, 3) == _zone.ToString());
-
-                    // DB Server is the 2nd element in _line
-                    espackArgs.Server = _line.Split('|')[1];
-
+                    var _dnsDB = Dns.GetHostEntry("appdb.local");
+                    _dbserver = _dnsDB.HostName;
+                    var _dnsShare = Dns.GetHostEntry("appshare.local");
+                    _shareserver = _dnsShare.HostName;
+                }
+                catch
+                {
+                    CTWin.InputBox("", "Enter database server.", ref _dbserver);
                 }
             }
             catch (Exception ex)
             {
                 throw new Exception(string.Format("Error 2 {0}", ex.Message));
             }
-            string[] FilesToUpdate = new string[] { "logonHosts", "logonloader.exe", "logonloader.exe.config" };
+            //MessageBox.Show("Pollo4", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            string[] FilesToUpdate= new string[] { };
             try
             {
-                // Set the values of gDatos from the given args or default settings 
-                Values.gDatos.DataBase = espackArgs.DataBase;
-                Values.gDatos.Server = espackArgs.Server;
-                Values.gDatos.User = espackArgs.User;
-                Values.gDatos.Password = espackArgs.Password;
-
+                Values.gDatos.DataBase = "SISTEMAS";
+                Values.gDatos.Server = _dbserver;
+                Values.gDatos.User = "procesos";
+                Values.gDatos.Password = "*seso69*";
                 // Connect (or try)
                 try
                 {
+                    //MessageBox.Show("Pollo4.1 "+ Values.gDatos.Server, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Values.gDatos.Connect();
                     Values.gDatos.Close();
+                    //MessageBox.Show("Pollo4.2", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 catch (Exception e)
                 {
+                    // MessageBox.Show("Pollo4.3"+e.Message+e.InnerException, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     throw new Exception("Error connecting database server: " + e.Message);
                 }
+                // tries to check if we are inside of Espack
+                // only updates if in Espack
 
-                Values.FillServers(_zone);
+                _update = isEspackIP(ref _cod3);
+                if (!_update)
+                    MessageBox.Show("This location does not allow application updates.", "Warningr", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                if (_update)
+                    FilesToUpdate = new string[] { "logonloader.exe", "logonloader.exe.config" };
+
+                Values.FillServers(_cod3);
+                //if we are out, we add the server we just entered
+                if (_cod3=="OUT")
+                    Values.DBServerList.Add(new cServer() { HostName = _dbserver, IP = Dns.GetHostEntry(_dbserver).AddressList[0], COD3 = "OUT", Type = ServerTypes.DATABASE, User = Values.User, Password = Values.Password });
+
                 Panel1.Text = "You are connected to " + Values.gDatos.oServer.HostName.Replace(".local", "") + "!";
                 Panel2.Text = "My IP: " + Values.gDatos.IP.ToString();
-                Panel3.Text = "DB Server IP: " + espackArgs.Server;
-                Panel4.Text = "Share Server IP: " + Values.ShareServerList[Values.COD3].HostName;
-                
-                FilesToUpdate = FilesToUpdate.Concat(System.IO.Directory.GetFiles("lib").Select(x => x.Replace("\\", "/")).Where(x => Path.GetExtension(x) == ".dll")).ToArray();
+                Panel3.Text = "DB Server IP: " + Values.gDatos.Server;
+                if (_update)
+                    Panel4.Text = "Share Server IP: " + Values.ShareServerList[Values.COD3].HostName;
+                // MessageBox.Show("Pollo5", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (_update)
+                    FilesToUpdate = FilesToUpdate.Concat(System.IO.Directory.GetFiles("lib").Select(x => x.Replace("\\", "/")).Where(x => Path.GetExtension(x) == ".dll")).ToArray();
                 if (!Directory.Exists(Values.LOCAL_PATH + "/lib"))
                     Directory.CreateDirectory(Values.LOCAL_PATH + "/lib");
             }
@@ -191,26 +209,30 @@ namespace LogOn
             {
                 // Check LogOnLoader update
                 //#if !DEBUG
-                FilesToUpdate.ToList().ForEach(x =>
+                if (_update)
                 {
-                    x = x.Replace("\\", "/");
-                    if (File.Exists(Values.LOCAL_PATH + x))
+                    FilesToUpdate.ToList().ForEach(x =>
                     {
-                        if (File.GetLastWriteTime(Values.LOCAL_PATH + x) != File.GetLastWriteTime(Values.LOCAL_PATH + "logon/" + x))
+                        x = x.Replace("\\", "/");
+                        if (File.Exists(Values.LOCAL_PATH + x))
                         {
-                            File.Delete(Values.LOCAL_PATH + x);
-                            File.Copy(Values.LOCAL_PATH + "logon/" + x, Values.LOCAL_PATH + x);
+                            if (File.GetLastWriteTime(Values.LOCAL_PATH + x) != File.GetLastWriteTime(Values.LOCAL_PATH + "logon/" + x))
+                            {
+                                File.Delete(Values.LOCAL_PATH + x);
+                                File.Copy(Values.LOCAL_PATH + "logon/" + x, Values.LOCAL_PATH + x);
+                            }
                         }
-                    }
-                    else
-                    {
-                        if (File.Exists(Values.LOCAL_PATH + "logon/" + x))
-                            File.Copy(Values.LOCAL_PATH + "logon/" + x, Values.LOCAL_PATH + x);
-                    }
-                });
+                        else
+                        {
+                            if (File.Exists(Values.LOCAL_PATH + "logon/" + x))
+                                File.Copy(Values.LOCAL_PATH + "logon/" + x, Values.LOCAL_PATH + x);
+                        }
+                    });
+                }
+                
 
 
-
+                // MessageBox.Show("Pollo6", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 //#endif
                 KeyDown += restartTimer;
@@ -218,9 +240,12 @@ namespace LogOn
             }
             catch (Exception ex)
             {
+                // MessageBox.Show("Pollo7", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 throw new Exception(string.Format("Error 3 {0}", ex.Message));
             }
+
         }
+
 
 
 
@@ -257,8 +282,6 @@ namespace LogOn
         {
             mDefaultStatusStrip = new StatusStrip();
             //SizeType lSize = new SizeType(118, 17);
-            int lLabelWidth = 200;
-
             Panel1 = new ToolStripStatusLabel("Disconnected") { AutoSize = true };
             mDefaultStatusStrip.Items.Add(Panel1);
             mDefaultStatusStrip.Items.Add(new ToolStripSeparator());
@@ -456,31 +479,43 @@ namespace LogOn
             _time=MAXTIMER;
         }
 
+        
+
         private void DrawListApps()
         {
-            var _numApps = Values.AppList.Count;
-            if (_numApps == 0)
-                return;
-            tlpApps.ColumnStyles.Clear();
-            tlpApps.RowStyles.Clear();
-            tlpApps.RowStyles.Add(new RowStyle(SizeType.Absolute, cAppBot.GROUP_HEIGHT));
-            int _numColumns = _numApps;
-            tlpApps.ColumnCount = _numColumns;
-            int x = 0;
-            foreach (cAppBot _app in Values.AppList)
+            if (this.InvokeRequired)
             {
-                tlpApps.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, cAppBot.GROUP_WIDTH));
-                tlpApps.Controls.Add(_app,x,0);
-                //bool _clean = await _app.CheckUpdate();
-                //bool _clean = _app.CheckUpdateSync();
-                //if (_clean)
-                //    _app.Activate();
-                x++;
+                DrawListAppsCallback a = new DrawListAppsCallback(DrawListApps);
+                this.Invoke(a);
             }
-            tlpApps.AutoScroll = false;
-            tlpApps.ColumnCount = gbApps.Width / cAppBot.GROUP_WIDTH; 
-            tlpApps.RowCount = Convert.ToInt16(Math.Ceiling(Convert.ToDouble(_numApps) / Convert.ToDouble(_numColumns)));
-            tlpApps.AutoScroll = true;
+            else
+            {
+                var _numApps = Values.AppList.Count;
+                if (_numApps == 0)
+                    return;
+                tlpApps.ColumnStyles.Clear();
+                tlpApps.RowStyles.Clear();
+                tlpApps.RowStyles.Add(new RowStyle(SizeType.Absolute, cAppBot.GROUP_HEIGHT));
+                int _numColumns = _numApps;
+                tlpApps.ColumnCount = _numColumns;
+                int x = 0;
+                foreach (cAppBot _app in Values.AppList)
+                {
+                    tlpApps.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, cAppBot.GROUP_WIDTH));
+
+                    tlpApps.Controls.Add(_app, x, 0);
+                    //bool _clean = await _app.CheckUpdate();
+                    //bool _clean = _app.CheckUpdateSync();
+                    //if (_clean)
+                    //    _app.Activate();
+                    x++;
+                }
+                tlpApps.AutoScroll = false;
+                tlpApps.ColumnCount = gbApps.Width / cAppBot.GROUP_WIDTH;
+                tlpApps.RowCount = Convert.ToInt16(Math.Ceiling(Convert.ToDouble(_numApps) / Convert.ToDouble(_numColumns)));
+                tlpApps.AutoScroll = true;
+                return;
+            }
         }
 
         private void ClearListApps()
@@ -499,17 +534,34 @@ namespace LogOn
             }
         }
 
-        private Task CheckUpdatableApps()
+        private void CheckUpdatableApps()
         {
-            var task = Task.Run(() =>
-            Values.AppList.ToList().ForEach(async x =>
+            //return Task.Run(() =>
+            //{
+                int _numThreads = 0;
+            foreach (var x in Values.AppList.ToList())
             {
-                //if (await x.CheckUpdated().ConfigureAwait(false))
-                if (await x.CheckUpdated())
-                    x.ChangeStatus(AppBotStatus.UPDATED);
-
-            }));
-            return task;
+                x.SetStatus(AppBotStatus.CHECKING);
+                Application.DoEvents();
+                _numThreads++;
+                new Thread(() =>
+                {
+                    //if (await x.CheckUpdated().ConfigureAwait(false))
+                    if (x.CheckUpdated().Result)
+                    {
+                        _numThreads--;
+                        x.Status = AppBotStatus.UPDATED;
+                    }
+                    else
+                    {
+                        _numThreads--;
+                        x.Status = AppBotStatus.PENDING_UPDATE;
+                    }
+                    x.ShowStatus();
+                }).Start();
+                SpinWait.SpinUntil(() => _numThreads < 10);
+            }
+            //});
             //await task.ConfigureAwait(false);
         }
         private async void btnOk_Click(object sender, EventArgs e)
@@ -566,9 +618,13 @@ namespace LogOn
                 Values.Password = txtPassword.Text;
                 FillApps();
                 DrawListApps();
-                await CheckUpdatableApps().ConfigureAwait(false);
-
+                if (_update)
+                    CheckUpdatableApps();
+                else
+                    Values.AppList.ToList().ForEach(x => x.SetStatus(AppBotStatus.UPDATED));
+                Thread.Sleep(1000);
                 SpinWait.SpinUntil(() => Values.AppList.CheckingApps.Count == 0);
+                Values.AppList.ToList().ForEach(x => x.ShowStatus());
                 //while (Values.AppList.CheckingApps.Count != 0)
                 //{
                 //    System.Threading.Thread.Sleep(500);
@@ -632,28 +688,28 @@ namespace LogOn
                 CTWin.MsgError(_SP.LastMsg);
                 return;
             }
-            //checking OWNCLOUD settings
-            if (Values.userFlags.Contains("OWNCLOUD"))
-            {
-                string _master="";
-                using (var _RS= new DynamicRS("select master=cast(dbo.fGetContextInfo() as nvarchar)", Values.gDatos))
-                {
-                    _RS.Open();
-                    _master = _RS["master"].ToString();
-                }
-                bool _result= await OCCommands.CheckUser(txtUser.Text);
-                PanelName.Text = (_result ? "Owncloud user found" : "Owncoud user not found");
-                if (!_result)
-                {
-                    _result = await OCCommands.AddUser(txtUser.Text, txtNewPassword.Text, Values.FullName, Values.COD3);
-                    PanelName.Text = (_result ? "Owncloud user created correctly" : "ERROR creating Owncloud user!!!");
-                }
-                else
-                {
-                    _result = await OCCommands.UppUser(txtUser.Text, txtNewPassword.Text, Values.FullName, "");
-                    PanelName.Text = (_result ? "Owncloud user updated correctly" : "ERROR updating Owncloud user!!!");
-                }
-            }
+            ////checking OWNCLOUD settings
+            //if (Values.userFlags.Contains("OWNCLOUD"))
+            //{
+            //    string _master="";
+            //    using (var _RS= new DynamicRS("select master=cast(dbo.fGetContextInfo() as nvarchar)", Values.gDatos))
+            //    {
+            //        _RS.Open();
+            //        _master = _RS["master"].ToString();
+            //    }
+            //    bool _result= await OCCommands.CheckUser(txtUser.Text);
+            //    PanelName.Text = (_result ? "Owncloud user found" : "Owncoud user not found");
+            //    if (!_result)
+            //    {
+            //        _result = await OCCommands.AddUser(txtUser.Text, txtNewPassword.Text, Values.FullName, Values.COD3);
+            //        PanelName.Text = (_result ? "Owncloud user created correctly" : "ERROR creating Owncloud user!!!");
+            //    }
+            //    else
+            //    {
+            //        _result = await OCCommands.UppUser(txtUser.Text, txtNewPassword.Text, Values.FullName, "");
+            //        PanelName.Text = (_result ? "Owncloud user updated correctly" : "ERROR updating Owncloud user!!!");
+            //    }
+            //}
 
             MessageBox.Show("Password and PIN changed OK", "Success!", MessageBoxButtons.OK, MessageBoxIcon.Information);
             PanelName.Text = Values.FullName;
