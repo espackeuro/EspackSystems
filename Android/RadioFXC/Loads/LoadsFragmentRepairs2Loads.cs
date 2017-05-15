@@ -199,7 +199,7 @@ namespace RadioFXC
         public ListView list { get; set; }
         public TextView LoadLabel { get; set; }
         public List<Repair> ListElements { get; private set; }
-        private string query = "Select RepairCode,UnitNumber,Flags from Repairs r where (dbo.checkFlag(flags,'INI')=1 or  dbo.checkFlag(flags,'PENDING')=1 or dbo.checkFlag(flags,'ERR')=1) and service='" + Values.gService + "' and exists (select 0 from PartsRepairs where RepairCode=r.RepairCode) order by xfec";
+        private string query = "Select RepairCode,UnitNumber,Flags from Repairs r where (dbo.checkFlag(flags,'INI')=1 or  dbo.checkFlag(flags,'PENDING')=1 or dbo.checkFlag(flags,'ERR')=1) and service='" + Values.gService + "' and exists (select 0 from PartsRepairs where RepairCode=r.RepairCode) order by UnitNumber";
         public ListRepairs2LoadAdapter(Context context)
         {
             this.context = context;
