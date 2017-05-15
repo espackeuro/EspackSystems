@@ -42,7 +42,7 @@ namespace LogOnLoader
         public async Task StartAsync()
         {
             m_mainForm.Show();
-            await m_mainForm.InitializeAsync();
+            await m_mainForm.AsyncProcedures();
         }
 
         //public void Start()

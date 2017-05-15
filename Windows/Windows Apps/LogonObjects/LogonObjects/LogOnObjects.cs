@@ -48,11 +48,13 @@ namespace LogOnObjects
                     {
                         Values.COD3 = _RS["COD3"].ToString();
                         Values.DBServerList.Add(new cServer() { HostName = _RS["ServerDB"].ToString(), COD3 = "LOC", Type = ServerTypes.DATABASE, User = Values.User, Password = Values.Password });
+                        Values.DBServerList.Add(new cServer() { HostName = _RS["ServerDB"].ToString(), COD3 = "OUT", Type = ServerTypes.DATABASE, User = Values.User, Password = Values.Password });
                     }
                     _RS.MoveNext();
                 }
                 
             }
+           
         }
 
     }
