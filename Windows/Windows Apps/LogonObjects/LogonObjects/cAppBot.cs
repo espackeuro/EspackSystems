@@ -264,7 +264,7 @@ namespace LogOnObjects
         private async void PctApp_Click(object sender, EventArgs e)
         {
             if (!Special)
-                await LaunchApp(true).ConfigureAwait(false);
+                await LaunchApp(true);
         }
 
         // Overwrite resize event 
@@ -652,7 +652,7 @@ namespace LogOnObjects
             startInfo.UseShellExecute = false;
             startInfo.FileName = _tempPath;
             startInfo.WindowStyle = ProcessWindowStyle.Maximized;
-            startInfo.Arguments = "/srv=" + DBServer.IP + " /db=" + DataBase + " /usr=" + DBServer.User + " /pwd=" + DBServer.Password + " /loc=OUT /app=" + Name;
+            startInfo.Arguments = "/srv=" + DBServer.HostName + " /db=" + DataBase + " /usr=" + DBServer.User + " /pwd=" + DBServer.Password + " /loc=OUT /app=" + Name;
 
             try
             {

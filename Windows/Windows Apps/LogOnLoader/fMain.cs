@@ -28,7 +28,7 @@ namespace LogOnLoader
             //LogonCheck().Wait();
             //this.Activated += FMain_Activated;
         }
-        public async Task InitializeAsync()
+        public async Task AsyncProcedures()
         {
             await LogonCheck();
             TimerEnabled(true);
