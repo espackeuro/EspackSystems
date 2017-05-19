@@ -60,9 +60,10 @@ namespace WindowsPSControl
                     powershell.AddScript(Command);
 
                     Results = await Task.Factory.FromAsync(powershell.BeginInvoke(), pResult => powershell.EndInvoke(pResult));
-
-                        //var task = powershell.BeginInvoke();
-                        //Results = powershell.EndInvoke(task);
+                    if (powershell.HadErrors)
+                    {
+                        throw powershell.Streams.Error[0].Exception;
+                    }
                     return true;
 
                 }
@@ -74,32 +75,34 @@ namespace WindowsPSControl
             }
         }
     }
-    public static class ADControl 
+    public static class ADControl
     {
         public static EspackDomainConnection EC { get; set; } = new EspackDomainConnection();
         public static string Results { get; set; }
-        public static async Task<bool> CreateUser(string Name, string Surname, string UserCode, string Password)
+        public static async Task<bool> CreateUser(string Name, string Surname, string UserCode, string Password, string EmailAddress, string COD3)
         {
+            var division = string.Format("{0}.{1}/{2}", COD3.ToLower(), EmailAddress.Substring(EmailAddress.IndexOf('@') + 1), UserCode);
             var command = new PowerShellCommand()
             {
                 EC = EC,
-                Command = string.Format("New-ADUser -Name '{0} {1}' -GivenName {0} -Surname {1} -SamAccountName {2} -UserPrincipalName {2}@systems.espackeuro.com -PasswordNeverExpires:$True -AccountPassword (ConvertTo-SecureString -AsPlainText '{3}' -Force) -PassThru | Enable-ADAccount;", Name, Surname, UserCode, Password)
+                Command = string.Format("New-ADUser -Name '{0} {1}' -GivenName '{0}' -Surname '{1}' -SamAccountName '{2}' -DisplayName '{1} {2}' -EmailAddress '{4}' -UserPrincipalName '{2}@systems.espackeuro.com' -Division '{5}' -PasswordNeverExpires:$True -AccountPassword (ConvertTo-SecureString -AsPlainText '{3}' -Force) -PassThru | Enable-ADAccount;", Name, Surname, UserCode, Password,EmailAddress, division)
             };
             var _res = await command.InvokeAsync();
             Results = command.SResults;
             return _res;
         }
 
-        public static async Task<bool> UpdateUser(string Name, string Surname, string UserCode, string Password)
+        public static async Task<bool> UpdateUser(string Name, string Surname, string UserCode, string Password, string EmailAddress, string COD3)
         {
+            var division = string.Format("{0}.{1}/{2}", COD3.ToLower(), EmailAddress.Substring(EmailAddress.IndexOf('@')+ 1), UserCode);
             var command = new PowerShellCommand()
             {
                 EC = EC,
                 Command = string.Format(@"
 Get-ADUser -Identity '{0}' | Rename-ADObject -NewName '{1} {2}' ;
-Get-ADUser -Identity '{0}' | Set-ADUser -DisplayName '{1} {2}' -GivenName '{1}' -Surname '{2}' -PasswordNeverExpires:$True;
+Get-ADUser -Identity '{0}' | Set-ADUser -DisplayName '{1} {2}' -GivenName '{1}' -Surname '{2}' -EmailAddress '{4}' -Division '{5}' -PasswordNeverExpires:$True;
 Get-ADUser -Identity '{0}' | Set-ADAccountPassword -Reset -NewPassword (ConvertTo-SecureString -AsPlainText '{3}' –Force);
-", UserCode, Name, Surname, Password)
+", UserCode, Name, Surname, Password, EmailAddress, division)
             };
             var _res = await command.InvokeAsync();
             Results = command.SResults;
@@ -110,11 +113,91 @@ Get-ADUser -Identity '{0}' | Set-ADAccountPassword -Reset -NewPassword (ConvertT
             var command = new PowerShellCommand()
             {
                 EC = EC,
-                Command = "Get-ADUser -Filter {sAMAccountName -eq '"+UserCode+"'}"
+                Command = "Get-ADUser -Filter {sAMAccountName -eq '" + UserCode + "'}"
             };
             var _res = await command.InvokeAsync();
             Results = command.SResults;
             return Results != "";
         }
+
+        public static async Task<bool> CheckGroup(string GroupCode)
+        {
+            var command = new PowerShellCommand()
+            {
+                EC = EC,
+                Command = string.Format(@"Get-ADGroup -LDAPFilter '(SAMAccountName={0})'", GroupCode)
+            };
+            var _res = await command.InvokeAsync();
+            Results = command.SResults;
+            _res = Results != "";
+            return _res;
+        }
+
+        public static async Task<bool> CheckOrganizationalUnit(string OUCode)
+        {
+            var command = new PowerShellCommand()
+            {
+                EC = EC,
+                Command = string.Format(@"Get-ADOrganizationalUnit -LDAPFilter '(Name={0})'", OUCode)
+            };
+            var _res = await command.InvokeAsync();
+            Results = command.SResults;
+            _res = Results != "";
+            return _res;
+        }
+
+        public static async Task<bool> CreateGroup(string GroupCode, string GroupName)
+        {
+            var command = new PowerShellCommand()
+            {
+                EC = EC,
+                Command = string.Format(@"New-ADGroup -Name '{1}' -SamAccountName '{0}' -GroupCategory Security -GroupScope Global -DisplayName '{1}'", GroupCode, GroupName)
+            };
+            var _res = await command.InvokeAsync();
+            return _res;
+        }
+
+        public static async Task<bool> CreateOrganizationalUnit(string OUCode, string OUDescription)
+        {
+            var command = new PowerShellCommand()
+            {
+                EC = EC,
+                Command = string.Format(@"New-ADOrganizationalUnit -Name '{0}'  -DisplayName '{1}' -Description '{1}'", OUCode, OUDescription)
+            };
+            var _res = await command.InvokeAsync();
+            return _res;
+        }
+
+
+        public static async Task<bool> AddUserToGroup(string UserCode, string GroupCode)
+        {
+            var command = new PowerShellCommand()
+            {
+                EC = EC,
+                Command = string.Format("Add-ADGroupMember '{0}' '{1}' ", GroupCode, UserCode)
+            };
+            return await command.InvokeAsync();
+        }
+
+        public static async Task<bool> MoveUserToOU(string UserCode, string OUCode)
+        {
+            var command = new PowerShellCommand()
+            {
+                EC = EC,
+                Command = string.Format(@"Get-ADUser -Identity '{0}' | Move-ADObject -TargetPath 'OU={1},DC=SYSTEMS,DC=espackeuro,DC=com' ", UserCode, OUCode)
+            };
+            return await command.InvokeAsync();
+        }
+        public static async Task<bool> MoveGroupToOU(string GroupCode, string OUCode)
+        {
+            var command = new PowerShellCommand()
+            {
+                EC = EC,
+                Command = string.Format(@"Get-ADGroup '{0}' | Move-ADObject -TargetPath 'OU={1},DC=SYSTEMS,DC=espackeuro,DC=com' ", GroupCode, OUCode)
+            };
+            return await command.InvokeAsync();
+        }
+
+
     }
 }

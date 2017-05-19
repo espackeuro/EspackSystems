@@ -81,10 +81,6 @@
       <Project>{9148f7e6-31f6-4f96-b7dc-afea449998c7}</Project>
       <Name>CommonTools</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Network Libraries\Owncloud\Owncloud.csproj">
-      <Project>{0f193f80-9610-4020-8974-9aaa02bd1ca8}</Project>
-      <Name>Owncloud</Name>
-    </ProjectReference>
     <ProjectReference Include="..\cAccesoDatos\cAccesoDatos.csproj">
       <Project>{5da9cb0b-9007-40f1-8086-1b0303d8271f}</Project>
       <Name>cAccesoDatos</Name>

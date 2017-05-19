@@ -534,7 +534,7 @@ namespace LogOn
             }
         }
 
-        private void CheckUpdatableApps()
+        private async Task CheckUpdatableApps()
         {
             //return Task.Run(() =>
             //{
@@ -559,8 +559,10 @@ namespace LogOn
                     }
                     x.ShowStatus();
                 }).Start();
-                SpinWait.SpinUntil(() => _numThreads < 10);
+                SpinWait.SpinUntil(() => _numThreads < 20);
             }
+            await Task.Delay(100);
+            SpinWait.SpinUntil(() => Values.AppList.CheckingApps.Count == 0);
             //});
             //await task.ConfigureAwait(false);
         }
@@ -619,11 +621,9 @@ namespace LogOn
                 FillApps();
                 DrawListApps();
                 if (_update)
-                    CheckUpdatableApps();
+                    await CheckUpdatableApps();
                 else
                     Values.AppList.ToList().ForEach(x => x.SetStatus(AppBotStatus.UPDATED));
-                Thread.Sleep(1000);
-                SpinWait.SpinUntil(() => Values.AppList.CheckingApps.Count == 0);
                 Values.AppList.ToList().ForEach(x => x.ShowStatus());
                 //while (Values.AppList.CheckingApps.Count != 0)
                 //{
@@ -637,7 +637,7 @@ namespace LogOn
                         Values.ActiveThreads++;
                         var _thread = new cUpdaterThread(Values.debugBox, Values.ActiveThreads);
                         this.UpdatingThreads.Add(_thread);
-                        new Thread(new ThreadStart(_thread.Process)).Start();
+                        new Thread(() => _thread.Process()).Start();
 
                     }
                 }
