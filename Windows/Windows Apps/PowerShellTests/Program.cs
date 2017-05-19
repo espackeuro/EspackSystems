@@ -38,15 +38,23 @@ namespace PowerShellTests
                 Password = "Y?D6d#b@"
             };
 
-            Task.Run(()=>doChecks()).Wait();
+            Task tarea = doChecks();
+            tarea.Wait();
             
         }
 
 
         static async Task doChecks()
         {
-            var _res = await ADControl.CheckUser("jgallego");
-            _res = await ADControl.UpdateUser("Juana", "Gallego", "jgallego", "wales136");
+            bool _res;// 
+            //_res = await ADControl.CheckUser("jgallego");
+            //_res = await ADControl.UpdateUser("Juana", "Gallego", "jgallego", "wales136");
+            //_res = await ADControl.CheckGroup("patata");
+            //_res = await ADControl.CreateGroup("nextCloud","NextCloud Users");
+            //_res = await ADControl.AddUserToGroup("jgallego", "nextCloud");
+            //_res = await ADControl.CheckOrganizationalUnit("GRA");
+            //_res = await ADControl.CreateOrganizationalUnit("test", "OU De test");
+            _res = await ADControl.MoveUserToOU("tost", "test");
         }
 
     }

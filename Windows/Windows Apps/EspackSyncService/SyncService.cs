@@ -38,19 +38,19 @@ namespace EspackSyncService
             {
                 switch (pair.Key)
                 {
-                    case "NEXTCLOUD":
-                        var NCService = new NextCloudService()
-                        {
-                            ServiceCredentials = new EspackCredentials()
-                            {
-                                User = "system",
-                                Password = "*seso69*".ToSecureString()
-                            },
-                            ServerName = pair.Value
-                        };
-                        SyncedServices.Add(NCService);
-                        EventLog.WriteEntry(string.Format("Added {0} Service to server {1}", pair.Key, pair.Value));
-                        break;
+                    //case "NEXTCLOUD":
+                    //    var NCService = new NextCloudService()
+                    //    {
+                    //        ServiceCredentials = new EspackCredentials()
+                    //        {
+                    //            User = "system",
+                    //            Password = "*seso69*".ToSecureString()
+                    //        },
+                    //        ServerName = pair.Value
+                    //    };
+                    //    SyncedServices.Add(NCService);
+                    //    EventLog.WriteEntry(string.Format("Added {0} Service to server {1}", pair.Key, pair.Value));
+                    //    break;
                     case "DOMAIN":
                         SyncedServices.Add(new ADService()
                         {
@@ -85,7 +85,7 @@ namespace EspackSyncService
 
         private async Task Synchronize()
         {
-            using (var _RS = new DynamicRS("select UserCode, Name, Surname1,Password,Zone, MainCOD3, emailAddress, flags  from vUsers where dbo.CheckFlag(flags,'CHANGED')=1", Values.gDatos))
+            using (var _RS = new DynamicRS("select UserCode, Name, Surname1,Password,Zone, MainCOD3, emailAddress, flags, desCOD3  from vUsers where dbo.CheckFlag(flags,'CHANGED')=1", Values.gDatos))
             {
                 try
                 {
@@ -103,12 +103,12 @@ namespace EspackSyncService
                     var flags = r["flags"].ToString().Split('|');
                     foreach (var s in SyncedServices)
                     //SyncedServices.ForEach(async s =>
-                    {
+                    { 
                         if (flags.Contains(s.ServiceName))
                         {
                             try
                             {
-                                await s.Interact(r["UserCode"].ToString(), r["Name"].ToString(), r["Surname1"].ToString(), r["Zone"].ToString(), r["Password"].ToString(), r["emailAddress"].ToString(), r["MainCOD3"].ToString());
+                                await s.Interact(r["UserCode"].ToString(), r["Name"].ToString(), r["Surname1"].ToString(), r["Zone"].ToString(), r["Password"].ToString(), r["emailAddress"].ToString(), r["MainCOD3"].ToString(), r["desCOD3"].ToString(), flags);
                                 EventLog.WriteEntry(string.Format("User {0} from {1} was modified correctly in service {2}", r["UserCode"].ToString(), r["MainCOD3"].ToString(), s.ServiceName));
                             }
                             catch (Exception ex)

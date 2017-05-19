@@ -14,7 +14,7 @@ namespace EspackSyncService
     {
         public static cAccesoDatosNet gDatos = new cAccesoDatosNet()
         {
-            User = "procesos",
+            User = "SSPI",
             Password = "*seso69*",
             DataBase = "SISTEMAS"
         };
@@ -29,7 +29,7 @@ namespace EspackSyncService
         static void Main(string[] args)
         {
             if (args.Count() == 0)
-                args = new string[] { "NEXTCLOUD = nextcloud.espackeuro.com", "DOMAIN = sauron.systems.espackeuro.com", "DATABASE = DB01.local" };
+                args = new string[] { /*"NEXTCLOUD=nextcloud.espackeuro.com", */"DOMAIN=sauron.systems.espackeuro.com", "DATABASE=DB01.local" };
 
 
             args.ToList().ForEach(server =>

@@ -167,7 +167,11 @@ namespace AccesoDatosNet
             {
                 if (AdoCon.State == ConnectionState.Open)
                     Close();
-                string newConnectionString= "Server=" + Server.Replace(".local", "") + ";Initial Catalog=" + DataBase + ";User Id=" + User + ";Password=" + Password + ";MultipleActiveResultSets=True;Connection Lifetime=3;Max Pool Size=3";
+                string newConnectionString = "";
+                if (User!="SSPI")
+                    newConnectionString= "Server=" + Server.Replace(".local", "") + ";Initial Catalog=" + DataBase + ";User Id=" + User + ";Password=" + Password + ";MultipleActiveResultSets=True;Connection Lifetime=3;Max Pool Size=3";
+                else
+                    newConnectionString = "Server=" + Server.Replace(".local", "") + ";Initial Catalog=" + DataBase + ";Integrated Security=SSPI;MultipleActiveResultSets=True;Connection Lifetime=3;Max Pool Size=3";
                 if (newConnectionString != AdoCon.ConnectionString)
                     AdoCon.ConnectionString = newConnectionString;
                 AdoCon.Open();
@@ -198,7 +202,11 @@ namespace AccesoDatosNet
             {
                 if (AdoCon.State == ConnectionState.Open)
                     Close();
-                string newConnectionString = "Server=" + Server.Replace(".local", "") + ";Initial Catalog=" + DataBase + ";User Id=" + User + ";Password=" + Password + ";MultipleActiveResultSets=True;Connection Lifetime=3;Max Pool Size=3";
+                string newConnectionString = "";
+                if (User != "SSPI")
+                    newConnectionString = "Server=" + Server.Replace(".local", "") + ";Initial Catalog=" + DataBase + ";User Id=" + User + ";Password=" + Password + ";MultipleActiveResultSets=True;Connection Lifetime=3;Max Pool Size=3";
+                else
+                    newConnectionString = "Server=" + Server.Replace(".local", "") + ";Initial Catalog=" + DataBase + ";Integrated Security=SSPI;MultipleActiveResultSets=True;Connection Lifetime=3;Max Pool Size=3";
                 if (newConnectionString != AdoCon.ConnectionString)
                     AdoCon.ConnectionString = newConnectionString;
                 await AdoCon.OpenAsync();

@@ -166,7 +166,7 @@ namespace LogOnObjects
                         case AppBotStatus.PENDING_UPDATE:
                             prgApp.Style = ProgressBarStyle.Continuous;
                             prgApp.Minimum = 0;
-                            prgApp.Maximum = PendingItems.Count;
+                            prgApp.Maximum = PendingItems.Count+1;
                             //prgApp.MarqueeAnimationSpeed = 50;
                             prgApp.Visible = true;
                             pctApp.Enabled = false;
@@ -412,6 +412,22 @@ namespace LogOnObjects
                         _clean = false;
                     }
 
+                }
+            }
+            // this part added to remove local files not present in remote directory
+            if (Directory.Exists(Values.LOCAL_PATH + relativePath + "/"))
+            {
+                var localList = new DirectoryInfo(Values.LOCAL_PATH + relativePath + "/").EnumerateFileSystemInfos();
+                foreach (var _file in localList)
+                {
+                    if (list.FirstOrDefault(x => x.Name == _file.Name) == null)
+                    {
+                        if(_file is FileInfo)
+                            _file.Delete();
+                        if (_file is DirectoryInfo)
+                            ((DirectoryInfo)_file).Delete(true);
+
+                    }
                 }
             }
             return _clean;
