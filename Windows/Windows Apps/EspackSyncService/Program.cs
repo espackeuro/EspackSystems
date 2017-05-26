@@ -20,7 +20,9 @@ namespace EspackSyncService
         };
         public static byte[] MasterPassword = Encoding.Unicode.GetBytes("Y?D6d#b@");
         public static Dictionary<string, string> Servers = new Dictionary<string, string>();
-        public static int PollingTime { get; set; } = 60;
+        public static int PollingTime { get; set; } = 10;
+        public static List<string> DomainList { get; set; }
+        
     }
     static class Program
     {
@@ -39,6 +41,12 @@ namespace EspackSyncService
             });
             Values.gDatos.Server = Values.Servers["DATABASE"];
             Values.gDatos.context_info = Values.MasterPassword;
+            using (var _domains = new StaticRS("select domain from MAIL..domain where dbo.CheckFlag(flags,'FORWARD')=1 ", Values.gDatos))
+            {
+                _domains.Open();
+                Values.DomainList = _domains.ToList().Select(r => r["domain"].ToString()).ToList();
+                //_domains.Close();
+            }
             if (Environment.UserInteractive)
             {
                 SyncServiceClass service1 = new SyncServiceClass(args);
