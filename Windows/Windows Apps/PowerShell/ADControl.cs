@@ -79,6 +79,7 @@ namespace ADControl
     {
         public static EspackDomainConnection EC { get; set; } = new EspackDomainConnection();
         public const string DefaultPath = "OU=ESPACK,DC=SYSTEMS,DC=espackeuro,DC=com";
+        public const string DefaultPathAliases = "CN=Distribution Lists,OU=ESPACK,DC=SYSTEMS,DC=espackeuro,DC=com";
         public static string Results { get; set; }
         public static async Task<bool> CreateUser(string Name, string Surname, string UserCode, string Password, string EmailAddress, string COD3)
         {
@@ -93,11 +94,11 @@ namespace ADControl
             return _res;
         }
 
-        public static async Task<bool>  PropertyAdd(string UserCode, string PropertyName, string PropertyValue,bool CleanFirst)
+        public static async Task<bool>  PropertyAdd(string Code, string PropertyName, string PropertyValue,bool CleanFirst)
         {
-            string commandString = string.Format("$user = Get-ADUser -Identity '{0}'; ", UserCode);
-            commandString += CleanFirst ? string.Format("Set-ADUser -Identity $user -Clear {0}; ", PropertyName) : "";
-            commandString += string.Format("Set-ADUser -Identity $user -Add @{{{0}={1}}}; ", PropertyName, PropertyValue);
+            string commandString = string.Format("$object = Get-ADObject -LDAPFilter '(SAMAccountName={0})'; ", Code);
+            commandString += CleanFirst ? string.Format("Set-ADObject -Identity $object -Clear {0}; ", PropertyName) : "";
+            commandString += string.Format("Set-ADObject -Identity $object -Add @{{{0}={1}}}; ", PropertyName, PropertyValue);
             var command = new PowerShellCommand()
             {
                 EC = EC,

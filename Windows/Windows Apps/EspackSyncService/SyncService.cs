@@ -10,7 +10,8 @@ using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 using CommonTools;
 using AccesoDatosNet;
-
+using BaseService;
+using ADService;
 namespace EspackSyncService
 {
 
@@ -54,7 +55,7 @@ namespace EspackSyncService
                     //    EventLog.WriteEntry(string.Format("Added {0} Service to server {1}", pair.Key, pair.Value));
                     //    break;
                     case "DOMAIN":
-                        SyncedServices.Add(new ADService()
+                        SyncedServices.Add(new ADServiceClass()
                         {
                             ServiceCredentials = new EspackCredentials()
                             {
@@ -87,46 +88,65 @@ namespace EspackSyncService
 
         private async Task Synchronize()
         {
+            //get the recordset from database where status = 
+            Values.gDatos.DataBase = "SISTEMAS";
             using (var _RS = new DynamicRS("select UserCode, Name, Surname1,Password,Zone, MainCOD3, emailAddress, localDomain, flags, desCOD3  from vUsers where dbo.CheckFlag(flags,'CHANGED')=1", Values.gDatos))
             {
                 try
                 {
                     await _RS.OpenAsync();
-                    //_RS.Open();
                 } catch (Exception ex)
                 {
                     EventLog.WriteEntry(string.Format("Error accesing database: {0}", ex.Message), EventLogEntryType.Error);
                     return;
                 }
                 foreach (var r in _RS.ToList())
-                //_RS.ToList().ForEach(async r =>
                 {
                     
-                    var flags = r["flags"].ToString().Split('|');
-                    int Error = 0;
+                    var _flags = r["flags"].ToString().Split('|');
+                    int _error = 0;
+                    //create the user object
+                    var _user = new EspackUser()
+                    {
+                        UserCode = r["UserCode"].ToString(),
+                        Name = r["Name"].ToString(),
+                        Surname = r["Surname1"].ToString(),
+                        Group = r["Zone"].ToString(),
+                        Password = r["Password"].ToString(),
+                        Email = r["emailAddress"].ToString(),
+                        Sede = new EspackSede()
+                        {
+                            COD3 = r["MainCOD3"].ToString(),
+                            COD3Description = r["desCOD3"].ToString()
+                        },
+                        Flags = _flags,
+                    };
+                    // lets cycle each defined service
                     foreach (var s in SyncedServices)
-                    //SyncedServices.ForEach(async s =>
                     { 
-                        if (flags.Contains(s.ServiceName))
+                        if (_flags.Contains(s.ServiceName))
                         {
                             try
                             {
+                                //define the alias list
                                 var _alias = Values.DomainList.Select(d => string.Format("'smtp:{0}@{1}'", r["UserCode"].ToString(), d));
-                                _alias = _alias.Concat(new string[]{ string.Format("'smtp:{0}@{1}'", r["UserCode"].ToString(), r["localDomain"].ToString())});
-                                await s.Interact(r["UserCode"].ToString(), r["Name"].ToString(), r["Surname1"].ToString(), r["Zone"].ToString(), r["Password"].ToString(), r["emailAddress"].ToString(), r["MainCOD3"].ToString(), r["desCOD3"].ToString(), flags, _alias.ToArray());
-                                EventLog.WriteEntry(string.Format("User {0} from {1} was modified correctly in service {2}", r["UserCode"].ToString(), r["MainCOD3"].ToString(), s.ServiceName));
-                                Error = 0;
+                                _user.Aliases = _alias.Concat(new string[]{ string.Format("'smtp:{0}@{1}'", r["UserCode"].ToString(), r["localDomain"].ToString())}).ToArray(); //we add the @COD3.espackeuro.com domain
+                                //update or create the user in the service
+                                await s.Interact(_user);
+                                EventLog.WriteEntry(string.Format("User {0} from {1} was modified correctly in service {2}", _user.UserCode, _user.Sede.COD3, s.ServiceName));
+                                _error = 0;
                             }
                             catch (Exception ex)
                             {
                                 EventLog.WriteEntry(string.Format("User {0} from {1} was NOT modified correctly in service {2}. \nError message was {3}", r["UserCode"].ToString(), r["MainCOD3"].ToString(), s.ServiceName, ex.Message), EventLogEntryType.Error);
-                                Error = 1;
+                                _error = 1;
                             }
                         }
                     };
+                    // clear the CHANGED flag
                     var _SP = new SP(Values.gDatos, "pUppUserFlagCheckedClear");
                     _SP.AddParameterValue("UserCode", r["UserCode"].ToString());
-                    _SP.AddParameterValue("Error", Error);
+                    _SP.AddParameterValue("Error", _error);
                     try
                     {
                         await _SP.ExecuteAsync();
@@ -135,11 +155,13 @@ namespace EspackSyncService
                     }
                     catch (Exception ex)
                     {
-                        EventLog.WriteEntry(string.Format("User {0} from {1} was NOT unflagged correctly. \nError message was {3}", r["UserCode"].ToString(), r["MainCOD3"].ToString(), ex.Message), EventLogEntryType.Error);
+                        EventLog.WriteEntry(string.Format("User {0} from {1} was NOT unflagged correctly. \nError message was {2}", r["UserCode"].ToString(), r["MainCOD3"].ToString(), ex.Message), EventLogEntryType.Error);
                     }
                 };
             }
-            using (var _RS = new StaticRS("Select address from MAIL..aliasCAB where dbo..CheckFlag(flags,'CHANGED')=1", Values.gDatos))
+            //now lets sync the groups
+            Values.gDatos.DataBase = "MAIL";
+            using (var _RS = new StaticRS("Select address,flags from aliasCAB where dbo.CheckFlag(flags,'CHANGED')=1", Values.gDatos))
             {
                 try
                 {
@@ -148,19 +170,80 @@ namespace EspackSyncService
                 }
                 catch (Exception ex)
                 {
-                    EventLog.WriteEntry(string.Format("Error accesing database MAIL: {0}", ex.Message), EventLogEntryType.Error);
+                    EventLog.WriteEntry(string.Format("Error accesing database {0}", ex.Message), EventLogEntryType.Error);
                     return;
                 }
 
                 foreach (var r in _RS.ToList())
                 //_RS.ToList().ForEach(async r =>
                 {
-
+                    var _flags = r["flags"].ToString().Split('|');
+                    int _error = 0;
+                    //lets get the group members
+                    using (var _aliases = new StaticRS(string.Format("Select local_part_goto,domain_goto from aliasDET where address='{0}'", r["address"].ToString()), Values.gDatos))
+                    {
+                        try
+                        {
+                            await _aliases.OpenAsync();
+                            //_RS.Open();
+                        }
+                        catch (Exception ex)
+                        {
+                            EventLog.WriteEntry(string.Format("Error accesing database {0}", ex.Message), EventLogEntryType.Error);
+                            return;
+                        }
+                        var _alList = _aliases.ToList().Select(a => string.Format("'smtp:{0}@{1}'", a["local_part_goto"], CleanDomain(a["domain_goto"].ToString()))).ToArray();
+                        //create the group object
+                        var _group = new EspackGroup()
+                        {
+                            GroupCode = r["address"].ToString(),
+                            GroupMembers = _alList
+                        };
+                        foreach (var s in SyncedServices)
+                        {
+                            if (_flags.Contains(s.ServiceName))
+                            {
+                                try
+                                {
+                                    await s.InteractGroup(_group);
+                                    EventLog.WriteEntry(string.Format("Group {0} was modified correctly in service {1}", _group.GroupCode, s.ServiceName));
+                                    _error = 0;
+                                }
+                                catch (Exception ex)
+                                {
+                                    EventLog.WriteEntry(string.Format("Group {0} was NOT modified correctly in service {1}. \nError message was {2}", _group.GroupCode, s.ServiceName, ex.Message), EventLogEntryType.Error);
+                                    _error = 1;
+                                }
+                            }
+                        }
+                        // clear the CHANGED flag
+                        var _SP = new SP(Values.gDatos, "pUppAliasFlagCheckedClear");
+                        _SP.AddParameterValue("address", _group.GroupCode);
+                        _SP.AddParameterValue("Error", _error);
+                        try
+                        {
+                            await _SP.ExecuteAsync();
+                            if (_SP.LastMsg != "OK")
+                                throw new Exception(_SP.LastMsg);
+                        }
+                        catch (Exception ex)
+                        {
+                            EventLog.WriteEntry(string.Format("Group {0} was NOT unflagged correctly. \nError message was {1}", _group.GroupCode,  ex.Message), EventLogEntryType.Error);
+                        }
+                    }
                 }
             }
         }
 
-        private async Task SynchronizeUser()
+        private string CleanDomain(string domain)
+        {
+            var _dom = domain.Split('.');
+            if (_dom.Contains("espackeuro"))
+                return "espackeuro.com";
+            if (_dom.Contains("grupointerpack"))
+                return "grupointerpack.com";
+            return domain;
+        }
 
         private async void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
