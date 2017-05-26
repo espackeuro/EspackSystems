@@ -9,7 +9,7 @@ using System.Security;
 using CommonTools;
 
 
-namespace WindowsPSControl
+namespace ADControl
 {
     public class EspackDomainConnection
     {
@@ -75,9 +75,10 @@ namespace WindowsPSControl
             }
         }
     }
-    public static class ADControl
+    public static class AD
     {
         public static EspackDomainConnection EC { get; set; } = new EspackDomainConnection();
+        public const string DefaultPath = "OU=ESPACK,DC=SYSTEMS,DC=espackeuro,DC=com";
         public static string Results { get; set; }
         public static async Task<bool> CreateUser(string Name, string Surname, string UserCode, string Password, string EmailAddress, string COD3)
         {
@@ -86,6 +87,21 @@ namespace WindowsPSControl
             {
                 EC = EC,
                 Command = string.Format("New-ADUser -Name '{0} {1}' -GivenName '{0}' -Surname '{1}' -SamAccountName '{2}' -DisplayName '{1} {2}' -EmailAddress '{4}' -UserPrincipalName '{2}@systems.espackeuro.com' -Division '{5}' -PasswordNeverExpires:$True -AccountPassword (ConvertTo-SecureString -AsPlainText '{3}' -Force) -PassThru | Enable-ADAccount;", Name, Surname, UserCode, Password,EmailAddress, division)
+            };
+            var _res = await command.InvokeAsync();
+            Results = command.SResults;
+            return _res;
+        }
+
+        public static async Task<bool>  PropertyAdd(string UserCode, string PropertyName, string PropertyValue,bool CleanFirst)
+        {
+            string commandString = string.Format("$user = Get-ADUser -Identity '{0}'; ", UserCode);
+            commandString += CleanFirst ? string.Format("Set-ADUser -Identity $user -Clear {0}; ", PropertyName) : "";
+            commandString += string.Format("Set-ADUser -Identity $user -Add @{{{0}={1}}}; ", PropertyName, PropertyValue);
+            var command = new PowerShellCommand()
+            {
+                EC = EC,
+                Command = commandString
             };
             var _res = await command.InvokeAsync();
             Results = command.SResults;
@@ -146,23 +162,25 @@ Get-ADUser -Identity '{0}' | Set-ADAccountPassword -Reset -NewPassword (ConvertT
             return _res;
         }
 
-        public static async Task<bool> CreateGroup(string GroupCode, string GroupName)
+        public static async Task<bool> CreateGroup(string GroupCode, string GroupName,string GroupCategory, string Path) //= "OU=ESPACK,DC=SYSTEMS,DC=espackeuro,DC=com")
         {
             var command = new PowerShellCommand()
             {
                 EC = EC,
-                Command = string.Format(@"New-ADGroup -Name '{1}' -SamAccountName '{0}' -GroupCategory Security -GroupScope Global -DisplayName '{1}'", GroupCode, GroupName)
+                Command = string.Format(@"New-ADGroup -Name '{1}' -SamAccountName '{0}' -GroupCategory {2} -GroupScope Global -DisplayName '{1}' -Path '{3}'", GroupCode, GroupName,GroupCategory,Path)
             };
             var _res = await command.InvokeAsync();
             return _res;
         }
 
-        public static async Task<bool> CreateOrganizationalUnit(string OUCode, string OUDescription)
+
+
+        public static async Task<bool> CreateOrganizationalUnit(string OUCode, string OUDescription, string Path)
         {
             var command = new PowerShellCommand()
             {
                 EC = EC,
-                Command = string.Format(@"New-ADOrganizationalUnit -Name '{0}'  -DisplayName '{1}' -Description '{1}'", OUCode, OUDescription)
+                Command = string.Format(@"New-ADOrganizationalUnit -Name '{0}'  -DisplayName '{1}' -Description '{1}' -path '{2}'", OUCode, OUDescription, Path)
             };
             var _res = await command.InvokeAsync();
             return _res;
@@ -184,7 +202,7 @@ Get-ADUser -Identity '{0}' | Set-ADAccountPassword -Reset -NewPassword (ConvertT
             var command = new PowerShellCommand()
             {
                 EC = EC,
-                Command = string.Format(@"Get-ADUser -Identity '{0}' | Move-ADObject -TargetPath 'OU={1},DC=SYSTEMS,DC=espackeuro,DC=com' ", UserCode, OUCode)
+                Command = string.Format(@"Get-ADUser -Identity '{0}' | Move-ADObject -TargetPath 'OU={1},OU=ESPACK,DC=SYSTEMS,DC=espackeuro,DC=com' ", UserCode, OUCode)
             };
             return await command.InvokeAsync();
         }
@@ -193,11 +211,32 @@ Get-ADUser -Identity '{0}' | Set-ADAccountPassword -Reset -NewPassword (ConvertT
             var command = new PowerShellCommand()
             {
                 EC = EC,
-                Command = string.Format(@"Get-ADGroup '{0}' | Move-ADObject -TargetPath 'OU={1},DC=SYSTEMS,DC=espackeuro,DC=com' ", GroupCode, OUCode)
+                Command = string.Format(@"Get-ADGroup '{0}' | Move-ADObject -TargetPath 'OU={1},OU=ESPACK,DC=SYSTEMS,DC=espackeuro,DC=com' ", GroupCode, OUCode)
             };
             return await command.InvokeAsync();
         }
 
-
+        public static async Task<bool> CheckObject(string ObjectName, string ObjectType, string Path= "OU=ESPACK,DC=SYSTEMS,DC=espackeuro,DC=com")
+        {
+            var command = new PowerShellCommand()
+            {
+                EC = EC,
+                Command = string.Format(@"Get-ADObject -LDAPFilter '(&(name = {0})(objectClass = {1}))' -SearchBase '{2}' -SearchScope OneLevel", ObjectName, ObjectType, Path)
+            };
+            var _res = await command.InvokeAsync();
+            Results = command.SResults;
+            _res = Results != "";
+            return _res;
+        }
+        public static async Task<bool> CreateObject(string ObjectName, string ObjectType, string Path = "OU=ESPACK,DC=SYSTEMS,DC=espackeuro,DC=com")
+        {
+            var command = new PowerShellCommand()
+            {
+                EC = EC,
+                Command = string.Format(@"New-ADObject -Name '{0}' -Type '{1}' - Path '{2}'", ObjectName, ObjectType, Path)
+            };
+            var _res = await command.InvokeAsync();
+            return _res;
+        }
     }
 }

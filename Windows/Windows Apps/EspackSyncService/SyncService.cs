@@ -14,6 +14,8 @@ using AccesoDatosNet;
 namespace EspackSyncService
 {
 
+
+
     public partial class SyncServiceClass : ServiceBase
     {
         public SyncServiceClass(string[] args)
@@ -56,8 +58,8 @@ namespace EspackSyncService
                         {
                             ServiceCredentials = new EspackCredentials()
                             {
-                                User = "SYSTEMS\\procesos",
-                                Password = "*seso69*".ToSecureString()
+                                User = "SYSTEMS\\administrador",
+                                Password = "Y?D6d#b@".ToSecureString()
                             },
                             ServerName = pair.Value
                         });
@@ -85,7 +87,7 @@ namespace EspackSyncService
 
         private async Task Synchronize()
         {
-            using (var _RS = new DynamicRS("select UserCode, Name, Surname1,Password,Zone, MainCOD3, emailAddress, flags, desCOD3  from vUsers where dbo.CheckFlag(flags,'CHANGED')=1", Values.gDatos))
+            using (var _RS = new DynamicRS("select UserCode, Name, Surname1,Password,Zone, MainCOD3, emailAddress, localDomain, flags, desCOD3  from vUsers where dbo.CheckFlag(flags,'CHANGED')=1", Values.gDatos))
             {
                 try
                 {
@@ -96,11 +98,12 @@ namespace EspackSyncService
                     EventLog.WriteEntry(string.Format("Error accesing database: {0}", ex.Message), EventLogEntryType.Error);
                     return;
                 }
-
                 foreach (var r in _RS.ToList())
                 //_RS.ToList().ForEach(async r =>
                 {
+                    
                     var flags = r["flags"].ToString().Split('|');
+                    int Error = 0;
                     foreach (var s in SyncedServices)
                     //SyncedServices.ForEach(async s =>
                     { 
@@ -108,17 +111,22 @@ namespace EspackSyncService
                         {
                             try
                             {
-                                await s.Interact(r["UserCode"].ToString(), r["Name"].ToString(), r["Surname1"].ToString(), r["Zone"].ToString(), r["Password"].ToString(), r["emailAddress"].ToString(), r["MainCOD3"].ToString(), r["desCOD3"].ToString(), flags);
+                                var _alias = Values.DomainList.Select(d => string.Format("'smtp:{0}@{1}'", r["UserCode"].ToString(), d));
+                                _alias = _alias.Concat(new string[]{ string.Format("'smtp:{0}@{1}'", r["UserCode"].ToString(), r["localDomain"].ToString())});
+                                await s.Interact(r["UserCode"].ToString(), r["Name"].ToString(), r["Surname1"].ToString(), r["Zone"].ToString(), r["Password"].ToString(), r["emailAddress"].ToString(), r["MainCOD3"].ToString(), r["desCOD3"].ToString(), flags, _alias.ToArray());
                                 EventLog.WriteEntry(string.Format("User {0} from {1} was modified correctly in service {2}", r["UserCode"].ToString(), r["MainCOD3"].ToString(), s.ServiceName));
+                                Error = 0;
                             }
                             catch (Exception ex)
                             {
                                 EventLog.WriteEntry(string.Format("User {0} from {1} was NOT modified correctly in service {2}. \nError message was {3}", r["UserCode"].ToString(), r["MainCOD3"].ToString(), s.ServiceName, ex.Message), EventLogEntryType.Error);
+                                Error = 1;
                             }
                         }
                     };
                     var _SP = new SP(Values.gDatos, "pUppUserFlagCheckedClear");
                     _SP.AddParameterValue("UserCode", r["UserCode"].ToString());
+                    _SP.AddParameterValue("Error", Error);
                     try
                     {
                         await _SP.ExecuteAsync();
@@ -131,7 +139,28 @@ namespace EspackSyncService
                     }
                 };
             }
+            using (var _RS = new StaticRS("Select address from MAIL..aliasCAB where dbo..CheckFlag(flags,'CHANGED')=1", Values.gDatos))
+            {
+                try
+                {
+                    await _RS.OpenAsync();
+                    //_RS.Open();
+                }
+                catch (Exception ex)
+                {
+                    EventLog.WriteEntry(string.Format("Error accesing database MAIL: {0}", ex.Message), EventLogEntryType.Error);
+                    return;
+                }
+
+                foreach (var r in _RS.ToList())
+                //_RS.ToList().ForEach(async r =>
+                {
+
+                }
+            }
         }
+
+        private async Task SynchronizeUser()
 
         private async void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
