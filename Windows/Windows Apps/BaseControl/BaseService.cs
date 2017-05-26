@@ -17,8 +17,14 @@ namespace BaseService
         public string Password { get; set; }
         public string Email { get; set; }
         public EspackSede Sede { get; set; }
-        public string[] flags { get; set; }
+        public string[] Flags { get; set; }
         public string[] Aliases { get; set; }
+    }
+
+    public struct EspackGroup
+    {
+        public string GroupCode { get; set; }
+        public string[] GroupMembers { get; set; }
     }
 
     public struct EspackSede
@@ -37,6 +43,11 @@ namespace BaseService
         Task<bool> Update(EspackUser User);
         Task<bool> Interact(EspackUser User);
         Task<bool> Disable(string UserCode);
+        Task<bool> InsertGroup(EspackGroup Group);
+        Task<bool> UpdateGroup(EspackGroup Group);
+        Task<bool> InteractGroup(EspackGroup Group);
+        Task<bool> DisableGroup(string GroupCode);
+
         //string ErrorMessage { get; set; }
     }
 }
