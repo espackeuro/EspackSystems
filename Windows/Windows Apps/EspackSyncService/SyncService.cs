@@ -161,7 +161,7 @@ namespace EspackSyncService
             }
             //now lets sync the groups
             Values.gDatos.DataBase = "MAIL";
-            using (var _RS = new StaticRS("Select address,flags from aliasCAB where dbo.CheckFlag(flags,'CHANGED')=1", Values.gDatos))
+            using (var _RS = new StaticRS("Select local_part,address,flags from aliasCAB where dbo.CheckFlag(flags,'CHANGED')=1", Values.gDatos))
             {
                 try
                 {
@@ -192,11 +192,12 @@ namespace EspackSyncService
                             EventLog.WriteEntry(string.Format("Error accesing database {0}", ex.Message), EventLogEntryType.Error);
                             return;
                         }
-                        var _alList = _aliases.ToList().Select(a => string.Format("'smtp:{0}@{1}'", a["local_part_goto"], CleanDomain(a["domain_goto"].ToString()))).ToArray();
+                        var _alList = _aliases.ToList().Select(a => string.Format("{0}@{1}", a["local_part_goto"], CleanDomain(a["domain_goto"].ToString()))).ToArray();
                         //create the group object
                         var _group = new EspackGroup()
                         {
-                            GroupCode = r["address"].ToString(),
+                            GroupCode = r["local_part"].ToString()!="" ? r["local_part"].ToString() : r["address"].ToString().Replace('@','_').ToUpper(),
+                            GroupMail = r["address"].ToString(),
                             GroupMembers = _alList
                         };
                         foreach (var s in SyncedServices)
@@ -218,7 +219,7 @@ namespace EspackSyncService
                         }
                         // clear the CHANGED flag
                         var _SP = new SP(Values.gDatos, "pUppAliasFlagCheckedClear");
-                        _SP.AddParameterValue("address", _group.GroupCode);
+                        _SP.AddParameterValue("address", _group.GroupMail);
                         _SP.AddParameterValue("Error", _error);
                         try
                         {
@@ -240,7 +241,7 @@ namespace EspackSyncService
             var _dom = domain.Split('.');
             if (_dom.Contains("espackeuro"))
                 return "espackeuro.com";
-            if (_dom.Contains("grupointerpack"))
+            if (_dom.Contains("grupointerpack") && !_dom.Contains("gapps"))
                 return "grupointerpack.com";
             return domain;
         }

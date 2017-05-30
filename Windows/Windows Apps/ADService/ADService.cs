@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ADControl;
 using BaseService;
 using CommonTools;
+using System.Diagnostics;
 
 namespace ADService
 {
@@ -30,6 +31,7 @@ namespace ADService
         public string ServerName { get; set; }
 
         public string ServiceName { get { return "DOMAIN"; } }
+        public string[] Domains = new string[] { "espackeuro.com", "grupointerpack.com" };
 
         //public async Task<bool> CheckExist(string UserCode)
         //{
@@ -146,25 +148,50 @@ namespace ADService
 
         }
 
-        public async Task<bool> InsertGroup(EspackGroup Group)
+        public async Task<bool> InteractGroup(EspackGroup Group)
         {
             AD.EC.ServerName = ServerName;
             try
             {
-                string _groupName = Group.GroupCode.Split('@')[0];
-                if (!await AD.CheckGroup(Group.GroupCode))
+                //string _groupName = Group.GroupCode.Split('@')[0];
+                if (!await AD.CheckGroup(Group.GroupCode,AD.DefaultPathAliases))
                 {
-                    await AD.CreateGroup(Group.GroupCode, _groupName, "distribution", AD.DefaultPathAliases);
+                    await AD.CreateGroup(Group.GroupCode, Group.GroupCode, "distribution", AD.DefaultPathAliases, new Dictionary<string, string> { { "mail",Group.GroupMail} });
                     //await AssignUserGroupOU(User.UserCode, User.Group, User.Sede.COD3, User.Sede.COD3Description);
-                }
-                else
+                } else
                 {
-                    return false;
-                    throw new Exception(string.Format("Group {0} already exists.", Group.GroupCode));
+                    await AD.CleanGroup(Group.GroupCode);
                 }
+                //else
+                //{
+                //    return false;
+                //    throw new Exception(string.Format("Group {0} already exists.", Group.GroupCode));
+                //}
                 if (Group.GroupMembers.Count()!=0)
                 {
-                    await AD.PropertyAdd(Group.GroupCode, "proxyAddresses", string.Join(",", Group.GroupMembers), true);
+                    
+                    foreach (var _member in Group.GroupMembers)
+                    {
+                        var _memberName = _member.Split('@')[0];
+                        bool _isContact = false;
+                        //var _path = AD.DefaultPath;
+                        if (!Domains.Contains(_member.Split('@')[1]))
+                        {
+                            _memberName = _member.ToUpper().Replace("@", "_AT_");
+                            if (!await AD.CheckObject(_memberName, "contact", AD.DefaultPathContacts))
+                                await AD.CreateObject(_memberName, "contact", AD.DefaultPathContacts, new Dictionary<string, string> { { "mail", _member } });
+                            _isContact = true;
+                        }
+                        try
+                        {
+                            await AD.AddUserToGroup(_memberName, Group.GroupCode, _isContact);
+                        } catch (Exception ex)
+                        {
+                           EventLog.WriteEntry("ESS",string.Format("Error adding user {0} to group {1}.\nError message was {2}", _memberName, Group.GroupCode, ex.Message), EventLogEntryType.Error);
+                        }
+                    }
+                    
+                    //await AD.PropertyAdd(Group.GroupCode, "proxyAddresses", string.Join(",", Group.GroupMembers), true);
                 }
                 return true;
             }
@@ -198,7 +225,7 @@ namespace ADService
             }
         }
 
-        public async Task<bool> InteractGroup(EspackGroup Group)
+        public async Task<bool> InsertGroup(EspackGroup Group)
         {
             AD.EC.ServerName = ServerName;
             try

@@ -7,7 +7,7 @@ using System.Management.Automation.Runspaces;
 using System.Management.Automation;
 using System.Security;
 using CommonTools;
-using WindowsPSControl;
+using ADControl;
 
 namespace PowerShellTests
 {
@@ -31,7 +31,7 @@ namespace PowerShellTests
             //    results.Where(o => o != null).ToList().ForEach(output => Console.WriteLine(output.ToString()));
             //}
             //Assume we’re done
-            ADControl.EC = new EspackDomainConnection()
+            AD.EC = new EspackDomainConnection()
             {
                 ServerName = "Sauron",
                 UserName = "SYSTEMS\\Administrador",
@@ -54,7 +54,8 @@ namespace PowerShellTests
             //_res = await ADControl.AddUserToGroup("jgallego", "nextCloud");
             //_res = await ADControl.CheckOrganizationalUnit("GRA");
             //_res = await ADControl.CreateOrganizationalUnit("test", "OU De test");
-            _res = await ADControl.MoveUserToOU("tost", "test");
+            //_res = await AD.MoveUserToOU("tost", "test");
+            _res = await AD.CreateObject("Test", "Contact", "CN=Contacts,OU=ESPACK,DC=SYSTEMS,DC=espackeuro,DC=com",  AttributeList: new Dictionary<string, string> { { "mail", "test@test.com" }, { "telephonenumber", "1234" } });
         }
 
     }
