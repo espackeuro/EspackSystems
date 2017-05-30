@@ -61,6 +61,10 @@
       <Project>{9148f7e6-31f6-4f96-b7dc-afea449998c7}</Project>
       <Name>CommonTools</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ADService\ADService.csproj">
+      <Project>{eae6391a-10ff-4188-99d7-6f5fdd857436}</Project>
+      <Name>ADService</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PowerShell\ADControl.csproj">
       <Project>{b4c5fc29-42a5-410e-a09d-bf68f2519bbc}</Project>
       <Name>ADControl</Name>

@@ -24,6 +24,7 @@ namespace BaseService
     public struct EspackGroup
     {
         public string GroupCode { get; set; }
+        public string GroupMail { get; set; }
         public string[] GroupMembers { get; set; }
     }
 
