@@ -62,7 +62,10 @@ namespace DiverseControls
         {
             //Enabled = false;
             var _t = "               ~ "+_initialText;
-            base.Text = _t.Substring(_count, _t.Length - _count) + _t.Substring(0, _count);
+            try
+            {
+                base.Text = _t.Substring(_count, _t.Length - _count) + _t.Substring(0, _count);
+            } catch { }
             _count = (_count + 1) % _t.Length;
             //Enabled = true;
         }

@@ -230,12 +230,36 @@ namespace LogOn
                         }
                     });
                 }
-                
+
 
 
                 // MessageBox.Show("Pollo6", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 //#endif
+
+                //check Autologon with windows credentials
+                var _enviromentUser = Environment.UserName;
+                using (var _rs = new StaticRS(string.Format("Select flags,Password from vUsers where UserCode='{0}'", _enviromentUser), Values.gDatos))
+                {
+                    Values.gDatos.context_info = MasterPassword.MasterBytes;
+                    _rs.Open();
+                    if (!_rs.EOF)
+                    {
+                        var _flags = _rs["flags"].ToString().Split('|');
+                        if (_flags.Contains("AUTOLOGON"))
+                        {
+                            this.Show();
+                            this.txtUser.Text = _enviromentUser;
+                            this.txtPassword.Text = _rs["Password"].ToString();
+                            btnOk_Click(null, null);
+                        }
+                    }
+                    
+                };
+
+
+
+
                 KeyDown += restartTimer;
                 MouseClick += restartTimer;
             }
@@ -259,7 +283,10 @@ namespace LogOn
                 return;
             }
             var t = TimeSpan.FromSeconds(_time);
-            PanelTime.Text=t.ToString(@"mm\:ss");
+            try
+            {
+                PanelTime.Text = t.ToString(@"mm\:ss");
+            } catch { }
         }
 
         protected override void OnResize (EventArgs e)
@@ -656,7 +683,7 @@ namespace LogOn
             LogOnChangeStatus(LogOnStatus.CHANGE_PASSWORD);
         }
 
-        private async void btnOKChange_Click(object sender, EventArgs e)
+        private void btnOKChange_Click(object sender, EventArgs e)
         {
             Status = LogOnStatus.CHANGING_PASSWORD;
             if (txtNewPassword.Text != txtNewPasswordConfirm.Text || txtNewPIN.Text != txtNewPINConfirm.Text)
@@ -666,7 +693,7 @@ namespace LogOn
                 return;
             }
             Values.gDatos.context_info = MasterPassword.MasterBytes;
-            await Values.gDatos.ConnectAsync();
+            Values.gDatos.Connect();
             // Call the SP for Password/PIN change
             var _SP = new SP(Values.gDatos, "pLogOnUser");
             _SP.AddControlParameter("User", txtUser);
@@ -676,12 +703,12 @@ namespace LogOn
             _SP.AddParameterValue("NewPIN", txtNewPIN.Text);
             try
             {
-                await _SP.ExecuteAsync();
+                _SP.Execute();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                txtPassword.Text = "";
+                //txtPassword.Text = "";
                 Status = LogOnStatus.CHANGE_PASSWORD;
                 return;
             }
