@@ -90,7 +90,8 @@ namespace EspackSyncService
         {
             //get the recordset from database where status = 
             Values.gDatos.DataBase = "SISTEMAS";
-            using (var _RS = new DynamicRS("select UserCode, Name, Surname1,Password,Zone, MainCOD3, emailAddress, localDomain, flags, desCOD3  from vUsers where dbo.CheckFlag(flags,'CHANGED')=1", Values.gDatos))
+            Values.gDatos.Connect();
+            using (var _RS = new DynamicRS("select UserCode, Name, Surname1,Password,Position, MainCOD3, emailAddress, localDomain, flags, desCOD3  from vUsers where dbo.CheckFlag(flags,'CHANGED')=1", Values.gDatos))
             {
                 try
                 {
@@ -111,7 +112,7 @@ namespace EspackSyncService
                         UserCode = r["UserCode"].ToString(),
                         Name = r["Name"].ToString(),
                         Surname = r["Surname1"].ToString(),
-                        Group = r["Zone"].ToString(),
+                        Group = "ESPACK_"+r["Position"].ToString(),
                         Password = r["Password"].ToString(),
                         Email = r["emailAddress"].ToString(),
                         Sede = new EspackSede()
@@ -161,7 +162,8 @@ namespace EspackSyncService
             }
             //now lets sync the groups
             Values.gDatos.DataBase = "MAIL";
-            using (var _RS = new StaticRS("Select local_part,address,flags from aliasCAB where dbo.CheckFlag(flags,'CHANGED')=1", Values.gDatos))
+            Values.gDatos.Connect();
+            using (var _RS = new DynamicRS("Select local_part,address,flags from aliasCAB where dbo.CheckFlag(flags,'CHANGED')=1", Values.gDatos))
             {
                 try
                 {
@@ -180,7 +182,7 @@ namespace EspackSyncService
                     var _flags = r["flags"].ToString().Split('|');
                     int _error = 0;
                     //lets get the group members
-                    using (var _aliases = new StaticRS(string.Format("Select local_part_goto,domain_goto from aliasDET where address='{0}'", r["address"].ToString()), Values.gDatos))
+                    using (var _aliases = new DynamicRS(string.Format("Select local_part_goto,domain_goto from aliasDET where address='{0}'", r["address"].ToString()), Values.gDatos))
                     {
                         try
                         {

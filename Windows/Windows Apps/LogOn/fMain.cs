@@ -20,6 +20,7 @@ using LogOnObjects;
 using System.Reflection;
 using DiverseControls;
 using CommonToolsWin;
+using MasterClass;
 
 namespace LogOn
 {
@@ -617,7 +618,7 @@ namespace LogOn
                     return;
                 }
                 Values.User = txtUser.Text;
-                Values.Password = txtPassword.Text;
+                Values.Password = _SP.ReturnValues()["@Password"].ToString();// txtPassword.Text;
                 FillApps();
                 DrawListApps();
                 if (_update)
@@ -664,7 +665,8 @@ namespace LogOn
                 Status = LogOnStatus.CHANGE_PASSWORD;
                 return;
             }
-            
+            Values.gDatos.context_info = MasterPassword.MasterBytes;
+            await Values.gDatos.ConnectAsync();
             // Call the SP for Password/PIN change
             var _SP = new SP(Values.gDatos, "pLogOnUser");
             _SP.AddControlParameter("User", txtUser);
@@ -674,7 +676,7 @@ namespace LogOn
             _SP.AddParameterValue("NewPIN", txtNewPIN.Text);
             try
             {
-                _SP.Execute();
+                await _SP.ExecuteAsync();
             }
             catch (Exception ex)
             {
@@ -683,6 +685,7 @@ namespace LogOn
                 Status = LogOnStatus.CHANGE_PASSWORD;
                 return;
             }
+            Values.gDatos.Close();
             if (_SP.LastMsg.Substring(0, 2) != "OK")
             {
                 CTWin.MsgError(_SP.LastMsg);

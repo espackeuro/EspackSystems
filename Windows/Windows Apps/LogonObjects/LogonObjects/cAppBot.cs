@@ -496,7 +496,10 @@ namespace LogOnObjects
 
         public void ChangeProgress(int Value)
         {
-
+            if (Value > prgApp.Maximum)
+                Value = prgApp.Maximum;
+            if (Value < prgApp.Minimum)
+                Value = prgApp.Minimum;
             try
             {
                 if (this.prgApp.InvokeRequired)
@@ -629,7 +632,7 @@ namespace LogOnObjects
                 // check the password in the new server
                 var _SP = new SP(_datos, "pLogOnUser");
                 _SP.AddParameterValue("User", DBServer.User);
-                _SP.AddParameterValue("Password", DBServer.Password);
+                _SP.AddParameterValue("Ticket", DBServer.Password);
                 _SP.AddParameterValue("Origin", "LOGON_CS");
                 try
                 {

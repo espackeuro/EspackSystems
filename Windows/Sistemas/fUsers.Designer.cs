@@ -29,9 +29,17 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtUserNumber = new EspackFormControls.NumericTextBox();
+            this.txtSurname2 = new EspackFormControls.EspackTextBox();
+            this.txtSurname1 = new EspackFormControls.EspackTextBox();
+            this.txtName = new EspackFormControls.EspackTextBox();
+            this.txtUserCode = new EspackFormControls.EspackTextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.txtDesCod3 = new EspackFormControls.EspackTextBox();
+            this.cboCOD3 = new EspackFormControls.EspackComboBox();
+            this.listCOD3 = new EspackFormControls.EspackCheckedListBox();
+            this.cboPosition = new EspackFormControls.EspackComboBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.lstEmailAliases = new EspackFormControls.EspackCheckedListBox();
             this.txtEmail = new EspackFormControls.EspackTextBox();
             this.txtPIN = new EspackFormControls.NumericTextBox();
             this.txtQuota = new EspackFormControls.NumericTextBox();
@@ -39,16 +47,11 @@
             this.txtPasswordEXP = new EspackFormControls.EspackDateTimePicker();
             this.lstFlags = new EspackFormControls.EspackCheckedListBox();
             this.txtPWD = new EspackFormControls.EspackTextBox();
-            this.txtDesCod3 = new EspackFormControls.EspackTextBox();
-            this.cboCOD3 = new EspackFormControls.EspackComboBox();
-            this.listCOD3 = new EspackFormControls.EspackCheckedListBox();
-            this.cboZone = new EspackFormControls.EspackComboBox();
-            this.txtUserNumber = new EspackFormControls.NumericTextBox();
-            this.txtSurname2 = new EspackFormControls.EspackTextBox();
-            this.txtSurname1 = new EspackFormControls.EspackTextBox();
-            this.txtName = new EspackFormControls.EspackTextBox();
-            this.txtUserCode = new EspackFormControls.EspackTextBox();
+            this.lstEmailAliases = new EspackFormControls.EspackCheckedListBox();
             this.CTLM = new CTLMantenimientoNet.CTLMantenimientoNet();
+            this.cboSecurityLevel = new EspackFormControls.EspackComboBox();
+            this.txtPosition = new EspackFormControls.EspackTextBox();
+            this.cboPositionLevel = new EspackFormControls.EspackComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -71,21 +74,296 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Who is";
             // 
+            // txtUserNumber
+            // 
+            this.txtUserNumber.Add = false;
+            this.txtUserNumber.AllowSpace = false;
+            this.txtUserNumber.BackColor = System.Drawing.Color.White;
+            this.txtUserNumber.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtUserNumber.Caption = "UserNumber";
+            this.txtUserNumber.DBField = null;
+            this.txtUserNumber.DBFieldType = null;
+            this.txtUserNumber.DefaultValue = null;
+            this.txtUserNumber.Del = false;
+            this.txtUserNumber.DependingRS = null;
+            this.txtUserNumber.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.txtUserNumber.ForeColor = System.Drawing.Color.Black;
+            this.txtUserNumber.Length = 0;
+            this.txtUserNumber.Location = new System.Drawing.Point(405, 29);
+            this.txtUserNumber.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
+            this.txtUserNumber.Mask = false;
+            this.txtUserNumber.Multiline = true;
+            this.txtUserNumber.Name = "txtUserNumber";
+            this.txtUserNumber.Order = 0;
+            this.txtUserNumber.ParentConn = null;
+            this.txtUserNumber.ParentDA = null;
+            this.txtUserNumber.PK = false;
+            this.txtUserNumber.Precision = 0;
+            this.txtUserNumber.Search = false;
+            this.txtUserNumber.Size = new System.Drawing.Size(100, 24);
+            this.txtUserNumber.Status = CommonTools.EnumStatus.ADDNEW;
+            this.txtUserNumber.TabIndex = 2;
+            this.txtUserNumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtUserNumber.ThousandsGroup = false;
+            this.txtUserNumber.Upp = false;
+            this.txtUserNumber.Value = null;
+            // 
+            // txtSurname2
+            // 
+            this.txtSurname2.Add = false;
+            this.txtSurname2.BackColor = System.Drawing.Color.White;
+            this.txtSurname2.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtSurname2.Caption = "Surname 2";
+            this.txtSurname2.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.txtSurname2.DBField = null;
+            this.txtSurname2.DBFieldType = null;
+            this.txtSurname2.DefaultValue = null;
+            this.txtSurname2.Del = false;
+            this.txtSurname2.DependingRS = null;
+            this.txtSurname2.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.txtSurname2.ForeColor = System.Drawing.Color.Black;
+            this.txtSurname2.Location = new System.Drawing.Point(351, 74);
+            this.txtSurname2.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
+            this.txtSurname2.Multiline = true;
+            this.txtSurname2.Name = "txtSurname2";
+            this.txtSurname2.Order = 0;
+            this.txtSurname2.ParentConn = null;
+            this.txtSurname2.ParentDA = null;
+            this.txtSurname2.PK = false;
+            this.txtSurname2.Search = false;
+            this.txtSurname2.Size = new System.Drawing.Size(157, 24);
+            this.txtSurname2.Status = CommonTools.EnumStatus.ADDNEW;
+            this.txtSurname2.TabIndex = 5;
+            this.txtSurname2.Upp = false;
+            this.txtSurname2.Value = "";
+            // 
+            // txtSurname1
+            // 
+            this.txtSurname1.Add = false;
+            this.txtSurname1.BackColor = System.Drawing.Color.White;
+            this.txtSurname1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtSurname1.Caption = "Surname 1";
+            this.txtSurname1.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.txtSurname1.DBField = null;
+            this.txtSurname1.DBFieldType = null;
+            this.txtSurname1.DefaultValue = null;
+            this.txtSurname1.Del = false;
+            this.txtSurname1.DependingRS = null;
+            this.txtSurname1.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.txtSurname1.ForeColor = System.Drawing.Color.Black;
+            this.txtSurname1.Location = new System.Drawing.Point(188, 74);
+            this.txtSurname1.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
+            this.txtSurname1.Multiline = true;
+            this.txtSurname1.Name = "txtSurname1";
+            this.txtSurname1.Order = 0;
+            this.txtSurname1.ParentConn = null;
+            this.txtSurname1.ParentDA = null;
+            this.txtSurname1.PK = false;
+            this.txtSurname1.Search = false;
+            this.txtSurname1.Size = new System.Drawing.Size(157, 24);
+            this.txtSurname1.Status = CommonTools.EnumStatus.ADDNEW;
+            this.txtSurname1.TabIndex = 4;
+            this.txtSurname1.Upp = false;
+            this.txtSurname1.Value = "";
+            // 
+            // txtName
+            // 
+            this.txtName.Add = false;
+            this.txtName.BackColor = System.Drawing.Color.White;
+            this.txtName.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtName.Caption = "Name";
+            this.txtName.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.txtName.DBField = null;
+            this.txtName.DBFieldType = null;
+            this.txtName.DefaultValue = null;
+            this.txtName.Del = false;
+            this.txtName.DependingRS = null;
+            this.txtName.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.txtName.ForeColor = System.Drawing.Color.Black;
+            this.txtName.Location = new System.Drawing.Point(23, 74);
+            this.txtName.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
+            this.txtName.Multiline = true;
+            this.txtName.Name = "txtName";
+            this.txtName.Order = 0;
+            this.txtName.ParentConn = null;
+            this.txtName.ParentDA = null;
+            this.txtName.PK = false;
+            this.txtName.Search = false;
+            this.txtName.Size = new System.Drawing.Size(157, 24);
+            this.txtName.Status = CommonTools.EnumStatus.ADDNEW;
+            this.txtName.TabIndex = 3;
+            this.txtName.Upp = false;
+            this.txtName.Value = "";
+            // 
+            // txtUserCode
+            // 
+            this.txtUserCode.Add = false;
+            this.txtUserCode.BackColor = System.Drawing.Color.White;
+            this.txtUserCode.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtUserCode.Caption = "UserCode";
+            this.txtUserCode.CharacterCasing = System.Windows.Forms.CharacterCasing.Lower;
+            this.txtUserCode.DBField = null;
+            this.txtUserCode.DBFieldType = null;
+            this.txtUserCode.DefaultValue = null;
+            this.txtUserCode.Del = false;
+            this.txtUserCode.DependingRS = null;
+            this.txtUserCode.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.txtUserCode.ForeColor = System.Drawing.Color.Black;
+            this.txtUserCode.Location = new System.Drawing.Point(23, 29);
+            this.txtUserCode.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
+            this.txtUserCode.Multiline = true;
+            this.txtUserCode.Name = "txtUserCode";
+            this.txtUserCode.Order = 0;
+            this.txtUserCode.ParentConn = null;
+            this.txtUserCode.ParentDA = null;
+            this.txtUserCode.PK = false;
+            this.txtUserCode.Search = false;
+            this.txtUserCode.Size = new System.Drawing.Size(130, 24);
+            this.txtUserCode.Status = CommonTools.EnumStatus.ADDNEW;
+            this.txtUserCode.TabIndex = 1;
+            this.txtUserCode.Upp = false;
+            this.txtUserCode.Value = "";
+            // 
             // groupBox2
             // 
             this.groupBox2.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.groupBox2.Controls.Add(this.cboPositionLevel);
+            this.groupBox2.Controls.Add(this.txtPosition);
+            this.groupBox2.Controls.Add(this.cboSecurityLevel);
             this.groupBox2.Controls.Add(this.txtDesCod3);
             this.groupBox2.Controls.Add(this.cboCOD3);
             this.groupBox2.Controls.Add(this.listCOD3);
-            this.groupBox2.Controls.Add(this.cboZone);
+            this.groupBox2.Controls.Add(this.cboPosition);
             this.groupBox2.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
             this.groupBox2.Location = new System.Drawing.Point(16, 161);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox2.Size = new System.Drawing.Size(528, 283);
+            this.groupBox2.Size = new System.Drawing.Size(528, 316);
             this.groupBox2.TabIndex = 147;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Where";
+            // 
+            // txtDesCod3
+            // 
+            this.txtDesCod3.Add = false;
+            this.txtDesCod3.BackColor = System.Drawing.Color.White;
+            this.txtDesCod3.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtDesCod3.Caption = "";
+            this.txtDesCod3.DBField = null;
+            this.txtDesCod3.DBFieldType = null;
+            this.txtDesCod3.DefaultValue = null;
+            this.txtDesCod3.Del = false;
+            this.txtDesCod3.DependingRS = null;
+            this.txtDesCod3.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.txtDesCod3.ForeColor = System.Drawing.Color.Black;
+            this.txtDesCod3.Location = new System.Drawing.Point(167, 37);
+            this.txtDesCod3.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
+            this.txtDesCod3.Multiline = true;
+            this.txtDesCod3.Name = "txtDesCod3";
+            this.txtDesCod3.Order = 0;
+            this.txtDesCod3.ParentConn = null;
+            this.txtDesCod3.ParentDA = null;
+            this.txtDesCod3.PK = false;
+            this.txtDesCod3.Search = false;
+            this.txtDesCod3.Size = new System.Drawing.Size(338, 24);
+            this.txtDesCod3.Status = CommonTools.EnumStatus.ADDNEW;
+            this.txtDesCod3.TabIndex = 116;
+            this.txtDesCod3.TabStop = false;
+            this.txtDesCod3.Upp = false;
+            this.txtDesCod3.Value = "";
+            // 
+            // cboCOD3
+            // 
+            this.cboCOD3.Add = false;
+            this.cboCOD3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboCOD3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboCOD3.BackColor = System.Drawing.Color.White;
+            this.cboCOD3.Caption = "Main COD3";
+            this.cboCOD3.DBField = null;
+            this.cboCOD3.DBFieldType = null;
+            this.cboCOD3.DefaultValue = null;
+            this.cboCOD3.Del = false;
+            this.cboCOD3.DependingRS = null;
+            this.cboCOD3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cboCOD3.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.cboCOD3.ForeColor = System.Drawing.Color.Black;
+            this.cboCOD3.FormattingEnabled = true;
+            this.cboCOD3.Location = new System.Drawing.Point(23, 37);
+            this.cboCOD3.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
+            this.cboCOD3.Name = "cboCOD3";
+            this.cboCOD3.Order = 0;
+            this.cboCOD3.ParentConn = null;
+            this.cboCOD3.ParentDA = null;
+            this.cboCOD3.PK = false;
+            this.cboCOD3.Search = true;
+            this.cboCOD3.Size = new System.Drawing.Size(138, 24);
+            this.cboCOD3.Status = CommonTools.EnumStatus.SEARCH;
+            this.cboCOD3.TabIndex = 6;
+            this.cboCOD3.TBDescription = null;
+            this.cboCOD3.Upp = true;
+            this.cboCOD3.Value = "";
+            // 
+            // listCOD3
+            // 
+            this.listCOD3.Add = false;
+            this.listCOD3.BackColor = System.Drawing.Color.White;
+            this.listCOD3.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.listCOD3.Caption = "COD3";
+            this.listCOD3.CheckOnClick = true;
+            this.listCOD3.ColumnWidth = 165;
+            this.listCOD3.DBField = null;
+            this.listCOD3.DBFieldType = null;
+            this.listCOD3.DefaultValue = null;
+            this.listCOD3.Del = false;
+            this.listCOD3.DependingRS = null;
+            this.listCOD3.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.listCOD3.ForeColor = System.Drawing.Color.Black;
+            this.listCOD3.FormattingEnabled = true;
+            this.listCOD3.Location = new System.Drawing.Point(23, 80);
+            this.listCOD3.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
+            this.listCOD3.MultiColumn = true;
+            this.listCOD3.Name = "listCOD3";
+            this.listCOD3.Order = 0;
+            this.listCOD3.ParentConn = null;
+            this.listCOD3.ParentDA = null;
+            this.listCOD3.PK = false;
+            this.listCOD3.Search = false;
+            this.listCOD3.Size = new System.Drawing.Size(482, 133);
+            this.listCOD3.Status = CommonTools.EnumStatus.ADDNEW;
+            this.listCOD3.TabIndex = 7;
+            this.listCOD3.Upp = false;
+            this.listCOD3.Value = "";
+            // 
+            // cboPosition
+            // 
+            this.cboPosition.Add = false;
+            this.cboPosition.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboPosition.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboPosition.BackColor = System.Drawing.Color.White;
+            this.cboPosition.Caption = "Position";
+            this.cboPosition.DBField = null;
+            this.cboPosition.DBFieldType = null;
+            this.cboPosition.DefaultValue = null;
+            this.cboPosition.Del = false;
+            this.cboPosition.DependingRS = null;
+            this.cboPosition.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cboPosition.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.cboPosition.ForeColor = System.Drawing.Color.Black;
+            this.cboPosition.FormattingEnabled = true;
+            this.cboPosition.Location = new System.Drawing.Point(23, 232);
+            this.cboPosition.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
+            this.cboPosition.Name = "cboPosition";
+            this.cboPosition.Order = 0;
+            this.cboPosition.ParentConn = null;
+            this.cboPosition.ParentDA = null;
+            this.cboPosition.PK = false;
+            this.cboPosition.Search = false;
+            this.cboPosition.Size = new System.Drawing.Size(103, 24);
+            this.cboPosition.Status = CommonTools.EnumStatus.ADDNEW;
+            this.cboPosition.TabIndex = 8;
+            this.cboPosition.TBDescription = null;
+            this.cboPosition.Upp = false;
+            this.cboPosition.Value = "";
             // 
             // groupBox3
             // 
@@ -98,42 +376,13 @@
             this.groupBox3.Controls.Add(this.lstFlags);
             this.groupBox3.Controls.Add(this.txtPWD);
             this.groupBox3.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-            this.groupBox3.Location = new System.Drawing.Point(16, 450);
+            this.groupBox3.Location = new System.Drawing.Point(16, 493);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox3.Size = new System.Drawing.Size(528, 244);
+            this.groupBox3.Size = new System.Drawing.Size(528, 242);
             this.groupBox3.TabIndex = 153;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Systems data";
-            // 
-            // lstEmailAliases
-            // 
-            this.lstEmailAliases.Add = false;
-            this.lstEmailAliases.BackColor = System.Drawing.Color.White;
-            this.lstEmailAliases.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.lstEmailAliases.Caption = "";
-            this.lstEmailAliases.CheckOnClick = true;
-            this.lstEmailAliases.DBField = null;
-            this.lstEmailAliases.DBFieldType = null;
-            this.lstEmailAliases.DefaultValue = null;
-            this.lstEmailAliases.Del = false;
-            this.lstEmailAliases.DependingRS = null;
-            this.lstEmailAliases.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.lstEmailAliases.ForeColor = System.Drawing.Color.Black;
-            this.lstEmailAliases.FormattingEnabled = true;
-            this.lstEmailAliases.Location = new System.Drawing.Point(550, 48);
-            this.lstEmailAliases.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
-            this.lstEmailAliases.Name = "lstEmailAliases";
-            this.lstEmailAliases.Order = 0;
-            this.lstEmailAliases.ParentConn = null;
-            this.lstEmailAliases.ParentDA = null;
-            this.lstEmailAliases.PK = false;
-            this.lstEmailAliases.Search = false;
-            this.lstEmailAliases.Size = new System.Drawing.Size(292, 646);
-            this.lstEmailAliases.Status = CommonTools.EnumStatus.ADDNEW;
-            this.lstEmailAliases.TabIndex = 15;
-            this.lstEmailAliases.Upp = false;
-            this.lstEmailAliases.Value = "";
             // 
             // txtEmail
             // 
@@ -354,277 +603,34 @@
             this.txtPWD.Upp = false;
             this.txtPWD.Value = "";
             // 
-            // txtDesCod3
+            // lstEmailAliases
             // 
-            this.txtDesCod3.Add = false;
-            this.txtDesCod3.BackColor = System.Drawing.Color.White;
-            this.txtDesCod3.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtDesCod3.Caption = "";
-            this.txtDesCod3.DBField = null;
-            this.txtDesCod3.DBFieldType = null;
-            this.txtDesCod3.DefaultValue = null;
-            this.txtDesCod3.Del = false;
-            this.txtDesCod3.DependingRS = null;
-            this.txtDesCod3.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtDesCod3.ForeColor = System.Drawing.Color.Black;
-            this.txtDesCod3.Location = new System.Drawing.Point(167, 37);
-            this.txtDesCod3.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
-            this.txtDesCod3.Multiline = true;
-            this.txtDesCod3.Name = "txtDesCod3";
-            this.txtDesCod3.Order = 0;
-            this.txtDesCod3.ParentConn = null;
-            this.txtDesCod3.ParentDA = null;
-            this.txtDesCod3.PK = false;
-            this.txtDesCod3.Search = false;
-            this.txtDesCod3.Size = new System.Drawing.Size(338, 24);
-            this.txtDesCod3.Status = CommonTools.EnumStatus.ADDNEW;
-            this.txtDesCod3.TabIndex = 116;
-            this.txtDesCod3.TabStop = false;
-            this.txtDesCod3.Upp = false;
-            this.txtDesCod3.Value = "";
-            // 
-            // cboCOD3
-            // 
-            this.cboCOD3.Add = false;
-            this.cboCOD3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.cboCOD3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cboCOD3.BackColor = System.Drawing.Color.White;
-            this.cboCOD3.Caption = "Main COD3";
-            this.cboCOD3.DBField = null;
-            this.cboCOD3.DBFieldType = null;
-            this.cboCOD3.DefaultValue = null;
-            this.cboCOD3.Del = false;
-            this.cboCOD3.DependingRS = null;
-            this.cboCOD3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cboCOD3.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.cboCOD3.ForeColor = System.Drawing.Color.Black;
-            this.cboCOD3.FormattingEnabled = true;
-            this.cboCOD3.Location = new System.Drawing.Point(23, 37);
-            this.cboCOD3.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
-            this.cboCOD3.Name = "cboCOD3";
-            this.cboCOD3.Order = 0;
-            this.cboCOD3.ParentConn = null;
-            this.cboCOD3.ParentDA = null;
-            this.cboCOD3.PK = false;
-            this.cboCOD3.Search = true;
-            this.cboCOD3.Size = new System.Drawing.Size(138, 24);
-            this.cboCOD3.Status = CommonTools.EnumStatus.SEARCH;
-            this.cboCOD3.TabIndex = 6;
-            this.cboCOD3.TBDescription = null;
-            this.cboCOD3.Upp = true;
-            this.cboCOD3.Value = "";
-            // 
-            // listCOD3
-            // 
-            this.listCOD3.Add = false;
-            this.listCOD3.BackColor = System.Drawing.Color.White;
-            this.listCOD3.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.listCOD3.Caption = "COD3";
-            this.listCOD3.CheckOnClick = true;
-            this.listCOD3.ColumnWidth = 165;
-            this.listCOD3.DBField = null;
-            this.listCOD3.DBFieldType = null;
-            this.listCOD3.DefaultValue = null;
-            this.listCOD3.Del = false;
-            this.listCOD3.DependingRS = null;
-            this.listCOD3.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.listCOD3.ForeColor = System.Drawing.Color.Black;
-            this.listCOD3.FormattingEnabled = true;
-            this.listCOD3.Location = new System.Drawing.Point(23, 80);
-            this.listCOD3.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
-            this.listCOD3.MultiColumn = true;
-            this.listCOD3.Name = "listCOD3";
-            this.listCOD3.Order = 0;
-            this.listCOD3.ParentConn = null;
-            this.listCOD3.ParentDA = null;
-            this.listCOD3.PK = false;
-            this.listCOD3.Search = false;
-            this.listCOD3.Size = new System.Drawing.Size(482, 133);
-            this.listCOD3.Status = CommonTools.EnumStatus.ADDNEW;
-            this.listCOD3.TabIndex = 7;
-            this.listCOD3.Upp = false;
-            this.listCOD3.Value = "";
-            // 
-            // cboZone
-            // 
-            this.cboZone.Add = false;
-            this.cboZone.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.cboZone.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cboZone.BackColor = System.Drawing.Color.White;
-            this.cboZone.Caption = "Zone";
-            this.cboZone.DBField = null;
-            this.cboZone.DBFieldType = null;
-            this.cboZone.DefaultValue = null;
-            this.cboZone.Del = false;
-            this.cboZone.DependingRS = null;
-            this.cboZone.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cboZone.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.cboZone.ForeColor = System.Drawing.Color.Black;
-            this.cboZone.FormattingEnabled = true;
-            this.cboZone.Location = new System.Drawing.Point(23, 240);
-            this.cboZone.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
-            this.cboZone.Name = "cboZone";
-            this.cboZone.Order = 0;
-            this.cboZone.ParentConn = null;
-            this.cboZone.ParentDA = null;
-            this.cboZone.PK = false;
-            this.cboZone.Search = false;
-            this.cboZone.Size = new System.Drawing.Size(482, 24);
-            this.cboZone.Status = CommonTools.EnumStatus.ADDNEW;
-            this.cboZone.TabIndex = 8;
-            this.cboZone.TBDescription = null;
-            this.cboZone.Upp = false;
-            this.cboZone.Value = "";
-            // 
-            // txtUserNumber
-            // 
-            this.txtUserNumber.Add = false;
-            this.txtUserNumber.AllowSpace = false;
-            this.txtUserNumber.BackColor = System.Drawing.Color.White;
-            this.txtUserNumber.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtUserNumber.Caption = "UserNumber";
-            this.txtUserNumber.DBField = null;
-            this.txtUserNumber.DBFieldType = null;
-            this.txtUserNumber.DefaultValue = null;
-            this.txtUserNumber.Del = false;
-            this.txtUserNumber.DependingRS = null;
-            this.txtUserNumber.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtUserNumber.ForeColor = System.Drawing.Color.Black;
-            this.txtUserNumber.Length = 0;
-            this.txtUserNumber.Location = new System.Drawing.Point(405, 29);
-            this.txtUserNumber.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
-            this.txtUserNumber.Mask = false;
-            this.txtUserNumber.Multiline = true;
-            this.txtUserNumber.Name = "txtUserNumber";
-            this.txtUserNumber.Order = 0;
-            this.txtUserNumber.ParentConn = null;
-            this.txtUserNumber.ParentDA = null;
-            this.txtUserNumber.PK = false;
-            this.txtUserNumber.Precision = 0;
-            this.txtUserNumber.Search = false;
-            this.txtUserNumber.Size = new System.Drawing.Size(100, 24);
-            this.txtUserNumber.Status = CommonTools.EnumStatus.ADDNEW;
-            this.txtUserNumber.TabIndex = 2;
-            this.txtUserNumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.txtUserNumber.ThousandsGroup = false;
-            this.txtUserNumber.Upp = false;
-            this.txtUserNumber.Value = null;
-            // 
-            // txtSurname2
-            // 
-            this.txtSurname2.Add = false;
-            this.txtSurname2.BackColor = System.Drawing.Color.White;
-            this.txtSurname2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtSurname2.Caption = "Surname 2";
-            this.txtSurname2.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.txtSurname2.DBField = null;
-            this.txtSurname2.DBFieldType = null;
-            this.txtSurname2.DefaultValue = null;
-            this.txtSurname2.Del = false;
-            this.txtSurname2.DependingRS = null;
-            this.txtSurname2.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtSurname2.ForeColor = System.Drawing.Color.Black;
-            this.txtSurname2.Location = new System.Drawing.Point(351, 74);
-            this.txtSurname2.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
-            this.txtSurname2.Multiline = true;
-            this.txtSurname2.Name = "txtSurname2";
-            this.txtSurname2.Order = 0;
-            this.txtSurname2.ParentConn = null;
-            this.txtSurname2.ParentDA = null;
-            this.txtSurname2.PK = false;
-            this.txtSurname2.Search = false;
-            this.txtSurname2.Size = new System.Drawing.Size(157, 24);
-            this.txtSurname2.Status = CommonTools.EnumStatus.ADDNEW;
-            this.txtSurname2.TabIndex = 5;
-            this.txtSurname2.Upp = false;
-            this.txtSurname2.Value = "";
-            // 
-            // txtSurname1
-            // 
-            this.txtSurname1.Add = false;
-            this.txtSurname1.BackColor = System.Drawing.Color.White;
-            this.txtSurname1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtSurname1.Caption = "Surname 1";
-            this.txtSurname1.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.txtSurname1.DBField = null;
-            this.txtSurname1.DBFieldType = null;
-            this.txtSurname1.DefaultValue = null;
-            this.txtSurname1.Del = false;
-            this.txtSurname1.DependingRS = null;
-            this.txtSurname1.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtSurname1.ForeColor = System.Drawing.Color.Black;
-            this.txtSurname1.Location = new System.Drawing.Point(188, 74);
-            this.txtSurname1.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
-            this.txtSurname1.Multiline = true;
-            this.txtSurname1.Name = "txtSurname1";
-            this.txtSurname1.Order = 0;
-            this.txtSurname1.ParentConn = null;
-            this.txtSurname1.ParentDA = null;
-            this.txtSurname1.PK = false;
-            this.txtSurname1.Search = false;
-            this.txtSurname1.Size = new System.Drawing.Size(157, 24);
-            this.txtSurname1.Status = CommonTools.EnumStatus.ADDNEW;
-            this.txtSurname1.TabIndex = 4;
-            this.txtSurname1.Upp = false;
-            this.txtSurname1.Value = "";
-            // 
-            // txtName
-            // 
-            this.txtName.Add = false;
-            this.txtName.BackColor = System.Drawing.Color.White;
-            this.txtName.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtName.Caption = "Name";
-            this.txtName.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.txtName.DBField = null;
-            this.txtName.DBFieldType = null;
-            this.txtName.DefaultValue = null;
-            this.txtName.Del = false;
-            this.txtName.DependingRS = null;
-            this.txtName.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtName.ForeColor = System.Drawing.Color.Black;
-            this.txtName.Location = new System.Drawing.Point(23, 74);
-            this.txtName.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
-            this.txtName.Multiline = true;
-            this.txtName.Name = "txtName";
-            this.txtName.Order = 0;
-            this.txtName.ParentConn = null;
-            this.txtName.ParentDA = null;
-            this.txtName.PK = false;
-            this.txtName.Search = false;
-            this.txtName.Size = new System.Drawing.Size(157, 24);
-            this.txtName.Status = CommonTools.EnumStatus.ADDNEW;
-            this.txtName.TabIndex = 3;
-            this.txtName.Upp = false;
-            this.txtName.Value = "";
-            // 
-            // txtUserCode
-            // 
-            this.txtUserCode.Add = false;
-            this.txtUserCode.BackColor = System.Drawing.Color.White;
-            this.txtUserCode.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtUserCode.Caption = "UserCode";
-            this.txtUserCode.CharacterCasing = System.Windows.Forms.CharacterCasing.Lower;
-            this.txtUserCode.DBField = null;
-            this.txtUserCode.DBFieldType = null;
-            this.txtUserCode.DefaultValue = null;
-            this.txtUserCode.Del = false;
-            this.txtUserCode.DependingRS = null;
-            this.txtUserCode.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtUserCode.ForeColor = System.Drawing.Color.Black;
-            this.txtUserCode.Location = new System.Drawing.Point(23, 29);
-            this.txtUserCode.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
-            this.txtUserCode.Multiline = true;
-            this.txtUserCode.Name = "txtUserCode";
-            this.txtUserCode.Order = 0;
-            this.txtUserCode.ParentConn = null;
-            this.txtUserCode.ParentDA = null;
-            this.txtUserCode.PK = false;
-            this.txtUserCode.Search = false;
-            this.txtUserCode.Size = new System.Drawing.Size(130, 24);
-            this.txtUserCode.Status = CommonTools.EnumStatus.ADDNEW;
-            this.txtUserCode.TabIndex = 1;
-            this.txtUserCode.Upp = false;
-            this.txtUserCode.Value = "";
+            this.lstEmailAliases.Add = false;
+            this.lstEmailAliases.BackColor = System.Drawing.Color.White;
+            this.lstEmailAliases.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.lstEmailAliases.Caption = "";
+            this.lstEmailAliases.CheckOnClick = true;
+            this.lstEmailAliases.DBField = null;
+            this.lstEmailAliases.DBFieldType = null;
+            this.lstEmailAliases.DefaultValue = null;
+            this.lstEmailAliases.Del = false;
+            this.lstEmailAliases.DependingRS = null;
+            this.lstEmailAliases.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.lstEmailAliases.ForeColor = System.Drawing.Color.Black;
+            this.lstEmailAliases.FormattingEnabled = true;
+            this.lstEmailAliases.Location = new System.Drawing.Point(550, 48);
+            this.lstEmailAliases.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
+            this.lstEmailAliases.Name = "lstEmailAliases";
+            this.lstEmailAliases.Order = 0;
+            this.lstEmailAliases.ParentConn = null;
+            this.lstEmailAliases.ParentDA = null;
+            this.lstEmailAliases.PK = false;
+            this.lstEmailAliases.Search = false;
+            this.lstEmailAliases.Size = new System.Drawing.Size(292, 684);
+            this.lstEmailAliases.Status = CommonTools.EnumStatus.ADDNEW;
+            this.lstEmailAliases.TabIndex = 15;
+            this.lstEmailAliases.Upp = false;
+            this.lstEmailAliases.Value = "";
             // 
             // CTLM
             // 
@@ -646,12 +652,103 @@
             this.CTLM.TabIndex = 0;
             this.CTLM.Text = "ctlMantenimientoNet1";
             // 
+            // cboSecurityLevel
+            // 
+            this.cboSecurityLevel.Add = false;
+            this.cboSecurityLevel.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboSecurityLevel.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboSecurityLevel.BackColor = System.Drawing.Color.White;
+            this.cboSecurityLevel.Caption = "Security Level";
+            this.cboSecurityLevel.DBField = null;
+            this.cboSecurityLevel.DBFieldType = null;
+            this.cboSecurityLevel.DefaultValue = null;
+            this.cboSecurityLevel.Del = false;
+            this.cboSecurityLevel.DependingRS = null;
+            this.cboSecurityLevel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cboSecurityLevel.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.cboSecurityLevel.ForeColor = System.Drawing.Color.Black;
+            this.cboSecurityLevel.FormattingEnabled = true;
+            this.cboSecurityLevel.Location = new System.Drawing.Point(405, 276);
+            this.cboSecurityLevel.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
+            this.cboSecurityLevel.Name = "cboSecurityLevel";
+            this.cboSecurityLevel.Order = 0;
+            this.cboSecurityLevel.ParentConn = null;
+            this.cboSecurityLevel.ParentDA = null;
+            this.cboSecurityLevel.PK = false;
+            this.cboSecurityLevel.Search = false;
+            this.cboSecurityLevel.Size = new System.Drawing.Size(100, 24);
+            this.cboSecurityLevel.Status = CommonTools.EnumStatus.ADDNEW;
+            this.cboSecurityLevel.TabIndex = 122;
+            this.cboSecurityLevel.TBDescription = null;
+            this.cboSecurityLevel.Upp = false;
+            this.cboSecurityLevel.Value = "";
+            // 
+            // txtPosition
+            // 
+            this.txtPosition.Add = false;
+            this.txtPosition.BackColor = System.Drawing.Color.White;
+            this.txtPosition.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtPosition.Caption = "";
+            this.txtPosition.DBField = null;
+            this.txtPosition.DBFieldType = null;
+            this.txtPosition.DefaultValue = null;
+            this.txtPosition.Del = false;
+            this.txtPosition.DependingRS = null;
+            this.txtPosition.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.txtPosition.ForeColor = System.Drawing.Color.Black;
+            this.txtPosition.Location = new System.Drawing.Point(132, 232);
+            this.txtPosition.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
+            this.txtPosition.Multiline = true;
+            this.txtPosition.Name = "txtPosition";
+            this.txtPosition.Order = 0;
+            this.txtPosition.ParentConn = null;
+            this.txtPosition.ParentDA = null;
+            this.txtPosition.PK = false;
+            this.txtPosition.Search = false;
+            this.txtPosition.Size = new System.Drawing.Size(376, 24);
+            this.txtPosition.Status = CommonTools.EnumStatus.ADDNEW;
+            this.txtPosition.TabIndex = 124;
+            this.txtPosition.TabStop = false;
+            this.txtPosition.Upp = false;
+            this.txtPosition.Value = "";
+            // 
+            // cboPositionLevel
+            // 
+            this.cboPositionLevel.Add = false;
+            this.cboPositionLevel.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboPositionLevel.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboPositionLevel.BackColor = System.Drawing.Color.White;
+            this.cboPositionLevel.Caption = "Position Level";
+            this.cboPositionLevel.DBField = null;
+            this.cboPositionLevel.DBFieldType = null;
+            this.cboPositionLevel.DefaultValue = null;
+            this.cboPositionLevel.Del = false;
+            this.cboPositionLevel.DependingRS = null;
+            this.cboPositionLevel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cboPositionLevel.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.cboPositionLevel.ForeColor = System.Drawing.Color.Black;
+            this.cboPositionLevel.FormattingEnabled = true;
+            this.cboPositionLevel.Location = new System.Drawing.Point(23, 275);
+            this.cboPositionLevel.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
+            this.cboPositionLevel.Name = "cboPositionLevel";
+            this.cboPositionLevel.Order = 0;
+            this.cboPositionLevel.ParentConn = null;
+            this.cboPositionLevel.ParentDA = null;
+            this.cboPositionLevel.PK = false;
+            this.cboPositionLevel.Search = false;
+            this.cboPositionLevel.Size = new System.Drawing.Size(103, 24);
+            this.cboPositionLevel.Status = CommonTools.EnumStatus.ADDNEW;
+            this.cboPositionLevel.TabIndex = 126;
+            this.cboPositionLevel.TBDescription = null;
+            this.cboPositionLevel.Upp = false;
+            this.cboPositionLevel.Value = "";
+            // 
             // fUsers
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(1264, 747);
+            this.ClientSize = new System.Drawing.Size(1264, 773);
             this.Controls.Add(this.lstEmailAliases);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -682,7 +779,7 @@
         private EspackFormControls.EspackTextBox txtDesCod3;
         private EspackFormControls.EspackComboBox cboCOD3;
         private EspackFormControls.EspackCheckedListBox listCOD3;
-        private EspackFormControls.EspackComboBox cboZone;
+        private EspackFormControls.EspackComboBox cboPosition;
         private System.Windows.Forms.GroupBox groupBox3;
         private EspackFormControls.EspackCheckedListBox lstFlags;
         private EspackFormControls.EspackTextBox txtPWD;
@@ -695,5 +792,8 @@
         private EspackFormControls.EspackComboBox cboDomain;
         private EspackFormControls.EspackTextBox txtEmail;
         private EspackFormControls.EspackCheckedListBox lstEmailAliases;
+        private EspackFormControls.EspackComboBox cboSecurityLevel;
+        private EspackFormControls.EspackTextBox txtPosition;
+        private EspackFormControls.EspackComboBox cboPositionLevel;
     }
 }

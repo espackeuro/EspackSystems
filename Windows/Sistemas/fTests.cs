@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Owncloud;
+
 
 namespace Sistemas
 {
@@ -27,10 +27,10 @@ namespace Sistemas
             //var ocCommand = new OCAddToGroup("fnastasie", "test");
             //var ocCommand = new OCAddGroup("test");
             //var ocCommand = new OCGetGroupUsers("test");
-            var ocCommand = new OCGetGroups();
-            ocCommand.setCredentials("admin", "*hwLD8e*");
-            await ocCommand.sendRequest();
-            var result = ocCommand.responseX;
+            //var ocCommand = new OCGetGroups();
+            //ocCommand.setCredentials("admin", "*hwLD8e*");
+            //await ocCommand.sendRequest();
+            //var result = ocCommand.responseX;
         }
     }
 }

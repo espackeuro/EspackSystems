@@ -2,15 +2,12 @@
 using CommonTools;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using CommonToolsWin;
 using System.Reflection;
+using System.Security;
+using MasterClass;
 
 namespace Sistemas
 {
@@ -30,6 +27,9 @@ namespace Sistemas
             Values.gDatos.Server = espackArgs.Server;
             Values.gDatos.User = espackArgs.User;
             Values.gDatos.Password = espackArgs.Password;
+            Values.gMasterPassword = MasterPassword.Master;
+            Values.gOldMaster = "Y?D6d#b@".ToSecureString();
+            Values.gDatos.context_info = MasterPassword.MasterBytes;
             this.Text = string.Format("Sistemas Build {0} - ({1:yyyyMMdd})*", Assembly.GetExecutingAssembly().GetName().Version.ToString(), CT.GetBuildDateTime(Assembly.GetExecutingAssembly()));
             try
             {
@@ -39,10 +39,46 @@ namespace Sistemas
                 MessageBox.Show("Error connecting to database: "+e.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
             }
+            //lets get user position and security level
+            using (var _sp=new SP(Values.gDatos,"pUsersGetPositionAndSecurityLevel"))
+            {
+                try
+                {
+                    _sp.AddParameterValue("@UserCode", Values.gDatos.User);
+                    _sp.Execute();
+                    Values.SecurityLevel = Convert.ToInt32(_sp.ReturnValues()["@SecurityLevel"]);
+                    Values.Position = _sp.ReturnValues()["@Position"].ToString();
+                    Values.FullName = _sp.ReturnValues()["@FullName"].ToString();
+                } catch (Exception ex)
+                {
+                    MessageBox.Show("Error getting security data: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Application.Exit();
+                }
+            }
+            AddStatusStip();
+            MessageBox.Show(string.Format("Welcome {0} {1}, your level access is {2}",Values.Position, Values.FullName, Values.SecurityLevel));
             Values.gDatos.Close();
         }
 
+        public void AddStatusStip()
+        {
+            var mDefaultStatusStrip = new StatusStrip();
+            //SizeType lSize = new SizeType(118, 17);
+            var Panel1 = new ToolStripStatusLabel(Values.FullName) { AutoSize = true };
+            mDefaultStatusStrip.Items.Add(Panel1);
+            mDefaultStatusStrip.Items.Add(new ToolStripSeparator());
 
+            var Panel2 = new ToolStripStatusLabel(Values.SecurityLevel.ToString()) { AutoSize = true };
+            mDefaultStatusStrip.Items.Add(Panel2);
+            mDefaultStatusStrip.Items.Add(new ToolStripSeparator());
+
+            //var Panel3 = new ToolStripStatusLabel("") { AutoSize = true };
+            //mDefaultStatusStrip.Items.Add(Panel3);
+            //mDefaultStatusStrip.Items.Add(new ToolStripSeparator());
+
+            Controls.Add(mDefaultStatusStrip);
+            KeyPreview = true;
+        }
         private void mnuTowns_Click(object sender, EventArgs e)
         {
             fTown fTown = (fTown)GetChildInstance("fTown"); 
@@ -112,47 +148,47 @@ namespace Sistemas
         {
         }
 
-        private void btnMaster_Click(object sender, EventArgs e)
-        {
-            for (var i = 1; i < Application.OpenForms.Count; i++)
-            {
-                Application.OpenForms[i].Close();
-            }
-            if (Values.gDatos.context_info == null)
-            {
-                string lPwd = "";
-#if DEBUG
-                lPwd = "Y?D6d#b@";
-#endif
-                CTWin.InputBox("", "Enter Master Password", ref lPwd, true);
-                if (lPwd != "")
-                {
-                    var vbresult = new byte[128];
-                    cAccesoDatosNet lDatos = Values.gDatos.Clone();
-                    lDatos.DataBase = "SISTEMAS";
-                    SP lSP = new SP(lDatos, "pCheckContext");
-                    lSP.AddParameterValue("password", lPwd);
-                    lSP.AddParameterValue("Code", "MASTERPASSWORD");
-                    lSP.AddParameterValue("vbpassword", null);
-                    lSP.Execute();
-                    if (lSP.LastMsg != "OK")
-                    {
-                        MessageBox.Show(lSP.LastMsg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    else
-                    {
-                        vbresult = (byte[])lSP.ReturnValues()["@vbpassword"];
-                        Values.gDatos.context_info = vbresult;
-                        this.btnMaster.Image = global::Sistemas.Properties.Resources.unlock_24;
-                        Values.gMasterPassword = lPwd;
-                    }
-                }
-            } else
-            {
-                Values.gDatos.context_info = null;
-                this.btnMaster.Image = global::Sistemas.Properties.Resources.lock_24;
-            }
-        }
+//        private void btnMaster_Click(object sender, EventArgs e)
+//        {
+//            for (var i = 1; i < Application.OpenForms.Count; i++)
+//            {
+//                Application.OpenForms[i].Close();
+//            }
+//            if (Values.gDatos.context_info == null)
+//            {
+//                string lPwd = "";
+//#if DEBUG
+//                lPwd = "Y?D6d#b@";
+//#endif
+//                CTWin.InputBox("", "Enter Master Password", ref lPwd, true);
+//                if (lPwd != "")
+//                {
+//                    var vbresult = new byte[128];
+//                    cAccesoDatosNet lDatos = Values.gDatos.Clone();
+//                    lDatos.DataBase = "SISTEMAS";
+//                    SP lSP = new SP(lDatos, "pCheckContext");
+//                    lSP.AddParameterValue("password", lPwd);
+//                    lSP.AddParameterValue("Code", "MASTERPASSWORD");
+//                    lSP.AddParameterValue("vbpassword", null);
+//                    lSP.Execute();
+//                    if (lSP.LastMsg != "OK")
+//                    {
+//                        MessageBox.Show(lSP.LastMsg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+//                    }
+//                    else
+//                    {
+//                        vbresult = (byte[])lSP.ReturnValues()["@vbpassword"];
+//                        Values.gDatos.context_info = vbresult;
+//                        this.btnMaster.Image = global::Sistemas.Properties.Resources.unlock_24;
+//                        Values.gMasterPassword = lPwd;
+//                    }
+//                }
+//            } else
+//            {
+//                Values.gDatos.context_info = null;
+//                this.btnMaster.Image = global::Sistemas.Properties.Resources.lock_24;
+//            }
+//        }
 
 
 
@@ -211,7 +247,11 @@ namespace Sistemas
     public static class Values
     {
         public static cAccesoDatosNet gDatos = new cAccesoDatosNet();
-        public static string gMasterPassword = "";
+        public static SecureString gMasterPassword;
+        public static SecureString gOldMaster;
+        public static int SecurityLevel { get; set; }
+        public static string Position { get; set; }
+        public static string FullName { get; set; }
     }
 
 }

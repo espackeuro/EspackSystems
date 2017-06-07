@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CommonTools;
 using AccesoDatosNet;
-
+using MasterClass;
 
 namespace EspackSyncService
 {
@@ -18,7 +18,7 @@ namespace EspackSyncService
             Password = "*seso69*",
             DataBase = "SISTEMAS"
         };
-        public static byte[] MasterPassword = Encoding.Unicode.GetBytes("Y?D6d#b@");
+        public static byte[] MasterPassword = MasterClass.MasterPassword.MasterBytes;
         public static Dictionary<string, string> Servers = new Dictionary<string, string>();
         public static int PollingTime { get; set; } = 10;
         public static List<string> DomainList { get; set; }
@@ -40,7 +40,8 @@ namespace EspackSyncService
                 Values.Servers.Add(tupla[0], tupla[1]);
             });
             Values.gDatos.Server = Values.Servers["DATABASE"];
-            Values.gDatos.context_info = Values.MasterPassword;
+            Values.gDatos.context_info = MasterPassword.MasterBytes;
+            Values.gDatos.Connect();
             using (var _domains = new StaticRS("select domain from MAIL..domain where dbo.CheckFlag(flags,'FORWARD')=1 ", Values.gDatos))
             {
                 _domains.Open();
