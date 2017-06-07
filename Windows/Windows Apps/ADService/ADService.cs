@@ -51,18 +51,19 @@ namespace ADService
             }
             await AD.MoveUserToOU(UserCode, OU);
             var _localGroup = string.Format("{0}.{1}", Group, OU);
-            if (!await AD.CheckGroup(_localGroup))
+            var _Path = OU != "" ? string.Format("OU={0},{1}", OU, AD.DefaultPath) : AD.DefaultPath;
+            if (!await AD.CheckGroup(_localGroup, _Path))
             {
-                var _Path = OU != "" ? string.Format("OU={0},{1}", OU, AD.DefaultPath) : AD.DefaultPath;
-                await AD.CreateGroup(_localGroup, string.Format("{0} group", _localGroup), "Security", _Path);
+                //var _Path = OU != "" ? string.Format("OU={0},{1}", OU, AD.DefaultPath) : AD.DefaultPath;
+                await AD.CreateGroup(_localGroup, _localGroup, "Security", _Path, new Dictionary<string, string> { { "mail", string.Format("{0}@espackeuro.com", _localGroup) } });
                 //await ADControlClass.MoveGroupToOU(_localGroup, OU);
             }
-            await AD.AddUserToGroup(UserCode, _localGroup);
-            if (!await AD.CheckGroup(Group))
+            await AD.AddUserToGroup(UserCode, _localGroup, GroupPath: _Path);
+            if (!await AD.CheckGroup(Group, AD.DefaultPath))
             {
-                await AD.CreateGroup(Group, string.Format("{0} group", Group), "Security", AD.DefaultPath);
+                await AD.CreateGroup(Group, Group, "Security", AD.DefaultPath);
             }
-            await AD.AddUserToGroup(UserCode, Group);
+            await AD.AddUserToGroup(UserCode, Group, GroupPath: AD.DefaultPath);
         }
 
         public async Task<bool> Insert(EspackUser User)
@@ -107,7 +108,7 @@ namespace ADService
                 {
                     if (User.Flags.Contains("NEXTCLOUD"))
                     {
-                        await AD.AddUserToGroup(User.UserCode, "nextCloud");
+                        await AD.AddUserToGroup(User.UserCode, "NextCloud Users", GroupPath: AD.DefaultPath);
                     }
                 }
                 if (User.Aliases != null)

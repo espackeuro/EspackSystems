@@ -255,6 +255,10 @@
     <None Include="Resources\unlock.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Management\MasterClass\MasterClass.csproj">
+      <Project>{f1a54468-3469-49be-b025-a9469925744c}</Project>
+      <Name>MasterClass</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Database and tools\cAccesoDatos.NET\cAccesoDatosNet.csproj">
       <Project>{d3e453aa-39b7-480f-8917-6d7f5076c3ed}</Project>
       <Name>cAccesoDatosNet</Name>
@@ -282,10 +286,6 @@
     <ProjectReference Include="..\..\EspackControls\EspackFormControls\EspackFormControls.csproj">
       <Project>{70432336-f038-4ef1-af04-012ae8e6c009}</Project>
       <Name>EspackFormControls</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Network Libraries\Owncloud\Owncloud.csproj">
-      <Project>{0f193f80-9610-4020-8974-9aaa02bd1ca8}</Project>
-      <Name>Owncloud</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Network Libraries\Renci.SshNet\Renci.SshNet.csproj">
       <Project>{2f5f8c90-0bd1-424f-997c-7bc6280919d1}</Project>

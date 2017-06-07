@@ -183,15 +183,15 @@ namespace AccesoDatosNet
                     SqlParameter param = new SqlParameter();
                     param.ParameterName = "@C";
                     param.DbType = DbType.Binary;
-                    param.Size = 127;
+                    param.Size = 128;
                     param.Value = context_info;
                     cmd.Parameters.Add(param);
                     cmd.ExecuteNonQuery();
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
 
         }

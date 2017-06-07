@@ -8,7 +8,6 @@ using System.Text;
 using System.IO;
 using System.Collections.Generic;
 using System.Net.Http.Headers;
-using Owncloud;
 using System.Threading.Tasks;
 using System.Linq;
 using EspackFormControls;
@@ -38,7 +37,9 @@ namespace Sistemas
             CTLM.AddItem(cboCOD3, "MainCOD3", true, true, false, 1,false, true);
             CTLM.AddItem(txtDesCod3, "desCOD3");
             CTLM.AddItem(listCOD3, "COD3", true, true, false, 1, false, true);
-            CTLM.AddItem(cboZone, "Zone", true, true, false, 1, false, true);
+            CTLM.AddItem(cboPosition, "Position", true, true, false, 1, false, true);
+            CTLM.AddItem(cboPositionLevel, "PositionLevel", false, true, false, 0, false, true);
+            CTLM.AddItem(cboSecurityLevel, "SecurityLevel", true, true, false, 0, false, true);
             //Systems
             CTLM.AddItem(txtPWD, "Password", false, true, false, 0, false, false);
             CTLM.AddItem(txtPasswordEXP, "PasswordEXP", false, true, false, 0, false, false);
@@ -49,13 +50,15 @@ namespace Sistemas
             CTLM.AddItem(lstFlags, "Flags", true, true, false, 0, false, true);
             CTLM.AddItem(lstEmailAliases, "Aliases",true,true,false,0,false,false,pSPAddParamName: "alias", pSPUppParamName: "alias");
             CTLM.AddDefaultStatusStrip();
-            CTLM.DBTable = "vUsers";
+            CTLM.DBTable = string.Format("(Select * from vUsers where isnull(PositionLevel,50)>={0}) B", Values.SecurityLevel);
             CTLM.ReQuery = true;
             cboCOD3.Source("select n.COD3,g.Descripcion from NetworkSedes n inner join general..sedes g on g.cod3=n.COD3 order by n.Cod3", txtDesCod3);
             listCOD3.Source("select n.COD3,g.Descripcion from NetworkSedes n inner join general..sedes g on g.cod3=n.COD3 order by n.Cod3");
             listCOD3.Changed += ListCOD3_Changed;
             cboDomain.Source("Select domain from domain where domain<>'ALL' order by domain");
-            cboZone.Source("Select Code from Zones order by Code");
+            cboPosition.Source(string.Format("select PositionCode,PositionDescription from MasterUserPositions where MinSecurityLevel>={0} order by MinSecurityLevel", Values.SecurityLevel), txtPosition);
+            cboPositionLevel.Source(string.Format("select SecurityLevel from MasterSecurityLevels where SecurityLevel>={0} order by SecurityLevel", Values.SecurityLevel));
+            cboSecurityLevel.Source(string.Format("select SecurityLevel from MasterSecurityLevels where SecurityLevel>={0} order by SecurityLevel", Values.SecurityLevel));
             lstFlags.Source("Select codigo,DescFlagEng from flags where Tabla='Users'");
             CTLM.AfterButtonClick += CTLM_AfterButtonClick;
             CTLM.Start();
@@ -131,61 +134,11 @@ namespace Sistemas
             };
         }
 
-        private async void CTLM_AfterButtonClick(object sender, CTLMantenimientoNet.CTLMEventArgs e)
+        private void CTLM_AfterButtonClick(object sender, CTLMantenimientoNet.CTLMEventArgs e)
         {
             if (lstFlags.Value.ToString().IndexOf("|EMAIL|") == -1)
             {
                 lstEmailAliases.Source("Select 0,0 where 0=1");
-            }
-            switch (e.ButtonClick)
-            {
-                //case "btnAdd":
-                //case "btnUpp":
-                //case "btnNext":
-                //case "btnPrev":
-                //case "btnFirst":
-                //case "btnLast":
-                case "btnOk":
-                    if (lstFlags.Value.ToString().IndexOf("|OWNCLOUD|") != -1 && Values.gMasterPassword!="" && (CTLM.Status== EnumStatus.ADDNEW || CTLM.Status== EnumStatus.EDIT))
-                    {
-                        
-                        CTLM.Enabled = false;
-                        CTLM.StatusBarProgressMarqueeStart();
-                        //var task0 = OCCommands.CheckUser(txtUserCode.Text, Values.gMasterPassword);
-                        //_backgroundTasks.Add(task0);
-                        //bool result = await task0;
-                        //_backgroundTasks.Remove(task0);
-
-                        //var t = Task.Run(() => OCCommands.CheckUser(txtUserCode.Text, Values.gMasterPassword));
-                        //t.Wait();
-                        //bool result = t.Result;
-                        OCCommands.Credentials = new EspackCredentials() { User = "system", Password = "*seso69*".ToSecureString() };
-                        bool result = await OCCommands.CheckUser(txtUserCode.Text);
-
-                        //bool result = await OCCommands.CheckUser(txtUserCode.Text, Values.gMasterPassword);
-                        CTLM.StatusMsg( result ? "Owncloud user found" : "Owncoud user not found");
-                        if (!result)
-                        {
-                            var _zonas = cboZone.Value + "|" + cboCOD3.Value;
-                            //var t2 = Task.Run(() => OCCommands.AddUser(txtUserCode.Text, txtPWD.Text, txtName.Text + " " + txtSurname1.Text + " " + txtSurname2.Text, _zonas, Values.gMasterPassword));
-                            //t2.Wait();
-                            //bool res2 = t2.Result;
-                            bool res2 = await OCCommands.AddUser(txtUserCode.Text, txtPWD.Text, txtName.Text + " " + txtSurname1.Text + " " + txtSurname2.Text, _zonas);
-                            CTLM.StatusMsg(res2 ? "Owncloud user created correctly" : "ERROR creating Owncloud user!!!");
-                        } else
-                        {
-                            var _zonas = cboZone.Value + "|" + cboCOD3.Value;
-                            //var t2 = Task.Run(() => OCCommands.UppUser(txtUserCode.Text, txtPWD.Text, txtName.Text + " " + txtSurname1.Text + " " + txtSurname2.Text, _zonas, Values.gMasterPassword));
-                            //t2.Wait();
-                            //bool res2 = t2.Result;
-                            bool res2 = await OCCommands.UppUser(txtUserCode.Text, txtPWD.Text, txtName.Text + " " + txtSurname1.Text + " " + txtSurname2.Text, _zonas);
-                            CTLM.StatusMsg(res2 ? "Owncloud user updated correctly" : "ERROR updating Owncloud user!!!");
-                        }
-                        
-                        CTLM.StatusBarProgressStop();
-                        CTLM.Enabled = true;
-                    }
-                    break;
             }
         }
     }

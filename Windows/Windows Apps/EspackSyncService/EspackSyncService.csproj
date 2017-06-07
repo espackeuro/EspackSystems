@@ -72,6 +72,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Management\MasterClass\MasterClass.csproj">
+      <Project>{f1a54468-3469-49be-b025-a9469925744c}</Project>
+      <Name>MasterClass</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Database and tools\cAccesoDatos.NET\cAccesoDatosNet.csproj">
       <Project>{d3e453aa-39b7-480f-8917-6d7f5076c3ed}</Project>
       <Name>cAccesoDatosNet</Name>

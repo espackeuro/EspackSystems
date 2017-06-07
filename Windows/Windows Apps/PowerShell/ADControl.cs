@@ -88,7 +88,7 @@ namespace ADControl
             var command = new PowerShellCommand()
             {
                 EC = EC,
-                Command = string.Format("New-ADUser -Name '{0} {1}' -GivenName '{0}' -Surname '{1}' -SamAccountName '{2}' -DisplayName '{1} {2}' -EmailAddress '{4}' -UserPrincipalName '{2}@systems.espackeuro.com' -Division '{5}' -PasswordNeverExpires:$True -AccountPassword (ConvertTo-SecureString -AsPlainText '{3}' -Force) -PassThru | Enable-ADAccount;", Name, Surname, UserCode, Password,EmailAddress, division)
+                Command = string.Format("New-ADUser -Name '{0} {1}' -GivenName '{0}' -Surname '{1}' -SamAccountName '{2}' -DisplayName '{0} {1}' -EmailAddress '{4}' -UserPrincipalName '{2}@systems.espackeuro.com' -Division '{5}' -PasswordNeverExpires:$True -AccountPassword (ConvertTo-SecureString -AsPlainText '{3}' -Force) -PassThru | Enable-ADAccount;", Name, Surname, UserCode, Password,EmailAddress, division)
             };
             var _res = await command.InvokeAsync();
             Results = command.SResults;
@@ -193,12 +193,12 @@ Get-ADUser -Identity '{0}' | Set-ADAccountPassword -Reset -NewPassword (ConvertT
         }
 
 
-        public static async Task<bool> AddUserToGroup(string UserCode, string GroupCode, bool isContact=false)
+        public static async Task<bool> AddUserToGroup(string UserCode, string GroupCode, bool isContact=false, string GroupPath=DefaultPathAliases)
         {
             var command = new PowerShellCommand()
             {
                 EC = EC,
-                Command = string.Format("$dlGroup = [adsi]'LDAP://CN={0},{1}';$dlUser = Get-ADObject -Filter {{{3} -eq '{2}'}};$dlGroup.Member.Add($dlUser.DistinguishedName);$dlGroup.psbase.CommitChanges()", GroupCode, DefaultPathAliases, UserCode, isContact ? "Name": "SamAccountName")
+                Command = string.Format("$dlGroup = [adsi]'LDAP://CN={0},{1}';$dlUser = Get-ADObject -Filter {{{3} -eq '{2}'}};$dlGroup.Member.Add($dlUser.DistinguishedName);$dlGroup.psbase.CommitChanges()", GroupCode, GroupPath, UserCode, isContact ? "Name": "SamAccountName")
             };
             return await command.InvokeAsync();
         }
