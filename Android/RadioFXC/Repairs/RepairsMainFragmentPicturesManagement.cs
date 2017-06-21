@@ -40,7 +40,7 @@ namespace RadioFXC
         private int cNUM;
         private int cCount;
         public static int cOldPictures { get; set; }
-        private DynamicRS cRSOld = new DynamicRS();
+        //private DynamicRS cRSOld = new StaticRS();
         public ListImageFile cImageFileList;
 
         public FragmentPicturesManagement() 
@@ -63,16 +63,29 @@ namespace RadioFXC
             cUnitNumber = UnitRepair.cUnitNumber;
             cRepairCode = UnitRepair.cRepairCode;
             cCount = 0;
-            cRSOld.Open("Select FileName,FilePath,Thumbnail,len=len(Thumbnail),IdPicture from PicturesRepairs where RepairCode='" + cRepairCode + "' and UnitNumber='" + cUnitNumber + "' order by xfec", Values.gDatos);
-            while (!cRSOld.EOF)
+            using (var _rs = new DynamicRS("Select FileName,FilePath,Thumbnail,len=len(Thumbnail),IdPicture from PicturesRepairs where RepairCode='" + cRepairCode + "' and UnitNumber='" + cUnitNumber + "' order by xfec", Values.gDatos))
             {
-                Bitmap _bm = BitmapFactory.DecodeByteArray((byte[])cRSOld["Thumbnail"], 0, Convert.ToInt32(cRSOld["len"]));
-                ImageFile elFile = new ImageFile(cRSOld["FileName"].ToString(), _bm);
-                elFile.IdPicture = cRSOld["IdPicture"].ToString();
-                await cImageFileList.Add(elFile);
-                cRSOld.MoveNext();
+                await _rs.OpenAsync();
+                while (!_rs.EOF)
+                {
+                    Bitmap _bm = BitmapFactory.DecodeByteArray((byte[])_rs["Thumbnail"], 0, Convert.ToInt32(_rs["len"]));
+                    ImageFile elFile = new ImageFile(_rs["FileName"].ToString(), _bm);
+                    elFile.IdPicture = _rs["IdPicture"].ToString();
+                    await cImageFileList.Add(elFile);
+                    _rs.MoveNext();
+                }
+
             }
-            cRSOld.Close();
+            //cRSOld.Open("Select FileName,FilePath,Thumbnail,len=len(Thumbnail),IdPicture from PicturesRepairs where RepairCode='" + cRepairCode + "' and UnitNumber='" + cUnitNumber + "' order by xfec", Values.gDatos);
+            //while (!cRSOld.EOF)
+            //{
+            //    Bitmap _bm = BitmapFactory.DecodeByteArray((byte[])cRSOld["Thumbnail"], 0, Convert.ToInt32(cRSOld["len"]));
+            //    ImageFile elFile = new ImageFile(cRSOld["FileName"].ToString(), _bm);
+            //    elFile.IdPicture = cRSOld["IdPicture"].ToString();
+            //    await cImageFileList.Add(elFile);
+            //    cRSOld.MoveNext();
+            //}
+            //cRSOld.Close();
             //
         }
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)

@@ -4,6 +4,6 @@
     <SelectedDevice>Zebra Technologies TC75</SelectedDevice>
     <AndroidDesignerPreferredDevice>Nexus 4</AndroidDesignerPreferredDevice>
     <AndroidDesignerPreferredTheme>Theme.DeviceDefault</AndroidDesignerPreferredTheme>
-    <DefaultDevice>AVD_GalaxyNexus_ToolsForApacheCordova</DefaultDevice>
+    <DefaultDevice>VisualStudio_android-23_arm_phone</DefaultDevice>
   </PropertyGroup>
 </Project>
