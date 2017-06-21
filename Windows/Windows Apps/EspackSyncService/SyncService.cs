@@ -103,8 +103,13 @@ namespace EspackSyncService
                 }
                 foreach (var r in _RS.ToList())
                 {
-                    
-                    var _flags = r["flags"].ToString().Split('|');
+                    Dictionary<string, string> _flagsDefs;
+                    using (var _frs = new DynamicRS("Select Codigo, DescFlagEng from flags where Servicio='SYNC' and Tabla='Users'", Values.gDatos))
+                    {
+                        _frs.Open();
+                        _flagsDefs = _frs.ToList().ToDictionary(dr => dr["Codigo"].ToString(),dr => dr["DescFlagEng"].ToString());//.ToList().Select(fr => new KeyValuePair<string,string>(fr["Codigo"].ToString(), fr["DescFlagEng"].ToString())).ToDictionary<string,string>;
+                    }
+                    var _flags = r["flags"].ToString().Split('|').ToList().Where(fr => _flagsDefs.Keys.Contains(fr) ).ToList();
                     int _error = 0;
                     //create the user object
                     var _user = new EspackUser()
@@ -129,9 +134,11 @@ namespace EspackSyncService
                         {
                             try
                             {
+                                s.Flags = _flagsDefs;
+                                _flags.Remove(s.ServiceName);
                                 //define the alias list
                                 var _alias = Values.DomainList.Select(d => string.Format("'smtp:{0}@{1}'", r["UserCode"].ToString(), d));
-                                _user.Aliases = _alias.Concat(new string[]{ string.Format("'smtp:{0}@{1}'", r["UserCode"].ToString(), r["localDomain"].ToString())}).ToArray(); //we add the @COD3.espackeuro.com domain
+                                _user.Aliases = _alias.Concat(new string[]{ string.Format("'smtp:{0}@{1}'", r["UserCode"].ToString(), r["localDomain"].ToString())}).ToList(); //we add the @COD3.espackeuro.com domain
                                 //update or create the user in the service
                                 await s.Interact(_user);
                                 EventLog.WriteEntry(string.Format("User {0} from {1} was modified correctly in service {2}", _user.UserCode, _user.Sede.COD3, s.ServiceName));

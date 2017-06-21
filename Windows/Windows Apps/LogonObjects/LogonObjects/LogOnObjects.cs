@@ -29,15 +29,15 @@ namespace LogOnObjects
         public static void FillServers(string pCOD3)
         {
 
-            using (var _RS = new DynamicRS("select COD3,ServerDB,ServerShare,zone,UserShare,PasswordShare from general..sedes", Values.gDatos))
+            using (var _RS = new DynamicRS("select COD3,ServerDB,ServerShare,zone,UserShare,PasswordShare,servershareip,serverdbip from general..sedes", Values.gDatos))
             {
                 _RS.Open();
                 while (!_RS.EOF)
                 {
-                    Values.DBServerList.Add(new cServer() { HostName = _RS["ServerDB"].ToString(), COD3 = _RS["COD3"].ToString(), Type = ServerTypes.DATABASE, User = Values.User, Password = Values.Password });
+                    Values.DBServerList.Add(new cServer() { HostName = _RS[pCOD3 == "OUT" ? "ServerDBIP" : "ServerDB"].ToString(), COD3 = _RS["COD3"].ToString(), Type = ServerTypes.DATABASE, User = Values.User, Password = Values.Password });
                     Values.ShareServerList.Add(new cServer()
                     {
-                        HostName = _RS["ServerShare"].ToString(),
+                        HostName = _RS[pCOD3 == "OUT"? "ServerShareIP":"ServerShare"].ToString(),
                         //IP = IPAddress.Parse(_RS["ServerShareIP"].ToString()),
                         COD3 = _RS["COD3"].ToString(),
                         Type = ServerTypes.DATABASE,

@@ -181,7 +181,10 @@ namespace LogOn
 
                 _update = isEspackIP(ref _cod3);
                 if (!_update)
+                {
                     MessageBox.Show("This location does not allow application updates.", "Warningr", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    _cod3 = "OUT";
+                }
 
                 if (_update)
                     FilesToUpdate = new string[] { "logonloader.exe", "logonloader.exe.config" };
@@ -189,7 +192,7 @@ namespace LogOn
                 Values.FillServers(_cod3);
                 //if we are out, we add the server we just entered
                 if (_cod3=="OUT")
-                    Values.DBServerList.Add(new cServer() { HostName = _dbserver, IP = Dns.GetHostEntry(_dbserver).AddressList[0], COD3 = "OUT", Type = ServerTypes.DATABASE, User = Values.User, Password = Values.Password });
+                    Values.DBServerList.Add(new cServer() { HostName = _dbserver, COD3 = "OUT", Type = ServerTypes.DATABASE, User = Values.User, Password = Values.Password });
 
                 Panel1.Text = "You are connected to " + Values.gDatos.oServer.HostName.Replace(".local", "") + "!";
                 Panel2.Text = "My IP: " + Values.gDatos.IP.ToString();
@@ -279,7 +282,8 @@ namespace LogOn
             _time--;
             if (_time == 0)
             {
-                LogOnChangeStatus(LogOnStatus.INIT);
+                Application.Exit();
+                //LogOnChangeStatus(LogOnStatus.INIT);
                 return;
             }
             var t = TimeSpan.FromSeconds(_time);

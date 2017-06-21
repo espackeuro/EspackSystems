@@ -22,7 +22,6 @@ namespace EspackSyncService
         public static Dictionary<string, string> Servers = new Dictionary<string, string>();
         public static int PollingTime { get; set; } = 10;
         public static List<string> DomainList { get; set; }
-        
     }
     static class Program
     {

@@ -29,7 +29,7 @@ namespace ADService
             }
         }
         public string ServerName { get; set; }
-
+        public Dictionary<string,string> Flags { get; set; }
         public string ServiceName { get { return "DOMAIN"; } }
         public string[] Domains = new string[] { "espackeuro.com", "grupointerpack.com" };
 
@@ -106,10 +106,20 @@ namespace ADService
                 await AssignUserGroupOU(User.UserCode, User.Group, User.Sede.COD3, User.Sede.COD3Description);
                 if (User.Flags != null)
                 {
-                    if (User.Flags.Contains("NEXTCLOUD"))
+                    foreach (var f in User.Flags)
                     {
-                        await AD.AddUserToGroup(User.UserCode, "NextCloud Users", GroupPath: AD.DefaultPath);
+                        if (!await AD.CheckGroup(Flags[f]))
+                        //var _Path = OU != "" ? string.Format("OU={0},{1}", OU, AD.DefaultPath) : AD.DefaultPath;
+                            await AD.CreateGroup(Flags[f], Flags[f], "Security", AD.DefaultPath);
+                        await AD.AddUserToGroup(User.UserCode, Flags[f], GroupPath: AD.DefaultPath);
+                        //await ADControlClass.MoveGroupToOU(_localGroup, OU);
                     }
+
+
+                    //if (User.Flags.Contains("NEXTCLOUD"))
+                    //{
+                    //    await AD.AddUserToGroup(User.UserCode, "NextCloud Users", GroupPath: AD.DefaultPath);
+                    //}
                 }
                 if (User.Aliases != null)
                 {
