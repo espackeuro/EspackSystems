@@ -54,7 +54,7 @@ namespace RadioFXC
                     }
                     var _cadena = string.Join("|", adapter.ListElements.Where(e => e.Selected).Select(f => f.RepairCode));
                     //adapter.ListElements.Where(e => e.Selected).ToList().ForEach(f => _cadena += f.RepairCode + '|');
-                    var _SP = new SP(Values.gDatos, "pAddCadenaRepais2LoadsNEW");
+                    var _SP = new SP(Values.gDatos, "pAddCadenaRepais2Loads");
                     _SP.AddParameterValue("LoadNumber", Loads.LoadNumber);
                     _SP.AddParameterValue("cadena", _cadena);
                     _SP.Execute();
