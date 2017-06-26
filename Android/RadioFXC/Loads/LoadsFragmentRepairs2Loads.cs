@@ -47,25 +47,27 @@ namespace RadioFXC
                 try
                 {
                     button.Enabled = false;
-                    var _cadena = "|";
-                    adapter.ListElements.Where(e => e.Selected).ToList().ForEach(f => _cadena += f.RepairCode + '|');
-                    //var _SP = new SP(Values.gDatos, "pAddCadenaRepais2Loads");
-                    //_SP.AddParameterValue("LoadNumber", Loads.LoadNumber);
-                    //_SP.AddParameterValue("cadena", _cadena);
-                    //_SP.Execute();
+                    // var _cadena = "|";
                     if (Values.gDatos.State == System.Data.ConnectionState.Open)
                     {
                         Values.gDatos.Close();
                     }
-                    Values.gDatos.DataBase = "PROCESOS";
-                    var _SP = new SP(Values.gDatos, "pLaunchProcess_RepairsAdd2Load");
-                    _SP.AddParameterValue("@DB", "REPAIRS");
-                    _SP.AddParameterValue("@ProcedureName", "pAddCadenaRepais2Loads");
-                    _SP.AddParameterValue("@Parameters", "@LoadNumber='" + Loads.LoadNumber + "',@cadena='" + _cadena + "'");
+                    var _cadena = string.Join("|", adapter.ListElements.Where(e => e.Selected).Select(f => f.RepairCode));
+                    //adapter.ListElements.Where(e => e.Selected).ToList().ForEach(f => _cadena += f.RepairCode + '|');
+                    var _SP = new SP(Values.gDatos, "pAddCadenaRepais2LoadsNEW");
+                    _SP.AddParameterValue("LoadNumber", Loads.LoadNumber);
+                    _SP.AddParameterValue("cadena", _cadena);
+                    _SP.Execute();
+
+                    //Values.gDatos.DataBase = "PROCESOS";
+                    //var _SP = new SP(Values.gDatos, "pLaunchProcess_RepairsAdd2Load");
+                    //_SP.AddParameterValue("@DB", "REPAIRS");
+                    //_SP.AddParameterValue("@ProcedureName", "pAddCadenaRepais2Loads");
+                    //_SP.AddParameterValue("@Parameters", "@LoadNumber='" + Loads.LoadNumber + "',@cadena='" + _cadena + "'");
                     //_SP.AddParameterValue("@TableDB", "REPAIRS");
                     //_SP.AddParameterValue("@TableName", "Repairs");
                     //_SP.AddParameterValue("@TablePK", "");
-                    _SP.Execute();
+                    //_SP.Execute();
                     if (_SP.LastMsg.Substring(0, 2) != "OK")
                     {
                         throw (new Exception(_SP.LastMsg));
