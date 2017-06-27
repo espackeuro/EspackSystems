@@ -46,7 +46,7 @@ namespace LogonScreen
             //cUser.Text = "REJ";
             cPassword = FindViewById<EditText>(Resource.Id.Password);
             //cPassword.Text = "5380";
-            cMsgText= FindViewById<TextView>(Resource.Id.msgText);
+            cMsgText = FindViewById<TextView>(Resource.Id.msgText);
             cPackageInfoText = FindViewById<TextView>(Resource.Id.msgPkgInfo);
             //Button event
             cLoginButton.Click += CLoginButton_Click;
@@ -66,7 +66,7 @@ namespace LogonScreen
                     break;
 
             };
-            
+
 #if DEBUG
             cUser.Text = "restelles";
             cPassword.Text = "1312";
@@ -92,7 +92,7 @@ namespace LogonScreen
         private async void CLoginButton_Click(object sender, EventArgs e)
         {
 
-            if (cUser.Text=="" || cPassword.Text=="")
+            if (cUser.Text == "" || cPassword.Text == "")
             {
                 cMsgText.Text = "Please input correct User and Password";
             } else
@@ -108,7 +108,7 @@ namespace LogonScreen
                 gDatos.User = "SA";
                 gDatos.Password = "5380";
                 bool error = false;
-                
+
                 try
                 {
                     await gDatos.ConnectAsync();
@@ -119,8 +119,8 @@ namespace LogonScreen
                     var builder = new Android.Support.V7.App.AlertDialog.Builder(this);
                     builder.SetTitle("ERROR");
                     builder.SetIcon(Android.Resource.Drawable.IcDialogAlert);
-                    builder.SetMessage("Error: "+ex.Message);
-                    builder.SetNeutralButton("OK", delegate 
+                    builder.SetMessage("Error: " + ex.Message);
+                    builder.SetNeutralButton("OK", delegate
                     {
                         Intent intent = new Intent();
                         intent.PutExtra("Result", "ERROR");
@@ -156,17 +156,23 @@ namespace LogonScreen
                             LogonDetails.user = LogonSP.ReturnValues()["@User"].ToString();
                             LogonDetails.password = LogonSP.ReturnValues()["@Password"].ToString();
 
-                            _version= LogonSP.ReturnValues()["@Version"].ToString();
+                            _version = LogonSP.ReturnValues()["@Version"].ToString();
                             var _versionArray = _version.Split('.');
                             _version = string.Format("{0}.{1}", _versionArray[0], _versionArray[1]);
                             var versionArray = version.Split('.');
                             version = string.Format("{0}.{1}", versionArray[0], versionArray[1]);
                             _packageName = LogonSP.ReturnValues()["@PackageName"].ToString();
-                            if (_version!=version)
+                            if (_version != version)
                             {
                                 bool dialogResult = await AlertDialogHelper.ShowAsync(this, "New version found", "Do you want to update your current program?", "Yes", "No");
                                 if (dialogResult)
-                                    await UpdatePackage(_packageName);
+                                {
+                                    var pd= ProgressDialog.Show(this, "", "Downloading...", false, false);
+                                    pd.SetProgressStyle(ProgressDialogStyle.Spinner);
+                                    await UpdatePackageURL(_packageName);
+                                    pd.Dismiss();
+                                }
+                                    
                             }
 
                             Intent intent = new Intent();
@@ -204,7 +210,7 @@ namespace LogonScreen
             var _local = string.Format("{0}/{1}.apk", Android.OS.Environment.ExternalStorageDirectory.Path, packageName);
             try
             {
-                var stream = await _c.Download(String.Format("{0}/{1}.apk",_c.BasePath,packageName));
+                var stream = await _c.Download(String.Format("{0}/{1}.apk", _c.BasePath, packageName));
                 using (FileStream fs = File.OpenWrite(_local))
                     await stream.CopyToAsync(fs);
 
@@ -224,7 +230,35 @@ namespace LogonScreen
             intent.SetDataAndType(Android.Net.Uri.FromFile(new Java.IO.File(_local)), "application/vnd.android.package-archive");
             intent.SetFlags(ActivityFlags.NewTask);
             StartActivity(intent);
+        }
+        private async Task UpdatePackageURL(string packageName)
+        {
+            using (var c = new WebClient())
+            {
+                var URL = string.Format("http://portal.espackeuro.com/{0}.apk", packageName);
+                var _local = string.Format("{0}/{1}.apk", Android.OS.Environment.ExternalStorageDirectory.Path, packageName);
+                await c.DownloadFileTaskAsync(URL, _local);
+                if (!File.Exists(_local))
+                {
+                    var builder = new Android.Support.V7.App.AlertDialog.Builder(this);
+                    builder.SetTitle("ERROR");
+                    builder.SetIcon(Android.Resource.Drawable.IcDialogAlert);
+                    builder.SetMessage("Error: the file was not downloaded correctly, the app will not be updated.");
+                    builder.SetNeutralButton("OK", delegate
+                    {
+                        Intent intnt = new Intent();
+                        intnt.PutExtra("Result", "OK");
+                        SetResult(Result.Ok, intnt);
+                        Finish();
+                    });
+                    RunOnUiThread(() => { builder.Create().Show(); });
+                }
+                var intent = new Intent(Intent.ActionView);
+                intent.SetDataAndType(Android.Net.Uri.FromFile(new Java.IO.File(_local)), "application/vnd.android.package-archive");
+                intent.SetFlags(ActivityFlags.NewTask);
+                StartActivity(intent);
             }
+                
+        }
     }
-
 }
