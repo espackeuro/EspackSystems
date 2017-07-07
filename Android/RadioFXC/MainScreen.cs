@@ -17,6 +17,7 @@ namespace RadioFXC
     {
         protected override void OnCreate(Bundle bundle)
         {
+ 
             base.OnCreate(bundle);
             this.Title = "Service " + Values.gService;
             if (SupportActionBar == null)

@@ -216,6 +216,7 @@ namespace RadioFXC
         public override void NotifyDataSetChanged()
         {
             base.NotifyDataSetChanged();
+            LoadLabel.Text = Loads.Label;
             using (var recordset = new DynamicRS(query, Values.gDatos))
             {
                 recordset.Open();

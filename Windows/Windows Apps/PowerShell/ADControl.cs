@@ -84,7 +84,7 @@ namespace ADControl
         public static string Results { get; set; }
         public static async Task<bool> CreateUser(string Name, string Surname, string UserCode, string Password, string EmailAddress, string COD3)
         {
-            var division = string.Format("{0}.{1}/{2}", COD3.ToLower(), EmailAddress.Substring(EmailAddress.IndexOf('@') + 1), UserCode);
+            var division = string.Format("{1}/{2}", EmailAddress.Substring(EmailAddress.IndexOf('@') + 1), UserCode);
             var command = new PowerShellCommand()
             {
                 EC = EC,
@@ -112,7 +112,7 @@ namespace ADControl
 
         public static async Task<bool> UpdateUser(string Name, string Surname, string UserCode, string Password, string EmailAddress, string COD3)
         {
-            var division = string.Format("{0}.{1}/{2}", COD3.ToLower(), EmailAddress.Substring(EmailAddress.IndexOf('@')+ 1), UserCode);
+            var division = string.Format("{1}/{2}", COD3.ToLower(), EmailAddress.Substring(EmailAddress.IndexOf('@')+ 1), UserCode);
             var command = new PowerShellCommand()
             {
                 EC = EC,
@@ -202,7 +202,15 @@ Get-ADUser -Identity '{0}' | Set-ADAccountPassword -Reset -NewPassword (ConvertT
             };
             return await command.InvokeAsync();
         }
-
+        public static async Task<bool> RemoveUserFromGroup(string UserCode, string GroupCode, string GroupPath = DefaultPathAliases)
+        {
+            var command = new PowerShellCommand()
+            {
+                EC = EC,
+                Command = string.Format("Get-ADGroup -LDAPFilter '(SAMAccountName={0})' -SearchBase '{1}' | remove-adgroupmember -Member '{2}'  -Confirm:$false", GroupCode, GroupPath, UserCode)
+            };
+            return await command.InvokeAsync();
+        }
 
         public static async Task<bool> MoveUserToOU(string UserCode, string OUCode)
         {
