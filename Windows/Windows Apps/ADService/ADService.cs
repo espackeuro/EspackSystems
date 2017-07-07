@@ -104,6 +104,11 @@ namespace ADService
                     await AD.UpdateUser(User.Name, User.Surname, User.UserCode, User.Password, User.Email, User.Sede.COD3);
                 }
                 await AssignUserGroupOU(User.UserCode, User.Group, User.Sede.COD3, User.Sede.COD3Description);
+                foreach (var f in Flags)
+                {
+                    if (!User.Flags.Contains(f.Key))
+                        await AD.RemoveUserFromGroup(User.UserCode, f.Value, AD.DefaultPath);
+                }
                 if (User.Flags != null)
                 {
                     foreach (var f in User.Flags)

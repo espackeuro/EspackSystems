@@ -7,6 +7,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Reflection;
 using System.Security;
+using static System.Convert;
 using MasterClass;
 
 namespace Sistemas
@@ -46,7 +47,7 @@ namespace Sistemas
                 {
                     _sp.AddParameterValue("@UserCode", Values.gDatos.User);
                     _sp.Execute();
-                    Values.SecurityLevel = Convert.ToInt32(_sp.ReturnValues()["@SecurityLevel"]);
+                    Values.SecurityLevel = ToInt32(_sp.ReturnValues()["@SecurityLevel"]);
                     Values.Position = _sp.ReturnValues()["@Position"].ToString();
                     Values.FullName = _sp.ReturnValues()["@FullName"].ToString();
                 } catch (Exception ex)

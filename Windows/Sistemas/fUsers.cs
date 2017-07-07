@@ -11,7 +11,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Linq;
 using EspackFormControls;
-
+using static Sistemas.Values;
 namespace Sistemas
 {
     public partial class fUsers : Form
@@ -24,7 +24,7 @@ namespace Sistemas
             
             //CTLM definitions
             //Who
-            CTLM.Conn = Values.gDatos;
+            CTLM.Conn = gDatos;
             CTLM.sSPAdd = "pAddUsers";
             CTLM.sSPUpp = "pUppUsers";
             CTLM.sSPDel = "";
@@ -50,15 +50,15 @@ namespace Sistemas
             CTLM.AddItem(lstFlags, "Flags", true, true, false, 0, false, true);
             CTLM.AddItem(lstEmailAliases, "Aliases",true,true,false,0,false,false,pSPAddParamName: "alias", pSPUppParamName: "alias");
             CTLM.AddDefaultStatusStrip();
-            CTLM.DBTable = string.Format("(Select * from vUsers where isnull(PositionLevel,50)>={0}) B", Values.SecurityLevel);
+            CTLM.DBTable = string.Format("(Select * from vUsers where isnull(PositionLevel,50)>={0}) B", SecurityLevel);
             CTLM.ReQuery = true;
             cboCOD3.Source("select n.COD3,g.Descripcion from NetworkSedes n inner join general..sedes g on g.cod3=n.COD3 order by n.Cod3", txtDesCod3);
             listCOD3.Source("select n.COD3,g.Descripcion from NetworkSedes n inner join general..sedes g on g.cod3=n.COD3 order by n.Cod3");
             listCOD3.Changed += ListCOD3_Changed;
             cboDomain.Source("Select domain from domain where domain<>'ALL' order by domain");
-            cboPosition.Source(string.Format("select PositionCode,PositionDescription from MasterUserPositions where MinSecurityLevel>={0} order by MinSecurityLevel", Values.SecurityLevel), txtPosition);
-            cboPositionLevel.Source(string.Format("select SecurityLevel from MasterSecurityLevels where SecurityLevel>={0} order by SecurityLevel", Values.SecurityLevel));
-            cboSecurityLevel.Source(string.Format("select SecurityLevel from MasterSecurityLevels where SecurityLevel>={0} order by SecurityLevel", Values.SecurityLevel));
+            cboPosition.Source(string.Format("select PositionCode,PositionDescription from MasterUserPositions where MinSecurityLevel>={0} order by MinSecurityLevel", SecurityLevel), txtPosition);
+            cboPositionLevel.Source(string.Format("select SecurityLevel from MasterSecurityLevels where SecurityLevel>={0} order by SecurityLevel", SecurityLevel));
+            cboSecurityLevel.Source(string.Format("select SecurityLevel from MasterSecurityLevels where SecurityLevel>={0} order by SecurityLevel", SecurityLevel));
             lstFlags.Source("Select codigo,DescFlagEng from flags where Tabla='Users'");
             CTLM.AfterButtonClick += CTLM_AfterButtonClick;
             CTLM.Start();
@@ -115,8 +115,8 @@ namespace Sistemas
                     if (txtUserCode.Text == "" && txtSurname1.Text != "")
                     {
                         var _possible = CT.ToASCII(txtName.Text.Substring(0, 1) + txtSurname1.Text).ToLower();
-                        Values.gDatos.AdoCon.Open();
-                        SqlCommand query = new SqlCommand("SELECT 0 from Users where UserCode=@UserCode; ", Values.gDatos.AdoCon);
+                        gDatos.AdoCon.Open();
+                        SqlCommand query = new SqlCommand("SELECT 0 from Users where UserCode=@UserCode; ", gDatos.AdoCon);
                         query.Parameters.AddWithValue("@UserCode", "");
                         for (var i = 2; i < 100; i++)
                         {
@@ -127,7 +127,7 @@ namespace Sistemas
                             _possible = _possible + i.ToString();
                             reader.Close();
                         }
-                        Values.gDatos.AdoCon.Close();
+                        gDatos.AdoCon.Close();
                         txtUserCode.Text = _possible;
                     }
                 }

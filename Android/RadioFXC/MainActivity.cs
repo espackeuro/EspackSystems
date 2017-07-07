@@ -70,6 +70,11 @@ namespace RadioFXC
                 {
                     Values.gDatos.DataBase = "REPAIRS";
                     Values.gDatos.Server = "net.espackeuro.com";
+
+#if DEBUG
+            Values.gDatos.Server = "VA2DB";
+#endif
+
                     Values.gDatos.User = LogonDetails.user;
                     Values.gDatos.Password = LogonDetails.password;
 

@@ -1,19 +1,20 @@
-﻿using System;
+﻿using AccesoDatosNet;
+using CommonTools;
+using FluentFTP;
+using FTP;
+using LogonObjects.Properties;
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using AccesoDatosNet;
-using System.Drawing;
-using System.Collections;
-using System.IO;
-using FTP;
-using CommonTools;
-using FluentFTP;
-using System.Diagnostics;
-using LogonObjects.Properties;
-using System.Threading;
+using static System.IO.File;
+using static LogOnObjects.Values;
 
 namespace LogOnObjects
 {
@@ -64,7 +65,7 @@ namespace LogOnObjects
         {
             get
             {
-                return Values.UpdateList.Where(x => x.Parent == this && x.Status == LogonItemUpdateStatus.PENDING).ToList();
+                return UpdateList.Where(x => x.Parent == this && x.Status == LogonItemUpdateStatus.PENDING).ToList();
             }
         }
 
@@ -73,7 +74,7 @@ namespace LogOnObjects
         {
             get
             {
-                return Values.UpdateList.Where(x => x.Parent == this && x.Status == LogonItemUpdateStatus.UPDATING).ToList();
+                return UpdateList.Where(x => x.Parent == this && x.Status == LogonItemUpdateStatus.UPDATING).ToList();
             }
         }
         
@@ -82,7 +83,7 @@ namespace LogOnObjects
         {
             get
             {
-                return Values.UpdateList.Where(x => x.Parent.Code == this.Code).ToList();
+                return UpdateList.Where(x => x.Parent.Code == this.Code).ToList();
             }
         }
 
@@ -91,7 +92,7 @@ namespace LogOnObjects
         {
             get
             {
-                return Values.UpdateList.Where(x => x.Parent == this && x.Status == LogonItemUpdateStatus.UPDATED).ToList();
+                return UpdateList.Where(x => x.Parent == this && x.Status == LogonItemUpdateStatus.UPDATED).ToList();
             }
         }
 
@@ -131,9 +132,9 @@ namespace LogOnObjects
                 }
                 else
                 {
-                    if (Values.debugBox != null)
+                    if (debugBox != null)
                     {
-                        Values.debugBox.AppendText(string.Format("App {0} status: {1}\n", Code, Status));
+                        debugBox.AppendText(string.Format("App {0} status: {1}\n", Code, Status));
                     }
                     switch (Status)
                     {
@@ -211,7 +212,7 @@ namespace LogOnObjects
             Description = pDescription;
             DataBase = pDatabase;
             ExeName = pExeName;
-            LocalPath= Values.LOCAL_PATH + Code + "/" + ExeName;
+            LocalPath= LOCAL_PATH + Code + "/" + ExeName;
             DBServer = pDBServer;
             ShareServer = pShareServer;
             lblDescriptionApp.Text = Description;
@@ -343,12 +344,12 @@ namespace LogOnObjects
 
             foreach (var a in list.Where(x => x.Type == FtpFileSystemObjectType.Directory))
             {
-                bool _condition = !Directory.Exists(Values.LOCAL_PATH + relativePath + "/" + a.Name);
+                bool _condition = !Directory.Exists(LOCAL_PATH + relativePath + "/" + a.Name);
                 if (_condition == false)
-                    _condition = (a.Modified != Directory.GetLastWriteTime(Values.LOCAL_PATH + relativePath + "/" + a.Name));
+                    _condition = (a.Modified != Directory.GetLastWriteTime(LOCAL_PATH + relativePath + "/" + a.Name));
                 if (_condition)
                 {
-                    Values.UpdateDir.Add(new cUpdateListItem()
+                    UpdateDir.Add(new cUpdateListItem()
                     {
                         Parent = this,
                         Item = new DirectoryItem()
@@ -359,7 +360,7 @@ namespace LogOnObjects
                             Name = ".",
                             BaseUri = new UriBuilder("ftp://" + ShareServer.HostName + "/APPS_CS/" + relativePath + "/" + a.Name).Uri
                         },
-                        LocalPath = Values.LOCAL_PATH + relativePath + "/" + a.Name,
+                        LocalPath = LOCAL_PATH + relativePath + "/" + a.Name,
                         Status = LogonItemUpdateStatus.PENDING
                     });
                 }
@@ -370,13 +371,13 @@ namespace LogOnObjects
             {
                 foreach (var a in list.Where(x => x.Type == FtpFileSystemObjectType.File))
                 {
-                    if (File.Exists(Values.LOCAL_PATH + relativePath + "/" + a.Name))
+                    if (Exists(LOCAL_PATH + relativePath + "/" + a.Name))
                     {
-                        if (File.GetLastWriteTime(Values.LOCAL_PATH + relativePath + "/" + a.Name) != a.Modified)
+                        if (GetLastWriteTime(LOCAL_PATH + relativePath + "/" + a.Name) != a.Modified)
                         {
                             //if (Status != AppBotStatus.PENDING_UPDATE)
                             //    ShowStatus(AppBotStatus.PENDING_UPDATE);
-                            Values.UpdateList.Add(new cUpdateListItem()
+                            UpdateList.Add(new cUpdateListItem()
                             {
                                 Parent = this,
                                 Item = new DirectoryItem()
@@ -387,7 +388,7 @@ namespace LogOnObjects
                                     Name = a.Name,
                                     BaseUri = new UriBuilder("ftp://" + ShareServer.HostName + "/APPS_CS/" + relativePath).Uri
                                 },
-                                LocalPath = Values.LOCAL_PATH + relativePath + "/" + a.Name,
+                                LocalPath = LOCAL_PATH + relativePath + "/" + a.Name,
                                 Status = LogonItemUpdateStatus.PENDING
                             });
                             _clean = false;
@@ -395,7 +396,7 @@ namespace LogOnObjects
                     }
                     else
                     {
-                        Values.UpdateList.Add(new cUpdateListItem()
+                        UpdateList.Add(new cUpdateListItem()
                         {
                             Parent = this,
                             Item = new DirectoryItem()
@@ -406,7 +407,7 @@ namespace LogOnObjects
                                 Name = a.Name,
                                 BaseUri = new UriBuilder("ftp://" + ShareServer.HostName + "/APPS_CS/" + relativePath).Uri
                             },
-                            LocalPath = Values.LOCAL_PATH + relativePath + "/" + a.Name,
+                            LocalPath = LOCAL_PATH + relativePath + "/" + a.Name,
                             Status = LogonItemUpdateStatus.PENDING
                         });
                         _clean = false;
@@ -415,9 +416,9 @@ namespace LogOnObjects
                 }
             }
             // this part added to remove local files not present in remote directory
-            if (Directory.Exists(Values.LOCAL_PATH + relativePath + "/"))
+            if (Directory.Exists(LOCAL_PATH + relativePath + "/"))
             {
-                var localList = new DirectoryInfo(Values.LOCAL_PATH + relativePath + "/").EnumerateFileSystemInfos();
+                var localList = new DirectoryInfo(LOCAL_PATH + relativePath + "/").EnumerateFileSystemInfos();
                 foreach (var _file in localList)
                 {
                     if (list.FirstOrDefault(x => x.Name == _file.Name) == null)
@@ -458,15 +459,15 @@ namespace LogOnObjects
             });
             list.Where(x => !x.IsDirectory).ToList().ForEach(a =>
             {
-                if (File.Exists(Values.LOCAL_PATH + relativePath + "/" + a.Name))
+                if (Exists(LOCAL_PATH + relativePath + "/" + a.Name))
                 {
-                    if (File.GetLastWriteTime(Values.LOCAL_PATH + relativePath + "/" + a.Name) != a.DateCreated)
+                    if (GetLastWriteTime(LOCAL_PATH + relativePath + "/" + a.Name) != a.DateCreated)
                     {
-                        Values.UpdateList.Add(new cUpdateListItem()
+                        UpdateList.Add(new cUpdateListItem()
                         {
                             Parent = this,
                                //ServerPath = basePath + relativePath + "/" + a.Name,
-                            LocalPath = Values.LOCAL_PATH + relativePath + "/" + a.Name,
+                            LocalPath = LOCAL_PATH + relativePath + "/" + a.Name,
                             Item = a,
                             Status = LogonItemUpdateStatus.PENDING
                         });
@@ -475,11 +476,11 @@ namespace LogOnObjects
                 }
                 else
                 {
-                    Values.UpdateList.Add(new cUpdateListItem()
+                    UpdateList.Add(new cUpdateListItem()
                     {
                         Parent = this,
                            //ServerPath = basePath + relativePath + "/" + a.Name,
-                           LocalPath = Values.LOCAL_PATH + relativePath + "/" + a.Name,
+                           LocalPath = LOCAL_PATH + relativePath + "/" + a.Name,
                         Item = a,
                         Status = LogonItemUpdateStatus.PENDING
                     });
@@ -530,12 +531,12 @@ namespace LogOnObjects
         //        if (item.Attributes.IsDirectory)
         //        {
         //            var _check = false;
-        //            var _condition = !Directory.Exists(Values.LOCAL_PATH + relativePath + "/" + item.Name);
+        //            var _condition = !Directory.Exists(LOCAL_PATH + relativePath + "/" + item.Name);
         //            if (_condition == false)
-        //                _condition = (item.LastWriteTime != Directory.GetLastWriteTime(Values.LOCAL_PATH + relativePath + "/" + item.Name));
+        //                _condition = (item.LastWriteTime != Directory.GetLastWriteTime(LOCAL_PATH + relativePath + "/" + item.Name));
         //            if (_condition)
         //            {
-        //                Values.UpdateDir.Add(new cUpdateListItem()
+        //                UpdateDir.Add(new cUpdateListItem()
         //                {
         //                    Parent = this,
         //                    Item = new DirectoryItem()
@@ -546,7 +547,7 @@ namespace LogOnObjects
         //                        Name = item.Name,
         //                        BaseUri = new UriBuilder("ftp://" + ShareServer.IP.ToString() + "/APPS_CS/" + relativePath + "/").Uri
         //                    },
-        //                    LocalPath = Values.LOCAL_PATH + relativePath + "/" + item.Name,
+        //                    LocalPath = LOCAL_PATH + relativePath + "/" + item.Name,
         //                    Status = LogonItemUpdateStatus.PENDING
         //                });
         //                _check = true;
@@ -555,13 +556,13 @@ namespace LogOnObjects
         //        }
         //        else if (checkFiles)
         //        {
-        //            if (File.Exists(Values.LOCAL_PATH + relativePath + "/" + item.Name))
+        //            if (File.Exists(LOCAL_PATH + relativePath + "/" + item.Name))
         //            {
-        //                if (File.GetCreationTime(Values.LOCAL_PATH + relativePath + "/" + item.Name) != item.Attributes.LastWriteTime)
+        //                if (File.GetCreationTime(LOCAL_PATH + relativePath + "/" + item.Name) != item.Attributes.LastWriteTime)
         //                {
         //                    if (Status != AppBotStatus.PENDING_UPDATE)
         //                        ShowStatus(AppBotStatus.PENDING_UPDATE);
-        //                    Values.UpdateList.Add(new cUpdateListItem()
+        //                    UpdateList.Add(new cUpdateListItem()
         //                    {
         //                        Parent = this,
         //                        Item = new DirectoryItem()
@@ -572,7 +573,7 @@ namespace LogOnObjects
         //                            Name = item.Name,
         //                            BaseUri = new UriBuilder("ftp://" + ShareServer.IP.ToString() + "/APPS_CS/" + relativePath + "/").Uri
         //                        },
-        //                        LocalPath = Values.LOCAL_PATH + relativePath + "/" + item.Name,
+        //                        LocalPath = LOCAL_PATH + relativePath + "/" + item.Name,
         //                        Status = LogonItemUpdateStatus.PENDING
         //                    });
         //                    _clean = false;
@@ -582,7 +583,7 @@ namespace LogOnObjects
         //            {
         //                if (Status != AppBotStatus.PENDING_UPDATE)
         //                    ShowStatus(AppBotStatus.PENDING_UPDATE);
-        //                Values.UpdateList.Add(new cUpdateListItem()
+        //                UpdateList.Add(new cUpdateListItem()
         //                {
         //                    Parent = this,
         //                    Item = new DirectoryItem()
@@ -593,7 +594,7 @@ namespace LogOnObjects
         //                        Name = item.Name,
         //                        BaseUri = new UriBuilder("ftp://" + ShareServer.IP.ToString() + "/APPS_CS/" + relativePath + "/").Uri
         //                    },
-        //                    LocalPath = Values.LOCAL_PATH + relativePath + "/" + item.Name,
+        //                    LocalPath = LOCAL_PATH + relativePath + "/" + item.Name,
         //                    Status = LogonItemUpdateStatus.PENDING
         //                });
         //                _clean = false;
@@ -615,19 +616,19 @@ namespace LogOnObjects
                 if (!await CheckUpdated())
                 {
                     Application.DoEvents();
-                    Values.ActiveThreads++;
-                    var _thread = new cUpdaterThread(Values.debugBox, Values.ActiveThreads);
+                    ActiveThreads++;
+                    var _thread = new cUpdaterThread(debugBox, ActiveThreads);
                     // launch task not async
                     _thread.Process();
                 }
                 SetStatus(AppBotStatus.UPDATED);
             }
-            if (DBServer.HostName != Values.gDatos.Server && DBServer.User != "procesos")
+            if (DBServer.HostName != gDatos.Server && DBServer.User != "procesos")
             {
                 var _datos = new cAccesoDatosNet();
-                _datos.User = Values.gDatos.User;
-                _datos.Password = Values.gDatos.Password;
-                _datos.DataBase = Values.gDatos.DataBase;
+                _datos.User = gDatos.User;
+                _datos.Password = gDatos.Password;
+                _datos.DataBase = gDatos.DataBase;
                 _datos.Server = DBServer.HostName;
                 // check the password in the new server
                 var _SP = new SP(_datos, "pLogOnUser");
@@ -660,7 +661,7 @@ namespace LogOnObjects
                         MessageBox.Show(ex.Message + "\nIt looks like the application is already open.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
-                var _odir = new DirectoryInfo(Values.LOCAL_PATH + Code + "/");
+                var _odir = new DirectoryInfo(LOCAL_PATH + Code + "/");
                 _odir.DirectoryCopy(_tempPath);
                 _tempPath = string.Format("{0}\\{1}", _tempPath, ExeName);
             }
