@@ -17,7 +17,7 @@ namespace LogOn
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             //new frmSplash(args).ShowDialog();
-            Application.Run(new fMain());
+            Application.Run(new fMain(args));
         }
     }
 

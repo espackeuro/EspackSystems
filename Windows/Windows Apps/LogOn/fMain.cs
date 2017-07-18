@@ -17,6 +17,7 @@ using System.Threading;
 using System.Data.SqlClient;
 using System.Text.RegularExpressions;
 using LogOnObjects;
+using static LogOnObjects.Values;
 using System.Reflection;
 using DiverseControls;
 using CommonToolsWin;
@@ -92,10 +93,11 @@ namespace LogOn
 //#endif
         } 
         // Main
-        public fMain()
+        public fMain(string[] args)
         {
             // MessageBox.Show("Pollo1", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-           
+            if (args.Contains("/ext=1"))
+                External = true;
             try
             {
                 InitializeComponent();
@@ -136,25 +138,27 @@ namespace LogOn
             string _dbserver = "";
             string _shareserver = "";
             string _cod3 = "";
-
-            try
-            {
+            if (External)
+                CTWin.InputBox("", "Enter database server.", ref _dbserver);
+            else
                 try
                 {
-                    var _dnsDB = Dns.GetHostEntry("appdb.local");
-                    _dbserver = _dnsDB.HostName;
-                    var _dnsShare = Dns.GetHostEntry("appshare.local");
-                    _shareserver = _dnsShare.HostName;
+                    try
+                    {
+                        var _dnsDB = Dns.GetHostEntry("appdb.local");
+                        _dbserver = _dnsDB.HostName;
+                        var _dnsShare = Dns.GetHostEntry("appshare.local");
+                        _shareserver = _dnsShare.HostName;
+                    }
+                    catch
+                    {
+                        CTWin.InputBox("", "Enter database server.", ref _dbserver);
+                    }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    CTWin.InputBox("", "Enter database server.", ref _dbserver);
+                    throw new Exception(string.Format("Error 2 {0}", ex.Message));
                 }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(string.Format("Error 2 {0}", ex.Message));
-            }
             //MessageBox.Show("Pollo4", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             string[] FilesToUpdate= new string[] { };
             try
@@ -179,7 +183,7 @@ namespace LogOn
                 // tries to check if we are inside of Espack
                 // only updates if in Espack
 
-                _update = isEspackIP(ref _cod3);
+                _update = isEspackIP(ref _cod3) && !External;
                 if (!_update)
                 {
                     MessageBox.Show("This location does not allow application updates.", "Warningr", MessageBoxButtons.OK, MessageBoxIcon.Warning);

@@ -605,11 +605,11 @@ namespace LogOnObjects
         //    return _clean;
         //}
 
-        public async Task LaunchApp(bool temp = false, bool update = true)
+        public async Task LaunchApp(bool temp = false)
         {
 
 
-            if (!Special && update)
+            if (!Special && !External)
             {
                 SetStatus(AppBotStatus.PENDING_UPDATE);
                 //if (!await CheckUpdated().ConfigureAwait(false))
@@ -672,7 +672,7 @@ namespace LogOnObjects
             startInfo.UseShellExecute = false;
             startInfo.FileName = _tempPath;
             startInfo.WindowStyle = ProcessWindowStyle.Maximized;
-            startInfo.Arguments = "/srv=" + DBServer.HostName + " /db=" + DataBase + " /usr=" + DBServer.User + " /pwd=" + DBServer.Password + " /loc=OUT /app=" + Name;
+            startInfo.Arguments = string.Format("/srv={0} /db={1} /usr={2} /pwd={3} /loc={4} /app={5}{6}", DBServer.HostName, DataBase, DBServer.User, DBServer.Password, "OUT", Name, External ? " /ext=1" : "");
 
             try
             {
