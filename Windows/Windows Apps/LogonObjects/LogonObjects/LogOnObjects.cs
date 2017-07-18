@@ -56,6 +56,6 @@ namespace LogOnObjects
             }
            
         }
-
+        public static bool External = false;
     }
 }

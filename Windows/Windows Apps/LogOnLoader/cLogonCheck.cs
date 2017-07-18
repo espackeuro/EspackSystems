@@ -9,12 +9,13 @@ using System.IO;
 using System.Windows.Forms;
 using LogOnObjects;
 using System.Net;
-
+using AccesoDatosNet;
+using static LogOnObjects.Values;
 namespace LogOnLoader
 {
     public partial class fMain : frmSplash
     {
-       
+
 
 
         public async Task LogonCheck()
@@ -22,6 +23,8 @@ namespace LogOnLoader
             string _dbserver="";
             string _shareserver="";
             string _cod3 = "";
+
+
             try
             {
                 var _dnsDB = Dns.GetHostEntry("appdb.local");
@@ -29,11 +32,15 @@ namespace LogOnLoader
                 var _dnsShare = Dns.GetHostEntry("appshare.local");
                 _shareserver = _dnsShare.HostName;
                 _cod3 = _dbserver.Substring(0, 3);
-            } catch 
-            {
-                CTWin.InputBox("", "Enter database server name or IP.", ref _dbserver);
             }
-           // string _pathLogonHosts;
+            catch
+            {
+                //CTWin.InputBox("", "Enter database server name or IP.", ref _dbserver);
+                External = true;
+
+            }
+            
+            // string _pathLogonHosts;
             ServicePointManager.DnsRefreshTimeout = 0;
 
 
@@ -54,26 +61,29 @@ namespace LogOnLoader
                 User = "logon",
                 Password = "*logon*"
             };
-            Values.ShareServerList.Add(_serverShare);
-            Values.COD3 = _cod3;// _line.Split('|')[4];
-            Values.AppList.Add(new cAppBot("logon", "LOGON", "SISTEMAS", "logon.exe", "LOC", _serverDB, _serverShare, "", true));
-            var _clean = await Values.AppList[0].CheckUpdated();
-            if (!_clean)
-                Values.AppList[0].Status = AppBotStatus.PENDING_UPDATE;
-            if (Values.AppList.PendingApps.Count != 0)
+            ShareServerList.Add(_serverShare);
+            COD3 = _cod3;// _line.Split('|')[4];
+            AppList.Add(new cAppBot("logon", "LOGON", "SISTEMAS", "logon.exe", "LOC", _serverDB, _serverShare, "", true));
+            if (!External)
             {
+                var _clean = await Values.AppList[0].CheckUpdated();
+                if (!_clean)
+                    AppList[0].Status = AppBotStatus.PENDING_UPDATE;
+                if (Values.AppList.PendingApps.Count != 0)
+                {
 
-                this.Message = "Updating LogOn.";
-                Application.DoEvents();
+                    Message = "Updating LogOn.";
+                    Application.DoEvents();
+                    System.Threading.Thread.Sleep(250);
+                    ActiveThreads++;
+                    var _thread = new cUpdaterThread(Values.debugBox, Values.ActiveThreads);
+                    // launch task not async
+                    _thread.Process();
+                }
+                this.Message = "LogOn updated. Launching.";
                 System.Threading.Thread.Sleep(250);
-                Values.ActiveThreads++;
-                var _thread = new cUpdaterThread(Values.debugBox, Values.ActiveThreads);
-                // launch task not async
-                _thread.Process();
             }
-            this.Message = "LogOn updated. Launching.";
-            System.Threading.Thread.Sleep(250);
-            await Values.AppList[0].LaunchApp(true);
+            await AppList[0].LaunchApp(true);
             //
         }
 
