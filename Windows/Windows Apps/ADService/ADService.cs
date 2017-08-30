@@ -176,6 +176,7 @@ namespace ADService
                     //await AssignUserGroupOU(User.UserCode, User.Group, User.Sede.COD3, User.Sede.COD3Description);
                 } else
                 {
+                    await AD.PropertyAdd(Group.GroupCode, "mail", string.Format("'{0}'",Group.GroupMail), true);
                     await AD.CleanGroup(Group.GroupCode);
                 }
                 //else
