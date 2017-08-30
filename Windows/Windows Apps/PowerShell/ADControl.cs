@@ -84,7 +84,7 @@ namespace ADControl
         public static string Results { get; set; }
         public static async Task<bool> CreateUser(string Name, string Surname, string UserCode, string Password, string EmailAddress, string COD3)
         {
-            var division = string.Format("{1}/{2}", EmailAddress.Substring(EmailAddress.IndexOf('@') + 1), UserCode);
+            var division = string.Format("{0}/{1}", EmailAddress.Substring(EmailAddress.IndexOf('@') + 1), UserCode);
             var command = new PowerShellCommand()
             {
                 EC = EC,

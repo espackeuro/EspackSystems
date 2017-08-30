@@ -168,10 +168,10 @@ namespace AccesoDatosNet
                 if (AdoCon.State == ConnectionState.Open)
                     Close();
                 string newConnectionString = "";
-                if (User!="SSPI")
-                    newConnectionString= "Server=" + Server.Replace(".local", "") + ";Initial Catalog=" + DataBase + ";User Id=" + User + ";Password=" + Password + ";MultipleActiveResultSets=True;Connection Lifetime=3;Max Pool Size=3";
+                if (User != "SSPI")
+                    newConnectionString = string.Format("Server={0};Initial Catalog={1};User Id={2};Password={3};MultipleActiveResultSets=True;Connection Lifetime=3;Max Pool Size=3", Server, DataBase, User, Password);
                 else
-                    newConnectionString = "Server=" + Server.Replace(".local", "") + ";Initial Catalog=" + DataBase + ";Integrated Security=SSPI;MultipleActiveResultSets=True;Connection Lifetime=3;Max Pool Size=3";
+                    newConnectionString = string.Format("Server={0};Initial Catalog={1};Integrated Security=SSPI;MultipleActiveResultSets=True;Connection Lifetime=3;Max Pool Size=3", Server, DataBase);
                 if (newConnectionString != AdoCon.ConnectionString)
                     AdoCon.ConnectionString = newConnectionString;
                 AdoCon.Open();

@@ -39,7 +39,10 @@ namespace LogOnLoader
                 External = true;
 
             }
-            
+#if DEBUG
+            _dbserver = "db02.cr2.local";
+            _shareserver = "net01.cr2.local";
+#endif
             // string _pathLogonHosts;
             ServicePointManager.DnsRefreshTimeout = 0;
 
