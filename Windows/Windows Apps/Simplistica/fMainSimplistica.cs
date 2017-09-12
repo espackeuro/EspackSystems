@@ -107,7 +107,10 @@ namespace Simplistica
             return InstancedForms[pFormName];  //just created or created earlier.Return it+69
         }
 
-
+        private void hSAReceivalsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            fHSAReceivals fHSAReceivals = (fHSAReceivals)GetChildInstance("fHSAReceivals");
+        }
     }
     public static class Values
     {

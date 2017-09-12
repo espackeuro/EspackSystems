@@ -62,6 +62,12 @@
     <Compile Include="fMainSimplistica.Designer.cs">
       <DependentUpon>fMainSimplistica.cs</DependentUpon>
     </Compile>
+    <Compile Include="fHSAReceivals.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fHSAReceivals.Designer.cs">
+      <DependentUpon>fHSAReceivals.cs</DependentUpon>
+    </Compile>
     <Compile Include="fPrintUnitLabels.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -96,6 +102,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="fMainSimplistica.resx">
       <DependentUpon>fMainSimplistica.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fHSAReceivals.resx">
+      <DependentUpon>fHSAReceivals.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="fPrintUnitLabels.resx">
       <DependentUpon>fPrintUnitLabels.cs</DependentUpon>
