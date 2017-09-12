@@ -36,6 +36,7 @@
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.printRepairsUnitLabelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.printRackLabelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hSAReceivalsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -53,7 +54,8 @@
             // receivalsToolStripMenuItem
             // 
             this.receivalsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.simpleReceivalsToolStripMenuItem});
+            this.simpleReceivalsToolStripMenuItem,
+            this.hSAReceivalsToolStripMenuItem});
             this.receivalsToolStripMenuItem.Name = "receivalsToolStripMenuItem";
             this.receivalsToolStripMenuItem.Size = new System.Drawing.Size(67, 20);
             this.receivalsToolStripMenuItem.Text = "Receivals";
@@ -96,7 +98,14 @@
             this.printRackLabelsToolStripMenuItem.Text = "Print Rack Labels";
             this.printRackLabelsToolStripMenuItem.Click += new System.EventHandler(this.printRackLabelsToolStripMenuItem_Click);
             // 
-            // fMain
+            // hSAReceivalsToolStripMenuItem
+            // 
+            this.hSAReceivalsToolStripMenuItem.Name = "hSAReceivalsToolStripMenuItem";
+            this.hSAReceivalsToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.hSAReceivalsToolStripMenuItem.Text = "HSA Receivals";
+            this.hSAReceivalsToolStripMenuItem.Click += new System.EventHandler(this.hSAReceivalsToolStripMenuItem_Click);
+            // 
+            // fMainSimplistica
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -105,7 +114,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "fMain";
+            this.Name = "fMainSimplistica";
             this.Text = "Form1";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.menuStrip1.ResumeLayout(false);
@@ -124,6 +133,7 @@
         private System.Windows.Forms.ToolStripMenuItem printRepairsUnitLabelsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem printRackLabelsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem hSAReceivalsToolStripMenuItem;
     }
 }
 
