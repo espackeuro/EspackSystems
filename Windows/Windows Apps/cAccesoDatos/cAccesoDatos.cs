@@ -453,7 +453,20 @@ namespace AccesoDatos
 
         public void AssignParameterValues()
         {
-            ControlParameters.Where(x => x.LinkedControl is IsValuable).ToList().ForEach(p => p.Parameter.Value = ((IsValuable)p.LinkedControl).Value);
+            ControlParameters.Where(x => x.LinkedControl is IsValuable).ToList().ForEach(p =>
+            {
+                object _value;
+
+                if (p.LinkedControl.GetType().FullName == "EspackFormControls.EspackDateTimePicker")
+                {
+                    _value = ((IsValuable)p.LinkedControl).Value ?? "";
+                }
+                else
+                    _value = ((IsValuable)p.LinkedControl).Value;
+
+                p.Parameter.Value = _value;
+            });
+    
             ControlParameters.Where(x => !(x.LinkedControl is IsValuable)).ToList().ForEach(p => p.Parameter.Value = p.LinkedControl);
         }
 
