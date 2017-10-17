@@ -206,11 +206,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ok-xxl.png" />
-    <None Include="Resources\nook.png" />
     <None Include="Resources\ok_30.gif" />
     <None Include="Resources\nook_30.gif" />
-    <None Include="Resources\process.gif" />
     <None Include="Resources\process_30.gif" />
     <Content Include="simplistica.ico" />
   </ItemGroup>
