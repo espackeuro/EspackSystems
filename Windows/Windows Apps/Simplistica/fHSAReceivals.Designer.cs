@@ -36,17 +36,17 @@
             this.cboService = new EspackFormControls.EspackComboBox();
             this.txtDescService = new EspackFormControls.EspackTextBox();
             this.lstFlags = new EspackFormControls.EspackCheckedListBox();
-            this.txtReceivalDate = new EspackFormControls.EspackTextBox();
+            this.txtArrivalDate = new EspackFormControls.EspackTextBox();
             this.txtDate = new EspackFormControls.EspackDateTimePicker();
             this.txtLocation = new EspackFormControls.EspackTextBox();
             this.VS = new VSGrid.CtlVSGrid();
             this.toolStrip = new System.Windows.Forms.ToolStrip();
+            this.btnRobotProcess = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnExportReceival = new System.Windows.Forms.ToolStripButton();
             this.txtPackingSlip = new EspackFormControls.EspackTextBox();
             this.tmrRobot = new System.Windows.Forms.Timer(this.components);
             this.pctRobotStatus = new System.Windows.Forms.PictureBox();
-            this.btnRobotProcess = new System.Windows.Forms.ToolStripButton();
-            this.btnExportReceival = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.VS)).BeginInit();
             this.toolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pctRobotStatus)).BeginInit();
@@ -213,32 +213,32 @@
             this.lstFlags.Upp = false;
             this.lstFlags.Value = "";
             // 
-            // txtReceivalDate
+            // txtArrivalDate
             // 
-            this.txtReceivalDate.Add = false;
-            this.txtReceivalDate.BackColor = System.Drawing.Color.White;
-            this.txtReceivalDate.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtReceivalDate.Caption = "Receival Date";
-            this.txtReceivalDate.DBField = null;
-            this.txtReceivalDate.DBFieldType = null;
-            this.txtReceivalDate.DefaultValue = null;
-            this.txtReceivalDate.Del = false;
-            this.txtReceivalDate.DependingRS = null;
-            this.txtReceivalDate.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtReceivalDate.ForeColor = System.Drawing.Color.Black;
-            this.txtReceivalDate.Location = new System.Drawing.Point(556, 97);
-            this.txtReceivalDate.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
-            this.txtReceivalDate.Name = "txtReceivalDate";
-            this.txtReceivalDate.Order = 0;
-            this.txtReceivalDate.ParentConn = null;
-            this.txtReceivalDate.ParentDA = null;
-            this.txtReceivalDate.PK = false;
-            this.txtReceivalDate.Search = false;
-            this.txtReceivalDate.Size = new System.Drawing.Size(143, 17);
-            this.txtReceivalDate.Status = CommonTools.EnumStatus.ADDNEW;
-            this.txtReceivalDate.TabIndex = 42;
-            this.txtReceivalDate.Upp = false;
-            this.txtReceivalDate.Value = "";
+            this.txtArrivalDate.Add = false;
+            this.txtArrivalDate.BackColor = System.Drawing.Color.White;
+            this.txtArrivalDate.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtArrivalDate.Caption = "Arrival Date";
+            this.txtArrivalDate.DBField = null;
+            this.txtArrivalDate.DBFieldType = null;
+            this.txtArrivalDate.DefaultValue = null;
+            this.txtArrivalDate.Del = false;
+            this.txtArrivalDate.DependingRS = null;
+            this.txtArrivalDate.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.txtArrivalDate.ForeColor = System.Drawing.Color.Black;
+            this.txtArrivalDate.Location = new System.Drawing.Point(556, 97);
+            this.txtArrivalDate.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
+            this.txtArrivalDate.Name = "txtArrivalDate";
+            this.txtArrivalDate.Order = 0;
+            this.txtArrivalDate.ParentConn = null;
+            this.txtArrivalDate.ParentDA = null;
+            this.txtArrivalDate.PK = false;
+            this.txtArrivalDate.Search = false;
+            this.txtArrivalDate.Size = new System.Drawing.Size(143, 17);
+            this.txtArrivalDate.Status = CommonTools.EnumStatus.ADDNEW;
+            this.txtArrivalDate.TabIndex = 42;
+            this.txtArrivalDate.Upp = false;
+            this.txtArrivalDate.Value = "";
             // 
             // txtDate
             // 
@@ -353,10 +353,31 @@
             this.toolStrip.TabIndex = 56;
             this.toolStrip.Text = "toolStrip1";
             // 
+            // btnRobotProcess
+            // 
+            this.btnRobotProcess.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnRobotProcess.Image = ((System.Drawing.Image)(resources.GetObject("btnRobotProcess.Image")));
+            this.btnRobotProcess.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnRobotProcess.Name = "btnRobotProcess";
+            this.btnRobotProcess.Size = new System.Drawing.Size(86, 22);
+            this.btnRobotProcess.Text = "Robot Process";
+            this.btnRobotProcess.ToolTipText = "Launch CMMS Robot Process";
+            this.btnRobotProcess.Click += new System.EventHandler(this.btnRobotProcess_Click);
+            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // btnExportReceival
+            // 
+            this.btnExportReceival.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnExportReceival.Image = ((System.Drawing.Image)(resources.GetObject("btnExportReceival.Image")));
+            this.btnExportReceival.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnExportReceival.Name = "btnExportReceival";
+            this.btnExportReceival.Size = new System.Drawing.Size(90, 22);
+            this.btnExportReceival.Text = "Export Receival";
+            this.btnExportReceival.ToolTipText = "Export to LOGISTICA Receivals";
             // 
             // txtPackingSlip
             // 
@@ -398,27 +419,6 @@
             this.pctRobotStatus.TabIndex = 70;
             this.pctRobotStatus.TabStop = false;
             // 
-            // btnRobotProcess
-            // 
-            this.btnRobotProcess.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnRobotProcess.Image = ((System.Drawing.Image)(resources.GetObject("btnRobotProcess.Image")));
-            this.btnRobotProcess.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnRobotProcess.Name = "btnRobotProcess";
-            this.btnRobotProcess.Size = new System.Drawing.Size(86, 22);
-            this.btnRobotProcess.Text = "Robot Process";
-            this.btnRobotProcess.ToolTipText = "Launch CMMS Robot Process";
-            this.btnRobotProcess.Click += new System.EventHandler(this.btnRobotProcess_Click);
-            // 
-            // btnExportReceival
-            // 
-            this.btnExportReceival.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnExportReceival.Image = ((System.Drawing.Image)(resources.GetObject("btnExportReceival.Image")));
-            this.btnExportReceival.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnExportReceival.Name = "btnExportReceival";
-            this.btnExportReceival.Size = new System.Drawing.Size(90, 22);
-            this.btnExportReceival.Text = "Export Receival";
-            this.btnExportReceival.ToolTipText = "Export to LOGISTICA Receivals";
-            // 
             // fHSAReceivals
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -430,7 +430,7 @@
             this.Controls.Add(this.VS);
             this.Controls.Add(this.txtLocation);
             this.Controls.Add(this.txtDate);
-            this.Controls.Add(this.txtReceivalDate);
+            this.Controls.Add(this.txtArrivalDate);
             this.Controls.Add(this.lstFlags);
             this.Controls.Add(this.txtDescService);
             this.Controls.Add(this.cboService);
@@ -438,6 +438,7 @@
             this.Controls.Add(this.txtReceivalCode);
             this.Controls.Add(this.CTLM);
             this.Name = "fHSAReceivals";
+            this.ShowIcon = false;
             this.Text = "HSA Receivals";
             ((System.ComponentModel.ISupportInitialize)(this.VS)).EndInit();
             this.toolStrip.ResumeLayout(false);
@@ -456,7 +457,7 @@
         private EspackFormControls.EspackComboBox cboService;
         private EspackFormControls.EspackTextBox txtDescService;
         private EspackFormControls.EspackCheckedListBox lstFlags;
-        private EspackFormControls.EspackTextBox txtReceivalDate;
+        private EspackFormControls.EspackTextBox txtArrivalDate;
         private EspackFormControls.EspackDateTimePicker txtDate;
         private EspackFormControls.EspackTextBox txtLocation;
         private VSGrid.CtlVSGrid VS;
