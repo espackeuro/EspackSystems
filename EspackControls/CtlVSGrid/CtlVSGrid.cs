@@ -79,8 +79,15 @@ namespace VSGrid
         {
             set
             {
-                if (value != "") mDA.sSPAdd = value;
-                AllowInsert = true;
+                if (value != "")
+                {
+                    mDA.sSPAdd = value;
+                    AllowInsert = true;
+                }
+                else
+                {
+                    AllowInsert = false;
+                }
             }
             get
             {
@@ -97,6 +104,10 @@ namespace VSGrid
                     mDA.sSPUpp = value;
                     AllowUpdate = true;
                 }
+                else
+                {
+                    AllowUpdate = false;
+                }
             }
             get
             {
@@ -108,8 +119,15 @@ namespace VSGrid
         {
             set
             {
-                if (value != "") mDA.sSPDel = value;
-                AllowDelete = true;
+                if (value != "")
+                {
+                    mDA.sSPDel = value;
+                    AllowDelete = true;
+                }
+                else
+                {
+                    AllowDelete = false;
+                }
             }
             get
             {
@@ -512,6 +530,7 @@ namespace VSGrid
 
         private void VSCellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
+
             if (EspackControlParent != null && !RowEditedBool)
             {
                 mPreviousParentStatus = EspackControlParent.Status;
@@ -596,6 +615,7 @@ namespace VSGrid
                 CancelEdit();
                 return;
             }
+
             switch (e.KeyCode)
             {
                 case Keys.Enter:
@@ -616,6 +636,11 @@ namespace VSGrid
                     {
                         if (e.KeyCode == Keys.Delete)
                         {
+                            if (!AllowDelete)
+                            {
+                                MessageBox.Show("Deletion not allowed.", "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                                break;
+                            }
                             if (MessageBox.Show("This will delete the actual line. Are you sure?", "WARNING", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning) == DialogResult.Yes)
                             {
                                 lCommand = mDA.DeleteCommand;
@@ -628,13 +653,28 @@ namespace VSGrid
                         }
                         else
                         {
+                            if (!AllowInsert)
+                            {
+                                MessageBox.Show("Insertion not allowed.", "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                                break;
+                            }
                             if (CurrentCell.RowIndex == Rows.Count - 1)
                             {
+                                if (!AllowInsert)
+                                {
+                                    MessageBox.Show("Insertion not allowed.", "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                                    break;
+                                }
                                 lCommand = mDA.InsertCommand;
                                 lMsg = "Line inserted OK";
                             }
                             else
                             {
+                                if (!AllowUpdate)
+                                {
+                                    MessageBox.Show("Update not allowed.", "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                                    break;
+                                }
                                 lCommand = mDA.UpdateCommand;
                                 lMsg = "Line updated OK";
                             }

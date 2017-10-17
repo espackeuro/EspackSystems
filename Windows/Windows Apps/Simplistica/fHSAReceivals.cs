@@ -72,6 +72,7 @@ namespace Simplistica
             CTLM.AddItem(txtContainer, "container", true, true, false, 0, false, true);
             CTLM.AddItem(txtPackingSlip, "packingSlip", true, true, false, 0, false, true);
             CTLM.AddItem(txtDate, "date", true, true, false, 0,false, false);
+            CTLM.AddItem(txtArrivalDate, "ArrivalDate",  false, false, false, 0, false, false);
             CTLM.AddItem(lstFlags, "flags", true, true, false, 0, false, true);
             CTLM.AddItem(txtDescService, "DescService");
             CTLM.AddItem(Values.COD3, "cod3", pSearch: true);
@@ -84,8 +85,11 @@ namespace Simplistica
             //VS Definitions
             VS.Conn = Values.gDatos;
             VS.sSPAdd = "PAddHSAReceivalsDet";
-            VS.sSPUpp = ""; // PUppHSAReceivalsDet
-            VS.sSPDel = "";
+            VS.AllowInsert = false;
+            VS.AllowUpdate = false;
+            VS.AllowDelete = false;
+            //VS.sSPUpp = "UppHSAReceivalsDet";
+            //VS.sSPDel = "";
             VS.DBTable = "vHSAReceivalsDet";
 
             //VS Details
@@ -112,28 +116,41 @@ namespace Simplistica
         private void CTLM_BeforeButtonClick(object sender, CTLMantenimientoNet.CTLMEventArgs e)
         {
             //(new string[]{"btnOk" }).Contains(e.ButtonClick)
-            if (e.ButtonClick == "btnOk" && (CTLM.Status==EnumStatus.EDIT || CTLM.Status==EnumStatus.ADDNEW ))
+
+
+            switch (e.ButtonClick)
             {
-                using (var _RS = new StaticRS(string.Format("Select 0 from servicios where codigo='{0}' and dbo.checkflag(flags,'HSA')=1 and cod3='{1}'", cboService.Value, Values.COD3), Values.gDatos))
-                {
-                    _RS.Open();
-                    if (_RS.RecordCount == 0)
+                case "btnUpp":
+                case "btnDel":
+                    if (getROBOT_Status() == EnumROBOT_Status.RUN || getROBOT_Status() == EnumROBOT_Status.INI)
                     {
-                        MessageBox.Show(string.Format("Wrong service."), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(string.Format("Action not allowed: ROBOT process is running."), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         e.Cancel = true;
+                        return;
                     }
-                }
+                    break;
+
+                case "btnOK":
+                    if (CTLM.Status == EnumStatus.EDIT || CTLM.Status == EnumStatus.ADDNEW)
+                    {
+                        using (var _RS = new StaticRS(string.Format("Select 0 from servicios where codigo='{0}' and dbo.checkflag(flags,'HSA')=1 and cod3='{1}'", cboService.Value, Values.COD3), Values.gDatos))
+                        {
+                            _RS.Open();
+                            if (_RS.RecordCount == 0)
+                            {
+                                MessageBox.Show(string.Format("Wrong service."), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                e.Cancel = true;
+                            }
+                        }
+                    }
+                    break;
             }
+
         }
 
         private void CTLM_AfterButtonClick(object sender, CTLMantenimientoNet.CTLMEventArgs e)
         {
-            //btnACheck.Enabled = lstFlags["PALETAGS"] == false && lstFlags["RECEIVED"] == true && ServiceFlags.Contains("AUTOCHECK");
-            //btnReceived.Enabled = lstFlags["RECEIVED"] == false && txtEntrada.ToString() != "";
-            //btnLabelCMs.Enabled = !ServiceFlags.Contains("AUTOCHECK");
-
             ROBOT_GetReceivalStatus(txtReceivalCode.Text);
-
         }
 
         private void CboService_SelectedValueChanged(object sender, EventArgs e)
@@ -145,14 +162,7 @@ namespace Simplistica
                     _RS.Open();
                     if (_RS.RecordCount != 0)
                     {
-                        //toolStrip.Enabled = true;
-                        /*
-                        ServiceFlags = _RS["flags"].ToString().Split('|');
-                        btnLabelCMs.Enabled = !ServiceFlags.Contains("AUTOCHECK");
-                        btnACheck.Enabled = ServiceFlags.Contains("AUTOCHECK");
-                        ((CtlVSColumn)VS.Columns["PartNumber"]).AutoCompleteQuery = string.Format("select partnumber from referencias where servicio='{0}'", cboService.Value);
-                        ((CtlVSColumn)VS.Columns["PartNumber"]).ReQuery();
-                        */
+
                     }
                     else
                     {
@@ -166,7 +176,6 @@ namespace Simplistica
             {
                 txtDescService.Value = "";
             }
-            //    toolStrip.Enabled = false;
         }
     
         private void VS_CellEndEdit(object sender, DataGridViewCellEventArgs e)
@@ -182,12 +191,9 @@ namespace Simplistica
                         VS[e.ColumnIndex, e.RowIndex].Value = "";
                         VS[e.ColumnIndex + 1, e.RowIndex].Value = "";
                         VS.CurrentCell = VS[e.ColumnIndex, e.RowIndex];
-                        //e.Cancel = true;
                     }
                     else
                     {
-
-
                         VS[e.ColumnIndex+1, e.RowIndex].Value = _rs["Description"].ToString();
                         VS.CurrentCell = VS[e.ColumnIndex + 1, e.RowIndex];
                     }
@@ -196,6 +202,7 @@ namespace Simplistica
             }
         }
 
+        // Do the stuff to check things before launching the robot process and then, launch it.
         private void btnRobotProcess_Click(object sender, EventArgs e)
         {
 
@@ -209,6 +216,22 @@ namespace Simplistica
                 MessageBox.Show("Wrong packing slip.", "SIMPLISTICA", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            if (CTLM.Status != EnumStatus.NAVIGATE)
+            {
+                MessageBox.Show("Not allowed while current status is "+CTLM.Status.ToString()+".", "SIMPLISTICA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (getROBOT_Status() == EnumROBOT_Status.RUN || getROBOT_Status() == EnumROBOT_Status.INI)
+            {
+                MessageBox.Show("ROBOT process already launched. Please wait for it to finish.", "SIMPLISTICA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (VS.Rows.Count != 0)
+            {
+                MessageBox.Show("This receival already has detail lines.", "SIMPLISTICA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             if (MessageBox.Show("Do you really want to execute IDC_RECEP_AX HSA process for receival "+txtReceivalCode.Text+"?", "SIMPLISTICA", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 int _numProceso;
@@ -241,6 +264,7 @@ namespace Simplistica
                     _numProceso = _sp.LastMsg.Substring(4).ToInt();
                 }
                 // Change the receival status.
+                setROBOT_Status(EnumROBOT_Status.INI);
                 ROBOT_SetReceivalStatus(_numProceso, txtReceivalCode.Text, EnumROBOT_Status.INI);
 
                 // Inform the user.
@@ -253,10 +277,13 @@ namespace Simplistica
             }
         }
 
+        // Timer for ROBOT stuff.
         private void tmrRobot_Tick(object sender, EventArgs e)
         {
             tmrRobot.Enabled = false;
             ROBOT_GetReceivalStatus(txtReceivalCode.Text);
+            if (getROBOT_Status()==EnumROBOT_Status.OK)
+                VS.UpdateEspackControl();
         }
 
         // Changing the status of a receival.
@@ -293,39 +320,41 @@ namespace Simplistica
         // Getting the status of a receival.
         private void ROBOT_GetReceivalStatus(string receivalCode)
         {
-            EnumROBOT_Status _status;
+            EnumROBOT_Status _status=EnumROBOT_Status.NONE;
 
-            using (var _rs = new StaticRS(string.Format("Select status=case when dbo.CheckFlag(flags,'PREC_OK')=1 then 'OK' when dbo.CheckFlag(flags,'PREC_INI')=1 then 'INI' when dbo.CheckFlag(flags,'PREC_RUN')=1 then 'RUN' when dbo.CheckFlag(flags,'PREC_ERR')=1 then 'ERR' else '' end from HSAReceivalsCab where RecCode='{0}'", receivalCode), Values.gDatos))
+            if (receivalCode != "")
             {
-                _rs.Open();
-                if (_rs.RecordCount == 0)
+                using (var _rs = new StaticRS(string.Format("Select status=case when dbo.CheckFlag(flags,'PREC_OK')=1 then 'OK' when dbo.CheckFlag(flags,'PREC_INI')=1 then 'INI' when dbo.CheckFlag(flags,'PREC_RUN')=1 then 'RUN' when dbo.CheckFlag(flags,'PREC_ERR')=1 then 'ERR' else '' end from HSAReceivalsCab where RecCode='{0}'", receivalCode), Values.gDatos))
                 {
-                    CTWin.MsgError("Receival does not exist.");
-                    _status = EnumROBOT_Status.NONE;
-                }
-                else
-                {
-                    switch (_rs["status"].ToString())
+                    _rs.Open();
+                    if (_rs.RecordCount == 0)
                     {
-                        case "OK":
-                            _status = EnumROBOT_Status.OK;
-                            break;
-                        case "RUN":
-                            _status = EnumROBOT_Status.RUN;
-                            break;
-                        case "ERR":
-                            _status = EnumROBOT_Status.ERR;
-                            break;
-                        case "INI":
-                            _status = EnumROBOT_Status.INI;
-                            break;
-                        default:
-                            _status = EnumROBOT_Status.NONE;
-                            break;
+                        CTWin.MsgError("Receival does not exist.");
+
+                    }
+                    else
+                    {
+                        switch (_rs["status"].ToString())
+                        {
+                            case "OK":
+                                _status = EnumROBOT_Status.OK;
+                                break;
+                            case "RUN":
+                                _status = EnumROBOT_Status.RUN;
+                                break;
+                            case "ERR":
+                                _status = EnumROBOT_Status.ERR;
+                                break;
+                            case "INI":
+                                _status = EnumROBOT_Status.INI;
+                                break;
+                            default:
+                                _status = EnumROBOT_Status.NONE;
+                                break;
+                        }
                     }
                 }
             }
-
             // Set the obtained status.
             setROBOT_Status(_status);
         }
