@@ -40,6 +40,7 @@ namespace Sistemas
             CTLM.AddItem(cboPosition, "Position", true, true, false, 1, false, true);
             CTLM.AddItem(cboPositionLevel, "PositionLevel", false, true, false, 0, false, true);
             CTLM.AddItem(cboSecurityLevel, "SecurityLevel", true, true, false, 0, false, true);
+            CTLM.AddItem(cboArea, "area", true, true, false, 0, false, true);
             //Systems
             CTLM.AddItem(txtPWD, "Password", false, true, false, 0, false, false);
             CTLM.AddItem(txtPasswordEXP, "PasswordEXP", false, true, false, 0, false, false);
@@ -59,6 +60,7 @@ namespace Sistemas
             cboPosition.Source(string.Format("select PositionCode,PositionDescription from MasterUserPositions where MinSecurityLevel>={0} order by MinSecurityLevel", SecurityLevel), txtPosition);
             cboPositionLevel.Source(string.Format("select SecurityLevel from MasterSecurityLevels where SecurityLevel>={0} order by SecurityLevel", SecurityLevel));
             cboSecurityLevel.Source(string.Format("select SecurityLevel from MasterSecurityLevels where SecurityLevel>={0} order by SecurityLevel", SecurityLevel));
+            cboArea.Source(string.Format("select idArea from MasterAreas order by idArea", SecurityLevel));
             lstFlags.Source("Select codigo,DescFlagEng from flags where Tabla='Users'");
             CTLM.AfterButtonClick += CTLM_AfterButtonClick;
             CTLM.Start();

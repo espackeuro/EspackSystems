@@ -35,6 +35,9 @@
             this.txtName = new EspackFormControls.EspackTextBox();
             this.txtUserCode = new EspackFormControls.EspackTextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.cboPositionLevel = new EspackFormControls.EspackComboBox();
+            this.txtPosition = new EspackFormControls.EspackTextBox();
+            this.cboSecurityLevel = new EspackFormControls.EspackComboBox();
             this.txtDesCod3 = new EspackFormControls.EspackTextBox();
             this.cboCOD3 = new EspackFormControls.EspackComboBox();
             this.listCOD3 = new EspackFormControls.EspackCheckedListBox();
@@ -49,9 +52,7 @@
             this.txtPWD = new EspackFormControls.EspackTextBox();
             this.lstEmailAliases = new EspackFormControls.EspackCheckedListBox();
             this.CTLM = new CTLMantenimientoNet.CTLMantenimientoNet();
-            this.cboSecurityLevel = new EspackFormControls.EspackComboBox();
-            this.txtPosition = new EspackFormControls.EspackTextBox();
-            this.cboPositionLevel = new EspackFormControls.EspackComboBox();
+            this.cboArea = new EspackFormControls.EspackComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -227,6 +228,7 @@
             // groupBox2
             // 
             this.groupBox2.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.groupBox2.Controls.Add(this.cboArea);
             this.groupBox2.Controls.Add(this.cboPositionLevel);
             this.groupBox2.Controls.Add(this.txtPosition);
             this.groupBox2.Controls.Add(this.cboSecurityLevel);
@@ -242,6 +244,97 @@
             this.groupBox2.TabIndex = 147;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Where";
+            // 
+            // cboPositionLevel
+            // 
+            this.cboPositionLevel.Add = false;
+            this.cboPositionLevel.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboPositionLevel.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboPositionLevel.BackColor = System.Drawing.Color.White;
+            this.cboPositionLevel.Caption = "Position Level";
+            this.cboPositionLevel.DBField = null;
+            this.cboPositionLevel.DBFieldType = null;
+            this.cboPositionLevel.DefaultValue = null;
+            this.cboPositionLevel.Del = false;
+            this.cboPositionLevel.DependingRS = null;
+            this.cboPositionLevel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cboPositionLevel.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.cboPositionLevel.ForeColor = System.Drawing.Color.Black;
+            this.cboPositionLevel.FormattingEnabled = true;
+            this.cboPositionLevel.Location = new System.Drawing.Point(23, 275);
+            this.cboPositionLevel.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
+            this.cboPositionLevel.Name = "cboPositionLevel";
+            this.cboPositionLevel.Order = 0;
+            this.cboPositionLevel.ParentConn = null;
+            this.cboPositionLevel.ParentDA = null;
+            this.cboPositionLevel.PK = false;
+            this.cboPositionLevel.Search = false;
+            this.cboPositionLevel.Size = new System.Drawing.Size(157, 24);
+            this.cboPositionLevel.Status = CommonTools.EnumStatus.ADDNEW;
+            this.cboPositionLevel.TabIndex = 126;
+            this.cboPositionLevel.TBDescription = null;
+            this.cboPositionLevel.Upp = false;
+            this.cboPositionLevel.Value = "";
+            // 
+            // txtPosition
+            // 
+            this.txtPosition.Add = false;
+            this.txtPosition.BackColor = System.Drawing.Color.White;
+            this.txtPosition.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtPosition.Caption = "";
+            this.txtPosition.DBField = null;
+            this.txtPosition.DBFieldType = null;
+            this.txtPosition.DefaultValue = null;
+            this.txtPosition.Del = false;
+            this.txtPosition.DependingRS = null;
+            this.txtPosition.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.txtPosition.ForeColor = System.Drawing.Color.Black;
+            this.txtPosition.Location = new System.Drawing.Point(167, 232);
+            this.txtPosition.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
+            this.txtPosition.Multiline = true;
+            this.txtPosition.Name = "txtPosition";
+            this.txtPosition.Order = 0;
+            this.txtPosition.ParentConn = null;
+            this.txtPosition.ParentDA = null;
+            this.txtPosition.PK = false;
+            this.txtPosition.Search = false;
+            this.txtPosition.Size = new System.Drawing.Size(338, 24);
+            this.txtPosition.Status = CommonTools.EnumStatus.ADDNEW;
+            this.txtPosition.TabIndex = 124;
+            this.txtPosition.TabStop = false;
+            this.txtPosition.Upp = false;
+            this.txtPosition.Value = "";
+            // 
+            // cboSecurityLevel
+            // 
+            this.cboSecurityLevel.Add = false;
+            this.cboSecurityLevel.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboSecurityLevel.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboSecurityLevel.BackColor = System.Drawing.Color.White;
+            this.cboSecurityLevel.Caption = "Security Level";
+            this.cboSecurityLevel.DBField = null;
+            this.cboSecurityLevel.DBFieldType = null;
+            this.cboSecurityLevel.DefaultValue = null;
+            this.cboSecurityLevel.Del = false;
+            this.cboSecurityLevel.DependingRS = null;
+            this.cboSecurityLevel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cboSecurityLevel.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.cboSecurityLevel.ForeColor = System.Drawing.Color.Black;
+            this.cboSecurityLevel.FormattingEnabled = true;
+            this.cboSecurityLevel.Location = new System.Drawing.Point(188, 275);
+            this.cboSecurityLevel.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
+            this.cboSecurityLevel.Name = "cboSecurityLevel";
+            this.cboSecurityLevel.Order = 0;
+            this.cboSecurityLevel.ParentConn = null;
+            this.cboSecurityLevel.ParentDA = null;
+            this.cboSecurityLevel.PK = false;
+            this.cboSecurityLevel.Search = false;
+            this.cboSecurityLevel.Size = new System.Drawing.Size(157, 24);
+            this.cboSecurityLevel.Status = CommonTools.EnumStatus.ADDNEW;
+            this.cboSecurityLevel.TabIndex = 122;
+            this.cboSecurityLevel.TBDescription = null;
+            this.cboSecurityLevel.Upp = false;
+            this.cboSecurityLevel.Value = "";
             // 
             // txtDesCod3
             // 
@@ -358,7 +451,7 @@
             this.cboPosition.ParentDA = null;
             this.cboPosition.PK = false;
             this.cboPosition.Search = false;
-            this.cboPosition.Size = new System.Drawing.Size(103, 24);
+            this.cboPosition.Size = new System.Drawing.Size(130, 24);
             this.cboPosition.Status = CommonTools.EnumStatus.ADDNEW;
             this.cboPosition.TabIndex = 8;
             this.cboPosition.TBDescription = null;
@@ -652,96 +745,36 @@
             this.CTLM.TabIndex = 0;
             this.CTLM.Text = "ctlMantenimientoNet1";
             // 
-            // cboSecurityLevel
+            // cboArea
             // 
-            this.cboSecurityLevel.Add = false;
-            this.cboSecurityLevel.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.cboSecurityLevel.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cboSecurityLevel.BackColor = System.Drawing.Color.White;
-            this.cboSecurityLevel.Caption = "Security Level";
-            this.cboSecurityLevel.DBField = null;
-            this.cboSecurityLevel.DBFieldType = null;
-            this.cboSecurityLevel.DefaultValue = null;
-            this.cboSecurityLevel.Del = false;
-            this.cboSecurityLevel.DependingRS = null;
-            this.cboSecurityLevel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cboSecurityLevel.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.cboSecurityLevel.ForeColor = System.Drawing.Color.Black;
-            this.cboSecurityLevel.FormattingEnabled = true;
-            this.cboSecurityLevel.Location = new System.Drawing.Point(405, 276);
-            this.cboSecurityLevel.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
-            this.cboSecurityLevel.Name = "cboSecurityLevel";
-            this.cboSecurityLevel.Order = 0;
-            this.cboSecurityLevel.ParentConn = null;
-            this.cboSecurityLevel.ParentDA = null;
-            this.cboSecurityLevel.PK = false;
-            this.cboSecurityLevel.Search = false;
-            this.cboSecurityLevel.Size = new System.Drawing.Size(100, 24);
-            this.cboSecurityLevel.Status = CommonTools.EnumStatus.ADDNEW;
-            this.cboSecurityLevel.TabIndex = 122;
-            this.cboSecurityLevel.TBDescription = null;
-            this.cboSecurityLevel.Upp = false;
-            this.cboSecurityLevel.Value = "";
-            // 
-            // txtPosition
-            // 
-            this.txtPosition.Add = false;
-            this.txtPosition.BackColor = System.Drawing.Color.White;
-            this.txtPosition.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtPosition.Caption = "";
-            this.txtPosition.DBField = null;
-            this.txtPosition.DBFieldType = null;
-            this.txtPosition.DefaultValue = null;
-            this.txtPosition.Del = false;
-            this.txtPosition.DependingRS = null;
-            this.txtPosition.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtPosition.ForeColor = System.Drawing.Color.Black;
-            this.txtPosition.Location = new System.Drawing.Point(132, 232);
-            this.txtPosition.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
-            this.txtPosition.Multiline = true;
-            this.txtPosition.Name = "txtPosition";
-            this.txtPosition.Order = 0;
-            this.txtPosition.ParentConn = null;
-            this.txtPosition.ParentDA = null;
-            this.txtPosition.PK = false;
-            this.txtPosition.Search = false;
-            this.txtPosition.Size = new System.Drawing.Size(376, 24);
-            this.txtPosition.Status = CommonTools.EnumStatus.ADDNEW;
-            this.txtPosition.TabIndex = 124;
-            this.txtPosition.TabStop = false;
-            this.txtPosition.Upp = false;
-            this.txtPosition.Value = "";
-            // 
-            // cboPositionLevel
-            // 
-            this.cboPositionLevel.Add = false;
-            this.cboPositionLevel.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.cboPositionLevel.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cboPositionLevel.BackColor = System.Drawing.Color.White;
-            this.cboPositionLevel.Caption = "Position Level";
-            this.cboPositionLevel.DBField = null;
-            this.cboPositionLevel.DBFieldType = null;
-            this.cboPositionLevel.DefaultValue = null;
-            this.cboPositionLevel.Del = false;
-            this.cboPositionLevel.DependingRS = null;
-            this.cboPositionLevel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cboPositionLevel.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.cboPositionLevel.ForeColor = System.Drawing.Color.Black;
-            this.cboPositionLevel.FormattingEnabled = true;
-            this.cboPositionLevel.Location = new System.Drawing.Point(23, 275);
-            this.cboPositionLevel.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
-            this.cboPositionLevel.Name = "cboPositionLevel";
-            this.cboPositionLevel.Order = 0;
-            this.cboPositionLevel.ParentConn = null;
-            this.cboPositionLevel.ParentDA = null;
-            this.cboPositionLevel.PK = false;
-            this.cboPositionLevel.Search = false;
-            this.cboPositionLevel.Size = new System.Drawing.Size(103, 24);
-            this.cboPositionLevel.Status = CommonTools.EnumStatus.ADDNEW;
-            this.cboPositionLevel.TabIndex = 126;
-            this.cboPositionLevel.TBDescription = null;
-            this.cboPositionLevel.Upp = false;
-            this.cboPositionLevel.Value = "";
+            this.cboArea.Add = false;
+            this.cboArea.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboArea.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboArea.BackColor = System.Drawing.Color.White;
+            this.cboArea.Caption = "Area";
+            this.cboArea.DBField = null;
+            this.cboArea.DBFieldType = null;
+            this.cboArea.DefaultValue = null;
+            this.cboArea.Del = false;
+            this.cboArea.DependingRS = null;
+            this.cboArea.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cboArea.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.cboArea.ForeColor = System.Drawing.Color.Black;
+            this.cboArea.FormattingEnabled = true;
+            this.cboArea.Location = new System.Drawing.Point(351, 275);
+            this.cboArea.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
+            this.cboArea.Name = "cboArea";
+            this.cboArea.Order = 0;
+            this.cboArea.ParentConn = null;
+            this.cboArea.ParentDA = null;
+            this.cboArea.PK = false;
+            this.cboArea.Search = false;
+            this.cboArea.Size = new System.Drawing.Size(154, 24);
+            this.cboArea.Status = CommonTools.EnumStatus.ADDNEW;
+            this.cboArea.TabIndex = 134;
+            this.cboArea.TBDescription = null;
+            this.cboArea.Upp = false;
+            this.cboArea.Value = "";
             // 
             // fUsers
             // 
@@ -795,5 +828,6 @@
         private EspackFormControls.EspackComboBox cboSecurityLevel;
         private EspackFormControls.EspackTextBox txtPosition;
         private EspackFormControls.EspackComboBox cboPositionLevel;
+        private EspackFormControls.EspackComboBox cboArea;
     }
 }
