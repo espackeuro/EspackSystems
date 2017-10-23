@@ -92,7 +92,7 @@ namespace Sistemas
             if (e.NewValue != "")
             {
                 //var _old = listCOD3.Value;
-                lstEmailAliases.Source("select Address,a2=Address from mail..aliasCAB a where exists( select 0 from dbo.Split(a.COD3,'|') where valor in (select valor from dbo.Split('" + listCOD3.Value + "','|'))) order by address");
+                lstEmailAliases.Source("select Address,a2=Address from mail..aliasCAB a where exists( select 0 from dbo.Split(a.COD3,'|') where valor in (select valor from dbo.Split('" + listCOD3.Value + "','|'))) and dbo.CheckFlag(a.flags,'STATIC')=0 order by address");
                 //listCOD3.Value = _old;
                 lstEmailAliases.UpdateEspackControl();
             }
