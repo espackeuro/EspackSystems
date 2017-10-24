@@ -47,6 +47,7 @@
             this.txtPackingSlip = new EspackFormControls.EspackTextBox();
             this.tmrRobot = new System.Windows.Forms.Timer(this.components);
             this.pctRobotStatus = new System.Windows.Forms.PictureBox();
+            this.txtPortDepartureDate = new EspackFormControls.EspackTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.VS)).BeginInit();
             this.toolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pctRobotStatus)).BeginInit();
@@ -120,7 +121,7 @@
             this.txtContainer.ParentDA = null;
             this.txtContainer.PK = false;
             this.txtContainer.Search = false;
-            this.txtContainer.Size = new System.Drawing.Size(157, 17);
+            this.txtContainer.Size = new System.Drawing.Size(145, 17);
             this.txtContainer.Status = CommonTools.EnumStatus.ADDNEW;
             this.txtContainer.TabIndex = 24;
             this.txtContainer.Upp = false;
@@ -199,7 +200,7 @@
             this.lstFlags.Font = new System.Drawing.Font("Tahoma", 10F);
             this.lstFlags.ForeColor = System.Drawing.Color.Black;
             this.lstFlags.FormattingEnabled = true;
-            this.lstFlags.Location = new System.Drawing.Point(9, 126);
+            this.lstFlags.Location = new System.Drawing.Point(11, 159);
             this.lstFlags.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.lstFlags.Name = "lstFlags";
             this.lstFlags.Order = 0;
@@ -285,7 +286,7 @@
             this.txtLocation.DependingRS = null;
             this.txtLocation.Font = new System.Drawing.Font("Tahoma", 10F);
             this.txtLocation.ForeColor = System.Drawing.Color.Black;
-            this.txtLocation.Location = new System.Drawing.Point(393, 97);
+            this.txtLocation.Location = new System.Drawing.Point(12, 133);
             this.txtLocation.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtLocation.Name = "txtLocation";
             this.txtLocation.Order = 0;
@@ -293,7 +294,7 @@
             this.txtLocation.ParentDA = null;
             this.txtLocation.PK = false;
             this.txtLocation.Search = false;
-            this.txtLocation.Size = new System.Drawing.Size(157, 17);
+            this.txtLocation.Size = new System.Drawing.Size(145, 17);
             this.txtLocation.Status = CommonTools.EnumStatus.ADDNEW;
             this.txtLocation.TabIndex = 46;
             this.txtLocation.Upp = false;
@@ -302,8 +303,8 @@
             // VS
             // 
             this.VS.Add = false;
-            this.VS.AllowDelete = true;
-            this.VS.AllowInsert = true;
+            this.VS.AllowDelete = false;
+            this.VS.AllowInsert = false;
             this.VS.AllowUpdate = false;
             this.VS.AllowUserToAddRows = false;
             this.VS.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
@@ -318,7 +319,7 @@
             this.VS.DependingRS = null;
             this.VS.EspackControlParent = null;
             this.VS.GridColor = System.Drawing.SystemColors.ButtonFace;
-            this.VS.Location = new System.Drawing.Point(9, 189);
+            this.VS.Location = new System.Drawing.Point(11, 233);
             this.VS.MsgStatusLabel = null;
             this.VS.Name = "VS";
             this.VS.NumPages = 0;
@@ -330,7 +331,7 @@
             this.VS.PK = false;
             this.VS.RowHeadersVisible = false;
             this.VS.Search = false;
-            this.VS.Size = new System.Drawing.Size(690, 308);
+            this.VS.Size = new System.Drawing.Size(690, 286);
             this.VS.SQL = null;
             this.VS.sSPAdd = "";
             this.VS.sSPDel = "";
@@ -392,7 +393,7 @@
             this.txtPackingSlip.DependingRS = null;
             this.txtPackingSlip.Font = new System.Drawing.Font("Tahoma", 10F);
             this.txtPackingSlip.ForeColor = System.Drawing.Color.Black;
-            this.txtPackingSlip.Location = new System.Drawing.Point(175, 97);
+            this.txtPackingSlip.Location = new System.Drawing.Point(163, 97);
             this.txtPackingSlip.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtPackingSlip.Name = "txtPackingSlip";
             this.txtPackingSlip.Order = 0;
@@ -400,7 +401,7 @@
             this.txtPackingSlip.ParentDA = null;
             this.txtPackingSlip.PK = false;
             this.txtPackingSlip.Search = false;
-            this.txtPackingSlip.Size = new System.Drawing.Size(157, 17);
+            this.txtPackingSlip.Size = new System.Drawing.Size(145, 17);
             this.txtPackingSlip.Status = CommonTools.EnumStatus.ADDNEW;
             this.txtPackingSlip.TabIndex = 66;
             this.txtPackingSlip.Upp = false;
@@ -419,11 +420,39 @@
             this.pctRobotStatus.TabIndex = 70;
             this.pctRobotStatus.TabStop = false;
             // 
+            // txtPortDepartureDate
+            // 
+            this.txtPortDepartureDate.Add = false;
+            this.txtPortDepartureDate.BackColor = System.Drawing.Color.White;
+            this.txtPortDepartureDate.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtPortDepartureDate.Caption = "Port Departure Date";
+            this.txtPortDepartureDate.DBField = null;
+            this.txtPortDepartureDate.DBFieldType = null;
+            this.txtPortDepartureDate.DefaultValue = null;
+            this.txtPortDepartureDate.Del = false;
+            this.txtPortDepartureDate.DependingRS = null;
+            this.txtPortDepartureDate.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.txtPortDepartureDate.ForeColor = System.Drawing.Color.Black;
+            this.txtPortDepartureDate.Location = new System.Drawing.Point(558, 133);
+            this.txtPortDepartureDate.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
+            this.txtPortDepartureDate.Name = "txtPortDepartureDate";
+            this.txtPortDepartureDate.Order = 0;
+            this.txtPortDepartureDate.ParentConn = null;
+            this.txtPortDepartureDate.ParentDA = null;
+            this.txtPortDepartureDate.PK = false;
+            this.txtPortDepartureDate.Search = false;
+            this.txtPortDepartureDate.Size = new System.Drawing.Size(143, 17);
+            this.txtPortDepartureDate.Status = CommonTools.EnumStatus.ADDNEW;
+            this.txtPortDepartureDate.TabIndex = 81;
+            this.txtPortDepartureDate.Upp = false;
+            this.txtPortDepartureDate.Value = "";
+            // 
             // fHSAReceivals
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(711, 518);
+            this.ClientSize = new System.Drawing.Size(711, 531);
+            this.Controls.Add(this.txtPortDepartureDate);
             this.Controls.Add(this.pctRobotStatus);
             this.Controls.Add(this.txtPackingSlip);
             this.Controls.Add(this.toolStrip);
@@ -468,5 +497,6 @@
         private EspackFormControls.EspackTextBox txtPackingSlip;
         private System.Windows.Forms.Timer tmrRobot;
         private System.Windows.Forms.PictureBox pctRobotStatus;
+        private EspackFormControls.EspackTextBox txtPortDepartureDate;
     }
 }
