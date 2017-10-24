@@ -74,6 +74,7 @@ namespace Simplistica
             CTLM.AddItem(txtDate, "date", true, true, false, 0,false, false);
             CTLM.AddItem(txtArrivalDate, "ArrivalDate",  false, false, false, 0, false, false);
             CTLM.AddItem(lstFlags, "flags", true, true, false, 0, false, true);
+            CTLM.AddItem(txtPortDepartureDate, "PortDepartureDate", false, false, false, 0, false, false);
             CTLM.AddItem(txtDescService, "DescService");
             CTLM.AddItem(Values.COD3, "cod3", pSearch: true);
 
