@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.IO;
 using System.Text;
+using System.ComponentModel;
 
 namespace RawPrinterHelper
 {
@@ -52,7 +53,11 @@ namespace RawPrinterHelper
             PrinterName = pPrinterName;
             if (!OpenPrinter(pPrinterName.Normalize(), out hPrinter, IntPtr.Zero))
             {
-                throw new Exception("Error opening printer.");
+                if (Marshal.GetLastWin32Error()==2351)
+                    MessageBox.Show(string.Format("Error opening printer: the printer you selected is not available, it maybe off or disconnected from the network.\n\nPlease check the printer.", Marshal.GetLastWin32Error(), new Win32Exception(Marshal.GetLastWin32Error()).Message), "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                else
+                    MessageBox.Show(string.Format("Error opening printer: {0} {1}", Marshal.GetLastWin32Error(), new Win32Exception(Marshal.GetLastWin32Error()).Message),"ERROR",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                // throw new Exception("Error opening printer.");
             }
         }
 
