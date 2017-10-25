@@ -319,7 +319,7 @@
             this.VS.DependingRS = null;
             this.VS.EspackControlParent = null;
             this.VS.GridColor = System.Drawing.SystemColors.ButtonFace;
-            this.VS.Location = new System.Drawing.Point(11, 233);
+            this.VS.Location = new System.Drawing.Point(12, 222);
             this.VS.MsgStatusLabel = null;
             this.VS.Name = "VS";
             this.VS.NumPages = 0;
@@ -379,6 +379,7 @@
             this.btnExportReceival.Size = new System.Drawing.Size(90, 22);
             this.btnExportReceival.Text = "Export Receival";
             this.btnExportReceival.ToolTipText = "Export to LOGISTICA Receivals";
+            this.btnExportReceival.Click += new System.EventHandler(this.btnExportReceival_Click);
             // 
             // txtPackingSlip
             // 
@@ -451,7 +452,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(711, 531);
+            this.ClientSize = new System.Drawing.Size(711, 536);
             this.Controls.Add(this.txtPortDepartureDate);
             this.Controls.Add(this.pctRobotStatus);
             this.Controls.Add(this.txtPackingSlip);

@@ -1151,7 +1151,6 @@ namespace EspackFormControls
         {
             noChange = true;
             _SQL = pSQL;
-            _SQL = pSQL;
             _RS = new DynamicRS(_SQL, pConn);
             _RS.Open();
             DataSource = null;

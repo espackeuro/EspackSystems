@@ -110,14 +110,13 @@ namespace Simplistica
             CTLM.AfterButtonClick += CTLM_AfterButtonClick;
             CTLM.BeforeButtonClick += CTLM_BeforeButtonClick;
             //toolStrip.Enabled = false;
-
+           
             setROBOT_Status(EnumROBOT_Status.NONE);
         }
 
         private void CTLM_BeforeButtonClick(object sender, CTLMantenimientoNet.CTLMEventArgs e)
         {
             //(new string[]{"btnOk" }).Contains(e.ButtonClick)
-
 
             switch (e.ButtonClick)
             {
@@ -132,6 +131,7 @@ namespace Simplistica
                     break;
 
                 case "btnOK":
+                    tmrRobot.Enabled = false;
                     if (CTLM.Status == EnumStatus.EDIT || CTLM.Status == EnumStatus.ADDNEW)
                     {
                         using (var _RS = new StaticRS(string.Format("Select 0 from servicios where codigo='{0}' and dbo.checkflag(flags,'HSA')=1 and cod3='{1}'", cboService.Value, Values.COD3), Values.gDatos))
@@ -144,6 +144,9 @@ namespace Simplistica
                             }
                         }
                     }
+                    break;
+                default:
+                    tmrRobot.Enabled = false;
                     break;
             }
 
@@ -283,8 +286,21 @@ namespace Simplistica
         {
             tmrRobot.Enabled = false;
             ROBOT_GetReceivalStatus(txtReceivalCode.Text);
-            if (getROBOT_Status()==EnumROBOT_Status.OK)
+            if (getROBOT_Status() == EnumROBOT_Status.OK)
+            {
+
+
+                using (var _rs = new StaticRS(string.Format("select PortDepartureDate from HSAReceivalsCab where RecCode='{0}'", txtReceivalCode.Value), Values.gDatos))
+                {
+                    _rs.Open();
+                    if (_rs.RecordCount != 0)
+                    {
+                        txtPortDepartureDate.Text = _rs["PortDepartureDate"].ToString();
+                    }
+                }
+
                 VS.UpdateEspackControl();
+            }
         }
 
         // Changing the status of a receival.
@@ -358,6 +374,42 @@ namespace Simplistica
             }
             // Set the obtained status.
             setROBOT_Status(_status);
+        }
+
+        private void btnExportReceival_Click(object sender, EventArgs e)
+        {
+            int _numReceival;
+
+            if (txtReceivalCode.Text == "")
+            {
+                MessageBox.Show("Wrong receival code.", "SIMPLISTICA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            
+
+            using (var _sp = new SP(Values.gDatos, "pExportHSAReceival"))
+            {
+                _sp.AddParameterValue("@RecCode", txtReceivalCode.Text);
+                _sp.AddParameterValue("@cod3", Values.COD3);
+                try
+                {
+                    _sp.Execute();
+                }
+                catch (Exception ex)
+                {
+                    CTWin.MsgError(ex.Message);
+                    return;
+                }
+                if (_sp.LastMsg.Substring(0, 2) != "OK")
+                {
+                    CTWin.MsgError(_sp.LastMsg);
+                    return;
+                }
+                _numReceival = _sp.LastMsg.Substring(4).ToInt();
+            }
+            CTLM.Refresh();
+            MessageBox.Show(string.Format("HSA receival exported to LOGISTICA receival {1}.",_numReceival), "SIMPLISTICA", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            
         }
     }
 }
