@@ -71,12 +71,14 @@ namespace Simplistica
             CTLM.AddItem(txtReceivalCode, "recCode", false, true, true, 1, true, true);
             CTLM.AddItem(txtContainer, "container", true, true, false, 0, false, true);
             CTLM.AddItem(txtPackingSlip, "packingSlip", true, true, false, 0, false, true);
-            CTLM.AddItem(txtDate, "date", true, true, false, 0,false, false);
+            CTLM.AddItem(txtDate, "date", true, true, false, 1,false, false);
             CTLM.AddItem(txtArrivalDate, "ArrivalDate",  false, false, false, 0, false, false);
             CTLM.AddItem(lstFlags, "flags", true, true, false, 0, false, true);
             CTLM.AddItem(txtPortDepartureDate, "PortDepartureDate", false, false, false, 0, false, false);
             CTLM.AddItem(txtDescService, "DescService");
             CTLM.AddItem(Values.COD3, "cod3", pSearch: true);
+
+            CTLM.ReQuery = true;
 
             //fields
             cboService.Source("Select Codigo,Nombre from Servicios where dbo.CheckFlag(flags,'HSA')=1 and cod3='" + Values.COD3 + "' order by codigo", txtDescService);
@@ -220,7 +222,7 @@ namespace Simplistica
                 MessageBox.Show("Wrong packing slip.", "SIMPLISTICA", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            if (CTLM.Status != EnumStatus.NAVIGATE)
+            if (CTLM.Status != EnumStatus.NAVIGATE && CTLM.Status != EnumStatus.SEARCH)
             {
                 MessageBox.Show("Not allowed while current status is "+CTLM.Status.ToString()+".", "SIMPLISTICA", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -230,7 +232,7 @@ namespace Simplistica
                 MessageBox.Show("ROBOT process already launched. Please wait for it to finish.", "SIMPLISTICA", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            if (VS.Rows.Count != 0)
+            if (VS.Rows.Count !=0)
             {
                 MessageBox.Show("This receival already has detail lines.", "SIMPLISTICA", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -387,7 +389,7 @@ namespace Simplistica
             }
             
 
-            using (var _sp = new SP(Values.gDatos, "pExportHSAReceival"))
+            using (var _sp = new SP(Values.gDatos, "pHSAExportReceival"))
             {
                 _sp.AddParameterValue("@RecCode", txtReceivalCode.Text);
                 _sp.AddParameterValue("@cod3", Values.COD3);
