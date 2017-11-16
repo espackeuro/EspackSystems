@@ -19,11 +19,18 @@ namespace Simplistica
         public fSettings()
         {
             InitializeComponent();
-            cboPrinters.Enabled = true;
-            cboPrinters.Source("select Codigo from  ETIQUETAS..datosEmpresa where descripcion like '%COO%' order by cmp_integer", Values.gDatos);
-            cboPrinters.Value = cSettings.readSetting("labelPrinter");
-            Values.LabelPrinterAddress = cboPrinters.Value.ToString();
-            cboPrinters.SelectedIndexChanged += CboPrinters_SelectedIndexChanged;
+            
+            try
+            {
+                cboPrinters.Enabled = true;
+                cboPrinters.Source("select Codigo from  ETIQUETAS..datosEmpresa where descripcion like '%COO%' order by cmp_integer", Values.gDatos);
+                cboPrinters.Value = cSettings.readSetting("labelPrinter");
+                Values.LabelPrinterAddress = cboPrinters.Value.ToString();
+                cboPrinters.SelectedIndexChanged += CboPrinters_SelectedIndexChanged;
+            } catch
+            {
+                cboPrinters.Enabled = false;
+            }
             cboWarehouse.Enabled = true;
             cboWarehouse.Source("select cod3,Descripcion from general..sedes_servicios S inner join general..Sedes se on se.Codigo = S.CodigoSede where codigoServicio = 'LOGISTICA' order by Descripcion",Values.gDatos);
             cboWarehouse.Value = cSettings.readSetting("COD3");

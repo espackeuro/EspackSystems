@@ -40,8 +40,10 @@
             this.txtDescription = new EspackFormControls.EspackTextBox();
             this.txtServiceCode = new EspackFormControls.EspackTextBox();
             this.grpID = new System.Windows.Forms.GroupBox();
+            this.txtVersion = new EspackFormControls.EspackTextBox();
             this.grpSystem = new System.Windows.Forms.GroupBox();
             this.grpVarious = new System.Windows.Forms.GroupBox();
+            this.txtNetVersion = new EspackFormControls.EspackTextBox();
             this.grpID.SuspendLayout();
             this.grpSystem.SuspendLayout();
             this.grpVarious.SuspendLayout();
@@ -58,12 +60,12 @@
             this.CTLM.MsgStatusInfoLabel = null;
             this.CTLM.MsgStatusLabel = null;
             this.CTLM.Name = "CTLM";
-            
+            this.CTLM.ReQuery = false;
             this.CTLM.Size = new System.Drawing.Size(290, 29);
             this.CTLM.sSPAdd = "";
             this.CTLM.sSPDel = "";
             this.CTLM.sSPUpp = "";
-
+            this.CTLM.StatusBarProgress = null;
             this.CTLM.TabIndex = 0;
             this.CTLM.Text = "CTLM";
             // 
@@ -330,7 +332,7 @@
             this.txtServiceCode.Add = false;
             this.txtServiceCode.BackColor = System.Drawing.Color.White;
             this.txtServiceCode.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtServiceCode.Caption = "ServiceCode";
+            this.txtServiceCode.Caption = "Service Code";
             this.txtServiceCode.DBField = null;
             this.txtServiceCode.DBFieldType = null;
             this.txtServiceCode.DefaultValue = null;
@@ -356,6 +358,8 @@
             // grpID
             // 
             this.grpID.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.grpID.Controls.Add(this.txtNetVersion);
+            this.grpID.Controls.Add(this.txtVersion);
             this.grpID.Controls.Add(this.txtServiceCode);
             this.grpID.Controls.Add(this.txtDescription);
             this.grpID.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
@@ -364,7 +368,33 @@
             this.grpID.Size = new System.Drawing.Size(634, 100);
             this.grpID.TabIndex = 38;
             this.grpID.TabStop = false;
-            this.grpID.Text = "Id";
+            // 
+            // txtVersion
+            // 
+            this.txtVersion.Add = false;
+            this.txtVersion.BackColor = System.Drawing.Color.White;
+            this.txtVersion.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtVersion.Caption = "Version";
+            this.txtVersion.DBField = null;
+            this.txtVersion.DBFieldType = null;
+            this.txtVersion.DefaultValue = null;
+            this.txtVersion.Del = false;
+            this.txtVersion.DependingRS = null;
+            this.txtVersion.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.txtVersion.ForeColor = System.Drawing.Color.Black;
+            this.txtVersion.Location = new System.Drawing.Point(235, 23);
+            this.txtVersion.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
+            this.txtVersion.Name = "txtVersion";
+            this.txtVersion.Order = 0;
+            this.txtVersion.ParentConn = null;
+            this.txtVersion.ParentDA = null;
+            this.txtVersion.PK = false;
+            this.txtVersion.Search = false;
+            this.txtVersion.Size = new System.Drawing.Size(175, 17);
+            this.txtVersion.Status = CommonTools.EnumStatus.ADDNEW;
+            this.txtVersion.TabIndex = 13;
+            this.txtVersion.Upp = false;
+            this.txtVersion.Value = "";
             // 
             // grpSystem
             // 
@@ -395,6 +425,33 @@
             this.grpVarious.TabIndex = 40;
             this.grpVarious.TabStop = false;
             this.grpVarious.Text = "Various";
+            // 
+            // txtNetVersion
+            // 
+            this.txtNetVersion.Add = false;
+            this.txtNetVersion.BackColor = System.Drawing.Color.White;
+            this.txtNetVersion.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtNetVersion.Caption = "Net Version";
+            this.txtNetVersion.DBField = null;
+            this.txtNetVersion.DBFieldType = null;
+            this.txtNetVersion.DefaultValue = null;
+            this.txtNetVersion.Del = false;
+            this.txtNetVersion.DependingRS = null;
+            this.txtNetVersion.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.txtNetVersion.ForeColor = System.Drawing.Color.Black;
+            this.txtNetVersion.Location = new System.Drawing.Point(449, 23);
+            this.txtNetVersion.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
+            this.txtNetVersion.Name = "txtNetVersion";
+            this.txtNetVersion.Order = 0;
+            this.txtNetVersion.ParentConn = null;
+            this.txtNetVersion.ParentDA = null;
+            this.txtNetVersion.PK = false;
+            this.txtNetVersion.Search = false;
+            this.txtNetVersion.Size = new System.Drawing.Size(175, 17);
+            this.txtNetVersion.Status = CommonTools.EnumStatus.ADDNEW;
+            this.txtNetVersion.TabIndex = 18;
+            this.txtNetVersion.Upp = false;
+            this.txtNetVersion.Value = "";
             // 
             // fServices
             // 
@@ -435,5 +492,7 @@
         private System.Windows.Forms.GroupBox grpID;
         private System.Windows.Forms.GroupBox grpSystem;
         private System.Windows.Forms.GroupBox grpVarious;
+        private EspackFormControls.EspackTextBox txtVersion;
+        private EspackFormControls.EspackTextBox txtNetVersion;
     }
 }

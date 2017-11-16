@@ -168,11 +168,11 @@ namespace LogOn
                 Values.gDatos.User = "procesos";
                 Values.gDatos.Password = "*seso69*";
 #if DEBUG
-                _dbserver = "db02.cr2.local";
+                /*_dbserver = "db02.cr2.local";
                 _shareserver = "net01.cr2.local";
                 Values.gDatos.Server = _dbserver;
                 Values.gDatos.User = "sa";
-                Values.gDatos.Password = "5380";
+                Values.gDatos.Password = "5380";*/
 #endif
                 // Connect (or try)
                 try
