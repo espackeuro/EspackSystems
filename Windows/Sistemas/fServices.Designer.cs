@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(fServices));
             this.CTLM = new CTLMantenimientoNet.CTLMantenimientoNet();
             this.txtDB = new EspackFormControls.EspackTextBox();
             this.txtLocation = new EspackFormControls.EspackTextBox();
@@ -40,13 +41,19 @@
             this.txtDescription = new EspackFormControls.EspackTextBox();
             this.txtServiceCode = new EspackFormControls.EspackTextBox();
             this.grpID = new System.Windows.Forms.GroupBox();
+            this.txtNetVersion = new EspackFormControls.EspackTextBox();
             this.txtVersion = new EspackFormControls.EspackTextBox();
             this.grpSystem = new System.Windows.Forms.GroupBox();
             this.grpVarious = new System.Windows.Forms.GroupBox();
-            this.txtNetVersion = new EspackFormControls.EspackTextBox();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.btnReloadVersions = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.grpID.SuspendLayout();
             this.grpSystem.SuspendLayout();
             this.grpVarious.SuspendLayout();
+            this.toolStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
             // CTLM
@@ -369,6 +376,33 @@
             this.grpID.TabIndex = 38;
             this.grpID.TabStop = false;
             // 
+            // txtNetVersion
+            // 
+            this.txtNetVersion.Add = false;
+            this.txtNetVersion.BackColor = System.Drawing.Color.White;
+            this.txtNetVersion.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtNetVersion.Caption = "Net Version";
+            this.txtNetVersion.DBField = null;
+            this.txtNetVersion.DBFieldType = null;
+            this.txtNetVersion.DefaultValue = null;
+            this.txtNetVersion.Del = false;
+            this.txtNetVersion.DependingRS = null;
+            this.txtNetVersion.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.txtNetVersion.ForeColor = System.Drawing.Color.Black;
+            this.txtNetVersion.Location = new System.Drawing.Point(449, 23);
+            this.txtNetVersion.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
+            this.txtNetVersion.Name = "txtNetVersion";
+            this.txtNetVersion.Order = 0;
+            this.txtNetVersion.ParentConn = null;
+            this.txtNetVersion.ParentDA = null;
+            this.txtNetVersion.PK = false;
+            this.txtNetVersion.Search = false;
+            this.txtNetVersion.Size = new System.Drawing.Size(175, 17);
+            this.txtNetVersion.Status = CommonTools.EnumStatus.ADDNEW;
+            this.txtNetVersion.TabIndex = 18;
+            this.txtNetVersion.Upp = false;
+            this.txtNetVersion.Value = "";
+            // 
             // txtVersion
             // 
             this.txtVersion.Add = false;
@@ -426,38 +460,67 @@
             this.grpVarious.TabStop = false;
             this.grpVarious.Text = "Various";
             // 
-            // txtNetVersion
+            // toolStrip1
             // 
-            this.txtNetVersion.Add = false;
-            this.txtNetVersion.BackColor = System.Drawing.Color.White;
-            this.txtNetVersion.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtNetVersion.Caption = "Net Version";
-            this.txtNetVersion.DBField = null;
-            this.txtNetVersion.DBFieldType = null;
-            this.txtNetVersion.DefaultValue = null;
-            this.txtNetVersion.Del = false;
-            this.txtNetVersion.DependingRS = null;
-            this.txtNetVersion.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtNetVersion.ForeColor = System.Drawing.Color.Black;
-            this.txtNetVersion.Location = new System.Drawing.Point(449, 23);
-            this.txtNetVersion.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
-            this.txtNetVersion.Name = "txtNetVersion";
-            this.txtNetVersion.Order = 0;
-            this.txtNetVersion.ParentConn = null;
-            this.txtNetVersion.ParentDA = null;
-            this.txtNetVersion.PK = false;
-            this.txtNetVersion.Search = false;
-            this.txtNetVersion.Size = new System.Drawing.Size(175, 17);
-            this.txtNetVersion.Status = CommonTools.EnumStatus.ADDNEW;
-            this.txtNetVersion.TabIndex = 18;
-            this.txtNetVersion.Upp = false;
-            this.txtNetVersion.Value = "";
+            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
+            this.toolStrip1.Location = new System.Drawing.Point(498, 9);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(1, 0);
+            this.toolStrip1.TabIndex = 41;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.toolStripButton1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(117, 28);
+            this.toolStripButton1.Text = "Reload Versions";
+            this.toolStripButton1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // toolStrip2
+            // 
+            this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnReloadVersions});
+            this.toolStrip2.Location = new System.Drawing.Point(462, 3);
+            this.toolStrip2.Name = "toolStrip2";
+            this.toolStrip2.Size = new System.Drawing.Size(160, 31);
+            this.toolStrip2.TabIndex = 42;
+            this.toolStrip2.Text = "toolStrip2";
+            // 
+            // btnReloadVersions
+            // 
+            this.btnReloadVersions.Image = global::Sistemas.Properties.Resources.reload_24;
+            this.btnReloadVersions.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnReloadVersions.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.btnReloadVersions.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnReloadVersions.Name = "btnReloadVersions";
+            this.btnReloadVersions.Size = new System.Drawing.Size(117, 28);
+            this.btnReloadVersions.Text = "Reload Versions";
+            this.btnReloadVersions.Click += new System.EventHandler(this.btnReloadVersions_Click);
+            // 
+            // toolStripButton2
+            // 
+            this.toolStripButton2.AutoSize = false;
+            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton2.Image = global::Sistemas.Properties.Resources.reload_24;
+            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton2.Name = "toolStripButton2";
+            this.toolStripButton2.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton2.Text = "toolStripButton2";
             // 
             // fServices
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(659, 611);
+            this.Controls.Add(this.toolStrip2);
+            this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.grpID);
             this.Controls.Add(this.CTLM);
             this.Controls.Add(this.grpSystem);
@@ -471,6 +534,8 @@
             this.grpSystem.PerformLayout();
             this.grpVarious.ResumeLayout(false);
             this.grpVarious.PerformLayout();
+            this.toolStrip2.ResumeLayout(false);
+            this.toolStrip2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -494,5 +559,10 @@
         private System.Windows.Forms.GroupBox grpVarious;
         private EspackFormControls.EspackTextBox txtVersion;
         private EspackFormControls.EspackTextBox txtNetVersion;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStrip toolStrip2;
+        private System.Windows.Forms.ToolStripButton toolStripButton2;
+        private System.Windows.Forms.ToolStripButton btnReloadVersions;
     }
 }
