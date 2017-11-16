@@ -120,4 +120,33 @@
   <metadata name="CTLM.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <metadata name="toolStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>100, 17</value>
+  </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="toolStripButton1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAOuSURBVEhLpVZbTxNREO6PUd/VgqAs25YCKm1pRVSMJqJI
+        vF+QxKhU1Ad9UBOjDya+eInGS5VIuYkVUNQEr5F7sKWtbYEURAXFaIEZz5zuku52iyZOMjlzdud8c+ab
+        OWdXN5+E12QvDBWKzk92Q1vIIkYDFnGWlGz+jL0jH8n93yVkFRdE7IaaoFWYCdgNEHEYUVZ5Lo/kE2a+
+        tEZaPr+wRaUBe9YPNaB6nvic7KBDoDWlEoy2hOxiFTn/jxKGBKeUkE0sDTqMmruT7cR5Kh/JVmZC/KWi
+        heyhXVaMXi3HseYKHGmogOi1cvy025oyANGlqAkViV6oNbgxF0aaDsHY1HkY+5msI82V3EdrLWHGwVmb
+        qbuF2yVmHO8/iQQU+lCFHVUO9KwVsKlIgI6jDvS/Pgbfpi/i+MAp9JeYk7Lh3UUtzCbOxBeyPVqzFwmg
+        +84uaDTpsdEY11rDUqDRbdJD390d3Mdbux+8tuwkuuic6OjA0EO1hs9sgl7XHnDnpAGBaikFCbxzcgo9
+        G43QZREUGIRNBY6qIw9VbIfJmtvo27AKm3PS+Y7VGdDYd28nBl8d4TR+rN+Hgy0V2LnZTPzHM2AnXseP
+        f0LUkepK+D0xAbFYDKYG+sC/ZQ08z8sAt1GflEHYe0JR9NHJs/CkLBde5GfG8Ri2LmgVZ+UMogfLEKZj
+        SOAoyfegH3otWdhdkIWPVBl4igSM9J/gGXyeOI8vD1nn3rfnLkNfAQuQSNHwtrX4pb0FvXdv8gBfejrR
+        e+cGX/Bm5XL0sUJ6zHHKZKDmgkzsvFYOz7bnKSgkfWJKH6UuapMD0BgsNGB78SqYjcVwctCLdeaMuQW0
+        q4+FIrzOz0SijJ75Xbfw/enqOZ/EAPXGJU911EqcrwQdZDrsusnr4K91QR0rNC0kbTKlQa81m3fMwPUr
+        cZ+HLkVtZG006I+nPmjr8/FXbyevx9e+bnxffRhbillXFeXD26MHcOJtB6dx0u/DJpspOQNRP9uQk7aI
+        n2a6+5MCsHGItel4/QOAmRnC4iI3AI3DrY/RYzMpaJHtBsPS+FVBIl92BKylXVuLofvSOUbXfQi4H0DP
+        5QvQWrpOkxZStvupR+Ji5Qfob9d11+oVih3Ko9qWir9VglVKxG6soiBaAUj7LQLrjHj3aAUg8AbjEqcE
+        py2UyXx09duy2eWXfD+5Bf2PlDtXC9Vkvo++v1DEx/IdRd3CCprE+b+I/NvCgNvoxNO1wn9buC20tZrS
+        j8+1oqbodH8APSisQ3VhLc8AAAAASUVORK5CYII=
+</value>
+  </data>
+  <metadata name="toolStrip2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>205, 17</value>
+  </metadata>
 </root>

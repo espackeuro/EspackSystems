@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Security;
 using System;
 using System.Drawing;
+using CommonTools;
 
 namespace Sistemas
 {
@@ -39,7 +40,23 @@ namespace Sistemas
 
             CTLM.Start();
             CTLM.AfterButtonClick += CTLM_AfterButtonClick;
+            CTLM.BeforeButtonClick += CTLM_BeforeButtonClick;
+        }
 
+        private void CTLM_BeforeButtonClick(object sender, CTLMantenimientoNet.CTLMEventArgs e)
+        {
+            switch (CTLM.Status)
+            {
+                case EnumStatus.ADDNEW:
+                case EnumStatus.EDIT:
+                    {
+                        if (txtVersion != txtNetVersion)
+                        {
+                            txtVersion.Text = txtNetVersion.Text;
+                        }
+                    }
+                    break;
+            }
         }
 
         private void CTLM_AfterButtonClick(object sender, CTLMantenimientoNet.CTLMEventArgs e)
@@ -48,8 +65,8 @@ namespace Sistemas
             FileVersionInfo _localFileVersion;
             switch (CTLM.Status)
             {
-                case CommonTools.EnumStatus.NAVIGATE:
-                case CommonTools.EnumStatus.SEARCH:
+                case EnumStatus.NAVIGATE:
+                case EnumStatus.SEARCH:
                     {
                         if (isEspackIP(ref _COD3) && txtServiceCode.Text != "")
                         {
@@ -112,6 +129,37 @@ namespace Sistemas
             }
             return true;
             //#endif
+        }
+
+        private void btnReloadVersions_Click(object sender, EventArgs e)
+        {
+            CTLM.ClearValues();
+            txtNetVersion.Text = "";
+            CTLM.SetStatus(EnumStatus.SEARCH);
+            CTLM.Button_Click("btnOk");
+            Application.DoEvents();
+            while (!CTLM.EOF)
+            {
+                CTLM.ShowRSValues();
+                Application.DoEvents();
+                if (txtVersion.Text !=txtNetVersion.Text)
+                {
+                    int i = CTLM.RSPosition;
+                    CTLM.SetStatus(EnumStatus.EDIT);
+                    txtVersion.Text = txtNetVersion.Text;
+                    CTLM.Button_Click("btnOk");
+                    Application.DoEvents();
+                    CTLM.ClearValues();
+                    txtNetVersion.Text = "";
+                    CTLM.SetStatus(EnumStatus.SEARCH);
+                    CTLM.Button_Click("btnOk");
+                    Application.DoEvents();
+                    CTLM.setRSPosition(i);
+                }
+                txtNetVersion.Text = "";
+                CTLM.Button_Click("btnNext");
+            }
+
         }
     }
 }

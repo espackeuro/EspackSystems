@@ -180,7 +180,36 @@ namespace CTLMantenimientoNet
                 return mDA.SelectRS.DS != null ? mDA.SelectRS.Index : 0;
             }
         }
-
+        public bool EOF
+        {
+            get
+            {
+                return mDA.SelectRS.DS != null ? mDA.SelectRS.EOF : false;
+            }
+        }
+        public bool BOF
+        {
+            get
+            {
+                return mDA.SelectRS.DS != null ? mDA.SelectRS.BOF : false;
+            }
+        }
+        public void MoveNext()
+        {
+            if (Status== EnumStatus.NAVIGATE && !EOF)
+            {
+                mDA.SelectRS.MoveNext();
+                ShowRSValues();
+            }
+        }
+        public void MovePrevious()
+        {
+            if (Status == EnumStatus.SEARCH && !BOF)
+            {
+                mDA.SelectRS.MovePrevious();
+                ShowRSValues();
+            }
+        }
         //public List<VSGrid.CtlVSGrid> VSGrids;
 
         //private int mRsPosition;
@@ -755,7 +784,7 @@ namespace CTLMantenimientoNet
             }
         }
 
-        private void Button_Click(string pButtonName) //lauched when clicked any button
+        public void Button_Click(string pButtonName) //lauched when clicked any button
         {
             try
             {
