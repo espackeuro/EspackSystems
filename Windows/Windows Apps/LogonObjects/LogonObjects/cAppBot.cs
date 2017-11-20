@@ -34,6 +34,7 @@ namespace LogOnObjects
         public Button pctApp { get; set; }
         public ProgressBar prgApp { get; set; }
         public Label lblDescriptionApp { get; set; }
+        public Label lblVersionApp { get; set; }
         //private AppBotStatus _status;
         public Bitmap AppIcon { get; set; }
         public string LocalPath { get; set; }
@@ -49,6 +50,7 @@ namespace LogOnObjects
                 prgApp.Value = value;
             }
         }
+        public string version { get; set; }
         //Events
         public event EventHandler AfterLaunch;
         protected virtual void OnAfterLaunch(EventArgs e)
@@ -197,15 +199,20 @@ namespace LogOnObjects
         public static int PROGRESS_WIDTH = GROUP_WIDTH - (PROGRESS_PADDING * 2);
 
         public static int DESCRIPTION_PADDING = PROGRESS_PADDING;
-        public static int DESCRIPTION_HEIGHT = 40;
+        public static int DESCRIPTION_HEIGHT = 35;
         public static int DESCRIPTION_WIDTH = GROUP_WIDTH - (DESCRIPTION_PADDING * 2);
 
+        public static int VERSION_PADDING = PROGRESS_PADDING;
+        public static int VERSION_HEIGHT = 10;
+        public static int VERSION_WIDTH = GROUP_WIDTH - (DESCRIPTION_PADDING * 2);
+
+
         public static int PICTURE_PADDING = PROGRESS_PADDING;
-        public static int PICTURE_HEIGHT = GROUP_HEIGHT - DESCRIPTION_PADDING - DESCRIPTION_HEIGHT - PICTURE_PADDING * 2;
+        public static int PICTURE_HEIGHT = GROUP_HEIGHT - DESCRIPTION_PADDING - DESCRIPTION_HEIGHT - VERSION_HEIGHT - PICTURE_PADDING * 2;
         public static int PICTURE_WIDTH = GROUP_WIDTH - PICTURE_PADDING * 2;
 
         // Constructor (with args) -> Calls the base constructor and sets some properties
-        public cAppBot(string pCode, string pDescription, string pDatabase, string pExeName, string ServiceZone, cServer pDBServer, cServer pShareServer, string pName, bool pSpecial=false)
+        public cAppBot(string pCode, string pDescription, string pDatabase, string pExeName, string ServiceZone, cServer pDBServer, cServer pShareServer, string pName, bool pSpecial=false, string pVersion="")
             : this()
         {
             Code = pCode;
@@ -219,7 +226,8 @@ namespace LogOnObjects
             pctApp.Image = AppIcon;
             Special = pSpecial;
             Name = pName;
-            
+            version = pVersion;
+            lblVersionApp.Text = pVersion;
             // Set Initial Status.
             SetStatus(AppBotStatus.INIT);
         }
@@ -239,12 +247,22 @@ namespace LogOnObjects
             lblDescriptionApp = new Label()
             {
                 Size = new Size(DESCRIPTION_WIDTH, DESCRIPTION_HEIGHT),
-                Location = new Point(DESCRIPTION_PADDING, GROUP_HEIGHT - DESCRIPTION_HEIGHT - DESCRIPTION_PADDING),
+                Location = new Point(DESCRIPTION_PADDING, GROUP_HEIGHT - DESCRIPTION_HEIGHT - DESCRIPTION_PADDING - VERSION_HEIGHT),
+                Font = new Font("MS Sans Serif", 7, FontStyle.Regular),
                 TextAlign = ContentAlignment.MiddleCenter
+            };
+            lblVersionApp = new Label()
+            {
+                Size = new Size(VERSION_WIDTH, VERSION_HEIGHT),
+                Location = new Point(VERSION_PADDING, GROUP_HEIGHT - VERSION_HEIGHT - VERSION_PADDING),
+                Font = new Font("MS Sans Serif", 5, FontStyle.Regular),
+                TextAlign = ContentAlignment.MiddleCenter,
+                ForeColor = Color.Gray
             };
             pctApp = new Button() { Size = new Size(PICTURE_WIDTH, PICTURE_HEIGHT), Location = new Point(PICTURE_PADDING, PICTURE_PADDING) };
 #if DEBUG
             lblDescriptionApp.BorderStyle = BorderStyle.FixedSingle;
+            lblVersionApp.BorderStyle = BorderStyle.FixedSingle;
 #else
             pctApp.FlatAppearance.BorderSize = 0;
             pctApp.FlatStyle = FlatStyle.Flat;
@@ -254,6 +272,7 @@ namespace LogOnObjects
             grpApp.Controls.Add(prgApp);
             grpApp.Controls.Add(pctApp);
             grpApp.Controls.Add(lblDescriptionApp);
+            grpApp.Controls.Add(lblVersionApp);
             MaximumSize = Size;
             MinimumSize = Size;
             this.Controls.Add(grpApp);
@@ -282,36 +301,41 @@ namespace LogOnObjects
         }
 
         // CheckUpdated -> Returns true if all the files for this APP are updated.
-        public async Task<bool> CheckUpdated()
+        public async Task<bool> CheckUpdated(bool force=false)
         {
             //ShowStatus(AppBotStatus.CHECKING);
             bool _clean = true;
-            using (var client = new FtpClient())
+            if (!File.Exists(LocalPath) || File.Exists(LocalPath) && FileVersionInfo.GetVersionInfo(LocalPath).FileVersion.ToString()!=version || Special==true || force==true)
             {
-                client.ConnectTimeout = 120000;
-                client.Host = ShareServer.HostName;
-                client.Credentials = new NetworkCredential(ShareServer.User, ShareServer.Password);
-                client.DataConnectionType = FtpDataConnectionType.AutoActive;
-                try
+                using (var client = new FtpClient())
                 {
-                    await Task.Delay(500);
-                    await client.ConnectAsync();
-                } catch
-                {
-                    await Task.Delay(500);
+                    client.ConnectTimeout = 120000;
+                    client.Host = ShareServer.HostName;
+                    client.Credentials = new NetworkCredential(ShareServer.User, ShareServer.Password);
+                    client.DataConnectionType = FtpDataConnectionType.AutoActive;
                     try
                     {
+                        await Task.Delay(500);
                         await client.ConnectAsync();
                     }
                     catch
                     {
                         await Task.Delay(500);
-                        await client.ConnectAsync();
+                        try
+                        {
+                            await client.ConnectAsync();
+                        }
+                        catch
+                        {
+                            await Task.Delay(500);
+                            await client.ConnectAsync();
+                        }
                     }
+                    _clean = await readDirFTP(client, "/APPS_CS/", Code.ToLower());
                 }
-                _clean = await readDirFTP(client, "/APPS_CS/", Code.ToLower());
-            }
+            } 
             return _clean;
+
         }
         //public bool CheckUpdatedSync()
         //{
@@ -330,6 +354,7 @@ namespace LogOnObjects
         //        ShowStatus(AppBotStatus.PENDING_UPDATE);
         //    return _clean;
         //}
+
 
         private async Task<bool> readDirFTP(FtpClient client, string basePath, string relativePath, bool _checkFiles=true)
         {
@@ -613,7 +638,7 @@ namespace LogOnObjects
             {
                 SetStatus(AppBotStatus.PENDING_UPDATE);
                 //if (!await CheckUpdated().ConfigureAwait(false))
-                if (!await CheckUpdated())
+                if (!await CheckUpdated(true))
                 {
                     Application.DoEvents();
                     ActiveThreads++;
