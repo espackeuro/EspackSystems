@@ -465,7 +465,7 @@ namespace CommonTools
             set
             {
                 _hostName = value;
-                if (Resolve)
+                if (Resolve && value!="")
                 {
                     IPAddress _serverIP;
                     if (!IPAddress.TryParse(value, out _serverIP))

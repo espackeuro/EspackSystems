@@ -69,7 +69,7 @@ namespace LogOnLoader
             AppList.Add(new cAppBot("logon", "LOGON", "SISTEMAS", "logon.exe", "LOC", _serverDB, _serverShare, "", true));
             if (!External)
             {
-                var _clean = await Values.AppList[0].CheckUpdated();
+                var _clean = await Values.AppList[0].CheckUpdated(true);
                 if (!_clean)
                     AppList[0].Status = AppBotStatus.PENDING_UPDATE;
                 if (Values.AppList.PendingApps.Count != 0)
