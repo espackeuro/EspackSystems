@@ -34,9 +34,10 @@ namespace LogOnObjects
                 _RS.Open();
                 while (!_RS.EOF)
                 {
-                    Values.DBServerList.Add(new cServer() { HostName = _RS[pCOD3 == "OUT" ? "ServerDBIP" : "ServerDB"].ToString(), COD3 = _RS["COD3"].ToString(), Type = ServerTypes.DATABASE, User = Values.User, Password = Values.Password });
+                    Values.DBServerList.Add(new cServer() { Resolve=false, HostName = _RS[pCOD3 == "OUT" ? "ServerDBIP" : "ServerDB"].ToString(), COD3 = _RS["COD3"].ToString(), Type = ServerTypes.DATABASE, User = Values.User, Password = Values.Password });
                     Values.ShareServerList.Add(new cServer()
                     {
+                        Resolve=false,
                         HostName = _RS[pCOD3 == "OUT"? "ServerShareIP":"ServerShare"].ToString(),
                         //IP = IPAddress.Parse(_RS["ServerShareIP"].ToString()),
                         COD3 = _RS["COD3"].ToString(),
