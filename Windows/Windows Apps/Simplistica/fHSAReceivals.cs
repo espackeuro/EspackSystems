@@ -382,6 +382,9 @@ namespace Simplistica
         {
             int _numReceival;
 
+            MessageBox.Show("This functionality has been disabled.", "SIMPLISTICA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return;
+
             if (txtReceivalCode.Text == "")
             {
                 MessageBox.Show("Wrong receival code.", "SIMPLISTICA", MessageBoxButtons.OK, MessageBoxIcon.Error);
