@@ -43,7 +43,6 @@
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.btnRobotProcess = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnExportReceival = new System.Windows.Forms.ToolStripButton();
             this.txtPackingSlip = new EspackFormControls.EspackTextBox();
             this.tmrRobot = new System.Windows.Forms.Timer(this.components);
             this.pctRobotStatus = new System.Windows.Forms.PictureBox();
@@ -346,11 +345,10 @@
             this.toolStrip.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnRobotProcess,
-            this.toolStripSeparator1,
-            this.btnExportReceival});
-            this.toolStrip.Location = new System.Drawing.Point(507, 9);
+            this.toolStripSeparator1});
+            this.toolStrip.Location = new System.Drawing.Point(591, 9);
             this.toolStrip.Name = "toolStrip";
-            this.toolStrip.Size = new System.Drawing.Size(194, 25);
+            this.toolStrip.Size = new System.Drawing.Size(104, 25);
             this.toolStrip.TabIndex = 56;
             this.toolStrip.Text = "toolStrip1";
             // 
@@ -369,17 +367,6 @@
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
-            // btnExportReceival
-            // 
-            this.btnExportReceival.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnExportReceival.Image = ((System.Drawing.Image)(resources.GetObject("btnExportReceival.Image")));
-            this.btnExportReceival.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnExportReceival.Name = "btnExportReceival";
-            this.btnExportReceival.Size = new System.Drawing.Size(90, 22);
-            this.btnExportReceival.Text = "Export Receival";
-            this.btnExportReceival.ToolTipText = "Export to LOGISTICA Receivals";
-            this.btnExportReceival.Click += new System.EventHandler(this.btnExportReceival_Click);
             // 
             // txtPackingSlip
             // 
@@ -415,7 +402,7 @@
             // 
             // pctRobotStatus
             // 
-            this.pctRobotStatus.Location = new System.Drawing.Point(474, 5);
+            this.pctRobotStatus.Location = new System.Drawing.Point(558, 5);
             this.pctRobotStatus.Name = "pctRobotStatus";
             this.pctRobotStatus.Size = new System.Drawing.Size(30, 30);
             this.pctRobotStatus.TabIndex = 70;
@@ -494,7 +481,6 @@
         private System.Windows.Forms.ToolStrip toolStrip;
         private System.Windows.Forms.ToolStripButton btnRobotProcess;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripButton btnExportReceival;
         private EspackFormControls.EspackTextBox txtPackingSlip;
         private System.Windows.Forms.Timer tmrRobot;
         private System.Windows.Forms.PictureBox pctRobotStatus;
