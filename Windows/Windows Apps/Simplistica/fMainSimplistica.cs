@@ -107,6 +107,20 @@ namespace Simplistica
             return InstancedForms[pFormName];  //just created or created earlier.Return it+69
         }
 
+        private void referencesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            fSimpleReferences fSimpleReferences = (fSimpleReferences)GetChildInstance("fSimpleReferences");
+        }
+
+        private void simpleProductionOrderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            fProductionOrders fProductionOrders = (fProductionOrders)GetChildInstance("fProductionOrders");
+        }
+
+        private void simpleExpeditionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            fSimpleExpeditions fSimpleExpeditions = (fSimpleExpeditions)GetChildInstance("fSimpleExpeditions");
+        }
         private void hSAReceivalsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             fHSAReceivals fHSAReceivals = (fHSAReceivals)GetChildInstance("fHSAReceivals");

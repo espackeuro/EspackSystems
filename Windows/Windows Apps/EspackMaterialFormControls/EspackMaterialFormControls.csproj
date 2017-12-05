@@ -1,23 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{995CDE43-FB3E-4E59-96F1-696D7C5F5EFA}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{AF34A893-432F-4AA8-B322-E2EAF73E448B}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ServerSocketConsole</RootNamespace>
-    <AssemblyName>ServerSocketConsole</AssemblyName>
+    <RootNamespace>EspackMaterialFormControls</RootNamespace>
+    <AssemblyName>EspackMaterialFormControls</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -27,7 +27,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -36,8 +35,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MaterialSkin, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialSkin.Updated.0.2.2\lib\MaterialSkin.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,11 +51,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="EspackMaterialFormControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Database and tools\cAccesoDatos.NET\cAccesoDatosNet.csproj">
@@ -61,35 +65,17 @@
       <Project>{9148f7e6-31f6-4f96-b7dc-afea449998c7}</Project>
       <Name>CommonTools</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Database and tools\Compression\Compression\Compression.csproj">
-      <Project>{56e01207-2fdd-43e5-8f45-32b5cf34d8eb}</Project>
-      <Name>Compression</Name>
+    <ProjectReference Include="..\..\..\EspackControls\EspackControls\EspackControls.csproj">
+      <Project>{ece9aa32-f756-4be3-a926-b0771e69066b}</Project>
+      <Name>EspackControls</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Database and tools\EncryptionWindows\Encryption\Encryption.csproj">
-      <Project>{b6ce04c5-9462-43c8-a039-f8ea3c5ace91}</Project>
-      <Name>Encryption</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Database and tools\Messages\Messages.csproj">
-      <Project>{19c864e9-f42c-404c-ba54-548392dbaf43}</Project>
-      <Name>Messages</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Windows Apps\cAccesoDatos\cAccesoDatos.csproj">
+    <ProjectReference Include="..\cAccesoDatos\cAccesoDatos.csproj">
       <Project>{5da9cb0b-9007-40f1-8086-1b0303d8271f}</Project>
       <Name>cAccesoDatos</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>ROBOCOPY "$(TargetDir) " "$(TargetDir)lib " /XF *.exe *.config *.manifest /XD lib logs data /E /IS /MOV
-; Move all to APPs folder
-ROBOCOPY "$(TargetDir) " "D:\APPS_CS\socketServer " /XF *.vshost.* /XD logs data /E /IS 
-if %25errorlevel%25 leq 4 exit 0 else exit %25errorlevel</PostBuildEvent>
-  </PropertyGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

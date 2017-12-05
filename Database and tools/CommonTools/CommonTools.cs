@@ -61,7 +61,7 @@ namespace CommonTools
             {
                 if (lField.IndexOf('=') != -1 || lField.ToUpper().IndexOf(" AS ") != -1)
                 {
-                    if (lField.ToUpper().IndexOf("AS") != -1)
+                    if (lField.ToUpper().IndexOf(" AS ") != -1)
                     {
                         result.SelectFields.Add(lField.Substring(lField.ToUpper().IndexOf("AS ") + 3).Trim().Replace("[", "").Replace("]", ""), new SqlItem()
                         {

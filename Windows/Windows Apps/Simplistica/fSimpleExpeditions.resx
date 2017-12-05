@@ -117,33 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="nook_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\nook_30.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <metadata name="toolStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>205, 17</value>
+  </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="btnSalida.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADBSURBVEhL7dI9CgIxEIbhsVGw8xrexht4FI8gaKlo5wk8
+        iq29lVpY+vPNmoTIfpswaxCLfeGBNTsjEZSuv2kCJ3i2lO2bL1fZ2JJFNrZkkY0ttTWFWmzQYubs4AZj
+        +IgtWfh6sIcDDPXAx5Ys4kZwhG31ycWWSgixlyWE2MsSQvHhHVawhoc7S0nNh+JDHfZtIH7HpOZrXUFv
+        4tN/wvn9SLPOyxL0Z+pNdFif59CUdV4GsIAL6E10uA9NWee7fp7IC2IDA5NDX7AmAAAAAElFTkSuQmCC
+</value>
   </data>
-  <data name="ok_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ok_30.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="process_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\process_30.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="ic_build" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ic_build.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ic_build_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ic_build_2x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ic_build_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ic_build_3x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ic_local_shipping" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ic_local_shipping.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ic_local_shipping_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ic_local_shipping_2x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ic_local_shipping_3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ic_local_shipping_3x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
+  <metadata name="CTLM.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>310, 17</value>
+  </metadata>
 </root>

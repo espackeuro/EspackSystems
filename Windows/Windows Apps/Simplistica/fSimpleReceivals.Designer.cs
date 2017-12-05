@@ -33,6 +33,7 @@
             this.btnReceived = new System.Windows.Forms.ToolStripButton();
             this.btnLabelCMs = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnACheck = new System.Windows.Forms.ToolStripButton();
             this.lstFlags = new EspackFormControls.EspackCheckedListBox();
             this.VS = new VSGrid.CtlVSGrid();
             this.txtDesServicio = new EspackFormControls.EspackTextBox();
@@ -42,7 +43,6 @@
             this.txtFecha = new EspackFormControls.EspackDateTimePicker();
             this.txtEntrada = new EspackFormControls.EspackTextBox();
             this.CTLM = new CTLMantenimientoNet.CTLMantenimientoNet();
-            this.btnACheck = new System.Windows.Forms.ToolStripButton();
             this.toolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.VS)).BeginInit();
             this.SuspendLayout();
@@ -57,7 +57,7 @@
             this.btnACheck});
             this.toolStrip.Location = new System.Drawing.Point(327, 17);
             this.toolStrip.Name = "toolStrip";
-            this.toolStrip.Size = new System.Drawing.Size(230, 25);
+            this.toolStrip.Size = new System.Drawing.Size(199, 25);
             this.toolStrip.TabIndex = 30;
             this.toolStrip.Text = "toolStrip1";
             // 
@@ -85,6 +85,16 @@
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // btnACheck
+            // 
+            this.btnACheck.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnACheck.Image = ((System.Drawing.Image)(resources.GetObject("btnACheck.Image")));
+            this.btnACheck.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnACheck.Name = "btnACheck";
+            this.btnACheck.Size = new System.Drawing.Size(57, 22);
+            this.btnACheck.Text = "A-Check";
+            this.btnACheck.Click += new System.EventHandler(this.btnACheck_Click);
             // 
             // lstFlags
             // 
@@ -347,16 +357,6 @@
             this.CTLM.StatusBarProgress = null;
             this.CTLM.TabIndex = 0;
             this.CTLM.Text = "ctlMantenimientoNet1";
-            // 
-            // btnACheck
-            // 
-            this.btnACheck.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnACheck.Image = ((System.Drawing.Image)(resources.GetObject("btnACheck.Image")));
-            this.btnACheck.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnACheck.Name = "btnACheck";
-            this.btnACheck.Size = new System.Drawing.Size(57, 22);
-            this.btnACheck.Text = "A-Check";
-            this.btnACheck.Click += new System.EventHandler(this.btnACheck_Click);
             // 
             // fSimpleReceivals
             // 

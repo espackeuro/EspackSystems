@@ -910,6 +910,7 @@ namespace AccesoDatosNet
         {
             try
             {
+                pParamName = pParamName.Replace("[", "").Replace("]", "");
                 if (pParamName.Substring(0, 1) != "@")
                 {
                     pParamName = '@' + pParamName;
@@ -966,6 +967,7 @@ namespace AccesoDatosNet
 
         public override void AddControlParameter(string pParamName, object ParamControl)
         {
+            pParamName = pParamName.Replace("[", "").Replace("]", "");
             if (pParamName.Substring(0, 1) != "@")
             {
                 pParamName = '@' + pParamName;
