@@ -658,7 +658,9 @@ namespace AccesoDatos
         public void AssignParameterValues()
         {
             if (ControlParameters != null)
-                ControlParameters.Where(x => x.LinkedControl is IsValuable).ToList().ForEach(p => AddParameterValue(p.Parameter.ParameterName, ((IsValuable)p.LinkedControl).Value));
+                ControlParameters.Where(x => x.LinkedControl is IsValuable).ToList().ForEach(p => {
+                    AddParameterValue(p.Parameter.ParameterName, ((IsValuable)p.LinkedControl).Value);
+                    });
         }
 
 

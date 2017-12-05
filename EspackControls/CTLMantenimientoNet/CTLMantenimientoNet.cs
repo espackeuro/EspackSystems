@@ -133,6 +133,10 @@ namespace CTLMantenimientoNet
                 return mListItems;
             }
         }
+        public EspackControl CTLMItem(string dbFieldName)
+        {
+            return mListItems.Where(x => x.DBField == dbFieldName).FirstOrDefault();
+        }
         //ItemsPK List, it holds the PK items of the Items list
         public List<EspackControl> ItemsPK
         {
@@ -796,6 +800,7 @@ namespace CTLMantenimientoNet
                     case "btnAdd":
                         OnAfterButtonClick(new CTLMEventArgs(pButtonName)); //Launched AfterButtonClick Event
                         SetStatus( EnumStatus.ADDNEW);
+                        CTLMItems.Where(x => x.DefaultValue != null).ToList().ForEach(x => x.Value = x.DefaultValue);
                         break;
                     case "btnUpp":
                         OnAfterButtonClick(new CTLMEventArgs(pButtonName)); //Launched AfterButtonClick Event

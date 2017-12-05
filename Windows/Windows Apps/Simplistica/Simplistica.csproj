@@ -7,8 +7,8 @@
     <ProjectGuid>{E4130D08-D657-4F61-ADEA-ABD58ECBAC69}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>simplistica</RootNamespace>
-    <AssemblyName>simplistica</AssemblyName>
+    <RootNamespace>Simplistica</RootNamespace>
+    <AssemblyName>Simplistica</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -58,6 +58,9 @@
     <ApplicationIcon>simplistica.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MaterialSkin, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialSkin.Updated.0.2.2\lib\MaterialSkin.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -77,9 +80,7 @@
     <Compile Include="fMainSimplistica.Designer.cs">
       <DependentUpon>fMainSimplistica.cs</DependentUpon>
     </Compile>
-    <Compile Include="fHSAReceivals.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="fHSAReceivals.cs" />
     <Compile Include="fHSAReceivals.Designer.cs">
       <DependentUpon>fHSAReceivals.cs</DependentUpon>
     </Compile>
@@ -88,6 +89,12 @@
     </Compile>
     <Compile Include="fPrintUnitLabels.Designer.cs">
       <DependentUpon>fPrintUnitLabels.cs</DependentUpon>
+    </Compile>
+    <Compile Include="fProductionOrders.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fProductionOrders.Designer.cs">
+      <DependentUpon>fProductionOrders.cs</DependentUpon>
     </Compile>
     <Compile Include="fRackLabels.cs">
       <SubType>Form</SubType>
@@ -100,6 +107,12 @@
     </Compile>
     <Compile Include="fSettings.Designer.cs">
       <DependentUpon>fSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="fSimpleExpeditions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fSimpleExpeditions.Designer.cs">
+      <DependentUpon>fSimpleExpeditions.cs</DependentUpon>
     </Compile>
     <Compile Include="fSimpleReceivals.cs">
       <SubType>Form</SubType>
@@ -124,11 +137,17 @@
     <EmbeddedResource Include="fPrintUnitLabels.resx">
       <DependentUpon>fPrintUnitLabels.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="fProductionOrders.resx">
+      <DependentUpon>fProductionOrders.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="fRackLabels.resx">
       <DependentUpon>fRackLabels.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="fSettings.resx">
       <DependentUpon>fSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fSimpleExpeditions.resx">
+      <DependentUpon>fSimpleExpeditions.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="fSimpleReceivals.resx">
       <DependentUpon>fSimpleReceivals.cs</DependentUpon>
@@ -146,6 +165,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -204,11 +224,22 @@
       <Project>{5da9cb0b-9007-40f1-8086-1b0303d8271f}</Project>
       <Name>cAccesoDatos</Name>
     </ProjectReference>
+    <ProjectReference Include="..\EspackMaterialFormControls\EspackMaterialFormControls.csproj">
+      <Project>{af34a893-432f-4aa8-b322-e2eaf73e448b}</Project>
+      <Name>EspackMaterialFormControls</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ok_30.gif" />
     <None Include="Resources\nook_30.gif" />
     <None Include="Resources\process_30.gif" />
+    <None Include="Resources\ic_local_shipping.png" />
+    <None Include="Resources\ic_local_shipping_2x.png" />
+    <None Include="Resources\ic_local_shipping_3x.png" />
+    <None Include="Resources\ic_build.png" />
+    <None Include="Resources\ic_build_2x.png" />
+    <None Include="Resources\ic_build_3x.png" />
+    <None Include="Resources\ic_build_black_24px.svg" />
     <Content Include="simplistica.ico" />
   </ItemGroup>
   <ItemGroup>

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace simplistica.Properties {
+namespace Simplistica.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace simplistica.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("simplistica.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Simplistica.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -63,9 +63,9 @@ namespace simplistica.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap nook_30 {
+        internal static System.Drawing.Bitmap ic_build {
             get {
-                object obj = ResourceManager.GetObject("nook_30", resourceCulture);
+                object obj = ResourceManager.GetObject("ic_build", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace simplistica.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ok_30 {
+        internal static System.Drawing.Bitmap ic_build_2x {
             get {
-                object obj = ResourceManager.GetObject("ok_30", resourceCulture);
+                object obj = ResourceManager.GetObject("ic_build_2x", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -83,9 +83,39 @@ namespace simplistica.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap process_30 {
+        internal static System.Drawing.Bitmap ic_build_3x {
             get {
-                object obj = ResourceManager.GetObject("process_30", resourceCulture);
+                object obj = ResourceManager.GetObject("ic_build_3x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ic_local_shipping {
+            get {
+                object obj = ResourceManager.GetObject("ic_local_shipping", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ic_local_shipping_2x {
+            get {
+                object obj = ResourceManager.GetObject("ic_local_shipping_2x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ic_local_shipping_3x {
+            get {
+                object obj = ResourceManager.GetObject("ic_local_shipping_3x", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

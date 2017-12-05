@@ -74,6 +74,32 @@ namespace VSGrid
         public cAccesoDatosNet ParentConn { get; set; }
         public DynamicRS DependingRS { get; set; }
 
+        public object this[string ColumnName]
+        {
+            get
+            {
+                int i = Columns.Cast<DataGridViewColumn>().FirstOrDefault(x => x.Name == ColumnName).Index;
+                return this[i, CurrentRow.Index].Value;
+            }
+            set
+            {
+                int i = Columns.Cast<DataGridViewColumn>().FirstOrDefault(x => x.Name == ColumnName).Index;
+                this[i, CurrentRow.Index].Value = value;
+            }
+        }
+        /*
+        public DataGridViewCell this[int X, int Y]
+        {
+            get
+            {
+                return ((CtlVSColumn)Columns[X]).Cells[Y];
+            }
+            set
+            {
+                ((CtlVSColumn)Columns[X]).Cells[Y].Value = value;
+            }
+        }
+        */
         //Properties with SPs but in string format, we will use this when assigning a SP by its name
         public string sSPAdd
         {
@@ -767,7 +793,7 @@ namespace VSGrid
         }
 
         public void AddColumn(string pName, string pDBFieldName = "", string pSPAdd = "", string pSPUpp = "", string pSPDel = "", bool pSortable = false,
-            bool pIsFlag=false, bool pLocked=false, string pQuery = "", int pWidth = 0, string pAlignment = "",  string pAttr="",AutoCompleteMode aMode=AutoCompleteMode.None,AutoCompleteSource aSource=AutoCompleteSource.None,string aQuery="", bool pPrint=false)
+            bool pIsFlag=false, bool pLocked=false, string pQuery = "", int pWidth = 0, string pAlignment = "",  string pAttr="",AutoCompleteMode aMode=AutoCompleteMode.None,AutoCompleteSource aSource=AutoCompleteSource.None,string aQuery="", bool pPrint=false, bool pVisible=true)
         {
             if (pQuery=="")
             {
@@ -797,7 +823,8 @@ namespace VSGrid
                     AutoCompleteMode = aMode,
                     AutoCompleteSource = aSource,
                     AutoCompleteQuery = aQuery,
-                    Print = pPrint
+                    Print = pPrint,
+                    Visible = pVisible
                
                 };
                 _Col.SetQuery(pQuery);
@@ -833,14 +860,15 @@ namespace VSGrid
                     AutoCompleteMode = aMode,
                     AutoCompleteSource = aSource,
                     AutoCompleteQuery = aQuery,
-                    Print = pPrint
+                    Print = pPrint,
+                    Visible = pVisible
                 };
                 _Col.SetQuery(pQuery);
                 Columns.Add(_Col);
             }
         }
 
-        public void AddColumn(string pName, EspackFormControl pLinkedControl, string pSPAdd = "", string pSPUpp = "", string pSPDel = "", AutoCompleteMode aMode = AutoCompleteMode.None, AutoCompleteSource aSource = AutoCompleteSource.None, string aQuery="", bool pPrint=false)
+        public void AddColumn(string pName, EspackFormControl pLinkedControl, string pSPAdd = "", string pSPUpp = "", string pSPDel = "", AutoCompleteMode aMode = AutoCompleteMode.None, AutoCompleteSource aSource = AutoCompleteSource.None, string aQuery="", bool pPrint=false, bool pVisible=true)
         {
             var _Col = new CtlVSTextBoxColumn()
             {
@@ -864,12 +892,12 @@ namespace VSGrid
                 Alignment = "",
                 Sortable = false,
                 LinkedControl = pLinkedControl,
-                Visible = false,
                 AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells,
                 AutoCompleteMode = aMode,
                 AutoCompleteSource = aSource,
                 AutoCompleteQuery = aQuery,
-                Print = pPrint
+                Print = pPrint,
+                Visible = pVisible
             };
             _Col.SetQuery("");
             Columns.Add(_Col);
