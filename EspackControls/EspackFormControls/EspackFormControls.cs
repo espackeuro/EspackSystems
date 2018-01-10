@@ -195,7 +195,12 @@ namespace EspackFormControls
             set
             {
                 mStatus = value;
-                Enabled = (Add && Status == EnumStatus.ADDNEW) || (Upp && Status == EnumStatus.EDIT && !PK) || (Del && Status == EnumStatus.DELETE) || (Search && Status == EnumStatus.SEARCH);
+                Enabled = true;
+
+                ReadOnly = !((Add && Status == EnumStatus.ADDNEW) || (Upp && Status == EnumStatus.EDIT && !PK) || (Del && Status == EnumStatus.DELETE) || (Search && Status == EnumStatus.SEARCH));
+                BackColor = ReadOnly ? SystemColors.ButtonFace : Color.White;
+                ForeColor = ReadOnly ? Color.Gray : Color.Black;
+
             }
         }
 
@@ -366,7 +371,10 @@ namespace EspackFormControls
             set
             {
                 mStatus = value;
-                Enabled = (Add && Status == EnumStatus.ADDNEW) || (Upp && Status == EnumStatus.EDIT && !PK) || (Del && Status == EnumStatus.DELETE) || (Search && Status == EnumStatus.SEARCH);
+                Enabled = true;
+                ReadOnly = !((Add && Status == EnumStatus.ADDNEW) || (Upp && Status == EnumStatus.EDIT && !PK) || (Del && Status == EnumStatus.DELETE) || (Search && Status == EnumStatus.SEARCH));
+                BackColor = ReadOnly ? SystemColors.ButtonFace : Color.White;
+                ForeColor = ReadOnly ? SystemColors.InactiveCaptionText : SystemColors.ControlText;
             }
         }
 

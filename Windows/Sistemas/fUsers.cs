@@ -49,6 +49,8 @@ namespace Sistemas
             CTLM.AddItem(txtEmail, "emailAddress", false, false, false, 0, false, true);
             CTLM.AddItem(txtQuota, "EmailQuota", false, true, false, 0, false, false);
             CTLM.AddItem(lstFlags, "Flags", true, true, false, 0, false, true);
+            CTLM.AddItem(txtTicket, "Ticket");
+            CTLM.AddItem(txtTicketExp, "TicketExp");
             CTLM.AddItem(lstEmailAliases, "Aliases",true,true,false,0,false,false,pSPAddParamName: "alias", pSPUppParamName: "alias");
             CTLM.AddDefaultStatusStrip();
             CTLM.DBTable = string.Format("(Select * from vUsers where isnull(PositionLevel,50)>={0}) B", SecurityLevel);

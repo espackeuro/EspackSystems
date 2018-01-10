@@ -266,6 +266,7 @@ namespace CTLMantenimientoNet
             }
         }
 
+        /*
         public new bool Enabled
         {
             get
@@ -285,7 +286,7 @@ namespace CTLMantenimientoNet
             }
         }
         //Status property, it enables or disables the buttons for each status
-
+        */
 
 
         public EnumStatus Status
@@ -453,6 +454,7 @@ namespace CTLMantenimientoNet
                 ((CtlVSGrid)VS).MsgStatusLabel = MsgStatusInfoLabel;
                 ((CtlVSGrid)VS).Start();
             }
+            SetStatus(EnumStatus.SEARCH);
 
         }
         //KeyEnabler, adds the parent_keydown method to the parent form keydown events
