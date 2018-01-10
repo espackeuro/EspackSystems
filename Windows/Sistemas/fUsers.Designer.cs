@@ -35,6 +35,7 @@
             this.txtName = new EspackFormControls.EspackTextBox();
             this.txtUserCode = new EspackFormControls.EspackTextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.cboArea = new EspackFormControls.EspackComboBox();
             this.cboPositionLevel = new EspackFormControls.EspackComboBox();
             this.txtPosition = new EspackFormControls.EspackTextBox();
             this.cboSecurityLevel = new EspackFormControls.EspackComboBox();
@@ -43,6 +44,7 @@
             this.listCOD3 = new EspackFormControls.EspackCheckedListBox();
             this.cboPosition = new EspackFormControls.EspackComboBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.txtTicket = new EspackFormControls.EspackTextBox();
             this.txtEmail = new EspackFormControls.EspackTextBox();
             this.txtPIN = new EspackFormControls.NumericTextBox();
             this.txtQuota = new EspackFormControls.NumericTextBox();
@@ -52,7 +54,7 @@
             this.txtPWD = new EspackFormControls.EspackTextBox();
             this.lstEmailAliases = new EspackFormControls.EspackCheckedListBox();
             this.CTLM = new CTLMantenimientoNet.CTLMantenimientoNet();
-            this.cboArea = new EspackFormControls.EspackComboBox();
+            this.txtTicketExp = new EspackFormControls.EspackDateTimePicker();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -244,6 +246,37 @@
             this.groupBox2.TabIndex = 147;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Where";
+            // 
+            // cboArea
+            // 
+            this.cboArea.Add = false;
+            this.cboArea.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboArea.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboArea.BackColor = System.Drawing.Color.White;
+            this.cboArea.Caption = "Area";
+            this.cboArea.DBField = null;
+            this.cboArea.DBFieldType = null;
+            this.cboArea.DefaultValue = null;
+            this.cboArea.Del = false;
+            this.cboArea.DependingRS = null;
+            this.cboArea.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cboArea.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.cboArea.ForeColor = System.Drawing.Color.Black;
+            this.cboArea.FormattingEnabled = true;
+            this.cboArea.Location = new System.Drawing.Point(351, 275);
+            this.cboArea.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
+            this.cboArea.Name = "cboArea";
+            this.cboArea.Order = 0;
+            this.cboArea.ParentConn = null;
+            this.cboArea.ParentDA = null;
+            this.cboArea.PK = false;
+            this.cboArea.Search = false;
+            this.cboArea.Size = new System.Drawing.Size(154, 24);
+            this.cboArea.Status = CommonTools.EnumStatus.ADDNEW;
+            this.cboArea.TabIndex = 134;
+            this.cboArea.TBDescription = null;
+            this.cboArea.Upp = false;
+            this.cboArea.Value = "";
             // 
             // cboPositionLevel
             // 
@@ -461,6 +494,8 @@
             // groupBox3
             // 
             this.groupBox3.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.groupBox3.Controls.Add(this.txtTicketExp);
+            this.groupBox3.Controls.Add(this.txtTicket);
             this.groupBox3.Controls.Add(this.txtEmail);
             this.groupBox3.Controls.Add(this.txtPIN);
             this.groupBox3.Controls.Add(this.txtQuota);
@@ -472,10 +507,38 @@
             this.groupBox3.Location = new System.Drawing.Point(16, 493);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox3.Size = new System.Drawing.Size(528, 242);
+            this.groupBox3.Size = new System.Drawing.Size(528, 296);
             this.groupBox3.TabIndex = 153;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Systems data";
+            // 
+            // txtTicket
+            // 
+            this.txtTicket.Add = false;
+            this.txtTicket.BackColor = System.Drawing.Color.White;
+            this.txtTicket.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtTicket.Caption = "Ticket";
+            this.txtTicket.DBField = null;
+            this.txtTicket.DBFieldType = null;
+            this.txtTicket.DefaultValue = null;
+            this.txtTicket.Del = false;
+            this.txtTicket.DependingRS = null;
+            this.txtTicket.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.txtTicket.ForeColor = System.Drawing.Color.Black;
+            this.txtTicket.Location = new System.Drawing.Point(23, 254);
+            this.txtTicket.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
+            this.txtTicket.Multiline = true;
+            this.txtTicket.Name = "txtTicket";
+            this.txtTicket.Order = 0;
+            this.txtTicket.ParentConn = null;
+            this.txtTicket.ParentDA = null;
+            this.txtTicket.PK = false;
+            this.txtTicket.Search = false;
+            this.txtTicket.Size = new System.Drawing.Size(130, 24);
+            this.txtTicket.Status = CommonTools.EnumStatus.ADDNEW;
+            this.txtTicket.TabIndex = 23;
+            this.txtTicket.Upp = false;
+            this.txtTicket.Value = "";
             // 
             // txtEmail
             // 
@@ -719,7 +782,7 @@
             this.lstEmailAliases.ParentDA = null;
             this.lstEmailAliases.PK = false;
             this.lstEmailAliases.Search = false;
-            this.lstEmailAliases.Size = new System.Drawing.Size(292, 684);
+            this.lstEmailAliases.Size = new System.Drawing.Size(292, 741);
             this.lstEmailAliases.Status = CommonTools.EnumStatus.ADDNEW;
             this.lstEmailAliases.TabIndex = 15;
             this.lstEmailAliases.Upp = false;
@@ -745,43 +808,43 @@
             this.CTLM.TabIndex = 0;
             this.CTLM.Text = "ctlMantenimientoNet1";
             // 
-            // cboArea
+            // txtTicketExp
             // 
-            this.cboArea.Add = false;
-            this.cboArea.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.cboArea.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cboArea.BackColor = System.Drawing.Color.White;
-            this.cboArea.Caption = "Area";
-            this.cboArea.DBField = null;
-            this.cboArea.DBFieldType = null;
-            this.cboArea.DefaultValue = null;
-            this.cboArea.Del = false;
-            this.cboArea.DependingRS = null;
-            this.cboArea.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cboArea.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.cboArea.ForeColor = System.Drawing.Color.Black;
-            this.cboArea.FormattingEnabled = true;
-            this.cboArea.Location = new System.Drawing.Point(351, 275);
-            this.cboArea.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
-            this.cboArea.Name = "cboArea";
-            this.cboArea.Order = 0;
-            this.cboArea.ParentConn = null;
-            this.cboArea.ParentDA = null;
-            this.cboArea.PK = false;
-            this.cboArea.Search = false;
-            this.cboArea.Size = new System.Drawing.Size(154, 24);
-            this.cboArea.Status = CommonTools.EnumStatus.ADDNEW;
-            this.cboArea.TabIndex = 134;
-            this.cboArea.TBDescription = null;
-            this.cboArea.Upp = false;
-            this.cboArea.Value = "";
+            this.txtTicketExp.Add = false;
+            this.txtTicketExp.BackColor = System.Drawing.Color.White;
+            this.txtTicketExp.BorderColor = System.Drawing.Color.White;
+            this.txtTicketExp.BorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
+            this.txtTicketExp.Caption = "Ticket Expiration";
+            this.txtTicketExp.CustomFormat = "dd/MM/yyyy HH:mm:ss";
+            this.txtTicketExp.DBField = null;
+            this.txtTicketExp.DBFieldType = null;
+            this.txtTicketExp.DefaultValue = null;
+            this.txtTicketExp.Del = false;
+            this.txtTicketExp.DependingRS = null;
+            this.txtTicketExp.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.txtTicketExp.ForeColor = System.Drawing.Color.Black;
+            this.txtTicketExp.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.txtTicketExp.Location = new System.Drawing.Point(167, 254);
+            this.txtTicketExp.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
+            this.txtTicketExp.Name = "txtTicketExp";
+            this.txtTicketExp.Nullable = false;
+            this.txtTicketExp.Order = 0;
+            this.txtTicketExp.ParentConn = null;
+            this.txtTicketExp.ParentDA = null;
+            this.txtTicketExp.PK = false;
+            this.txtTicketExp.Search = false;
+            this.txtTicketExp.Size = new System.Drawing.Size(155, 24);
+            this.txtTicketExp.Status = CommonTools.EnumStatus.ADDNEW;
+            this.txtTicketExp.TabIndex = 32;
+            this.txtTicketExp.Upp = false;
+            this.txtTicketExp.Value = null;
             // 
             // fUsers
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(1264, 773);
+            this.ClientSize = new System.Drawing.Size(1264, 839);
             this.Controls.Add(this.lstEmailAliases);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -829,5 +892,7 @@
         private EspackFormControls.EspackTextBox txtPosition;
         private EspackFormControls.EspackComboBox cboPositionLevel;
         private EspackFormControls.EspackComboBox cboArea;
+        private EspackFormControls.EspackTextBox txtTicket;
+        private EspackFormControls.EspackDateTimePicker txtTicketExp;
     }
 }

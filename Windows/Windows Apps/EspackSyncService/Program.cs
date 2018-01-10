@@ -20,7 +20,12 @@ namespace EspackSyncService
         };
         public static byte[] MasterPassword = MasterClass.MasterPassword.MasterBytes;
         public static Dictionary<string, string> Servers = new Dictionary<string, string>();
-        public static int PollingTime { get; set; } = 10;
+#if DEBUG
+        public static int PollingTime { get; set; } = 5;
+#else
+        public static int PollingTime { get; set; } = 60;
+#endif
+
         public static List<string> DomainList { get; set; }
     }
     static class Program

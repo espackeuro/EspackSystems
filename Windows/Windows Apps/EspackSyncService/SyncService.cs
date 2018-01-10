@@ -91,6 +91,49 @@ namespace EspackSyncService
             //get the recordset from database where status = 
             Values.gDatos.DataBase = "SISTEMAS";
             Values.gDatos.Connect();
+            //check if guest user password has expired
+            using (var _RS= new StaticRS("select * from Users where UserCode = 'guest' and GETDATE() >= PasswordEXP", Values.gDatos))
+            {
+                try
+                {
+                    await _RS.OpenAsync();
+                }
+                catch (Exception ex)
+                {
+                    EventLog.WriteEntry(string.Format("Error accesing database: {0}", ex.Message), EventLogEntryType.Error);
+                    return;
+                }
+                if (!_RS.EOF)
+                {
+                    //generate new password
+                    var _newPassword = CT.GeneratePassword(8);
+                    //change guest password
+                    using (var _SP = new SP(Values.gDatos, "pUppUserPassword"))
+                    {
+                        _SP.AddParameterValue("UserCode", "guest");
+                        _SP.AddParameterValue("Password", _newPassword);
+                        _SP.AddParameterValue("PIN", "0000");
+                        int _error = 0;
+                        try
+                        {
+                            await _SP.ExecuteAsync();
+                        }
+                        catch (Exception ex)
+                        {
+                            EventLog.WriteEntry(string.Format("Error updating guest password: {0}", ex.Message), EventLogEntryType.Error);
+                            _error = 1;
+                        }
+                        if (_error == 0 && _SP.LastMsg != "OK")
+                        {
+                            EventLog.WriteEntry(string.Format("Error updating guest password: {0}", _SP.LastMsg), EventLogEntryType.Error);
+                        }
+                        if (_error == 0 && _SP.LastMsg == "OK")
+                        {
+                            EventLog.WriteEntry("Guest user password changed correctly.");
+                        }
+                    }
+                }
+            }
             using (var _RS = new DynamicRS("select UserCode, Name, Surname1,Password,Position, MainCOD3, emailAddress, localDomain, flags, desCOD3  from vUsers where dbo.CheckFlag(flags,'CHANGED')=1", Values.gDatos))
             {
                 try

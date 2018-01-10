@@ -31,8 +31,18 @@ namespace CommonTools
 
     public static class CT
     {
-
-
+        public static string GeneratePassword(int lenght)
+        {
+            Random _rnd = new Random();
+            var _cons = "bcdfghjklmnpqrstvwxyz";
+            var _vow = "aeiou";
+            var _num = "0123456789";
+            string result = "";
+            for (int i = 1; i < lenght; i++)
+                result += i % 2 == 0 ? _cons.Substring(_rnd.Next(_cons.Length), 1) : _vow.Substring(_rnd.Next(_vow.Length), 1);
+            result += _num.Substring(_rnd.Next(_num.Length), 1);
+            return result;
+        }
         public static SqlQuery SimpleParseSQL(string pSQL)
         {
             SqlQuery result = new SqlQuery();
