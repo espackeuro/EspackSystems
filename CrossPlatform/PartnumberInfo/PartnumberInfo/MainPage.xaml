@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:PartnumberInfo"
+             x:Class="PartnumberInfo.MainPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="SmallEntry" TargetType="Entry">
+                <Setter Property="FontSize"
+                        Value="Micro" />
+                <Setter Property="VerticalOptions"
+                        Value="Center" />
+                <Setter Property="HorizontalOptions"
+                        Value="FillAndExpand" />
+                <Setter Property="Margin"
+                        Value="4, 1, 4, 1" />
+                <Setter Property="BackgroundColor"
+                        Value="LightBlue" />
+            </Style>
+            <Style x:Key="LabelBase" TargetType="Label">
+                <Setter Property="FontSize"
+                        Value="Small" />
+                <Setter Property="VerticalOptions"
+                        Value="Center" />
+                <Setter Property="Margin"
+                        Value="2, 1, 2, 1" />
+                <Setter Property="VerticalTextAlignment"
+                        Value="Center"/>
+            </Style>
+            <Style x:Key="Caption" TargetType="Label" BasedOn="{StaticResource LabelBase}">
+                <Setter Property="HorizontalOptions"
+                        Value="Fill" />
+                <Setter Property="HorizontalTextAlignment"
+                        Value="End" />            
+            </Style>
+            <Style x:Key="CaptionMicro" TargetType="Label" BasedOn="{StaticResource Caption}">
+                <Setter Property="WidthRequest"
+                        Value="25" />
+            </Style>
+            <Style x:Key="CaptionShort" TargetType="Label" BasedOn="{StaticResource Caption}">
+                <Setter Property="WidthRequest"
+                        Value="75" />
+            </Style>
+            <Style x:Key="CaptionMedium" TargetType="Label" BasedOn="{StaticResource Caption}">
+                <Setter Property="WidthRequest"
+                        Value="100" />
+            </Style>
+            <Style x:Key="CaptionLong" TargetType="Label" BasedOn="{StaticResource Caption}">
+                <Setter Property="WidthRequest"
+                        Value="150" />
+            </Style>
+            <Style x:Key="CaptionExtra" TargetType="Label" BasedOn="{StaticResource Caption}">
+                <Setter Property="WidthRequest"
+                        Value="200" />
+            </Style>
+            <Style x:Key="Result" TargetType="Label" BasedOn="{StaticResource LabelBase}">
+                <Setter Property="BackgroundColor"
+                        Value="LightGray" />
+                <Setter Property="HorizontalOptions"
+                        Value="FillAndExpand" />
+            </Style>
+            <Style x:Key="ResultMicro" TargetType="Label" BasedOn="{StaticResource Result}">
+                <Setter Property="WidthRequest"
+                        Value="25" />
+            </Style>
+            <Style x:Key="ResultShort" TargetType="Label" BasedOn="{StaticResource Result}">
+                <Setter Property="WidthRequest"
+                        Value="50" />
+            </Style>
+            <Style x:Key="ResultMedium" TargetType="Label" BasedOn="{StaticResource Result}">
+                <Setter Property="WidthRequest"
+                        Value="100" />
+            </Style>
+            <Style x:Key="ResultLong" TargetType="Label" BasedOn="{StaticResource Result}">
+                <Setter Property="WidthRequest"
+                        Value="150" />
+            </Style>
+            <Style x:Key="ResultExtra" TargetType="Label" BasedOn="{StaticResource Result}">
+                <Setter Property="WidthRequest"
+                        Value="200" />
+            </Style>
+            <Style x:Key="LayoutBase" TargetType="StackLayout">
+                <Setter Property="Margin"
+                         Value="0"/>
+                <Setter Property="Padding"
+                        Value="0"/>
+                <Setter Property="Spacing"
+                        Value="1"/>
+                <Setter Property="VerticalOptions"
+                        Value="Start" />
+            </Style>
+            <Style x:Key="Layout" TargetType="StackLayout" BasedOn="{StaticResource LayoutBase}">
+                <Setter Property="BackgroundColor"
+                        Value="#EEEEEE"/>
+                <Setter Property="Padding"
+                        Value="1"/>
+            </Style>
+            <Style x:Key="InternalLayout" TargetType="StackLayout" BasedOn="{StaticResource LayoutBase}">
+                <Setter Property="Margin"
+                         Value="0"/>
+                <Setter Property="Padding"
+                        Value="0"/>
+                <Setter Property="Spacing"
+                        Value="0"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout x:Name="Content" Orientation="Vertical"  VerticalOptions="Start" Margin="10">
+            <StackLayout x:Name="Header" Orientation="Horizontal" Style="{StaticResource Layout}">
+                <Image x:Name="LogoEspack" Source="logo.png" WidthRequest="100" Margin="2"/>
+                <StackLayout Orientation="Vertical" WidthRequest="200" Style="{StaticResource InternalLayout}">
+                    <Picker x:Name="pckDB" Title="Select a system">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>DDU VAL</x:String>
+                                <x:String>IDC VAL</x:String>
+                                <x:String>LOGISTICA</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+                    <Entry x:Name="txtUser" Placeholder="User" Style="{StaticResource SmallEntry}" />
+                    <Entry x:Name="txtPwd" Placeholder="Pwd" IsPassword="True" Style="{StaticResource SmallEntry}"/>
+                </StackLayout>
+
+            </StackLayout>
+            <StackLayout  x:Name="EntryData" Orientation="Vertical" Style="{StaticResource Layout}">
+                <StackLayout Orientation="Horizontal" Style="{StaticResource InternalLayout}">
+                    <Label Text="Partnumber" Style="{StaticResource CaptionMedium}" WidthRequest="50"/>
+                    <Entry x:Name="txtPartnumber" Placeholder="" Style="{StaticResource SmallEntry}"/>
+                </StackLayout>
+                <Button x:Name="btnSearch" Text="Search" FontSize="Micro" Margin="0" HeightRequest="35"/>
+            </StackLayout>
+            
+            
+            <StackLayout x:Name="PartInfo" Orientation="Vertical" Style="{StaticResource Layout}">
+                <StackLayout Orientation="Horizontal" Style="{StaticResource InternalLayout}">
+                    <Label Text="Supplier" Style="{StaticResource CaptionShort}"/>
+                    <Label x:Name="lblSupplier" Style="{StaticResource ResultShort}" />
+                    <Label Text="4th Stage" Style="{StaticResource CaptionShort}" />
+                    <Label x:Name="lbl4fase" Style="{StaticResource ResultShort}" />
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" Style="{StaticResource InternalLayout}">
+                    <Label Text="Description" Style="{StaticResource CaptionShort}"/>
+                    <Label x:Name="lblDesc" Style="{StaticResource ResultMedium}" />
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" Style="{StaticResource InternalLayout}">
+                    <Label Text="Pack / P.Qty" Style="{StaticResource CaptionShort}"/>
+                    <Label x:Name="lblPack" Style="{StaticResource ResultShort}" />
+                    <Label x:Name="lblQty" Style="{StaticResource ResultShort}" />
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" Style="{StaticResource InternalLayout}">
+                    <Label Text="Dock" Style="{StaticResource CaptionShort}"/>
+                    <Label x:Name="lblDock" Style="{StaticResource ResultMicro}" />
+                    <Label Text="Loc1/Loc2" Style="{StaticResource CaptionShort}"/>
+                    <Label x:Name="lblLoc1" Style="{StaticResource ResultShort}" />
+                    <Label x:Name="lblLoc2" Style="{StaticResource ResultShort}" />
+                </StackLayout>
+            </StackLayout>
+            
+            <StackLayout x:Name="StockInfo" Style="{StaticResource Layout}">
+                <StackLayout Orientation="Horizontal" Style="{StaticResource InternalLayout}">
+                    <Label Text="SPP/SPA" Style="{StaticResource CaptionShort}"/>
+                    <Label x:Name="lblSPP" Style="{StaticResource ResultMedium}" />
+                    <Label x:Name="lblSPA" Style="{StaticResource ResultMedium}" />
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" Style="{StaticResource InternalLayout}">
+                    <Label Text="STD/SQC" Style="{StaticResource CaptionShort}"/>
+                    <Label x:Name="lblSTD" Style="{StaticResource ResultShort}" />
+                    <Label x:Name="lblSQC" Style="{StaticResource ResultShort}" />
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" Style="{StaticResource InternalLayout}">
+                    <Label Text="SPC/SPX" Style="{StaticResource CaptionShort}"/>
+                    <Label x:Name="lblSPC" Style="{StaticResource ResultShort}" />
+                    <Label x:Name="lblSPX" Style="{StaticResource ResultShort}" />
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" Style="{StaticResource InternalLayout}">
+                    <Label Text="Last Delivery" Style="{StaticResource CaptionShort}"/>
+                    <Label x:Name="lblFechaSalida" Style="{StaticResource ResultShort}" />
+                    <Label x:Name="lblQtyExp" Style="{StaticResource ResultShort}" />
+                </StackLayout>
+            </StackLayout>
+
+            <StackLayout x:Name="MinInfo" Style="{StaticResource Layout}">
+                <StackLayout Orientation="Horizontal" Style="{StaticResource InternalLayout}">
+                    <Label Text="5 day Min Qty" Style="{StaticResource CaptionShort}"/>
+                    <Label x:Name="lblMinGVDBA" Style="{StaticResource ResultShort}" />
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" Style="{StaticResource InternalLayout}">
+                    <Label Text="Min Date/Qty" Style="{StaticResource CaptionShort}"/>
+                    <Label x:Name="lblMinDate" Style="{StaticResource ResultShort}" />
+                    <Label x:Name="lblMinQty" Style="{StaticResource ResultShort}" />
+                </StackLayout>
+            </StackLayout>
+
+            <StackLayout x:Name="Flags" Style="{StaticResource Layout}">
+                <StackLayout Orientation="Horizontal" Style="{StaticResource InternalLayout}">
+                    <Label Text="Flags" Style="{StaticResource CaptionShort}"/>
+                    <Label x:Name="lblFlags" Style="{StaticResource ResultShort}" />
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" Style="{StaticResource InternalLayout}">
+                    <Label Text="Break Date" Style="{StaticResource CaptionShort}"/>
+                    <Label x:Name="lblBreakDate" Style="{StaticResource ResultShort}" />
+                </StackLayout>
+            </StackLayout>
+        </StackLayout>
+
+
+    </ContentPage.Content>
+
+</ContentPage>
