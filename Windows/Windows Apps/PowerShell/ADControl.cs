@@ -118,9 +118,9 @@ namespace ADControl
                 EC = EC,
                 Command = string.Format(@"
 Get-ADUser -Identity '{0}' | Rename-ADObject -NewName '{1} {2}' ;
-Get-ADUser -Identity '{0}' | Set-ADUser -DisplayName '{1} {2}' -GivenName '{1}' -Surname '{2}' -EmailAddress '{4}' -Division '{5}' -PasswordNeverExpires:$True;
+Get-ADUser -Identity '{0}' | Set-ADUser -DisplayName '{1} {2}' -GivenName '{1}' -Surname '{2}' {4} -Division '{5}' -PasswordNeverExpires:$True;
 Get-ADUser -Identity '{0}' | Set-ADAccountPassword -Reset -NewPassword (ConvertTo-SecureString -AsPlainText '{3}' –Force);
-", UserCode, Name, Surname, Password, EmailAddress, division)
+", UserCode, Name, Surname, Password, EmailAddress != "" ? "-EmailAddress " + EmailAddress : "", division)
             };
             var _res = await command.InvokeAsync();
             Results = command.SResults;
