@@ -156,6 +156,14 @@
     <PackageReference Include="Xamarin.Forms" Version="2.5.0.122203" />
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.0.1" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="I18N">
+      <HintPath>..\..\I18N.dll</HintPath>
+    </Reference>
+    <Reference Include="I18N.West">
+      <HintPath>..\..\I18N.West.dll</HintPath>
+    </Reference>
+  </ItemGroup>
   <Import Project="..\PartnumberInfo\PartnumberInfo.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
