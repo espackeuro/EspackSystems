@@ -583,7 +583,6 @@
         private System.Windows.Forms.ToolStripButton btnSalida;
         private CTLMantenimientoNet.CTLMantenimientoNet CTLM;
         private VSGrid.CtlVSGrid VS;
-        private EspackMaterialFormControls.EspackMaterialTextBox espackMaterialTextBox1;
         private EspackFormControls.EspackTextBox txtDeliveryN;
         private EspackFormControls.EspackComboBox cboShift;
         private EspackFormControls.EspackTextBox txtUser;
