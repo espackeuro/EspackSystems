@@ -119,7 +119,7 @@ namespace Simplistica
 
         private void simpleExpeditionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            fSimpleExpeditions fSimpleExpeditions = (fSimpleExpeditions)GetChildInstance("fSimpleExpeditions");
+            fSimpleDeliveriesEPC fSimpleExpeditions = (fSimpleDeliveriesEPC)GetChildInstance("fSimpleExpeditions");
         }
         private void hSAReceivalsToolStripMenuItem_Click(object sender, EventArgs e)
         {

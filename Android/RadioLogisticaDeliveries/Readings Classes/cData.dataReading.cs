@@ -86,11 +86,16 @@ namespace RadioLogisticaDeliveries
             //if block is different we move it
             if (_block!=Values.gBlock)
             {
+                _errorMessage = string.Format("Wrong Block for the rack {0}.", Values.CurrentRack);
+                Status = dataStatus.ERROR;
+                return false;
+                /*
                 _warningMessage = string.Format("Rack block is {0}.\n Moving to {1}.", _block, Values.gBlock);
                 Status = dataStatus.WARNING;
                 //update the block
                 _readRack.Block = Values.gBlock;
                 await Values.SQLidb.db.UpdateAsync(_readRack);
+                */
 
             }
             //check block from RacksBlocks for current labelrack
