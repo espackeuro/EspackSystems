@@ -58,9 +58,6 @@
     <ApplicationIcon>simplistica.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MaterialSkin, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MaterialSkin.Updated.0.2.2\lib\MaterialSkin.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -80,7 +77,9 @@
     <Compile Include="fMainSimplistica.Designer.cs">
       <DependentUpon>fMainSimplistica.cs</DependentUpon>
     </Compile>
-    <Compile Include="fHSAReceivals.cs" />
+    <Compile Include="fHSAReceivals.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="fHSAReceivals.Designer.cs">
       <DependentUpon>fHSAReceivals.cs</DependentUpon>
     </Compile>
@@ -223,10 +222,6 @@
     <ProjectReference Include="..\cAccesoDatos\cAccesoDatos.csproj">
       <Project>{5da9cb0b-9007-40f1-8086-1b0303d8271f}</Project>
       <Name>cAccesoDatos</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EspackMaterialFormControls\EspackMaterialFormControls.csproj">
-      <Project>{af34a893-432f-4aa8-b322-e2eaf73e448b}</Project>
-      <Name>EspackMaterialFormControls</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
