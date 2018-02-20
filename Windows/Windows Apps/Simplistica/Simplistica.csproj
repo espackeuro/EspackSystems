@@ -108,11 +108,11 @@
     <Compile Include="fSettings.Designer.cs">
       <DependentUpon>fSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="fSimpleExpeditions.cs">
+    <Compile Include="fSimpleDeliveriesEPC.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="fSimpleExpeditions.Designer.cs">
-      <DependentUpon>fSimpleExpeditions.cs</DependentUpon>
+    <Compile Include="fSimpleDeliveriesEPC.Designer.cs">
+      <DependentUpon>fSimpleDeliveriesEPC.cs</DependentUpon>
     </Compile>
     <Compile Include="fSimpleReceivals.cs">
       <SubType>Form</SubType>
@@ -146,8 +146,8 @@
     <EmbeddedResource Include="fSettings.resx">
       <DependentUpon>fSettings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="fSimpleExpeditions.resx">
-      <DependentUpon>fSimpleExpeditions.cs</DependentUpon>
+    <EmbeddedResource Include="fSimpleDeliveriesEPC.resx">
+      <DependentUpon>fSimpleDeliveriesEPC.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="fSimpleReceivals.resx">
       <DependentUpon>fSimpleReceivals.cs</DependentUpon>

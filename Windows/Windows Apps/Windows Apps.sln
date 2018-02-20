@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.12
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sistemas", "..\Sistemas\Sistemas.csproj", "{DFF98615-73BD-4E97-B388-A139E206B174}"
 EndProject
@@ -108,6 +108,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterClass", "..\..\..\Management\MasterClass\MasterClass.csproj", "{F1A54468-3469-49BE-B025-A9469925744C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EspackMaterialFormControls", "EspackMaterialFormControls\EspackMaterialFormControls.csproj", "{AF34A893-432F-4AA8-B322-E2EAF73E448B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtraDataControl", "ExtraDataControl\ExtraDataControl.csproj", "{322FF44F-4583-4520-AB16-B0ED2AD9B17A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -290,6 +292,10 @@ Global
 		{AF34A893-432F-4AA8-B322-E2EAF73E448B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF34A893-432F-4AA8-B322-E2EAF73E448B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF34A893-432F-4AA8-B322-E2EAF73E448B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{322FF44F-4583-4520-AB16-B0ED2AD9B17A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{322FF44F-4583-4520-AB16-B0ED2AD9B17A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{322FF44F-4583-4520-AB16-B0ED2AD9B17A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{322FF44F-4583-4520-AB16-B0ED2AD9B17A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -341,9 +347,13 @@ Global
 		{EAE6391A-10FF-4188-99D7-6F5FDD857436} = {E49F7C30-3478-4B75-9341-1847CFF7FA62}
 		{F1A54468-3469-49BE-B025-A9469925744C} = {9A5F1334-96A2-4343-B6B5-94245973DB55}
 		{AF34A893-432F-4AA8-B322-E2EAF73E448B} = {740EE352-1137-4924-ADA9-AD599D1CB2BE}
+		{322FF44F-4583-4520-AB16-B0ED2AD9B17A} = {740EE352-1137-4924-ADA9-AD599D1CB2BE}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {371A2642-1747-4225-9160-3EADF2716F38}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 44
+		SccNumberOfProjects = 45
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://espack.visualstudio.com/
 		SccLocalPath0 = .
@@ -519,5 +529,9 @@ Global
 		SccProjectTopLevelParentUniqueName43 = Windows\u0020Apps.sln
 		SccProjectName43 = EspackMaterialFormControls
 		SccLocalPath43 = EspackMaterialFormControls
+		SccProjectUniqueName44 = ExtraDataControl\\ExtraDataControl.csproj
+		SccProjectTopLevelParentUniqueName44 = Windows\u0020Apps.sln
+		SccProjectName44 = ExtraDataControl
+		SccLocalPath44 = ExtraDataControl
 	EndGlobalSection
 EndGlobal

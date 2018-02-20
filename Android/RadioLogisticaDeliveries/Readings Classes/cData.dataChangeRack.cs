@@ -31,14 +31,21 @@ namespace RadioLogisticaDeliveries
 
         public override async Task<bool> doCheckings()
         {
+            var _rack = await Values.SQLidb.db.FindAsync<RacksBlocks>(r => r.Rack == Data);
+            if (_rack == null)/*
             var query = await Values.SQLidb.db.Table<RacksBlocks>().Where(r => r.Rack == Data).ToListAsync();
-            if (query.Count() == 0)
+            if (query.Count() == 0)*/
             {
-
+                _errorMessage = string.Format("Wrong Rack {0}.", Data);
                 Status = dataStatus.ERROR;
                 return false;
             }
-            
+            if (_rack.Block != Values.gBlock)
+            {
+                _errorMessage = string.Format("Wrong Block for the Rack {0}.", _rack.Block);
+                Status = dataStatus.ERROR;
+                return false;
+            }
             Values.SetCurrentRack(Data);
             Status = dataStatus.READ;
             return true;
