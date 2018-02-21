@@ -41,6 +41,7 @@ namespace Simplistica
             //fields
             cboService.Source("Select Codigo from Servicios where dbo.CheckFlag(flags,'SIMPLE')=1 and cod3='" + Values.COD3 + "' order by codigo");
             cboService.SelectedValueChanged += CboService_SelectedValueChanged;
+            cboDock.Source("Select DockCode from SedesDocks where cod3='" + Values.COD3 + "' order by DockCode");
             lstFlags.Source("Select codigo,DescFlagEng from flags where Tabla='SimpleDeliveriesCab'");
 
             //VS Definitions
