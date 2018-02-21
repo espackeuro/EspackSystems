@@ -28,6 +28,22 @@ namespace PartnumberInfo
 		{
 		}
 		
+		public partial class Array
+		{
+			
+			// aapt resource value: 0x7f050000
+			public const int Systems = 2131034112;
+			
+			static Array()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Array()
+			{
+			}
+		}
+		
 		public partial class Attribute
 		{
 			
@@ -60,32 +76,29 @@ namespace PartnumberInfo
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f050007
-			public const int InfoFragment = 2131034119;
+			// aapt resource value: 0x7f070006
+			public const int InfoFragment = 2131165190;
 			
-			// aapt resource value: 0x7f050008
-			public const int StatusFragment = 2131034120;
+			// aapt resource value: 0x7f070007
+			public const int StatusFragment = 2131165191;
 			
-			// aapt resource value: 0x7f050006
-			public const int dataInputFragment = 2131034118;
+			// aapt resource value: 0x7f070005
+			public const int dataInputFragment = 2131165189;
 			
-			// aapt resource value: 0x7f050005
-			public const int headerFragment = 2131034117;
+			// aapt resource value: 0x7f070004
+			public const int headerFragment = 2131165188;
 			
-			// aapt resource value: 0x7f050000
-			public const int t1 = 2131034112;
+			// aapt resource value: 0x7f070000
+			public const int lblVersion = 2131165184;
 			
-			// aapt resource value: 0x7f050001
-			public const int t2 = 2131034113;
+			// aapt resource value: 0x7f070001
+			public const int pckDB = 2131165185;
 			
-			// aapt resource value: 0x7f050002
-			public const int t3 = 2131034114;
+			// aapt resource value: 0x7f070003
+			public const int txtPwd = 2131165187;
 			
-			// aapt resource value: 0x7f050003
-			public const int t4 = 2131034115;
-			
-			// aapt resource value: 0x7f050004
-			public const int t5 = 2131034116;
+			// aapt resource value: 0x7f070002
+			public const int txtUser = 2131165186;
 			
 			static Id()
 			{
@@ -101,7 +114,7 @@ namespace PartnumberInfo
 		{
 			
 			// aapt resource value: 0x7f030000
-			public const int headerFt = 2130903040;
+			public const int HeaderFt = 2130903040;
 			
 			// aapt resource value: 0x7f030001
 			public const int Main = 2130903041;
@@ -128,6 +141,22 @@ namespace PartnumberInfo
 			}
 			
 			private String()
+			{
+			}
+		}
+		
+		public partial class Style
+		{
+			
+			// aapt resource value: 0x7f060000
+			public const int CodeFont = 2131099648;
+			
+			static Style()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Style()
 			{
 			}
 		}
