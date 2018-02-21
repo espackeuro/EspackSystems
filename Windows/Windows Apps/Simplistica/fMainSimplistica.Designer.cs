@@ -32,6 +32,7 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.receivalsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.simpleReceivalsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hSAReceivalsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mastersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.referencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deliveriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -41,7 +42,6 @@
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.printRepairsUnitLabelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.printRackLabelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.hSAReceivalsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -73,6 +73,13 @@
             this.simpleReceivalsToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.simpleReceivalsToolStripMenuItem.Text = "Simple Receivals";
             this.simpleReceivalsToolStripMenuItem.Click += new System.EventHandler(this.simpleReceivalsToolStripMenuItem_Click);
+            // 
+            // hSAReceivalsToolStripMenuItem
+            // 
+            this.hSAReceivalsToolStripMenuItem.Name = "hSAReceivalsToolStripMenuItem";
+            this.hSAReceivalsToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.hSAReceivalsToolStripMenuItem.Text = "HSA Receivals";
+            this.hSAReceivalsToolStripMenuItem.Click += new System.EventHandler(this.hSAReceivalsToolStripMenuItem_Click);
             // 
             // mastersToolStripMenuItem
             // 
@@ -109,7 +116,7 @@
             // 
             this.simpleExpeditionToolStripMenuItem.Name = "simpleExpeditionToolStripMenuItem";
             this.simpleExpeditionToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
-            this.simpleExpeditionToolStripMenuItem.Text = "Simple Expedition";
+            this.simpleExpeditionToolStripMenuItem.Text = "Simple Deliveries EPC";
             this.simpleExpeditionToolStripMenuItem.Click += new System.EventHandler(this.simpleExpeditionToolStripMenuItem_Click);
             // 
             // toolsToolStripMenuItem
@@ -142,13 +149,6 @@
             this.printRackLabelsToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
             this.printRackLabelsToolStripMenuItem.Text = "Print Rack Labels";
             this.printRackLabelsToolStripMenuItem.Click += new System.EventHandler(this.printRackLabelsToolStripMenuItem_Click);
-            // 
-            // hSAReceivalsToolStripMenuItem
-            // 
-            this.hSAReceivalsToolStripMenuItem.Name = "hSAReceivalsToolStripMenuItem";
-            this.hSAReceivalsToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
-            this.hSAReceivalsToolStripMenuItem.Text = "HSA Receivals";
-            this.hSAReceivalsToolStripMenuItem.Click += new System.EventHandler(this.hSAReceivalsToolStripMenuItem_Click);
             // 
             // fMainSimplistica
             // 
