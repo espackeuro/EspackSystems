@@ -57,8 +57,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketsServer", "..\..\Wind
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketsClient", "..\..\Network Libraries\Sockets\Sockets\SocketsClient.csproj", "{C9E2F11A-FA37-4FD2-9433-CC64CDBC2CEF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartnumberInformationScreen", "PartnumberInformationScreen\PartnumberInformationScreen.csproj", "{9AE0F1DC-3606-4158-BCCE-DD80124A9FA9}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartInfo.Android", "PartInfo\PartInfo.Android\PartInfo.Android.csproj", "{5CAACC37-5FB1-4DAB-BF5D-D891A65CDF8E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartInfo.UWP", "PartInfo\PartInfo.UWP\PartInfo.UWP.csproj", "{633D4DD1-5A0D-4ADF-8A84-8D885AFF7CDA}"
@@ -436,30 +434,6 @@ Global
 		{C9E2F11A-FA37-4FD2-9433-CC64CDBC2CEF}.Release|x64.Build.0 = Release|Any CPU
 		{C9E2F11A-FA37-4FD2-9433-CC64CDBC2CEF}.Release|x86.ActiveCfg = Release|Any CPU
 		{C9E2F11A-FA37-4FD2-9433-CC64CDBC2CEF}.Release|x86.Build.0 = Release|Any CPU
-		{9AE0F1DC-3606-4158-BCCE-DD80124A9FA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9AE0F1DC-3606-4158-BCCE-DD80124A9FA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9AE0F1DC-3606-4158-BCCE-DD80124A9FA9}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{9AE0F1DC-3606-4158-BCCE-DD80124A9FA9}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{9AE0F1DC-3606-4158-BCCE-DD80124A9FA9}.Debug|ARM.Build.0 = Debug|Any CPU
-		{9AE0F1DC-3606-4158-BCCE-DD80124A9FA9}.Debug|ARM.Deploy.0 = Debug|Any CPU
-		{9AE0F1DC-3606-4158-BCCE-DD80124A9FA9}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{9AE0F1DC-3606-4158-BCCE-DD80124A9FA9}.Debug|x64.Build.0 = Debug|Any CPU
-		{9AE0F1DC-3606-4158-BCCE-DD80124A9FA9}.Debug|x64.Deploy.0 = Debug|Any CPU
-		{9AE0F1DC-3606-4158-BCCE-DD80124A9FA9}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{9AE0F1DC-3606-4158-BCCE-DD80124A9FA9}.Debug|x86.Build.0 = Debug|Any CPU
-		{9AE0F1DC-3606-4158-BCCE-DD80124A9FA9}.Debug|x86.Deploy.0 = Debug|Any CPU
-		{9AE0F1DC-3606-4158-BCCE-DD80124A9FA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9AE0F1DC-3606-4158-BCCE-DD80124A9FA9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9AE0F1DC-3606-4158-BCCE-DD80124A9FA9}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{9AE0F1DC-3606-4158-BCCE-DD80124A9FA9}.Release|ARM.ActiveCfg = Release|Any CPU
-		{9AE0F1DC-3606-4158-BCCE-DD80124A9FA9}.Release|ARM.Build.0 = Release|Any CPU
-		{9AE0F1DC-3606-4158-BCCE-DD80124A9FA9}.Release|ARM.Deploy.0 = Release|Any CPU
-		{9AE0F1DC-3606-4158-BCCE-DD80124A9FA9}.Release|x64.ActiveCfg = Release|Any CPU
-		{9AE0F1DC-3606-4158-BCCE-DD80124A9FA9}.Release|x64.Build.0 = Release|Any CPU
-		{9AE0F1DC-3606-4158-BCCE-DD80124A9FA9}.Release|x64.Deploy.0 = Release|Any CPU
-		{9AE0F1DC-3606-4158-BCCE-DD80124A9FA9}.Release|x86.ActiveCfg = Release|Any CPU
-		{9AE0F1DC-3606-4158-BCCE-DD80124A9FA9}.Release|x86.Build.0 = Release|Any CPU
-		{9AE0F1DC-3606-4158-BCCE-DD80124A9FA9}.Release|x86.Deploy.0 = Release|Any CPU
 		{5CAACC37-5FB1-4DAB-BF5D-D891A65CDF8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5CAACC37-5FB1-4DAB-BF5D-D891A65CDF8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5CAACC37-5FB1-4DAB-BF5D-D891A65CDF8E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
@@ -531,7 +505,6 @@ Global
 		{A8B13BE6-C706-4DD4-AB0F-9BE3DACB3E67} = {3A654A15-9225-4336-8D89-227689080C5A}
 		{BC9B78D2-77AC-459C-8F42-99AAFE4242F9} = {A8B13BE6-C706-4DD4-AB0F-9BE3DACB3E67}
 		{C9E2F11A-FA37-4FD2-9433-CC64CDBC2CEF} = {A8B13BE6-C706-4DD4-AB0F-9BE3DACB3E67}
-		{9AE0F1DC-3606-4158-BCCE-DD80124A9FA9} = {DD5ED550-A29E-485F-A18C-04FE8256767A}
 		{5CAACC37-5FB1-4DAB-BF5D-D891A65CDF8E} = {3907CE52-F8F9-4A83-86D9-C9F2ECB7C31D}
 		{633D4DD1-5A0D-4ADF-8A84-8D885AFF7CDA} = {3907CE52-F8F9-4A83-86D9-C9F2ECB7C31D}
 		{BE92D13A-23BD-44A2-A29E-9EF98220E9FF} = {3907CE52-F8F9-4A83-86D9-C9F2ECB7C31D}
@@ -540,7 +513,7 @@ Global
 		SolutionGuid = {0CDD1FEB-E646-4821-9672-4B883DF856D6}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 27
+		SccNumberOfProjects = 26
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://espack.visualstudio.com/
 		SccLocalPath0 = .
@@ -628,25 +601,21 @@ Global
 		SccProjectTopLevelParentUniqueName21 = Android\u0020Apps.sln
 		SccProjectName21 = ../../Network\u0020Libraries/Sockets/Sockets
 		SccLocalPath21 = ..\\..\\Network\u0020Libraries\\Sockets\\Sockets
-		SccProjectUniqueName22 = PartnumberInformationScreen\\PartnumberInformationScreen.csproj
+		SccProjectUniqueName22 = PartInfo\\PartInfo.Android\\PartInfo.Android.csproj
 		SccProjectTopLevelParentUniqueName22 = Android\u0020Apps.sln
-		SccProjectName22 = PartnumberInformationScreen
-		SccLocalPath22 = PartnumberInformationScreen
-		SccProjectUniqueName23 = PartInfo\\PartInfo.Android\\PartInfo.Android.csproj
+		SccProjectName22 = PartInfo/PartInfo.Android
+		SccLocalPath22 = PartInfo\\PartInfo.Android
+		SccProjectUniqueName23 = PartInfo\\PartInfo.UWP\\PartInfo.UWP.csproj
 		SccProjectTopLevelParentUniqueName23 = Android\u0020Apps.sln
-		SccProjectName23 = PartInfo/PartInfo.Android
-		SccLocalPath23 = PartInfo\\PartInfo.Android
-		SccProjectUniqueName24 = PartInfo\\PartInfo.UWP\\PartInfo.UWP.csproj
+		SccProjectName23 = PartInfo/PartInfo.UWP
+		SccLocalPath23 = PartInfo\\PartInfo.UWP
+		SccProjectUniqueName24 = PartInfo\\PartInfo\\PartInfo.shproj
 		SccProjectTopLevelParentUniqueName24 = Android\u0020Apps.sln
-		SccProjectName24 = PartInfo/PartInfo.UWP
-		SccLocalPath24 = PartInfo\\PartInfo.UWP
-		SccProjectUniqueName25 = PartInfo\\PartInfo\\PartInfo.shproj
+		SccProjectName24 = PartInfo/PartInfo
+		SccLocalPath24 = PartInfo\\PartInfo
+		SccProjectUniqueName25 = PartInfo\\PartInfo\\PartInfo.projitems
 		SccProjectTopLevelParentUniqueName25 = Android\u0020Apps.sln
 		SccProjectName25 = PartInfo/PartInfo
 		SccLocalPath25 = PartInfo\\PartInfo
-		SccProjectUniqueName26 = PartInfo\\PartInfo\\PartInfo.projitems
-		SccProjectTopLevelParentUniqueName26 = Android\u0020Apps.sln
-		SccProjectName26 = PartInfo/PartInfo
-		SccLocalPath26 = PartInfo\\PartInfo
 	EndGlobalSection
 EndGlobal
