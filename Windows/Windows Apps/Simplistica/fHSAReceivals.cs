@@ -33,14 +33,14 @@ namespace Simplistica
             switch (newValue)
             {
                 case EnumROBOT_Status.OK:
-                    pctRobotStatus.Image = simplistica.Properties.Resources.ok_30;
+                    pctRobotStatus.Image = Properties.Resources.ok_30;
                     break;
                 case EnumROBOT_Status.RUN:
                 case EnumROBOT_Status.INI:
-                    pctRobotStatus.Image = simplistica.Properties.Resources.process_30;
+                    pctRobotStatus.Image = Properties.Resources.process_30;
                     break;
                 case EnumROBOT_Status.ERR:
-                    pctRobotStatus.Image = simplistica.Properties.Resources.nook_30;
+                    pctRobotStatus.Image = Properties.Resources.nook_30;
                     break;
                 default:
                     pctRobotStatus.Image = null;
