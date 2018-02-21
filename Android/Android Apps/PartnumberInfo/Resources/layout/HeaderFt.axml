@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:padding="10dip">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="3">
+      <ImageView
+          android:scaleType="fitStart"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:src="@drawable/Logo_Espack_Sistemas_vertical" />
+        <TextView
+          android:id="@+id/lblVersion"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:textSize="16sp" />
+    </LinearLayout>
+  <LinearLayout
+      android:orientation="vertical"
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_weight="5"
+      android:paddingLeft="10dp"
+      android:paddingTop="5dp">
+    <Spinner
+        android:id="@+id/pckDB"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/Systems" />
+    <EditText
+        android:id="@+id/txtUser"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:hint="User"
+        android:textSize="16sp" />
+    <EditText
+        android:id="@+id/txtPwd"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:inputType="textPassword"
+        android:hint="Password"
+        android:textSize="16sp" />
+  </LinearLayout>
+</LinearLayout>
