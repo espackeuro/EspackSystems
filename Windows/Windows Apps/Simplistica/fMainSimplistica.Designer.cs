@@ -183,6 +183,7 @@
         private System.Windows.Forms.ToolStripMenuItem deliveriesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem simpleProductionOrderToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem simpleExpeditionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem hSAReceivalsToolStripMenuItem;
     }
 }
 
