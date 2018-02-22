@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2027
+VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonAndroidTools", "..\BitmapHelpers\CommonAndroidTools.csproj", "{FE45781B-38CB-44F0-9DE7-08E15E0C53BD}"
 EndProject
@@ -57,22 +57,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketsServer", "..\..\Wind
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketsClient", "..\..\Network Libraries\Sockets\Sockets\SocketsClient.csproj", "{C9E2F11A-FA37-4FD2-9433-CC64CDBC2CEF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartInfo.Android", "PartInfo\PartInfo.Android\PartInfo.Android.csproj", "{5CAACC37-5FB1-4DAB-BF5D-D891A65CDF8E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartInfo.UWP", "PartInfo\PartInfo.UWP\PartInfo.UWP.csproj", "{633D4DD1-5A0D-4ADF-8A84-8D885AFF7CDA}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "PartInfo", "PartInfo\PartInfo\PartInfo.shproj", "{BE92D13A-23BD-44A2-A29E-9EF98220E9FF}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CrossPlatform", "CrossPlatform", "{3907CE52-F8F9-4A83-86D9-C9F2ECB7C31D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartnumberInfo", "PartnumberInfo\PartnumberInfo.csproj", "{D17E0BCB-C949-4D24-B9FE-CCB2E3D56853}"
 EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		PartInfo\PartInfo\PartInfo.projitems*{5caacc37-5fb1-4dab-bf5d-d891a65cdf8e}*SharedItemsImports = 4
-		PartInfo\PartInfo\PartInfo.projitems*{633d4dd1-5a0d-4adf-8a84-8d885aff7cda}*SharedItemsImports = 4
-		PartInfo\PartInfo\PartInfo.projitems*{be92d13a-23bd-44a2-a29e-9ef98220e9ff}*SharedItemsImports = 13
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|ARM = Debug|ARM
@@ -436,50 +423,6 @@ Global
 		{C9E2F11A-FA37-4FD2-9433-CC64CDBC2CEF}.Release|x64.Build.0 = Release|Any CPU
 		{C9E2F11A-FA37-4FD2-9433-CC64CDBC2CEF}.Release|x86.ActiveCfg = Release|Any CPU
 		{C9E2F11A-FA37-4FD2-9433-CC64CDBC2CEF}.Release|x86.Build.0 = Release|Any CPU
-		{5CAACC37-5FB1-4DAB-BF5D-D891A65CDF8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5CAACC37-5FB1-4DAB-BF5D-D891A65CDF8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5CAACC37-5FB1-4DAB-BF5D-D891A65CDF8E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{5CAACC37-5FB1-4DAB-BF5D-D891A65CDF8E}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{5CAACC37-5FB1-4DAB-BF5D-D891A65CDF8E}.Debug|ARM.Build.0 = Debug|Any CPU
-		{5CAACC37-5FB1-4DAB-BF5D-D891A65CDF8E}.Debug|ARM.Deploy.0 = Debug|Any CPU
-		{5CAACC37-5FB1-4DAB-BF5D-D891A65CDF8E}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{5CAACC37-5FB1-4DAB-BF5D-D891A65CDF8E}.Debug|x64.Build.0 = Debug|Any CPU
-		{5CAACC37-5FB1-4DAB-BF5D-D891A65CDF8E}.Debug|x64.Deploy.0 = Debug|Any CPU
-		{5CAACC37-5FB1-4DAB-BF5D-D891A65CDF8E}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{5CAACC37-5FB1-4DAB-BF5D-D891A65CDF8E}.Debug|x86.Build.0 = Debug|Any CPU
-		{5CAACC37-5FB1-4DAB-BF5D-D891A65CDF8E}.Debug|x86.Deploy.0 = Debug|Any CPU
-		{5CAACC37-5FB1-4DAB-BF5D-D891A65CDF8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5CAACC37-5FB1-4DAB-BF5D-D891A65CDF8E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5CAACC37-5FB1-4DAB-BF5D-D891A65CDF8E}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{5CAACC37-5FB1-4DAB-BF5D-D891A65CDF8E}.Release|ARM.ActiveCfg = Release|Any CPU
-		{5CAACC37-5FB1-4DAB-BF5D-D891A65CDF8E}.Release|ARM.Build.0 = Release|Any CPU
-		{5CAACC37-5FB1-4DAB-BF5D-D891A65CDF8E}.Release|ARM.Deploy.0 = Release|Any CPU
-		{5CAACC37-5FB1-4DAB-BF5D-D891A65CDF8E}.Release|x64.ActiveCfg = Release|Any CPU
-		{5CAACC37-5FB1-4DAB-BF5D-D891A65CDF8E}.Release|x64.Build.0 = Release|Any CPU
-		{5CAACC37-5FB1-4DAB-BF5D-D891A65CDF8E}.Release|x64.Deploy.0 = Release|Any CPU
-		{5CAACC37-5FB1-4DAB-BF5D-D891A65CDF8E}.Release|x86.ActiveCfg = Release|Any CPU
-		{5CAACC37-5FB1-4DAB-BF5D-D891A65CDF8E}.Release|x86.Build.0 = Release|Any CPU
-		{5CAACC37-5FB1-4DAB-BF5D-D891A65CDF8E}.Release|x86.Deploy.0 = Release|Any CPU
-		{633D4DD1-5A0D-4ADF-8A84-8D885AFF7CDA}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{633D4DD1-5A0D-4ADF-8A84-8D885AFF7CDA}.Debug|ARM.ActiveCfg = Debug|ARM
-		{633D4DD1-5A0D-4ADF-8A84-8D885AFF7CDA}.Debug|ARM.Build.0 = Debug|ARM
-		{633D4DD1-5A0D-4ADF-8A84-8D885AFF7CDA}.Debug|ARM.Deploy.0 = Debug|ARM
-		{633D4DD1-5A0D-4ADF-8A84-8D885AFF7CDA}.Debug|x64.ActiveCfg = Debug|x64
-		{633D4DD1-5A0D-4ADF-8A84-8D885AFF7CDA}.Debug|x64.Build.0 = Debug|x64
-		{633D4DD1-5A0D-4ADF-8A84-8D885AFF7CDA}.Debug|x64.Deploy.0 = Debug|x64
-		{633D4DD1-5A0D-4ADF-8A84-8D885AFF7CDA}.Debug|x86.ActiveCfg = Debug|x86
-		{633D4DD1-5A0D-4ADF-8A84-8D885AFF7CDA}.Debug|x86.Build.0 = Debug|x86
-		{633D4DD1-5A0D-4ADF-8A84-8D885AFF7CDA}.Debug|x86.Deploy.0 = Debug|x86
-		{633D4DD1-5A0D-4ADF-8A84-8D885AFF7CDA}.Release|Any CPU.ActiveCfg = Release|x86
-		{633D4DD1-5A0D-4ADF-8A84-8D885AFF7CDA}.Release|ARM.ActiveCfg = Release|ARM
-		{633D4DD1-5A0D-4ADF-8A84-8D885AFF7CDA}.Release|ARM.Build.0 = Release|ARM
-		{633D4DD1-5A0D-4ADF-8A84-8D885AFF7CDA}.Release|ARM.Deploy.0 = Release|ARM
-		{633D4DD1-5A0D-4ADF-8A84-8D885AFF7CDA}.Release|x64.ActiveCfg = Release|x64
-		{633D4DD1-5A0D-4ADF-8A84-8D885AFF7CDA}.Release|x64.Build.0 = Release|x64
-		{633D4DD1-5A0D-4ADF-8A84-8D885AFF7CDA}.Release|x64.Deploy.0 = Release|x64
-		{633D4DD1-5A0D-4ADF-8A84-8D885AFF7CDA}.Release|x86.ActiveCfg = Release|x86
-		{633D4DD1-5A0D-4ADF-8A84-8D885AFF7CDA}.Release|x86.Build.0 = Release|x86
-		{633D4DD1-5A0D-4ADF-8A84-8D885AFF7CDA}.Release|x86.Deploy.0 = Release|x86
 		{D17E0BCB-C949-4D24-B9FE-CCB2E3D56853}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D17E0BCB-C949-4D24-B9FE-CCB2E3D56853}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D17E0BCB-C949-4D24-B9FE-CCB2E3D56853}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
@@ -531,18 +474,15 @@ Global
 		{A8B13BE6-C706-4DD4-AB0F-9BE3DACB3E67} = {3A654A15-9225-4336-8D89-227689080C5A}
 		{BC9B78D2-77AC-459C-8F42-99AAFE4242F9} = {A8B13BE6-C706-4DD4-AB0F-9BE3DACB3E67}
 		{C9E2F11A-FA37-4FD2-9433-CC64CDBC2CEF} = {A8B13BE6-C706-4DD4-AB0F-9BE3DACB3E67}
-		{5CAACC37-5FB1-4DAB-BF5D-D891A65CDF8E} = {3907CE52-F8F9-4A83-86D9-C9F2ECB7C31D}
-		{633D4DD1-5A0D-4ADF-8A84-8D885AFF7CDA} = {3907CE52-F8F9-4A83-86D9-C9F2ECB7C31D}
-		{BE92D13A-23BD-44A2-A29E-9EF98220E9FF} = {3907CE52-F8F9-4A83-86D9-C9F2ECB7C31D}
 		{D17E0BCB-C949-4D24-B9FE-CCB2E3D56853} = {DD5ED550-A29E-485F-A18C-04FE8256767A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0CDD1FEB-E646-4821-9672-4B883DF856D6}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 27
+		SccNumberOfProjects = 23
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://espack.visualstudio.com/
+		SccTeamFoundationServer = https://espack.visualstudio.com/defaultcollection
 		SccLocalPath0 = .
 		SccProjectUniqueName1 = ..\\BitmapHelpers\\CommonAndroidTools.csproj
 		SccProjectTopLevelParentUniqueName1 = Android\u0020Apps.sln
@@ -628,25 +568,9 @@ Global
 		SccProjectTopLevelParentUniqueName21 = Android\u0020Apps.sln
 		SccProjectName21 = ../../Network\u0020Libraries/Sockets/Sockets
 		SccLocalPath21 = ..\\..\\Network\u0020Libraries\\Sockets\\Sockets
-		SccProjectUniqueName22 = PartInfo\\PartInfo.Android\\PartInfo.Android.csproj
+		SccProjectUniqueName22 = PartnumberInfo\\PartnumberInfo.csproj
 		SccProjectTopLevelParentUniqueName22 = Android\u0020Apps.sln
-		SccProjectName22 = PartInfo/PartInfo.Android
-		SccLocalPath22 = PartInfo\\PartInfo.Android
-		SccProjectUniqueName23 = PartInfo\\PartInfo.UWP\\PartInfo.UWP.csproj
-		SccProjectTopLevelParentUniqueName23 = Android\u0020Apps.sln
-		SccProjectName23 = PartInfo/PartInfo.UWP
-		SccLocalPath23 = PartInfo\\PartInfo.UWP
-		SccProjectUniqueName24 = PartInfo\\PartInfo\\PartInfo.shproj
-		SccProjectTopLevelParentUniqueName24 = Android\u0020Apps.sln
-		SccProjectName24 = PartInfo/PartInfo
-		SccLocalPath24 = PartInfo\\PartInfo
-		SccProjectUniqueName25 = PartInfo\\PartInfo\\PartInfo.projitems
-		SccProjectTopLevelParentUniqueName25 = Android\u0020Apps.sln
-		SccProjectName25 = PartInfo/PartInfo
-		SccLocalPath25 = PartInfo\\PartInfo
-		SccProjectUniqueName26 = PartnumberInfo\\PartnumberInfo.csproj
-		SccProjectTopLevelParentUniqueName26 = Android\u0020Apps.sln
-		SccProjectName26 = PartnumberInfo
-		SccLocalPath26 = PartnumberInfo
+		SccProjectName22 = PartnumberInfo
+		SccLocalPath22 = PartnumberInfo
 	EndGlobalSection
 EndGlobal

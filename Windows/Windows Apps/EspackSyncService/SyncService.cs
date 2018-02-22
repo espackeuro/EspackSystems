@@ -92,7 +92,7 @@ namespace EspackSyncService
             Values.gDatos.DataBase = "SISTEMAS";
             Values.gDatos.Connect();
             //check if guest user password has expired
-            using (var _RS= new StaticRS("select * from Users where UserCode = 'guest' and GETDATE() >= PasswordEXP", Values.gDatos))
+            using (var _RS= new StaticRS("select * from Users where UserCode = 'guest' and (GETDATE() >= PasswordEXP or PasswordEXP is null)", Values.gDatos))
             {
                 try
                 {
