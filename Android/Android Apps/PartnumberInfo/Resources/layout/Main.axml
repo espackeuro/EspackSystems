@@ -12,19 +12,19 @@
         android:layout_weight="0.8"
         android:id="@+id/headerFragment" />
     <FrameLayout
-        android:name=""
+        android:name="dataInputFragment"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="2"
         android:id="@+id/dataInputFragment" />
     <FrameLayout
-        android:name=""
+        android:name="InfoFragment"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="6"
         android:id="@+id/InfoFragment" />
     <FrameLayout
-        android:name=""
+        android:name="StatusFragment"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1"

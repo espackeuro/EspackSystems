@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.espack.radiofxc" android:versionName="2.36" android:installLocation="auto" android:versionCode="2">
-	<uses-sdk android:targetSdkVersion="24" android:minSdkVersion="19" />
+	<uses-sdk android:minSdkVersion="19" android:targetSdkVersion="26" />
 	<application android:label="Radio REPAIRS" android:icon="@drawable/Icon" android:theme="@style/AppTheme"></application>
 	<uses-permission android:name="android.permission.CAMERA" />
 	<uses-permission android:name="android.permission.INTERNET" />

@@ -108,10 +108,14 @@
     <ContentPage.Content>
         <ScrollView  Orientation = "Vertical" VerticalOptions="StartAndExpand">
             <StackLayout x:Name="Content" Orientation="Vertical"  VerticalOptions="Start" Margin="10">
+                
                 <!--Entry Data layout-->
                 <StackLayout x:Name="EntryData" Orientation="Vertical"  VerticalOptions="Start" Margin="0">
                     <StackLayout x:Name="Header" Orientation="Horizontal" Style="{StaticResource Layout}">
-                        <Image x:Name="LogoEspack" Source="logo.png" WidthRequest="125" Margin="2"/>
+                        <StackLayout Orientation="Vertical" WidthRequest="150" Style="{StaticResource InternalLayout}">
+                            <Image x:Name="LogoEspack" Source="logo.png" WidthRequest="125" Margin="2"/>
+                            <Label x:Name="lblVersion" FontSize="Micro" HorizontalTextAlignment="Center"/>
+                        </StackLayout>
                         <StackLayout Orientation="Vertical" WidthRequest="200" Style="{StaticResource InternalLayout}">
                             <Picker x:Name="pckDB" Title="Select a system">
                                 <Picker.ItemsSource>

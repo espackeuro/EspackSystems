@@ -7,12 +7,15 @@ using Xamarin.Forms;
 using System.Data;
 using System.Data.SqlClient;
 using static PartnumberInfo.Values;
+using Android.Content;
 
 namespace PartnumberInfo
 {
     public static class Values
     {
         public static SqlConnection gDatos { get; set; }
+        public static string Version { get; set; }
+        public static Context MainContext { get; set; }
 
     }
     // http://docs.xamarin.com/android/advanced_topics/linking#falseflag
@@ -33,7 +36,9 @@ namespace PartnumberInfo
 		{
 			InitializeComponent();
             var a = I18N.West.CP1252.GetEncoding("utf-32");
-            //LogoEspack.Source = ImageSource.FromResource("logo.png");
+            lblVersion.Text = Values.Version;
+
+            
 #if DEBUG
             txtUser.Text = "restelles";
             txtPwd.Text = "G8npi3rc";

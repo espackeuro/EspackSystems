@@ -7,6 +7,16 @@ using Xamarin.Forms;
 using System.Data;
 using System.Data.SqlClient;
 using static PartnumberInfo.Values;
+using Android.App;
+using Android.Content;
+using Android.OS;
+using Android.Runtime;
+using Android.Views;
+using Android.Widget;
+using System.Threading;
+using Android.Content.PM;
+using System.Net;
+using System.IO;
 
 namespace PartnumberInfo
 {
@@ -73,6 +83,8 @@ namespace PartnumberInfo
                         sp.Parameters["@User"].Value = txtUser.Text;
                         sp.Parameters["@Password"].Value = txtPwd.Text;
                         sp.Parameters["@Origin"].Value = "PARTNUMBER INFO";
+                        sp.Parameters["@Version"].Value = "";
+                        sp.Parameters["@PackageName"].Value = "";
                         try
                         {
                             await sp.ExecuteNonQueryAsync();
@@ -85,8 +97,26 @@ namespace PartnumberInfo
                         {
                             // control errores TBD
                         }
+                        string _version = sp.Parameters["@Version"].Value.ToString();
+                        string _packageName = sp.Parameters["@PackageName"].Value.ToString();
                         _User = sp.Parameters["@User"].Value.ToString();
                         _Pwd = sp.Parameters["@Password"].Value.ToString();
+                        var _versionArray = _version.Split('.');
+                        _version = string.Format("{0}.{1}", _versionArray[0], _versionArray[1]);
+                        var versionArray = Values.Version.Split('.');
+                        var version = string.Format("{0}.{1}", versionArray[0], versionArray[1]);
+                        if (_version != version)
+                        {
+                            bool dialogResult = await Droid.AlertDialogHelper.ShowAsync(MainContext , "New version found", "Do you want to update your current program?", "Yes", "No");
+                            if (dialogResult)
+                            {
+                                var pd = ProgressDialog.Show(MainContext, "", "Downloading...", false, false);
+                                pd.SetProgressStyle(ProgressDialogStyle.Spinner);
+                                await UpdatePackageURL(_packageName);
+                                pd.Dismiss();
+                            }
+
+                        }
                     }
                 }
                 _connectionString = string.Format("Server={0};Initial Catalog={1};User Id={2};Password={3};MultipleActiveResultSets=True;Connection Lifetime=3;Max Pool Size=3", "10.200.10.138", _DB, _User, _Pwd);
@@ -189,5 +219,35 @@ namespace PartnumberInfo
             }
             gDatos.Close();
         }
+        private async Task UpdatePackageURL(string packageName)
+        {
+            using (var c = new WebClient())
+            {
+                var URL = string.Format("http://portal.espackeuro.com/{0}.apk", packageName);
+                var _local = string.Format("{0}/{1}.apk", Android.OS.Environment.ExternalStorageDirectory.Path, packageName);
+                await c.DownloadFileTaskAsync(URL, _local);
+                if (!File.Exists(_local))
+                {
+                    var builder = new Android.Support.V7.App.AlertDialog.Builder(((Activity)Values.MainContext));
+                    builder.SetTitle("ERROR");
+                    builder.SetIcon(Android.Resource.Drawable.IcDialogAlert);
+                    builder.SetMessage("Error: the file was not downloaded correctly, the app will not be updated.");
+                    builder.SetNeutralButton("OK", delegate
+                    {
+                        Intent intnt = new Intent();
+                        intnt.PutExtra("Result", "OK");
+                        ((Activity)Values.MainContext).SetResult(Result.Ok, intnt);
+                        ((Activity)Values.MainContext).Finish();
+                    });
+                    ((Activity)Values.MainContext).RunOnUiThread(() => { builder.Create().Show(); });
+                }
+                var intent = new Intent(Intent.ActionView);
+                intent.SetDataAndType(Android.Net.Uri.FromFile(new Java.IO.File(_local)), "application/vnd.android.package-archive");
+                intent.SetFlags(ActivityFlags.NewTask);
+                ((Activity)Values.MainContext).StartActivity(intent);
+            }
+
+        }
     }
+
 }
