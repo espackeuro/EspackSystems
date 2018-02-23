@@ -11,7 +11,7 @@ using Android.Util;
 using Android.Views;
 using Android.Widget;
 
-namespace PartnumberInfo
+namespace Partes
 {
     public class HeaderFragment : Fragment
     {
