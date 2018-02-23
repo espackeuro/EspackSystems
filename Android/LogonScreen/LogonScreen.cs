@@ -13,7 +13,7 @@ using AccesoDatos;
 using AccesoDatosXML;
 using ObjectFactory;
 
-namespace LogonScreen
+namespace LogonScreenVPN
 {
     public static class LogonDetails
     {
