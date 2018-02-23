@@ -963,6 +963,7 @@ namespace RadioFXC
 			global::LogonScreen.Resource.Drawable.ic_vol_type_speaker_light = global::RadioFXC.Resource.Drawable.ic_vol_type_speaker_light;
 			global::LogonScreen.Resource.Drawable.ic_vol_type_tv_dark = global::RadioFXC.Resource.Drawable.ic_vol_type_tv_dark;
 			global::LogonScreen.Resource.Drawable.ic_vol_type_tv_light = global::RadioFXC.Resource.Drawable.ic_vol_type_tv_light;
+			global::LogonScreen.Resource.Drawable.Logo_Espack_Sistemas_vertical = global::RadioFXC.Resource.Drawable.Logo_Espack_Sistemas_vertical;
 			global::LogonScreen.Resource.Drawable.mr_button_connected_dark = global::RadioFXC.Resource.Drawable.mr_button_connected_dark;
 			global::LogonScreen.Resource.Drawable.mr_button_connected_light = global::RadioFXC.Resource.Drawable.mr_button_connected_light;
 			global::LogonScreen.Resource.Drawable.mr_button_connecting_dark = global::RadioFXC.Resource.Drawable.mr_button_connecting_dark;
@@ -1001,7 +1002,6 @@ namespace RadioFXC
 			global::LogonScreen.Resource.Id.ALT = global::RadioFXC.Resource.Id.ALT;
 			global::LogonScreen.Resource.Id.CTRL = global::RadioFXC.Resource.Id.CTRL;
 			global::LogonScreen.Resource.Id.FUNCTION = global::RadioFXC.Resource.Id.FUNCTION;
-			global::LogonScreen.Resource.Id.Login = global::RadioFXC.Resource.Id.Login;
 			global::LogonScreen.Resource.Id.META = global::RadioFXC.Resource.Id.META;
 			global::LogonScreen.Resource.Id.Password = global::RadioFXC.Resource.Id.Password;
 			global::LogonScreen.Resource.Id.SHIFT = global::RadioFXC.Resource.Id.SHIFT;
@@ -1036,6 +1036,7 @@ namespace RadioFXC
 			global::LogonScreen.Resource.Id.beginning = global::RadioFXC.Resource.Id.beginning;
 			global::LogonScreen.Resource.Id.blocking = global::RadioFXC.Resource.Id.blocking;
 			global::LogonScreen.Resource.Id.bottom = global::RadioFXC.Resource.Id.bottom;
+			global::LogonScreen.Resource.Id.btnLogin = global::RadioFXC.Resource.Id.btnLogin;
 			global::LogonScreen.Resource.Id.buttonPanel = global::RadioFXC.Resource.Id.buttonPanel;
 			global::LogonScreen.Resource.Id.cancel_action = global::RadioFXC.Resource.Id.cancel_action;
 			global::LogonScreen.Resource.Id.center = global::RadioFXC.Resource.Id.center;
@@ -1259,7 +1260,6 @@ namespace RadioFXC
 			global::LogonScreen.Resource.Layout.design_navigation_menu = global::RadioFXC.Resource.Layout.design_navigation_menu;
 			global::LogonScreen.Resource.Layout.design_navigation_menu_item = global::RadioFXC.Resource.Layout.design_navigation_menu_item;
 			global::LogonScreen.Resource.Layout.design_text_input_password_icon = global::RadioFXC.Resource.Layout.design_text_input_password_icon;
-			global::LogonScreen.Resource.Layout.LogonScreenLayout = global::RadioFXC.Resource.Layout.LogonScreenLayout;
 			global::LogonScreen.Resource.Layout.LogonScreenLayoutMaterial = global::RadioFXC.Resource.Layout.LogonScreenLayoutMaterial;
 			global::LogonScreen.Resource.Layout.mr_chooser_dialog = global::RadioFXC.Resource.Layout.mr_chooser_dialog;
 			global::LogonScreen.Resource.Layout.mr_chooser_list_item = global::RadioFXC.Resource.Layout.mr_chooser_list_item;
@@ -5148,26 +5148,26 @@ namespace RadioFXC
 			// aapt resource value: 0x7f020055
 			public const int avd_hide_password = 2130837589;
 			
-			// aapt resource value: 0x7f020158
-			public const int avd_hide_password_1 = 2130837848;
-			
 			// aapt resource value: 0x7f020159
-			public const int avd_hide_password_2 = 2130837849;
+			public const int avd_hide_password_1 = 2130837849;
 			
 			// aapt resource value: 0x7f02015a
-			public const int avd_hide_password_3 = 2130837850;
+			public const int avd_hide_password_2 = 2130837850;
+			
+			// aapt resource value: 0x7f02015b
+			public const int avd_hide_password_3 = 2130837851;
 			
 			// aapt resource value: 0x7f020056
 			public const int avd_show_password = 2130837590;
 			
-			// aapt resource value: 0x7f02015b
-			public const int avd_show_password_1 = 2130837851;
-			
 			// aapt resource value: 0x7f02015c
-			public const int avd_show_password_2 = 2130837852;
+			public const int avd_show_password_1 = 2130837852;
 			
 			// aapt resource value: 0x7f02015d
-			public const int avd_show_password_3 = 2130837853;
+			public const int avd_show_password_2 = 2130837853;
+			
+			// aapt resource value: 0x7f02015e
+			public const int avd_show_password_3 = 2130837854;
 			
 			// aapt resource value: 0x7f020057
 			public const int br = 2130837591;
@@ -5809,136 +5809,139 @@ namespace RadioFXC
 			public const int it = 2130837803;
 			
 			// aapt resource value: 0x7f02012c
-			public const int lt = 2130837804;
+			public const int Logo_Espack_Sistemas_vertical = 2130837804;
 			
 			// aapt resource value: 0x7f02012d
-			public const int lv = 2130837805;
+			public const int lt = 2130837805;
 			
 			// aapt resource value: 0x7f02012e
-			public const int mr_button_connected_dark = 2130837806;
+			public const int lv = 2130837806;
 			
 			// aapt resource value: 0x7f02012f
-			public const int mr_button_connected_light = 2130837807;
+			public const int mr_button_connected_dark = 2130837807;
 			
 			// aapt resource value: 0x7f020130
-			public const int mr_button_connecting_dark = 2130837808;
+			public const int mr_button_connected_light = 2130837808;
 			
 			// aapt resource value: 0x7f020131
-			public const int mr_button_connecting_light = 2130837809;
+			public const int mr_button_connecting_dark = 2130837809;
 			
 			// aapt resource value: 0x7f020132
-			public const int mr_button_dark = 2130837810;
+			public const int mr_button_connecting_light = 2130837810;
 			
 			// aapt resource value: 0x7f020133
-			public const int mr_button_light = 2130837811;
+			public const int mr_button_dark = 2130837811;
 			
 			// aapt resource value: 0x7f020134
-			public const int mr_dialog_close_dark = 2130837812;
+			public const int mr_button_light = 2130837812;
 			
 			// aapt resource value: 0x7f020135
-			public const int mr_dialog_close_light = 2130837813;
+			public const int mr_dialog_close_dark = 2130837813;
 			
 			// aapt resource value: 0x7f020136
-			public const int mr_dialog_material_background_dark = 2130837814;
+			public const int mr_dialog_close_light = 2130837814;
 			
 			// aapt resource value: 0x7f020137
-			public const int mr_dialog_material_background_light = 2130837815;
+			public const int mr_dialog_material_background_dark = 2130837815;
 			
 			// aapt resource value: 0x7f020138
-			public const int mr_group_collapse = 2130837816;
+			public const int mr_dialog_material_background_light = 2130837816;
 			
 			// aapt resource value: 0x7f020139
-			public const int mr_group_expand = 2130837817;
+			public const int mr_group_collapse = 2130837817;
 			
 			// aapt resource value: 0x7f02013a
-			public const int mr_media_pause_dark = 2130837818;
+			public const int mr_group_expand = 2130837818;
 			
 			// aapt resource value: 0x7f02013b
-			public const int mr_media_pause_light = 2130837819;
+			public const int mr_media_pause_dark = 2130837819;
 			
 			// aapt resource value: 0x7f02013c
-			public const int mr_media_play_dark = 2130837820;
+			public const int mr_media_pause_light = 2130837820;
 			
 			// aapt resource value: 0x7f02013d
-			public const int mr_media_play_light = 2130837821;
+			public const int mr_media_play_dark = 2130837821;
 			
 			// aapt resource value: 0x7f02013e
-			public const int mr_media_stop_dark = 2130837822;
+			public const int mr_media_play_light = 2130837822;
 			
 			// aapt resource value: 0x7f02013f
-			public const int mr_media_stop_light = 2130837823;
+			public const int mr_media_stop_dark = 2130837823;
 			
 			// aapt resource value: 0x7f020140
-			public const int mr_vol_type_audiotrack_dark = 2130837824;
+			public const int mr_media_stop_light = 2130837824;
 			
 			// aapt resource value: 0x7f020141
-			public const int mr_vol_type_audiotrack_light = 2130837825;
+			public const int mr_vol_type_audiotrack_dark = 2130837825;
 			
 			// aapt resource value: 0x7f020142
-			public const int navigation_empty_icon = 2130837826;
+			public const int mr_vol_type_audiotrack_light = 2130837826;
 			
 			// aapt resource value: 0x7f020143
-			public const int nl = 2130837827;
+			public const int navigation_empty_icon = 2130837827;
 			
 			// aapt resource value: 0x7f020144
-			public const int no = 2130837828;
+			public const int nl = 2130837828;
 			
 			// aapt resource value: 0x7f020145
-			public const int notification_action_background = 2130837829;
+			public const int no = 2130837829;
 			
 			// aapt resource value: 0x7f020146
-			public const int notification_bg = 2130837830;
+			public const int notification_action_background = 2130837830;
 			
 			// aapt resource value: 0x7f020147
-			public const int notification_bg_low = 2130837831;
+			public const int notification_bg = 2130837831;
 			
 			// aapt resource value: 0x7f020148
-			public const int notification_bg_low_normal = 2130837832;
+			public const int notification_bg_low = 2130837832;
 			
 			// aapt resource value: 0x7f020149
-			public const int notification_bg_low_pressed = 2130837833;
+			public const int notification_bg_low_normal = 2130837833;
 			
 			// aapt resource value: 0x7f02014a
-			public const int notification_bg_normal = 2130837834;
+			public const int notification_bg_low_pressed = 2130837834;
 			
 			// aapt resource value: 0x7f02014b
-			public const int notification_bg_normal_pressed = 2130837835;
+			public const int notification_bg_normal = 2130837835;
 			
 			// aapt resource value: 0x7f02014c
-			public const int notification_icon_background = 2130837836;
-			
-			// aapt resource value: 0x7f020156
-			public const int notification_template_icon_bg = 2130837846;
-			
-			// aapt resource value: 0x7f020157
-			public const int notification_template_icon_low_bg = 2130837847;
+			public const int notification_bg_normal_pressed = 2130837836;
 			
 			// aapt resource value: 0x7f02014d
-			public const int notification_tile_bg = 2130837837;
+			public const int notification_icon_background = 2130837837;
+			
+			// aapt resource value: 0x7f020157
+			public const int notification_template_icon_bg = 2130837847;
+			
+			// aapt resource value: 0x7f020158
+			public const int notification_template_icon_low_bg = 2130837848;
 			
 			// aapt resource value: 0x7f02014e
-			public const int notify_panel_notification_icon_bg = 2130837838;
+			public const int notification_tile_bg = 2130837838;
 			
 			// aapt resource value: 0x7f02014f
-			public const int nz = 2130837839;
+			public const int notify_panel_notification_icon_bg = 2130837839;
 			
 			// aapt resource value: 0x7f020150
-			public const int roundButton = 2130837840;
+			public const int nz = 2130837840;
 			
 			// aapt resource value: 0x7f020151
-			public const int se = 2130837841;
+			public const int roundButton = 2130837841;
 			
 			// aapt resource value: 0x7f020152
-			public const int tooltip_frame_dark = 2130837842;
+			public const int se = 2130837842;
 			
 			// aapt resource value: 0x7f020153
-			public const int tooltip_frame_light = 2130837843;
+			public const int tooltip_frame_dark = 2130837843;
 			
 			// aapt resource value: 0x7f020154
-			public const int ua = 2130837844;
+			public const int tooltip_frame_light = 2130837844;
 			
 			// aapt resource value: 0x7f020155
-			public const int us = 2130837845;
+			public const int ua = 2130837845;
+			
+			// aapt resource value: 0x7f020156
+			public const int us = 2130837846;
 			
 			static Drawable()
 			{
@@ -5971,8 +5974,8 @@ namespace RadioFXC
 			// aapt resource value: 0x7f090034
 			public const int META = 2131296308;
 			
-			// aapt resource value: 0x7f0900b4
-			public const int MyButton = 2131296436;
+			// aapt resource value: 0x7f0900b5
+			public const int MyButton = 2131296437;
 			
 			// aapt resource value: 0x7f0900ac
 			public const int Password = 2131296428;
@@ -5989,8 +5992,8 @@ namespace RadioFXC
 			// aapt resource value: 0x7f0900ab
 			public const int User = 2131296427;
 			
-			// aapt resource value: 0x7f0900d2
-			public const int action0 = 2131296466;
+			// aapt resource value: 0x7f0900d3
+			public const int action0 = 2131296467;
 			
 			// aapt resource value: 0x7f09007b
 			public const int action_bar = 2131296379;
@@ -6013,17 +6016,17 @@ namespace RadioFXC
 			// aapt resource value: 0x7f090059
 			public const int action_bar_title = 2131296345;
 			
-			// aapt resource value: 0x7f0900cf
-			public const int action_container = 2131296463;
+			// aapt resource value: 0x7f0900d0
+			public const int action_container = 2131296464;
 			
 			// aapt resource value: 0x7f09007c
 			public const int action_context_bar = 2131296380;
 			
-			// aapt resource value: 0x7f0900d6
-			public const int action_divider = 2131296470;
+			// aapt resource value: 0x7f0900d7
+			public const int action_divider = 2131296471;
 			
-			// aapt resource value: 0x7f0900d0
-			public const int action_image = 2131296464;
+			// aapt resource value: 0x7f0900d1
+			public const int action_image = 2131296465;
 			
 			// aapt resource value: 0x7f090003
 			public const int action_menu_divider = 2131296259;
@@ -6040,11 +6043,11 @@ namespace RadioFXC
 			// aapt resource value: 0x7f09005b
 			public const int action_mode_close_button = 2131296347;
 			
-			// aapt resource value: 0x7f0900d1
-			public const int action_text = 2131296465;
+			// aapt resource value: 0x7f0900d2
+			public const int action_text = 2131296466;
 			
-			// aapt resource value: 0x7f0900df
-			public const int actions = 2131296479;
+			// aapt resource value: 0x7f0900e0
+			public const int actions = 2131296480;
 			
 			// aapt resource value: 0x7f09005c
 			public const int activity_chooser_view_content = 2131296348;
@@ -6079,11 +6082,11 @@ namespace RadioFXC
 			// aapt resource value: 0x7f0900aa
 			public const int btnAdd2Load = 2131296426;
 			
-			// aapt resource value: 0x7f0900e8
-			public const int btnAddPart = 2131296488;
+			// aapt resource value: 0x7f0900e9
+			public const int btnAddPart = 2131296489;
 			
-			// aapt resource value: 0x7f0900e2
-			public const int btnAddPictures = 2131296482;
+			// aapt resource value: 0x7f0900e3
+			public const int btnAddPictures = 2131296483;
 			
 			// aapt resource value: 0x7f0900a1
 			public const int btnClose = 2131296417;
@@ -6091,11 +6094,14 @@ namespace RadioFXC
 			// aapt resource value: 0x7f090099
 			public const int btnEnter = 2131296409;
 			
+			// aapt resource value: 0x7f0900b3
+			public const int btnLogin = 2131296435;
+			
 			// aapt resource value: 0x7f090062
 			public const int buttonPanel = 2131296354;
 			
-			// aapt resource value: 0x7f0900d3
-			public const int cancel_action = 2131296467;
+			// aapt resource value: 0x7f0900d4
+			public const int cancel_action = 2131296468;
 			
 			// aapt resource value: 0x7f090044
 			public const int center = 2131296324;
@@ -6109,8 +6115,8 @@ namespace RadioFXC
 			// aapt resource value: 0x7f090072
 			public const int checkbox = 2131296370;
 			
-			// aapt resource value: 0x7f0900db
-			public const int chronometer = 2131296475;
+			// aapt resource value: 0x7f0900dc
+			public const int chronometer = 2131296476;
 			
 			// aapt resource value: 0x7f09004d
 			public const int clip_horizontal = 2131296333;
@@ -6163,14 +6169,14 @@ namespace RadioFXC
 			// aapt resource value: 0x7f09007d
 			public const int edit_query = 2131296381;
 			
-			// aapt resource value: 0x7f0900b3
-			public const int elTexto = 2131296435;
+			// aapt resource value: 0x7f0900b4
+			public const int elTexto = 2131296436;
 			
 			// aapt resource value: 0x7f09002f
 			public const int end = 2131296303;
 			
-			// aapt resource value: 0x7f0900e1
-			public const int end_padder = 2131296481;
+			// aapt resource value: 0x7f0900e2
+			public const int end_padder = 2131296482;
 			
 			// aapt resource value: 0x7f09003e
 			public const int enterAlways = 2131296318;
@@ -6205,17 +6211,17 @@ namespace RadioFXC
 			// aapt resource value: 0x7f090057
 			public const int forever = 2131296343;
 			
-			// aapt resource value: 0x7f0900e6
-			public const int ftpProgressBar = 2131296486;
+			// aapt resource value: 0x7f0900e7
+			public const int ftpProgressBar = 2131296487;
 			
-			// aapt resource value: 0x7f0900e5
-			public const int ftpTextProgressBar = 2131296485;
+			// aapt resource value: 0x7f0900e6
+			public const int ftpTextProgressBar = 2131296486;
 			
 			// aapt resource value: 0x7f09000a
 			public const int ghost_view = 2131296266;
 			
-			// aapt resource value: 0x7f0900e7
-			public const int gridPictures = 2131296487;
+			// aapt resource value: 0x7f0900e8
+			public const int gridPictures = 2131296488;
 			
 			// aapt resource value: 0x7f090005
 			public const int home = 2131296261;
@@ -6226,8 +6232,8 @@ namespace RadioFXC
 			// aapt resource value: 0x7f090061
 			public const int icon = 2131296353;
 			
-			// aapt resource value: 0x7f0900e0
-			public const int icon_group = 2131296480;
+			// aapt resource value: 0x7f0900e1
+			public const int icon_group = 2131296481;
 			
 			// aapt resource value: 0x7f090039
 			public const int ifRoom = 2131296313;
@@ -6235,8 +6241,8 @@ namespace RadioFXC
 			// aapt resource value: 0x7f09005e
 			public const int image = 2131296350;
 			
-			// aapt resource value: 0x7f0900dc
-			public const int info = 2131296476;
+			// aapt resource value: 0x7f0900dd
+			public const int info = 2131296477;
 			
 			// aapt resource value: 0x7f090058
 			public const int italic = 2131296344;
@@ -6283,17 +6289,17 @@ namespace RadioFXC
 			// aapt resource value: 0x7f090060
 			public const int list_item = 2131296352;
 			
+			// aapt resource value: 0x7f0900ed
+			public const int mainMenu = 2131296493;
+			
 			// aapt resource value: 0x7f0900ec
-			public const int mainMenu = 2131296492;
+			public const int masked = 2131296492;
 			
-			// aapt resource value: 0x7f0900eb
-			public const int masked = 2131296491;
+			// aapt resource value: 0x7f0900d6
+			public const int media_actions = 2131296470;
 			
-			// aapt resource value: 0x7f0900d5
-			public const int media_actions = 2131296469;
-			
-			// aapt resource value: 0x7f0900e9
-			public const int message = 2131296489;
+			// aapt resource value: 0x7f0900ea
+			public const int message = 2131296490;
 			
 			// aapt resource value: 0x7f090030
 			public const int middle = 2131296304;
@@ -6301,92 +6307,92 @@ namespace RadioFXC
 			// aapt resource value: 0x7f090052
 			public const int mini = 2131296338;
 			
+			// aapt resource value: 0x7f0900f1
+			public const int mnuclose = 2131296497;
+			
 			// aapt resource value: 0x7f0900f0
-			public const int mnuclose = 2131296496;
-			
-			// aapt resource value: 0x7f0900ef
-			public const int mnuloads = 2131296495;
-			
-			// aapt resource value: 0x7f0900ed
-			public const int mnumain = 2131296493;
+			public const int mnuloads = 2131296496;
 			
 			// aapt resource value: 0x7f0900ee
-			public const int mnurepair = 2131296494;
+			public const int mnumain = 2131296494;
 			
-			// aapt resource value: 0x7f0900c1
-			public const int mr_art = 2131296449;
-			
-			// aapt resource value: 0x7f0900b6
-			public const int mr_chooser_list = 2131296438;
-			
-			// aapt resource value: 0x7f0900b9
-			public const int mr_chooser_route_desc = 2131296441;
-			
-			// aapt resource value: 0x7f0900b7
-			public const int mr_chooser_route_icon = 2131296439;
-			
-			// aapt resource value: 0x7f0900b8
-			public const int mr_chooser_route_name = 2131296440;
-			
-			// aapt resource value: 0x7f0900b5
-			public const int mr_chooser_title = 2131296437;
-			
-			// aapt resource value: 0x7f0900be
-			public const int mr_close = 2131296446;
-			
-			// aapt resource value: 0x7f0900c4
-			public const int mr_control_divider = 2131296452;
-			
-			// aapt resource value: 0x7f0900ca
-			public const int mr_control_playback_ctrl = 2131296458;
-			
-			// aapt resource value: 0x7f0900cd
-			public const int mr_control_subtitle = 2131296461;
-			
-			// aapt resource value: 0x7f0900cc
-			public const int mr_control_title = 2131296460;
-			
-			// aapt resource value: 0x7f0900cb
-			public const int mr_control_title_container = 2131296459;
-			
-			// aapt resource value: 0x7f0900bf
-			public const int mr_custom_control = 2131296447;
-			
-			// aapt resource value: 0x7f0900c0
-			public const int mr_default_control = 2131296448;
-			
-			// aapt resource value: 0x7f0900bb
-			public const int mr_dialog_area = 2131296443;
-			
-			// aapt resource value: 0x7f0900ba
-			public const int mr_expandable_area = 2131296442;
-			
-			// aapt resource value: 0x7f0900ce
-			public const int mr_group_expand_collapse = 2131296462;
+			// aapt resource value: 0x7f0900ef
+			public const int mnurepair = 2131296495;
 			
 			// aapt resource value: 0x7f0900c2
-			public const int mr_media_main_control = 2131296450;
+			public const int mr_art = 2131296450;
 			
-			// aapt resource value: 0x7f0900bd
-			public const int mr_name = 2131296445;
+			// aapt resource value: 0x7f0900b7
+			public const int mr_chooser_list = 2131296439;
 			
-			// aapt resource value: 0x7f0900c3
-			public const int mr_playback_control = 2131296451;
+			// aapt resource value: 0x7f0900ba
+			public const int mr_chooser_route_desc = 2131296442;
 			
-			// aapt resource value: 0x7f0900bc
-			public const int mr_title_bar = 2131296444;
+			// aapt resource value: 0x7f0900b8
+			public const int mr_chooser_route_icon = 2131296440;
+			
+			// aapt resource value: 0x7f0900b9
+			public const int mr_chooser_route_name = 2131296441;
+			
+			// aapt resource value: 0x7f0900b6
+			public const int mr_chooser_title = 2131296438;
+			
+			// aapt resource value: 0x7f0900bf
+			public const int mr_close = 2131296447;
 			
 			// aapt resource value: 0x7f0900c5
-			public const int mr_volume_control = 2131296453;
+			public const int mr_control_divider = 2131296453;
+			
+			// aapt resource value: 0x7f0900cb
+			public const int mr_control_playback_ctrl = 2131296459;
+			
+			// aapt resource value: 0x7f0900ce
+			public const int mr_control_subtitle = 2131296462;
+			
+			// aapt resource value: 0x7f0900cd
+			public const int mr_control_title = 2131296461;
+			
+			// aapt resource value: 0x7f0900cc
+			public const int mr_control_title_container = 2131296460;
+			
+			// aapt resource value: 0x7f0900c0
+			public const int mr_custom_control = 2131296448;
+			
+			// aapt resource value: 0x7f0900c1
+			public const int mr_default_control = 2131296449;
+			
+			// aapt resource value: 0x7f0900bc
+			public const int mr_dialog_area = 2131296444;
+			
+			// aapt resource value: 0x7f0900bb
+			public const int mr_expandable_area = 2131296443;
+			
+			// aapt resource value: 0x7f0900cf
+			public const int mr_group_expand_collapse = 2131296463;
+			
+			// aapt resource value: 0x7f0900c3
+			public const int mr_media_main_control = 2131296451;
+			
+			// aapt resource value: 0x7f0900be
+			public const int mr_name = 2131296446;
+			
+			// aapt resource value: 0x7f0900c4
+			public const int mr_playback_control = 2131296452;
+			
+			// aapt resource value: 0x7f0900bd
+			public const int mr_title_bar = 2131296445;
 			
 			// aapt resource value: 0x7f0900c6
-			public const int mr_volume_group_list = 2131296454;
+			public const int mr_volume_control = 2131296454;
 			
-			// aapt resource value: 0x7f0900c8
-			public const int mr_volume_item_icon = 2131296456;
+			// aapt resource value: 0x7f0900c7
+			public const int mr_volume_group_list = 2131296455;
 			
 			// aapt resource value: 0x7f0900c9
-			public const int mr_volume_slider = 2131296457;
+			public const int mr_volume_item_icon = 2131296457;
+			
+			// aapt resource value: 0x7f0900ca
+			public const int mr_volume_slider = 2131296458;
 			
 			// aapt resource value: 0x7f0900b2
 			public const int msgPkgInfo = 2131296434;
@@ -6409,14 +6415,14 @@ namespace RadioFXC
 			// aapt resource value: 0x7f09001d
 			public const int normal = 2131296285;
 			
-			// aapt resource value: 0x7f0900de
-			public const int notification_background = 2131296478;
+			// aapt resource value: 0x7f0900df
+			public const int notification_background = 2131296479;
+			
+			// aapt resource value: 0x7f0900d9
+			public const int notification_main_column = 2131296473;
 			
 			// aapt resource value: 0x7f0900d8
-			public const int notification_main_column = 2131296472;
-			
-			// aapt resource value: 0x7f0900d7
-			public const int notification_main_column_container = 2131296471;
+			public const int notification_main_column_container = 2131296472;
 			
 			// aapt resource value: 0x7f09004b
 			public const int parallax = 2131296331;
@@ -6448,11 +6454,11 @@ namespace RadioFXC
 			// aapt resource value: 0x7f090049
 			public const int right = 2131296329;
 			
-			// aapt resource value: 0x7f0900dd
-			public const int right_icon = 2131296477;
+			// aapt resource value: 0x7f0900de
+			public const int right_icon = 2131296478;
 			
-			// aapt resource value: 0x7f0900d9
-			public const int right_side = 2131296473;
+			// aapt resource value: 0x7f0900da
+			public const int right_side = 2131296474;
 			
 			// aapt resource value: 0x7f09000c
 			public const int save_image_matrix = 2131296268;
@@ -6559,8 +6565,8 @@ namespace RadioFXC
 			// aapt resource value: 0x7f09004a
 			public const int start = 2131296330;
 			
-			// aapt resource value: 0x7f0900d4
-			public const int status_bar_latest_event_content = 2131296468;
+			// aapt resource value: 0x7f0900d5
+			public const int status_bar_latest_event_content = 2131296469;
 			
 			// aapt resource value: 0x7f090075
 			public const int submenuarrow = 2131296373;
@@ -6571,11 +6577,11 @@ namespace RadioFXC
 			// aapt resource value: 0x7f09001e
 			public const int tabMode = 2131296286;
 			
-			// aapt resource value: 0x7f0900e3
-			public const int tableLayout1 = 2131296483;
-			
 			// aapt resource value: 0x7f0900e4
-			public const int tableRow1 = 2131296484;
+			public const int tableLayout1 = 2131296484;
+			
+			// aapt resource value: 0x7f0900e5
+			public const int tableRow1 = 2131296485;
 			
 			// aapt resource value: 0x7f090019
 			public const int text = 2131296281;
@@ -6604,8 +6610,8 @@ namespace RadioFXC
 			// aapt resource value: 0x7f090015
 			public const int textinput_error = 2131296277;
 			
-			// aapt resource value: 0x7f0900da
-			public const int time = 2131296474;
+			// aapt resource value: 0x7f0900db
+			public const int time = 2131296475;
 			
 			// aapt resource value: 0x7f09001b
 			public const int title = 2131296283;
@@ -6664,11 +6670,11 @@ namespace RadioFXC
 			// aapt resource value: 0x7f090016
 			public const int view_offset_helper = 2131296278;
 			
-			// aapt resource value: 0x7f0900ea
-			public const int visible = 2131296490;
+			// aapt resource value: 0x7f0900eb
+			public const int visible = 2131296491;
 			
-			// aapt resource value: 0x7f0900c7
-			public const int volume_item_container = 2131296455;
+			// aapt resource value: 0x7f0900c8
+			public const int volume_item_container = 2131296456;
 			
 			// aapt resource value: 0x7f09003b
 			public const int withText = 2131296315;
@@ -6926,7 +6932,7 @@ namespace RadioFXC
 			public const int ListImageProgress = 2130903094;
 			
 			// aapt resource value: 0x7f030037
-			public const int LogonScreenLayout = 2130903095;
+			public const int logonscreenlayout = 2130903095;
 			
 			// aapt resource value: 0x7f030038
 			public const int LogonScreenLayoutMaterial = 2130903096;

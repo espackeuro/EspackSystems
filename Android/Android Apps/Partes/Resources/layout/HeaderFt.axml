@@ -4,48 +4,43 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     android:padding="10dip">
+    <ImageView
+        android:scaleType="centerInside"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:src="@drawable/Logo_Espack_Sistemas_vertical" />
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="3">
-        <ImageView
-            android:scaleType="fitStart"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/Logo_Espack_Sistemas_vertical" />
+        android:layout_height="wrap_content"
+        android:layout_weight="6"
+        android:layout_marginLeft="20dp">
         <TextView
+            android:text="Version 1.xxx.xxx"
             android:id="@+id/lblVersion"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textAlignment="textEnd"
+            android:padding="4dp"
+            android:textSize="8sp" />
+        <TextView
+            android:text="PEPITO PEREZ"
+            android:id="@+id/lblFullName"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:textAlignment="textEnd"
+            android:padding="4dp"
             android:textSize="16sp" />
-    </LinearLayout>
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="5"
-        android:paddingLeft="10dp"
-        android:paddingTop="5dp">
         <Spinner
             android:id="@+id/pckDB"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:textAlignment="textStart"
+            android:padding="4dp"
             android:entries="@array/Systems" />
-        <EditText
-            android:id="@+id/txtUser"
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:hint="User"
-            android:textSize="16sp" />
-        <EditText
-            android:id="@+id/txtPwd"
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:inputType="textPassword"
-            android:hint="Password"
-            android:textSize="16sp" />
     </LinearLayout>
 </LinearLayout>

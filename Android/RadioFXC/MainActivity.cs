@@ -7,7 +7,7 @@
 //using Android.OS;
 using AccesoDatosNet;
 
-using LogonScreenVPN;
+using LogonScreen;
 
 using Android.App;
 using Android.Content;

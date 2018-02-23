@@ -13,17 +13,18 @@ using AccesoDatos;
 using AccesoDatosXML;
 using ObjectFactory;
 
-namespace LogonScreenVPN
+namespace LogonScreen
 {
     public static class LogonDetails
     {
         public static string user { get; set; }
         public static string password { get; set; }
         public static string connectionServer { get; set; }
+        public static string FullName { get; set; }
     }
 
     [Activity(Label = "Logon Screen")]
-    public class LogonScreenClass : AppCompatActivity
+    public class LogonScreenClass : Activity
     {
         private EditText cUser;
         private EditText cPassword;
@@ -41,7 +42,7 @@ namespace LogonScreenVPN
             //get the layout from Resources
             SetContentView(Resource.Layout.LogonScreenLayoutMaterial);
             //Form Elements
-            cLoginButton = FindViewById<Button>(Resource.Id.Login);
+            cLoginButton = FindViewById<Button>(Resource.Id.btnLogin);
             cUser = FindViewById<EditText>(Resource.Id.User);
             //cUser.Text = "REJ";
             cPassword = FindViewById<EditText>(Resource.Id.Password);
@@ -141,6 +142,7 @@ namespace LogonScreenVPN
                     LogonSP.AddParameterValue("User", cUser.Text);
                     LogonSP.AddParameterValue("Password", cPassword.Text);
                     LogonSP.AddParameterValue("Origin", packageName.ToUpper());
+                    LogonSP.AddParameterValue("FullName","");
                     string _version = "123456";
                     string _packageName = "123456789";
                     LogonSP.AddParameterValue("Version", _version);
@@ -155,7 +157,7 @@ namespace LogonScreenVPN
                             Toast.MakeText(this, "Logon OK!", ToastLength.Short).Show();
                             LogonDetails.user = LogonSP.ReturnValues()["@User"].ToString();
                             LogonDetails.password = LogonSP.ReturnValues()["@Password"].ToString();
-
+                            LogonDetails.FullName = LogonSP.ReturnValues()["@FullName"].ToString();
                             _version = LogonSP.ReturnValues()["@Version"].ToString();
                             var _versionArray = _version.Split('.');
                             _version = string.Format("{0}.{1}", _versionArray[0], _versionArray[1]);

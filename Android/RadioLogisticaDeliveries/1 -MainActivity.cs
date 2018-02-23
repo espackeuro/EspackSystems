@@ -6,7 +6,7 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using AccesoDatosNet;
-using LogonScreenVPN;
+using LogonScreen;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;

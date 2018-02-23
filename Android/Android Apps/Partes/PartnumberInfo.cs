@@ -19,7 +19,7 @@ namespace Partes
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            SetContentView(Resource.Layout);
+            SetContentView(Resource.Layout.PartnumberInfo);
             var hFt = new HeaderFragment();
             var ft = FragmentManager.BeginTransaction();
             ft.Replace(Resource.Id.headerFragment, hFt);
