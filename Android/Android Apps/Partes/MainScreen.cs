@@ -42,7 +42,8 @@ namespace Partes
 
         private void Button1_1_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            var intent = new Intent(this, typeof(PartnumberInfo));
+            StartActivityForResult(intent, 0);
         }
     }
 }

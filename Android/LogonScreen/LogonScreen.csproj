@@ -123,9 +123,6 @@
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Resources\AboutResources.txt" />
-    <AndroidResource Include="Resources\layout\LogonScreenLayout.axml">
-      <SubType>AndroidResource</SubType>
-    </AndroidResource>
     <AndroidResource Include="Resources\layout\LogonScreenLayoutMaterial.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
@@ -158,6 +155,9 @@
       <Project>{fe45781b-38cb-44f0-9de7-08e15e0c53bd}</Project>
       <Name>CommonAndroidTools</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\Logo_Espack_Sistemas_vertical.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

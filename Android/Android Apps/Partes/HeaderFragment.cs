@@ -15,8 +15,8 @@ namespace Partes
 {
     public class HeaderFragment : Fragment
     {
-        public EditText User { get; set; }
-        public EditText Pwd { get; set; }
+        public TextView lblFullName { get; set; }
+        public TextView lblVersion { get; set; }
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -29,9 +29,11 @@ namespace Partes
             // Use this to return your custom view for this Fragment
             // return inflater.Inflate(Resource.Layout.YourFragment, container, false);
             var _root = inflater.Inflate(Resource.Layout.HeaderFt, container, false);
-            User = _root.FindViewById<EditText>(Resource.Id.txtUser);
-            Pwd = _root.FindViewById<EditText>(Resource.Id.txtPwd);
-            return base.OnCreateView(inflater, container, savedInstanceState);
+            lblFullName = _root.FindViewById<TextView>(Resource.Id.lblFullName);
+            lblVersion = _root.FindViewById<TextView>(Resource.Id.lblVersion);
+            lblFullName.Text = LogonScreen.LogonDetails.FullName;
+            lblVersion.Text = Values.Version;
+            return _root;
         }
     }
 }

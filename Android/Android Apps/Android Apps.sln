@@ -57,8 +57,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketsServer", "..\..\Wind
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketsClient", "..\..\Network Libraries\Sockets\Sockets\SocketsClient.csproj", "{C9E2F11A-FA37-4FD2-9433-CC64CDBC2CEF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogonScreenVPN", "..\LogonScreenVPN\LogonScreenVPN.csproj", "{AE65CCE2-0E69-4F67-91CF-A1C4F4DA3590}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Partes", "Partes\Partes.csproj", "{D17E0BCB-C949-4D24-B9FE-CCB2E3D56853}"
 EndProject
 Global
@@ -425,22 +423,6 @@ Global
 		{C9E2F11A-FA37-4FD2-9433-CC64CDBC2CEF}.Release|x64.Build.0 = Release|Any CPU
 		{C9E2F11A-FA37-4FD2-9433-CC64CDBC2CEF}.Release|x86.ActiveCfg = Release|Any CPU
 		{C9E2F11A-FA37-4FD2-9433-CC64CDBC2CEF}.Release|x86.Build.0 = Release|Any CPU
-		{AE65CCE2-0E69-4F67-91CF-A1C4F4DA3590}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AE65CCE2-0E69-4F67-91CF-A1C4F4DA3590}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AE65CCE2-0E69-4F67-91CF-A1C4F4DA3590}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{AE65CCE2-0E69-4F67-91CF-A1C4F4DA3590}.Debug|ARM.Build.0 = Debug|Any CPU
-		{AE65CCE2-0E69-4F67-91CF-A1C4F4DA3590}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{AE65CCE2-0E69-4F67-91CF-A1C4F4DA3590}.Debug|x64.Build.0 = Debug|Any CPU
-		{AE65CCE2-0E69-4F67-91CF-A1C4F4DA3590}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{AE65CCE2-0E69-4F67-91CF-A1C4F4DA3590}.Debug|x86.Build.0 = Debug|Any CPU
-		{AE65CCE2-0E69-4F67-91CF-A1C4F4DA3590}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AE65CCE2-0E69-4F67-91CF-A1C4F4DA3590}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AE65CCE2-0E69-4F67-91CF-A1C4F4DA3590}.Release|ARM.ActiveCfg = Release|Any CPU
-		{AE65CCE2-0E69-4F67-91CF-A1C4F4DA3590}.Release|ARM.Build.0 = Release|Any CPU
-		{AE65CCE2-0E69-4F67-91CF-A1C4F4DA3590}.Release|x64.ActiveCfg = Release|Any CPU
-		{AE65CCE2-0E69-4F67-91CF-A1C4F4DA3590}.Release|x64.Build.0 = Release|Any CPU
-		{AE65CCE2-0E69-4F67-91CF-A1C4F4DA3590}.Release|x86.ActiveCfg = Release|Any CPU
-		{AE65CCE2-0E69-4F67-91CF-A1C4F4DA3590}.Release|x86.Build.0 = Release|Any CPU
 		{D17E0BCB-C949-4D24-B9FE-CCB2E3D56853}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D17E0BCB-C949-4D24-B9FE-CCB2E3D56853}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D17E0BCB-C949-4D24-B9FE-CCB2E3D56853}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
@@ -492,14 +474,13 @@ Global
 		{A8B13BE6-C706-4DD4-AB0F-9BE3DACB3E67} = {3A654A15-9225-4336-8D89-227689080C5A}
 		{BC9B78D2-77AC-459C-8F42-99AAFE4242F9} = {A8B13BE6-C706-4DD4-AB0F-9BE3DACB3E67}
 		{C9E2F11A-FA37-4FD2-9433-CC64CDBC2CEF} = {A8B13BE6-C706-4DD4-AB0F-9BE3DACB3E67}
-		{AE65CCE2-0E69-4F67-91CF-A1C4F4DA3590} = {5802ACA1-E788-4592-BB10-63A26AA1A336}
 		{D17E0BCB-C949-4D24-B9FE-CCB2E3D56853} = {DD5ED550-A29E-485F-A18C-04FE8256767A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0CDD1FEB-E646-4821-9672-4B883DF856D6}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 24
+		SccNumberOfProjects = 23
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://espack.visualstudio.com/defaultcollection
 		SccLocalPath0 = .
@@ -587,13 +568,9 @@ Global
 		SccProjectTopLevelParentUniqueName21 = Android\u0020Apps.sln
 		SccProjectName21 = ../../Network\u0020Libraries/Sockets/Sockets
 		SccLocalPath21 = ..\\..\\Network\u0020Libraries\\Sockets\\Sockets
-		SccProjectUniqueName22 = ..\\LogonScreenVPN\\LogonScreenVPN.csproj
+		SccProjectUniqueName22 = Partes\\Partes.csproj
 		SccProjectTopLevelParentUniqueName22 = Android\u0020Apps.sln
-		SccProjectName22 = ../LogonScreenVPN
-		SccLocalPath22 = ..\\LogonScreenVPN
-		SccProjectUniqueName23 = Partes\\Partes.csproj
-		SccProjectTopLevelParentUniqueName23 = Android\u0020Apps.sln
-		SccProjectName23 = Partes
-		SccLocalPath23 = Partes
+		SccProjectName22 = Partes
+		SccLocalPath22 = Partes
 	EndGlobalSection
 EndGlobal
