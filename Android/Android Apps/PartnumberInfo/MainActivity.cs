@@ -7,7 +7,7 @@
 //using Android.OS;
 using AccesoDatosNet;
 
-using LogonScreen;
+using LogonScreenVPN;
 
 using Android.App;
 using Android.Content;
@@ -18,7 +18,7 @@ using I18N.Common;
 using I18N.West;
 using Android.Support.V7.App;
 
-namespace PartnumberInfo
+namespace Partes
 {
     public static class Values
     {
@@ -32,7 +32,7 @@ namespace PartnumberInfo
         public static string Version;
     }
 
-    [Activity(Label = "PartnumberInfo", MainLauncher = true)]
+    [Activity(Label = "Parts", MainLauncher = true)]
     public class MainActivity : AppCompatActivity
     {
         protected override void OnCreate(Bundle bundle)
