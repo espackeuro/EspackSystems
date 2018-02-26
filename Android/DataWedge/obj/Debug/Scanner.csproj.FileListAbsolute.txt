@@ -1,0 +1,14 @@
+D:\EspackSystems\Android\DataWedge\bin\Debug\Scanner.dll
+D:\EspackSystems\Android\DataWedge\bin\Debug\Scanner.pdb
+D:\EspackSystems\Android\DataWedge\bin\Debug\Scanner.Scanner.apk
+D:\EspackSystems\Android\DataWedge\bin\Debug\Scanner.Scanner-Signed.apk
+D:\EspackSystems\Android\DataWedge\bin\Debug\CommonAndroidTools.dll
+D:\EspackSystems\Android\DataWedge\bin\Debug\CommonAndroidTools.pdb
+D:\EspackSystems\Android\DataWedge\obj\Debug\Scanner.csprojResolveAssemblyReference.cache
+D:\EspackSystems\Android\DataWedge\obj\Debug\Scanner.csproj.CoreCompileInputs.cache
+D:\EspackSystems\Android\DataWedge\obj\Debug\Scanner.dll
+D:\EspackSystems\Android\DataWedge\obj\Debug\Scanner.pdb
+D:\EspackSystems\Android\DataWedge\obj\Debug\android\bin\Scanner.Scanner.apk
+D:\EspackSystems\Android\DataWedge\obj\Debug\res\values\strings.xml
+D:\EspackSystems\Android\DataWedge\obj\Debug\R.cs.flag
+D:\EspackSystems\Android\DataWedge\obj\Debug\uploadflags.txt

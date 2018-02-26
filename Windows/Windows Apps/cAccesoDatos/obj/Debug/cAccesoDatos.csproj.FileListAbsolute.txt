@@ -1,0 +1,8 @@
+D:\EspackSystems\Windows\Windows Apps\cAccesoDatos\bin\Debug\AccesoDatos.dll
+D:\EspackSystems\Windows\Windows Apps\cAccesoDatos\bin\Debug\AccesoDatos.pdb
+D:\EspackSystems\Windows\Windows Apps\cAccesoDatos\bin\Debug\CommonTools.dll
+D:\EspackSystems\Windows\Windows Apps\cAccesoDatos\bin\Debug\CommonTools.pdb
+D:\EspackSystems\Windows\Windows Apps\cAccesoDatos\obj\Debug\cAccesoDatos.csprojResolveAssemblyReference.cache
+D:\EspackSystems\Windows\Windows Apps\cAccesoDatos\obj\Debug\cAccesoDatos.csproj.CoreCompileInputs.cache
+D:\EspackSystems\Windows\Windows Apps\cAccesoDatos\obj\Debug\AccesoDatos.dll
+D:\EspackSystems\Windows\Windows Apps\cAccesoDatos\obj\Debug\AccesoDatos.pdb

@@ -1,0 +1,17 @@
+D:\EspackSystems\Android\BitmapHelpers\bin\Debug\CommonAndroidTools.dll
+D:\EspackSystems\Android\BitmapHelpers\bin\Debug\CommonAndroidTools.pdb
+D:\EspackSystems\Android\BitmapHelpers\bin\Debug\CommonAndroidTools.CommonAndroidTools.apk
+D:\EspackSystems\Android\BitmapHelpers\bin\Debug\CommonAndroidTools.CommonAndroidTools-Signed.apk
+D:\EspackSystems\Android\BitmapHelpers\obj\Debug\CommonAndroidTools.csprojResolveAssemblyReference.cache
+D:\EspackSystems\Android\BitmapHelpers\obj\Debug\CommonAndroidTools.csproj.CoreCompileInputs.cache
+D:\EspackSystems\Android\BitmapHelpers\obj\Debug\CommonAndroidTools.dll
+D:\EspackSystems\Android\BitmapHelpers\obj\Debug\CommonAndroidTools.pdb
+D:\EspackSystems\Android\BitmapHelpers\obj\Debug\android\bin\CommonAndroidTools.CommonAndroidTools.apk
+D:\EspackSystems\Android\BitmapHelpers\obj\Debug\res\raw\antares.ogg
+D:\EspackSystems\Android\BitmapHelpers\obj\Debug\res\raw\decodeshort.ogg
+D:\EspackSystems\Android\BitmapHelpers\obj\Debug\res\raw\tada.ogg
+D:\EspackSystems\Android\BitmapHelpers\obj\Debug\res\raw\tejat.ogg
+D:\EspackSystems\Android\BitmapHelpers\obj\Debug\res\raw\gallium.ogg
+D:\EspackSystems\Android\BitmapHelpers\obj\Debug\res\values\strings.xml
+D:\EspackSystems\Android\BitmapHelpers\obj\Debug\R.cs.flag
+D:\EspackSystems\Android\BitmapHelpers\obj\Debug\uploadflags.txt

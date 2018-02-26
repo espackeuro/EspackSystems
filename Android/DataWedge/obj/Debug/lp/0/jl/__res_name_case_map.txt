@@ -1,0 +1,6 @@
+raw/Antares.ogg;raw/antares.ogg
+raw/decodeshort.ogg;raw/decodeshort.ogg
+raw/TaDa.ogg;raw/tada.ogg
+raw/Tejat.ogg;raw/tejat.ogg
+raw/Gallium.ogg;raw/gallium.ogg
+Values/Strings.xml;values/strings.xml

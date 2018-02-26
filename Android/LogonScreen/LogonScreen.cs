@@ -12,6 +12,7 @@ using System.IO;
 using AccesoDatos;
 using AccesoDatosXML;
 using ObjectFactory;
+using Android.Support.Design.Widget;
 
 namespace LogonScreen
 {
@@ -24,10 +25,10 @@ namespace LogonScreen
     }
 
     [Activity(Label = "Logon Screen")]
-    public class LogonScreenClass : Activity
+    public class LogonScreenClass : AppCompatActivity
     {
-        private EditText cUser;
-        private EditText cPassword;
+        private TextInputEditText cUser;
+        private TextInputEditText cPassword;
         private TextView cMsgText;
         private TextView cPackageInfoText;
         private Button cLoginButton;
@@ -40,12 +41,12 @@ namespace LogonScreen
         {
             base.OnCreate(bundle);
             //get the layout from Resources
-            SetContentView(Resource.Layout.LogonScreenLayoutMaterial);
+            SetContentView(Resource.Layout.LogonScreen);
             //Form Elements
             cLoginButton = FindViewById<Button>(Resource.Id.btnLogin);
-            cUser = FindViewById<EditText>(Resource.Id.User);
+            cUser = FindViewById<TextInputEditText>(Resource.Id.User);
             //cUser.Text = "REJ";
-            cPassword = FindViewById<EditText>(Resource.Id.Password);
+            cPassword = FindViewById<TextInputEditText>(Resource.Id.Password);
             //cPassword.Text = "5380";
             cMsgText = FindViewById<TextView>(Resource.Id.msgText);
             cPackageInfoText = FindViewById<TextView>(Resource.Id.msgPkgInfo);
@@ -54,7 +55,7 @@ namespace LogonScreen
             typeofCaller = Intent.GetStringExtra("ConnectionType") ?? "Net";
             version = Intent.GetStringExtra("Version");
             packageName = Intent.GetStringExtra("PackageName");
-            cPackageInfoText.Text = string.Format("{0} Version {1}", packageName, version);
+//            cPackageInfoText.Text = string.Format("{0} Version {1}", packageName, version);
 
             LogonDetails.ConnectionServer = "net.espackeuro.com";//typeofCaller == "Net" ? "net.espackeuro.com" : "logon.espackeuro.com";
             switch (typeofCaller)
@@ -67,13 +68,20 @@ namespace LogonScreen
                     break;
 
             };
-
+                        
+            cPackageInfoText.Text = string.Format("{0} Version {1}", packageName, version);
 #if DEBUG
             cUser.Text = "restelles";
             cPassword.Text = "1312";
 #endif
+
         }
 
+        protected override void OnStart()
+        {
+            base.OnStart();
+
+        }
         //to cancel back button in Android
         public override void OnBackPressed()
         {

@@ -1,0 +1,142 @@
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\Partes.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\Partes.pdb
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\com.espack.partes.apk
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\com.espack.partes-Signed.apk
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\AccesoDatos.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\AccesoDatos.NET.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\LogonScreen.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\Xamarin.Android.Arch.Core.Common.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\Xamarin.Android.Arch.Lifecycle.Common.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\Xamarin.Android.Arch.Lifecycle.Runtime.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\Xamarin.Android.Support.Animated.Vector.Drawable.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\Xamarin.Android.Support.Annotations.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\Xamarin.Android.Support.Compat.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\Xamarin.Android.Support.Core.UI.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\Xamarin.Android.Support.Core.Utils.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\Xamarin.Android.Support.Design.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\Xamarin.Android.Support.Fragment.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\Xamarin.Android.Support.Media.Compat.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\Xamarin.Android.Support.Transition.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\Xamarin.Android.Support.v4.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\Xamarin.Android.Support.v7.AppCompat.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\Xamarin.Android.Support.v7.CardView.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\Xamarin.Android.Support.v7.MediaRouter.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\Xamarin.Android.Support.v7.Palette.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\Xamarin.Android.Support.v7.RecyclerView.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\Xamarin.Android.Support.Vector.Drawable.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\CommonTools.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\WebDavClient.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\CommonAndroidTools.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\ObjectFactory.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\AccesoDatosXML.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\Messages.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\Sockets.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\Encryption.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\Compression.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\AccesoDatos.NET.pdb
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\AccesoDatos.pdb
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\LogonScreen.pdb
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\LogonScreen.dll.config
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\CommonTools.pdb
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\WebDavClient.pdb
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\WebDavClient.dll.config
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\CommonAndroidTools.pdb
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\ObjectFactory.pdb
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\AccesoDatosXML.pdb
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\Messages.pdb
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\Sockets.pdb
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\Encryption.pdb
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\Compression.pdb
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\Partes.csprojResolveAssemblyReference.cache
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\Partes.csproj.CoreCompileInputs.cache
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\Partes.dll
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\Partes.pdb
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\bin\com.espack.partes.apk
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\res\layout\headerft.xml
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\res\layout\selector.xml
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\res\layout\partnumberinfo.xml
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\res\layout\datainputfragment.xml
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\res\values\strings.xml
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\res\drawable\logo_espack_sistemas_vertical.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\res\values\styles.xml
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\res\drawable\background1.jpg
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\res\drawable-xxhdpi\background1.jpg
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\R.cs.flag
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\uploadflags.txt
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\AccesoDatos.NET.dll.mdb
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\AccesoDatos.dll.mdb
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\LogonScreen.dll.mdb
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\AccesoDatosXML.dll.mdb
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\CommonAndroidTools.dll.mdb
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\CommonTools.dll.mdb
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\Compression.dll.mdb
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\Encryption.dll.mdb
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\Messages.dll.mdb
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\ObjectFactory.dll.mdb
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\Partes.dll.mdb
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\Sockets.dll.mdb
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\WebDavClient.dll.mdb
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\AccesoDatos.dll.mdb
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\AccesoDatos.NET.dll.mdb
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\AccesoDatosXML.dll.mdb
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\CommonAndroidTools.dll.mdb
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\CommonTools.dll.mdb
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\Compression.dll.mdb
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\Encryption.dll.mdb
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\LogonScreen.dll.mdb
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\Messages.dll.mdb
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\ObjectFactory.dll.mdb
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\Partes.dll.mdb
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\Sockets.dll.mdb
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\WebDavClient.dll.mdb
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\Partes.dll
+bin\Debug\AccesoDatos.dll.mdb
+bin\Debug\AccesoDatos.NET.dll.mdb
+bin\Debug\LogonScreen.dll.mdb
+bin\Debug\I18N.pdb
+bin\Debug\I18N.West.pdb
+bin\Debug\Mono.Android.pdb
+bin\Debug\mscorlib.pdb
+bin\Debug\System.Core.pdb
+bin\Debug\System.pdb
+bin\Debug\System.Xml.pdb
+bin\Debug\System.Data.pdb
+bin\Debug\System.Numerics.pdb
+bin\Debug\System.Transactions.pdb
+bin\Debug\Mono.Data.Tds.pdb
+bin\Debug\Mono.Security.pdb
+bin\Debug\System.Xml.Linq.pdb
+bin\Debug\System.Runtime.Serialization.pdb
+bin\Debug\System.ServiceModel.Internals.pdb
+bin\Debug\System.Net.Http.pdb
+bin\Debug\System.ComponentModel.Composition.pdb
+obj\Debug\linksrc\Partes.dll.mdb
+obj\Debug\linksrc\AccesoDatos.dll.mdb
+obj\Debug\linksrc\AccesoDatos.NET.dll.mdb
+obj\Debug\linksrc\LogonScreen.dll.mdb
+obj\Debug\linksrc\CommonTools.dll.mdb
+obj\Debug\linksrc\WebDavClient.dll.mdb
+obj\Debug\linksrc\CommonAndroidTools.dll.mdb
+obj\Debug\linksrc\ObjectFactory.dll.mdb
+obj\Debug\linksrc\AccesoDatosXML.dll.mdb
+obj\Debug\linksrc\Messages.dll.mdb
+obj\Debug\linksrc\Sockets.dll.mdb
+obj\Debug\linksrc\Encryption.dll.mdb
+obj\Debug\linksrc\Compression.dll.mdb
+obj\Debug\linksrc\I18N.pdb
+obj\Debug\linksrc\I18N.West.pdb
+obj\Debug\linksrc\Mono.Android.pdb
+obj\Debug\linksrc\mscorlib.pdb
+obj\Debug\linksrc\System.Core.pdb
+obj\Debug\linksrc\System.pdb
+obj\Debug\linksrc\System.Xml.pdb
+obj\Debug\linksrc\System.Data.pdb
+obj\Debug\linksrc\System.Numerics.pdb
+obj\Debug\linksrc\System.Transactions.pdb
+obj\Debug\linksrc\Mono.Data.Tds.pdb
+obj\Debug\linksrc\Mono.Security.pdb
+obj\Debug\linksrc\System.Xml.Linq.pdb
+obj\Debug\linksrc\System.Runtime.Serialization.pdb
+obj\Debug\linksrc\System.ServiceModel.Internals.pdb
+obj\Debug\linksrc\System.Net.Http.pdb
+obj\Debug\linksrc\System.ComponentModel.Composition.pdb

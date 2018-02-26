@@ -3839,7 +3839,7 @@ namespace LogonScreen
 			public static int design_text_input_password_icon = 2130903080;
 			
 			// aapt resource value: 0x7f030029
-			public static int LogonScreenLayoutMaterial = 2130903081;
+			public static int LogonScreen = 2130903081;
 			
 			// aapt resource value: 0x7f03002a
 			public static int mr_chooser_dialog = 2130903082;

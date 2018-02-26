@@ -125,6 +125,7 @@
     <Compile Include="HeaderFragment.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="MainScreen.cs" />
+    <Compile Include="PartnumberFragment.cs" />
     <Compile Include="PartnumberInfo.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -144,7 +145,7 @@
     <AndroidResource Include="Resources\layout\PartnumberInfo.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\EnterDataFt.axml">
+    <AndroidResource Include="Resources\layout\DataInputFragment.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

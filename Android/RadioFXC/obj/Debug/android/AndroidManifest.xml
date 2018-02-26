@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.espack.radiofxc" android:versionName="2.36" android:installLocation="auto" android:versionCode="2">
+  <uses-sdk android:minSdkVersion="19" android:targetSdkVersion="26" />
+  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+  <uses-permission android:name="android.permission.CAMERA" />
+  <uses-permission android:name="android.permission.INTERNET" />
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+  <application android:label="Radio REPAIRS" android:icon="@drawable/icon" android:theme="@style/AppTheme" android:name="android.app.Application" android:allowBackup="true" android:debuggable="true">
+    <activity android:label="Radio REPAIRS - Loads" android:name="md5466558fdf6f1b5370bec1504d79b5c8c.LoadsMain" />
+    <activity android:icon="@drawable/ic_launcher" android:label="*Radio REPAIRS" android:name="md5466558fdf6f1b5370bec1504d79b5c8c.MainActivity">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+    </activity>
+    <activity android:label="Radio REPAIRS" android:name="md5466558fdf6f1b5370bec1504d79b5c8c.MainScreen" />
+    <activity android:label="Radio REPAIRS - Repairs" android:name="md5466558fdf6f1b5370bec1504d79b5c8c.RepairsMain" />
+    <activity android:label="Radio REPAIRS - Service Selection" android:name="md5466558fdf6f1b5370bec1504d79b5c8c.ServiceSelection" />
+    <activity android:label="Logon Screen" android:name="md536f4e62532e6303bb8eebaa520e35ed9.LogonScreenClass" />
+    <provider android:name="mono.MonoRuntimeProvider" android:exported="false" android:initOrder="2147483647" android:authorities="com.espack.radiofxc.mono.MonoRuntimeProvider.__mono_init__" />
+    <!--suppress ExportedReceiver-->
+    <receiver android:name="mono.android.Seppuku">
+      <intent-filter>
+        <action android:name="mono.android.intent.action.SEPPUKU" />
+        <category android:name="mono.android.intent.category.SEPPUKU.com.espack.radiofxc" />
+      </intent-filter>
+    </receiver>
+    <meta-data android:name="android.support.VERSION" android:value="26.1.0" />
+    <meta-data android:name="android.arch.lifecycle.VERSION" android:value="27.0.0-SNAPSHOT" />
+  </application>
+</manifest>

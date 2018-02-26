@@ -1,0 +1,10 @@
+D:\EspackSystems\Database and tools\cAccesoDatos.NET\bin\Debug\AccesoDatos.NET.dll
+D:\EspackSystems\Database and tools\cAccesoDatos.NET\bin\Debug\AccesoDatos.NET.pdb
+D:\EspackSystems\Database and tools\cAccesoDatos.NET\bin\Debug\AccesoDatos.dll
+D:\EspackSystems\Database and tools\cAccesoDatos.NET\bin\Debug\CommonTools.dll
+D:\EspackSystems\Database and tools\cAccesoDatos.NET\bin\Debug\AccesoDatos.pdb
+D:\EspackSystems\Database and tools\cAccesoDatos.NET\bin\Debug\CommonTools.pdb
+D:\EspackSystems\Database and tools\cAccesoDatos.NET\obj\Debug\cAccesoDatosNet.csprojResolveAssemblyReference.cache
+D:\EspackSystems\Database and tools\cAccesoDatos.NET\obj\Debug\cAccesoDatosNet.csproj.CoreCompileInputs.cache
+D:\EspackSystems\Database and tools\cAccesoDatos.NET\obj\Debug\AccesoDatos.NET.dll
+D:\EspackSystems\Database and tools\cAccesoDatos.NET\obj\Debug\AccesoDatos.NET.pdb

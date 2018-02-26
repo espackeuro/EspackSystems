@@ -23,6 +23,8 @@ namespace Partes
             var hFt = new HeaderFragment();
             var ft = FragmentManager.BeginTransaction();
             ft.Replace(Resource.Id.headerFragment, hFt);
+            var pFt = new PartnumberFragment();
+            ft.Replace(Resource.Id.dataInputFragment, pFt);
             ft.Commit();
             // Create your application here
         }

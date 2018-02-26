@@ -1,0 +1,8 @@
+D:\EspackSystems\Network Libraries\Sockets\Sockets\bin\Debug\Sockets.dll
+D:\EspackSystems\Network Libraries\Sockets\Sockets\bin\Debug\Sockets.pdb
+D:\EspackSystems\Network Libraries\Sockets\Sockets\bin\Debug\Dawn.SocketAwaitable.dll
+D:\EspackSystems\Network Libraries\Sockets\Sockets\bin\Debug\Dawn.SocketAwaitable.pdb
+D:\EspackSystems\Network Libraries\Sockets\Sockets\obj\Debug\SocketsClient.csprojResolveAssemblyReference.cache
+D:\EspackSystems\Network Libraries\Sockets\Sockets\obj\Debug\SocketsClient.csproj.CoreCompileInputs.cache
+D:\EspackSystems\Network Libraries\Sockets\Sockets\obj\Debug\Sockets.dll
+D:\EspackSystems\Network Libraries\Sockets\Sockets\obj\Debug\Sockets.pdb

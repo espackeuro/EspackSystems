@@ -1260,7 +1260,7 @@ namespace RadioFXC
 			global::LogonScreen.Resource.Layout.design_navigation_menu = global::RadioFXC.Resource.Layout.design_navigation_menu;
 			global::LogonScreen.Resource.Layout.design_navigation_menu_item = global::RadioFXC.Resource.Layout.design_navigation_menu_item;
 			global::LogonScreen.Resource.Layout.design_text_input_password_icon = global::RadioFXC.Resource.Layout.design_text_input_password_icon;
-			global::LogonScreen.Resource.Layout.LogonScreenLayoutMaterial = global::RadioFXC.Resource.Layout.LogonScreenLayoutMaterial;
+			global::LogonScreen.Resource.Layout.LogonScreen = global::RadioFXC.Resource.Layout.LogonScreen;
 			global::LogonScreen.Resource.Layout.mr_chooser_dialog = global::RadioFXC.Resource.Layout.mr_chooser_dialog;
 			global::LogonScreen.Resource.Layout.mr_chooser_list_item = global::RadioFXC.Resource.Layout.mr_chooser_list_item;
 			global::LogonScreen.Resource.Layout.mr_controller_material_dialog_b = global::RadioFXC.Resource.Layout.mr_controller_material_dialog_b;
@@ -6932,10 +6932,10 @@ namespace RadioFXC
 			public const int ListImageProgress = 2130903094;
 			
 			// aapt resource value: 0x7f030037
-			public const int logonscreenlayout = 2130903095;
+			public const int LogonScreen = 2130903095;
 			
 			// aapt resource value: 0x7f030038
-			public const int LogonScreenLayoutMaterial = 2130903096;
+			public const int logonscreenlayoutmaterial = 2130903096;
 			
 			// aapt resource value: 0x7f030039
 			public const int Main = 2130903097;
