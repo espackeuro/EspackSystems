@@ -17,9 +17,9 @@ namespace LogonScreen
 {
     public static class LogonDetails
     {
-        public static string user { get; set; }
-        public static string password { get; set; }
-        public static string connectionServer { get; set; }
+        public static string User { get; set; }
+        public static string Password { get; set; }
+        public static string ConnectionServer { get; set; }
         public static string FullName { get; set; }
     }
 
@@ -56,7 +56,7 @@ namespace LogonScreen
             packageName = Intent.GetStringExtra("PackageName");
             cPackageInfoText.Text = string.Format("{0} Version {1}", packageName, version);
 
-            LogonDetails.connectionServer = "net.espackeuro.com";//typeofCaller == "Net" ? "net.espackeuro.com" : "logon.espackeuro.com";
+            LogonDetails.ConnectionServer = "net.espackeuro.com";//typeofCaller == "Net" ? "net.espackeuro.com" : "logon.espackeuro.com";
             switch (typeofCaller)
             {
                 case "Net":
@@ -105,7 +105,7 @@ namespace LogonScreen
                     cPassword.Enabled = false;
                 });
                 gDatos.DataBase = "SISTEMAS";
-                gDatos.Server = LogonDetails.connectionServer;
+                gDatos.Server = LogonDetails.ConnectionServer;
                 gDatos.User = "SA";
                 gDatos.Password = "5380";
                 bool error = false;
@@ -155,8 +155,8 @@ namespace LogonScreen
                         else
                         {
                             Toast.MakeText(this, "Logon OK!", ToastLength.Short).Show();
-                            LogonDetails.user = LogonSP.ReturnValues()["@User"].ToString();
-                            LogonDetails.password = LogonSP.ReturnValues()["@Password"].ToString();
+                            LogonDetails.User = LogonSP.ReturnValues()["@User"].ToString();
+                            LogonDetails.Password = LogonSP.ReturnValues()["@Password"].ToString();
                             LogonDetails.FullName = LogonSP.ReturnValues()["@FullName"].ToString();
                             _version = LogonSP.ReturnValues()["@Version"].ToString();
                             var _versionArray = _version.Split('.');

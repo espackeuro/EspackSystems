@@ -74,8 +74,8 @@ namespace Partes
                     Values.gDatos.Server = "VALSRV01.local";
 #endif
 
-                    Values.gDatos.User = LogonDetails.user;
-                    Values.gDatos.Password = LogonDetails.password;
+                    Values.gDatos.User = LogonDetails.User;
+                    Values.gDatos.Password = LogonDetails.Password;
 
 
                     //var RS = new DynamicRS("Select Datos=CMP_Varchar from datosEmpresa where codigo='FTP_DATA'",Values.gDatos);
@@ -92,8 +92,8 @@ namespace Partes
                     // gDatos for LOGISTICA
                     Values.gDatosLOG.DataBase = "LOGISTICA";
                     Values.gDatosLOG.Server = "net.espackeuro.com";
-                    Values.gDatosLOG.User = LogonDetails.user;
-                    Values.gDatosLOG.Password = LogonDetails.password;
+                    Values.gDatosLOG.User = LogonDetails.User;
+                    Values.gDatosLOG.Password = LogonDetails.Password;
 
                     var intent = new Intent(this, typeof(MainScreen));
                     StartActivityForResult(intent, 1);

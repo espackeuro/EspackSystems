@@ -7310,6 +7310,9 @@ namespace RadioFXC
 			// aapt resource value: 0x7f0c0199
 			public const int AppTheme = 2131493273;
 			
+			// aapt resource value: 0x7f0c019a
+			public const int AppTheme_NoActionBar = 2131493274;
+			
 			// aapt resource value: 0x7f0c00b1
 			public const int Base_AlertDialog_AppCompat = 2131493041;
 			
