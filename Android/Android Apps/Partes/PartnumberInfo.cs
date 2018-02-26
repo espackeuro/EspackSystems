@@ -13,7 +13,7 @@ using Android.Widget;
 
 namespace Partes
 {
-    [Activity(Label = "Partnumber Info")]
+    [Activity(Label = "", Theme = "@style/AppTheme.NoActionBar")]
     public class PartnumberInfo : AppCompatActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)

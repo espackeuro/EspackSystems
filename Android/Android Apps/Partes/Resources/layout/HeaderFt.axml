@@ -19,27 +19,27 @@
         <TextView
             android:text="Version 1.xxx.xxx"
             android:id="@+id/lblVersion"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:textAlignment="textEnd"
+            android:gravity="end"
             android:padding="4dp"
             android:textSize="8sp" />
         <TextView
             android:text="PEPITO PEREZ"
             android:id="@+id/lblFullName"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="2"
-            android:textAlignment="textEnd"
+            android:gravity="end"
             android:padding="4dp"
             android:textSize="16sp" />
         <Spinner
             android:id="@+id/pckDB"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="2"
-            android:textAlignment="textStart"
+            android:gravity="end"
             android:padding="4dp"
             android:entries="@array/Systems" />
     </LinearLayout>

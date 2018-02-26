@@ -142,8 +142,8 @@ namespace RadioLogisticaDeliveries
                 {
                     Values.gDatos.DataBase = "LOGISTICA";
                     Values.gDatos.Server = "net.espackeuro.com";
-                    Values.gDatos.User = LogonDetails.user;
-                    Values.gDatos.Password = LogonDetails.password;
+                    Values.gDatos.User = LogonDetails.User;
+                    Values.gDatos.Password = LogonDetails.Password;
                     string _mainScreenMode = "NEW";
                     //create sqlite database
                     Values.SQLidb = new SQLiteDatabase("DELIVERIES");
