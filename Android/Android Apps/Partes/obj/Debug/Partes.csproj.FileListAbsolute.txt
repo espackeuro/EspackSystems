@@ -52,10 +52,12 @@ D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\Partes.csproj.CoreCompile
 D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\Partes.dll
 D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\Partes.pdb
 D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\bin\com.espack.partes.apk
-D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\res\layout\headerft.xml
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\res\layout\headerfragment.xml
 D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\res\layout\selector.xml
 D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\res\layout\partnumberinfo.xml
 D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\res\layout\datainputfragment.xml
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\res\layout\dataoutputfragment.xml
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\res\layout\statusfragment.xml
 D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\res\values\strings.xml
 D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\res\drawable\logo_espack_sistemas_vertical.png
 D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\res\values\styles.xml
@@ -90,6 +92,18 @@ D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\Partes.dll
 D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\Sockets.dll.mdb
 D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\WebDavClient.dll.mdb
 D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\Partes.dll
+D:\EspackSystems\Windows\Windows Apps\cAccesoDatos\bin\Debug\AccesoDatos.dll
+D:\EspackSystems\Database and tools\cAccesoDatos.NET\bin\Debug\AccesoDatos.NET.dll
+D:\EspackSystems\Android\LogonScreen\bin\Debug\LogonScreen.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\CommonTools.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\WebDavClient.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\CommonAndroidTools.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\ObjectFactory.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\AccesoDatosXML.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\Messages.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\Sockets.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\Encryption.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\Compression.dll
 bin\Debug\AccesoDatos.dll.mdb
 bin\Debug\AccesoDatos.NET.dll.mdb
 bin\Debug\LogonScreen.dll.mdb
@@ -98,17 +112,17 @@ bin\Debug\I18N.West.pdb
 bin\Debug\Mono.Android.pdb
 bin\Debug\mscorlib.pdb
 bin\Debug\System.Core.pdb
+bin\Debug\System.Data.pdb
 bin\Debug\System.pdb
 bin\Debug\System.Xml.pdb
-bin\Debug\System.Data.pdb
-bin\Debug\System.Numerics.pdb
-bin\Debug\System.Transactions.pdb
-bin\Debug\Mono.Data.Tds.pdb
-bin\Debug\Mono.Security.pdb
 bin\Debug\System.Xml.Linq.pdb
 bin\Debug\System.Runtime.Serialization.pdb
 bin\Debug\System.ServiceModel.Internals.pdb
 bin\Debug\System.Net.Http.pdb
+bin\Debug\System.Numerics.pdb
+bin\Debug\System.Transactions.pdb
+bin\Debug\Mono.Data.Tds.pdb
+bin\Debug\Mono.Security.pdb
 bin\Debug\System.ComponentModel.Composition.pdb
 obj\Debug\linksrc\Partes.dll.mdb
 obj\Debug\linksrc\AccesoDatos.dll.mdb
@@ -128,15 +142,15 @@ obj\Debug\linksrc\I18N.West.pdb
 obj\Debug\linksrc\Mono.Android.pdb
 obj\Debug\linksrc\mscorlib.pdb
 obj\Debug\linksrc\System.Core.pdb
+obj\Debug\linksrc\System.Data.pdb
 obj\Debug\linksrc\System.pdb
 obj\Debug\linksrc\System.Xml.pdb
-obj\Debug\linksrc\System.Data.pdb
-obj\Debug\linksrc\System.Numerics.pdb
-obj\Debug\linksrc\System.Transactions.pdb
-obj\Debug\linksrc\Mono.Data.Tds.pdb
-obj\Debug\linksrc\Mono.Security.pdb
 obj\Debug\linksrc\System.Xml.Linq.pdb
 obj\Debug\linksrc\System.Runtime.Serialization.pdb
 obj\Debug\linksrc\System.ServiceModel.Internals.pdb
 obj\Debug\linksrc\System.Net.Http.pdb
+obj\Debug\linksrc\System.Numerics.pdb
+obj\Debug\linksrc\System.Transactions.pdb
+obj\Debug\linksrc\Mono.Data.Tds.pdb
+obj\Debug\linksrc\Mono.Security.pdb
 obj\Debug\linksrc\System.ComponentModel.Composition.pdb

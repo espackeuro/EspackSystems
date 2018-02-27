@@ -1,3 +1,11 @@
+Partes.DataOutputFragment, Partes;md5831ca1ae170331dd4ed8566f4229e58b.DataOutputFragment
+Partes.DataOutputFragment, Partes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md5831ca1ae170331dd4ed8566f4229e58b.DataOutputFragment
+Partes.DataOutputFragment;md5831ca1ae170331dd4ed8566f4229e58b.DataOutputFragment
+partes.DataOutputFragment;md5831ca1ae170331dd4ed8566f4229e58b.DataOutputFragment
+Partes.StatusFragment, Partes;md5831ca1ae170331dd4ed8566f4229e58b.StatusFragment
+Partes.StatusFragment, Partes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md5831ca1ae170331dd4ed8566f4229e58b.StatusFragment
+Partes.StatusFragment;md5831ca1ae170331dd4ed8566f4229e58b.StatusFragment
+partes.StatusFragment;md5831ca1ae170331dd4ed8566f4229e58b.StatusFragment
 Partes.HeaderFragment, Partes;md5831ca1ae170331dd4ed8566f4229e58b.HeaderFragment
 Partes.HeaderFragment, Partes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md5831ca1ae170331dd4ed8566f4229e58b.HeaderFragment
 Partes.HeaderFragment;md5831ca1ae170331dd4ed8566f4229e58b.HeaderFragment
@@ -10,10 +18,10 @@ Partes.MainScreen, Partes;md5831ca1ae170331dd4ed8566f4229e58b.MainScreen
 Partes.MainScreen, Partes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md5831ca1ae170331dd4ed8566f4229e58b.MainScreen
 Partes.MainScreen;md5831ca1ae170331dd4ed8566f4229e58b.MainScreen
 partes.MainScreen;md5831ca1ae170331dd4ed8566f4229e58b.MainScreen
-Partes.PartnumberFragment, Partes;md5831ca1ae170331dd4ed8566f4229e58b.PartnumberFragment
-Partes.PartnumberFragment, Partes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md5831ca1ae170331dd4ed8566f4229e58b.PartnumberFragment
-Partes.PartnumberFragment;md5831ca1ae170331dd4ed8566f4229e58b.PartnumberFragment
-partes.PartnumberFragment;md5831ca1ae170331dd4ed8566f4229e58b.PartnumberFragment
+Partes.DataInputFragment, Partes;md5831ca1ae170331dd4ed8566f4229e58b.DataInputFragment
+Partes.DataInputFragment, Partes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md5831ca1ae170331dd4ed8566f4229e58b.DataInputFragment
+Partes.DataInputFragment;md5831ca1ae170331dd4ed8566f4229e58b.DataInputFragment
+partes.DataInputFragment;md5831ca1ae170331dd4ed8566f4229e58b.DataInputFragment
 Partes.PartnumberInfo, Partes;md5831ca1ae170331dd4ed8566f4229e58b.PartnumberInfo
 Partes.PartnumberInfo, Partes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md5831ca1ae170331dd4ed8566f4229e58b.PartnumberInfo
 Partes.PartnumberInfo;md5831ca1ae170331dd4ed8566f4229e58b.PartnumberInfo

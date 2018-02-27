@@ -15,7 +15,8 @@ using Android.Views.InputMethods;
 
 namespace Partes
 {
-    class PartnumberFragment: Fragment
+    using static Values;
+    public class DataInputFragment: Fragment
     {
         public TextInputEditText txtPartNumber { get; set; }
         public override void OnCreate(Bundle savedInstanceState)
@@ -37,27 +38,42 @@ namespace Partes
             return _root;
         }
 
-        private void TxtPartNumber_EditorAction(object sender, TextView.EditorActionEventArgs e)
+        private async void TxtPartNumber_EditorAction(object sender, TextView.EditorActionEventArgs e)
         {
+            DataRecord result;
             e.Handled = false;
             if (e.ActionId == ImeAction.Send)
             {
-                Toast.MakeText(Activity, "Value Entered: " + txtPartNumber.Text, ToastLength.Short).Show();
+                DismissKeyboard();
+                try
+                {
+                    result = await DataBaseAccess.GetData(txtPartNumber.Text, hF.spnDB.SelectedItem.ToString());
+                } catch (Exception ex)
+                {
+                    Toast.MakeText(Activity,ex.Message, ToastLength.Long).Show();
+                    sF.txtStatus.Text = ex.Message;
+                    txtPartNumber.Text = "";
+                    e.Handled = true;
+                    return;
+                }
+                //result = await DataBaseAccess.GetData(txtPartNumber.Text, hF.spnDB.SelectedItem.ToString());
+                Activity.RunOnUiThread(() =>
+                {
+                    doF.txtSupplier.Text = result.Supplier;
+                    doF.txtFase4.Text = result.Fase4;
+                    doF.txtDescription.Text = result.Description;
+                    doF.txtPack.Text = result.Pack;
+                    doF.txtQtyPack.Text = result.QtyPack.ToString();
+                    doF.txtDock.Text = result.Dock;
+                    doF.txtLoc1.Text = result.Loc1;
+                    doF.txtLoc2.Text = result.Loc2;
+                });
+                sF.txtStatus.Text = "Partnumber found!";
+                //Toast.MakeText(Activity, "Value Entered: " + txtPartNumber.Text, ToastLength.Short).Show();
                 e.Handled = true;
             }
         }
 
-        private void TxtPartNumber_KeyPress(object sender, View.KeyEventArgs e)
-        {
-            if (e.Event.Action != KeyEventActions.Down || e.KeyCode != Keycode.Enter)
-            {
-                e.Handled = false;
-                return;
-            }
-            e.Handled = true;
-            DismissKeyboard();
-            Toast.MakeText(Activity, "Value Entered: " + txtPartNumber.Text, ToastLength.Short).Show();
-        }
         private void DismissKeyboard()
         {
             var view = Activity.CurrentFocus;

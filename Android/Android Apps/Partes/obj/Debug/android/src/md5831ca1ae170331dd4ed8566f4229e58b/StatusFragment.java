@@ -1,7 +1,7 @@
 package md5831ca1ae170331dd4ed8566f4229e58b;
 
 
-public class PartnumberFragment
+public class StatusFragment
 	extends android.app.Fragment
 	implements
 		mono.android.IGCUserPeer
@@ -13,15 +13,15 @@ public class PartnumberFragment
 			"n_onCreate:(Landroid/os/Bundle;)V:GetOnCreate_Landroid_os_Bundle_Handler\n" +
 			"n_onCreateView:(Landroid/view/LayoutInflater;Landroid/view/ViewGroup;Landroid/os/Bundle;)Landroid/view/View;:GetOnCreateView_Landroid_view_LayoutInflater_Landroid_view_ViewGroup_Landroid_os_Bundle_Handler\n" +
 			"";
-		mono.android.Runtime.register ("Partes.PartnumberFragment, Partes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", PartnumberFragment.class, __md_methods);
+		mono.android.Runtime.register ("Partes.StatusFragment, Partes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", StatusFragment.class, __md_methods);
 	}
 
 
-	public PartnumberFragment ()
+	public StatusFragment ()
 	{
 		super ();
-		if (getClass () == PartnumberFragment.class)
-			mono.android.TypeManager.Activate ("Partes.PartnumberFragment, Partes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", "", this, new java.lang.Object[] {  });
+		if (getClass () == StatusFragment.class)
+			mono.android.TypeManager.Activate ("Partes.StatusFragment, Partes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", "", this, new java.lang.Object[] {  });
 	}
 
 

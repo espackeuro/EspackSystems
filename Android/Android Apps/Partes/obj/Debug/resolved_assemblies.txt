@@ -8,6 +8,7 @@ D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\LogonScree
 D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\Mono.Android.dll
 D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\mscorlib.dll
 D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\System.Core.dll
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\System.Data.dll
 D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\System.dll
 D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\System.Runtime.dll
 D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\System.Xml.dll
@@ -30,11 +31,6 @@ D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\Xamarin.An
 D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\Xamarin.Android.Support.v7.Palette.dll
 D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\Xamarin.Android.Support.v7.RecyclerView.dll
 D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\Xamarin.Android.Support.Vector.Drawable.dll
-D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\System.Data.dll
-D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\System.Numerics.dll
-D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\System.Transactions.dll
-D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\Mono.Data.Tds.dll
-D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\Mono.Security.dll
 D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\CommonTools.dll
 D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\System.Xml.Linq.dll
 D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\System.Runtime.Serialization.dll
@@ -57,4 +53,8 @@ D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\Messages.d
 D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\Sockets.dll
 D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\Encryption.dll
 D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\Compression.dll
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\System.Numerics.dll
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\System.Transactions.dll
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\Mono.Data.Tds.dll
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\Mono.Security.dll
 D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\System.ComponentModel.Composition.dll

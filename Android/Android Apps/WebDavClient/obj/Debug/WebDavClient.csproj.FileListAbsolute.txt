@@ -8,7 +8,6 @@ D:\EspackSystems\Android\Android Apps\WebDavClient\bin\Debug\Mono.Android.xml
 D:\EspackSystems\Android\Android Apps\WebDavClient\bin\Debug\System.Net.Http.Extensions.xml
 D:\EspackSystems\Android\Android Apps\WebDavClient\bin\Debug\System.Net.Http.Primitives.xml
 D:\EspackSystems\Android\Android Apps\WebDavClient\obj\Debug\WebDavClient.csproj.App.config
-D:\EspackSystems\Android\Android Apps\WebDavClient\obj\Debug\WebDavClient.csprojResolveAssemblyReference.cache
 D:\EspackSystems\Android\Android Apps\WebDavClient\obj\Debug\WebDavClient.csproj.CoreCompileInputs.cache
 D:\EspackSystems\Android\Android Apps\WebDavClient\obj\Debug\WebDavClient.dll
 D:\EspackSystems\Android\Android Apps\WebDavClient\obj\Debug\WebDavClient.pdb

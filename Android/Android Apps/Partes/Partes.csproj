@@ -60,6 +60,7 @@
     <Reference Include="I18N" />
     <Reference Include="I18N.West" />
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Mono.Android" />
@@ -122,10 +123,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataOutputFragment.cs" />
+    <Compile Include="StatusFragment.cs" />
+    <Compile Include="GetDatabaseData.cs" />
     <Compile Include="HeaderFragment.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="MainScreen.cs" />
-    <Compile Include="PartnumberFragment.cs" />
+    <Compile Include="DataInputFragment.cs" />
     <Compile Include="PartnumberInfo.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -136,7 +140,7 @@
     <None Include="Resources\AboutResources.txt" />
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />
-    <AndroidResource Include="Resources\layout\HeaderFt.axml">
+    <AndroidResource Include="Resources\layout\HeaderFragment.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\Selector.axml">
@@ -146,6 +150,12 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\DataInputFragment.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\DataOutputFragment.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\StatusFragment.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

@@ -17,6 +17,7 @@ namespace Partes
     {
         public TextView lblFullName { get; set; }
         public TextView lblVersion { get; set; }
+        public Spinner spnDB { get; set; }
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -28,9 +29,10 @@ namespace Partes
         {
             // Use this to return your custom view for this Fragment
             // return inflater.Inflate(Resource.Layout.YourFragment, container, false);
-            var _root = inflater.Inflate(Resource.Layout.HeaderFt, container, false);
+            var _root = inflater.Inflate(Resource.Layout.HeaderFragment, container, false);
             lblFullName = _root.FindViewById<TextView>(Resource.Id.lblFullName);
             lblVersion = _root.FindViewById<TextView>(Resource.Id.lblVersion);
+            spnDB = _root.FindViewById<Spinner>(Resource.Id.spnDB);
             lblFullName.Text = LogonScreen.LogonDetails.FullName;
             lblVersion.Text = Values.Version;
             return _root;

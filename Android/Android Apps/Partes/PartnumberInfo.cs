@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
+using static Partes.Values;
 
 namespace Partes
 {
@@ -20,11 +21,15 @@ namespace Partes
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.PartnumberInfo);
-            var hFt = new HeaderFragment();
+            hF = new HeaderFragment();
             var ft = FragmentManager.BeginTransaction();
-            ft.Replace(Resource.Id.headerFragment, hFt);
-            var pFt = new PartnumberFragment();
-            ft.Replace(Resource.Id.dataInputFragment, pFt);
+            ft.Replace(Resource.Id.headerFragment, hF);
+            diF = new DataInputFragment();
+            ft.Replace(Resource.Id.dataInputFragment, diF);
+            doF = new DataOutputFragment();
+            ft.Replace(Resource.Id.dataOutputFragment, doF);
+            sF = new StatusFragment();
+            ft.Replace(Resource.Id.StatusFragment, sF);
             ft.Commit();
             // Create your application here
         }

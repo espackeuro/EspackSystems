@@ -5,7 +5,8 @@
 //using Android.Views;
 //using Android.Widget;
 //using Android.OS;
-using AccesoDatosNet;
+using System.Data;
+using System.Data.SqlClient;
 
 using LogonScreen;
 
@@ -22,14 +23,15 @@ namespace Partes
 {
     public static class Values
     {
-        public static cAccesoDatosNet gDatos = new cAccesoDatosNet();
-        public static cAccesoDatosNet gDatosLOG = new cAccesoDatosNet();
-        public static string gFTPServer;
-        public static string gFTPUser;
-        public static string gFTPDir;
-        public static string gFTPPassword;
+        public static SqlConnection gDatos;
+        public static string User { get; set; }
+        public static string Pwd { get; set; }
         public static string gService;
         public static string Version;
+        public static HeaderFragment hF { get; set; }
+        public static DataInputFragment diF { get; set; }
+        public static DataOutputFragment doF { get; set; }
+        public static StatusFragment sF { get; set; }
     }
 
     [Activity(Label = "Parts", MainLauncher = true)]
@@ -67,15 +69,8 @@ namespace Partes
                 string Result = data.GetStringExtra("Result");
                 if (Result == "OK")
                 {
-                    Values.gDatos.DataBase = "LOGISTICA_IDC";
-                    Values.gDatos.Server = "net.espackeuro.com";
-
-#if DEBUG
-                    Values.gDatos.Server = "VALSRV01.local";
-#endif
-
-                    Values.gDatos.User = LogonDetails.User;
-                    Values.gDatos.Password = LogonDetails.Password;
+                    Values.User = LogonDetails.User;
+                    Values.Pwd = LogonDetails.Password;
 
 
                     //var RS = new DynamicRS("Select Datos=CMP_Varchar from datosEmpresa where codigo='FTP_DATA'",Values.gDatos);
@@ -84,17 +79,6 @@ namespace Partes
                     //Values.gFTPDir = RS["Datos"].ToString().Split('|')[2]; ;//"/FTP/";
                     //Values.gFTPUser = RS["Datos"].ToString().Split('|')[3];//"logon";
                     //Values.gFTPPassword = RS["Datos"].ToString().Split('|')[4]; ;//"*logon*";
-                    Values.gFTPServer = "ftprepairs.espackeuro.com";
-                    Values.gFTPDir = "/FTP/";
-                    Values.gFTPUser = "logon";
-                    Values.gFTPPassword = "*logon*";
-
-                    // gDatos for LOGISTICA
-                    Values.gDatosLOG.DataBase = "LOGISTICA";
-                    Values.gDatosLOG.Server = "net.espackeuro.com";
-                    Values.gDatosLOG.User = LogonDetails.User;
-                    Values.gDatosLOG.Password = LogonDetails.Password;
-
                     var intent = new Intent(this, typeof(MainScreen));
                     StartActivityForResult(intent, 1);
                 }
