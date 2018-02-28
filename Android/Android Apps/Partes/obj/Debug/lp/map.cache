@@ -1,5 +1,6 @@
 AccesoDatos
 AccesoDatos.NET
+FastAndroidCamera
 LogonScreen
 System.Runtime
 Xamarin.Android.Arch.Core.Common
@@ -21,6 +22,9 @@ Xamarin.Android.Support.v7.MediaRouter
 Xamarin.Android.Support.v7.Palette
 Xamarin.Android.Support.v7.RecyclerView
 Xamarin.Android.Support.Vector.Drawable
+ZXing.Net.Mobile.Core
+zxing.portable
+ZXingNetMobile
 CommonTools
 WebDavClient
 CommonAndroidTools

@@ -18,6 +18,7 @@ using Java.Util.Zip;
 using I18N.Common;
 using I18N.West;
 using Android.Support.V7.App;
+using ZXing.Mobile;
 
 namespace Partes
 {
@@ -42,6 +43,8 @@ namespace Partes
 
             var a = CP1252.GetEncoding("utf-32");
             base.OnCreate(bundle);
+            //for the image barcode scanner
+            MobileBarcodeScanner.Initialize(Application);
             //version control
             Context context = this.ApplicationContext;
             Values.Version = context.PackageManager.GetPackageInfo(context.PackageName, 0).VersionName;

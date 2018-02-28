@@ -8,35 +8,40 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/background1" />
-  <LinearLayout
-      android:orientation="vertical"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent">
     <LinearLayout
-        android:name="headerFragment"
-        android:layout_width="fill_parent"
-        android:layout_height="100dp"
-        android:id="@+id/headerFragment" />
-    <LinearLayout
-        android:name="dataInputFragment"
-          android:layout_width="fill_parent"
-          android:layout_height="wrap_content"
-          android:id="@+id/dataInputFragment" />
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="fill_parent"
-  android:layout_height="fill_parent">
-      <LinearLayout
-          android:name="dataOutputFragment"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10">
+            <LinearLayout
+                android:name="headerFragment"
+                android:layout_width="fill_parent"
+                android:layout_height="100dp"
+                android:id="@+id/headerFragment" />
+            <LinearLayout
+                android:name="dataInputFragment"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/dataInputFragment" />
+            <ScrollView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+                <LinearLayout
+                    android:name="dataOutputFragment"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/dataOutputFragment" />
+            </ScrollView>
+        </LinearLayout>
+        <LinearLayout
+            android:name="StatusFragment"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/dataOutputFragment" />
-    </ScrollView>
-  </LinearLayout>
-
-  <RelativeLayout
-    android:name="StatusFragment"
-      android:layout_width="fill_parent"
-      android:layout_height="100dp"
-      android:id="@+id/StatusFragment"
-    android:layout_alignParentBottom="true" />
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:id="@+id/StatusFragment"/>
+    </LinearLayout>
 </RelativeLayout>

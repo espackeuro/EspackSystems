@@ -10,8 +10,6 @@
     android:id="@+id/txtStatus"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:gravity="center|center"
-    android:text="--"
-    android:textSize="25sp" />
+    style="@style/StatusLabel"
+    android:text="--"/>
 </LinearLayout>

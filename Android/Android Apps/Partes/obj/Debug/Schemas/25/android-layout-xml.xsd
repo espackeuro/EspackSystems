@@ -5,7 +5,7 @@
   <xs:import schemaLocation="schemas.android.com.tools.xsd" namespace="http://schemas.android.com/tools" />
   <xs:annotation>
     <xs:documentation>v25</xs:documentation>
-    <xs:documentation>27/02/2018 15:35:59</xs:documentation>
+    <xs:documentation>28/02/2018 16:26:44</xs:documentation>
   </xs:annotation>
   <xs:group name="any-view">
     <xs:choice>
@@ -82,6 +82,8 @@
       <xs:element ref="RadioGroup" />
       <xs:element ref="TextSwitcher" />
       <xs:element ref="fragment" />
+      <xs:element ref="ZXing.Mobile.ZXingSurfaceView" />
+      <xs:element ref="ZXing.Mobile.ZxingOverlayView" />
       <xs:element ref="android.support.design.widget.TextInputEditText" />
       <xs:element ref="android.support.design.widget.TabItem" />
       <xs:element ref="android.support.design.widget.NavigationView" />
@@ -355,31 +357,10 @@
     <xs:attribute ref="android:pointerIcon" />
     <xs:attribute ref="android:forceHasOverlappingRendering" />
     <xs:attribute ref="tools:visibility" />
-    <xs:attribute ref="android:layout_toLeftOf" />
-    <xs:attribute ref="android:layout_toRightOf" />
-    <xs:attribute ref="android:layout_above" />
-    <xs:attribute ref="android:layout_below" />
-    <xs:attribute ref="android:layout_alignBaseline" />
-    <xs:attribute ref="android:layout_alignLeft" />
-    <xs:attribute ref="android:layout_alignTop" />
-    <xs:attribute ref="android:layout_alignRight" />
-    <xs:attribute ref="android:layout_alignBottom" />
-    <xs:attribute ref="android:layout_alignParentLeft" />
-    <xs:attribute ref="android:layout_alignParentTop" />
-    <xs:attribute ref="android:layout_alignParentRight" />
-    <xs:attribute ref="android:layout_alignParentBottom" />
-    <xs:attribute ref="android:layout_centerInParent" />
-    <xs:attribute ref="android:layout_centerHorizontal" />
-    <xs:attribute ref="android:layout_centerVertical" />
-    <xs:attribute ref="android:layout_alignWithParentIfMissing" />
-    <xs:attribute ref="android:layout_toStartOf" />
-    <xs:attribute ref="android:layout_toEndOf" />
-    <xs:attribute ref="android:layout_alignStart" />
-    <xs:attribute ref="android:layout_alignEnd" />
-    <xs:attribute ref="android:layout_alignParentStart" />
-    <xs:attribute ref="android:layout_alignParentEnd" />
     <xs:attribute ref="android:layout_width" />
     <xs:attribute ref="android:layout_height" />
+    <xs:attribute ref="android:layout_weight" />
+    <xs:attribute ref="android:layout_gravity" />
     <xs:attribute ref="android:layout_margin" />
     <xs:attribute ref="android:layout_marginLeft" />
     <xs:attribute ref="android:layout_marginTop" />
@@ -1471,31 +1452,10 @@
     <xs:attribute ref="android:fragmentAllowEnterTransitionOverlap" />
     <xs:attribute ref="android:fragmentAllowReturnTransitionOverlap" />
     <xs:attribute ref="tools:layout" />
-    <xs:attribute ref="android:layout_toLeftOf" />
-    <xs:attribute ref="android:layout_toRightOf" />
-    <xs:attribute ref="android:layout_above" />
-    <xs:attribute ref="android:layout_below" />
-    <xs:attribute ref="android:layout_alignBaseline" />
-    <xs:attribute ref="android:layout_alignLeft" />
-    <xs:attribute ref="android:layout_alignTop" />
-    <xs:attribute ref="android:layout_alignRight" />
-    <xs:attribute ref="android:layout_alignBottom" />
-    <xs:attribute ref="android:layout_alignParentLeft" />
-    <xs:attribute ref="android:layout_alignParentTop" />
-    <xs:attribute ref="android:layout_alignParentRight" />
-    <xs:attribute ref="android:layout_alignParentBottom" />
-    <xs:attribute ref="android:layout_centerInParent" />
-    <xs:attribute ref="android:layout_centerHorizontal" />
-    <xs:attribute ref="android:layout_centerVertical" />
-    <xs:attribute ref="android:layout_alignWithParentIfMissing" />
-    <xs:attribute ref="android:layout_toStartOf" />
-    <xs:attribute ref="android:layout_toEndOf" />
-    <xs:attribute ref="android:layout_alignStart" />
-    <xs:attribute ref="android:layout_alignEnd" />
-    <xs:attribute ref="android:layout_alignParentStart" />
-    <xs:attribute ref="android:layout_alignParentEnd" />
     <xs:attribute ref="android:layout_width" />
     <xs:attribute ref="android:layout_height" />
+    <xs:attribute ref="android:layout_weight" />
+    <xs:attribute ref="android:layout_gravity" />
     <xs:attribute ref="android:layout_margin" />
     <xs:attribute ref="android:layout_marginLeft" />
     <xs:attribute ref="android:layout_marginTop" />
@@ -1504,6 +1464,26 @@
     <xs:attribute ref="android:layout_marginStart" />
     <xs:attribute ref="android:layout_marginEnd" />
     <xs:attribute ref="android:style" />
+  </xs:complexType>
+  <xs:element name="ZXing.Mobile.ZXingSurfaceView" type="ZXing.Mobile.ZXingSurfaceView">
+    <xs:annotation>
+      <xs:documentation>Runtime Type: ZXing.Mobile.ZXingSurfaceView</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ZXing.Mobile.ZXingSurfaceView">
+    <xs:complexContent mixed="false">
+      <xs:extension base="SurfaceView" />
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="ZXing.Mobile.ZxingOverlayView" type="ZXing.Mobile.ZxingOverlayView">
+    <xs:annotation>
+      <xs:documentation>Runtime Type: ZXing.Mobile.ZxingOverlayView</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ZXing.Mobile.ZxingOverlayView">
+    <xs:complexContent mixed="false">
+      <xs:extension base="View" />
+    </xs:complexContent>
   </xs:complexType>
   <xs:element name="android.support.design.widget.TextInputEditText" type="android.support.design.widget.TextInputEditText">
     <xs:annotation>
@@ -1532,15 +1512,7 @@
   </xs:element>
   <xs:complexType name="android.support.design.widget.NavigationView">
     <xs:complexContent mixed="false">
-      <xs:extension base="FrameLayout">
-        <xs:attribute ref="app:elevation" />
-        <xs:attribute ref="app:menu" />
-        <xs:attribute ref="app:itemIconTint" />
-        <xs:attribute ref="app:itemTextColor" />
-        <xs:attribute ref="app:itemBackground" />
-        <xs:attribute ref="app:itemTextAppearance" />
-        <xs:attribute ref="app:headerLayout" />
-      </xs:extension>
+      <xs:extension base="FrameLayout" />
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="android.support.design.widget.CheckableImageButton" type="android.support.design.widget.CheckableImageButton">
@@ -1560,13 +1532,7 @@
   </xs:element>
   <xs:complexType name="android.support.design.widget.BottomNavigationView">
     <xs:complexContent mixed="false">
-      <xs:extension base="FrameLayout">
-        <xs:attribute ref="app:menu" />
-        <xs:attribute ref="app:itemIconTint" />
-        <xs:attribute ref="app:itemTextColor" />
-        <xs:attribute ref="app:itemBackground" />
-        <xs:attribute ref="app:elevation" />
-      </xs:extension>
+      <xs:extension base="FrameLayout" />
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="android.support.design.widget.BaseTransientBottomBar.SnackbarBaseLayout" type="android.support.design.widget.BaseTransientBottomBar.SnackbarBaseLayout">
@@ -1586,22 +1552,7 @@
   </xs:element>
   <xs:complexType name="android.support.design.widget.TextInputLayout">
     <xs:complexContent mixed="false">
-      <xs:extension base="LinearLayout">
-        <xs:attribute ref="app:hintTextAppearance" />
-        <xs:attribute ref="app:hintEnabled" />
-        <xs:attribute ref="app:errorEnabled" />
-        <xs:attribute ref="app:errorTextAppearance" />
-        <xs:attribute ref="app:counterEnabled" />
-        <xs:attribute ref="app:counterMaxLength" />
-        <xs:attribute ref="app:counterTextAppearance" />
-        <xs:attribute ref="app:counterOverflowTextAppearance" />
-        <xs:attribute ref="app:hintAnimationEnabled" />
-        <xs:attribute ref="app:passwordToggleEnabled" />
-        <xs:attribute ref="app:passwordToggleDrawable" />
-        <xs:attribute ref="app:passwordToggleContentDescription" />
-        <xs:attribute ref="app:passwordToggleTint" />
-        <xs:attribute ref="app:passwordToggleTintMode" />
-      </xs:extension>
+      <xs:extension base="LinearLayout" />
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="android.support.design.widget.TabLayout" type="android.support.design.widget.TabLayout">
@@ -1611,24 +1562,7 @@
   </xs:element>
   <xs:complexType name="android.support.design.widget.TabLayout">
     <xs:complexContent mixed="false">
-      <xs:extension base="HorizontalScrollView">
-        <xs:attribute ref="app:tabIndicatorColor" />
-        <xs:attribute ref="app:tabIndicatorHeight" />
-        <xs:attribute ref="app:tabContentStart" />
-        <xs:attribute ref="app:tabBackground" />
-        <xs:attribute ref="app:tabMode" />
-        <xs:attribute ref="app:tabGravity" />
-        <xs:attribute ref="app:tabMinWidth" />
-        <xs:attribute ref="app:tabMaxWidth" />
-        <xs:attribute ref="app:tabTextAppearance" />
-        <xs:attribute ref="app:tabTextColor" />
-        <xs:attribute ref="app:tabSelectedTextColor" />
-        <xs:attribute ref="app:tabPaddingStart" />
-        <xs:attribute ref="app:tabPaddingTop" />
-        <xs:attribute ref="app:tabPaddingEnd" />
-        <xs:attribute ref="app:tabPaddingBottom" />
-        <xs:attribute ref="app:tabPadding" />
-      </xs:extension>
+      <xs:extension base="HorizontalScrollView" />
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="android.support.design.widget.TabLayout.TabView" type="android.support.design.widget.TabLayout.TabView">
@@ -1648,16 +1582,7 @@
   </xs:element>
   <xs:complexType name="android.support.design.widget.FloatingActionButton">
     <xs:complexContent mixed="false">
-      <xs:extension base="ImageButton">
-        <xs:attribute ref="app:backgroundTint" />
-        <xs:attribute ref="app:backgroundTintMode" />
-        <xs:attribute ref="app:rippleColor" />
-        <xs:attribute ref="app:fabSize" />
-        <xs:attribute ref="app:elevation" />
-        <xs:attribute ref="app:pressedTranslationZ" />
-        <xs:attribute ref="app:borderWidth" />
-        <xs:attribute ref="app:useCompatPadding" />
-      </xs:extension>
+      <xs:extension base="ImageButton" />
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="android.support.design.widget.VisibilityAwareImageButton" type="android.support.design.widget.VisibilityAwareImageButton">
@@ -1677,10 +1602,7 @@
   </xs:element>
   <xs:complexType name="android.support.design.widget.CoordinatorLayout">
     <xs:complexContent mixed="false">
-      <xs:extension base="ViewGroup">
-        <xs:attribute ref="app:keylines" />
-        <xs:attribute ref="app:statusBarBackground" />
-      </xs:extension>
+      <xs:extension base="ViewGroup" />
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="android.support.design.widget.Snackbar.SnackbarLayout" type="android.support.design.widget.Snackbar.SnackbarLayout">
@@ -1690,10 +1612,7 @@
   </xs:element>
   <xs:complexType name="android.support.design.widget.Snackbar.SnackbarLayout">
     <xs:complexContent mixed="false">
-      <xs:extension base="FrameLayout">
-        <xs:attribute ref="app:elevation" />
-        <xs:attribute ref="app:maxActionInlineWidth" />
-      </xs:extension>
+      <xs:extension base="FrameLayout" />
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="android.support.design.widget.CollapsingToolbarLayout" type="android.support.design.widget.CollapsingToolbarLayout">
@@ -1703,24 +1622,7 @@
   </xs:element>
   <xs:complexType name="android.support.design.widget.CollapsingToolbarLayout">
     <xs:complexContent mixed="false">
-      <xs:extension base="FrameLayout">
-        <xs:attribute ref="app:expandedTitleMargin" />
-        <xs:attribute ref="app:expandedTitleMarginStart" />
-        <xs:attribute ref="app:expandedTitleMarginTop" />
-        <xs:attribute ref="app:expandedTitleMarginEnd" />
-        <xs:attribute ref="app:expandedTitleMarginBottom" />
-        <xs:attribute ref="app:expandedTitleTextAppearance" />
-        <xs:attribute ref="app:collapsedTitleTextAppearance" />
-        <xs:attribute ref="app:contentScrim" />
-        <xs:attribute ref="app:statusBarScrim" />
-        <xs:attribute ref="app:toolbarId" />
-        <xs:attribute ref="app:scrimVisibleHeightTrigger" />
-        <xs:attribute ref="app:scrimAnimationDuration" />
-        <xs:attribute ref="app:collapsedTitleGravity" />
-        <xs:attribute ref="app:expandedTitleGravity" />
-        <xs:attribute ref="app:titleEnabled" />
-        <xs:attribute ref="app:title" />
-      </xs:extension>
+      <xs:extension base="FrameLayout" />
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="android.support.design.widget.AppBarLayout" type="android.support.design.widget.AppBarLayout">
@@ -1730,10 +1632,7 @@
   </xs:element>
   <xs:complexType name="android.support.design.widget.AppBarLayout">
     <xs:complexContent mixed="false">
-      <xs:extension base="LinearLayout">
-        <xs:attribute ref="app:elevation" />
-        <xs:attribute ref="app:expanded" />
-      </xs:extension>
+      <xs:extension base="LinearLayout" />
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="android.support.design.internal.SnackbarContentLayout" type="android.support.design.internal.SnackbarContentLayout">
@@ -1753,9 +1652,7 @@
   </xs:element>
   <xs:complexType name="android.support.design.internal.ScrimInsetsFrameLayout">
     <xs:complexContent mixed="false">
-      <xs:extension base="FrameLayout">
-        <xs:attribute ref="app:insetForeground" />
-      </xs:extension>
+      <xs:extension base="FrameLayout" />
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="android.support.design.internal.NavigationMenuView" type="android.support.design.internal.NavigationMenuView">
@@ -1775,9 +1672,7 @@
   </xs:element>
   <xs:complexType name="android.support.design.internal.ForegroundLinearLayout">
     <xs:complexContent mixed="false">
-      <xs:extension base="ViewGroup">
-        <xs:attribute ref="app:foregroundInsidePadding" />
-      </xs:extension>
+      <xs:extension base="ViewGroup" />
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="android.support.design.internal.BottomNavigationMenuView" type="android.support.design.internal.BottomNavigationMenuView">
@@ -1959,10 +1854,7 @@
   </xs:element>
   <xs:complexType name="android.support.v7.app.MediaRouteButton">
     <xs:complexContent mixed="false">
-      <xs:extension base="View">
-        <xs:attribute ref="app:externalRouteEnabledDrawable" />
-        <xs:attribute ref="app:mediaRouteButtonTint" />
-      </xs:extension>
+      <xs:extension base="View" />
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="android.support.v7.widget.ViewStubCompat" type="android.support.v7.widget.ViewStubCompat">
@@ -2289,15 +2181,6 @@
   <xs:complexType name="android.support.v7.widget.RecyclerView">
     <xs:complexContent mixed="false">
       <xs:extension base="ViewGroup">
-        <xs:attribute ref="app:layoutManager" />
-        <xs:attribute ref="app:spanCount" />
-        <xs:attribute ref="app:reverseLayout" />
-        <xs:attribute ref="app:stackFromEnd" />
-        <xs:attribute ref="app:fastScrollEnabled" />
-        <xs:attribute ref="app:fastScrollVerticalThumbDrawable" />
-        <xs:attribute ref="app:fastScrollVerticalTrackDrawable" />
-        <xs:attribute ref="app:fastScrollHorizontalThumbDrawable" />
-        <xs:attribute ref="app:fastScrollHorizontalTrackDrawable" />
         <xs:attribute ref="tools:listitem" />
       </xs:extension>
     </xs:complexContent>

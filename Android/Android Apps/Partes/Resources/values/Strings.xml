@@ -2,8 +2,8 @@
 <resources>
   <string name="app_name">Parts</string>
   <string-array name="Systems">
-    <item>DDU VAL</item>
     <item>IDC VAL</item>
+    <item>DDU VAL</item>
     <item>IDC CRA</item>
   </string-array>
 </resources>
