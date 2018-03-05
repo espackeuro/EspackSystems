@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:layout_margin="30dp">
+    <ImageView
+        android:scaleType="centerInside"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_margin="10dp"
+        android:src="@drawable/Logo_Espack_Sistemas_vertical" />
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:text="PACKAGE INFO HERE."
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:id="@+id/msgPkgInfo"
+            android:layout_height="0dp"
+            android:layout_width="wrap_content"
+            android:layout_weight="1" />
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2">
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/txtUser"
+                android:text=""
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:background="#66FFFFFF"
+                android:imeOptions="actionNext"
+                android:hint="Username"
+                android:textSize="20sp" />
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2">
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/txtPwd"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:inputType="numberPassword"
+                android:singleLine="true"
+                android:text=""
+                android:background="#66FFFFFF"
+                android:imeOptions="actionSend"
+                android:hint="Password"
+                android:textSize="20sp" />
+        </android.support.design.widget.TextInputLayout>
+        <TextView
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/msgText"
+            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_weight="3" />
+    </LinearLayout>
+</RelativeLayout>

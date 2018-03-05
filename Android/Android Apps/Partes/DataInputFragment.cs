@@ -35,18 +35,41 @@ namespace Partes
             btnScan = _root.FindViewById<ImageButton>(Resource.Id.btnScan);
             //txtPartNumber.KeyPress += TxtPartNumber_KeyPress;
             txtPartNumber.EditorAction += TxtPartNumber_EditorAction;
+            txtPartNumber.Touch += TxtPartNumber_Touch; ;
             btnScan.Click += BtnScan_Click;
             //var _l = _root.FindViewById<TextInputLayout>(Resource.Id.layDataInput);
             return _root;
         }
 
+        private void TxtPartNumber_Touch(object sender, View.TouchEventArgs e)
+        {
+            CleanValues();
+            ShowKeyboard();
+        }
+
+        private void TxtPartNumber_FocusChange(object sender, View.FocusChangeEventArgs e)
+        {
+            if (e.HasFocus)
+            {
+                CleanValues();
+            }
+        }
+
         private async void BtnScan_Click(object sender, EventArgs e)
         {
             var scanner = new ZXing.Mobile.MobileBarcodeScanner();
-            var scannedText = await scanner.Scan();
-            if (scannedText != null)
+            var scan = await scanner.Scan();
+            var scanText = scan.Text;
+            if (scan != null)
             {
-                txtPartNumber.Text = scannedText.Text.Replace("-","");
+                //"[)>06PDS7316F126AAQ56VGN2LCD0621881298V0145A1L3HM500913274N5570748829BKLT64291T 3299"
+                if (scanText.Substring(0,3)== "[)>") //PDF labels
+                {
+                    var scanSplit = scanText.Split((char)29);
+                    scanText = scanSplit.FirstOrDefault<string>(x => x.Substring(0, 1) == "P").Substring(1) ?? "";
+                }
+                txtPartNumber.Text = scanText.Replace("-","").Replace(" ","");
+
                 DataRecord result;
                 DismissKeyboard();
                 try
@@ -56,13 +79,15 @@ namespace Partes
                 catch (Exception ex)
                 {
                     Toast.MakeText(Activity, ex.Message, ToastLength.Long).Show();
-                    sF.txtStatus.Text = ex.Message;
+                    //sF.txtStatus.Text = ex.Message;
+                    sF.txtStatus.Text = scan.Text;
                     txtPartNumber.Text = "";
                     return;
                 }
                 //result = await DataBaseAccess.GetData(txtPartNumber.Text, hF.spnDB.SelectedItem.ToString());
                 UpdateValues(result);
                 sF.txtStatus.Text = "Partnumber found!";
+                
             }
 
 
@@ -126,7 +151,37 @@ namespace Partes
                 doF.txtBreakDate.Text = data.BreakDate is null ? "--" : data.BreakDate.ToString();
             });
         }
-
+        private void CleanValues()
+        {
+            Activity.RunOnUiThread(() =>
+            {
+                txtPartNumber.Text = "";
+                doF.txtSupplier.Text = "";
+                doF.txtFase4.Text = "";
+                doF.txtDescription.Text = "";
+                doF.txtPack.Text = "";
+                doF.txtQtyPack.Text = "";
+                doF.txtDock.Text = "";
+                doF.txtLoc1.Text = "";
+                doF.txtLoc2.Text = "";
+                doF.txtSPP.Text = "";
+                doF.txtSPA.Text = "";
+                doF.txtSTD.Text = "";
+                doF.txtSPS.Text = "";
+                doF.txtSPC.Text = "";
+                doF.txtSPE.Text = "";
+                doF.txtSPX.Text = "";
+                doF.txtSQC.Text = "";
+                doF.txtSEV.Text = "";
+                doF.txtLastDeliveryDate.Text = "";
+                doF.txtLastDeliveryQty.Text = "";
+                doF.txtMinGVDBA.Text = "";
+                doF.txtMinDate.Text = "";
+                doF.txtMinQty.Text = "";
+                doF.txtFlags.Text = "";
+                doF.txtBreakDate.Text = "";
+            });
+        }
         private void DismissKeyboard()
         {
             var view = Activity.CurrentFocus;
@@ -134,6 +189,17 @@ namespace Partes
             {
                 var imm = (InputMethodManager)Activity.GetSystemService(Context.InputMethodService);
                 imm.HideSoftInputFromWindow(view.WindowToken, 0);
+            }
+        }
+        private void ShowKeyboard()
+        {
+            var view = Activity.CurrentFocus;
+            if (view != null)
+            {
+
+                InputMethodManager inputMethodManager = (InputMethodManager)Activity.GetSystemService(Context.InputMethodService);
+                inputMethodManager.ShowSoftInput(view, ShowFlags.Forced);
+                inputMethodManager.ToggleSoftInput(ShowFlags.Forced, HideSoftInputFlags.ImplicitOnly);
             }
         }
     }

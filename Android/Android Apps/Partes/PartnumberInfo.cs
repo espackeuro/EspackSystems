@@ -21,6 +21,7 @@ namespace Partes
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.PartnumberInfo);
+
             hF = new HeaderFragment();
             var ft = FragmentManager.BeginTransaction();
             ft.Replace(Resource.Id.headerFragment, hF);

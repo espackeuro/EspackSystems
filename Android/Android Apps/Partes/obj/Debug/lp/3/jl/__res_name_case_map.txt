@@ -1,3 +1,0 @@
-layout/LogonScreen.axml;layout/logonscreen.xml
-Values/Strings.xml;values/strings.xml
-drawable/Logo_Espack_Sistemas_vertical.png;drawable/logo_espack_sistemas_vertical.png

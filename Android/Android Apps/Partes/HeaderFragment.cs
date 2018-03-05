@@ -33,7 +33,7 @@ namespace Partes
             lblFullName = _root.FindViewById<TextView>(Resource.Id.lblFullName);
             lblVersion = _root.FindViewById<TextView>(Resource.Id.lblVersion);
             spnDB = _root.FindViewById<Spinner>(Resource.Id.spnDB);
-            lblFullName.Text = LogonScreen.LogonDetails.FullName;
+            lblFullName.Text = LoginActivity.LoginDetails.FullName;
             lblVersion.Text = Values.Version;
             return _root;
         }

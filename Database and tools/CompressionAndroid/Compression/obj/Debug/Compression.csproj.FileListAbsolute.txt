@@ -1,8 +1,0 @@
-D:\EspackSystems\Database and tools\CompressionAndroid\Compression\bin\Debug\Compression.dll
-D:\EspackSystems\Database and tools\CompressionAndroid\Compression\bin\Debug\Compression.pdb
-D:\EspackSystems\Database and tools\CompressionAndroid\Compression\bin\Debug\CommonTools.dll
-D:\EspackSystems\Database and tools\CompressionAndroid\Compression\bin\Debug\CommonTools.pdb
-D:\EspackSystems\Database and tools\CompressionAndroid\Compression\obj\Debug\Compression.csprojResolveAssemblyReference.cache
-D:\EspackSystems\Database and tools\CompressionAndroid\Compression\obj\Debug\Compression.csproj.CoreCompileInputs.cache
-D:\EspackSystems\Database and tools\CompressionAndroid\Compression\obj\Debug\Compression.dll
-D:\EspackSystems\Database and tools\CompressionAndroid\Compression\obj\Debug\Compression.pdb

@@ -107,10 +107,8 @@ class MonoPackageManager_Resources {
 	public static final String[] Assemblies = new String[]{
 		/* We need to ensure that "Partes.dll" comes first in this list. */
 		"Partes.dll",
-		"AccesoDatos.dll",
-		"AccesoDatos.NET.dll",
 		"FastAndroidCamera.dll",
-		"LogonScreen.dll",
+		"LoginActivity.dll",
 		"Xamarin.Android.Arch.Core.Common.dll",
 		"Xamarin.Android.Arch.Lifecycle.Common.dll",
 		"Xamarin.Android.Arch.Lifecycle.Runtime.dll",
@@ -133,15 +131,7 @@ class MonoPackageManager_Resources {
 		"ZXing.Net.Mobile.Core.dll",
 		"zxing.portable.dll",
 		"ZXingNetMobile.dll",
-		"CommonTools.dll",
-		"WebDavClient.dll",
 		"CommonAndroidTools.dll",
-		"ObjectFactory.dll",
-		"AccesoDatosXML.dll",
-		"Messages.dll",
-		"Sockets.dll",
-		"Encryption.dll",
-		"Compression.dll",
 	};
 	public static final String[] Dependencies = new String[]{
 	};

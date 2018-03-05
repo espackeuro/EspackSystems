@@ -137,7 +137,7 @@
   <ItemGroup>
     <Compile Include="DataOutputFragment.cs" />
     <Compile Include="StatusFragment.cs" />
-    <Compile Include="GetDatabaseData.cs" />
+    <Compile Include="DatabaseAccess.cs" />
     <Compile Include="HeaderFragment.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="MainScreen.cs" />
@@ -190,17 +190,9 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Database and tools\cAccesoDatos.NET\cAccesoDatosNet.csproj">
-      <Project>{d3e453aa-39b7-480f-8917-6d7f5076c3ed}</Project>
-      <Name>cAccesoDatosNet</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Windows\Windows Apps\cAccesoDatos\cAccesoDatos.csproj">
-      <Project>{5da9cb0b-9007-40f1-8086-1b0303d8271f}</Project>
-      <Name>cAccesoDatos</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\LogonScreen\LogonScreen.csproj">
-      <Project>{59692ac9-88fb-40fc-bb6c-e76ac5575758}</Project>
-      <Name>LogonScreen</Name>
+    <ProjectReference Include="..\LoginActivity\LoginActivity.csproj">
+      <Project>{5b9e50ce-299a-4a21-a8ad-d5d01bcd6916}</Project>
+      <Name>LoginActivity</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -226,6 +218,24 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxhdpi\background1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-hdpi\info.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-ldpi\info.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-mdpi\info.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\info.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\info.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxxhdpi\info.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Annotations.26.1.0.1\build\MonoAndroid80\Xamarin.Android.Support.Annotations.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Annotations.26.1.0.1\build\MonoAndroid80\Xamarin.Android.Support.Annotations.targets')" />

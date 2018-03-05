@@ -8,7 +8,7 @@
 using System.Data;
 using System.Data.SqlClient;
 
-using LogonScreen;
+using LoginActivity;
 
 using Android.App;
 using Android.Content;
@@ -36,7 +36,7 @@ namespace Partes
     }
 
     [Activity(Label = "Parts", MainLauncher = true)]
-    public class MainActivity : AppCompatActivity
+    public class MainActivity : Activity
     {
         protected override void OnCreate(Bundle bundle)
         {
@@ -56,10 +56,9 @@ namespace Partes
             dtDateTime = dtDateTime.AddSeconds(Math.Round(time / 1000D)).ToLocalTime();
             zf.Close();
             Values.Version = string.Format("{0}.{1}", Values.Version, dtDateTime.ToString("yyyyMMdd.Hmmss"));
-            var intent = new Intent(this, typeof(LogonScreenClass));
-            intent.SetAction(Intent.ActionMain);
+            var intent = new Intent(this, typeof(LoginActivityClass));
+            intent.SetAction(Intent.ActionView);
             intent.AddCategory(Intent.CategoryLauncher);
-            intent.PutExtra("ConnectionType", "Net");
             intent.PutExtra("Version", Values.Version);
             intent.PutExtra("PackageName", "Partnumber Info");
             StartActivityForResult(intent, 0);
@@ -72,8 +71,8 @@ namespace Partes
                 string Result = data.GetStringExtra("Result");
                 if (Result == "OK")
                 {
-                    Values.User = LogonDetails.User;
-                    Values.Pwd = LogonDetails.Password;
+                    Values.User = LoginDetails.User;
+                    Values.Pwd = LoginDetails.Password;
 
 
                     //var RS = new DynamicRS("Select Datos=CMP_Varchar from datosEmpresa where codigo='FTP_DATA'",Values.gDatos);

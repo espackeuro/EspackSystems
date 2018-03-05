@@ -16,7 +16,7 @@ namespace Partes
     [Activity(Label = "Partnumber Info", WindowSoftInputMode = SoftInput.AdjustPan)]
     public class MainScreen : AppCompatActivity
     {
-        public Button Button1_1 { get; set; }
+        public ImageButton Button1_1 { get; set; }
         public Button Button1_2 { get; set; }
         public Button Button2_1 { get; set; }
         public Button Button2_2 { get; set; }
@@ -25,11 +25,10 @@ namespace Partes
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.Selector);
-            Button1_1 = FindViewById<Button>(Resource.Id.button1_1);
+            Button1_1 = FindViewById<ImageButton>(Resource.Id.button1_1);
             Button1_2 = FindViewById<Button>(Resource.Id.button1_2);
             Button2_1 = FindViewById<Button>(Resource.Id.button2_1);
             Button2_2 = FindViewById<Button>(Resource.Id.button2_2);
-            Button1_1.Text = "Partnumber Information";
             Button1_2.Text = "";
             Button2_1.Text = "";
             Button2_2.Text = "";

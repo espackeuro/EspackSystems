@@ -1,0 +1,2 @@
+layout/ls.axml;layout/ls.xml
+drawable/Logo_Espack_Sistemas_vertical.png;drawable/logo_espack_sistemas_vertical.png
