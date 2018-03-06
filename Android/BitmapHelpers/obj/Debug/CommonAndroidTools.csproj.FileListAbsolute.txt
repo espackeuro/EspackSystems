@@ -2,7 +2,6 @@ D:\EspackSystems\Android\BitmapHelpers\bin\Debug\CommonAndroidTools.dll
 D:\EspackSystems\Android\BitmapHelpers\bin\Debug\CommonAndroidTools.pdb
 D:\EspackSystems\Android\BitmapHelpers\bin\Debug\CommonAndroidTools.CommonAndroidTools.apk
 D:\EspackSystems\Android\BitmapHelpers\bin\Debug\CommonAndroidTools.CommonAndroidTools-Signed.apk
-D:\EspackSystems\Android\BitmapHelpers\obj\Debug\CommonAndroidTools.csprojResolveAssemblyReference.cache
 D:\EspackSystems\Android\BitmapHelpers\obj\Debug\CommonAndroidTools.csproj.CoreCompileInputs.cache
 D:\EspackSystems\Android\BitmapHelpers\obj\Debug\CommonAndroidTools.dll
 D:\EspackSystems\Android\BitmapHelpers\obj\Debug\CommonAndroidTools.pdb

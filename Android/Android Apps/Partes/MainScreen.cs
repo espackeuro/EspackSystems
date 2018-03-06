@@ -13,7 +13,7 @@ using Android.Widget;
 
 namespace Partes
 {
-    [Activity(Label = "Partnumber Info", WindowSoftInputMode = SoftInput.AdjustPan)]
+    [Activity(Label = "Partnumber Info", WindowSoftInputMode = SoftInput.AdjustPan, Theme = "@style/AppTheme.NoActionBar")]
     public class MainScreen : AppCompatActivity
     {
         public ImageButton Button1_1 { get; set; }

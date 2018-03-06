@@ -60,6 +60,24 @@ D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\res\drawable-mdpi\info.pn
 D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\res\drawable-xhdpi\info.png
 D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\res\drawable-xxhdpi\info.png
 D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\res\drawable-xxxhdpi\info.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\res\drawable-hdpi\keyicontrans.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\res\drawable-ldpi\keyicontrans.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\res\drawable-mdpi\keyicontrans.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\res\drawable-xhdpi\keyicontrans.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\res\drawable-xxhdpi\keyicontrans.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\res\drawable-xxxhdpi\keyicontrans.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\res\drawable-hdpi\keyiconwhite.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\res\drawable-ldpi\keyiconwhite.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\res\drawable-mdpi\keyiconwhite.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\res\drawable-xhdpi\keyiconwhite.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\res\drawable-xxhdpi\keyiconwhite.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\res\drawable-xxxhdpi\keyiconwhite.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\res\drawable-hdpi\logosystemsbig.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\res\drawable-ldpi\logosystemsbig.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\res\drawable-mdpi\logosystemsbig.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\res\drawable-xhdpi\logosystemsbig.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\res\drawable-xxhdpi\logosystemsbig.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\res\drawable-xxxhdpi\logosystemsbig.png
 D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\R.cs.flag
 D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\uploadflags.txt
 D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\LoginActivity.dll.mdb
@@ -69,7 +87,6 @@ D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\CommonAndr
 D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\LoginActivity.dll.mdb
 D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\Partes.dll.mdb
 D:\EspackSystems\Android\Android Apps\Partes\bin\Debug\Partes.dll
-D:\EspackSystems\Android\Android Apps\LoginActivity\bin\Debug\LoginActivity.dll
 bin\Debug\LoginActivity.dll.mdb
 bin\Debug\I18N.pdb
 bin\Debug\I18N.West.pdb

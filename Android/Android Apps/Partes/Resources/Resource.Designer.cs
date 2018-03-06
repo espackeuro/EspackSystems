@@ -735,13 +735,18 @@ namespace Partes
 			global::LoginActivity.Resource.Drawable.avd_show_password_1 = global::Partes.Resource.Drawable.avd_show_password_1;
 			global::LoginActivity.Resource.Drawable.avd_show_password_2 = global::Partes.Resource.Drawable.avd_show_password_2;
 			global::LoginActivity.Resource.Drawable.avd_show_password_3 = global::Partes.Resource.Drawable.avd_show_password_3;
+			global::LoginActivity.Resource.Drawable.background1 = global::Partes.Resource.Drawable.background1;
 			global::LoginActivity.Resource.Drawable.design_bottom_navigation_item_background = global::Partes.Resource.Drawable.design_bottom_navigation_item_background;
 			global::LoginActivity.Resource.Drawable.design_fab_background = global::Partes.Resource.Drawable.design_fab_background;
 			global::LoginActivity.Resource.Drawable.design_ic_visibility = global::Partes.Resource.Drawable.design_ic_visibility;
 			global::LoginActivity.Resource.Drawable.design_ic_visibility_off = global::Partes.Resource.Drawable.design_ic_visibility_off;
 			global::LoginActivity.Resource.Drawable.design_password_eye = global::Partes.Resource.Drawable.design_password_eye;
 			global::LoginActivity.Resource.Drawable.design_snackbar_background = global::Partes.Resource.Drawable.design_snackbar_background;
+			global::LoginActivity.Resource.Drawable.info = global::Partes.Resource.Drawable.info;
+			global::LoginActivity.Resource.Drawable.keyiconTrans = global::Partes.Resource.Drawable.keyiconTrans;
+			global::LoginActivity.Resource.Drawable.keyiconWhite = global::Partes.Resource.Drawable.keyiconWhite;
 			global::LoginActivity.Resource.Drawable.Logo_Espack_Sistemas_vertical = global::Partes.Resource.Drawable.Logo_Espack_Sistemas_vertical;
+			global::LoginActivity.Resource.Drawable.LogoSystemsBig = global::Partes.Resource.Drawable.LogoSystemsBig;
 			global::LoginActivity.Resource.Drawable.navigation_empty_icon = global::Partes.Resource.Drawable.navigation_empty_icon;
 			global::LoginActivity.Resource.Drawable.notification_action_background = global::Partes.Resource.Drawable.notification_action_background;
 			global::LoginActivity.Resource.Drawable.notification_bg = global::Partes.Resource.Drawable.notification_bg;
@@ -755,6 +760,7 @@ namespace Partes
 			global::LoginActivity.Resource.Drawable.notification_template_icon_low_bg = global::Partes.Resource.Drawable.notification_template_icon_low_bg;
 			global::LoginActivity.Resource.Drawable.notification_tile_bg = global::Partes.Resource.Drawable.notification_tile_bg;
 			global::LoginActivity.Resource.Drawable.notify_panel_notification_icon_bg = global::Partes.Resource.Drawable.notify_panel_notification_icon_bg;
+			global::LoginActivity.Resource.Drawable.scan = global::Partes.Resource.Drawable.scan;
 			global::LoginActivity.Resource.Drawable.tooltip_frame_dark = global::Partes.Resource.Drawable.tooltip_frame_dark;
 			global::LoginActivity.Resource.Drawable.tooltip_frame_light = global::Partes.Resource.Drawable.tooltip_frame_light;
 			global::LoginActivity.Resource.Id.ALT = global::Partes.Resource.Id.ALT;
@@ -1061,6 +1067,8 @@ namespace Partes
 			global::LoginActivity.Resource.Style.Animation_AppCompat_DropDownUp = global::Partes.Resource.Style.Animation_AppCompat_DropDownUp;
 			global::LoginActivity.Resource.Style.Animation_AppCompat_Tooltip = global::Partes.Resource.Style.Animation_AppCompat_Tooltip;
 			global::LoginActivity.Resource.Style.Animation_Design_BottomSheetDialog = global::Partes.Resource.Style.Animation_Design_BottomSheetDialog;
+			global::LoginActivity.Resource.Style.AppTheme = global::Partes.Resource.Style.AppTheme;
+			global::LoginActivity.Resource.Style.AppTheme_NoActionBar = global::Partes.Resource.Style.AppTheme_NoActionBar;
 			global::LoginActivity.Resource.Style.Base_AlertDialog_AppCompat = global::Partes.Resource.Style.Base_AlertDialog_AppCompat;
 			global::LoginActivity.Resource.Style.Base_AlertDialog_AppCompat_Light = global::Partes.Resource.Style.Base_AlertDialog_AppCompat_Light;
 			global::LoginActivity.Resource.Style.Base_Animation_AppCompat_Dialog = global::Partes.Resource.Style.Base_Animation_AppCompat_Dialog;
@@ -1224,6 +1232,8 @@ namespace Partes
 			global::LoginActivity.Resource.Style.Base_Widget_AppCompat_Toolbar_Button_Navigation = global::Partes.Resource.Style.Base_Widget_AppCompat_Toolbar_Button_Navigation;
 			global::LoginActivity.Resource.Style.Base_Widget_Design_AppBarLayout = global::Partes.Resource.Style.Base_Widget_Design_AppBarLayout;
 			global::LoginActivity.Resource.Style.Base_Widget_Design_TabLayout = global::Partes.Resource.Style.Base_Widget_Design_TabLayout;
+			global::LoginActivity.Resource.Style.CaptionLabel = global::Partes.Resource.Style.CaptionLabel;
+			global::LoginActivity.Resource.Style.CodeFont = global::Partes.Resource.Style.CodeFont;
 			global::LoginActivity.Resource.Style.Platform_AppCompat = global::Partes.Resource.Style.Platform_AppCompat;
 			global::LoginActivity.Resource.Style.Platform_AppCompat_Light = global::Partes.Resource.Style.Platform_AppCompat_Light;
 			global::LoginActivity.Resource.Style.Platform_ThemeOverlay_AppCompat = global::Partes.Resource.Style.Platform_ThemeOverlay_AppCompat;
@@ -1238,6 +1248,8 @@ namespace Partes
 			global::LoginActivity.Resource.Style.Platform_V25_AppCompat = global::Partes.Resource.Style.Platform_V25_AppCompat;
 			global::LoginActivity.Resource.Style.Platform_V25_AppCompat_Light = global::Partes.Resource.Style.Platform_V25_AppCompat_Light;
 			global::LoginActivity.Resource.Style.Platform_Widget_AppCompat_Spinner = global::Partes.Resource.Style.Platform_Widget_AppCompat_Spinner;
+			global::LoginActivity.Resource.Style.Result = global::Partes.Resource.Style.Result;
+			global::LoginActivity.Resource.Style.ResultNumeric = global::Partes.Resource.Style.ResultNumeric;
 			global::LoginActivity.Resource.Style.RtlOverlay_DialogWindowTitle_AppCompat = global::Partes.Resource.Style.RtlOverlay_DialogWindowTitle_AppCompat;
 			global::LoginActivity.Resource.Style.RtlOverlay_Widget_AppCompat_ActionBar_TitleItem = global::Partes.Resource.Style.RtlOverlay_Widget_AppCompat_ActionBar_TitleItem;
 			global::LoginActivity.Resource.Style.RtlOverlay_Widget_AppCompat_DialogTitle_Icon = global::Partes.Resource.Style.RtlOverlay_Widget_AppCompat_DialogTitle_Icon;
@@ -1252,6 +1264,7 @@ namespace Partes
 			global::LoginActivity.Resource.Style.RtlOverlay_Widget_AppCompat_SearchView_MagIcon = global::Partes.Resource.Style.RtlOverlay_Widget_AppCompat_SearchView_MagIcon;
 			global::LoginActivity.Resource.Style.RtlUnderlay_Widget_AppCompat_ActionButton = global::Partes.Resource.Style.RtlUnderlay_Widget_AppCompat_ActionButton;
 			global::LoginActivity.Resource.Style.RtlUnderlay_Widget_AppCompat_ActionButton_Overflow = global::Partes.Resource.Style.RtlUnderlay_Widget_AppCompat_ActionButton_Overflow;
+			global::LoginActivity.Resource.Style.StatusLabel = global::Partes.Resource.Style.StatusLabel;
 			global::LoginActivity.Resource.Style.TextAppearance_AppCompat = global::Partes.Resource.Style.TextAppearance_AppCompat;
 			global::LoginActivity.Resource.Style.TextAppearance_AppCompat_Body1 = global::Partes.Resource.Style.TextAppearance_AppCompat_Body1;
 			global::LoginActivity.Resource.Style.TextAppearance_AppCompat_Body2 = global::Partes.Resource.Style.TextAppearance_AppCompat_Body2;
@@ -4307,26 +4320,26 @@ namespace Partes
 			// aapt resource value: 0x7f020053
 			public const int avd_hide_password = 2130837587;
 			
-			// aapt resource value: 0x7f020133
-			public const int avd_hide_password_1 = 2130837811;
+			// aapt resource value: 0x7f020136
+			public const int avd_hide_password_1 = 2130837814;
 			
-			// aapt resource value: 0x7f020134
-			public const int avd_hide_password_2 = 2130837812;
+			// aapt resource value: 0x7f020137
+			public const int avd_hide_password_2 = 2130837815;
 			
-			// aapt resource value: 0x7f020135
-			public const int avd_hide_password_3 = 2130837813;
+			// aapt resource value: 0x7f020138
+			public const int avd_hide_password_3 = 2130837816;
 			
 			// aapt resource value: 0x7f020054
 			public const int avd_show_password = 2130837588;
 			
-			// aapt resource value: 0x7f020136
-			public const int avd_show_password_1 = 2130837814;
+			// aapt resource value: 0x7f020139
+			public const int avd_show_password_1 = 2130837817;
 			
-			// aapt resource value: 0x7f020137
-			public const int avd_show_password_2 = 2130837815;
+			// aapt resource value: 0x7f02013a
+			public const int avd_show_password_2 = 2130837818;
 			
-			// aapt resource value: 0x7f020138
-			public const int avd_show_password_3 = 2130837816;
+			// aapt resource value: 0x7f02013b
+			public const int avd_show_password_3 = 2130837819;
 			
 			// aapt resource value: 0x7f020055
 			public const int background1 = 2130837589;
@@ -4884,115 +4897,124 @@ namespace Partes
 			public const int info = 2130837773;
 			
 			// aapt resource value: 0x7f02010e
-			public const int Logo_Espack_Sistemas_vertical = 2130837774;
+			public const int keyiconTrans = 2130837774;
 			
 			// aapt resource value: 0x7f02010f
-			public const int mr_button_connected_dark = 2130837775;
+			public const int keyiconWhite = 2130837775;
 			
 			// aapt resource value: 0x7f020110
-			public const int mr_button_connected_light = 2130837776;
+			public const int Logo_Espack_Sistemas_vertical = 2130837776;
 			
 			// aapt resource value: 0x7f020111
-			public const int mr_button_connecting_dark = 2130837777;
+			public const int LogoSystemsBig = 2130837777;
 			
 			// aapt resource value: 0x7f020112
-			public const int mr_button_connecting_light = 2130837778;
+			public const int mr_button_connected_dark = 2130837778;
 			
 			// aapt resource value: 0x7f020113
-			public const int mr_button_dark = 2130837779;
+			public const int mr_button_connected_light = 2130837779;
 			
 			// aapt resource value: 0x7f020114
-			public const int mr_button_light = 2130837780;
+			public const int mr_button_connecting_dark = 2130837780;
 			
 			// aapt resource value: 0x7f020115
-			public const int mr_dialog_close_dark = 2130837781;
+			public const int mr_button_connecting_light = 2130837781;
 			
 			// aapt resource value: 0x7f020116
-			public const int mr_dialog_close_light = 2130837782;
+			public const int mr_button_dark = 2130837782;
 			
 			// aapt resource value: 0x7f020117
-			public const int mr_dialog_material_background_dark = 2130837783;
+			public const int mr_button_light = 2130837783;
 			
 			// aapt resource value: 0x7f020118
-			public const int mr_dialog_material_background_light = 2130837784;
+			public const int mr_dialog_close_dark = 2130837784;
 			
 			// aapt resource value: 0x7f020119
-			public const int mr_group_collapse = 2130837785;
+			public const int mr_dialog_close_light = 2130837785;
 			
 			// aapt resource value: 0x7f02011a
-			public const int mr_group_expand = 2130837786;
+			public const int mr_dialog_material_background_dark = 2130837786;
 			
 			// aapt resource value: 0x7f02011b
-			public const int mr_media_pause_dark = 2130837787;
+			public const int mr_dialog_material_background_light = 2130837787;
 			
 			// aapt resource value: 0x7f02011c
-			public const int mr_media_pause_light = 2130837788;
+			public const int mr_group_collapse = 2130837788;
 			
 			// aapt resource value: 0x7f02011d
-			public const int mr_media_play_dark = 2130837789;
+			public const int mr_group_expand = 2130837789;
 			
 			// aapt resource value: 0x7f02011e
-			public const int mr_media_play_light = 2130837790;
+			public const int mr_media_pause_dark = 2130837790;
 			
 			// aapt resource value: 0x7f02011f
-			public const int mr_media_stop_dark = 2130837791;
+			public const int mr_media_pause_light = 2130837791;
 			
 			// aapt resource value: 0x7f020120
-			public const int mr_media_stop_light = 2130837792;
+			public const int mr_media_play_dark = 2130837792;
 			
 			// aapt resource value: 0x7f020121
-			public const int mr_vol_type_audiotrack_dark = 2130837793;
+			public const int mr_media_play_light = 2130837793;
 			
 			// aapt resource value: 0x7f020122
-			public const int mr_vol_type_audiotrack_light = 2130837794;
+			public const int mr_media_stop_dark = 2130837794;
 			
 			// aapt resource value: 0x7f020123
-			public const int navigation_empty_icon = 2130837795;
+			public const int mr_media_stop_light = 2130837795;
 			
 			// aapt resource value: 0x7f020124
-			public const int notification_action_background = 2130837796;
+			public const int mr_vol_type_audiotrack_dark = 2130837796;
 			
 			// aapt resource value: 0x7f020125
-			public const int notification_bg = 2130837797;
+			public const int mr_vol_type_audiotrack_light = 2130837797;
 			
 			// aapt resource value: 0x7f020126
-			public const int notification_bg_low = 2130837798;
+			public const int navigation_empty_icon = 2130837798;
 			
 			// aapt resource value: 0x7f020127
-			public const int notification_bg_low_normal = 2130837799;
+			public const int notification_action_background = 2130837799;
 			
 			// aapt resource value: 0x7f020128
-			public const int notification_bg_low_pressed = 2130837800;
+			public const int notification_bg = 2130837800;
 			
 			// aapt resource value: 0x7f020129
-			public const int notification_bg_normal = 2130837801;
+			public const int notification_bg_low = 2130837801;
 			
 			// aapt resource value: 0x7f02012a
-			public const int notification_bg_normal_pressed = 2130837802;
+			public const int notification_bg_low_normal = 2130837802;
 			
 			// aapt resource value: 0x7f02012b
-			public const int notification_icon_background = 2130837803;
-			
-			// aapt resource value: 0x7f020131
-			public const int notification_template_icon_bg = 2130837809;
-			
-			// aapt resource value: 0x7f020132
-			public const int notification_template_icon_low_bg = 2130837810;
+			public const int notification_bg_low_pressed = 2130837803;
 			
 			// aapt resource value: 0x7f02012c
-			public const int notification_tile_bg = 2130837804;
+			public const int notification_bg_normal = 2130837804;
 			
 			// aapt resource value: 0x7f02012d
-			public const int notify_panel_notification_icon_bg = 2130837805;
+			public const int notification_bg_normal_pressed = 2130837805;
 			
 			// aapt resource value: 0x7f02012e
-			public const int scan = 2130837806;
+			public const int notification_icon_background = 2130837806;
+			
+			// aapt resource value: 0x7f020134
+			public const int notification_template_icon_bg = 2130837812;
+			
+			// aapt resource value: 0x7f020135
+			public const int notification_template_icon_low_bg = 2130837813;
 			
 			// aapt resource value: 0x7f02012f
-			public const int tooltip_frame_dark = 2130837807;
+			public const int notification_tile_bg = 2130837807;
 			
 			// aapt resource value: 0x7f020130
-			public const int tooltip_frame_light = 2130837808;
+			public const int notify_panel_notification_icon_bg = 2130837808;
+			
+			// aapt resource value: 0x7f020131
+			public const int scan = 2130837809;
+			
+			// aapt resource value: 0x7f020132
+			public const int tooltip_frame_dark = 2130837810;
+			
+			// aapt resource value: 0x7f020133
+			public const int tooltip_frame_light = 2130837811;
 			
 			static Drawable()
 			{
@@ -5397,11 +5419,11 @@ namespace Partes
 			// aapt resource value: 0x7f0a00cd
 			public const int mr_volume_slider = 2131361997;
 			
-			// aapt resource value: 0x7f0a00b5
-			public const int msgPkgInfo = 2131361973;
-			
 			// aapt resource value: 0x7f0a00b8
-			public const int msgText = 2131361976;
+			public const int msgPkgInfo = 2131361976;
+			
+			// aapt resource value: 0x7f0a00b7
+			public const int msgText = 2131361975;
 			
 			// aapt resource value: 0x7f0a0026
 			public const int multiply = 2131361830;
@@ -5673,8 +5695,8 @@ namespace Partes
 			// aapt resource value: 0x7f0a008f
 			public const int txtPack = 2131361935;
 			
-			// aapt resource value: 0x7f0a00b7
-			public const int txtPwd = 2131361975;
+			// aapt resource value: 0x7f0a00b6
+			public const int txtPwd = 2131361974;
 			
 			// aapt resource value: 0x7f0a0090
 			public const int txtQtyPack = 2131361936;
@@ -5712,8 +5734,8 @@ namespace Partes
 			// aapt resource value: 0x7f0a008c
 			public const int txtSupplier = 2131361932;
 			
-			// aapt resource value: 0x7f0a00b6
-			public const int txtUser = 2131361974;
+			// aapt resource value: 0x7f0a00b5
+			public const int txtUser = 2131361973;
 			
 			// aapt resource value: 0x7f0a002c
 			public const int uniform = 2131361836;

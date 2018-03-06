@@ -2211,92 +2211,110 @@ namespace LoginActivity
 			// aapt resource value: 0x7f020053
 			public static int avd_hide_password = 2130837587;
 			
-			// aapt resource value: 0x7f02006b
-			public static int avd_hide_password_1 = 2130837611;
+			// aapt resource value: 0x7f020071
+			public static int avd_hide_password_1 = 2130837617;
 			
-			// aapt resource value: 0x7f02006c
-			public static int avd_hide_password_2 = 2130837612;
+			// aapt resource value: 0x7f020072
+			public static int avd_hide_password_2 = 2130837618;
 			
-			// aapt resource value: 0x7f02006d
-			public static int avd_hide_password_3 = 2130837613;
+			// aapt resource value: 0x7f020073
+			public static int avd_hide_password_3 = 2130837619;
 			
 			// aapt resource value: 0x7f020054
 			public static int avd_show_password = 2130837588;
 			
-			// aapt resource value: 0x7f02006e
-			public static int avd_show_password_1 = 2130837614;
+			// aapt resource value: 0x7f020074
+			public static int avd_show_password_1 = 2130837620;
 			
-			// aapt resource value: 0x7f02006f
-			public static int avd_show_password_2 = 2130837615;
+			// aapt resource value: 0x7f020075
+			public static int avd_show_password_2 = 2130837621;
 			
-			// aapt resource value: 0x7f020070
-			public static int avd_show_password_3 = 2130837616;
+			// aapt resource value: 0x7f020076
+			public static int avd_show_password_3 = 2130837622;
 			
 			// aapt resource value: 0x7f020055
-			public static int design_bottom_navigation_item_background = 2130837589;
+			public static int background1 = 2130837589;
 			
 			// aapt resource value: 0x7f020056
-			public static int design_fab_background = 2130837590;
+			public static int design_bottom_navigation_item_background = 2130837590;
 			
 			// aapt resource value: 0x7f020057
-			public static int design_ic_visibility = 2130837591;
+			public static int design_fab_background = 2130837591;
 			
 			// aapt resource value: 0x7f020058
-			public static int design_ic_visibility_off = 2130837592;
+			public static int design_ic_visibility = 2130837592;
 			
 			// aapt resource value: 0x7f020059
-			public static int design_password_eye = 2130837593;
+			public static int design_ic_visibility_off = 2130837593;
 			
 			// aapt resource value: 0x7f02005a
-			public static int design_snackbar_background = 2130837594;
+			public static int design_password_eye = 2130837594;
 			
 			// aapt resource value: 0x7f02005b
-			public static int Logo_Espack_Sistemas_vertical = 2130837595;
+			public static int design_snackbar_background = 2130837595;
 			
 			// aapt resource value: 0x7f02005c
-			public static int navigation_empty_icon = 2130837596;
+			public static int info = 2130837596;
 			
 			// aapt resource value: 0x7f02005d
-			public static int notification_action_background = 2130837597;
+			public static int keyiconTrans = 2130837597;
 			
 			// aapt resource value: 0x7f02005e
-			public static int notification_bg = 2130837598;
+			public static int keyiconWhite = 2130837598;
 			
 			// aapt resource value: 0x7f02005f
-			public static int notification_bg_low = 2130837599;
+			public static int Logo_Espack_Sistemas_vertical = 2130837599;
 			
 			// aapt resource value: 0x7f020060
-			public static int notification_bg_low_normal = 2130837600;
+			public static int LogoSystemsBig = 2130837600;
 			
 			// aapt resource value: 0x7f020061
-			public static int notification_bg_low_pressed = 2130837601;
+			public static int navigation_empty_icon = 2130837601;
 			
 			// aapt resource value: 0x7f020062
-			public static int notification_bg_normal = 2130837602;
+			public static int notification_action_background = 2130837602;
 			
 			// aapt resource value: 0x7f020063
-			public static int notification_bg_normal_pressed = 2130837603;
+			public static int notification_bg = 2130837603;
 			
 			// aapt resource value: 0x7f020064
-			public static int notification_icon_background = 2130837604;
-			
-			// aapt resource value: 0x7f020069
-			public static int notification_template_icon_bg = 2130837609;
-			
-			// aapt resource value: 0x7f02006a
-			public static int notification_template_icon_low_bg = 2130837610;
+			public static int notification_bg_low = 2130837604;
 			
 			// aapt resource value: 0x7f020065
-			public static int notification_tile_bg = 2130837605;
+			public static int notification_bg_low_normal = 2130837605;
 			
 			// aapt resource value: 0x7f020066
-			public static int notify_panel_notification_icon_bg = 2130837606;
+			public static int notification_bg_low_pressed = 2130837606;
 			
 			// aapt resource value: 0x7f020067
-			public static int tooltip_frame_dark = 2130837607;
+			public static int notification_bg_normal = 2130837607;
 			
 			// aapt resource value: 0x7f020068
-			public static int tooltip_frame_light = 2130837608;
+			public static int notification_bg_normal_pressed = 2130837608;
+			
+			// aapt resource value: 0x7f020069
+			public static int notification_icon_background = 2130837609;
+			
+			// aapt resource value: 0x7f02006f
+			public static int notification_template_icon_bg = 2130837615;
+			
+			// aapt resource value: 0x7f020070
+			public static int notification_template_icon_low_bg = 2130837616;
+			
+			// aapt resource value: 0x7f02006a
+			public static int notification_tile_bg = 2130837610;
+			
+			// aapt resource value: 0x7f02006b
+			public static int notify_panel_notification_icon_bg = 2130837611;
+			
+			// aapt resource value: 0x7f02006c
+			public static int scan = 2130837612;
+			
+			// aapt resource value: 0x7f02006d
+			public static int tooltip_frame_dark = 2130837613;
+			
+			// aapt resource value: 0x7f02006e
+			public static int tooltip_frame_light = 2130837614;
 			
 			static Drawable()
 			{
@@ -2587,11 +2605,11 @@ namespace LoginActivity
 			// aapt resource value: 0x7f080052
 			public static int mini = 2131230802;
 			
-			// aapt resource value: 0x7f080098
-			public static int msgPkgInfo = 2131230872;
-			
 			// aapt resource value: 0x7f08009b
-			public static int msgText = 2131230875;
+			public static int msgPkgInfo = 2131230875;
+			
+			// aapt resource value: 0x7f08009a
+			public static int msgText = 2131230874;
 			
 			// aapt resource value: 0x7f080026
 			public static int multiply = 2131230758;
@@ -2818,11 +2836,11 @@ namespace LoginActivity
 			// aapt resource value: 0x7f080013
 			public static int transition_transform = 2131230739;
 			
-			// aapt resource value: 0x7f08009a
-			public static int txtPwd = 2131230874;
-			
 			// aapt resource value: 0x7f080099
-			public static int txtUser = 2131230873;
+			public static int txtPwd = 2131230873;
+			
+			// aapt resource value: 0x7f080098
+			public static int txtUser = 2131230872;
 			
 			// aapt resource value: 0x7f08002c
 			public static int uniform = 2131230764;
@@ -3287,6 +3305,12 @@ namespace LoginActivity
 			
 			// aapt resource value: 0x7f0a0169
 			public static int Animation_Design_BottomSheetDialog = 2131362153;
+			
+			// aapt resource value: 0x7f0a018f
+			public static int AppTheme = 2131362191;
+			
+			// aapt resource value: 0x7f0a0190
+			public static int AppTheme_NoActionBar = 2131362192;
 			
 			// aapt resource value: 0x7f0a00a2
 			public static int Base_AlertDialog_AppCompat = 2131361954;
@@ -3777,6 +3801,12 @@ namespace LoginActivity
 			// aapt resource value: 0x7f0a016b
 			public static int Base_Widget_Design_TabLayout = 2131362155;
 			
+			// aapt resource value: 0x7f0a018c
+			public static int CaptionLabel = 2131362188;
+			
+			// aapt resource value: 0x7f0a018a
+			public static int CodeFont = 2131362186;
+			
 			// aapt resource value: 0x7f0a001e
 			public static int Platform_AppCompat = 2131361822;
 			
@@ -3819,6 +3849,12 @@ namespace LoginActivity
 			// aapt resource value: 0x7f0a0022
 			public static int Platform_Widget_AppCompat_Spinner = 2131361826;
 			
+			// aapt resource value: 0x7f0a018d
+			public static int Result = 2131362189;
+			
+			// aapt resource value: 0x7f0a018e
+			public static int ResultNumeric = 2131362190;
+			
 			// aapt resource value: 0x7f0a002b
 			public static int RtlOverlay_DialogWindowTitle_AppCompat = 2131361835;
 			
@@ -3860,6 +3896,9 @@ namespace LoginActivity
 			
 			// aapt resource value: 0x7f0a0038
 			public static int RtlUnderlay_Widget_AppCompat_ActionButton_Overflow = 2131361848;
+			
+			// aapt resource value: 0x7f0a018b
+			public static int StatusLabel = 2131362187;
 			
 			// aapt resource value: 0x7f0a00cf
 			public static int TextAppearance_AppCompat = 2131361999;

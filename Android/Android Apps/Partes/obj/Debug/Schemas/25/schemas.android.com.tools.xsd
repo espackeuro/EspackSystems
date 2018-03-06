@@ -2,7 +2,7 @@
 <xs:schema xmlns:tools="http://schemas.android.com/tools" attributeFormDefault="qualified" targetNamespace="http://schemas.android.com/tools" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:annotation>
     <xs:documentation>v25</xs:documentation>
-    <xs:documentation>01/03/2018 16:00:38</xs:documentation>
+    <xs:documentation>06/03/2018 17:02:16</xs:documentation>
   </xs:annotation>
   <xs:attribute name="layout">
     <xs:annotation>
@@ -56,7 +56,7 @@
             <xs:enumeration value="@layout/design_navigation_menu_item" />
             <xs:enumeration value="@layout/design_text_input_password_icon" />
             <xs:enumeration value="@layout/headerfragment" />
-            <xs:enumeration value="@layout/logonscreen" />
+            <xs:enumeration value="@layout/ls" />
             <xs:enumeration value="@layout/mr_chooser_dialog" />
             <xs:enumeration value="@layout/mr_chooser_list_item" />
             <xs:enumeration value="@layout/mr_controller_material_dialog_b" />
@@ -180,7 +180,7 @@
             <xs:enumeration value="@layout/design_navigation_menu_item" />
             <xs:enumeration value="@layout/design_text_input_password_icon" />
             <xs:enumeration value="@layout/headerfragment" />
-            <xs:enumeration value="@layout/logonscreen" />
+            <xs:enumeration value="@layout/ls" />
             <xs:enumeration value="@layout/mr_chooser_dialog" />
             <xs:enumeration value="@layout/mr_chooser_list_item" />
             <xs:enumeration value="@layout/mr_controller_material_dialog_b" />
@@ -304,7 +304,7 @@
             <xs:enumeration value="@layout/design_navigation_menu_item" />
             <xs:enumeration value="@layout/design_text_input_password_icon" />
             <xs:enumeration value="@layout/headerfragment" />
-            <xs:enumeration value="@layout/logonscreen" />
+            <xs:enumeration value="@layout/ls" />
             <xs:enumeration value="@layout/mr_chooser_dialog" />
             <xs:enumeration value="@layout/mr_chooser_list_item" />
             <xs:enumeration value="@layout/mr_controller_material_dialog_b" />
@@ -428,7 +428,7 @@
             <xs:enumeration value="@layout/design_navigation_menu_item" />
             <xs:enumeration value="@layout/design_text_input_password_icon" />
             <xs:enumeration value="@layout/headerfragment" />
-            <xs:enumeration value="@layout/logonscreen" />
+            <xs:enumeration value="@layout/ls" />
             <xs:enumeration value="@layout/mr_chooser_dialog" />
             <xs:enumeration value="@layout/mr_chooser_list_item" />
             <xs:enumeration value="@layout/mr_controller_material_dialog_b" />

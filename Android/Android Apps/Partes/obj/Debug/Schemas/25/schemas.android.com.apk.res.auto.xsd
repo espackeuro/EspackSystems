@@ -2,7 +2,7 @@
 <xs:schema xmlns:app="http://schemas.android.com/apk/res-auto" attributeFormDefault="qualified" targetNamespace="http://schemas.android.com/apk/res-auto" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:annotation>
     <xs:documentation>v25</xs:documentation>
-    <xs:documentation>01/03/2018 16:00:38</xs:documentation>
+    <xs:documentation>06/03/2018 17:02:16</xs:documentation>
   </xs:annotation>
   <xs:attribute name="allowStacking">
     <xs:annotation>
@@ -1463,7 +1463,10 @@
             <xs:enumeration value="@drawable/ic_vol_type_tv_dark" />
             <xs:enumeration value="@drawable/ic_vol_type_tv_light" />
             <xs:enumeration value="@drawable/info" />
+            <xs:enumeration value="@drawable/keyicontrans" />
+            <xs:enumeration value="@drawable/keyiconwhite" />
             <xs:enumeration value="@drawable/logo_espack_sistemas_vertical" />
+            <xs:enumeration value="@drawable/logosystemsbig" />
             <xs:enumeration value="@drawable/mr_button_connected_dark" />
             <xs:enumeration value="@drawable/mr_button_connected_light" />
             <xs:enumeration value="@drawable/mr_button_connecting_dark" />
@@ -2130,7 +2133,10 @@
             <xs:enumeration value="@drawable/ic_vol_type_tv_dark" />
             <xs:enumeration value="@drawable/ic_vol_type_tv_light" />
             <xs:enumeration value="@drawable/info" />
+            <xs:enumeration value="@drawable/keyicontrans" />
+            <xs:enumeration value="@drawable/keyiconwhite" />
             <xs:enumeration value="@drawable/logo_espack_sistemas_vertical" />
+            <xs:enumeration value="@drawable/logosystemsbig" />
             <xs:enumeration value="@drawable/mr_button_connected_dark" />
             <xs:enumeration value="@drawable/mr_button_connected_light" />
             <xs:enumeration value="@drawable/mr_button_connecting_dark" />
@@ -2670,7 +2676,10 @@
             <xs:enumeration value="@drawable/ic_vol_type_tv_dark" />
             <xs:enumeration value="@drawable/ic_vol_type_tv_light" />
             <xs:enumeration value="@drawable/info" />
+            <xs:enumeration value="@drawable/keyicontrans" />
+            <xs:enumeration value="@drawable/keyiconwhite" />
             <xs:enumeration value="@drawable/logo_espack_sistemas_vertical" />
+            <xs:enumeration value="@drawable/logosystemsbig" />
             <xs:enumeration value="@drawable/mr_button_connected_dark" />
             <xs:enumeration value="@drawable/mr_button_connected_light" />
             <xs:enumeration value="@drawable/mr_button_connecting_dark" />
@@ -3210,7 +3219,10 @@
             <xs:enumeration value="@drawable/ic_vol_type_tv_dark" />
             <xs:enumeration value="@drawable/ic_vol_type_tv_light" />
             <xs:enumeration value="@drawable/info" />
+            <xs:enumeration value="@drawable/keyicontrans" />
+            <xs:enumeration value="@drawable/keyiconwhite" />
             <xs:enumeration value="@drawable/logo_espack_sistemas_vertical" />
+            <xs:enumeration value="@drawable/logosystemsbig" />
             <xs:enumeration value="@drawable/mr_button_connected_dark" />
             <xs:enumeration value="@drawable/mr_button_connected_light" />
             <xs:enumeration value="@drawable/mr_button_connecting_dark" />
@@ -6261,7 +6273,10 @@
             <xs:enumeration value="@drawable/ic_vol_type_tv_dark" />
             <xs:enumeration value="@drawable/ic_vol_type_tv_light" />
             <xs:enumeration value="@drawable/info" />
+            <xs:enumeration value="@drawable/keyicontrans" />
+            <xs:enumeration value="@drawable/keyiconwhite" />
             <xs:enumeration value="@drawable/logo_espack_sistemas_vertical" />
+            <xs:enumeration value="@drawable/logosystemsbig" />
             <xs:enumeration value="@drawable/mr_button_connected_dark" />
             <xs:enumeration value="@drawable/mr_button_connected_light" />
             <xs:enumeration value="@drawable/mr_button_connecting_dark" />
@@ -6801,7 +6816,10 @@
             <xs:enumeration value="@drawable/ic_vol_type_tv_dark" />
             <xs:enumeration value="@drawable/ic_vol_type_tv_light" />
             <xs:enumeration value="@drawable/info" />
+            <xs:enumeration value="@drawable/keyicontrans" />
+            <xs:enumeration value="@drawable/keyiconwhite" />
             <xs:enumeration value="@drawable/logo_espack_sistemas_vertical" />
+            <xs:enumeration value="@drawable/logosystemsbig" />
             <xs:enumeration value="@drawable/mr_button_connected_dark" />
             <xs:enumeration value="@drawable/mr_button_connected_light" />
             <xs:enumeration value="@drawable/mr_button_connecting_dark" />
@@ -7445,7 +7463,10 @@
             <xs:enumeration value="@drawable/ic_vol_type_tv_dark" />
             <xs:enumeration value="@drawable/ic_vol_type_tv_light" />
             <xs:enumeration value="@drawable/info" />
+            <xs:enumeration value="@drawable/keyicontrans" />
+            <xs:enumeration value="@drawable/keyiconwhite" />
             <xs:enumeration value="@drawable/logo_espack_sistemas_vertical" />
+            <xs:enumeration value="@drawable/logosystemsbig" />
             <xs:enumeration value="@drawable/mr_button_connected_dark" />
             <xs:enumeration value="@drawable/mr_button_connected_light" />
             <xs:enumeration value="@drawable/mr_button_connecting_dark" />
@@ -8246,7 +8267,10 @@
             <xs:enumeration value="@drawable/ic_vol_type_tv_dark" />
             <xs:enumeration value="@drawable/ic_vol_type_tv_light" />
             <xs:enumeration value="@drawable/info" />
+            <xs:enumeration value="@drawable/keyicontrans" />
+            <xs:enumeration value="@drawable/keyiconwhite" />
             <xs:enumeration value="@drawable/logo_espack_sistemas_vertical" />
+            <xs:enumeration value="@drawable/logosystemsbig" />
             <xs:enumeration value="@drawable/mr_button_connected_dark" />
             <xs:enumeration value="@drawable/mr_button_connected_light" />
             <xs:enumeration value="@drawable/mr_button_connecting_dark" />
@@ -8786,7 +8810,10 @@
             <xs:enumeration value="@drawable/ic_vol_type_tv_dark" />
             <xs:enumeration value="@drawable/ic_vol_type_tv_light" />
             <xs:enumeration value="@drawable/info" />
+            <xs:enumeration value="@drawable/keyicontrans" />
+            <xs:enumeration value="@drawable/keyiconwhite" />
             <xs:enumeration value="@drawable/logo_espack_sistemas_vertical" />
+            <xs:enumeration value="@drawable/logosystemsbig" />
             <xs:enumeration value="@drawable/mr_button_connected_dark" />
             <xs:enumeration value="@drawable/mr_button_connected_light" />
             <xs:enumeration value="@drawable/mr_button_connecting_dark" />
@@ -10414,7 +10441,10 @@
             <xs:enumeration value="@drawable/ic_vol_type_tv_dark" />
             <xs:enumeration value="@drawable/ic_vol_type_tv_light" />
             <xs:enumeration value="@drawable/info" />
+            <xs:enumeration value="@drawable/keyicontrans" />
+            <xs:enumeration value="@drawable/keyiconwhite" />
             <xs:enumeration value="@drawable/logo_espack_sistemas_vertical" />
+            <xs:enumeration value="@drawable/logosystemsbig" />
             <xs:enumeration value="@drawable/mr_button_connected_dark" />
             <xs:enumeration value="@drawable/mr_button_connected_light" />
             <xs:enumeration value="@drawable/mr_button_connecting_dark" />
@@ -10954,7 +10984,10 @@
             <xs:enumeration value="@drawable/ic_vol_type_tv_dark" />
             <xs:enumeration value="@drawable/ic_vol_type_tv_light" />
             <xs:enumeration value="@drawable/info" />
+            <xs:enumeration value="@drawable/keyicontrans" />
+            <xs:enumeration value="@drawable/keyiconwhite" />
             <xs:enumeration value="@drawable/logo_espack_sistemas_vertical" />
+            <xs:enumeration value="@drawable/logosystemsbig" />
             <xs:enumeration value="@drawable/mr_button_connected_dark" />
             <xs:enumeration value="@drawable/mr_button_connected_light" />
             <xs:enumeration value="@drawable/mr_button_connecting_dark" />
@@ -11555,7 +11588,10 @@
             <xs:enumeration value="@drawable/ic_vol_type_tv_dark" />
             <xs:enumeration value="@drawable/ic_vol_type_tv_light" />
             <xs:enumeration value="@drawable/info" />
+            <xs:enumeration value="@drawable/keyicontrans" />
+            <xs:enumeration value="@drawable/keyiconwhite" />
             <xs:enumeration value="@drawable/logo_espack_sistemas_vertical" />
+            <xs:enumeration value="@drawable/logosystemsbig" />
             <xs:enumeration value="@drawable/mr_button_connected_dark" />
             <xs:enumeration value="@drawable/mr_button_connected_light" />
             <xs:enumeration value="@drawable/mr_button_connecting_dark" />
@@ -12095,7 +12131,10 @@
             <xs:enumeration value="@drawable/ic_vol_type_tv_dark" />
             <xs:enumeration value="@drawable/ic_vol_type_tv_light" />
             <xs:enumeration value="@drawable/info" />
+            <xs:enumeration value="@drawable/keyicontrans" />
+            <xs:enumeration value="@drawable/keyiconwhite" />
             <xs:enumeration value="@drawable/logo_espack_sistemas_vertical" />
+            <xs:enumeration value="@drawable/logosystemsbig" />
             <xs:enumeration value="@drawable/mr_button_connected_dark" />
             <xs:enumeration value="@drawable/mr_button_connected_light" />
             <xs:enumeration value="@drawable/mr_button_connecting_dark" />
@@ -12635,7 +12674,10 @@
             <xs:enumeration value="@drawable/ic_vol_type_tv_dark" />
             <xs:enumeration value="@drawable/ic_vol_type_tv_light" />
             <xs:enumeration value="@drawable/info" />
+            <xs:enumeration value="@drawable/keyicontrans" />
+            <xs:enumeration value="@drawable/keyiconwhite" />
             <xs:enumeration value="@drawable/logo_espack_sistemas_vertical" />
+            <xs:enumeration value="@drawable/logosystemsbig" />
             <xs:enumeration value="@drawable/mr_button_connected_dark" />
             <xs:enumeration value="@drawable/mr_button_connected_light" />
             <xs:enumeration value="@drawable/mr_button_connecting_dark" />
@@ -13175,7 +13217,10 @@
             <xs:enumeration value="@drawable/ic_vol_type_tv_dark" />
             <xs:enumeration value="@drawable/ic_vol_type_tv_light" />
             <xs:enumeration value="@drawable/info" />
+            <xs:enumeration value="@drawable/keyicontrans" />
+            <xs:enumeration value="@drawable/keyiconwhite" />
             <xs:enumeration value="@drawable/logo_espack_sistemas_vertical" />
+            <xs:enumeration value="@drawable/logosystemsbig" />
             <xs:enumeration value="@drawable/mr_button_connected_dark" />
             <xs:enumeration value="@drawable/mr_button_connected_light" />
             <xs:enumeration value="@drawable/mr_button_connecting_dark" />
@@ -13760,7 +13805,10 @@
             <xs:enumeration value="@drawable/ic_vol_type_tv_dark" />
             <xs:enumeration value="@drawable/ic_vol_type_tv_light" />
             <xs:enumeration value="@drawable/info" />
+            <xs:enumeration value="@drawable/keyicontrans" />
+            <xs:enumeration value="@drawable/keyiconwhite" />
             <xs:enumeration value="@drawable/logo_espack_sistemas_vertical" />
+            <xs:enumeration value="@drawable/logosystemsbig" />
             <xs:enumeration value="@drawable/mr_button_connected_dark" />
             <xs:enumeration value="@drawable/mr_button_connected_light" />
             <xs:enumeration value="@drawable/mr_button_connecting_dark" />
@@ -14300,7 +14348,10 @@
             <xs:enumeration value="@drawable/ic_vol_type_tv_dark" />
             <xs:enumeration value="@drawable/ic_vol_type_tv_light" />
             <xs:enumeration value="@drawable/info" />
+            <xs:enumeration value="@drawable/keyicontrans" />
+            <xs:enumeration value="@drawable/keyiconwhite" />
             <xs:enumeration value="@drawable/logo_espack_sistemas_vertical" />
+            <xs:enumeration value="@drawable/logosystemsbig" />
             <xs:enumeration value="@drawable/mr_button_connected_dark" />
             <xs:enumeration value="@drawable/mr_button_connected_light" />
             <xs:enumeration value="@drawable/mr_button_connecting_dark" />
@@ -14930,7 +14981,10 @@
             <xs:enumeration value="@drawable/ic_vol_type_tv_dark" />
             <xs:enumeration value="@drawable/ic_vol_type_tv_light" />
             <xs:enumeration value="@drawable/info" />
+            <xs:enumeration value="@drawable/keyicontrans" />
+            <xs:enumeration value="@drawable/keyiconwhite" />
             <xs:enumeration value="@drawable/logo_espack_sistemas_vertical" />
+            <xs:enumeration value="@drawable/logosystemsbig" />
             <xs:enumeration value="@drawable/mr_button_connected_dark" />
             <xs:enumeration value="@drawable/mr_button_connected_light" />
             <xs:enumeration value="@drawable/mr_button_connecting_dark" />
@@ -15718,7 +15772,10 @@
             <xs:enumeration value="@drawable/ic_vol_type_tv_dark" />
             <xs:enumeration value="@drawable/ic_vol_type_tv_light" />
             <xs:enumeration value="@drawable/info" />
+            <xs:enumeration value="@drawable/keyicontrans" />
+            <xs:enumeration value="@drawable/keyiconwhite" />
             <xs:enumeration value="@drawable/logo_espack_sistemas_vertical" />
+            <xs:enumeration value="@drawable/logosystemsbig" />
             <xs:enumeration value="@drawable/mr_button_connected_dark" />
             <xs:enumeration value="@drawable/mr_button_connected_light" />
             <xs:enumeration value="@drawable/mr_button_connecting_dark" />
@@ -16337,7 +16394,10 @@
             <xs:enumeration value="@drawable/ic_vol_type_tv_dark" />
             <xs:enumeration value="@drawable/ic_vol_type_tv_light" />
             <xs:enumeration value="@drawable/info" />
+            <xs:enumeration value="@drawable/keyicontrans" />
+            <xs:enumeration value="@drawable/keyiconwhite" />
             <xs:enumeration value="@drawable/logo_espack_sistemas_vertical" />
+            <xs:enumeration value="@drawable/logosystemsbig" />
             <xs:enumeration value="@drawable/mr_button_connected_dark" />
             <xs:enumeration value="@drawable/mr_button_connected_light" />
             <xs:enumeration value="@drawable/mr_button_connecting_dark" />
@@ -17068,7 +17128,10 @@
             <xs:enumeration value="@drawable/ic_vol_type_tv_dark" />
             <xs:enumeration value="@drawable/ic_vol_type_tv_light" />
             <xs:enumeration value="@drawable/info" />
+            <xs:enumeration value="@drawable/keyicontrans" />
+            <xs:enumeration value="@drawable/keyiconwhite" />
             <xs:enumeration value="@drawable/logo_espack_sistemas_vertical" />
+            <xs:enumeration value="@drawable/logosystemsbig" />
             <xs:enumeration value="@drawable/mr_button_connected_dark" />
             <xs:enumeration value="@drawable/mr_button_connected_light" />
             <xs:enumeration value="@drawable/mr_button_connecting_dark" />
@@ -17799,7 +17862,10 @@
             <xs:enumeration value="@drawable/ic_vol_type_tv_dark" />
             <xs:enumeration value="@drawable/ic_vol_type_tv_light" />
             <xs:enumeration value="@drawable/info" />
+            <xs:enumeration value="@drawable/keyicontrans" />
+            <xs:enumeration value="@drawable/keyiconwhite" />
             <xs:enumeration value="@drawable/logo_espack_sistemas_vertical" />
+            <xs:enumeration value="@drawable/logosystemsbig" />
             <xs:enumeration value="@drawable/mr_button_connected_dark" />
             <xs:enumeration value="@drawable/mr_button_connected_light" />
             <xs:enumeration value="@drawable/mr_button_connecting_dark" />
@@ -18339,7 +18405,10 @@
             <xs:enumeration value="@drawable/ic_vol_type_tv_dark" />
             <xs:enumeration value="@drawable/ic_vol_type_tv_light" />
             <xs:enumeration value="@drawable/info" />
+            <xs:enumeration value="@drawable/keyicontrans" />
+            <xs:enumeration value="@drawable/keyiconwhite" />
             <xs:enumeration value="@drawable/logo_espack_sistemas_vertical" />
+            <xs:enumeration value="@drawable/logosystemsbig" />
             <xs:enumeration value="@drawable/mr_button_connected_dark" />
             <xs:enumeration value="@drawable/mr_button_connected_light" />
             <xs:enumeration value="@drawable/mr_button_connecting_dark" />
@@ -18983,7 +19052,10 @@
             <xs:enumeration value="@drawable/ic_vol_type_tv_dark" />
             <xs:enumeration value="@drawable/ic_vol_type_tv_light" />
             <xs:enumeration value="@drawable/info" />
+            <xs:enumeration value="@drawable/keyicontrans" />
+            <xs:enumeration value="@drawable/keyiconwhite" />
             <xs:enumeration value="@drawable/logo_espack_sistemas_vertical" />
+            <xs:enumeration value="@drawable/logosystemsbig" />
             <xs:enumeration value="@drawable/mr_button_connected_dark" />
             <xs:enumeration value="@drawable/mr_button_connected_light" />
             <xs:enumeration value="@drawable/mr_button_connecting_dark" />
@@ -20271,7 +20343,10 @@
             <xs:enumeration value="@drawable/ic_vol_type_tv_dark" />
             <xs:enumeration value="@drawable/ic_vol_type_tv_light" />
             <xs:enumeration value="@drawable/info" />
+            <xs:enumeration value="@drawable/keyicontrans" />
+            <xs:enumeration value="@drawable/keyiconwhite" />
             <xs:enumeration value="@drawable/logo_espack_sistemas_vertical" />
+            <xs:enumeration value="@drawable/logosystemsbig" />
             <xs:enumeration value="@drawable/mr_button_connected_dark" />
             <xs:enumeration value="@drawable/mr_button_connected_light" />
             <xs:enumeration value="@drawable/mr_button_connecting_dark" />
@@ -20915,7 +20990,10 @@
             <xs:enumeration value="@drawable/ic_vol_type_tv_dark" />
             <xs:enumeration value="@drawable/ic_vol_type_tv_light" />
             <xs:enumeration value="@drawable/info" />
+            <xs:enumeration value="@drawable/keyicontrans" />
+            <xs:enumeration value="@drawable/keyiconwhite" />
             <xs:enumeration value="@drawable/logo_espack_sistemas_vertical" />
+            <xs:enumeration value="@drawable/logosystemsbig" />
             <xs:enumeration value="@drawable/mr_button_connected_dark" />
             <xs:enumeration value="@drawable/mr_button_connected_light" />
             <xs:enumeration value="@drawable/mr_button_connecting_dark" />
@@ -21559,7 +21637,10 @@
             <xs:enumeration value="@drawable/ic_vol_type_tv_dark" />
             <xs:enumeration value="@drawable/ic_vol_type_tv_light" />
             <xs:enumeration value="@drawable/info" />
+            <xs:enumeration value="@drawable/keyicontrans" />
+            <xs:enumeration value="@drawable/keyiconwhite" />
             <xs:enumeration value="@drawable/logo_espack_sistemas_vertical" />
+            <xs:enumeration value="@drawable/logosystemsbig" />
             <xs:enumeration value="@drawable/mr_button_connected_dark" />
             <xs:enumeration value="@drawable/mr_button_connected_light" />
             <xs:enumeration value="@drawable/mr_button_connecting_dark" />
@@ -22353,7 +22434,10 @@
             <xs:enumeration value="@drawable/ic_vol_type_tv_dark" />
             <xs:enumeration value="@drawable/ic_vol_type_tv_light" />
             <xs:enumeration value="@drawable/info" />
+            <xs:enumeration value="@drawable/keyicontrans" />
+            <xs:enumeration value="@drawable/keyiconwhite" />
             <xs:enumeration value="@drawable/logo_espack_sistemas_vertical" />
+            <xs:enumeration value="@drawable/logosystemsbig" />
             <xs:enumeration value="@drawable/mr_button_connected_dark" />
             <xs:enumeration value="@drawable/mr_button_connected_light" />
             <xs:enumeration value="@drawable/mr_button_connecting_dark" />
@@ -23097,7 +23181,10 @@
             <xs:enumeration value="@drawable/ic_vol_type_tv_dark" />
             <xs:enumeration value="@drawable/ic_vol_type_tv_light" />
             <xs:enumeration value="@drawable/info" />
+            <xs:enumeration value="@drawable/keyicontrans" />
+            <xs:enumeration value="@drawable/keyiconwhite" />
             <xs:enumeration value="@drawable/logo_espack_sistemas_vertical" />
+            <xs:enumeration value="@drawable/logosystemsbig" />
             <xs:enumeration value="@drawable/mr_button_connected_dark" />
             <xs:enumeration value="@drawable/mr_button_connected_light" />
             <xs:enumeration value="@drawable/mr_button_connecting_dark" />
@@ -24212,7 +24299,10 @@
             <xs:enumeration value="@drawable/ic_vol_type_tv_dark" />
             <xs:enumeration value="@drawable/ic_vol_type_tv_light" />
             <xs:enumeration value="@drawable/info" />
+            <xs:enumeration value="@drawable/keyicontrans" />
+            <xs:enumeration value="@drawable/keyiconwhite" />
             <xs:enumeration value="@drawable/logo_espack_sistemas_vertical" />
+            <xs:enumeration value="@drawable/logosystemsbig" />
             <xs:enumeration value="@drawable/mr_button_connected_dark" />
             <xs:enumeration value="@drawable/mr_button_connected_light" />
             <xs:enumeration value="@drawable/mr_button_connecting_dark" />
@@ -24752,7 +24842,10 @@
             <xs:enumeration value="@drawable/ic_vol_type_tv_dark" />
             <xs:enumeration value="@drawable/ic_vol_type_tv_light" />
             <xs:enumeration value="@drawable/info" />
+            <xs:enumeration value="@drawable/keyicontrans" />
+            <xs:enumeration value="@drawable/keyiconwhite" />
             <xs:enumeration value="@drawable/logo_espack_sistemas_vertical" />
+            <xs:enumeration value="@drawable/logosystemsbig" />
             <xs:enumeration value="@drawable/mr_button_connected_dark" />
             <xs:enumeration value="@drawable/mr_button_connected_light" />
             <xs:enumeration value="@drawable/mr_button_connecting_dark" />
@@ -25475,7 +25568,10 @@
             <xs:enumeration value="@drawable/ic_vol_type_tv_dark" />
             <xs:enumeration value="@drawable/ic_vol_type_tv_light" />
             <xs:enumeration value="@drawable/info" />
+            <xs:enumeration value="@drawable/keyicontrans" />
+            <xs:enumeration value="@drawable/keyiconwhite" />
             <xs:enumeration value="@drawable/logo_espack_sistemas_vertical" />
+            <xs:enumeration value="@drawable/logosystemsbig" />
             <xs:enumeration value="@drawable/mr_button_connected_dark" />
             <xs:enumeration value="@drawable/mr_button_connected_light" />
             <xs:enumeration value="@drawable/mr_button_connecting_dark" />
@@ -26206,7 +26302,10 @@
             <xs:enumeration value="@drawable/ic_vol_type_tv_dark" />
             <xs:enumeration value="@drawable/ic_vol_type_tv_light" />
             <xs:enumeration value="@drawable/info" />
+            <xs:enumeration value="@drawable/keyicontrans" />
+            <xs:enumeration value="@drawable/keyiconwhite" />
             <xs:enumeration value="@drawable/logo_espack_sistemas_vertical" />
+            <xs:enumeration value="@drawable/logosystemsbig" />
             <xs:enumeration value="@drawable/mr_button_connected_dark" />
             <xs:enumeration value="@drawable/mr_button_connected_light" />
             <xs:enumeration value="@drawable/mr_button_connecting_dark" />
@@ -26850,7 +26949,10 @@
             <xs:enumeration value="@drawable/ic_vol_type_tv_dark" />
             <xs:enumeration value="@drawable/ic_vol_type_tv_light" />
             <xs:enumeration value="@drawable/info" />
+            <xs:enumeration value="@drawable/keyicontrans" />
+            <xs:enumeration value="@drawable/keyiconwhite" />
             <xs:enumeration value="@drawable/logo_espack_sistemas_vertical" />
+            <xs:enumeration value="@drawable/logosystemsbig" />
             <xs:enumeration value="@drawable/mr_button_connected_dark" />
             <xs:enumeration value="@drawable/mr_button_connected_light" />
             <xs:enumeration value="@drawable/mr_button_connecting_dark" />
@@ -27581,7 +27683,10 @@
             <xs:enumeration value="@drawable/ic_vol_type_tv_dark" />
             <xs:enumeration value="@drawable/ic_vol_type_tv_light" />
             <xs:enumeration value="@drawable/info" />
+            <xs:enumeration value="@drawable/keyicontrans" />
+            <xs:enumeration value="@drawable/keyiconwhite" />
             <xs:enumeration value="@drawable/logo_espack_sistemas_vertical" />
+            <xs:enumeration value="@drawable/logosystemsbig" />
             <xs:enumeration value="@drawable/mr_button_connected_dark" />
             <xs:enumeration value="@drawable/mr_button_connected_light" />
             <xs:enumeration value="@drawable/mr_button_connecting_dark" />
@@ -28529,7 +28634,10 @@
             <xs:enumeration value="@drawable/ic_vol_type_tv_dark" />
             <xs:enumeration value="@drawable/ic_vol_type_tv_light" />
             <xs:enumeration value="@drawable/info" />
+            <xs:enumeration value="@drawable/keyicontrans" />
+            <xs:enumeration value="@drawable/keyiconwhite" />
             <xs:enumeration value="@drawable/logo_espack_sistemas_vertical" />
+            <xs:enumeration value="@drawable/logosystemsbig" />
             <xs:enumeration value="@drawable/mr_button_connected_dark" />
             <xs:enumeration value="@drawable/mr_button_connected_light" />
             <xs:enumeration value="@drawable/mr_button_connecting_dark" />
@@ -29069,7 +29177,10 @@
             <xs:enumeration value="@drawable/ic_vol_type_tv_dark" />
             <xs:enumeration value="@drawable/ic_vol_type_tv_light" />
             <xs:enumeration value="@drawable/info" />
+            <xs:enumeration value="@drawable/keyicontrans" />
+            <xs:enumeration value="@drawable/keyiconwhite" />
             <xs:enumeration value="@drawable/logo_espack_sistemas_vertical" />
+            <xs:enumeration value="@drawable/logosystemsbig" />
             <xs:enumeration value="@drawable/mr_button_connected_dark" />
             <xs:enumeration value="@drawable/mr_button_connected_light" />
             <xs:enumeration value="@drawable/mr_button_connecting_dark" />
@@ -31857,7 +31968,10 @@
             <xs:enumeration value="@drawable/ic_vol_type_tv_dark" />
             <xs:enumeration value="@drawable/ic_vol_type_tv_light" />
             <xs:enumeration value="@drawable/info" />
+            <xs:enumeration value="@drawable/keyicontrans" />
+            <xs:enumeration value="@drawable/keyiconwhite" />
             <xs:enumeration value="@drawable/logo_espack_sistemas_vertical" />
+            <xs:enumeration value="@drawable/logosystemsbig" />
             <xs:enumeration value="@drawable/mr_button_connected_dark" />
             <xs:enumeration value="@drawable/mr_button_connected_light" />
             <xs:enumeration value="@drawable/mr_button_connecting_dark" />
@@ -34283,7 +34397,10 @@
             <xs:enumeration value="@drawable/ic_vol_type_tv_dark" />
             <xs:enumeration value="@drawable/ic_vol_type_tv_light" />
             <xs:enumeration value="@drawable/info" />
+            <xs:enumeration value="@drawable/keyicontrans" />
+            <xs:enumeration value="@drawable/keyiconwhite" />
             <xs:enumeration value="@drawable/logo_espack_sistemas_vertical" />
+            <xs:enumeration value="@drawable/logosystemsbig" />
             <xs:enumeration value="@drawable/mr_button_connected_dark" />
             <xs:enumeration value="@drawable/mr_button_connected_light" />
             <xs:enumeration value="@drawable/mr_button_connecting_dark" />
@@ -35014,7 +35131,10 @@
             <xs:enumeration value="@drawable/ic_vol_type_tv_dark" />
             <xs:enumeration value="@drawable/ic_vol_type_tv_light" />
             <xs:enumeration value="@drawable/info" />
+            <xs:enumeration value="@drawable/keyicontrans" />
+            <xs:enumeration value="@drawable/keyiconwhite" />
             <xs:enumeration value="@drawable/logo_espack_sistemas_vertical" />
+            <xs:enumeration value="@drawable/logosystemsbig" />
             <xs:enumeration value="@drawable/mr_button_connected_dark" />
             <xs:enumeration value="@drawable/mr_button_connected_light" />
             <xs:enumeration value="@drawable/mr_button_connecting_dark" />
@@ -35554,7 +35674,10 @@
             <xs:enumeration value="@drawable/ic_vol_type_tv_dark" />
             <xs:enumeration value="@drawable/ic_vol_type_tv_light" />
             <xs:enumeration value="@drawable/info" />
+            <xs:enumeration value="@drawable/keyicontrans" />
+            <xs:enumeration value="@drawable/keyiconwhite" />
             <xs:enumeration value="@drawable/logo_espack_sistemas_vertical" />
+            <xs:enumeration value="@drawable/logosystemsbig" />
             <xs:enumeration value="@drawable/mr_button_connected_dark" />
             <xs:enumeration value="@drawable/mr_button_connected_light" />
             <xs:enumeration value="@drawable/mr_button_connecting_dark" />
@@ -36349,7 +36472,10 @@
             <xs:enumeration value="@drawable/ic_vol_type_tv_dark" />
             <xs:enumeration value="@drawable/ic_vol_type_tv_light" />
             <xs:enumeration value="@drawable/info" />
+            <xs:enumeration value="@drawable/keyicontrans" />
+            <xs:enumeration value="@drawable/keyiconwhite" />
             <xs:enumeration value="@drawable/logo_espack_sistemas_vertical" />
+            <xs:enumeration value="@drawable/logosystemsbig" />
             <xs:enumeration value="@drawable/mr_button_connected_dark" />
             <xs:enumeration value="@drawable/mr_button_connected_light" />
             <xs:enumeration value="@drawable/mr_button_connecting_dark" />

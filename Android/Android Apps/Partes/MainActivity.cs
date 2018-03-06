@@ -35,8 +35,8 @@ namespace Partes
         public static StatusFragment sF { get; set; }
     }
 
-    [Activity(Label = "Parts", MainLauncher = true)]
-    public class MainActivity : Activity
+    [Activity(Label = "Espack Logon", MainLauncher = true, Icon = "@drawable/keyiconWhite")]
+    public class MainActivity : AppCompatActivity
     {
         protected override void OnCreate(Bundle bundle)
         {

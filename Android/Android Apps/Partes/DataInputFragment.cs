@@ -40,7 +40,12 @@ namespace Partes
             //var _l = _root.FindViewById<TextInputLayout>(Resource.Id.layDataInput);
             return _root;
         }
-
+        public override void OnStart()
+        {
+            base.OnStart();
+            txtPartNumber.ClearFocus();
+            DismissKeyboard();
+        }
         private void TxtPartNumber_Touch(object sender, View.TouchEventArgs e)
         {
             CleanValues();

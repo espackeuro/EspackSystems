@@ -23,7 +23,7 @@ namespace LoginActivity
         public static string FullName { get; set; }
     }
 
-    [Activity(Label = "Login")]
+    [Activity(Label = "", Theme = "@style/AppTheme.NoActionBar")]
     public class LoginActivityClass : AppCompatActivity
     {
         private EditText txtUser;
