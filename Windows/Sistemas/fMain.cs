@@ -243,6 +243,18 @@ namespace Sistemas
             fTest fTest = new fTest();
             fTest.Show();
         }
+
+        private void systemsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            fSystemsMaster fSystemsMaster = (fSystemsMaster)GetFormInstance("fSystemsMaster");
+            if (fSystemsMaster == null)
+            {
+                fSystemsMaster = new fSystemsMaster();
+                fSystemsMaster.MdiParent = this;
+
+            }
+            fSystemsMaster.Show();
+        }
     }
 
     public static class Values
