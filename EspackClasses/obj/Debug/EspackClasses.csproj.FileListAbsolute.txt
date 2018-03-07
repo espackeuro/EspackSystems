@@ -1,0 +1,6 @@
+D:\EspackSystems\EspackClasses\bin\Debug\EspackClasses.dll
+D:\EspackSystems\EspackClasses\bin\Debug\EspackClasses.pdb
+D:\EspackSystems\EspackClasses\obj\Debug\EspackClasses.csprojResolveAssemblyReference.cache
+D:\EspackSystems\EspackClasses\obj\Debug\EspackClasses.csproj.CoreCompileInputs.cache
+D:\EspackSystems\EspackClasses\obj\Debug\EspackClasses.dll
+D:\EspackSystems\EspackClasses\obj\Debug\EspackClasses.pdb

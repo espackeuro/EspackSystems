@@ -1,0 +1,16 @@
+D:\EspackSystems\EspackControls\EspackFormControls\bin\Debug\EspackFormControls.dll
+D:\EspackSystems\EspackControls\EspackFormControls\bin\Debug\EspackFormControls.pdb
+D:\EspackSystems\EspackControls\EspackFormControls\bin\Debug\AccesoDatos.dll
+D:\EspackSystems\EspackControls\EspackFormControls\bin\Debug\AccesoDatos.NET.dll
+D:\EspackSystems\EspackControls\EspackFormControls\bin\Debug\CommonTools.dll
+D:\EspackSystems\EspackControls\EspackFormControls\bin\Debug\EspackControls.dll
+D:\EspackSystems\EspackControls\EspackFormControls\bin\Debug\AccesoDatos.NET.pdb
+D:\EspackSystems\EspackControls\EspackFormControls\bin\Debug\CommonTools.pdb
+D:\EspackSystems\EspackControls\EspackFormControls\bin\Debug\AccesoDatos.pdb
+D:\EspackSystems\EspackControls\EspackFormControls\bin\Debug\EspackControls.pdb
+D:\EspackSystems\EspackControls\EspackFormControls\obj\Debug\EspackFormControls.csprojResolveAssemblyReference.cache
+D:\EspackSystems\EspackControls\EspackFormControls\obj\Debug\EspackFormControls.Properties.Resources.resources
+D:\EspackSystems\EspackControls\EspackFormControls\obj\Debug\EspackFormControls.csproj.GenerateResource.Cache
+D:\EspackSystems\EspackControls\EspackFormControls\obj\Debug\EspackFormControls.csproj.CoreCompileInputs.cache
+D:\EspackSystems\EspackControls\EspackFormControls\obj\Debug\EspackFormControls.dll
+D:\EspackSystems\EspackControls\EspackFormControls\obj\Debug\EspackFormControls.pdb

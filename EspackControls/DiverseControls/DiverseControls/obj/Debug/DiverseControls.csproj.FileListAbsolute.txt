@@ -1,0 +1,6 @@
+D:\EspackSystems\EspackControls\DiverseControls\DiverseControls\bin\Debug\DiverseControls.dll
+D:\EspackSystems\EspackControls\DiverseControls\DiverseControls\bin\Debug\DiverseControls.pdb
+D:\EspackSystems\EspackControls\DiverseControls\DiverseControls\obj\Debug\DiverseControls.csprojResolveAssemblyReference.cache
+D:\EspackSystems\EspackControls\DiverseControls\DiverseControls\obj\Debug\DiverseControls.csproj.CoreCompileInputs.cache
+D:\EspackSystems\EspackControls\DiverseControls\DiverseControls\obj\Debug\DiverseControls.dll
+D:\EspackSystems\EspackControls\DiverseControls\DiverseControls\obj\Debug\DiverseControls.pdb

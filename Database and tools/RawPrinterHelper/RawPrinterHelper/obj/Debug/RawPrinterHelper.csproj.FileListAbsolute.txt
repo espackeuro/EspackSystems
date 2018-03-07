@@ -1,0 +1,6 @@
+D:\EspackSystems\Database and tools\RawPrinterHelper\RawPrinterHelper\bin\Debug\RawPrinterHelper.dll
+D:\EspackSystems\Database and tools\RawPrinterHelper\RawPrinterHelper\bin\Debug\RawPrinterHelper.pdb
+D:\EspackSystems\Database and tools\RawPrinterHelper\RawPrinterHelper\obj\Debug\RawPrinterHelper.csprojResolveAssemblyReference.cache
+D:\EspackSystems\Database and tools\RawPrinterHelper\RawPrinterHelper\obj\Debug\RawPrinterHelper.csproj.CoreCompileInputs.cache
+D:\EspackSystems\Database and tools\RawPrinterHelper\RawPrinterHelper\obj\Debug\RawPrinterHelper.dll
+D:\EspackSystems\Database and tools\RawPrinterHelper\RawPrinterHelper\obj\Debug\RawPrinterHelper.pdb

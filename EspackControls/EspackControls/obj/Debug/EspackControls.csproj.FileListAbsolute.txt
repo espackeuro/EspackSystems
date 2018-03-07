@@ -1,0 +1,8 @@
+D:\EspackSystems\EspackControls\EspackControls\bin\Debug\EspackControls.dll
+D:\EspackSystems\EspackControls\EspackControls\bin\Debug\EspackControls.pdb
+D:\EspackSystems\EspackControls\EspackControls\bin\Debug\CommonTools.dll
+D:\EspackSystems\EspackControls\EspackControls\bin\Debug\CommonTools.pdb
+D:\EspackSystems\EspackControls\EspackControls\obj\Debug\EspackControls.csprojResolveAssemblyReference.cache
+D:\EspackSystems\EspackControls\EspackControls\obj\Debug\EspackControls.csproj.CoreCompileInputs.cache
+D:\EspackSystems\EspackControls\EspackControls\obj\Debug\EspackControls.dll
+D:\EspackSystems\EspackControls\EspackControls\obj\Debug\EspackControls.pdb

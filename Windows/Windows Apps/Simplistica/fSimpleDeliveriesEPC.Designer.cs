@@ -35,7 +35,7 @@
             this.LeftToolStripPanel = new System.Windows.Forms.ToolStripPanel();
             this.ContentPanel = new System.Windows.Forms.ToolStripContentPanel();
             this.toolStrip = new System.Windows.Forms.ToolStrip();
-            this.btnSalida = new System.Windows.Forms.ToolStripButton();
+            this.btnClose = new System.Windows.Forms.ToolStripButton();
             this.CTLM = new CTLMantenimientoNet.CTLMantenimientoNet();
             this.VS = new VSGrid.CtlVSGrid();
             this.txtDeliveryN = new EspackFormControls.EspackTextBox();
@@ -94,23 +94,24 @@
             // 
             this.toolStrip.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnSalida});
+            this.btnClose});
             this.toolStrip.Location = new System.Drawing.Point(299, 9);
             this.toolStrip.Name = "toolStrip";
-            this.toolStrip.Size = new System.Drawing.Size(76, 31);
+            this.toolStrip.Size = new System.Drawing.Size(107, 31);
             this.toolStrip.TabIndex = 57;
             this.toolStrip.Text = "toolStrip1";
             // 
-            // btnSalida
+            // btnClose
             // 
-            this.btnSalida.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.btnSalida.Image = ((System.Drawing.Image)(resources.GetObject("btnSalida.Image")));
-            this.btnSalida.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSalida.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.btnSalida.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnSalida.Name = "btnSalida";
-            this.btnSalida.Size = new System.Drawing.Size(64, 28);
-            this.btnSalida.Text = "Close";
+            this.btnClose.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.btnClose.Image = ((System.Drawing.Image)(resources.GetObject("btnClose.Image")));
+            this.btnClose.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnClose.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.btnClose.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(64, 28);
+            this.btnClose.Text = "Close";
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // CTLM
             // 
@@ -580,7 +581,7 @@
         private System.Windows.Forms.ToolStripPanel LeftToolStripPanel;
         private System.Windows.Forms.ToolStripContentPanel ContentPanel;
         private System.Windows.Forms.ToolStrip toolStrip;
-        private System.Windows.Forms.ToolStripButton btnSalida;
+        private System.Windows.Forms.ToolStripButton btnClose;
         private CTLMantenimientoNet.CTLMantenimientoNet CTLM;
         private VSGrid.CtlVSGrid VS;
         private EspackFormControls.EspackTextBox txtDeliveryN;

@@ -1,0 +1,11 @@
+D:\EspackSystems\Database and tools\CommonToolsWin\CommonToolsWin\bin\Debug\CommonToolsWin.dll
+D:\EspackSystems\Database and tools\CommonToolsWin\CommonToolsWin\bin\Debug\CommonToolsWin.pdb
+D:\EspackSystems\Database and tools\CommonToolsWin\CommonToolsWin\bin\Debug\CommonTools.dll
+D:\EspackSystems\Database and tools\CommonToolsWin\CommonToolsWin\bin\Debug\CommonTools.pdb
+D:\EspackSystems\Database and tools\CommonToolsWin\CommonToolsWin\obj\Debug\CommonToolsWin.csprojResolveAssemblyReference.cache
+D:\EspackSystems\Database and tools\CommonToolsWin\CommonToolsWin\obj\Debug\CommonToolsWin.frmSplash.resources
+D:\EspackSystems\Database and tools\CommonToolsWin\CommonToolsWin\obj\Debug\CommonToolsWin.Properties.Resources.resources
+D:\EspackSystems\Database and tools\CommonToolsWin\CommonToolsWin\obj\Debug\CommonToolsWin.csproj.GenerateResource.Cache
+D:\EspackSystems\Database and tools\CommonToolsWin\CommonToolsWin\obj\Debug\CommonToolsWin.csproj.CoreCompileInputs.cache
+D:\EspackSystems\Database and tools\CommonToolsWin\CommonToolsWin\obj\Debug\CommonToolsWin.dll
+D:\EspackSystems\Database and tools\CommonToolsWin\CommonToolsWin\obj\Debug\CommonToolsWin.pdb

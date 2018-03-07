@@ -1,5 +1,6 @@
 D:\EspackSystems\Database and tools\CommonTools\bin\Debug\CommonTools.dll
 D:\EspackSystems\Database and tools\CommonTools\bin\Debug\CommonTools.pdb
+D:\EspackSystems\Database and tools\CommonTools\obj\Debug\CommonTools.csprojResolveAssemblyReference.cache
 D:\EspackSystems\Database and tools\CommonTools\obj\Debug\CommonTools.Properties.Resources.resources
 D:\EspackSystems\Database and tools\CommonTools\obj\Debug\CommonTools.csproj.GenerateResource.Cache
 D:\EspackSystems\Database and tools\CommonTools\obj\Debug\CommonTools.csproj.CoreCompileInputs.cache
