@@ -43,21 +43,26 @@
             this.cboCOD3.Add = false;
             this.cboCOD3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cboCOD3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboCOD3.BackColor = System.Drawing.Color.White;
             this.cboCOD3.Caption = "COD3";
             this.cboCOD3.DBField = null;
             this.cboCOD3.DBFieldType = null;
             this.cboCOD3.DefaultValue = null;
             this.cboCOD3.Del = false;
             this.cboCOD3.DependingRS = null;
+            this.cboCOD3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cboCOD3.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.cboCOD3.ForeColor = System.Drawing.Color.Black;
             this.cboCOD3.FormattingEnabled = true;
             this.cboCOD3.Location = new System.Drawing.Point(44, 53);
+            this.cboCOD3.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.cboCOD3.Name = "cboCOD3";
             this.cboCOD3.Order = 0;
             this.cboCOD3.ParentConn = null;
             this.cboCOD3.ParentDA = null;
             this.cboCOD3.PK = false;
             this.cboCOD3.Search = true;
-            this.cboCOD3.Size = new System.Drawing.Size(188, 21);
+            this.cboCOD3.Size = new System.Drawing.Size(188, 24);
             this.cboCOD3.Status = CommonTools.EnumStatus.SEARCH;
             this.cboCOD3.TabIndex = 0;
             this.cboCOD3.TBDescription = null;
@@ -68,20 +73,25 @@
             // txtServerName
             // 
             this.txtServerName.Add = false;
+            this.txtServerName.BackColor = System.Drawing.Color.White;
+            this.txtServerName.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtServerName.Caption = "Server Name";
             this.txtServerName.DBField = null;
             this.txtServerName.DBFieldType = null;
             this.txtServerName.DefaultValue = null;
             this.txtServerName.Del = false;
             this.txtServerName.DependingRS = null;
+            this.txtServerName.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.txtServerName.ForeColor = System.Drawing.Color.Black;
             this.txtServerName.Location = new System.Drawing.Point(44, 89);
+            this.txtServerName.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtServerName.Name = "txtServerName";
             this.txtServerName.Order = 0;
             this.txtServerName.ParentConn = null;
             this.txtServerName.ParentDA = null;
             this.txtServerName.PK = false;
             this.txtServerName.Search = true;
-            this.txtServerName.Size = new System.Drawing.Size(188, 20);
+            this.txtServerName.Size = new System.Drawing.Size(188, 17);
             this.txtServerName.Status = CommonTools.EnumStatus.SEARCH;
             this.txtServerName.TabIndex = 2;
             this.txtServerName.Upp = true;
@@ -90,20 +100,25 @@
             // txtUser
             // 
             this.txtUser.Add = false;
+            this.txtUser.BackColor = System.Drawing.Color.White;
+            this.txtUser.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtUser.Caption = "User";
             this.txtUser.DBField = null;
             this.txtUser.DBFieldType = null;
             this.txtUser.DefaultValue = null;
             this.txtUser.Del = false;
             this.txtUser.DependingRS = null;
+            this.txtUser.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.txtUser.ForeColor = System.Drawing.Color.Black;
             this.txtUser.Location = new System.Drawing.Point(44, 124);
+            this.txtUser.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtUser.Name = "txtUser";
             this.txtUser.Order = 0;
             this.txtUser.ParentConn = null;
             this.txtUser.ParentDA = null;
             this.txtUser.PK = false;
             this.txtUser.Search = true;
-            this.txtUser.Size = new System.Drawing.Size(188, 20);
+            this.txtUser.Size = new System.Drawing.Size(188, 17);
             this.txtUser.Status = CommonTools.EnumStatus.SEARCH;
             this.txtUser.TabIndex = 4;
             this.txtUser.Upp = true;
@@ -112,13 +127,18 @@
             // txtPassword
             // 
             this.txtPassword.Add = false;
+            this.txtPassword.BackColor = System.Drawing.Color.White;
+            this.txtPassword.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtPassword.Caption = "Password";
             this.txtPassword.DBField = null;
             this.txtPassword.DBFieldType = null;
             this.txtPassword.DefaultValue = null;
             this.txtPassword.Del = false;
             this.txtPassword.DependingRS = null;
+            this.txtPassword.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.txtPassword.ForeColor = System.Drawing.Color.Black;
             this.txtPassword.Location = new System.Drawing.Point(44, 159);
+            this.txtPassword.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Order = 0;
             this.txtPassword.ParentConn = null;
@@ -126,7 +146,7 @@
             this.txtPassword.PasswordChar = '·';
             this.txtPassword.PK = false;
             this.txtPassword.Search = true;
-            this.txtPassword.Size = new System.Drawing.Size(188, 20);
+            this.txtPassword.Size = new System.Drawing.Size(188, 17);
             this.txtPassword.Status = CommonTools.EnumStatus.SEARCH;
             this.txtPassword.TabIndex = 6;
             this.txtPassword.Upp = true;
@@ -169,8 +189,14 @@
             this.Controls.Add(this.txtUser);
             this.Controls.Add(this.txtServerName);
             this.Controls.Add(this.cboCOD3);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.KeyPreview = true;
             this.Name = "fDHCP";
+            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "DHCP Control";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             this.ResumeLayout(false);

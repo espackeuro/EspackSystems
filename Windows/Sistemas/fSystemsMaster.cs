@@ -28,6 +28,7 @@ namespace Sistemas
             CTLM.AddItem(txtDescription, "Description", true, true, false, 0, false);
             CTLM.AddItem(cboDatabase, "DB", true, true, false, 0, false, true);
             CTLM.AddItem(txtApp, "App", true, true, false, 0, false, true);
+            CTLM.AddItem(txtVersion, "Version", true, true, false, 0, false, true);
             CTLM.AddItem(lstLocations, "Locations", true, true, false, 0, false, true);
             CTLM.AddItem(lstUserPositions, "UserPositions", true, true, false, 0, false, true);
             CTLM.AddItem(lstAreas, "Areas", true, true, false, 0, false, true);

@@ -53,10 +53,12 @@
             this.CTLM.MsgStatusInfoLabel = null;
             this.CTLM.MsgStatusLabel = null;
             this.CTLM.Name = "CTLM";
+            this.CTLM.ReQuery = false;
             this.CTLM.Size = new System.Drawing.Size(290, 29);
             this.CTLM.sSPAdd = "";
             this.CTLM.sSPDel = "";
             this.CTLM.sSPUpp = "";
+            this.CTLM.StatusBarProgress = null;
             this.CTLM.TabIndex = 0;
             this.CTLM.Text = "CTLM";
             // 
@@ -77,7 +79,7 @@
             // txtDomain
             // 
             this.txtDomain.Add = false;
-            this.txtDomain.BackColor = System.Drawing.Color.White;
+            this.txtDomain.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.txtDomain.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtDomain.Caption = "Domain";
             this.txtDomain.DBField = null;
@@ -86,7 +88,7 @@
             this.txtDomain.Del = false;
             this.txtDomain.DependingRS = null;
             this.txtDomain.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtDomain.ForeColor = System.Drawing.Color.Black;
+            this.txtDomain.ForeColor = System.Drawing.Color.Gray;
             this.txtDomain.Location = new System.Drawing.Point(343, 75);
             this.txtDomain.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtDomain.Multiline = true;
@@ -95,6 +97,7 @@
             this.txtDomain.ParentConn = null;
             this.txtDomain.ParentDA = null;
             this.txtDomain.PK = false;
+            this.txtDomain.ReadOnly = true;
             this.txtDomain.Search = false;
             this.txtDomain.Size = new System.Drawing.Size(225, 24);
             this.txtDomain.Status = CommonTools.EnumStatus.ADDNEW;
@@ -105,7 +108,7 @@
             // txtLocalPart
             // 
             this.txtLocalPart.Add = false;
-            this.txtLocalPart.BackColor = System.Drawing.Color.White;
+            this.txtLocalPart.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.txtLocalPart.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtLocalPart.Caption = "LocalPart";
             this.txtLocalPart.DBField = null;
@@ -114,7 +117,7 @@
             this.txtLocalPart.Del = false;
             this.txtLocalPart.DependingRS = null;
             this.txtLocalPart.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtLocalPart.ForeColor = System.Drawing.Color.Black;
+            this.txtLocalPart.ForeColor = System.Drawing.Color.Gray;
             this.txtLocalPart.Location = new System.Drawing.Point(28, 75);
             this.txtLocalPart.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtLocalPart.Multiline = true;
@@ -123,6 +126,7 @@
             this.txtLocalPart.ParentConn = null;
             this.txtLocalPart.ParentDA = null;
             this.txtLocalPart.PK = false;
+            this.txtLocalPart.ReadOnly = true;
             this.txtLocalPart.Search = false;
             this.txtLocalPart.Size = new System.Drawing.Size(225, 24);
             this.txtLocalPart.Status = CommonTools.EnumStatus.ADDNEW;
@@ -133,7 +137,7 @@
             // txtAddress
             // 
             this.txtAddress.Add = false;
-            this.txtAddress.BackColor = System.Drawing.Color.White;
+            this.txtAddress.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.txtAddress.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtAddress.Caption = "Address";
             this.txtAddress.DBField = null;
@@ -142,7 +146,7 @@
             this.txtAddress.Del = false;
             this.txtAddress.DependingRS = null;
             this.txtAddress.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtAddress.ForeColor = System.Drawing.Color.Black;
+            this.txtAddress.ForeColor = System.Drawing.Color.Gray;
             this.txtAddress.Location = new System.Drawing.Point(28, 32);
             this.txtAddress.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtAddress.Multiline = true;
@@ -151,6 +155,7 @@
             this.txtAddress.ParentConn = null;
             this.txtAddress.ParentDA = null;
             this.txtAddress.PK = false;
+            this.txtAddress.ReadOnly = true;
             this.txtAddress.Search = false;
             this.txtAddress.Size = new System.Drawing.Size(540, 24);
             this.txtAddress.Status = CommonTools.EnumStatus.ADDNEW;
@@ -236,9 +241,9 @@
             // VS
             // 
             this.VS.Add = false;
-            this.VS.AllowDelete = true;
-            this.VS.AllowInsert = true;
-            this.VS.AllowUpdate = true;
+            this.VS.AllowDelete = false;
+            this.VS.AllowInsert = false;
+            this.VS.AllowUpdate = false;
             this.VS.AllowUserToAddRows = false;
             this.VS.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
             this.VS.Caption = "";
@@ -285,6 +290,7 @@
             this.Controls.Add(this.CTLM);
             this.KeyPreview = true;
             this.Name = "fAlias";
+            this.ShowIcon = false;
             this.Text = "Aliases";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

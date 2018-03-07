@@ -55,10 +55,12 @@
             this.CTLM.MsgStatusInfoLabel = null;
             this.CTLM.MsgStatusLabel = null;
             this.CTLM.Name = "CTLM";
+            this.CTLM.ReQuery = false;
             this.CTLM.Size = new System.Drawing.Size(290, 29);
             this.CTLM.sSPAdd = "";
             this.CTLM.sSPDel = "";
             this.CTLM.sSPUpp = "";
+            this.CTLM.StatusBarProgress = null;
             this.CTLM.TabIndex = 0;
             this.CTLM.Text = "ctlMantenimientoNet1";
             // 
@@ -111,7 +113,7 @@
             // txtCode
             // 
             this.txtCode.Add = false;
-            this.txtCode.BackColor = System.Drawing.Color.White;
+            this.txtCode.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.txtCode.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtCode.Caption = "Code";
             this.txtCode.DBField = null;
@@ -120,7 +122,7 @@
             this.txtCode.Del = false;
             this.txtCode.DependingRS = null;
             this.txtCode.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtCode.ForeColor = System.Drawing.Color.Black;
+            this.txtCode.ForeColor = System.Drawing.Color.Gray;
             this.txtCode.Location = new System.Drawing.Point(564, 32);
             this.txtCode.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtCode.Multiline = true;
@@ -129,6 +131,7 @@
             this.txtCode.ParentConn = null;
             this.txtCode.ParentDA = null;
             this.txtCode.PK = false;
+            this.txtCode.ReadOnly = true;
             this.txtCode.Search = false;
             this.txtCode.Size = new System.Drawing.Size(125, 24);
             this.txtCode.Status = CommonTools.EnumStatus.ADDNEW;
@@ -139,7 +142,7 @@
             // txtLetter
             // 
             this.txtLetter.Add = false;
-            this.txtLetter.BackColor = System.Drawing.Color.White;
+            this.txtLetter.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.txtLetter.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtLetter.Caption = "Letter";
             this.txtLetter.DBField = null;
@@ -148,7 +151,7 @@
             this.txtLetter.Del = false;
             this.txtLetter.DependingRS = null;
             this.txtLetter.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtLetter.ForeColor = System.Drawing.Color.Black;
+            this.txtLetter.ForeColor = System.Drawing.Color.Gray;
             this.txtLetter.Location = new System.Drawing.Point(464, 32);
             this.txtLetter.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtLetter.Multiline = true;
@@ -157,6 +160,7 @@
             this.txtLetter.ParentConn = null;
             this.txtLetter.ParentDA = null;
             this.txtLetter.PK = false;
+            this.txtLetter.ReadOnly = true;
             this.txtLetter.Search = false;
             this.txtLetter.Size = new System.Drawing.Size(55, 24);
             this.txtLetter.Status = CommonTools.EnumStatus.ADDNEW;
@@ -167,7 +171,7 @@
             // txtIdReg
             // 
             this.txtIdReg.Add = false;
-            this.txtIdReg.BackColor = System.Drawing.Color.White;
+            this.txtIdReg.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.txtIdReg.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtIdReg.Caption = "IdReg";
             this.txtIdReg.DBField = null;
@@ -176,7 +180,7 @@
             this.txtIdReg.Del = false;
             this.txtIdReg.DependingRS = null;
             this.txtIdReg.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtIdReg.ForeColor = System.Drawing.Color.Black;
+            this.txtIdReg.ForeColor = System.Drawing.Color.Gray;
             this.txtIdReg.Location = new System.Drawing.Point(17, 32);
             this.txtIdReg.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtIdReg.Multiline = true;
@@ -185,6 +189,7 @@
             this.txtIdReg.ParentConn = null;
             this.txtIdReg.ParentDA = null;
             this.txtIdReg.PK = false;
+            this.txtIdReg.ReadOnly = true;
             this.txtIdReg.Search = false;
             this.txtIdReg.Size = new System.Drawing.Size(125, 24);
             this.txtIdReg.Status = CommonTools.EnumStatus.ADDNEW;
@@ -208,7 +213,7 @@
             // txtDesFlagEng
             // 
             this.txtDesFlagEng.Add = false;
-            this.txtDesFlagEng.BackColor = System.Drawing.Color.White;
+            this.txtDesFlagEng.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.txtDesFlagEng.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtDesFlagEng.Caption = "DescFlagEng";
             this.txtDesFlagEng.DBField = null;
@@ -217,7 +222,7 @@
             this.txtDesFlagEng.Del = false;
             this.txtDesFlagEng.DependingRS = null;
             this.txtDesFlagEng.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtDesFlagEng.ForeColor = System.Drawing.Color.Black;
+            this.txtDesFlagEng.ForeColor = System.Drawing.Color.Gray;
             this.txtDesFlagEng.Location = new System.Drawing.Point(499, 32);
             this.txtDesFlagEng.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtDesFlagEng.Multiline = true;
@@ -226,6 +231,7 @@
             this.txtDesFlagEng.ParentConn = null;
             this.txtDesFlagEng.ParentDA = null;
             this.txtDesFlagEng.PK = false;
+            this.txtDesFlagEng.ReadOnly = true;
             this.txtDesFlagEng.Search = false;
             this.txtDesFlagEng.Size = new System.Drawing.Size(190, 24);
             this.txtDesFlagEng.Status = CommonTools.EnumStatus.ADDNEW;
@@ -236,7 +242,7 @@
             // txtDescFlag
             // 
             this.txtDescFlag.Add = false;
-            this.txtDescFlag.BackColor = System.Drawing.Color.White;
+            this.txtDescFlag.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.txtDescFlag.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtDescFlag.Caption = "DescFlag";
             this.txtDescFlag.DBField = null;
@@ -245,7 +251,7 @@
             this.txtDescFlag.Del = false;
             this.txtDescFlag.DependingRS = null;
             this.txtDescFlag.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtDescFlag.ForeColor = System.Drawing.Color.Black;
+            this.txtDescFlag.ForeColor = System.Drawing.Color.Gray;
             this.txtDescFlag.Location = new System.Drawing.Point(17, 32);
             this.txtDescFlag.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtDescFlag.Multiline = true;
@@ -254,6 +260,7 @@
             this.txtDescFlag.ParentConn = null;
             this.txtDescFlag.ParentDA = null;
             this.txtDescFlag.PK = false;
+            this.txtDescFlag.ReadOnly = true;
             this.txtDescFlag.Search = false;
             this.txtDescFlag.Size = new System.Drawing.Size(190, 24);
             this.txtDescFlag.Status = CommonTools.EnumStatus.ADDNEW;
@@ -314,6 +321,7 @@
             this.Controls.Add(this.CTLM);
             this.Controls.Add(this.groupBox1);
             this.Name = "fFlags";
+            this.ShowIcon = false;
             this.Text = "Flags";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

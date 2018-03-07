@@ -82,7 +82,7 @@ StyleCopReport.xml
 *.pidb
 *.svclog
 *.scc
-
+*.dll
 # Chutzpah Test files
 _Chutzpah*
 
@@ -337,3 +337,5 @@ TestResult.xml
 Version.cs
 Version.h
 Version.cpp
+*.pdb
+*.dll

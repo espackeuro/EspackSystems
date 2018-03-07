@@ -159,6 +159,7 @@
             this.Controls.Add(this.txtUser);
             this.Controls.Add(this.txtServerName);
             this.Name = "fDNS";
+            this.ShowIcon = false;
             this.Text = "DNS Control";
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();

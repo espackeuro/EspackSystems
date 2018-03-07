@@ -217,19 +217,19 @@
             this.CTLM.MsgStatusInfoLabel = null;
             this.CTLM.MsgStatusLabel = null;
             this.CTLM.Name = "CTLM";
-            
+            this.CTLM.ReQuery = false;
             this.CTLM.Size = new System.Drawing.Size(290, 29);
             this.CTLM.sSPAdd = "";
             this.CTLM.sSPDel = "";
             this.CTLM.sSPUpp = "";
-
+            this.CTLM.StatusBarProgress = null;
             this.CTLM.TabIndex = 0;
             this.CTLM.Text = "ctlMantenimientoNet1";
             // 
             // txtIT
             // 
             this.txtIT.Add = false;
-            this.txtIT.BackColor = System.Drawing.Color.White;
+            this.txtIT.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.txtIT.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtIT.Caption = "";
             this.txtIT.DBField = null;
@@ -238,7 +238,7 @@
             this.txtIT.Del = false;
             this.txtIT.DependingRS = null;
             this.txtIT.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtIT.ForeColor = System.Drawing.Color.Black;
+            this.txtIT.ForeColor = System.Drawing.Color.Gray;
             this.txtIT.Location = new System.Drawing.Point(980, 13);
             this.txtIT.Margin = new System.Windows.Forms.Padding(3, 46, 3, 3);
             this.txtIT.Multiline = true;
@@ -247,6 +247,7 @@
             this.txtIT.ParentConn = null;
             this.txtIT.ParentDA = null;
             this.txtIT.PK = false;
+            this.txtIT.ReadOnly = true;
             this.txtIT.Search = false;
             this.txtIT.Size = new System.Drawing.Size(100, 30);
             this.txtIT.Status = CommonTools.EnumStatus.ADDNEW;
@@ -286,7 +287,7 @@
             // txtNotes
             // 
             this.txtNotes.Add = false;
-            this.txtNotes.BackColor = System.Drawing.Color.White;
+            this.txtNotes.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.txtNotes.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtNotes.Caption = "Notes";
             this.txtNotes.DBField = null;
@@ -295,7 +296,7 @@
             this.txtNotes.Del = false;
             this.txtNotes.DependingRS = null;
             this.txtNotes.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtNotes.ForeColor = System.Drawing.Color.Black;
+            this.txtNotes.ForeColor = System.Drawing.Color.Gray;
             this.txtNotes.Location = new System.Drawing.Point(839, 146);
             this.txtNotes.Margin = new System.Windows.Forms.Padding(3, 46, 3, 3);
             this.txtNotes.Multiline = true;
@@ -304,6 +305,7 @@
             this.txtNotes.ParentConn = null;
             this.txtNotes.ParentDA = null;
             this.txtNotes.PK = false;
+            this.txtNotes.ReadOnly = true;
             this.txtNotes.Search = false;
             this.txtNotes.Size = new System.Drawing.Size(241, 24);
             this.txtNotes.Status = CommonTools.EnumStatus.ADDNEW;
@@ -315,7 +317,7 @@
             // 
             this.txtKm.Add = false;
             this.txtKm.AllowSpace = false;
-            this.txtKm.BackColor = System.Drawing.Color.White;
+            this.txtKm.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.txtKm.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtKm.Caption = "Km";
             this.txtKm.DBField = null;
@@ -324,7 +326,7 @@
             this.txtKm.Del = false;
             this.txtKm.DependingRS = null;
             this.txtKm.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtKm.ForeColor = System.Drawing.Color.Black;
+            this.txtKm.ForeColor = System.Drawing.Color.Gray;
             this.txtKm.Length = 0;
             this.txtKm.Location = new System.Drawing.Point(839, 108);
             this.txtKm.Margin = new System.Windows.Forms.Padding(3, 46, 3, 3);
@@ -336,6 +338,7 @@
             this.txtKm.ParentDA = null;
             this.txtKm.PK = false;
             this.txtKm.Precision = 0;
+            this.txtKm.ReadOnly = true;
             this.txtKm.Search = false;
             this.txtKm.Size = new System.Drawing.Size(105, 24);
             this.txtKm.Status = CommonTools.EnumStatus.ADDNEW;
@@ -364,6 +367,7 @@
             this.dateEnd.Location = new System.Drawing.Point(688, 226);
             this.dateEnd.Margin = new System.Windows.Forms.Padding(3, 136, 3, 3);
             this.dateEnd.Name = "dateEnd";
+            this.dateEnd.Nullable = false;
             this.dateEnd.Order = 0;
             this.dateEnd.ParentConn = null;
             this.dateEnd.ParentDA = null;
@@ -394,6 +398,7 @@
             this.dateStart.Location = new System.Drawing.Point(688, 186);
             this.dateStart.Margin = new System.Windows.Forms.Padding(3, 136, 3, 3);
             this.dateStart.Name = "dateStart";
+            this.dateStart.Nullable = false;
             this.dateStart.Order = 0;
             this.dateStart.ParentConn = null;
             this.dateStart.ParentDA = null;
@@ -470,7 +475,7 @@
             // txtPlaceAffected
             // 
             this.txtPlaceAffected.Add = false;
-            this.txtPlaceAffected.BackColor = System.Drawing.Color.White;
+            this.txtPlaceAffected.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.txtPlaceAffected.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtPlaceAffected.Caption = "";
             this.txtPlaceAffected.DBField = null;
@@ -479,7 +484,7 @@
             this.txtPlaceAffected.Del = false;
             this.txtPlaceAffected.DependingRS = null;
             this.txtPlaceAffected.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtPlaceAffected.ForeColor = System.Drawing.Color.Black;
+            this.txtPlaceAffected.ForeColor = System.Drawing.Color.Gray;
             this.txtPlaceAffected.Location = new System.Drawing.Point(561, 226);
             this.txtPlaceAffected.Margin = new System.Windows.Forms.Padding(3, 46, 3, 3);
             this.txtPlaceAffected.Multiline = true;
@@ -488,6 +493,7 @@
             this.txtPlaceAffected.ParentConn = null;
             this.txtPlaceAffected.ParentDA = null;
             this.txtPlaceAffected.PK = false;
+            this.txtPlaceAffected.ReadOnly = true;
             this.txtPlaceAffected.Search = false;
             this.txtPlaceAffected.Size = new System.Drawing.Size(100, 24);
             this.txtPlaceAffected.Status = CommonTools.EnumStatus.ADDNEW;
@@ -529,7 +535,7 @@
             // txtPlaceAdvise
             // 
             this.txtPlaceAdvise.Add = false;
-            this.txtPlaceAdvise.BackColor = System.Drawing.Color.White;
+            this.txtPlaceAdvise.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.txtPlaceAdvise.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtPlaceAdvise.Caption = "";
             this.txtPlaceAdvise.DBField = null;
@@ -538,7 +544,7 @@
             this.txtPlaceAdvise.Del = false;
             this.txtPlaceAdvise.DependingRS = null;
             this.txtPlaceAdvise.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtPlaceAdvise.ForeColor = System.Drawing.Color.Black;
+            this.txtPlaceAdvise.ForeColor = System.Drawing.Color.Gray;
             this.txtPlaceAdvise.Location = new System.Drawing.Point(561, 185);
             this.txtPlaceAdvise.Margin = new System.Windows.Forms.Padding(3, 46, 3, 3);
             this.txtPlaceAdvise.Multiline = true;
@@ -547,6 +553,7 @@
             this.txtPlaceAdvise.ParentConn = null;
             this.txtPlaceAdvise.ParentDA = null;
             this.txtPlaceAdvise.PK = false;
+            this.txtPlaceAdvise.ReadOnly = true;
             this.txtPlaceAdvise.Search = false;
             this.txtPlaceAdvise.Size = new System.Drawing.Size(100, 24);
             this.txtPlaceAdvise.Status = CommonTools.EnumStatus.ADDNEW;
@@ -588,7 +595,7 @@
             // txtPerson
             // 
             this.txtPerson.Add = false;
-            this.txtPerson.BackColor = System.Drawing.Color.White;
+            this.txtPerson.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.txtPerson.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtPerson.Caption = "Person Name";
             this.txtPerson.DBField = null;
@@ -597,7 +604,7 @@
             this.txtPerson.Del = false;
             this.txtPerson.DependingRS = null;
             this.txtPerson.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtPerson.ForeColor = System.Drawing.Color.Black;
+            this.txtPerson.ForeColor = System.Drawing.Color.Gray;
             this.txtPerson.Location = new System.Drawing.Point(425, 146);
             this.txtPerson.Margin = new System.Windows.Forms.Padding(3, 46, 3, 3);
             this.txtPerson.Multiline = true;
@@ -606,6 +613,7 @@
             this.txtPerson.ParentConn = null;
             this.txtPerson.ParentDA = null;
             this.txtPerson.PK = false;
+            this.txtPerson.ReadOnly = true;
             this.txtPerson.Search = false;
             this.txtPerson.Size = new System.Drawing.Size(236, 24);
             this.txtPerson.Status = CommonTools.EnumStatus.ADDNEW;
@@ -616,7 +624,7 @@
             // txtIdTarea
             // 
             this.txtIdTarea.Add = false;
-            this.txtIdTarea.BackColor = System.Drawing.Color.White;
+            this.txtIdTarea.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.txtIdTarea.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtIdTarea.Caption = "Task #";
             this.txtIdTarea.DBField = null;
@@ -625,7 +633,7 @@
             this.txtIdTarea.Del = false;
             this.txtIdTarea.DependingRS = null;
             this.txtIdTarea.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtIdTarea.ForeColor = System.Drawing.Color.Black;
+            this.txtIdTarea.ForeColor = System.Drawing.Color.Gray;
             this.txtIdTarea.Location = new System.Drawing.Point(425, 107);
             this.txtIdTarea.Margin = new System.Windows.Forms.Padding(3, 46, 3, 3);
             this.txtIdTarea.Multiline = true;
@@ -634,6 +642,7 @@
             this.txtIdTarea.ParentConn = null;
             this.txtIdTarea.ParentDA = null;
             this.txtIdTarea.PK = false;
+            this.txtIdTarea.ReadOnly = true;
             this.txtIdTarea.Search = false;
             this.txtIdTarea.Size = new System.Drawing.Size(236, 24);
             this.txtIdTarea.Status = CommonTools.EnumStatus.ADDNEW;
@@ -665,6 +674,7 @@
             this.Controls.Add(this.CTLM);
             this.KeyPreview = true;
             this.Name = "fTasks";
+            this.ShowIcon = false;
             this.Text = "Tasks";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

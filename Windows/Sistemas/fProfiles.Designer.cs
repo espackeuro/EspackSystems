@@ -39,10 +39,10 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.lstServiceDefaultFlags = new EspackFormControls.EspackCheckedListBox();
             this.VS = new VSGrid.CtlVSGrid();
-            this.CTLM = new CTLMantenimientoNet.CTLMantenimientoNet();
             this.ProfileCode = new VSGrid.CtlVSTextBoxColumn();
             this.Service = new VSGrid.CtlVSTextBoxColumn();
             this.DefaultFlags = new VSGrid.CtlVSTextBoxColumn();
+            this.CTLM = new CTLMantenimientoNet.CTLMantenimientoNet();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.VS)).BeginInit();
@@ -66,7 +66,7 @@
             // txtDescription
             // 
             this.txtDescription.Add = false;
-            this.txtDescription.BackColor = System.Drawing.Color.White;
+            this.txtDescription.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.txtDescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtDescription.Caption = "Description";
             this.txtDescription.DBField = null;
@@ -75,7 +75,7 @@
             this.txtDescription.Del = false;
             this.txtDescription.DependingRS = null;
             this.txtDescription.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtDescription.ForeColor = System.Drawing.Color.Black;
+            this.txtDescription.ForeColor = System.Drawing.Color.Gray;
             this.txtDescription.Location = new System.Drawing.Point(240, 33);
             this.txtDescription.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtDescription.Multiline = true;
@@ -84,6 +84,7 @@
             this.txtDescription.ParentConn = null;
             this.txtDescription.ParentDA = null;
             this.txtDescription.PK = false;
+            this.txtDescription.ReadOnly = true;
             this.txtDescription.Search = false;
             this.txtDescription.Size = new System.Drawing.Size(345, 22);
             this.txtDescription.Status = CommonTools.EnumStatus.ADDNEW;
@@ -156,7 +157,7 @@
             // txtProfileCode
             // 
             this.txtProfileCode.Add = false;
-            this.txtProfileCode.BackColor = System.Drawing.Color.White;
+            this.txtProfileCode.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.txtProfileCode.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtProfileCode.Caption = "Profile Code";
             this.txtProfileCode.DBField = null;
@@ -165,7 +166,7 @@
             this.txtProfileCode.Del = false;
             this.txtProfileCode.DependingRS = null;
             this.txtProfileCode.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtProfileCode.ForeColor = System.Drawing.Color.Black;
+            this.txtProfileCode.ForeColor = System.Drawing.Color.Gray;
             this.txtProfileCode.Location = new System.Drawing.Point(6, 32);
             this.txtProfileCode.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtProfileCode.Multiline = true;
@@ -174,6 +175,7 @@
             this.txtProfileCode.ParentConn = null;
             this.txtProfileCode.ParentDA = null;
             this.txtProfileCode.PK = false;
+            this.txtProfileCode.ReadOnly = true;
             this.txtProfileCode.Search = false;
             this.txtProfileCode.Size = new System.Drawing.Size(225, 24);
             this.txtProfileCode.Status = CommonTools.EnumStatus.ADDNEW;
@@ -226,10 +228,11 @@
             // VS
             // 
             this.VS.Add = false;
-            this.VS.AllowDelete = true;
-            this.VS.AllowInsert = true;
+            this.VS.AllowDelete = false;
+            this.VS.AllowInsert = false;
             this.VS.AllowUpdate = false;
             this.VS.AllowUserToAddRows = false;
+            this.VS.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
             this.VS.Caption = "";
             this.VS.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.VS.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -267,30 +270,10 @@
             this.VS.Upp = false;
             this.VS.Value = null;
             // 
-            // CTLM
-            // 
-            this.CTLM.Clear = false;
-            this.CTLM.Conn = null;
-            this.CTLM.DBTable = null;
-            this.CTLM.Dock = System.Windows.Forms.DockStyle.None;
-            this.CTLM.ImageScalingSize = new System.Drawing.Size(22, 22);
-            this.CTLM.Location = new System.Drawing.Point(9, 9);
-            this.CTLM.MsgStatusInfoLabel = null;
-            this.CTLM.MsgStatusLabel = null;
-            this.CTLM.Name = "CTLM";
-            this.CTLM.ReQuery = false;
-            
-            this.CTLM.Size = new System.Drawing.Size(290, 29);
-            this.CTLM.sSPAdd = "";
-            this.CTLM.sSPDel = "";
-            this.CTLM.sSPUpp = "";
-
-            this.CTLM.TabIndex = 1;
-            this.CTLM.Text = "CTLM";
-            // 
             // ProfileCode
             // 
             this.ProfileCode.Add = true;
+            this.ProfileCode.Aggregate = VSGrid.AggregateOperations.NONE;
             this.ProfileCode.Alignment = null;
             this.ProfileCode.Attr = null;
             this.ProfileCode.AutoCompleteCustomSource = null;
@@ -318,6 +301,7 @@
             this.ProfileCode.Order = 0;
             this.ProfileCode.Parent = null;
             this.ProfileCode.PK = false;
+            this.ProfileCode.Print = false;
             this.ProfileCode.ReadOnly = true;
             this.ProfileCode.RowColor = null;
             this.ProfileCode.Search = false;
@@ -325,7 +309,8 @@
             this.ProfileCode.SPAddParamName = "@ProfileCode";
             this.ProfileCode.SPDelParamName = "@ProfileCode";
             this.ProfileCode.SPUppParamName = "@ProfileCode";
-            this.ProfileCode.Status = CommonTools.EnumStatus.ADDNEW;
+            this.ProfileCode.Status = CommonTools.EnumStatus.SEARCH;
+            this.ProfileCode.Text = "";
             this.ProfileCode.Upp = true;
             this.ProfileCode.Value = "";
             this.ProfileCode.Visible = false;
@@ -333,6 +318,7 @@
             // Service
             // 
             this.Service.Add = true;
+            this.Service.Aggregate = VSGrid.AggregateOperations.NONE;
             this.Service.Alignment = null;
             this.Service.Attr = null;
             this.Service.AutoCompleteCustomSource = null;
@@ -359,6 +345,7 @@
             this.Service.Order = 0;
             this.Service.Parent = null;
             this.Service.PK = false;
+            this.Service.Print = false;
             this.Service.ReadOnly = true;
             this.Service.RowColor = null;
             this.Service.Search = false;
@@ -366,13 +353,16 @@
             this.Service.SPAddParamName = "@Service";
             this.Service.SPDelParamName = "@Service";
             this.Service.SPUppParamName = "@Service";
-            this.Service.Status = CommonTools.EnumStatus.ADDNEW;
+            this.Service.Status = CommonTools.EnumStatus.SEARCH;
+            this.Service.Text = "";
             this.Service.Upp = true;
             this.Service.Value = "";
+            this.Service.Width = 49;
             // 
             // DefaultFlags
             // 
             this.DefaultFlags.Add = true;
+            this.DefaultFlags.Aggregate = VSGrid.AggregateOperations.NONE;
             this.DefaultFlags.Alignment = null;
             this.DefaultFlags.Attr = null;
             this.DefaultFlags.AutoCompleteCustomSource = null;
@@ -399,6 +389,7 @@
             this.DefaultFlags.Order = 0;
             this.DefaultFlags.Parent = null;
             this.DefaultFlags.PK = false;
+            this.DefaultFlags.Print = false;
             this.DefaultFlags.ReadOnly = true;
             this.DefaultFlags.RowColor = null;
             this.DefaultFlags.Search = false;
@@ -406,10 +397,31 @@
             this.DefaultFlags.SPAddParamName = "@DefaultFlags";
             this.DefaultFlags.SPDelParamName = "";
             this.DefaultFlags.SPUppParamName = "@DefaultFlags";
-            this.DefaultFlags.Status = CommonTools.EnumStatus.ADDNEW;
+            this.DefaultFlags.Status = CommonTools.EnumStatus.SEARCH;
+            this.DefaultFlags.Text = "";
             this.DefaultFlags.Upp = true;
             this.DefaultFlags.Value = "";
-            this.DefaultFlags.Width = 250;
+            this.DefaultFlags.Width = 75;
+            // 
+            // CTLM
+            // 
+            this.CTLM.Clear = false;
+            this.CTLM.Conn = null;
+            this.CTLM.DBTable = null;
+            this.CTLM.Dock = System.Windows.Forms.DockStyle.None;
+            this.CTLM.ImageScalingSize = new System.Drawing.Size(22, 22);
+            this.CTLM.Location = new System.Drawing.Point(9, 9);
+            this.CTLM.MsgStatusInfoLabel = null;
+            this.CTLM.MsgStatusLabel = null;
+            this.CTLM.Name = "CTLM";
+            this.CTLM.ReQuery = false;
+            this.CTLM.Size = new System.Drawing.Size(290, 29);
+            this.CTLM.sSPAdd = "";
+            this.CTLM.sSPDel = "";
+            this.CTLM.sSPUpp = "";
+            this.CTLM.StatusBarProgress = null;
+            this.CTLM.TabIndex = 1;
+            this.CTLM.Text = "CTLM";
             // 
             // fProfiles
             // 
@@ -420,6 +432,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.CTLM);
             this.Name = "fProfiles";
+            this.ShowIcon = false;
             this.Text = "Profiles";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

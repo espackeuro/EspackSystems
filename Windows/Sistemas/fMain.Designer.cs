@@ -34,6 +34,7 @@
             this.mnuTowns = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuZones = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuItems = new System.Windows.Forms.ToolStripMenuItem();
+            this.systemsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.actionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dHCPControlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dNSControlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,7 +46,7 @@
             this.aliasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.securityProfilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
-            this.systemsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.windowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
@@ -60,9 +61,11 @@
             this.mnuNetwork,
             this.actionsToolStripMenuItem,
             this.tasksToolStripMenuItem,
-            this.controlToolStripMenuItem});
+            this.controlToolStripMenuItem,
+            this.windowToolStripMenuItem});
             this.menuStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.menuStrip1.Location = new System.Drawing.Point(9, 3);
+            this.menuStrip1.MdiWindowListItem = this.windowToolStripMenuItem;
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
             this.menuStrip1.Size = new System.Drawing.Size(520, 25);
@@ -85,6 +88,7 @@
             // 
             this.mnuTowns.Name = "mnuTowns";
             this.mnuTowns.Size = new System.Drawing.Size(156, 22);
+            this.mnuTowns.Tag = "fTown";
             this.mnuTowns.Text = "Towns";
             this.mnuTowns.Click += new System.EventHandler(this.mnuTowns_Click);
             // 
@@ -92,6 +96,7 @@
             // 
             this.mnuZones.Name = "mnuZones";
             this.mnuZones.Size = new System.Drawing.Size(156, 22);
+            this.mnuZones.Tag = "fZones";
             this.mnuZones.Text = "Network Zones";
             this.mnuZones.Click += new System.EventHandler(this.mnuZones_Click);
             // 
@@ -99,8 +104,17 @@
             // 
             this.mnuItems.Name = "mnuItems";
             this.mnuItems.Size = new System.Drawing.Size(156, 22);
+            this.mnuItems.Tag = "fItems";
             this.mnuItems.Text = "Inventory Items";
             this.mnuItems.Click += new System.EventHandler(this.mnuItems_Click);
+            // 
+            // systemsToolStripMenuItem
+            // 
+            this.systemsToolStripMenuItem.Name = "systemsToolStripMenuItem";
+            this.systemsToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.systemsToolStripMenuItem.Tag = "fSystemsMaster";
+            this.systemsToolStripMenuItem.Text = "Systems";
+            this.systemsToolStripMenuItem.Click += new System.EventHandler(this.systemsToolStripMenuItem_Click);
             // 
             // actionsToolStripMenuItem
             // 
@@ -114,14 +128,16 @@
             // dHCPControlToolStripMenuItem
             // 
             this.dHCPControlToolStripMenuItem.Name = "dHCPControlToolStripMenuItem";
-            this.dHCPControlToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.dHCPControlToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.dHCPControlToolStripMenuItem.Tag = "fDHCP";
             this.dHCPControlToolStripMenuItem.Text = "DHCP Control";
             this.dHCPControlToolStripMenuItem.Click += new System.EventHandler(this.dHCPControlToolStripMenuItem_Click);
             // 
             // dNSControlToolStripMenuItem
             // 
             this.dNSControlToolStripMenuItem.Name = "dNSControlToolStripMenuItem";
-            this.dNSControlToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.dNSControlToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.dNSControlToolStripMenuItem.Tag = "fDNS";
             this.dNSControlToolStripMenuItem.Text = "DNS Control";
             this.dNSControlToolStripMenuItem.Click += new System.EventHandler(this.dNSControlToolStripMenuItem_Click);
             // 
@@ -129,6 +145,7 @@
             // 
             this.tasksToolStripMenuItem.Name = "tasksToolStripMenuItem";
             this.tasksToolStripMenuItem.Size = new System.Drawing.Size(47, 19);
+            this.tasksToolStripMenuItem.Tag = "fTasks";
             this.tasksToolStripMenuItem.Text = "Tasks";
             this.tasksToolStripMenuItem.Click += new System.EventHandler(this.tasksToolStripMenuItem_Click);
             // 
@@ -148,6 +165,7 @@
             // 
             this.flagsToolStripMenuItem.Name = "flagsToolStripMenuItem";
             this.flagsToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.flagsToolStripMenuItem.Tag = "fFlags";
             this.flagsToolStripMenuItem.Text = "Flags";
             this.flagsToolStripMenuItem.Click += new System.EventHandler(this.flagsToolStripMenuItem_Click);
             // 
@@ -155,6 +173,7 @@
             // 
             this.servicesToolStripMenuItem1.Name = "servicesToolStripMenuItem1";
             this.servicesToolStripMenuItem1.Size = new System.Drawing.Size(158, 22);
+            this.servicesToolStripMenuItem1.Tag = "fServices";
             this.servicesToolStripMenuItem1.Text = "Services";
             this.servicesToolStripMenuItem1.Click += new System.EventHandler(this.servicesToolStripMenuItem1_Click);
             // 
@@ -162,6 +181,7 @@
             // 
             this.usersToolStripMenuItem1.Name = "usersToolStripMenuItem1";
             this.usersToolStripMenuItem1.Size = new System.Drawing.Size(158, 22);
+            this.usersToolStripMenuItem1.Tag = "fUsers";
             this.usersToolStripMenuItem1.Text = "Users";
             this.usersToolStripMenuItem1.Click += new System.EventHandler(this.usersToolStripMenuItem1_Click);
             // 
@@ -169,6 +189,7 @@
             // 
             this.aliasToolStripMenuItem.Name = "aliasToolStripMenuItem";
             this.aliasToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.aliasToolStripMenuItem.Tag = "fAlias";
             this.aliasToolStripMenuItem.Text = "Alias";
             this.aliasToolStripMenuItem.Click += new System.EventHandler(this.aliasToolStripMenuItem_Click);
             // 
@@ -176,6 +197,7 @@
             // 
             this.securityProfilesToolStripMenuItem.Name = "securityProfilesToolStripMenuItem";
             this.securityProfilesToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.securityProfilesToolStripMenuItem.Tag = "fProfiles";
             this.securityProfilesToolStripMenuItem.Text = "Security Profiles";
             this.securityProfilesToolStripMenuItem.Click += new System.EventHandler(this.securityProfilesToolStripMenuItem_Click);
             // 
@@ -197,12 +219,11 @@
             this.toolStripContainer1.Text = "toolStripContainer1";
             this.toolStripContainer1.TopToolStripPanelVisible = false;
             // 
-            // systemsToolStripMenuItem
+            // windowToolStripMenuItem
             // 
-            this.systemsToolStripMenuItem.Name = "systemsToolStripMenuItem";
-            this.systemsToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
-            this.systemsToolStripMenuItem.Text = "Systems";
-            this.systemsToolStripMenuItem.Click += new System.EventHandler(this.systemsToolStripMenuItem_Click);
+            this.windowToolStripMenuItem.Name = "windowToolStripMenuItem";
+            this.windowToolStripMenuItem.Size = new System.Drawing.Size(63, 19);
+            this.windowToolStripMenuItem.Text = "Window";
             // 
             // fMain
             // 
@@ -213,6 +234,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
             this.Name = "fMain";
+            this.ShowIcon = false;
             this.Text = "Sistemas";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.fMain_Load);
@@ -243,6 +265,7 @@
         private System.Windows.Forms.ToolStripMenuItem securityProfilesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dNSControlToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem systemsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem windowToolStripMenuItem;
     }
 }
 

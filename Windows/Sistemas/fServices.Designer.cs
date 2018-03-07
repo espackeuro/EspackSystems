@@ -79,7 +79,7 @@
             // txtDB
             // 
             this.txtDB.Add = false;
-            this.txtDB.BackColor = System.Drawing.Color.White;
+            this.txtDB.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.txtDB.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtDB.Caption = "Database";
             this.txtDB.DBField = null;
@@ -88,7 +88,7 @@
             this.txtDB.Del = false;
             this.txtDB.DependingRS = null;
             this.txtDB.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtDB.ForeColor = System.Drawing.Color.Black;
+            this.txtDB.ForeColor = System.Drawing.Color.Gray;
             this.txtDB.Location = new System.Drawing.Point(24, 32);
             this.txtDB.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtDB.Multiline = true;
@@ -97,6 +97,7 @@
             this.txtDB.ParentConn = null;
             this.txtDB.ParentDA = null;
             this.txtDB.PK = false;
+            this.txtDB.ReadOnly = true;
             this.txtDB.Search = false;
             this.txtDB.Size = new System.Drawing.Size(175, 24);
             this.txtDB.Status = CommonTools.EnumStatus.ADDNEW;
@@ -107,7 +108,7 @@
             // txtLocation
             // 
             this.txtLocation.Add = false;
-            this.txtLocation.BackColor = System.Drawing.Color.White;
+            this.txtLocation.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.txtLocation.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtLocation.Caption = "Location";
             this.txtLocation.DBField = null;
@@ -116,7 +117,7 @@
             this.txtLocation.Del = false;
             this.txtLocation.DependingRS = null;
             this.txtLocation.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtLocation.ForeColor = System.Drawing.Color.Black;
+            this.txtLocation.ForeColor = System.Drawing.Color.Gray;
             this.txtLocation.Location = new System.Drawing.Point(235, 32);
             this.txtLocation.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtLocation.Multiline = true;
@@ -125,6 +126,7 @@
             this.txtLocation.ParentConn = null;
             this.txtLocation.ParentDA = null;
             this.txtLocation.PK = false;
+            this.txtLocation.ReadOnly = true;
             this.txtLocation.Search = false;
             this.txtLocation.Size = new System.Drawing.Size(175, 24);
             this.txtLocation.Status = CommonTools.EnumStatus.ADDNEW;
@@ -135,7 +137,7 @@
             // txtApp
             // 
             this.txtApp.Add = false;
-            this.txtApp.BackColor = System.Drawing.Color.White;
+            this.txtApp.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.txtApp.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtApp.Caption = "Application";
             this.txtApp.DBField = null;
@@ -144,7 +146,7 @@
             this.txtApp.Del = false;
             this.txtApp.DependingRS = null;
             this.txtApp.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtApp.ForeColor = System.Drawing.Color.Black;
+            this.txtApp.ForeColor = System.Drawing.Color.Gray;
             this.txtApp.Location = new System.Drawing.Point(449, 32);
             this.txtApp.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtApp.Multiline = true;
@@ -153,6 +155,7 @@
             this.txtApp.ParentConn = null;
             this.txtApp.ParentDA = null;
             this.txtApp.PK = false;
+            this.txtApp.ReadOnly = true;
             this.txtApp.Search = false;
             this.txtApp.Size = new System.Drawing.Size(175, 24);
             this.txtApp.Status = CommonTools.EnumStatus.ADDNEW;
@@ -163,7 +166,7 @@
             // txtServer1
             // 
             this.txtServer1.Add = false;
-            this.txtServer1.BackColor = System.Drawing.Color.White;
+            this.txtServer1.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.txtServer1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtServer1.Caption = "Server1";
             this.txtServer1.DBField = null;
@@ -172,7 +175,7 @@
             this.txtServer1.Del = false;
             this.txtServer1.DependingRS = null;
             this.txtServer1.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtServer1.ForeColor = System.Drawing.Color.Black;
+            this.txtServer1.ForeColor = System.Drawing.Color.Gray;
             this.txtServer1.Location = new System.Drawing.Point(24, 75);
             this.txtServer1.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtServer1.Multiline = true;
@@ -181,6 +184,7 @@
             this.txtServer1.ParentConn = null;
             this.txtServer1.ParentDA = null;
             this.txtServer1.PK = false;
+            this.txtServer1.ReadOnly = true;
             this.txtServer1.Search = false;
             this.txtServer1.Size = new System.Drawing.Size(175, 24);
             this.txtServer1.Status = CommonTools.EnumStatus.ADDNEW;
@@ -191,7 +195,7 @@
             // txtServer2
             // 
             this.txtServer2.Add = false;
-            this.txtServer2.BackColor = System.Drawing.Color.White;
+            this.txtServer2.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.txtServer2.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtServer2.Caption = "Server2";
             this.txtServer2.DBField = null;
@@ -200,7 +204,7 @@
             this.txtServer2.Del = false;
             this.txtServer2.DependingRS = null;
             this.txtServer2.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtServer2.ForeColor = System.Drawing.Color.Black;
+            this.txtServer2.ForeColor = System.Drawing.Color.Gray;
             this.txtServer2.Location = new System.Drawing.Point(235, 75);
             this.txtServer2.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtServer2.Multiline = true;
@@ -209,6 +213,7 @@
             this.txtServer2.ParentConn = null;
             this.txtServer2.ParentDA = null;
             this.txtServer2.PK = false;
+            this.txtServer2.ReadOnly = true;
             this.txtServer2.Search = false;
             this.txtServer2.Size = new System.Drawing.Size(175, 24);
             this.txtServer2.Status = CommonTools.EnumStatus.ADDNEW;
@@ -219,7 +224,7 @@
             // txtActiveServer
             // 
             this.txtActiveServer.Add = false;
-            this.txtActiveServer.BackColor = System.Drawing.Color.White;
+            this.txtActiveServer.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.txtActiveServer.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtActiveServer.Caption = "Active Server";
             this.txtActiveServer.DBField = null;
@@ -228,7 +233,7 @@
             this.txtActiveServer.Del = false;
             this.txtActiveServer.DependingRS = null;
             this.txtActiveServer.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtActiveServer.ForeColor = System.Drawing.Color.Black;
+            this.txtActiveServer.ForeColor = System.Drawing.Color.Gray;
             this.txtActiveServer.Location = new System.Drawing.Point(449, 75);
             this.txtActiveServer.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtActiveServer.Multiline = true;
@@ -237,6 +242,7 @@
             this.txtActiveServer.ParentConn = null;
             this.txtActiveServer.ParentDA = null;
             this.txtActiveServer.PK = false;
+            this.txtActiveServer.ReadOnly = true;
             this.txtActiveServer.Search = false;
             this.txtActiveServer.Size = new System.Drawing.Size(175, 24);
             this.txtActiveServer.Status = CommonTools.EnumStatus.ADDNEW;
@@ -309,7 +315,7 @@
             // txtDescription
             // 
             this.txtDescription.Add = false;
-            this.txtDescription.BackColor = System.Drawing.Color.White;
+            this.txtDescription.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.txtDescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtDescription.Caption = "Description";
             this.txtDescription.DBField = null;
@@ -318,7 +324,7 @@
             this.txtDescription.Del = false;
             this.txtDescription.DependingRS = null;
             this.txtDescription.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtDescription.ForeColor = System.Drawing.Color.Black;
+            this.txtDescription.ForeColor = System.Drawing.Color.Gray;
             this.txtDescription.Location = new System.Drawing.Point(24, 66);
             this.txtDescription.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtDescription.Multiline = true;
@@ -327,6 +333,7 @@
             this.txtDescription.ParentConn = null;
             this.txtDescription.ParentDA = null;
             this.txtDescription.PK = false;
+            this.txtDescription.ReadOnly = true;
             this.txtDescription.Search = false;
             this.txtDescription.Size = new System.Drawing.Size(600, 24);
             this.txtDescription.Status = CommonTools.EnumStatus.ADDNEW;
@@ -337,7 +344,7 @@
             // txtServiceCode
             // 
             this.txtServiceCode.Add = false;
-            this.txtServiceCode.BackColor = System.Drawing.Color.White;
+            this.txtServiceCode.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.txtServiceCode.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtServiceCode.Caption = "Service Code";
             this.txtServiceCode.DBField = null;
@@ -346,7 +353,7 @@
             this.txtServiceCode.Del = false;
             this.txtServiceCode.DependingRS = null;
             this.txtServiceCode.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtServiceCode.ForeColor = System.Drawing.Color.Black;
+            this.txtServiceCode.ForeColor = System.Drawing.Color.Gray;
             this.txtServiceCode.Location = new System.Drawing.Point(24, 23);
             this.txtServiceCode.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtServiceCode.Multiline = true;
@@ -355,6 +362,7 @@
             this.txtServiceCode.ParentConn = null;
             this.txtServiceCode.ParentDA = null;
             this.txtServiceCode.PK = false;
+            this.txtServiceCode.ReadOnly = true;
             this.txtServiceCode.Search = false;
             this.txtServiceCode.Size = new System.Drawing.Size(175, 24);
             this.txtServiceCode.Status = CommonTools.EnumStatus.ADDNEW;
@@ -379,7 +387,7 @@
             // txtNetVersion
             // 
             this.txtNetVersion.Add = false;
-            this.txtNetVersion.BackColor = System.Drawing.Color.White;
+            this.txtNetVersion.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.txtNetVersion.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtNetVersion.Caption = "Net Version";
             this.txtNetVersion.DBField = null;
@@ -388,7 +396,7 @@
             this.txtNetVersion.Del = false;
             this.txtNetVersion.DependingRS = null;
             this.txtNetVersion.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtNetVersion.ForeColor = System.Drawing.Color.Black;
+            this.txtNetVersion.ForeColor = System.Drawing.Color.Gray;
             this.txtNetVersion.Location = new System.Drawing.Point(449, 23);
             this.txtNetVersion.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtNetVersion.Name = "txtNetVersion";
@@ -396,6 +404,7 @@
             this.txtNetVersion.ParentConn = null;
             this.txtNetVersion.ParentDA = null;
             this.txtNetVersion.PK = false;
+            this.txtNetVersion.ReadOnly = true;
             this.txtNetVersion.Search = false;
             this.txtNetVersion.Size = new System.Drawing.Size(175, 17);
             this.txtNetVersion.Status = CommonTools.EnumStatus.ADDNEW;
@@ -406,7 +415,7 @@
             // txtVersion
             // 
             this.txtVersion.Add = false;
-            this.txtVersion.BackColor = System.Drawing.Color.White;
+            this.txtVersion.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.txtVersion.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtVersion.Caption = "Version";
             this.txtVersion.DBField = null;
@@ -415,7 +424,7 @@
             this.txtVersion.Del = false;
             this.txtVersion.DependingRS = null;
             this.txtVersion.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtVersion.ForeColor = System.Drawing.Color.Black;
+            this.txtVersion.ForeColor = System.Drawing.Color.Gray;
             this.txtVersion.Location = new System.Drawing.Point(235, 23);
             this.txtVersion.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtVersion.Name = "txtVersion";
@@ -423,6 +432,7 @@
             this.txtVersion.ParentConn = null;
             this.txtVersion.ParentDA = null;
             this.txtVersion.PK = false;
+            this.txtVersion.ReadOnly = true;
             this.txtVersion.Search = false;
             this.txtVersion.Size = new System.Drawing.Size(175, 17);
             this.txtVersion.Status = CommonTools.EnumStatus.ADDNEW;
@@ -489,7 +499,7 @@
             this.btnReloadVersions});
             this.toolStrip2.Location = new System.Drawing.Point(462, 3);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(160, 31);
+            this.toolStrip2.Size = new System.Drawing.Size(129, 31);
             this.toolStrip2.TabIndex = 42;
             this.toolStrip2.Text = "toolStrip2";
             // 
@@ -508,7 +518,6 @@
             // 
             this.toolStripButton2.AutoSize = false;
             this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton2.Image = global::Sistemas.Properties.Resources.reload_24;
             this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton2.Name = "toolStripButton2";
             this.toolStripButton2.Size = new System.Drawing.Size(23, 22);
@@ -527,6 +536,7 @@
             this.Controls.Add(this.grpVarious);
             this.KeyPreview = true;
             this.Name = "fServices";
+            this.ShowIcon = false;
             this.Text = "Services";
             this.grpID.ResumeLayout(false);
             this.grpID.PerformLayout();

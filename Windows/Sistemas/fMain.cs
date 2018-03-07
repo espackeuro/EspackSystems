@@ -82,23 +82,29 @@ namespace Sistemas
         }
         private void mnuTowns_Click(object sender, EventArgs e)
         {
-            fTown fTown = (fTown)GetChildInstance("fTown"); 
+            openForm(sender);
+        }
+
+        private void openForm(object menuOption)
+        {
+            var formName = ((ToolStripMenuItem)menuOption).Tag.ToString();
+            var form = (Form)GetChildInstance(formName);
+            form.WindowState = FormWindowState.Maximized;
         }
 
         private void mnuZones_Click(object sender, EventArgs e)
         {
-            fZones fZone = (fZones)GetChildInstance("fZones");
+            openForm(sender);
         }
 
         private void mnuItems_Click(object sender, EventArgs e)
         {
-            //fUsers fUsers = (fUsers)GetChildInstance("fUsers");
-            fItems fItems = (fItems)GetChildInstance("fItems");
+            openForm(sender);
         }
 
         private void dHCPControlToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            fDHCP fDHCP = (fDHCP)GetChildInstance("fDHCP");
+            openForm(sender);
 
         }
 
@@ -109,14 +115,7 @@ namespace Sistemas
 
         private void tasksToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            fTasks fTasks = (fTasks)GetFormInstance("fTasks");
-            if (fTasks == null)
-            {
-                fTasks = new fTasks();
-                fTasks.MdiParent = this;
-
-            }
-            fTasks.Show();
+            openForm(sender);
         }
 
         private static Dictionary<string, Form> InstancedForms= new Dictionary<string, Form>();
@@ -149,111 +148,40 @@ namespace Sistemas
         {
         }
 
-//        private void btnMaster_Click(object sender, EventArgs e)
-//        {
-//            for (var i = 1; i < Application.OpenForms.Count; i++)
-//            {
-//                Application.OpenForms[i].Close();
-//            }
-//            if (Values.gDatos.context_info == null)
-//            {
-//                string lPwd = "";
-//#if DEBUG
-//                lPwd = "Y?D6d#b@";
-//#endif
-//                CTWin.InputBox("", "Enter Master Password", ref lPwd, true);
-//                if (lPwd != "")
-//                {
-//                    var vbresult = new byte[128];
-//                    cAccesoDatosNet lDatos = Values.gDatos.Clone();
-//                    lDatos.DataBase = "SISTEMAS";
-//                    SP lSP = new SP(lDatos, "pCheckContext");
-//                    lSP.AddParameterValue("password", lPwd);
-//                    lSP.AddParameterValue("Code", "MASTERPASSWORD");
-//                    lSP.AddParameterValue("vbpassword", null);
-//                    lSP.Execute();
-//                    if (lSP.LastMsg != "OK")
-//                    {
-//                        MessageBox.Show(lSP.LastMsg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-//                    }
-//                    else
-//                    {
-//                        vbresult = (byte[])lSP.ReturnValues()["@vbpassword"];
-//                        Values.gDatos.context_info = vbresult;
-//                        this.btnMaster.Image = global::Sistemas.Properties.Resources.unlock_24;
-//                        Values.gMasterPassword = lPwd;
-//                    }
-//                }
-//            } else
-//            {
-//                Values.gDatos.context_info = null;
-//                this.btnMaster.Image = global::Sistemas.Properties.Resources.lock_24;
-//            }
-//        }
-
-
-
         private void flagsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            fFlags fFlags = new fFlags();
-            fFlags.MdiParent = this;
-            fFlags.Show();
+            openForm(sender);
         }
 
         private void servicesToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            fServices fServices = new fServices();
-            fServices.MdiParent = this;
-            fServices.Show();
+            openForm(sender);
         }
 
         private void usersToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            fUsers fUsers = new fUsers();
-            fUsers.MdiParent = this;
-            fUsers.Show();
+            openForm(sender);
         }
 
         private void aliasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            fAlias fAlias = new fAlias();
-            fAlias.MdiParent = this;
-            fAlias.Show();
+            openForm(sender);
         }
 
         private void securityProfilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            fProfiles fProfiles = new fProfiles();
-            fProfiles.MdiParent = this;
-            fProfiles.Show();
+            openForm(sender);
         }
 
         private void dNSControlToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            fDNS fDNS = (fDNS)GetChildInstance("fDNS");
+            openForm(sender);
         }
 
-        private void tESTSToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            fTests fTests = (fTests)GetChildInstance("fTests");
-        }
-
-        private void testCarlosToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            fTest fTest = new fTest();
-            fTest.Show();
-        }
 
         private void systemsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            fSystemsMaster fSystemsMaster = (fSystemsMaster)GetFormInstance("fSystemsMaster");
-            if (fSystemsMaster == null)
-            {
-                fSystemsMaster = new fSystemsMaster();
-                fSystemsMaster.MdiParent = this;
-
-            }
-            fSystemsMaster.Show();
+            openForm(sender);
         }
     }
 

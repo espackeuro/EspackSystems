@@ -45,20 +45,26 @@
             // txtCode
             // 
             this.txtCode.Add = false;
+            this.txtCode.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.txtCode.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtCode.Caption = "Code";
             this.txtCode.DBField = null;
             this.txtCode.DBFieldType = null;
             this.txtCode.DefaultValue = null;
             this.txtCode.Del = false;
             this.txtCode.DependingRS = null;
+            this.txtCode.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.txtCode.ForeColor = System.Drawing.Color.Gray;
             this.txtCode.Location = new System.Drawing.Point(75, 71);
+            this.txtCode.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtCode.Name = "txtCode";
             this.txtCode.Order = 0;
             this.txtCode.ParentConn = null;
             this.txtCode.ParentDA = null;
             this.txtCode.PK = false;
+            this.txtCode.ReadOnly = true;
             this.txtCode.Search = false;
-            this.txtCode.Size = new System.Drawing.Size(228, 20);
+            this.txtCode.Size = new System.Drawing.Size(228, 17);
             this.txtCode.Status = CommonTools.EnumStatus.ADDNEW;
             this.txtCode.TabIndex = 1;
             this.txtCode.Upp = false;
@@ -67,20 +73,26 @@
             // txtSubNet
             // 
             this.txtSubNet.Add = false;
+            this.txtSubNet.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.txtSubNet.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtSubNet.Caption = "SubNet";
             this.txtSubNet.DBField = null;
             this.txtSubNet.DBFieldType = null;
             this.txtSubNet.DefaultValue = null;
             this.txtSubNet.Del = false;
             this.txtSubNet.DependingRS = null;
+            this.txtSubNet.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.txtSubNet.ForeColor = System.Drawing.SystemColors.InactiveCaptionText;
             this.txtSubNet.Location = new System.Drawing.Point(75, 111);
+            this.txtSubNet.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtSubNet.Name = "txtSubNet";
             this.txtSubNet.Order = 0;
             this.txtSubNet.ParentConn = null;
             this.txtSubNet.ParentDA = null;
             this.txtSubNet.PK = false;
+            this.txtSubNet.ReadOnly = true;
             this.txtSubNet.Search = false;
-            this.txtSubNet.Size = new System.Drawing.Size(10, 20);
+            this.txtSubNet.Size = new System.Drawing.Size(10, 17);
             this.txtSubNet.Status = CommonTools.EnumStatus.ADDNEW;
             this.txtSubNet.TabIndex = 3;
             this.txtSubNet.Upp = false;
@@ -90,20 +102,26 @@
             // txtMask
             // 
             this.txtMask.Add = false;
+            this.txtMask.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.txtMask.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtMask.Caption = "Mask";
             this.txtMask.DBField = null;
             this.txtMask.DBFieldType = null;
             this.txtMask.DefaultValue = null;
             this.txtMask.Del = false;
             this.txtMask.DependingRS = null;
+            this.txtMask.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.txtMask.ForeColor = System.Drawing.SystemColors.InactiveCaptionText;
             this.txtMask.Location = new System.Drawing.Point(75, 149);
+            this.txtMask.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtMask.Name = "txtMask";
             this.txtMask.Order = 0;
             this.txtMask.ParentConn = null;
             this.txtMask.ParentDA = null;
             this.txtMask.PK = false;
+            this.txtMask.ReadOnly = true;
             this.txtMask.Search = false;
-            this.txtMask.Size = new System.Drawing.Size(10, 20);
+            this.txtMask.Size = new System.Drawing.Size(10, 17);
             this.txtMask.Status = CommonTools.EnumStatus.ADDNEW;
             this.txtMask.TabIndex = 5;
             this.txtMask.Upp = false;
@@ -178,19 +196,19 @@
             // 
             this.CTLM.Clear = false;
             this.CTLM.Conn = null;
-            //this.CTLM.CTLStatusBar = null;
             this.CTLM.DBTable = null;
             this.CTLM.Dock = System.Windows.Forms.DockStyle.None;
             this.CTLM.ImageScalingSize = new System.Drawing.Size(22, 22);
             this.CTLM.Location = new System.Drawing.Point(13, 13);
             this.CTLM.MsgStatusInfoLabel = null;
+            this.CTLM.MsgStatusLabel = null;
             this.CTLM.Name = "CTLM";
-            
+            this.CTLM.ReQuery = false;
             this.CTLM.Size = new System.Drawing.Size(290, 29);
             this.CTLM.sSPAdd = "";
             this.CTLM.sSPDel = "";
             this.CTLM.sSPUpp = "";
-
+            this.CTLM.StatusBarProgress = null;
             this.CTLM.TabIndex = 0;
             this.CTLM.Text = "CTLM";
             // 
@@ -212,6 +230,7 @@
             this.Controls.Add(this.txtCode);
             this.Controls.Add(this.CTLM);
             this.Name = "fZones";
+            this.ShowIcon = false;
             this.Text = "Ranges";
             this.ResumeLayout(false);
             this.PerformLayout();

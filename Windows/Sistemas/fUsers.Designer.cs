@@ -44,6 +44,7 @@
             this.listCOD3 = new EspackFormControls.EspackCheckedListBox();
             this.cboPosition = new EspackFormControls.EspackComboBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.txtTicketExp = new EspackFormControls.EspackDateTimePicker();
             this.txtTicket = new EspackFormControls.EspackTextBox();
             this.txtEmail = new EspackFormControls.EspackTextBox();
             this.txtPIN = new EspackFormControls.NumericTextBox();
@@ -54,7 +55,6 @@
             this.txtPWD = new EspackFormControls.EspackTextBox();
             this.lstEmailAliases = new EspackFormControls.EspackCheckedListBox();
             this.CTLM = new CTLMantenimientoNet.CTLMantenimientoNet();
-            this.txtTicketExp = new EspackFormControls.EspackDateTimePicker();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -81,7 +81,7 @@
             // 
             this.txtUserNumber.Add = false;
             this.txtUserNumber.AllowSpace = false;
-            this.txtUserNumber.BackColor = System.Drawing.Color.White;
+            this.txtUserNumber.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.txtUserNumber.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtUserNumber.Caption = "UserNumber";
             this.txtUserNumber.DBField = null;
@@ -90,7 +90,7 @@
             this.txtUserNumber.Del = false;
             this.txtUserNumber.DependingRS = null;
             this.txtUserNumber.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtUserNumber.ForeColor = System.Drawing.Color.Black;
+            this.txtUserNumber.ForeColor = System.Drawing.Color.Gray;
             this.txtUserNumber.Length = 0;
             this.txtUserNumber.Location = new System.Drawing.Point(405, 29);
             this.txtUserNumber.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
@@ -102,6 +102,7 @@
             this.txtUserNumber.ParentDA = null;
             this.txtUserNumber.PK = false;
             this.txtUserNumber.Precision = 0;
+            this.txtUserNumber.ReadOnly = true;
             this.txtUserNumber.Search = false;
             this.txtUserNumber.Size = new System.Drawing.Size(100, 24);
             this.txtUserNumber.Status = CommonTools.EnumStatus.ADDNEW;
@@ -114,7 +115,7 @@
             // txtSurname2
             // 
             this.txtSurname2.Add = false;
-            this.txtSurname2.BackColor = System.Drawing.Color.White;
+            this.txtSurname2.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.txtSurname2.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtSurname2.Caption = "Surname 2";
             this.txtSurname2.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
@@ -124,7 +125,7 @@
             this.txtSurname2.Del = false;
             this.txtSurname2.DependingRS = null;
             this.txtSurname2.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtSurname2.ForeColor = System.Drawing.Color.Black;
+            this.txtSurname2.ForeColor = System.Drawing.Color.Gray;
             this.txtSurname2.Location = new System.Drawing.Point(351, 74);
             this.txtSurname2.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtSurname2.Multiline = true;
@@ -133,6 +134,7 @@
             this.txtSurname2.ParentConn = null;
             this.txtSurname2.ParentDA = null;
             this.txtSurname2.PK = false;
+            this.txtSurname2.ReadOnly = true;
             this.txtSurname2.Search = false;
             this.txtSurname2.Size = new System.Drawing.Size(157, 24);
             this.txtSurname2.Status = CommonTools.EnumStatus.ADDNEW;
@@ -143,7 +145,7 @@
             // txtSurname1
             // 
             this.txtSurname1.Add = false;
-            this.txtSurname1.BackColor = System.Drawing.Color.White;
+            this.txtSurname1.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.txtSurname1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtSurname1.Caption = "Surname 1";
             this.txtSurname1.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
@@ -153,7 +155,7 @@
             this.txtSurname1.Del = false;
             this.txtSurname1.DependingRS = null;
             this.txtSurname1.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtSurname1.ForeColor = System.Drawing.Color.Black;
+            this.txtSurname1.ForeColor = System.Drawing.Color.Gray;
             this.txtSurname1.Location = new System.Drawing.Point(188, 74);
             this.txtSurname1.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtSurname1.Multiline = true;
@@ -162,6 +164,7 @@
             this.txtSurname1.ParentConn = null;
             this.txtSurname1.ParentDA = null;
             this.txtSurname1.PK = false;
+            this.txtSurname1.ReadOnly = true;
             this.txtSurname1.Search = false;
             this.txtSurname1.Size = new System.Drawing.Size(157, 24);
             this.txtSurname1.Status = CommonTools.EnumStatus.ADDNEW;
@@ -172,7 +175,7 @@
             // txtName
             // 
             this.txtName.Add = false;
-            this.txtName.BackColor = System.Drawing.Color.White;
+            this.txtName.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.txtName.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtName.Caption = "Name";
             this.txtName.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
@@ -182,7 +185,7 @@
             this.txtName.Del = false;
             this.txtName.DependingRS = null;
             this.txtName.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtName.ForeColor = System.Drawing.Color.Black;
+            this.txtName.ForeColor = System.Drawing.Color.Gray;
             this.txtName.Location = new System.Drawing.Point(23, 74);
             this.txtName.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtName.Multiline = true;
@@ -191,6 +194,7 @@
             this.txtName.ParentConn = null;
             this.txtName.ParentDA = null;
             this.txtName.PK = false;
+            this.txtName.ReadOnly = true;
             this.txtName.Search = false;
             this.txtName.Size = new System.Drawing.Size(157, 24);
             this.txtName.Status = CommonTools.EnumStatus.ADDNEW;
@@ -201,7 +205,7 @@
             // txtUserCode
             // 
             this.txtUserCode.Add = false;
-            this.txtUserCode.BackColor = System.Drawing.Color.White;
+            this.txtUserCode.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.txtUserCode.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtUserCode.Caption = "UserCode";
             this.txtUserCode.CharacterCasing = System.Windows.Forms.CharacterCasing.Lower;
@@ -211,7 +215,7 @@
             this.txtUserCode.Del = false;
             this.txtUserCode.DependingRS = null;
             this.txtUserCode.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtUserCode.ForeColor = System.Drawing.Color.Black;
+            this.txtUserCode.ForeColor = System.Drawing.Color.Gray;
             this.txtUserCode.Location = new System.Drawing.Point(23, 29);
             this.txtUserCode.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtUserCode.Multiline = true;
@@ -220,6 +224,7 @@
             this.txtUserCode.ParentConn = null;
             this.txtUserCode.ParentDA = null;
             this.txtUserCode.PK = false;
+            this.txtUserCode.ReadOnly = true;
             this.txtUserCode.Search = false;
             this.txtUserCode.Size = new System.Drawing.Size(130, 24);
             this.txtUserCode.Status = CommonTools.EnumStatus.ADDNEW;
@@ -312,7 +317,7 @@
             // txtPosition
             // 
             this.txtPosition.Add = false;
-            this.txtPosition.BackColor = System.Drawing.Color.White;
+            this.txtPosition.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.txtPosition.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtPosition.Caption = "";
             this.txtPosition.DBField = null;
@@ -321,7 +326,7 @@
             this.txtPosition.Del = false;
             this.txtPosition.DependingRS = null;
             this.txtPosition.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtPosition.ForeColor = System.Drawing.Color.Black;
+            this.txtPosition.ForeColor = System.Drawing.Color.Gray;
             this.txtPosition.Location = new System.Drawing.Point(167, 232);
             this.txtPosition.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtPosition.Multiline = true;
@@ -330,6 +335,7 @@
             this.txtPosition.ParentConn = null;
             this.txtPosition.ParentDA = null;
             this.txtPosition.PK = false;
+            this.txtPosition.ReadOnly = true;
             this.txtPosition.Search = false;
             this.txtPosition.Size = new System.Drawing.Size(338, 24);
             this.txtPosition.Status = CommonTools.EnumStatus.ADDNEW;
@@ -372,7 +378,7 @@
             // txtDesCod3
             // 
             this.txtDesCod3.Add = false;
-            this.txtDesCod3.BackColor = System.Drawing.Color.White;
+            this.txtDesCod3.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.txtDesCod3.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtDesCod3.Caption = "";
             this.txtDesCod3.DBField = null;
@@ -381,7 +387,7 @@
             this.txtDesCod3.Del = false;
             this.txtDesCod3.DependingRS = null;
             this.txtDesCod3.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtDesCod3.ForeColor = System.Drawing.Color.Black;
+            this.txtDesCod3.ForeColor = System.Drawing.Color.Gray;
             this.txtDesCod3.Location = new System.Drawing.Point(167, 37);
             this.txtDesCod3.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtDesCod3.Multiline = true;
@@ -390,6 +396,7 @@
             this.txtDesCod3.ParentConn = null;
             this.txtDesCod3.ParentDA = null;
             this.txtDesCod3.PK = false;
+            this.txtDesCod3.ReadOnly = true;
             this.txtDesCod3.Search = false;
             this.txtDesCod3.Size = new System.Drawing.Size(338, 24);
             this.txtDesCod3.Status = CommonTools.EnumStatus.ADDNEW;
@@ -512,10 +519,42 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Systems data";
             // 
+            // txtTicketExp
+            // 
+            this.txtTicketExp.Add = false;
+            this.txtTicketExp.BackColor = System.Drawing.Color.White;
+            this.txtTicketExp.BorderColor = System.Drawing.Color.White;
+            this.txtTicketExp.BorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
+            this.txtTicketExp.Caption = "Ticket Expiration";
+            this.txtTicketExp.Checked = false;
+            this.txtTicketExp.CustomFormat = " ";
+            this.txtTicketExp.DBField = null;
+            this.txtTicketExp.DBFieldType = null;
+            this.txtTicketExp.DefaultValue = null;
+            this.txtTicketExp.Del = false;
+            this.txtTicketExp.DependingRS = null;
+            this.txtTicketExp.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.txtTicketExp.ForeColor = System.Drawing.Color.Black;
+            this.txtTicketExp.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.txtTicketExp.Location = new System.Drawing.Point(167, 254);
+            this.txtTicketExp.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
+            this.txtTicketExp.Name = "txtTicketExp";
+            this.txtTicketExp.Nullable = false;
+            this.txtTicketExp.Order = 0;
+            this.txtTicketExp.ParentConn = null;
+            this.txtTicketExp.ParentDA = null;
+            this.txtTicketExp.PK = false;
+            this.txtTicketExp.Search = false;
+            this.txtTicketExp.Size = new System.Drawing.Size(155, 24);
+            this.txtTicketExp.Status = CommonTools.EnumStatus.ADDNEW;
+            this.txtTicketExp.TabIndex = 32;
+            this.txtTicketExp.Upp = false;
+            this.txtTicketExp.Value = null;
+            // 
             // txtTicket
             // 
             this.txtTicket.Add = false;
-            this.txtTicket.BackColor = System.Drawing.Color.White;
+            this.txtTicket.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.txtTicket.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtTicket.Caption = "Ticket";
             this.txtTicket.DBField = null;
@@ -524,7 +563,7 @@
             this.txtTicket.Del = false;
             this.txtTicket.DependingRS = null;
             this.txtTicket.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtTicket.ForeColor = System.Drawing.Color.Black;
+            this.txtTicket.ForeColor = System.Drawing.Color.Gray;
             this.txtTicket.Location = new System.Drawing.Point(23, 254);
             this.txtTicket.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtTicket.Multiline = true;
@@ -533,6 +572,7 @@
             this.txtTicket.ParentConn = null;
             this.txtTicket.ParentDA = null;
             this.txtTicket.PK = false;
+            this.txtTicket.ReadOnly = true;
             this.txtTicket.Search = false;
             this.txtTicket.Size = new System.Drawing.Size(130, 24);
             this.txtTicket.Status = CommonTools.EnumStatus.ADDNEW;
@@ -543,7 +583,7 @@
             // txtEmail
             // 
             this.txtEmail.Add = false;
-            this.txtEmail.BackColor = System.Drawing.Color.White;
+            this.txtEmail.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.txtEmail.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtEmail.Caption = "Email Address";
             this.txtEmail.DBField = null;
@@ -552,7 +592,7 @@
             this.txtEmail.Del = false;
             this.txtEmail.DependingRS = null;
             this.txtEmail.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtEmail.ForeColor = System.Drawing.Color.Black;
+            this.txtEmail.ForeColor = System.Drawing.Color.Gray;
             this.txtEmail.Location = new System.Drawing.Point(206, 72);
             this.txtEmail.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
             this.txtEmail.Multiline = true;
@@ -561,6 +601,7 @@
             this.txtEmail.ParentConn = null;
             this.txtEmail.ParentDA = null;
             this.txtEmail.PK = false;
+            this.txtEmail.ReadOnly = true;
             this.txtEmail.Search = false;
             this.txtEmail.Size = new System.Drawing.Size(303, 24);
             this.txtEmail.Status = CommonTools.EnumStatus.ADDNEW;
@@ -572,7 +613,7 @@
             // 
             this.txtPIN.Add = false;
             this.txtPIN.AllowSpace = false;
-            this.txtPIN.BackColor = System.Drawing.Color.White;
+            this.txtPIN.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.txtPIN.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtPIN.Caption = "PIN";
             this.txtPIN.DBField = null;
@@ -581,7 +622,7 @@
             this.txtPIN.Del = false;
             this.txtPIN.DependingRS = null;
             this.txtPIN.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtPIN.ForeColor = System.Drawing.Color.Black;
+            this.txtPIN.ForeColor = System.Drawing.Color.Gray;
             this.txtPIN.Length = 0;
             this.txtPIN.Location = new System.Drawing.Point(327, 32);
             this.txtPIN.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
@@ -593,6 +634,7 @@
             this.txtPIN.ParentDA = null;
             this.txtPIN.PK = false;
             this.txtPIN.Precision = 0;
+            this.txtPIN.ReadOnly = true;
             this.txtPIN.Search = false;
             this.txtPIN.Size = new System.Drawing.Size(51, 24);
             this.txtPIN.Status = CommonTools.EnumStatus.ADDNEW;
@@ -606,7 +648,7 @@
             // 
             this.txtQuota.Add = false;
             this.txtQuota.AllowSpace = false;
-            this.txtQuota.BackColor = System.Drawing.Color.White;
+            this.txtQuota.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.txtQuota.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtQuota.Caption = "Email Quota";
             this.txtQuota.DBField = null;
@@ -615,7 +657,7 @@
             this.txtQuota.Del = false;
             this.txtQuota.DependingRS = null;
             this.txtQuota.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtQuota.ForeColor = System.Drawing.Color.Black;
+            this.txtQuota.ForeColor = System.Drawing.Color.Gray;
             this.txtQuota.Length = 0;
             this.txtQuota.Location = new System.Drawing.Point(384, 32);
             this.txtQuota.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
@@ -627,6 +669,7 @@
             this.txtQuota.ParentDA = null;
             this.txtQuota.PK = false;
             this.txtQuota.Precision = 0;
+            this.txtQuota.ReadOnly = true;
             this.txtQuota.Search = false;
             this.txtQuota.Size = new System.Drawing.Size(125, 24);
             this.txtQuota.Status = CommonTools.EnumStatus.ADDNEW;
@@ -734,7 +777,7 @@
             // txtPWD
             // 
             this.txtPWD.Add = false;
-            this.txtPWD.BackColor = System.Drawing.Color.White;
+            this.txtPWD.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.txtPWD.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtPWD.Caption = "Password";
             this.txtPWD.DBField = null;
@@ -743,7 +786,7 @@
             this.txtPWD.Del = false;
             this.txtPWD.DependingRS = null;
             this.txtPWD.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtPWD.ForeColor = System.Drawing.Color.Black;
+            this.txtPWD.ForeColor = System.Drawing.Color.Gray;
             this.txtPWD.Location = new System.Drawing.Point(23, 32);
             this.txtPWD.Margin = new System.Windows.Forms.Padding(3, 13, 3, 3);
             this.txtPWD.Multiline = true;
@@ -752,6 +795,7 @@
             this.txtPWD.ParentConn = null;
             this.txtPWD.ParentDA = null;
             this.txtPWD.PK = false;
+            this.txtPWD.ReadOnly = true;
             this.txtPWD.Search = false;
             this.txtPWD.Size = new System.Drawing.Size(130, 24);
             this.txtPWD.Status = CommonTools.EnumStatus.ADDNEW;
@@ -808,37 +852,6 @@
             this.CTLM.TabIndex = 0;
             this.CTLM.Text = "ctlMantenimientoNet1";
             // 
-            // txtTicketExp
-            // 
-            this.txtTicketExp.Add = false;
-            this.txtTicketExp.BackColor = System.Drawing.Color.White;
-            this.txtTicketExp.BorderColor = System.Drawing.Color.White;
-            this.txtTicketExp.BorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
-            this.txtTicketExp.Caption = "Ticket Expiration";
-            this.txtTicketExp.CustomFormat = "dd/MM/yyyy HH:mm:ss";
-            this.txtTicketExp.DBField = null;
-            this.txtTicketExp.DBFieldType = null;
-            this.txtTicketExp.DefaultValue = null;
-            this.txtTicketExp.Del = false;
-            this.txtTicketExp.DependingRS = null;
-            this.txtTicketExp.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.txtTicketExp.ForeColor = System.Drawing.Color.Black;
-            this.txtTicketExp.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.txtTicketExp.Location = new System.Drawing.Point(167, 254);
-            this.txtTicketExp.Margin = new System.Windows.Forms.Padding(3, 16, 3, 3);
-            this.txtTicketExp.Name = "txtTicketExp";
-            this.txtTicketExp.Nullable = false;
-            this.txtTicketExp.Order = 0;
-            this.txtTicketExp.ParentConn = null;
-            this.txtTicketExp.ParentDA = null;
-            this.txtTicketExp.PK = false;
-            this.txtTicketExp.Search = false;
-            this.txtTicketExp.Size = new System.Drawing.Size(155, 24);
-            this.txtTicketExp.Status = CommonTools.EnumStatus.ADDNEW;
-            this.txtTicketExp.TabIndex = 32;
-            this.txtTicketExp.Upp = false;
-            this.txtTicketExp.Value = null;
-            // 
             // fUsers
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -853,6 +866,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.KeyPreview = true;
             this.Name = "fUsers";
+            this.ShowIcon = false;
             this.Text = "Users";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
