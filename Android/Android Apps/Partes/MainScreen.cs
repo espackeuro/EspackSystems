@@ -11,7 +11,7 @@ using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
 
-namespace Partes
+namespace logon
 {
     [Activity(Label = "Partnumber Info", WindowSoftInputMode = SoftInput.AdjustPan, Theme = "@style/AppTheme.NoActionBar")]
     public class MainScreen : AppCompatActivity

@@ -1,0 +1,1 @@
+<menu android:id="@+id/mainMenu" xmlns:android="http://schemas.android.com/apk/res/android"><item android:id="@+id/mnumain" android:title="Main"></item><item android:id="@+id/mnurepair" android:title="Repairs"></item><item android:id="@+id/mnuloads" android:title="Loads"></item><item android:id="@+id/mnuclose" android:title="Close" /></menu>

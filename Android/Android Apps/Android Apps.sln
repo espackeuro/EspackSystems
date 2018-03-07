@@ -57,7 +57,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketsServer", "..\..\Wind
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketsClient", "..\..\Network Libraries\Sockets\Sockets\SocketsClient.csproj", "{C9E2F11A-FA37-4FD2-9433-CC64CDBC2CEF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Partes", "Partes\Partes.csproj", "{D17E0BCB-C949-4D24-B9FE-CCB2E3D56853}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logon", "Partes\Logon.csproj", "{D17E0BCB-C949-4D24-B9FE-CCB2E3D56853}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoginActivity", "LoginActivity\LoginActivity.csproj", "{5B9E50CE-299A-4A21-A8AD-D5D01BCD6916}"
 EndProject

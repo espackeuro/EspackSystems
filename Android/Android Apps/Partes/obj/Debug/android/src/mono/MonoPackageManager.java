@@ -105,8 +105,8 @@ public class MonoPackageManager {
 
 class MonoPackageManager_Resources {
 	public static final String[] Assemblies = new String[]{
-		/* We need to ensure that "Partes.dll" comes first in this list. */
-		"Partes.dll",
+		/* We need to ensure that "logon.dll" comes first in this list. */
+		"logon.dll",
 		"FastAndroidCamera.dll",
 		"LoginActivity.dll",
 		"Xamarin.Android.Arch.Core.Common.dll",

@@ -20,7 +20,7 @@ using I18N.West;
 using Android.Support.V7.App;
 using ZXing.Mobile;
 
-namespace Partes
+namespace logon
 {
     public static class Values
     {

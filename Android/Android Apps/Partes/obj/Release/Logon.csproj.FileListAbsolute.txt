@@ -1,0 +1,108 @@
+D:\EspackSystems\Android\Android Apps\Partes\bin\Release\logon.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Release\logon.pdb
+D:\EspackSystems\Android\Android Apps\Partes\bin\Release\com.espack.logon.apk
+D:\EspackSystems\Android\Android Apps\Partes\bin\Release\com.espack.logon-Signed.apk
+D:\EspackSystems\Android\Android Apps\Partes\bin\Release\FastAndroidCamera.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Release\LoginActivity.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Release\Xamarin.Android.Arch.Core.Common.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Release\Xamarin.Android.Arch.Lifecycle.Common.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Release\Xamarin.Android.Arch.Lifecycle.Runtime.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Release\Xamarin.Android.Support.Animated.Vector.Drawable.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Release\Xamarin.Android.Support.Annotations.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Release\Xamarin.Android.Support.Compat.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Release\Xamarin.Android.Support.Core.UI.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Release\Xamarin.Android.Support.Core.Utils.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Release\Xamarin.Android.Support.Design.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Release\Xamarin.Android.Support.Fragment.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Release\Xamarin.Android.Support.Media.Compat.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Release\Xamarin.Android.Support.Transition.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Release\Xamarin.Android.Support.v4.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Release\Xamarin.Android.Support.v7.AppCompat.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Release\Xamarin.Android.Support.v7.CardView.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Release\Xamarin.Android.Support.v7.MediaRouter.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Release\Xamarin.Android.Support.v7.Palette.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Release\Xamarin.Android.Support.v7.RecyclerView.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Release\Xamarin.Android.Support.Vector.Drawable.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Release\ZXing.Net.Mobile.Core.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Release\zxing.portable.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Release\ZXingNetMobile.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Release\CommonAndroidTools.dll
+D:\EspackSystems\Android\Android Apps\Partes\bin\Release\LoginActivity.pdb
+D:\EspackSystems\Android\Android Apps\Partes\bin\Release\FastAndroidCamera.xml
+D:\EspackSystems\Android\Android Apps\Partes\bin\Release\CommonAndroidTools.pdb
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\Logon.csprojResolveAssemblyReference.cache
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\Logon.csproj.CoreCompileInputs.cache
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\logon.dll
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\logon.pdb
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\android\bin\com.espack.logon.apk
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\res\layout\headerfragment.xml
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\res\layout\selector.xml
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\res\layout\partnumberinfo.xml
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\res\layout\datainputfragment.xml
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\res\layout\dataoutputfragment.xml
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\res\layout\statusfragment.xml
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\res\values\strings.xml
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\res\drawable\logo_espack_sistemas_vertical.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\res\values\styles.xml
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\res\drawable\background1.jpg
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\res\drawable-hdpi\scan.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\res\drawable-ldpi\scan.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\res\drawable-mdpi\scan.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\res\drawable-xhdpi\scan.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\res\drawable-xxhdpi\scan.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\res\drawable-xxxhdpi\scan.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\res\drawable-xxhdpi\background1.jpg
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\res\drawable-hdpi\info.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\res\drawable-ldpi\info.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\res\drawable-mdpi\info.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\res\drawable-xhdpi\info.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\res\drawable-xxhdpi\info.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\res\drawable-xxxhdpi\info.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\res\drawable-hdpi\keyicontrans.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\res\drawable-ldpi\keyicontrans.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\res\drawable-mdpi\keyicontrans.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\res\drawable-xhdpi\keyicontrans.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\res\drawable-xxhdpi\keyicontrans.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\res\drawable-xxxhdpi\keyicontrans.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\res\drawable-hdpi\keyiconwhite.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\res\drawable-ldpi\keyiconwhite.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\res\drawable-mdpi\keyiconwhite.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\res\drawable-xhdpi\keyiconwhite.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\res\drawable-xxhdpi\keyiconwhite.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\res\drawable-xxxhdpi\keyiconwhite.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\res\drawable-hdpi\logosystemsbig.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\res\drawable-ldpi\logosystemsbig.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\res\drawable-mdpi\logosystemsbig.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\res\drawable-xhdpi\logosystemsbig.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\res\drawable-xxhdpi\logosystemsbig.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\res\drawable-xxxhdpi\logosystemsbig.png
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\R.cs.flag
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\uploadflags.txt
+D:\EspackSystems\Android\Android Apps\Partes\bin\Release\CommonAndroidTools.dll.mdb
+D:\EspackSystems\Android\Android Apps\Partes\bin\Release\LoginActivity.dll.mdb
+D:\EspackSystems\Android\Android Apps\Partes\bin\Release\Partes.dll.mdb
+D:\EspackSystems\Android\Android Apps\Partes\bin\Release\logon.dll.mdb
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\android\assets\CommonAndroidTools.dll.mdb
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\android\assets\LoginActivity.dll.mdb
+D:\EspackSystems\Android\Android Apps\Partes\obj\Release\android\assets\logon.dll.mdb
+D:\EspackSystems\Android\Android Apps\Partes\bin\Release\logon.dll
+bin\Release\LoginActivity.dll.mdb
+obj\Release\linksrc\logon.dll.mdb
+obj\Release\linksrc\LoginActivity.dll.mdb
+obj\Release\linksrc\CommonAndroidTools.dll.mdb
+obj\Release\linksrc\I18N.pdb
+obj\Release\linksrc\I18N.West.pdb
+obj\Release\linksrc\Mono.Android.pdb
+obj\Release\linksrc\mscorlib.pdb
+obj\Release\linksrc\System.Core.pdb
+obj\Release\linksrc\System.Data.pdb
+obj\Release\linksrc\System.pdb
+obj\Release\linksrc\System.Xml.pdb
+obj\Release\linksrc\System.Net.Http.pdb
+obj\Release\linksrc\System.Runtime.Serialization.pdb
+obj\Release\linksrc\System.ServiceModel.Internals.pdb
+obj\Release\linksrc\System.Numerics.pdb
+obj\Release\linksrc\System.Transactions.pdb
+obj\Release\linksrc\Mono.Data.Tds.pdb
+obj\Release\linksrc\Mono.Security.pdb
+obj\Release\linksrc\System.ComponentModel.Composition.pdb

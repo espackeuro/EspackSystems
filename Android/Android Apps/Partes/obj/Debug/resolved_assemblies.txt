@@ -1,4 +1,4 @@
-D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\Partes.dll
+D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\logon.dll
 D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\FastAndroidCamera.dll
 D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\I18N.dll
 D:\EspackSystems\Android\Android Apps\Partes\obj\Debug\android\assets\I18N.West.dll
